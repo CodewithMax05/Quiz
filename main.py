@@ -22,6 +22,15 @@ app.config.update(
 )
 
 db = SQLAlchemy(app)
+
+# SSL erzwingen in Produktion (Render)
+if is_production and app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgresql://'):
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        "connect_args": {
+            "sslmode": "require"
+        }
+    }
+
 bcrypt = Bcrypt(app)
 
 class User(db.Model):
