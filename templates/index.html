@@ -12,8 +12,8 @@
         <form id="auth-form" method="post"> 
             <input type="text" name="username" placeholder="Username" class="input-field" required>
             <input type="password" name="password" placeholder="Password" class="input-field" required>
-            <input type="button" value="Login" class="btn btn-login" onclick="setFormAction('login')">
-            <input type="button" value="Register" class="btn btn-register" onclick="setFormAction('register')">
+            <input type="button" value="Login" class="btn btn-login" onclick="submitForm('login')">
+            <input type="button" value="Register" class="btn btn-register" onclick="submitForm('register')">
         </form>
     </div>
 
@@ -24,13 +24,10 @@
 <script>
     function submitForm(action) {
         const form = document.getElementById('auth-form');
-        
-        // Setze die korrekte URL basierend auf der Aktion
         form.action = action === 'login' 
             ? "{{ url_for('login') }}" 
             : "{{ url_for('register') }}";
-        form.method = "post";       
-        // Sende das Formular ab
+        form.method = "post";
         form.submit();
     }
 </script>
