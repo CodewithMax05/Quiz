@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, or_
 import os
 import random
+import csv
 from collections import defaultdict
 from flask_session import Session
 
@@ -228,11 +229,58 @@ def cancel_quiz():
         session.pop('quiz_data', None)
     return '', 204
 
+def import_questions(category):
+    """Importiert Fragen für eine bestimmte Kategorie"""
+    csv_file = f"{category}_fragen.csv"
+    try:
+        with open(csv_file, 'r', encoding='utf-8') as file:
+            reader = csv.DictReader(file, delimiter=';')
+            for row in reader:
+                if not all(key in row for key in ['subject', 'question', 'true', 'wrong1', 'wrong2', 'wrong3']):
+                    continue
+                    
+                # Prüfe ob Frage bereits existiert
+                if not Question.query.filter_by(question=row['question'].strip()).first():
+                    new_question = Question(
+                        subject=row['subject'].strip(),
+                        question=row['question'].strip(),
+                        true=row['true'].strip(),
+                        wrong1=row['wrong1'].strip(),
+                        wrong2=row['wrong2'].strip(),
+                        wrong3=row['wrong3'].strip()
+                    )
+                    db.session.add(new_question)
+            db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Fehler beim Import von {csv_file}: {str(e)}")
+        return False
+
 @app.route('/init_db')
 def init_db():
     with app.app_context():
         db.create_all()
-    return "Datenbank initialisiert", 200
+        
+        # Importiere alle Kategorien
+        categories = [
+            'sport', 
+            'geschichte', 
+            'film', 
+            'geographie', 
+            'musik', 
+            'wissenschaft'
+        ]
+        
+        results = {}
+        for category in categories:
+            results[category] = import_questions(category)
+        
+        # Prüfe ob alle Importe erfolgreich waren
+        if all(results.values()):
+            return "Datenbank initialisiert und Fragen importiert", 200
+        else:
+            failed = [k for k, v in results.items() if not v]
+            return f"Datenbank initialisiert, aber Fehler bei: {', '.join(failed)}", 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
