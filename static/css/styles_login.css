@@ -1,0 +1,338 @@
+/* styles_login.css */
+
+/* Basis-Styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(
+        135deg, 
+        #0f2027 0%, 
+        #203a43 50%, 
+        #2c5364 100%
+    );
+    background-size: 300% 300%;
+    background-attachment: fixed;
+    animation: gradientFlow 12s ease infinite;
+    color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.login-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+}
+
+.container {
+    width: calc(100% - 40px); /* Platz für sichtbare Umrandung */
+    padding: 40px 30px;
+    text-align: center;
+    background: rgba(15, 32, 39, 0.35);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: visible; /* Wichtig für sichtbare Umrandung */
+    z-index: 1;
+}
+
+/* Sternenhintergrund mit mehr Tiefe */
+.container::before {
+    content: '';
+    position: absolute;
+    top: -5px; /* Erweitert für sichtbare Umrandung */
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.25) 0px, transparent 2px),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.2) 0px, transparent 1px),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0px, transparent 1px),
+        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15) 0px, transparent 1px);
+    background-size: 250px 250px;
+    z-index: -1;
+    animation: twinkle 10s infinite alternate;
+    border-radius: 28px; /* Größer als Container für sichtbaren Rand */
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.4; }
+    100% { opacity: 0.8; }
+}
+
+h1 {
+    color: white;
+    font-size: 2.4rem;
+    margin-bottom: 35px;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1.2px;
+    font-weight: 300;
+}
+
+/* Input-Felder */
+.input-field {
+    width: 85%;
+    max-width: 320px;
+    padding: 16px 22px;
+    margin: 0 auto 22px;
+    display: block;
+    border: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 
+        0 5px 18px rgba(0, 0, 0, 0.25),
+        inset 0 3px 6px rgba(0, 0, 0, 0.15);
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    outline: none;
+    color: white;
+}
+
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.input-field:focus {
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 
+        0 5px 22px rgba(0, 0, 0, 0.35),
+        inset 0 3px 6px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Buttons ohne Bewegungsanimation */
+.btn {
+    width: 85%;
+    max-width: 320px;
+    padding: 16px;
+    margin: 12px auto 0;
+    display: block;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 5px 18px rgba(0, 0, 0, 0.25),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    color: white;
+    animation: pulse-purple 2.5s infinite;
+}
+
+.btn-register {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    animation: pulse-green 2.5s infinite;
+}
+
+/* Neue Hover-Effekte ohne Bewegung */
+.btn:hover {
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+        0 0 15px currentColor; /* Farbspezifischer Glow */
+    filter: brightness(1.1);
+}
+
+.btn-login:hover {
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+        0 0 15px #8e2de2; /* Lila Glow */
+}
+
+.btn-register:hover {
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+        0 0 15px #38ef7d; /* Grün Glow */
+}
+
+/* Neue Animationen ohne Positionsänderung */
+@keyframes pulse-purple {
+    0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    70% { box-shadow: 0 0 0 14px rgba(116, 0, 224, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    70% { box-shadow: 0 0 0 14px rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+}
+
+/* FEHLERMELDUNG - ANPASSUNG */
+.error-message {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
+    position: fixed; /* Fixed Positionierung */
+    top: 20px; /* Direkt unter dem Browserfenster-Rand */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 320px;
+    z-index: 100; /* Höher als alles andere */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden; /* Verhindert, dass der Ladebalken übersteht */
+}
+
+.error-message::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    animation: progressBar 5s linear forwards;
+    width: 100%; /* Volle Breite */
+    border-radius: 0 0 10px 10px; /* Abgerundete Ecken unten */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; top: 0; } 
+    to { opacity: 1; top: 20px; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; top: 20px; }
+    to { opacity: 0; top: 0; visibility: hidden; }
+}
+
+@keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+    .container {
+        max-width: calc(100% - 30px);
+        padding: 35px 25px;
+        border-radius: 22px;
+    }
+    
+    .login-wrapper {
+        max-width: 380px;
+    }
+    
+    h1 {
+        font-size: 2.1rem;
+        margin-bottom: 30px;
+    }
+    
+    .input-field {
+        padding: 14px 20px;
+        margin-bottom: 20px;
+        width: 85%;
+        max-width: 310px;
+        border-radius: 13px;
+    }
+    
+    .btn {
+        padding: 15px;
+        font-size: 1.1rem;
+        width: 85%;
+        max-width: 310px;
+        border-radius: 13px;
+    }
+    
+    /* Fehlermeldung für Tablets */
+    .error-message {
+        top: 15px;
+        width: 85%;
+        max-width: 310px;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 15px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 15px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
+    }
+}
+
+@media (max-width: 480px) {
+    .login-wrapper {
+        max-width: 340px;
+    }
+
+    .container {
+        max-width: calc(100% - 20px);
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    
+    h1 {
+        font-size: 1.9rem;
+        margin-bottom: 25px;
+    }
+    
+    .input-field {
+        padding: 13px 18px;
+        margin-bottom: 18px;
+        font-size: 1rem;
+        width: 85%;
+        max-width: 260px;
+        border-radius: 12px;
+    }
+    
+    .btn {
+        padding: 14px;
+        font-size: 1.05rem;
+        width: 85%;
+        max-width: 260px;
+        border-radius: 12px;
+    }
+    
+    /* Fehlermeldung für Mobilgeräte */
+    .error-message {
+        top: 10px;
+        width: 85%;
+        max-width: 260px;
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 10px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 10px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
+    }
+}

@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_homepage.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="container">
+        <a href="{{ url_for('logout') }}" class="logout-button" aria-label="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+
+        {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+        
+        <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
+        
+        <form action="/start_custom_quiz" method="POST" class="categories-form">
+            <div class="category-grid">
+                <!-- Musik -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Musik">
+                    <div class="card-content">
+                        <i class="fas fa-music"></i>
+                        <span>Musik</span>
+                    </div>
+                </label>
+                
+                <!-- Geschichte -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Geschichte">
+                    <div class="card-content">
+                        <i class="fas fa-landmark"></i>
+                        <span>Geschichte</span>
+                    </div>
+                </label>
+                
+                <!-- Sport -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Sport">
+                    <div class="card-content">
+                        <i class="fas fa-football-ball"></i>
+                        <span>Sport</span>
+                    </div>
+                </label>
+                
+                <!-- Technologie -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Wissenschaft">
+                    <div class="card-content">
+                        <i class="fas fa-laptop-code"></i>
+                        <span>Technologie</span>
+                    </div>
+                </label>
+                
+                <!-- Filme -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Filme">
+                    <div class="card-content">
+                        <i class="fas fa-film"></i>
+                        <span>Filme</span>
+                    </div>
+                </label>
+                
+                <!-- Geographie -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Geographie">
+                    <div class="card-content">
+                        <i class="fas fa-globe-europe"></i>
+                        <span>Geographie</span>
+                    </div>
+                </label>
+                
+                <!-- Sprache -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Sprache">
+                    <div class="card-content">
+                        <i class="fas fa-language"></i>
+                        <span>Sprache</span>
+                    </div>
+                </label>
+                
+                <!-- Kunst -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Kunst">
+                    <div class="card-content">
+                        <i class="fas fa-palette"></i>
+                        <span>Kunst</span>
+                    </div>
+                </label>
+                
+                <!-- Essen -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Essen">
+                    <div class="card-content">
+                        <i class="fas fa-utensils"></i>
+                        <span>Essen</span>
+                    </div>
+                </label>
+                
+                <!-- Promis -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Promis">
+                    <div class="card-content">
+                        <i class="fas fa-star"></i>
+                        <span>Promis</span>
+                    </div>
+                </label>
+                
+                <!-- Mythologie -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Mythologie">
+                    <div class="card-content">
+                        <i class="fas fa-dragon"></i>
+                        <span>Mythologie</span>
+                    </div>
+                </label>
+                
+                <!-- Natur -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Natur">
+                    <div class="card-content">
+                        <i class="fas fa-leaf"></i>
+                        <span>Natur</span>
+                    </div>
+                </label>
+                
+                <!-- Astrologie -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Astrologie">
+                    <div class="card-content">
+                        <i class="fas fa-moon"></i>
+                        <span>Astrologie</span>
+                    </div>
+                </label>
+                
+                <!-- Wirtschaft -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Wirtschaft">
+                    <div class="card-content">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Wirtschaft</span>
+                    </div>
+                </label>
+                
+                <!-- Automobil -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Automobil">
+                    <div class="card-content">
+                        <i class="fas fa-car"></i>
+                        <span>Automobil</span>
+                    </div>
+                </label>
+                
+                <!-- Gaming -->
+                <label class="category-card">
+                    <input type="checkbox" name="topics" value="Gaming">
+                    <div class="card-content">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Gaming</span>
+                    </div>
+                </label>
+            </div>
+            
+            <button type="submit" class="start-button">
+                <i class="fas fa-play-circle"></i> Quiz starten
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_evaluate.css') }}"/>
+{% endblock %}
+
+{% block body %}
+    <!-- Gemeinsamer Sternenhintergrund -->
+    <div class="stars-background">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
+    
+    <div class="result-container">
+        <h1>Glückwunsch {{ session.username }},<br>du hast das Quiz erfolgreich abgeschlossen!</h1>
+        
+        <div class="score-display">
+            <span class="correct">{{ score }}</span> von <span class="total">{{ total }}</span> Fragen richtig
+        </div>
+        
+        <div class="performance-rating">
+            {% if score == total %}
+                <div class="perfect">
+                    <span>🏆 Perfektes Ergebnis!</span>
+                    <p>Alle Fragen richtig beantwortet - herausragende Leistung!</p>
+                </div>
+            {% elif score > total * 0.8 %}
+                <div class="excellent">
+                    <span>⭐ Großartige Leistung!</span>
+                    <p>Du bist auf dem besten Weg zum Quiz-Meister!</p>
+                </div>
+            {% elif score > total * 0.65 %}
+                <div class="good">
+                    <span>👍 Gute Arbeit!</span>
+                    <p>Solides Wissen - nur noch wenige Lücken!</p>
+                </div>
+            {% elif score > total * 0.5 %}
+                <div class="average">
+                    <span>💪 Weiter so!</span>
+                    <p>Die Hälfte geschafft - mit etwas Übung schaffst du mehr!</p>
+                </div>
+            {% else %}
+                <div class="improve">
+                    <span>📚 Lernzeit!</span>
+                    <p>Nutze die Chance, dein Wissen zu erweitern!</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="highscore-info">
+            <div class="current-highscore">
+                Dein aktueller Highscore: <span>{{ highscore }}</span> Punkte
+            </div>
+            
+            {% if new_highscore %}
+                <div class="new-highscore">
+                    🎉 {{ score }} ist dein neuer Rekord! 🎉
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="action-button">
+            <a href="{{ url_for('homepage') }}" class="home-button">
+                Zurück zur Startseite
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,594 @@
+/* Basis-Styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, 
+                #0f2027, /* Tiefes Blau */
+                #203a43, /* Dunkles Türkis */
+                #2c5364  /* Mittleres Blau */
+    );
+    color: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Sternenhintergrund für die ganze Seite */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0px, transparent 2px),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0px, transparent 1px),
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
+        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0px, transparent 1px);
+    background-size: 200px 200px;
+    z-index: -1;
+    animation: twinkle 8s infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Header-Bar ausblenden */
+.header-bar {
+    display: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    padding: 60px 15px 0; /* Mehr Platz oben für Button */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Wichtig für absolute Positionierung */
+}
+
+.headline {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Kategorien-Formular */
+.categories-form {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 4x4 GRID FÜR 16 KATEGORIEN */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Immer 4 Spalten */
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Kategorie-Karten - REDUZIERTE HÖHE */
+.category-card {
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    height: 100px;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px; /* Kompakteres Padding */
+    flex-grow: 1;
+    width: 100%;
+}
+
+.category-card input[type="checkbox"] {
+    display: none;
+}
+
+/* Änderung: Blaue statt lila Icons bei Auswahl */
+.category-card input[type="checkbox"]:checked + .card-content {
+    color: #4299e1;
+    transform: scale(1.05);
+}
+
+.category-card input[type="checkbox"]:checked + .card-content i {
+    color: #4299e1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.4));
+}
+
+.category-card span {
+    margin-top: 6px; /* Reduzierter Abstand */
+    font-weight: 600;
+    font-size: 0.85rem; /* Kleinere Schrift */
+    text-align: center;
+    color: white;
+}
+
+.category-card i {
+    font-size: 1.7rem; /* Kleinere Icons */
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+/* Start-Button */
+.start-button {
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(74, 0, 224, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px; /* Mehr Abstand zum Grid */
+    animation: pulse-purple 2s infinite;
+}
+
+.start-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(74, 0, 224, 0.5);
+    background: linear-gradient(135deg, #3a00b3, #6d1fc1);
+}
+
+.start-button i {
+    font-size: 1.3rem;
+}
+
+/* NEUE POSITION FÜR LOGOUT-BUTTON */
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
+    animation: pulse-red 2s infinite;
+    position: absolute; /* Absolute Positionierung */
+    top: 15px; /* Abstand vom oberen Rand des Containers */
+    right: 30px; /* Abstand vom rechten Rand des Containers */
+    z-index: 20; /* Über dem Inhalt */
+}
+
+.logout-button i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.logout-button:hover {
+    background: linear-gradient(135deg, #e53935, #c62828);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
+}
+
+/* Tooltip für bessere Usability */
+.logout-button::after {
+    content: "Logout";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.logout-button:hover::after {
+    opacity: 1;
+}
+
+/* FEHLERMELDUNG - AN DER OBERSTEN POSITION MIT KORREKTUREN */
+.error-message {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
+    position: fixed; /* Fixed Positionierung */
+    top: 20px; /* Höher positioniert (vorher 30px) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 320px;
+    z-index: 100; /* Höher als alles andere */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden; /* Verhindert, dass der Ladebalken übersteht */
+}
+
+.error-message::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    animation: progressBar 5s linear forwards;
+    width: 100%; /* Volle Breite */
+    border-radius: 0 0 10px 10px; /* Abgerundete Ecken unten */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; top: 0; } 
+    to { opacity: 1; top: 20px; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; top: 20px; }
+    to { opacity: 0; top: 0; visibility: hidden; }
+}
+
+@keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
+
+@keyframes pulse-purple {
+    0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(116, 0, 224, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0); }
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 65, 108, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* Responsive Anpassungen für Laptops */
+@media (max-width: 1200px) {
+    .headline {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr); /* Behalte 4 Spalten */
+        gap: 10px;
+    }
+    
+    .category-card {
+        height: 95px;
+        border-radius: 10px;
+    }
+    
+    .category-card span {
+        font-size: 0.8rem;
+    }
+    
+    .category-card i {
+        font-size: 1.6rem;
+    }
+    
+    .start-button {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+    
+    /* Laptop-Anpassungen für Logout-Button */
+    .logout-button {
+        width: 50px;
+        height: 50px;
+        top: 12px;
+        right: 25px;
+    }
+    
+    .logout-button i {
+        font-size: 1.7rem;
+    }
+    
+    /* Fehlermeldung für Laptops */
+    .error-message {
+        top: 15px; /* Höher positioniert (vorher 25px) */
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 15px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 15px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
+    }
+}
+
+/* Tablet-Anpassungen */
+@media (max-width: 900px) {
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 Spalten auf kleineren Tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-top: 50px;
+    }
+    
+    .headline {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 Spalten auf Tablets */
+        gap: 10px;
+    }
+    
+    .category-card {
+        height: 90px;
+    }
+    
+    .category-card span {
+        font-size: 0.78rem;
+        margin-top: 4px;
+    }
+    
+    .category-card i {
+        font-size: 1.5rem;
+    }
+    
+    .start-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        margin-top: 20px;
+    }
+    
+    .start-button i {
+        font-size: 1.1rem;
+    }
+    
+    /* Tablet-Anpassungen für Logout-Button */
+    .logout-button {
+        width: 46px;
+        height: 46px;
+        top: 10px;
+        right: 15px;
+    }
+    
+    .logout-button i {
+        font-size: 1.5rem;
+    }
+    
+    .logout-button::after {
+        font-size: 0.85rem;
+        bottom: -35px;
+    }
+    
+    /* Fehlermeldung für Tablets */
+    .error-message {
+        top: 10px; /* Höher positioniert (vorher 20px) */
+        width: 85%;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 10px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 10px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
+    }
+}
+
+/* Mobile Anpassungen */
+@media (max-width: 600px) {
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 Spalten auf kleineren Mobilgeräten */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding-top: 45px;
+    }
+    
+    .headline {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 Spalten auf Mobilgeräten */
+        gap: 8px;
+    }
+    
+    .category-card {
+        height: 85px;
+    }
+    
+    .category-card span {
+        font-size: 0.72rem;
+    }
+    
+    .category-card i {
+        font-size: 1.4rem;
+    }
+    
+    .card-content {
+        padding: 10px 8px;
+    }
+    
+    .start-button {
+        padding: 8px 18px;
+        font-size: 0.9rem;
+        gap: 8px;
+    }
+    
+    .start-button i {
+        font-size: 1.1rem;
+    }
+    
+    /* Mobile-Anpassungen für Logout-Button */
+    .logout-button {
+        width: 44px;
+        height: 44px;
+        top: 8px;
+        right: 10px;
+    }
+    
+    .logout-button i {
+        font-size: 1.4rem;
+    }
+    
+    .logout-button::after {
+        font-size: 0.8rem;
+        bottom: -32px;
+    }
+    
+    /* Fehlermeldung für Mobilgeräte */
+    .error-message {
+        top: 5px; /* Höher positioniert (vorher 15px) */
+        width: 80%;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 5px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 5px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
+    }
+}
+
+/* Sehr kleine Mobilgeräte */
+@media (max-width: 380px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr); /* Behalte 2 Spalten */
+    }
+}
+
+/* Anpassungen für kleine Höhen */
+@media (max-height: 700px) {
+    .page-wrapper {
+        padding: 10px 20px;
+        justify-content: flex-start;
+    }
+    
+    .container {
+        padding-top: 40px;
+    }
+    
+    .headline {
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+    }
+    
+    .category-grid {
+        margin-bottom: 10px;
+        gap: 10px;
+    }
+    
+    .category-card {
+        height: 90px;
+    }
+    
+    .category-card span {
+        font-size: 0.78rem;
+    }
+    
+    .category-card i {
+        font-size: 1.5rem;
+    }
+    
+    .start-button {
+        margin-top: 15px;
+        padding: 8px 20px;
+        font-size: 0.95rem;
+    }
+    
+    /* Kleine Höhen für Fehlermeldung */
+    .error-message {
+        top: 10px; /* Höher positioniert */
+    }
+    
+    /* Kleine Höhen-Anpassungen für Logout-Button */
+    .logout-button {
+        width: 46px;
+        height: 46px;
+        top: 8px;
+        right: 15px;
+    }
+    
+    .logout-button i {
+        font-size: 1.5rem;
+    }
+}
