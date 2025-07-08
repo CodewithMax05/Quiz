@@ -9,10 +9,10 @@
     <div class="container"> 
         <h1>Willkommen</h1>
         
-        <form id="auth-form" action="{{ url_for('login') }}" method="post"> 
+        <form id="auth-form" method="post"> 
             <input type="text" name="username" placeholder="Username" class="input-field" required>
             <input type="password" name="password" placeholder="Password" class="input-field" required>
-            <input type="submit" value="Login" class="btn btn-login" onclick="setFormAction('login')">
+            <input type="button" value="Login" class="btn btn-login" onclick="setFormAction('login')">
             <input type="button" value="Register" class="btn btn-register" onclick="setFormAction('register')">
         </form>
     </div>
@@ -22,13 +22,16 @@
     {% endif %}
 </div>
 <script>
-    function setFormAction(action) {
+    function submitForm(action) {
         const form = document.getElementById('auth-form');
-        if (action === 'login') {
-            form.action = "{{ url_for('login') }}";
-        } else if (action === 'register') { 
-            form.action = "{{ url_for('register') }}";
-        }
+        
+        // Setze die korrekte URL basierend auf der Aktion
+        form.action = action === 'login' 
+            ? "{{ url_for('login') }}" 
+            : "{{ url_for('register') }}";
+        form.method = "post";       
+        // Sende das Formular ab
+        form.submit();
     }
 </script>
 {% endblock %}
