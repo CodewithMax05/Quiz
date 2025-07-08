@@ -9,8 +9,6 @@ from flask_session import Session
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(24).hex())
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db').replace('postgres://', 'postgresql://', 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -22,16 +20,6 @@ app.config.update(
 )
 
 db = SQLAlchemy(app)
-
-# SSL erzwingen in Produktion (Render)
-if is_production and app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgresql://'):
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "connect_args": {
-            "sslmode": "require"
-        }
-    }
-
-bcrypt = Bcrypt(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -59,6 +47,8 @@ app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SESSION_SQLALCHEMY'] = db
 app.config['SESSION_PERMANENT'] = False
 server_session = Session(app)
+
+bcrypt = Bcrypt(app)
 
 @app.route('/')
 def index():
@@ -240,11 +230,10 @@ def cancel_quiz():
 
 @app.route('/init_db')
 def init_db():
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     return "Datenbank initialisiert", 200
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
