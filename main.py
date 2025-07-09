@@ -9,15 +9,20 @@ from collections import defaultdict
 from flask_session import Session
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(24).hex())
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db').replace('postgres://', 'postgresql://', 1)
+
+# Dynamische Datenbank-URI
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db')
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 is_production = os.environ.get('FLASK_ENV') == 'production'
 app.config.update(
-    SESSION_COOKIE_SECURE=is_production,    # Sendet Cookies nur über HTTPS
-    SESSION_COOKIE_HTTPONLY=True,  # Verhindert JavaScript-Zugriff
-    SESSION_COOKIE_SAMESITE='Lax'   # Schutz gegen CSRF
+    SESSION_COOKIE_SECURE=is_production,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex())
 )
 
 db = SQLAlchemy(app)
@@ -51,6 +56,55 @@ server_session = Session(app)
 
 bcrypt = Bcrypt(app)
 
+# Automatische Datenbankinitialisierung beim App-Start
+def initialize_database():
+    """Erstellt Tabellen und importiert Fragen bei Bedarf"""
+    with app.app_context():
+        # Erstelle alle Tabellen, falls nicht vorhanden
+        db.create_all()
+        
+        # Prüfe, ob bereits Fragen vorhanden sind
+        if Question.query.count() == 0:
+            print("Importiere Fragen...")
+            categories = [
+                'sport', 
+                'geschichte', 
+                'film', 
+                'geographie', 
+                'musik', 
+                'wissenschaft'
+            ]
+            
+            for category in categories:
+                csv_file = f"{category}_fragen.csv"
+                try:
+                    with open(csv_file, 'r', encoding='utf-8') as file:
+                        reader = csv.DictReader(file, delimiter=';')
+                        for row in reader:
+                            if not all(key in row for key in ['subject', 'question', 'true', 'wrong1', 'wrong2', 'wrong3']):
+                                continue
+                                
+                            # Prüfe, ob Frage bereits existiert
+                            if not Question.query.filter_by(question=row['question'].strip()).first():
+                                new_question = Question(
+                                    subject=row['subject'].strip(),
+                                    question=row['question'].strip(),
+                                    true=row['true'].strip(),
+                                    wrong1=row['wrong1'].strip(),
+                                    wrong2=row['wrong2'].strip(),
+                                    wrong3=row['wrong3'].strip()
+                                )
+                                db.session.add(new_question)
+                        db.session.commit()
+                    print(f"Fragen für {category} importiert")
+                except Exception as e:
+                    print(f"Fehler beim Import von {csv_file}: {str(e)}")
+            print("Datenbankinitialisierung abgeschlossen")
+
+# Initialisierung beim App-Start
+initialize_database()
+
+# Ab hier bleiben alle Routes unverändert
 @app.route('/')
 def index():
     if 'username' in session: 
@@ -228,59 +282,6 @@ def cancel_quiz():
     if 'quiz_data' in session:
         session.pop('quiz_data', None)
     return '', 204
-
-def import_questions(category):
-    """Importiert Fragen für eine bestimmte Kategorie"""
-    csv_file = f"{category}_fragen.csv"
-    try:
-        with open(csv_file, 'r', encoding='utf-8') as file:
-            reader = csv.DictReader(file, delimiter=';')
-            for row in reader:
-                if not all(key in row for key in ['subject', 'question', 'true', 'wrong1', 'wrong2', 'wrong3']):
-                    continue
-                    
-                # Prüfe ob Frage bereits existiert
-                if not Question.query.filter_by(question=row['question'].strip()).first():
-                    new_question = Question(
-                        subject=row['subject'].strip(),
-                        question=row['question'].strip(),
-                        true=row['true'].strip(),
-                        wrong1=row['wrong1'].strip(),
-                        wrong2=row['wrong2'].strip(),
-                        wrong3=row['wrong3'].strip()
-                    )
-                    db.session.add(new_question)
-            db.session.commit()
-        return True
-    except Exception as e:
-        print(f"Fehler beim Import von {csv_file}: {str(e)}")
-        return False
-
-@app.route('/init_db')
-def init_db():
-    with app.app_context():
-        db.create_all()
-        
-        # Importiere alle Kategorien
-        categories = [
-            'sport', 
-            'geschichte', 
-            'film', 
-            'geographie', 
-            'musik', 
-            'wissenschaft'
-        ]
-        
-        results = {}
-        for category in categories:
-            results[category] = import_questions(category)
-        
-        # Prüfe ob alle Importe erfolgreich waren
-        if all(results.values()):
-            return "Datenbank initialisiert und Fragen importiert", 200
-        else:
-            failed = [k for k, v in results.items() if not v]
-            return f"Datenbank initialisiert, aber Fehler bei: {', '.join(failed)}", 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
