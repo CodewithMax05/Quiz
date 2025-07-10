@@ -60,46 +60,69 @@ bcrypt = Bcrypt(app)
 def initialize_database():
     """Erstellt Tabellen und importiert Fragen bei Bedarf"""
     with app.app_context():
-        # Erstelle alle Tabellen, falls nicht vorhanden
-        db.create_all()
-        
-        # Prüfe, ob bereits Fragen vorhanden sind
-        if Question.query.count() == 0:
-            print("Importiere Fragen...")
-            categories = [
-                'sport', 
-                'geschichte', 
-                'film', 
-                'geographie', 
-                'musik', 
-                'wissenschaft'
-            ]
+        try:
+            db.create_all()
             
-            for category in categories:
-                csv_file = f"{category}_fragen.csv"
-                try:
-                    with open(csv_file, 'r', encoding='utf-8') as file:
-                        reader = csv.DictReader(file, delimiter=';')
-                        for row in reader:
-                            if not all(key in row for key in ['subject', 'question', 'true', 'wrong1', 'wrong2', 'wrong3']):
-                                continue
+            if Question.query.count() == 0:
+                print("Importiere Fragen...")
+                categories = [
+                    'wirtschaft', 'technologie', 'sprache', 'promis', 
+                    'sport', 'natur', 'musik', 'glauben', 'kunst', 
+                    'geschichte', 'geografie', 'essen', 'filme', 
+                    'automobil', 'astrologie', 'gaming'
+                ]
+                
+                # Neuer Pfad zum CSV-Ordner
+                csv_folder = os.path.join(os.path.dirname(__file__), 'csv')
+                
+                for category in categories:
+                    # Pfad zur CSV-Datei im Unterordner
+                    csv_file = os.path.join(csv_folder, f'fragen_{category}.csv')
+                    
+                    if not os.path.exists(csv_file):
+                        print(f"Datei {csv_file} nicht gefunden, überspringe...")
+                        continue
+                        
+                    imported = 0
+                    try:
+                        # UTF-8-SIG für BOM-Behandlung verwenden
+                        with open(csv_file, 'r', encoding='utf-8-sig') as file:
+                            reader = csv.DictReader(file, delimiter=';')
+                            required_keys = ['subject', 'question', 'true', 'wrong1', 'wrong2', 'wrong3']
+                            
+                            for row in reader:
+                                # Sicherstellen, dass alle Spalten vorhanden und nicht leer sind
+                                if not all(key in row for key in required_keys):
+                                    continue
+                                    
+                                if any(not row[key].strip() for key in required_keys):
+                                    continue
+                                    
+                                # Kategorie in Kleinbuchstaben konvertieren
+                                subject_lower = row['subject'].strip().lower()
+                                question_text = row['question'].strip()
                                 
-                            # Prüfe, ob Frage bereits existiert
-                            if not Question.query.filter_by(question=row['question'].strip()).first():
-                                new_question = Question(
-                                    subject=row['subject'].strip(),
-                                    question=row['question'].strip(),
-                                    true=row['true'].strip(),
-                                    wrong1=row['wrong1'].strip(),
-                                    wrong2=row['wrong2'].strip(),
-                                    wrong3=row['wrong3'].strip()
-                                )
-                                db.session.add(new_question)
+                                # Prüfen ob Frage bereits existiert
+                                if not Question.query.filter_by(question=question_text).first():
+                                    new_question = Question(
+                                        subject=subject_lower,
+                                        question=question_text,
+                                        true=row['true'].strip(),
+                                        wrong1=row['wrong1'].strip(),
+                                        wrong2=row['wrong2'].strip(),
+                                        wrong3=row['wrong3'].strip()
+                                    )
+                                    db.session.add(new_question)
+                                    imported += 1
                         db.session.commit()
-                    print(f"Fragen für {category} importiert")
-                except Exception as e:
-                    print(f"Fehler beim Import von {csv_file}: {str(e)}")
-            print("Datenbankinitialisierung abgeschlossen")
+                        print(f"Fragen für {category} importiert: {imported}")
+                    except Exception as e:
+                        print(f"Fehler beim Import von {csv_file}: {str(e)}")
+                        db.session.rollback()
+                print("Datenbankinitialisierung abgeschlossen")
+        except Exception as e:
+            print(f"Kritischer Fehler bei Datenbankinitialisierung: {str(e)}")
+
 
 # Initialisierung beim App-Start
 initialize_database()
