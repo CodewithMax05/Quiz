@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, or_
@@ -148,7 +148,7 @@ def initialize_database():
 # Initialisierung beim App-Start
 initialize_database()
 
-# Ab hier bleiben alle Routes unverändert
+# Ab hier alle Routes 
 @app.route('/')
 def index():
     if 'username' in session: 
@@ -160,40 +160,58 @@ def login():
     username = request.form['username'].strip()
     password = request.form['password'].strip()
 
+    #Mindestanforderungen
+    if len(username) > 12:
+        flash('Benutzername darf maximal 12 Zeichen haben', 'error')
+        return redirect(url_for('index'))
+    if len(password) < 5:
+        flash('Passwort muss mindestens 5 Zeichen haben', 'error')
+        return redirect(url_for('index'))
+
     if username and password:
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             session['username'] = username
             return redirect(url_for('homepage')) 
-        return render_template('index.html', error='Ungültige Anmeldedaten')
-    return render_template('index.html', error='Bitte fülle alle Felder aus')
+        flash('Ungültige Anmeldedaten', 'error')
+        return render_template('index.html')
+    flash('Bitte fülle alle Felder aus', 'error')
+    return render_template('index.html')
 
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form['username'].strip()
     password = request.form['password'].strip()
 
+    #Mindestanforderungen
+    if len(username) > 12:
+        flash('Benutzername darf maximal 12 Zeichen haben', 'error')
+        return redirect(url_for('index'))
+    if len(password) < 5:
+        flash('Passwort muss mindestens 5 Zeichen haben', 'error')
+        return redirect(url_for('index'))
+
     if username and password:
         if User.query.filter_by(username=username).first():
-            return render_template('index.html', error='Benutzername bereits vergeben')
+            flash('Benutzername bereits vergeben', 'error')
+            return render_template('index.html')
         new_user = User(username=username)
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
         session['username'] = username
         return redirect(url_for('homepage'))
-    return render_template('index.html', error='Bitte fülle alle Felder aus')
+    flash('Bitte fülle alle Felder aus', 'error')
+    return render_template('index.html')
 
 @app.route('/homepage')
 def homepage():
     if 'username' in session:
-        error = request.args.get('error')
         user = User.query.filter_by(username=session['username']).first()
         return render_template(
             'homepage.html',
             username=session['username'],
-            highscore=user.highscore if user else 0,
-            error=error
+            highscore=user.highscore if user else 0
         )
     return redirect(url_for('index'))
 
@@ -210,13 +228,15 @@ def start_custom_quiz():
     selected_topics = request.form.getlist('topics')
     
     if not selected_topics:
-        return redirect(url_for('homepage', error='Bitte wähle mindestens ein Thema aus'))
+        flash('Bitte wähle mindestens ein Thema aus', 'error')
+        return redirect(url_for('homepage'))
 
     conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
     all_questions = Question.query.filter(or_(*conditions)).all()
 
     if not all_questions:
-        return redirect(url_for('homepage', error='Keine Fragen für die ausgewählten Themen gefunden'))
+        flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
+        return redirect(url_for('homepage'))
 
     questions_by_topic = defaultdict(list)
     for q in all_questions:

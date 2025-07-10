@@ -7,14 +7,19 @@
 
 {% block body %}
 <div class="page-wrapper">
+    <!-- Flash-Nachrichten -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="error-message">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
     <div class="container">
         <a href="{{ url_for('logout') }}" class="logout-button" aria-label="Logout">
             <i class="fas fa-sign-out-alt"></i>
         </a>
-
-        {% if error %}
-            <div class="error-message">{{ error }}</div>
-        {% endif %}
         
         <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
         
