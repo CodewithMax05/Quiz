@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, or_
@@ -286,19 +286,34 @@ def show_question():
         was_correct=was_correct
     )
 
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    if 'quiz_data' not in session:
+        return jsonify({'error': 'Session expired'}), 400
+        
+    quiz_data = session['quiz_data']
+    current_index = quiz_data['current_index']
+    question_id = quiz_data['questions'][current_index]
+    question = Question.query.get(question_id)
+    
+    if not question:
+        return jsonify({'error': 'Question not found'}), 404
+        
+    user_answer = request.form.get('answer', '')
+    is_correct = user_answer == question.true
+    
+    return jsonify({
+        'is_correct': is_correct,
+        'correct_answer': question.true
+    })
+
 @app.route('/next_question', methods=['POST'])
 def next_question():
     if 'quiz_data' not in session or 'username' not in session:
         return redirect(url_for('homepage'))
     
     quiz_data = session['quiz_data']
-    question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
-    user_answer = request.form.get('answer')
-    
-    if user_answer == question.true:
-        quiz_data['score'] += 1
-        session['last_answer_correct'] = True
-    
+    # Antwort wird nicht mehr hier geprüft (wurde bereits in check_answer gemacht)
     quiz_data['current_index'] += 1
     session['quiz_data'] = quiz_data
     

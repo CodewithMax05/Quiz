@@ -38,9 +38,7 @@
 
         <div class="options-grid">
             {% for option in options %}
-            <div class="option"
-                 data-correct="{{ 'true' if option == question.true else 'false' }}"
-                 onclick="selectOption(this)">
+            <div class="option" onclick="selectOption(this)">
                 {{ option }}
             </div>
             {% endfor %}
@@ -64,74 +62,125 @@
         const scoreDisplay = document.querySelector('.score-display');
 
         document.addEventListener('DOMContentLoaded', () => {
-        startTimer();
+            startTimer();
         });
 
         function startTimer() {
-        timerText.textContent = timeLeft;
-        updateTimerProgress();
-        timerInterval = setInterval(() => {
-            timeLeft--;
             timerText.textContent = timeLeft;
             updateTimerProgress();
-            if (timeLeft <= 10) {
-            timerContainer.style.animation = 'pulse 0.5s infinite alternate';
-            }
-            if (timeLeft <= 0) {
-            handleAnswerEnd(); // Timeout case
-            }
-        }, 1000);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerText.textContent = timeLeft;
+                updateTimerProgress();
+                if (timeLeft <= 10) {
+                    timerContainer.style.animation = 'pulse 0.5s infinite alternate';
+                }
+                if (timeLeft <= 0) {
+                    handleAnswerEnd(); // Timeout case
+                }
+            }, 1000);
         }
 
         function updateTimerProgress() {
-        const progress = (timeLeft / 30) * 283;
-        timerProgress.style.strokeDashoffset = 283 - progress;
-        const ratio = timeLeft / 30;
-        const red = Math.floor(255 * (1 - ratio));
-        const green = Math.floor(255 * ratio);
-        timerProgress.style.stroke = `rgb(${red},${green},0)`;
+            const progress = (timeLeft / 30) * 283;
+            timerProgress.style.strokeDashoffset = 283 - progress;
+            const ratio = timeLeft / 30;
+            const red = Math.floor(255 * (1 - ratio));
+            const green = Math.floor(255 * ratio);
+            timerProgress.style.stroke = `rgb(${red},${green},0)`;
         }
 
         function selectOption(elem) {
-        handleAnswerEnd(elem.textContent.trim());
+            // Deaktiviere weitere Klicks, um Mehrfachantworten zu verhindern
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            const selectedAnswer = elem.textContent.trim();
+            
+            // Sende Antwort zur Überprüfung an den Server
+            fetch("{{ url_for('check_answer') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `answer=${encodeURIComponent(selectedAnswer)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                handleAnswerEnd(selectedAnswer, data);
+            })
+            .catch(error => {
+                console.error('Fehler:', error);
+                // Im Fehlerfall trotzdem fortfahren
+                handleAnswerEnd(selectedAnswer, { is_correct: false, correct_answer: '' });
+            });
         }
 
-        function handleAnswerEnd(selected = '') {
-        clearInterval(timerInterval);
-        timerContainer.style.animation = 'none';
+        function handleAnswerEnd(selected = '', serverResponse = null) {
+            clearInterval(timerInterval);
+            timerContainer.style.animation = 'none';
 
-        // Highlight all options neon-style
-        document.querySelectorAll('.option').forEach(opt => {
-            if (opt.dataset.correct === "true") {
-            opt.classList.add('correct');
-            } else {
-            opt.classList.add('wrong');
+            // Wenn die Zeit abgelaufen ist (selected ist leer) und keine ServerResponse
+            if (selected === '' && serverResponse === null) {
+                // Frage den Server nach der korrekten Antwort
+                fetch("{{ url_for('check_answer') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `answer=`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    highlightAnswers('', data);
+                    setTimeout(() => document.getElementById('next-form').submit(), 1000);
+                })
+                .catch(() => {
+                    setTimeout(() => document.getElementById('next-form').submit(), 1000);
+                });
+                return;
             }
-        });
 
-        // Immediate score update if correct
-        if (selected) {
-            const correctText = document.querySelector('.option[data-correct="true"]').textContent.trim();
-            if (selected === correctText) {
-            let current = parseInt(scoreDisplay.textContent.replace(/\D/g, ''));
-            let updated = current + 1;
-            scoreDisplay.textContent = 'Score: ' + updated;
-            // Score-Animation hier behalten
-            scoreDisplay.classList.add('score-update');
+            // Highlight der Antworten basierend auf Server-Antwort
+            if (serverResponse) {
+                highlightAnswers(selected, serverResponse);
             }
+
+            // Nach 1 Sekunde automatisch weiter
+            setTimeout(() => document.getElementById('next-form').submit(), 1000);
         }
 
-        // Prepare form submission
-        document.getElementById('selected-answer').value = selected;
-        setTimeout(() => document.getElementById('next-form').submit(), 1000);
+        function highlightAnswers(selected, serverResponse) {
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach(opt => {
+                const optionText = opt.textContent.trim();
+                
+                // Reset classes
+                opt.classList.remove('correct', 'wrong');
+                
+                if (optionText === serverResponse.correct_answer) {
+                    opt.classList.add('correct');
+                } else {
+                    // Mark all incorrect answers as wrong
+                    opt.classList.add('wrong');
+                }
+            });
+
+            // Score update logic remains the same
+            if (serverResponse.is_correct) {
+                let currentScore = parseInt(scoreDisplay.textContent.replace('Score: ', ''));
+                scoreDisplay.textContent = 'Score: ' + (currentScore + 1);
+                scoreDisplay.classList.add('score-update');
+            }
         }
 
         function confirmCancel() {
-        if (confirm("Möchtest du das Quiz wirklich abbrechen?\nDein aktueller Fortschritt geht verloren.")) {
-            fetch("{{ url_for('cancel_quiz') }}", { method: 'POST' })
-            .then(() => window.location.href = "{{ url_for('homepage') }}")
-            .catch(() => window.location.href = "{{ url_for('homepage') }}");
-        }
+            if (confirm("Möchtest du das Quiz wirklich abbrechen?\nDein aktueller Fortschritt geht verloren.")) {
+                fetch("{{ url_for('cancel_quiz') }}", { method: 'POST' })
+                .then(() => window.location.href = "{{ url_for('homepage') }}")
+                .catch(() => window.location.href = "{{ url_for('homepage') }}");
+            }
         }
     </script>
 {% endblock %}
