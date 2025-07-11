@@ -160,14 +160,6 @@ def login():
     username = request.form['username'].strip()
     password = request.form['password'].strip()
 
-    #Mindestanforderungen
-    if len(username) > 12:
-        flash('Benutzername darf maximal 12 Zeichen haben', 'error')
-        return redirect(url_for('index'))
-    if len(password) < 5:
-        flash('Passwort muss mindestens 5 Zeichen haben', 'error')
-        return redirect(url_for('index'))
-
     if username and password:
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
