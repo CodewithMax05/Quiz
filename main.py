@@ -302,9 +302,18 @@ def check_answer():
     user_answer = request.form.get('answer', '')
     is_correct = user_answer == question.true
     
+    # Score aktualisieren
+    new_score = quiz_data['score']
+    if is_correct:
+        new_score += 1
+        quiz_data['score'] = new_score
+        session['quiz_data'] = quiz_data  # Wichtig: Session aktualisieren
+    
+    # Aktualisierten Score in der Antwort zurückgeben
     return jsonify({
         'is_correct': is_correct,
-        'correct_answer': question.true
+        'correct_answer': question.true,
+        'current_score': new_score  # Neues Feld für aktuellen Score
     })
 
 @app.route('/next_question', methods=['POST'])
