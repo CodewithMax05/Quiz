@@ -165,10 +165,12 @@ def login():
         if user and user.check_password(password):
             session['username'] = username
             return redirect(url_for('homepage')) 
+        
         flash('Ungültige Anmeldedaten', 'error')
-        return render_template('index.html')
+        return redirect(url_for('index'))
+    
     flash('Bitte fülle alle Felder aus', 'error')
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -186,15 +188,17 @@ def register():
     if username and password:
         if User.query.filter_by(username=username).first():
             flash('Benutzername bereits vergeben', 'error')
-            return render_template('index.html')
+            return redirect(url_for('index'))
+        
         new_user = User(username=username)
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
         session['username'] = username
         return redirect(url_for('homepage'))
+    
     flash('Bitte fülle alle Felder aus', 'error')
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 @app.route('/homepage')
 def homepage():
