@@ -1,420 +1,708 @@
-/* styles_quiz.css */
-
-/* === EINHEITLICHER HINTERGRUND & BASIS === */
+/* Basis-Styles */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, 
-                #0f2027, #1a2e3a, #203a43, #2c5364);
+                #0f2027, /* Tiefes Blau */
+                #203a43, /* Dunkles Türkis */
+                #2c5364  /* Mittleres Blau */
+    );
     color: #f0f4f8;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     position: relative;
 }
 
-/* === HEADER-CONTROLS (Timer, Score, Cancel) === */
-.header-controls {
-    position: fixed;
-    top: 20px;
+/* Sternenhintergrund für die ganze Seite */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
     left: 0;
     right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
-    pointer-events: none;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0px, transparent 2px),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0px, transparent 1px),
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
+        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0px, transparent 1px);
+    background-size: 200px 200px;
+    z-index: -1;
+    animation: twinkle 8s infinite alternate;
 }
 
-.timer-container {
-    width: 70px;
-    height: 70px;
-    z-index: 1000;
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
-    flex-shrink: 0;
-    pointer-events: auto;
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
 }
 
-.timer-circle {
-    width: 100%;
-    height: 100%;
-}
-
-.timer-background {
-    fill: none;
-    stroke: rgba(0, 0, 0, 0.2);
-    stroke-width: 7;
-}
-
-.timer-progress {
-    fill: none;
-    stroke: #00ff00;
-    stroke-width: 7;
-    stroke-linecap: round;
-    transform: rotate(-90deg);
-    transform-origin: center;
-    transition: stroke-dashoffset 1s linear;
-}
-
-.timer-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: white;
-    font-family: 'Arial Black', sans-serif;
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.7),
-        0 0 15px rgba(0, 0, 0, 0.4);
-}
-
-.score-display {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    flex-grow: 1;
-    font-family: 'Arial Black', sans-serif;
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.7),
-        0 0 15px rgba(0, 0, 0, 0.4);
-    padding: 0 15px;
-    transition: all 0.3s ease;
-}
-
-.cancel-btn {
-    background-color: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-    pointer-events: auto;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    flex-shrink: 0;
-}
-
-.cancel-btn:hover {
-    background-color: rgba(255, 107, 107, 0.7);
-    transform: scale(1.08);
-}
-
-.cancel-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
-}
-
-/* === QUIZ-CONTAINER & FRAGEN === */
-.quiz-container-wide {
-    width: 880px;
-    height: 520px;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-    margin-top: 90px;
-    padding: 30px;
-    background-color: rgba(22, 33, 62, 0.92);
-    border-radius: 18px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-sizing: border-box;
-    
+.page-wrapper {
+    flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-.question-box {
-    background-color: rgba(0, 0, 0, 0.25);
-    border-radius: 14px;
-    padding: 15px;
-    margin-bottom: 8px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    min-height: 140px;
+    overflow: hidden;
+}
+
+/* Header-Bar ausblenden */
+.header-bar {
+    display: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    padding: 60px 15px 0; /* Mehr Platz oben für Button */
+    text-align: center;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative; /* Wichtig für absolute Positionierung */
 }
 
-.question-text {
+.headline {
+    margin-bottom: 20px;
     font-size: 1.8rem;
-    font-weight: bold;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    line-height: 1.3;
-    color: #ffffff;
-    text-align: center;
-    width: 85%;
-    word-wrap: break-word;
-    padding: 0;
-    margin: 0;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-.options-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 10px;
-    row-gap: 15px;
-    margin-top: 8px;
+/* Kategorien-Formular */
+.categories-form {
     width: 100%;
-    box-sizing: border-box;
-    flex: 1;
-    place-items: center;
-    align-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.option {
-    width: 90%;
-    padding: 8px 5px;
+/* 4x4 GRID FÜR 16 KATEGORIEN */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Immer 4 Spalten */
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Kategorie-Karten - REDUZIERTE HÖHE */
+.category-card {
+    background-color: rgba(255, 255, 255, 0.1); 
     border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    /* NEU: Dünne leuchtende Border */
+    border: 1px solid rgba(0, 180, 255, 0.3);
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    background-color: rgba(255, 255, 255, 0.15);
+    /* NEU: Intensivere Border bei Hover */
+    border-color: rgba(0, 180, 255, 0.7);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px; /* Kompakteres Padding */
+    flex-grow: 1;
+    width: 100%;
+    z-index: 2;
+}
+
+.category-card input[type="checkbox"] {
+    display: none;
+}
+
+/* Änderung: Blaue statt lila Icons bei Auswahl */
+.category-card input[type="checkbox"]:checked + .card-content {
+    color: #4299e1;
+    transform: scale(1.05);
+}
+
+.category-card input[type="checkbox"]:checked + .card-content i {
+    color: #4299e1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.4));
+}
+
+/* NEU: Animierte Border für ausgewählte Karten */
+.category-card input[type="checkbox"]:checked {
+    border: 1px solid transparent;
+    animation: border-glow 2s infinite alternate;
+}
+
+@keyframes border-glow {
+    0% {
+        box-shadow: 
+            0 0 0 1px rgba(0, 180, 255, 0.3),
+            0 0 5px rgba(0, 180, 255, 0.2);
+        border-color: rgba(0, 180, 255, 0.3);
+    }
+    100% {
+        box-shadow: 
+            0 0 0 1px rgba(0, 180, 255, 0.8),
+            0 0 15px rgba(0, 180, 255, 0.6);
+        border-color: rgba(0, 180, 255, 0.8);
+    }
+}
+
+/* NEU: Fließender Border-Effekt */
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 14px;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 180, 255, 0),
+        rgba(0, 180, 255, 0.3),
+        rgba(0, 180, 255, 0),
+        rgba(0, 180, 255, 0.3)
+    );
+    background-size: 300% 300%;
+    z-index: 1;
+    opacity: 0.7;
+    animation: border-flow 4s linear infinite;
+}
+
+@keyframes border-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+.category-card:hover::before {
+    opacity: 1;
+}
+
+.category-card input[type="checkbox"]:checked::before {
+    opacity: 1;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 180, 255, 0),
+        rgba(0, 180, 255, 0.7),
+        rgba(0, 180, 255, 0),
+        rgba(0, 180, 255, 0.7)
+    );
+    animation: border-flow 3s linear infinite;
+}
+
+.category-card span {
+    margin-top: 6px; /* Reduzierter Abstand */
+    font-weight: 600;
+    font-size: 0.85rem; /* Kleinere Schrift */
+    text-align: center;
+    color: white;
+}
+
+.category-card i {
+    font-size: 1.7rem; /* Kleinere Icons */
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+/* Start-Button */
+.start-button {
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-    display: flex;
-    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(74, 0, 224, 0.4);
+    display: inline-flex;
     align-items: center;
-    text-align: center;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(3px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background-color: rgba(255, 255, 255, 0.12) !important;
-    color: #ffffff;
-    min-height: 50px;
-    overflow: hidden;
-}
-
-.option:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    background-color: rgba(255, 255, 255, 0.18) !important;
-}
-
-/* === NEON-FARBEN & GLOW-EFFEKT FÜR ANTWORT-STATUS === */
-.option.correct {
-    background-color: rgba(0, 255, 120, 0.2) !important;
-    box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
-    pointer-events: none;
-}
-.option.correct:hover {
-    background-color: rgba(0, 255, 120, 0.2) !important;
-    box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
-    transform: none !important;
-}
-
-.option.wrong {
-    background-color: rgba(255, 60, 60, 0.2) !important;
-    box-shadow: 0 0 12px rgba(255, 60, 60, 0.7);
-    pointer-events: none;
-}
-.option.wrong:hover {
-    background-color: rgba(255, 60, 60, 0.2) !important;
-    box-shadow: 0 0 12px rgba(255, 60, 60, 0.7);
-    transform: none !important;
-}
-
-/* Fortschrittsbalken */
-.progress-bar-container {
-    display: flex;
     justify-content: center;
-    margin-top: 30px;
-    padding-bottom: 15px;
+    gap: 10px;
+    margin-top: 20px; /* Mehr Abstand zum Grid */
+    animation: pulse-purple 2s infinite;
 }
 
-.progress-bar {
-    font-size: 1.1rem;
-    color: #c5cbd3;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 8px 12px;
-    border-radius: 50px;
-    display: inline-block;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
-    width: auto;
-    text-align: center;
+.start-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(74, 0, 224, 0.5);
+    background: linear-gradient(135deg, #3a00b3, #6d1fc1);
+}
+
+.start-button i {
+    font-size: 1.3rem;
+}
+
+/* NEUE POSITION FÜR LOGOUT-BUTTON */
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
+    animation: pulse-red 2s infinite;
+    position: absolute; /* Absolute Positionierung */
+    top: 15px; /* Abstand vom oberen Rand des Containers */
+    right: 30px; /* Abstand vom rechten Rand des Containers */
+    z-index: 20; /* Über dem Inhalt */
+}
+
+.logout-button i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.logout-button:hover {
+    background: linear-gradient(135deg, #e53935, #c62828);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
+}
+
+/* Tooltip für bessere Usability */
+.logout-button::after {
+    content: "Logout";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
     white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
 }
 
-/* Animationen */
-@keyframes pulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.05); }
+.logout-button:hover::after {
+    opacity: 1;
 }
 
-.score-update {
-    animation: scorePulse 0.8s ease;
+/* FEHLERMELDUNG - AN DER OBERSTEN POSITION MIT KORREKTUREN */
+.error-message {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
+    position: fixed; /* Fixed Positionierung */
+    top: 20px; /* Höher positioniert (vorher 30px) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 320px;
+    z-index: 100; /* Höher als alles andere */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden; /* Verhindert, dass der Ladebalken übersteht */
 }
 
-@keyframes scorePulse {
-    0% { 
-        transform: scale(1);
-        color: #fff;
-        text-shadow: 
-            0 0 8px rgba(255, 255, 255, 0.7);
+.error-message::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    animation: progressBar 5s linear forwards;
+    width: 100%; /* Volle Breite */
+    border-radius: 0 0 10px 10px; /* Abgerundete Ecken unten */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; top: 0; } 
+    to { opacity: 1; top: 20px; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; top: 20px; }
+    to { opacity: 0; top: 0; visibility: hidden; }
+}
+
+@keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
+
+@keyframes pulse-purple {
+    0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(116, 0, 224, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0); }
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 65, 108, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* Responsive Anpassungen für Laptops */
+@media (max-width: 1200px) {
+    .headline {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
     }
-    50% { 
-        transform: scale(1.15);
-        color: #00ff00;
-        text-shadow: 
-            0 0 12px rgba(0, 255, 120, 0.8),
-            0 0 20px rgba(0, 255, 120, 0.5);
+    
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr); /* Behalte 4 Spalten */
+        gap: 10px;
     }
-    100% { 
-        transform: scale(1);
-        color: #fff;
-        text-shadow: 
-            0 0 8px rgba(255, 255, 255, 0.7);
+    
+    .category-card {
+        height: 95px;
+        border-radius: 10px;
+    }
+    
+    .category-card span {
+        font-size: 0.8rem;
+    }
+    
+    .category-card i {
+        font-size: 1.6rem;
+    }
+    
+    .start-button {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+    
+    /* Laptop-Anpassungen für Logout-Button */
+    .logout-button {
+        width: 50px;
+        height: 50px;
+        top: 12px;
+        right: 25px;
+    }
+    
+    .logout-button i {
+        font-size: 1.7rem;
+    }
+    
+    /* Fehlermeldung für Laptops */
+    .error-message {
+        top: 15px; /* Höher positioniert (vorher 25px) */
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 15px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 15px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
     }
 }
 
-/* Responsive Anpassungen */
-@media (max-width: 920px) {
-    .quiz-container-wide {
-        width: 92%;
-        height: auto;
-        min-height: 480px;
-        padding: 25px;
+/* Tablet-Anpassungen */
+@media (max-width: 900px) {
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 Spalten auf kleineren Tablets */
     }
 }
 
 @media (max-width: 768px) {
-    .options-grid {
-        grid-template-columns: 1fr;
+    .container {
+        padding-top: 50px;
+    }
+    
+    .headline {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 Spalten auf Tablets */
         gap: 10px;
-        row-gap: 15px;
-        place-items: center;
     }
     
-    .question-text {
-        font-size: 1.6rem;
-        width: 90%;
+    .category-card {
+        height: 90px;
     }
     
-    .option {
-        width: 90%;
-        padding: 6px 4px;
-        font-size: 1.05rem;
-        min-height: 45px;
+    .category-card span {
+        font-size: 0.78rem;
+        margin-top: 4px;
     }
     
-    .timer-container {
-        width: 65px;
-        height: 65px;
+    .category-card i {
+        font-size: 1.5rem;
     }
     
-    .timer-text {
-        font-size: 1.4rem;
+    .start-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        margin-top: 20px;
     }
     
-    .score-display {
-        font-size: 1.4rem;
+    .start-button i {
+        font-size: 1.1rem;
     }
     
-    .progress-bar {
-        font-size: 1.05rem;
-        padding: 8px 12px;
+    /* Tablet-Anpassungen für Logout-Button */
+    .logout-button {
+        width: 46px;
+        height: 46px;
+        top: 10px;
+        right: 15px;
     }
     
-    .quiz-container-wide {
-        width: 94%;
-        min-height: 460px;
-        padding: 20px;
+    .logout-button i {
+        font-size: 1.5rem;
     }
     
-    .question-box {
-        min-height: 120px;
-        padding: 12px;
-        margin-bottom: 5px;
+    .logout-button::after {
+        font-size: 0.85rem;
+        bottom: -35px;
     }
     
-    .options-grid {
-        margin-top: 5px;
+    /* Fehlermeldung für Tablets */
+    .error-message {
+        top: 10px; /* Höher positioniert (vorher 20px) */
+        width: 85%;
     }
     
-    .progress-bar-container {
-        margin-top: 25px;
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; }
+        to { opacity: 1; top: 10px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 10px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
     }
 }
 
+/* Mobile Anpassungen */
+@media (max-width: 600px) {
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Haupt-Mobile-Anpassungen */
 @media (max-width: 480px) {
-    .header-controls {
-        top: 15px;
+    .container {
+        padding-top: 70px; /* Mehr Platz für den Logout-Button */
+        padding-bottom: 90px; /* Platz für fixierten Start-Button */
+    }
+    
+    .headline {
+        font-size: 1.35rem;
+        margin: 15px 0 20px; /* Mehr Abstand unten */
         padding: 0 10px;
     }
     
-    .timer-container {
-        width: 55px;
-        height: 55px;
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 15px;
     }
     
-    .timer-text {
-        font-size: 1.2rem;
+    .category-card {
+        height: 85px; /* Reduzierte Höhe */
     }
     
-    .score-display {
-        font-size: 1.2rem;
-        padding: 0 10px;
-    }
-    
-    .cancel-btn {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .cancel-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-    
-    .quiz-container-wide {
-        width: 96%;
-        padding: 15px;
-        margin-top: 75px;
-        min-height: 440px;
-    }
-    
-    .question-text {
-        font-size: 1.4rem;
-        width: 92%;
-    }
-    
-    .question-box {
-        min-height: 100px;
-        padding: 10px;
-        margin-bottom: 5px;
-    }
-    
-    .option {
-        width: 95%;
-        padding: 5px 3px;
-        font-size: 1rem;
-        min-height: 40px;
-    }
-    
-    .progress-bar {
-        font-size: 1rem;
-        padding: 6px 10px;
-    }
-    
-    .options-grid {
+    .category-card span {
+        font-size: 0.75rem;
         margin-top: 5px;
     }
     
-    .progress-bar-container {
-        margin-top: 20px;
+    .category-card i {
+        font-size: 1.5rem;
+    }
+    
+    .card-content {
+        padding: 8px;
+    }
+    
+    /* FIXIERTER START-BUTTON AM UNTEREN RAND */
+    .start-button {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 85%;
+        max-width: 320px;
+        z-index: 100;
+        padding: 14px 25px;
+        font-size: 1.05rem;
+        margin-top: 0;
+        box-shadow: 0 6px 20px rgba(74, 0, 224, 0.5);
+        animation: pulse-purple 2s infinite, float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(-5px); }
+        100% { transform: translateX(-50%) translateY(0); }
+    }
+    
+    /* LOGOUT-BUTTON ANPASSUNG - WEITER UNTEN */
+    .logout-button {
+        top: 30px; /* Höher positioniert */
+        right: 20px; /* Mehr Abstand rechts */
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #ff6b6b, #ff4b2b);
+    }
+    
+    .logout-button i {
+        font-size: 1.6rem;
+    }
+    
+    .logout-button::after {
+        font-size: 0.82rem;
+        bottom: -36px;
+        padding: 5px 10px;
+    }
+    
+    /* Fehlermeldung Anpassung */
+    .error-message {
+        top: 15px;
+        width: 90%;
+        max-width: 280px;
+        font-size: 0.92rem;
+        padding: 12px 15px;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0; } 
+        to { opacity: 1; top: 15px; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; top: 15px; }
+        to { opacity: 0; top: 0; visibility: hidden; }
+    }
+}
+
+/* Anpassungen für sehr kleine Geräte */
+@media (max-width: 380px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .category-card {
+        height: 80px;
+    }
+    
+    .headline {
+        font-size: 1.25rem;
+        margin: 10px 0 15px;
+    }
+    
+    .start-button {
+        font-size: 1rem;
+        padding: 12px 20px;
+        bottom: 20px;
+        max-width: 280px;
+    }
+    
+    .logout-button {
+        top: 25px;
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Anpassungen für kleine Höhen */
+@media (max-height: 700px) {
+    .page-wrapper {
+        padding: 10px 20px;
+    }
+    
+    .container {
+        padding-top: 60px;
+        padding-bottom: 80px;
+    }
+    
+    .headline {
+        margin: 10px 0 15px;
+        font-size: 1.4rem;
+    }
+    
+    .category-grid {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .category-card {
+        height: 80px;
+    }
+    
+    .start-button {
+        bottom: 20px;
+        padding: 12px 22px;
+    }
+    
+    .logout-button {
+        top: 20px;
+    }
+}
+
+/* Portrait-Modus für Handys */
+@media (max-width: 480px) and (orientation: portrait) {
+    .container {
+        padding-top: 65px;
+        padding-bottom: 85px;
+    }
+    
+    .category-grid {
+        gap: 8px;
+    }
+    
+    .category-card {
+        height: 80px;
+    }
+    
+    .start-button {
+        bottom: 20px;
+    }
+    
+    .logout-button {
+        top: 25px;
     }
 }
