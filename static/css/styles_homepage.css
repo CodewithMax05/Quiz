@@ -113,7 +113,7 @@ body::before {
     height: 100px;
     position: relative;
     overflow: hidden;
-    /* NEU: Dünne leuchtende Border */
+    /* ANPASSUNG: Dünne leuchtende Border immer sichtbar */
     border: 1px solid rgba(0, 180, 255, 0.3);
 }
 
@@ -121,7 +121,7 @@ body::before {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.15);
-    /* NEU: Intensivere Border bei Hover */
+    /* ANPASSUNG: Intensivere Border bei Hover */
     border-color: rgba(0, 180, 255, 0.7);
 }
 
@@ -152,28 +152,7 @@ body::before {
     filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.4));
 }
 
-/* NEU: Animierte Border für ausgewählte Karten */
-.category-card input[type="checkbox"]:checked {
-    border: 1px solid transparent;
-    animation: border-glow 2s infinite alternate;
-}
-
-@keyframes border-glow {
-    0% {
-        box-shadow: 
-            0 0 0 1px rgba(0, 180, 255, 0.3),
-            0 0 5px rgba(0, 180, 255, 0.2);
-        border-color: rgba(0, 180, 255, 0.3);
-    }
-    100% {
-        box-shadow: 
-            0 0 0 1px rgba(0, 180, 255, 0.8),
-            0 0 15px rgba(0, 180, 255, 0.6);
-        border-color: rgba(0, 180, 255, 0.8);
-    }
-}
-
-/* NEU: Fließender Border-Effekt */
+/* ANPASSUNG: Fließender Effekt nur beim Hover */
 .category-card::before {
     content: '';
     position: absolute;
@@ -191,29 +170,12 @@ body::before {
     );
     background-size: 300% 300%;
     z-index: 1;
-    opacity: 0.7;
+    opacity: 0; /* Standardmäßig unsichtbar */
     animation: border-flow 4s linear infinite;
 }
 
-@keyframes border-flow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 300% 50%; }
-}
-
 .category-card:hover::before {
-    opacity: 1;
-}
-
-.category-card input[type="checkbox"]:checked::before {
-    opacity: 1;
-    background: linear-gradient(
-        45deg,
-        rgba(0, 180, 255, 0),
-        rgba(0, 180, 255, 0.7),
-        rgba(0, 180, 255, 0),
-        rgba(0, 180, 255, 0.7)
-    );
-    animation: border-flow 3s linear infinite;
+    opacity: 0.7; /* Sichtbar beim Hover */
 }
 
 .category-card span {
