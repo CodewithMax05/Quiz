@@ -524,51 +524,72 @@ body::before {
 
 /* Haupt-Mobile-Anpassungen */
 @media (max-width: 480px) {
+    /* Scrollfunktion aktivieren */
+    .page-wrapper {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 15px;
+    }
+    
+    /* Scrollbar verstecken */
+    .page-wrapper::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+    }
+    
+    .page-wrapper {
+        -ms-overflow-style: none;  /* IE, Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    
     .container {
-        padding-top: 70px; /* Mehr Platz für den Logout-Button */
-        padding-bottom: 90px; /* Platz für fixierten Start-Button */
+        padding-top: 65px; /* Mehr Platz für den Logout-Button */
+        padding-bottom: 100px; /* Platz für fixierten Start-Button */
+        justify-content: flex-start; /* Inhalt oben ausrichten */
+        min-height: auto;
     }
     
     .headline {
-        font-size: 1.35rem;
-        margin: 15px 0 20px; /* Mehr Abstand unten */
+        font-size: 1.3rem;
+        margin: 10px 0 15px;
         padding: 0 10px;
     }
     
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 8px; /* Reduzierter Abstand */
         margin-bottom: 15px;
     }
     
+    /* Stärker reduzierte Kartengröße */
     .category-card {
-        height: 85px; /* Reduzierte Höhe */
+        height: 75px; /* Reduzierte Höhe (vorher 85px) */
     }
     
     .category-card span {
-        font-size: 0.75rem;
-        margin-top: 5px;
+        font-size: 0.68rem; /* Kleinere Schrift */
+        margin-top: 4px;
+        line-height: 1.2;
     }
     
     .category-card i {
-        font-size: 1.5rem;
+        font-size: 1.3rem; /* Kleinere Icons */
     }
     
     .card-content {
-        padding: 8px;
+        padding: 5px; /* Kompakter */
     }
     
     /* FIXIERTER START-BUTTON AM UNTEREN RAND */
     .start-button {
         position: fixed;
-        bottom: 25px;
+        bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
-        width: 85%;
-        max-width: 320px;
+        width: 90%;
+        max-width: 300px;
         z-index: 100;
-        padding: 14px 25px;
-        font-size: 1.05rem;
+        padding: 12px 20px;
+        font-size: 1rem;
         margin-top: 0;
         box-shadow: 0 6px 20px rgba(74, 0, 224, 0.5);
         animation: pulse-purple 2s infinite, float 3s ease-in-out infinite;
@@ -582,21 +603,21 @@ body::before {
     
     /* LOGOUT-BUTTON ANPASSUNG - WEITER UNTEN */
     .logout-button {
-        top: 30px; /* Höher positioniert */
-        right: 20px; /* Mehr Abstand rechts */
-        width: 50px;
-        height: 50px;
+        top: 20px; /* Höher positioniert */
+        right: 15px; /* Mehr Abstand rechts */
+        width: 46px;
+        height: 46px;
         background: linear-gradient(135deg, #ff6b6b, #ff4b2b);
     }
     
     .logout-button i {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
     
     .logout-button::after {
-        font-size: 0.82rem;
-        bottom: -36px;
-        padding: 5px 10px;
+        font-size: 0.8rem;
+        bottom: -32px;
+        padding: 5px 8px;
     }
     
     /* Fehlermeldung Anpassung */
@@ -604,7 +625,7 @@ body::before {
         top: 15px;
         width: 90%;
         max-width: 280px;
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         padding: 12px 15px;
     }
     
@@ -626,32 +647,44 @@ body::before {
     }
     
     .category-card {
-        height: 80px;
+        height: 70px; /* Extra kleine Höhe */
     }
     
     .headline {
-        font-size: 1.25rem;
-        margin: 10px 0 15px;
+        font-size: 1.2rem;
+        margin: 8px 0 12px;
+    }
+    
+    .category-card span {
+        font-size: 0.62rem; /* Extra kleine Schrift */
+    }
+    
+    .category-card i {
+        font-size: 1.1rem; /* Extra kleine Icons */
     }
     
     .start-button {
-        font-size: 1rem;
-        padding: 12px 20px;
-        bottom: 20px;
+        font-size: 0.95rem;
+        padding: 10px 15px;
+        bottom: 15px;
         max-width: 280px;
     }
     
     .logout-button {
-        top: 25px;
-        width: 48px;
-        height: 48px;
+        top: 18px;
+        width: 44px;
+        height: 44px;
+    }
+    
+    .logout-button i {
+        font-size: 1.4rem;
     }
 }
 
 /* Anpassungen für kleine Höhen */
 @media (max-height: 700px) {
     .page-wrapper {
-        padding: 10px 20px;
+        padding: 10px 15px;
     }
     
     .container {
@@ -670,39 +703,39 @@ body::before {
     }
     
     .category-card {
-        height: 80px;
+        height: 75px;
     }
     
     .start-button {
-        bottom: 20px;
-        padding: 12px 22px;
+        bottom: 15px;
+        padding: 12px 20px;
     }
     
     .logout-button {
-        top: 20px;
+        top: 15px;
     }
 }
 
 /* Portrait-Modus für Handys */
 @media (max-width: 480px) and (orientation: portrait) {
     .container {
-        padding-top: 65px;
+        padding-top: 60px;
         padding-bottom: 85px;
     }
     
     .category-grid {
-        gap: 8px;
+        gap: 7px;
     }
     
     .category-card {
-        height: 80px;
+        height: 72px;
     }
     
     .start-button {
-        bottom: 20px;
+        bottom: 18px;
     }
     
     .logout-button {
-        top: 25px;
+        top: 18px;
     }
 }
