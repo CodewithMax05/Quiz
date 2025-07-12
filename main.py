@@ -10,7 +10,6 @@ from flask_session import Session
 
 app = Flask(__name__)
 
-# Dynamische Datenbank-URI
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db')
 if database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
