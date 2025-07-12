@@ -1,18 +1,19 @@
-/* Basis-Styles */
+/* Basis-Styles - KORRIGIERTES OVERFLOW */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, 
-                #0f2027, /* Tiefes Blau */
-                #203a43, /* Dunkles Türkis */
-                #2c5364  /* Mittleres Blau */
+                #0f2027, 
+                #203a43, 
+                #2c5364
     );
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    /* KORREKTUR: overflow auf auto setzen */
+    overflow: auto;
 }
 
 body {
@@ -20,25 +21,25 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Touch-Scrolling aktivieren */
-    overflow: auto;
+    /* Scrollen aktivieren */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* Scrollbar verstecken für alle Browser */
+/* Scrollbar verstecken */
 body::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+    display: none;
 }
 
 body {
-    -ms-overflow-style: none;  /* IE, Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* Sternenhintergrund für die ganze Seite */
+/* Sternenhintergrund mit fixed position */
 body::before {
     content: '';
-    position: fixed; /* Änderung: fixed statt absolute */
+    position: fixed; /* Fixed statt absolute */
     top: 0;
     left: 0;
     right: 0;
@@ -63,7 +64,7 @@ body::before {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Geändert von center zu flex-start */
+    justify-content: flex-start; /* Von center zu flex-start ändern */
     align-items: center;
     padding: 20px;
     width: 100%;
@@ -71,7 +72,6 @@ body::before {
     /* Scrollen aktivieren */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    position: relative;
 }
 
 /* Scrollbar verstecken */
@@ -79,7 +79,6 @@ body::before {
     display: none;
 }
 
-/* Header-Bar ausblenden */
 .header-bar {
     display: none;
 }
@@ -87,12 +86,12 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 30px; /* Mehr Platz oben und unten */
+    padding: 60px 15px 30px; /* Mehr Platz unten */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Geändert von center zu flex-start */
+    justify-content: flex-start; /* Von center zu flex-start ändern */
     position: relative;
 }
 
@@ -103,7 +102,6 @@ body::before {
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-/* Kategorien-Formular */
 .categories-form {
     width: 100%;
     max-width: 800px;
@@ -113,7 +111,6 @@ body::before {
     align-items: center;
 }
 
-/* 4x4 GRID FÜR 16 KATEGORIEN */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -122,7 +119,6 @@ body::before {
     width: 100%;
 }
 
-/* Kategorie-Karten - REDUZIERTE HÖHE */
 .category-card {
     background-color: rgba(255, 255, 255, 0.1); 
     border-radius: 12px;
@@ -158,7 +154,6 @@ body::before {
     display: none;
 }
 
-/* Änderung: Blaue statt lila Icons bei Auswahl */
 .category-card input[type="checkbox"]:checked + .card-content {
     color: #4299e1;
     transform: scale(1.05);
@@ -170,7 +165,6 @@ body::before {
     filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.4));
 }
 
-/* NEU: Animierte Border für ausgewählte Karten */
 .category-card input[type="checkbox"]:checked {
     border: 1px solid transparent;
     animation: border-glow 2s infinite alternate;
@@ -191,7 +185,6 @@ body::before {
     }
 }
 
-/* NEU: Fließender Border-Effekt */
 .category-card::before {
     content: '';
     position: absolute;
@@ -248,7 +241,6 @@ body::before {
     transition: all 0.3s ease;
 }
 
-/* Start-Button */
 .start-button {
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
@@ -264,7 +256,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 20px 0 30px; /* Mehr Abstand oben und unten */
+    margin: 20px 0;
     animation: pulse-purple 2s infinite;
     position: sticky;
     bottom: 20px;
@@ -281,7 +273,6 @@ body::before {
     font-size: 1.3rem;
 }
 
-/* NEUE POSITION FÜR LOGOUT-BUTTON */
 .logout-button {
     display: flex;
     align-items: center;
@@ -296,10 +287,10 @@ body::before {
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
     animation: pulse-red 2s infinite;
-    position: fixed; /* Geändert auf fixed */
-    top: 20px; /* Mehr Abstand vom oberen Rand */
+    position: fixed;
+    top: 20px;
     right: 20px;
-    z-index: 100; /* Höhere Ebene */
+    z-index: 100;
 }
 
 .logout-button i {
@@ -313,7 +304,6 @@ body::before {
     box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
 }
 
-/* Tooltip für bessere Usability */
 .logout-button::after {
     content: "Logout";
     position: absolute;
@@ -335,7 +325,6 @@ body::before {
     opacity: 1;
 }
 
-/* FEHLERMELDUNG */
 .error-message {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     color: white;
@@ -349,7 +338,7 @@ body::before {
     transform: translateX(-50%);
     width: 85%;
     max-width: 320px;
-    z-index: 1000; /* Höchste Ebene */
+    z-index: 1000;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.3);
     overflow: hidden;
@@ -392,11 +381,6 @@ body::before {
     0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.5); }
     70% { box-shadow: 0 0 0 10px rgba(255, 65, 108, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
-}
-
-@keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
 }
 
 /* Responsive Anpassungen für Laptops */
@@ -468,16 +452,16 @@ body::before {
     }
     
     .category-card {
-        height: 85px; /* Reduziert */
+        height: 85px;
     }
     
     .category-card span {
-        font-size: 0.75rem; /* Reduziert */
+        font-size: 0.75rem;
         margin-top: 4px;
     }
     
     .category-card i {
-        font-size: 1.4rem; /* Reduziert */
+        font-size: 1.4rem;
     }
     
     .start-button {
@@ -511,19 +495,21 @@ body::before {
 
 /* Haupt-Mobile-Anpassungen */
 @media (max-width: 480px) {
-    body {
+    body, html {
         overflow: auto;
-        -webkit-overflow-scrolling: touch;
+        height: auto;
+        min-height: 100vh;
     }
     
     .page-wrapper {
         padding: 15px;
         justify-content: flex-start;
+        min-height: 100vh;
     }
     
     .container {
         padding-top: 70px;
-        padding-bottom: 30px;
+        padding-bottom: 100px; /* Genug Platz für den Button */
     }
     
     .headline {
@@ -539,30 +525,33 @@ body::before {
     
     /* Stark reduzierte Kartengröße */
     .category-card {
-        height: 70px; /* Statt 100px */
+        height: 65px; /* Statt 100px */
     }
     
     .category-card span {
-        font-size: 0.65rem; /* Statt 0.85rem */
-        margin-top: 4px;
+        font-size: 0.6rem; /* Statt 0.85rem */
+        margin-top: 3px;
+        line-height: 1.2;
     }
     
     .category-card i {
-        font-size: 1.2rem; /* Statt 1.7rem */
+        font-size: 1.1rem; /* Statt 1.7rem */
     }
     
     .card-content {
-        padding: 6px 4px;
+        padding: 5px 3px;
     }
     
     .start-button {
-        position: sticky;
+        position: fixed;
         bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
         width: 90%;
         max-width: 300px;
         padding: 12px 20px;
         font-size: 1rem;
-        margin: 20px auto 10px;
+        margin: 0;
         z-index: 100;
     }
     
@@ -574,7 +563,7 @@ body::before {
     }
     
     .logout-button i {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     
     .error-message {
@@ -593,36 +582,36 @@ body::before {
     }
     
     .category-card {
-        height: 65px; /* Extra klein */
+        height: 60px;
     }
     
     .headline {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         margin: 8px 0 12px;
     }
     
     .category-card span {
-        font-size: 0.6rem; /* Extra klein */
+        font-size: 0.55rem;
     }
     
     .category-card i {
-        font-size: 1.1rem; /* Extra klein */
+        font-size: 1.0rem;
     }
     
     .start-button {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         padding: 10px 15px;
         bottom: 10px;
     }
     
     .logout-button {
         top: 12px;
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
     }
     
     .logout-button i {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -634,12 +623,12 @@ body::before {
     
     .container {
         padding-top: 60px;
-        padding-bottom: 20px;
+        padding-bottom: 80px;
     }
     
     .headline {
         margin: 10px 0 15px;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
     
     .category-grid {
@@ -648,36 +637,12 @@ body::before {
     }
     
     .category-card {
-        height: 70px;
+        height: 65px;
     }
     
     .start-button {
         bottom: 10px;
-        padding: 12px 20px;
-    }
-    
-    .logout-button {
-        top: 15px;
-    }
-}
-
-/* Portrait-Modus für Handys */
-@media (max-width: 480px) and (orientation: portrait) {
-    .container {
-        padding-top: 65px;
-        padding-bottom: 25px;
-    }
-    
-    .category-grid {
-        gap: 7px;
-    }
-    
-    .category-card {
-        height: 68px;
-    }
-    
-    .start-button {
-        bottom: 12px;
+        padding: 10px 20px;
     }
     
     .logout-button {
