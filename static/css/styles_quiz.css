@@ -19,14 +19,26 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     position: relative;
+    /* Touch-Scrolling aktivieren */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar verstecken für alle Browser */
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+body {
+    -ms-overflow-style: none;  /* IE, Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 /* Sternenhintergrund für die ganze Seite */
 body::before {
     content: '';
-    position: absolute;
+    position: fixed; /* Änderung: fixed statt absolute */
     top: 0;
     left: 0;
     right: 0;
@@ -51,12 +63,20 @@ body::before {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Geändert von center zu flex-start */
     align-items: center;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    /* Scrollen aktivieren */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+}
+
+/* Scrollbar verstecken */
+.page-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 /* Header-Bar ausblenden */
@@ -67,17 +87,17 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 0; /* Mehr Platz oben für Button */
+    padding: 60px 15px 30px; /* Mehr Platz oben und unten */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: relative; /* Wichtig für absolute Positionierung */
+    justify-content: flex-start; /* Geändert von center zu flex-start */
+    position: relative;
 }
 
 .headline {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-size: 1.8rem;
     color: white;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -96,7 +116,7 @@ body::before {
 /* 4x4 GRID FÜR 16 KATEGORIEN */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Immer 4 Spalten */
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-bottom: 20px;
     width: 100%;
@@ -113,7 +133,6 @@ body::before {
     height: 100px;
     position: relative;
     overflow: hidden;
-    /* NEU: Dünne leuchtende Border */
     border: 1px solid rgba(0, 180, 255, 0.3);
 }
 
@@ -121,7 +140,6 @@ body::before {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.15);
-    /* NEU: Intensivere Border bei Hover */
     border-color: rgba(0, 180, 255, 0.7);
 }
 
@@ -130,7 +148,7 @@ body::before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 12px 10px; /* Kompakteres Padding */
+    padding: 12px 10px;
     flex-grow: 1;
     width: 100%;
     z-index: 2;
@@ -217,15 +235,15 @@ body::before {
 }
 
 .category-card span {
-    margin-top: 6px; /* Reduzierter Abstand */
+    margin-top: 6px;
     font-weight: 600;
-    font-size: 0.85rem; /* Kleinere Schrift */
+    font-size: 0.85rem;
     text-align: center;
     color: white;
 }
 
 .category-card i {
-    font-size: 1.7rem; /* Kleinere Icons */
+    font-size: 1.7rem;
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
 }
@@ -246,8 +264,11 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px; /* Mehr Abstand zum Grid */
+    margin: 20px 0 30px; /* Mehr Abstand oben und unten */
     animation: pulse-purple 2s infinite;
+    position: sticky;
+    bottom: 20px;
+    z-index: 10;
 }
 
 .start-button:hover {
@@ -275,10 +296,10 @@ body::before {
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
     animation: pulse-red 2s infinite;
-    position: absolute; /* Absolute Positionierung */
-    top: 15px; /* Abstand vom oberen Rand des Containers */
-    right: 30px; /* Abstand vom rechten Rand des Containers */
-    z-index: 20; /* Über dem Inhalt */
+    position: fixed; /* Geändert auf fixed */
+    top: 20px; /* Mehr Abstand vom oberen Rand */
+    right: 20px;
+    z-index: 100; /* Höhere Ebene */
 }
 
 .logout-button i {
@@ -314,7 +335,7 @@ body::before {
     opacity: 1;
 }
 
-/* FEHLERMELDUNG - AN DER OBERSTEN POSITION MIT KORREKTUREN */
+/* FEHLERMELDUNG */
 .error-message {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     color: white;
@@ -322,16 +343,16 @@ body::before {
     border-radius: 10px;
     text-align: center;
     animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
-    position: fixed; /* Fixed Positionierung */
-    top: 20px; /* Höher positioniert (vorher 30px) */
+    position: fixed;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 85%;
     max-width: 320px;
-    z-index: 100; /* Höher als alles andere */
+    z-index: 1000; /* Höchste Ebene */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow: hidden; /* Verhindert, dass der Ladebalken übersteht */
+    overflow: hidden;
 }
 
 .error-message::after {
@@ -342,8 +363,8 @@ body::before {
     height: 5px;
     background: rgba(255, 255, 255, 0.4);
     animation: progressBar 5s linear forwards;
-    width: 100%; /* Volle Breite */
-    border-radius: 0 0 10px 10px; /* Abgerundete Ecken unten */
+    width: 100%;
+    border-radius: 0 0 10px 10px;
 }
 
 @keyframes fadeIn {
@@ -386,7 +407,7 @@ body::before {
     }
     
     .category-grid {
-        grid-template-columns: repeat(4, 1fr); /* Behalte 4 Spalten */
+        grid-template-columns: repeat(4, 1fr);
         gap: 10px;
     }
     
@@ -408,38 +429,26 @@ body::before {
         font-size: 1rem;
     }
     
-    /* Laptop-Anpassungen für Logout-Button */
     .logout-button {
         width: 50px;
         height: 50px;
-        top: 12px;
-        right: 25px;
+        top: 15px;
+        right: 20px;
     }
     
     .logout-button i {
         font-size: 1.7rem;
     }
     
-    /* Fehlermeldung für Laptops */
     .error-message {
-        top: 15px; /* Höher positioniert (vorher 25px) */
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; top: 0; }
-        to { opacity: 1; top: 15px; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; top: 15px; }
-        to { opacity: 0; top: 0; visibility: hidden; }
+        top: 15px;
     }
 }
 
 /* Tablet-Anpassungen */
 @media (max-width: 900px) {
     .category-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 Spalten auf kleineren Tablets */
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -454,21 +463,21 @@ body::before {
     }
     
     .category-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 Spalten auf Tablets */
+        grid-template-columns: repeat(4, 1fr);
         gap: 10px;
     }
     
     .category-card {
-        height: 90px;
+        height: 85px; /* Reduziert */
     }
     
     .category-card span {
-        font-size: 0.78rem;
+        font-size: 0.75rem; /* Reduziert */
         margin-top: 4px;
     }
     
     .category-card i {
-        font-size: 1.5rem;
+        font-size: 1.4rem; /* Reduziert */
     }
     
     .start-button {
@@ -481,37 +490,15 @@ body::before {
         font-size: 1.1rem;
     }
     
-    /* Tablet-Anpassungen für Logout-Button */
     .logout-button {
         width: 46px;
         height: 46px;
-        top: 10px;
+        top: 15px;
         right: 15px;
     }
     
     .logout-button i {
         font-size: 1.5rem;
-    }
-    
-    .logout-button::after {
-        font-size: 0.85rem;
-        bottom: -35px;
-    }
-    
-    /* Fehlermeldung für Tablets */
-    .error-message {
-        top: 10px; /* Höher positioniert (vorher 20px) */
-        width: 85%;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; top: 0; }
-        to { opacity: 1; top: 10px; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; top: 10px; }
-        to { opacity: 0; top: 0; visibility: hidden; }
     }
 }
 
@@ -524,103 +511,72 @@ body::before {
 
 /* Haupt-Mobile-Anpassungen */
 @media (max-width: 480px) {
-    /* Scrollfunktion aktivieren */
-    .page-wrapper {
-        overflow-y: auto;
+    body {
+        overflow: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 15px;
-    }
-    
-    /* Scrollbar verstecken */
-    .page-wrapper::-webkit-scrollbar {
-        display: none; /* Chrome, Safari */
     }
     
     .page-wrapper {
-        -ms-overflow-style: none;  /* IE, Edge */
-        scrollbar-width: none;  /* Firefox */
+        padding: 15px;
+        justify-content: flex-start;
     }
     
     .container {
-        padding-top: 65px; /* Mehr Platz für den Logout-Button */
-        padding-bottom: 100px; /* Platz für fixierten Start-Button */
-        justify-content: flex-start; /* Inhalt oben ausrichten */
-        min-height: auto;
+        padding-top: 70px;
+        padding-bottom: 30px;
     }
     
     .headline {
         font-size: 1.3rem;
         margin: 10px 0 15px;
-        padding: 0 10px;
     }
     
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px; /* Reduzierter Abstand */
+        gap: 8px;
         margin-bottom: 15px;
     }
     
-    /* Stärker reduzierte Kartengröße */
+    /* Stark reduzierte Kartengröße */
     .category-card {
-        height: 75px; /* Reduzierte Höhe (vorher 85px) */
+        height: 70px; /* Statt 100px */
     }
     
     .category-card span {
-        font-size: 0.68rem; /* Kleinere Schrift */
+        font-size: 0.65rem; /* Statt 0.85rem */
         margin-top: 4px;
-        line-height: 1.2;
     }
     
     .category-card i {
-        font-size: 1.3rem; /* Kleinere Icons */
+        font-size: 1.2rem; /* Statt 1.7rem */
     }
     
     .card-content {
-        padding: 5px; /* Kompakter */
+        padding: 6px 4px;
     }
     
-    /* FIXIERTER START-BUTTON AM UNTEREN RAND */
     .start-button {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        position: sticky;
+        bottom: 15px;
         width: 90%;
         max-width: 300px;
-        z-index: 100;
         padding: 12px 20px;
         font-size: 1rem;
-        margin-top: 0;
-        box-shadow: 0 6px 20px rgba(74, 0, 224, 0.5);
-        animation: pulse-purple 2s infinite, float 3s ease-in-out infinite;
+        margin: 20px auto 10px;
+        z-index: 100;
     }
     
-    @keyframes float {
-        0% { transform: translateX(-50%) translateY(0); }
-        50% { transform: translateX(-50%) translateY(-5px); }
-        100% { transform: translateX(-50%) translateY(0); }
-    }
-    
-    /* LOGOUT-BUTTON ANPASSUNG - WEITER UNTEN */
     .logout-button {
-        top: 20px; /* Höher positioniert */
-        right: 15px; /* Mehr Abstand rechts */
+        top: 15px;
+        right: 15px;
         width: 46px;
         height: 46px;
-        background: linear-gradient(135deg, #ff6b6b, #ff4b2b);
     }
     
     .logout-button i {
         font-size: 1.5rem;
     }
     
-    .logout-button::after {
-        font-size: 0.8rem;
-        bottom: -32px;
-        padding: 5px 8px;
-    }
-    
-    /* Fehlermeldung Anpassung */
     .error-message {
         top: 15px;
         width: 90%;
@@ -628,26 +584,16 @@ body::before {
         font-size: 0.9rem;
         padding: 12px 15px;
     }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; top: 0; } 
-        to { opacity: 1; top: 15px; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; top: 15px; }
-        to { opacity: 0; top: 0; visibility: hidden; }
-    }
 }
 
-/* Anpassungen für sehr kleine Geräte */
-@media (max-width: 380px) {
+/* Anpassungen für sehr kleine Geräte (iPhone SE etc.) */
+@media (max-width: 380px) and (max-height: 670px) {
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
     .category-card {
-        height: 70px; /* Extra kleine Höhe */
+        height: 65px; /* Extra klein */
     }
     
     .headline {
@@ -656,28 +602,27 @@ body::before {
     }
     
     .category-card span {
-        font-size: 0.62rem; /* Extra kleine Schrift */
+        font-size: 0.6rem; /* Extra klein */
     }
     
     .category-card i {
-        font-size: 1.1rem; /* Extra kleine Icons */
+        font-size: 1.1rem; /* Extra klein */
     }
     
     .start-button {
         font-size: 0.95rem;
         padding: 10px 15px;
-        bottom: 15px;
-        max-width: 280px;
+        bottom: 10px;
     }
     
     .logout-button {
-        top: 18px;
-        width: 44px;
-        height: 44px;
+        top: 12px;
+        width: 42px;
+        height: 42px;
     }
     
     .logout-button i {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
 }
 
@@ -689,7 +634,7 @@ body::before {
     
     .container {
         padding-top: 60px;
-        padding-bottom: 80px;
+        padding-bottom: 20px;
     }
     
     .headline {
@@ -703,11 +648,11 @@ body::before {
     }
     
     .category-card {
-        height: 75px;
+        height: 70px;
     }
     
     .start-button {
-        bottom: 15px;
+        bottom: 10px;
         padding: 12px 20px;
     }
     
@@ -719,8 +664,8 @@ body::before {
 /* Portrait-Modus für Handys */
 @media (max-width: 480px) and (orientation: portrait) {
     .container {
-        padding-top: 60px;
-        padding-bottom: 85px;
+        padding-top: 65px;
+        padding-bottom: 25px;
     }
     
     .category-grid {
@@ -728,14 +673,14 @@ body::before {
     }
     
     .category-card {
-        height: 72px;
+        height: 68px;
     }
     
     .start-button {
-        bottom: 18px;
+        bottom: 12px;
     }
     
     .logout-button {
-        top: 18px;
+        top: 15px;
     }
 }
