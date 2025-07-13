@@ -51,6 +51,8 @@ body::before {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
@@ -65,14 +67,14 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 30px;
+    padding: 60px 15px 30px; /* Mehr Platz unten für den Button */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    flex: 1; /* Flexibilität für verschiedene Höhen */
+    min-height: calc(100vh - 120px); /* Mindesthöhe für bessere Platzierung */
 }
 
 .headline {
@@ -91,8 +93,6 @@ body::before {
     flex-direction: column;
     align-items: center;
     position: relative;
-    flex: 1; /* Nimmt verfügbaren Platz ein */
-    min-height: 0; /* Wichtig für flexibles Layout */
 }
 
 /* 4x4 GRID FÜR 16 KATEGORIEN */
@@ -100,19 +100,10 @@ body::before {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    margin-bottom: 30px;
+    margin-bottom: 30px; /* Mehr Abstand zum Button */
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
-    flex: 1; /* Flexibler Bereich */
-    min-height: 0; /* Wichtig für Scrollbarkeit */
-    overflow-y: auto; /* Scrollen bei Bedarf */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.category-grid::-webkit-scrollbar {
-    display: none;
 }
 
 /* Kategorie-Karten */
@@ -222,7 +213,6 @@ body::before {
     position: relative;
     z-index: 10;
     opacity: 1 !important;
-    flex-shrink: 0; /* Verhindert Schrumpfen */
 }
 
 .start-button:hover {
@@ -452,11 +442,17 @@ body::before {
 
 @media (max-width: 1024px) {
     .container {
+        min-height: calc(100vh - 100px);
         padding-bottom: 20px;
     }
     
     .category-grid {
         margin-bottom: 25px;
+    }
+    
+    .start-button {
+        position: static;
+        opacity: 1 !important;
     }
 }
 
@@ -499,6 +495,14 @@ body::before {
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
         max-height: 60vh;
+        overflow-y: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        padding: 3px;
+    }
+    
+    .category-grid::-webkit-scrollbar {
+        display: none;
     }
     
     .category-card {
@@ -633,31 +637,11 @@ body::before {
     }
 }
 
-/* Höhenbasierte Anpassungen */
-@media (max-height: 800px) {
-    .headline {
-        margin-bottom: 15px;
-        font-size: 1.6rem;
-    }
-    
-    .category-card {
-        height: 90px;
-    }
-    
-    .category-grid {
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .start-button {
-        margin-top: 15px;
-        padding: 10px 25px;
-    }
-}
-
+/* Anpassungen für kleine Höhen */
 @media (max-height: 700px) {
     .page-wrapper {
         padding: 10px 15px;
+        justify-content: flex-start;
     }
     
     .container {
@@ -666,7 +650,7 @@ body::before {
     }
     
     .headline {
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         font-size: 1.4rem;
     }
     
@@ -706,29 +690,5 @@ body::before {
     
     .logout-button i, .info-button i {
         font-size: 1.4rem;
-    }
-}
-
-@media (max-height: 600px) {
-    .headline {
-        font-size: 1.3rem;
-        margin-bottom: 8px;
-    }
-    
-    .category-card {
-        height: 75px;
-    }
-    
-    .category-card i {
-        font-size: 1.3rem;
-    }
-    
-    .category-card span {
-        font-size: 0.7rem;
-    }
-    
-    .start-button {
-        padding: 7px 16px;
-        font-size: 0.85rem;
     }
 }
