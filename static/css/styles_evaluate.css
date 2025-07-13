@@ -10,14 +10,15 @@ body {
         #203a43 50%, 
         #2c5364 100%
     );
-    background-size: 400% 400%;  /* Vergrößert für bessere Abdeckung */
+    background-size: 400% 400%;
     background-attachment: fixed;
     animation: gradientFlow 12s ease infinite;
     color: #f0f4f8;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow-x: hidden;  /* Verhindert horizontales Scrollen */
+    align-items: flex-start; /* Geändert von center zu flex-start */
+    padding-top: 5vh; /* Neuer oberer Abstand */
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -27,7 +28,7 @@ body {
     100% { background-position: 0% 0%; }
 }
 
-/* Sternenhintergrund - Fix für weißen Hintergrund auf Mobilgeräten */
+/* Sternenhintergrund */
 .stars-background {
     position: fixed;
     top: 0;
@@ -36,7 +37,7 @@ body {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background: #0f2027;  /* Fallback-Farbe */
+    background: #0f2027;
 }
 
 .stars, .stars2, .stars3 {
@@ -82,12 +83,12 @@ body {
     100% { opacity: 0.8; }
 }
 
-/* Ergebnis-Container - Fix für eine Seite */
+/* Ergebnis-Container - Höher positioniert */
 .result-container {
     text-align: center;
     padding: 30px 20px;
-    width: 90%;  /* Relative Breite */
-    max-width: 800px;  /* Maximale Breite */
+    width: 90%;
+    max-width: 800px;
     background: rgba(22, 33, 62, 0.92);
     border-radius: 16px;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
@@ -95,9 +96,9 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 10;
     position: relative;
-    margin: 20px auto;  /* Zentriert den Container */
+    margin: 5vh auto 20px; /* Oben 5vh für höhere Platzierung */
     box-sizing: border-box;
-    overflow: hidden;  /* Verhindert Überlauf */
+    overflow: hidden;
 }
 
 /* Überschrift */
@@ -215,9 +216,14 @@ body {
 
 /* Responsive Anpassungen */
 @media (max-width: 768px) {
+    body {
+        padding-top: 4vh; /* Weniger Abstand auf Tablets */
+    }
+    
     .result-container {
         padding: 25px 15px;
         width: 85%;
+        margin: 4vh auto 20px;
     }
     
     .result-container h1 {
@@ -256,13 +262,14 @@ body {
 
 @media (max-width: 480px) {
     body {
-        background-size: 500% 500%;  /* Größere Abdeckung für kleine Geräte */
+        background-size: 500% 500%;
+        padding-top: 3vh; /* Weniger Abstand auf Handys */
     }
     
     .result-container {
         padding: 20px 12px;
         width: 90%;
-        margin: 15px auto;
+        margin: 3vh auto 15px; /* Angepasster oberer Abstand */
         border-radius: 14px;
     }
     
@@ -308,9 +315,14 @@ body {
 }
 
 @media (max-width: 360px) {
+    body {
+        padding-top: 2vh; /* Minimaler Abstand auf sehr kleinen Geräten */
+    }
+    
     .result-container {
         padding: 18px 10px;
         width: 92%;
+        margin: 2vh auto 10px;
     }
     
     .result-container h1 {
