@@ -38,6 +38,7 @@ html, body {
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
     flex-shrink: 0;
     pointer-events: auto;
+    position: relative;
 }
 
 .timer-circle {
@@ -73,6 +74,9 @@ html, body {
     text-shadow: 
         0 0 8px rgba(0, 0, 0, 0.7),
         0 0 15px rgba(0, 0, 0, 0.4);
+    line-height: 1;
+    width: 100%;
+    text-align: center;
 }
 
 .score-display {
@@ -367,6 +371,7 @@ html, body {
     
     .timer-text {
         font-size: 1.1rem;
+        line-height: 1;
         top: 50.5%;
         left: 50.5%;
     }
@@ -433,6 +438,7 @@ html, body {
     
     .timer-text {
         font-size: 1rem;
+        line-height: 1;
     }
     
     .score-display {
@@ -462,6 +468,15 @@ html, body {
         font-size: 0.95rem;
         min-height: 38px;
     }
+    
+    /* Zentrierungsfix für Timer-Zahlen */
+    .timer-text {
+        top: 50.5%;
+        left: 50.5%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+    }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
@@ -479,15 +494,31 @@ html, body {
     
     .options-grid {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 6px;
     }
     
     .option {
-        min-height: 36px;
-        padding: 6px 3px;
+        min-height: 35px;
+        padding: 5px 3px;
     }
     
-    .progress-bar-container {
-        margin-top: 15px;
+    /* Zentrierungsfix für Timer im Landscape */
+    .timer-text {
+        top: 50.5%;
+        left: 50.5%;
     }
+}
+
+/* Tablet-spezifische Fixes */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .timer-text {
+        top: 50.5%;
+        left: 50.5%;
+    }
+}
+
+/* Globale Zentrierungskorrektur für Timer */
+.timer-text {
+    transform: translate(-50%, -50%);
+    line-height: 1;
 }
