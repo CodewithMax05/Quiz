@@ -67,13 +67,13 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 0; /* Mehr Platz oben für Button */
+    padding: 60px 15px 0;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative; /* Wichtig für absolute Positionierung */
+    position: relative;
 }
 
 .headline {
@@ -96,15 +96,15 @@ body::before {
 /* 4x4 GRID FÜR 16 KATEGORIEN */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Immer 4 Spalten */
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-bottom: 20px;
     width: 100%;
 }
 
-/* Kategorie-Karten - REDUZIERTE HÖHE */
+/* Kategorie-Karten */
 .category-card {
-    background-color: rgba(255, 255, 255, 0.1); 
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
@@ -113,7 +113,6 @@ body::before {
     height: 100px;
     position: relative;
     overflow: hidden;
-    /* ANPASSUNG: Dünne leuchtende Border immer sichtbar */
     border: 1px solid rgba(0, 180, 255, 0.3);
 }
 
@@ -121,7 +120,6 @@ body::before {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.15);
-    /* ANPASSUNG: Intensivere Border bei Hover */
     border-color: rgba(0, 180, 255, 0.7);
 }
 
@@ -130,7 +128,7 @@ body::before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 12px 10px; /* Kompakteres Padding */
+    padding: 12px 10px;
     flex-grow: 1;
     width: 100%;
     z-index: 2;
@@ -140,7 +138,6 @@ body::before {
     display: none;
 }
 
-/* Änderung: Blaue statt lila Icons bei Auswahl */
 .category-card input[type="checkbox"]:checked + .card-content {
     color: #4299e1;
     transform: scale(1.05);
@@ -152,7 +149,6 @@ body::before {
     filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.4));
 }
 
-/* ANPASSUNG: Fließender Effekt nur beim Hover */
 .category-card::before {
     content: '';
     position: absolute;
@@ -170,24 +166,24 @@ body::before {
     );
     background-size: 300% 300%;
     z-index: 1;
-    opacity: 0; /* Standardmäßig unsichtbar */
+    opacity: 0;
     animation: border-flow 4s linear infinite;
 }
 
 .category-card:hover::before {
-    opacity: 0.7; /* Sichtbar beim Hover */
+    opacity: 0.7;
 }
 
 .category-card span {
-    margin-top: 6px; /* Reduzierter Abstand */
+    margin-top: 6px;
     font-weight: 600;
-    font-size: 0.85rem; /* Kleinere Schrift */
+    font-size: 0.85rem;
     text-align: center;
     color: white;
 }
 
 .category-card i {
-    font-size: 1.7rem; /* Kleinere Icons */
+    font-size: 1.7rem;
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
 }
@@ -208,7 +204,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px; /* Mehr Abstand zum Grid */
+    margin-top: 20px;
     animation: pulse-purple 2s infinite;
 }
 
@@ -222,7 +218,7 @@ body::before {
     font-size: 1.3rem;
 }
 
-/* NEUE POSITION FÜR LOGOUT-BUTTON */
+/* Logout-Button */
 .logout-button {
     display: flex;
     align-items: center;
@@ -237,10 +233,10 @@ body::before {
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
     animation: pulse-red 2s infinite;
-    position: absolute; /* Absolute Positionierung */
-    top: 15px; /* Abstand vom oberen Rand des Containers */
-    right: 30px; /* Abstand vom rechten Rand des Containers */
-    z-index: 20; /* Über dem Inhalt */
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    z-index: 20;
 }
 
 .logout-button i {
@@ -254,7 +250,6 @@ body::before {
     box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
 }
 
-/* Tooltip für bessere Usability */
 .logout-button::after {
     content: "Logout";
     position: absolute;
@@ -276,27 +271,84 @@ body::before {
     opacity: 1;
 }
 
-/* FEHLERMELDUNG - AN DER OBERSTEN POSITION MIT KORREKTUREN */
-.error-message {
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+/* INFO-BUTTON (als <a>-Tag) */
+.info-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4299e1, #3182ce);
     color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(66, 153, 225, 0.4);
+    position: absolute;
+    top: 15px;
+    left: 30px;
+    z-index: 20;
+    animation: pulse-blue 2s infinite;
+}
+
+.info-button i {
+    font-size: 1.8rem;
+}
+
+.info-button:hover {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
+}
+
+.info-button::after {
+    content: "Hilfe";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.info-button:hover::after {
+    opacity: 1;
+}
+
+/* NACHRICHTEN-STILE */
+.error-message, .info-message {
     padding: 14px 18px;
     border-radius: 10px;
     text-align: center;
     animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
-    position: fixed; /* Fixed Positionierung */
-    top: 20px; /* Höher positioniert (vorher 30px) */
+    position: fixed;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 85%;
     max-width: 320px;
-    z-index: 100; /* Höher als alles andere */
+    z-index: 100;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow: hidden; /* Verhindert, dass der Ladebalken übersteht */
+    overflow: hidden;
 }
 
-.error-message::after {
+.error-message {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+.info-message {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+}
+
+.error-message::after, .info-message::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -304,12 +356,13 @@ body::before {
     height: 5px;
     background: rgba(255, 255, 255, 0.4);
     animation: progressBar 5s linear forwards;
-    width: 100%; /* Volle Breite */
-    border-radius: 0 0 10px 10px; /* Abgerundete Ecken unten */
+    width: 100%;
+    border-radius: 0 0 10px 10px;
 }
 
+/* ANIMATIONEN */
 @keyframes fadeIn {
-    from { opacity: 0; top: 0; } 
+    from { opacity: 0; top: 0; }
     to { opacity: 1; top: 20px; }
 }
 
@@ -335,73 +388,43 @@ body::before {
     100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
 }
 
+@keyframes pulse-blue {
+    0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(66, 153, 225, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
+}
+
 @keyframes twinkle {
     0% { opacity: 0.3; }
     100% { opacity: 1; }
 }
 
-/* Responsive Anpassungen für Laptops */
+/* Responsive Anpassungen */
 @media (max-width: 1200px) {
     .headline {
         font-size: 1.6rem;
-        margin-bottom: 15px;
     }
     
-    .category-grid {
-        grid-template-columns: repeat(4, 1fr); /* Behalte 4 Spalten */
-        gap: 10px;
-    }
-    
-    .category-card {
-        height: 95px;
-        border-radius: 10px;
-    }
-    
-    .category-card span {
-        font-size: 0.8rem;
-    }
-    
-    .category-card i {
-        font-size: 1.6rem;
-    }
-    
-    .start-button {
-        padding: 10px 25px;
-        font-size: 1rem;
-    }
-    
-    /* Laptop-Anpassungen für Logout-Button */
-    .logout-button {
+    .logout-button, .info-button {
         width: 50px;
         height: 50px;
         top: 12px;
+    }
+    
+    .logout-button {
         right: 25px;
     }
     
-    .logout-button i {
+    .info-button {
+        left: 25px;
+    }
+    
+    .logout-button i, .info-button i {
         font-size: 1.7rem;
     }
     
-    /* Fehlermeldung für Laptops */
-    .error-message {
-        top: 15px; /* Höher positioniert (vorher 25px) */
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; top: 0; }
-        to { opacity: 1; top: 15px; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; top: 15px; }
-        to { opacity: 0; top: 0; visibility: hidden; }
-    }
-}
-
-/* Tablet-Anpassungen */
-@media (max-width: 900px) {
-    .category-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 Spalten auf kleineren Tablets */
+    .error-message, .info-message {
+        top: 15px;
     }
 }
 
@@ -412,75 +435,28 @@ body::before {
     
     .headline {
         font-size: 1.5rem;
-        margin-bottom: 15px;
     }
     
-    .category-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 Spalten auf Tablets */
-        gap: 10px;
-    }
-    
-    .category-card {
-        height: 90px;
-    }
-    
-    .category-card span {
-        font-size: 0.78rem;
-        margin-top: 4px;
-    }
-    
-    .category-card i {
-        font-size: 1.5rem;
-    }
-    
-    .start-button {
-        padding: 10px 20px;
-        font-size: 0.95rem;
-        margin-top: 20px;
-    }
-    
-    .start-button i {
-        font-size: 1.1rem;
-    }
-    
-    /* Tablet-Anpassungen für Logout-Button */
-    .logout-button {
+    .logout-button, .info-button {
         width: 46px;
         height: 46px;
         top: 10px;
+    }
+    
+    .logout-button {
         right: 15px;
     }
     
-    .logout-button i {
+    .info-button {
+        left: 20px;
+    }
+    
+    .logout-button i, .info-button i {
         font-size: 1.5rem;
     }
     
-    .logout-button::after {
-        font-size: 0.85rem;
-        bottom: -35px;
-    }
-    
-    /* Fehlermeldung für Tablets */
-    .error-message {
-        top: 10px; /* Höher positioniert (vorher 20px) */
-        width: 85%;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; top: 0; }
-        to { opacity: 1; top: 10px; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; top: 10px; }
-        to { opacity: 0; top: 0; visibility: hidden; }
-    }
-}
-
-/* Mobile Anpassungen */
-@media (max-width: 600px) {
-    .category-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 Spalten auf kleineren Mobilgeräten */
+    .error-message, .info-message {
+        top: 10px;
     }
 }
 
@@ -491,136 +467,29 @@ body::before {
     
     .headline {
         font-size: 1.3rem;
-        margin-bottom: 10px;
     }
     
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 Spalten auf Mobilgeräten */
-        gap: 8px;
-    }
-    
-    .category-card {
-        height: 85px;
-    }
-    
-    .category-card span {
-        font-size: 0.72rem;
-    }
-    
-    .category-card i {
-        font-size: 1.4rem;
-    }
-    
-    .card-content {
-        padding: 10px 8px;
-    }
-    
-    .start-button {
-        padding: 8px 18px;
-        font-size: 0.9rem;
-        gap: 8px;
-    }
-    
-    .start-button i {
-        font-size: 1.1rem;
-    }
-    
-    /* Mobile-Anpassungen für Logout-Button */
-    .logout-button {
+    .logout-button, .info-button {
         width: 44px;
         height: 44px;
         top: 8px;
+    }
+    
+    .logout-button {
         right: 10px;
     }
     
-    .logout-button i {
+    .info-button {
+        left: 15px;
+    }
+    
+    .logout-button i, .info-button i {
         font-size: 1.4rem;
     }
     
-    .logout-button::after {
-        font-size: 0.8rem;
-        bottom: -32px;
-    }
-    
-    /* Fehlermeldung für Mobilgeräte */
-    .error-message {
-        top: 5px; /* Höher positioniert (vorher 15px) */
-        width: 80%;
+    .error-message, .info-message {
+        top: 5px;
         padding: 10px 12px;
         font-size: 0.9rem;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; top: 0; }
-        to { opacity: 1; top: 5px; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; top: 5px; }
-        to { opacity: 0; top: 0; visibility: hidden; }
-    }
-}
-
-/* Sehr kleine Mobilgeräte */
-@media (max-width: 380px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr); /* Behalte 2 Spalten */
-    }
-}
-
-/* Anpassungen für kleine Höhen */
-@media (max-height: 700px) {
-    .page-wrapper {
-        padding: 10px 20px;
-        justify-content: flex-start;
-    }
-    
-    .container {
-        padding-top: 40px;
-    }
-    
-    .headline {
-        margin-bottom: 10px;
-        font-size: 1.5rem;
-    }
-    
-    .category-grid {
-        margin-bottom: 10px;
-        gap: 10px;
-    }
-    
-    .category-card {
-        height: 90px;
-    }
-    
-    .category-card span {
-        font-size: 0.78rem;
-    }
-    
-    .category-card i {
-        font-size: 1.5rem;
-    }
-    
-    .start-button {
-        margin-top: 15px;
-        padding: 8px 20px;
-        font-size: 0.95rem;
-    }
-    
-    /* Kleine Höhen für Fehlermeldung */
-    .error-message {
-        top: 10px; /* Höher positioniert */
-    }
-    
-    /* Kleine Höhen-Anpassungen für Logout-Button */
-    .logout-button {
-        width: 46px;
-        height: 46px;
-        top: 8px;
-        right: 15px;
-    }
-    
-    .logout-button i {
-        font-size: 1.5rem;
     }
 }

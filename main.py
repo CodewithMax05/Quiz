@@ -203,6 +203,10 @@ def register():
 @app.route('/homepage')
 def homepage():
     if 'username' in session:
+        # Zeige Info-Nachricht nur beim ersten Aufruf
+        if not session.get('info_shown'):
+            flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
+            session['info_shown'] = True
         user = User.query.filter_by(username=session['username']).first()
         return render_template(
             'homepage.html',
@@ -366,6 +370,14 @@ def cancel_quiz():
     if 'quiz_data' in session:
         session.pop('quiz_data', None)
     return '', 204
+
+@app.route('/show_info')
+def show_info():
+    if 'username' not in session:
+        return redirect(url_for('index'))
+    
+    flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
+    return redirect(url_for('homepage'))
 
 @app.route('/db_stats')
 def db_stats():
