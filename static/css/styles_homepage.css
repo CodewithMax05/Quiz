@@ -12,14 +12,14 @@ html, body {
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; /* Verhindert Scrollbalken auf Body */
 }
 
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; /* Verhindert Scrollbalken auf Body */
     position: relative;
 }
 
@@ -56,7 +56,7 @@ body::before {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: hidden; /* Verhindert Scrollbalken auf page-wrapper */
 }
 
 /* Header-Bar ausblenden */
@@ -74,7 +74,7 @@ body::before {
     align-items: center;
     justify-content: center;
     position: relative;
-    /* Angepasst: Mindesthöhe des Containers für bessere Platzierung */
+    /* Angepasst: Mindesthöhe des Containers für bessere Platzierung, um Überlappungen zu vermeiden */
     min-height: calc(100vh - 80px); /* Reduziert von 120px auf 80px */
 }
 
@@ -103,7 +103,7 @@ body::before {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    /* Angepasst: Mehr Abstand zum Button */
+    /* Angepasst: Mehr Abstand zum Button, um Überlappung zu vermeiden */
     margin-bottom: 40px; /* Erhöht von 30px auf 40px */
     width: 100%;
     padding: 5px;
@@ -111,6 +111,13 @@ body::before {
     flex-grow: 1; /* Ermöglicht dem Raster, den verfügbaren Platz einzunehmen */
     align-items: center; /* Zentriert die Elemente vertikal im Raster */
     justify-content: center; /* Zentriert die Elemente horizontal im Raster */
+    overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu lang ist */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.category-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
 }
 
 /* Kategorie-Karten */
@@ -215,7 +222,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    /* Angepasst: Mehr Abstand zum Button */
+    /* Angepasst: Mehr Abstand zum Button, um Überlappung zu vermeiden */
     margin-top: 30px; /* Erhöht von 20px auf 30px */
     animation: pulse-purple 2s infinite;
     position: relative; /* Beibehalten, falls für andere Effekte benötigt */
@@ -461,7 +468,7 @@ body::before {
     }
     
     .start-button {
-        position: static;
+        position: static; /* Stellt sicher, dass der Button im normalen Fluss bleibt */
         opacity: 1 !important;
     }
 }
