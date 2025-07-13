@@ -72,7 +72,7 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Geändert von center auf flex-start */
     position: relative;
     min-height: calc(100vh - 120px); /* Mindesthöhe für bessere Platzierung */
 }
@@ -93,6 +93,8 @@ body::before {
     flex-direction: column;
     align-items: center;
     position: relative;
+    flex: 1; /* Flex-Eigenschaft hinzugefügt */
+    min-height: 0; /* Wichtig für scrollbare Elemente */
 }
 
 /* 4x4 GRID FÜR 16 KATEGORIEN */
@@ -104,6 +106,8 @@ body::before {
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
+    flex: 1; /* Flex-Eigenschaft hinzugefügt */
+    min-height: 0; /* Wichtig für scrollbare Elemente */
 }
 
 /* Kategorie-Karten */
@@ -208,11 +212,13 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: auto; /* Geändert für bessere Positionierung */
+    margin-bottom: 20px; /* Abstand nach unten hinzugefügt */
     animation: pulse-purple 2s infinite;
     position: relative;
     z-index: 10;
     opacity: 1 !important;
+    flex-shrink: 0; /* Verhindert Schrumpfen */
 }
 
 .start-button:hover {
@@ -466,6 +472,7 @@ body::before {
     .container {
         padding-top: 50px;
         padding-bottom: 15px;
+        justify-content: flex-start; /* Geändert für bessere Platzierung */
     }
     
     .headline {
@@ -499,6 +506,7 @@ body::before {
         -ms-overflow-style: none;
         scrollbar-width: none;
         padding: 3px;
+        flex: 1; /* Flex-Eigenschaft hinzugefügt */
     }
     
     .category-grid::-webkit-scrollbar {
@@ -647,6 +655,7 @@ body::before {
     .container {
         padding-top: 40px;
         padding-bottom: 10px;
+        min-height: auto; /* Höhenbeschränkung entfernt */
     }
     
     .headline {
@@ -655,9 +664,10 @@ body::before {
     }
     
     .category-grid {
-        margin-bottom: 10px;
+        margin-bottom: 25px; /* Erhöhter Abstand zum Button */
         gap: 8px;
         max-height: 50vh;
+        overflow-y: auto; /* Scrollbarkeit hinzugefügt */
     }
     
     .category-card {
@@ -673,7 +683,8 @@ body::before {
     }
     
     .start-button {
-        margin-top: 10px;
+        margin-top: auto; /* Automatischer Abstand */
+        margin-bottom: 20px; /* Zusätzlicher Abstand */
         padding: 8px 18px;
         font-size: 0.9rem;
     }
