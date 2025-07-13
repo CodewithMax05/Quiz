@@ -12,14 +12,14 @@ html, body {
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Verhindert Scrollbalken auf Body */
+    overflow: hidden;
 }
 
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Verhindert Scrollbalken auf Body */
+    overflow: hidden;
     position: relative;
 }
 
@@ -56,7 +56,7 @@ body::before {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* Verhindert Scrollbalken auf page-wrapper */
+    overflow: hidden;
 }
 
 /* Header-Bar ausblenden */
@@ -67,15 +67,14 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 30px; 
+    padding: 60px 15px 30px; /* Mehr Platz unten für den Button */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    /* Angepasst: Mindesthöhe des Containers für bessere Platzierung, um Überlappungen zu vermeiden */
-    min-height: calc(100vh - 80px); /* Reduziert von 120px auf 80px */
+    min-height: calc(100vh - 120px); /* Mindesthöhe für bessere Platzierung */
 }
 
 .headline {
@@ -94,8 +93,6 @@ body::before {
     flex-direction: column;
     align-items: center;
     position: relative;
-    flex-grow: 1; /* Ermöglicht dem Formular, den verfügbaren Platz einzunehmen */
-    justify-content: center; /* Zentriert den Inhalt vertikal im Formular */
 }
 
 /* 4x4 GRID FÜR 16 KATEGORIEN */
@@ -103,21 +100,10 @@ body::before {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    /* Angepasst: Mehr Abstand zum Button, um Überlappung zu vermeiden */
-    margin-bottom: 40px; /* Erhöht von 30px auf 40px */
+    margin-bottom: 30px; /* Mehr Abstand zum Button */
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
-    flex-grow: 1; /* Ermöglicht dem Raster, den verfügbaren Platz einzunehmen */
-    align-items: center; /* Zentriert die Elemente vertikal im Raster */
-    justify-content: center; /* Zentriert die Elemente horizontal im Raster */
-    overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu lang ist */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-.category-grid::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
 }
 
 /* Kategorie-Karten */
@@ -222,10 +208,9 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    /* Angepasst: Mehr Abstand zum Button, um Überlappung zu vermeiden */
-    margin-top: 30px; /* Erhöht von 20px auf 30px */
+    margin-top: 20px;
     animation: pulse-purple 2s infinite;
-    position: relative; /* Beibehalten, falls für andere Effekte benötigt */
+    position: relative;
     z-index: 10;
     opacity: 1 !important;
 }
@@ -457,18 +442,16 @@ body::before {
 
 @media (max-width: 1024px) {
     .container {
-        /* Angepasst: Mindesthöhe des Containers für kleinere Bildschirme */
-        min-height: calc(100vh - 60px); /* Reduziert von 100px auf 60px */
+        min-height: calc(100vh - 100px);
         padding-bottom: 20px;
     }
     
     .category-grid {
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-bottom: 35px; /* Erhöht von 25px auf 35px */
+        margin-bottom: 25px;
     }
     
     .start-button {
-        position: static; /* Stellt sicher, dass der Button im normalen Fluss bleibt */
+        position: static;
         opacity: 1 !important;
     }
 }
@@ -487,8 +470,7 @@ body::before {
     
     .headline {
         font-size: 1.5rem;
-        /* Angepasst: Abstand der Überschrift zu den Buttons für Mobilgeräte */
-        margin-bottom: 20px; /* Erhöht von 15px auf 20px */
+        margin-bottom: 15px;
     }
     
     .logout-button, .info-button {
@@ -517,8 +499,6 @@ body::before {
         -ms-overflow-style: none;
         scrollbar-width: none;
         padding: 3px;
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-bottom: 25px; /* Erhöht von 15px auf 25px */
     }
     
     .category-grid::-webkit-scrollbar {
@@ -540,8 +520,7 @@ body::before {
     .start-button {
         padding: 10px 20px;
         font-size: 0.95rem;
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-top: 20px; /* Erhöht von 15px auf 20px */
+        margin-top: 15px;
     }
     
     .error-message, .info-message {
@@ -568,16 +547,14 @@ body::before {
     
     .headline {
         font-size: 1.3rem;
-        /* Angepasst: Abstand der Überschrift zu den Buttons für Mobilgeräte */
-        margin-bottom: 15px; /* Erhöht von 10px auf 15px */
+        margin-bottom: 10px;
     }
     
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
         max-height: 55vh;
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-bottom: 20px; /* Erhöht von 15px auf 20px */
+        margin-bottom: 15px;
     }
     
     .category-card {
@@ -600,8 +577,6 @@ body::before {
         padding: 10px 18px;
         font-size: 0.9rem;
         gap: 8px;
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-top: 15px; /* Beibehalten oder leicht erhöht, falls nötig */
     }
     
     .start-button i {
@@ -672,19 +647,15 @@ body::before {
     .container {
         padding-top: 40px;
         padding-bottom: 10px;
-        /* Angepasst: Mindesthöhe des Containers für kleine Höhen */
-        min-height: calc(100vh - 40px); /* Reduziert von 80px auf 40px */
     }
     
     .headline {
-        /* Angepasst: Abstand der Überschrift zu den Buttons für kleine Höhen */
-        margin-bottom: 12px; /* Erhöht von 8px auf 12px */
+        margin-bottom: 8px;
         font-size: 1.4rem;
     }
     
     .category-grid {
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-bottom: 15px; /* Erhöht von 10px auf 15px */
+        margin-bottom: 10px;
         gap: 8px;
         max-height: 50vh;
     }
@@ -702,8 +673,7 @@ body::before {
     }
     
     .start-button {
-        /* Angepasst: Mehr Abstand zum Button */
-        margin-top: 15px; /* Erhöht von 10px auf 15px */
+        margin-top: 10px;
         padding: 8px 18px;
         font-size: 0.9rem;
     }
