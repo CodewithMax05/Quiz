@@ -7,35 +7,36 @@ html, body {
     height: 100%;
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, 
-                #0f2027, #1a2e3a, #203a43, #2c5364);
+    background: linear-gradient(135deg, #0f2027, #1a2e3a, #203a43, #2c5364);
     color: #f0f4f8;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: auto;
     position: relative;
 }
 
 /* === HEADER-CONTROLS (Timer, Score, Cancel) === */
 .header-controls {
     position: fixed;
-    top: 20px;
+    top: 10px;
     left: 0;
     right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 15px;
     z-index: 1000;
     pointer-events: none;
+    height: 60px;
 }
 
 .timer-container {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     z-index: 1000;
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
     flex-shrink: 0;
     pointer-events: auto;
     position: relative;
@@ -71,9 +72,7 @@ html, body {
     font-weight: bold;
     color: white;
     font-family: 'Arial Black', sans-serif;
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.7),
-        0 0 15px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 0, 0, 0.4);
     line-height: 1;
     width: 100%;
     text-align: center;
@@ -86,9 +85,7 @@ html, body {
     text-align: center;
     flex-grow: 1;
     font-family: 'Arial Black', sans-serif;
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.7),
-        0 0 15px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 0, 0, 0.4);
     padding: 0 15px;
     transition: all 0.3s ease;
 }
@@ -124,20 +121,24 @@ html, body {
 /* === QUIZ-CONTAINER & FRAGEN === */
 .quiz-container-wide {
     width: 880px;
-    height: 520px;
+    max-width: 95%;
+    height: auto;
+    min-height: 480px;
+    max-height: calc(100vh - 120px);
     text-align: center;
     position: relative;
     z-index: 1;
-    margin-top: 90px;
-    padding: 30px;
+    padding: 25px;
+    margin: 70px auto 30px;
     background-color: rgba(22, 33, 62, 0.92);
-    border-radius: 18px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .question-box {
@@ -147,7 +148,7 @@ html, body {
     margin-bottom: 8px;
     width: 100%;
     box-sizing: border-box;
-    min-height: 140px;
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -206,15 +207,13 @@ html, body {
     background-color: rgba(255, 255, 255, 0.18) !important;
 }
 
-/* === NEON-FARBEN & GLOW-EFFEKT FÜR ANTWORT-STATUS === */
+/* === ANTWORT-STATUS === */
 .option.correct {
     background-color: rgba(0, 255, 120, 0.2) !important;
     box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
     pointer-events: none;
 }
 .option.correct:hover {
-    background-color: rgba(0, 255, 120, 0.2) !important;
-    box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
     transform: none !important;
 }
 
@@ -224,8 +223,6 @@ html, body {
     pointer-events: none;
 }
 .option.wrong:hover {
-    background-color: rgba(255, 60, 60, 0.2) !important;
-    box-shadow: 0 0 12px rgba(255, 60, 60, 0.7);
     transform: none !important;
 }
 
@@ -233,8 +230,8 @@ html, body {
 .progress-bar-container {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
-    padding-bottom: 15px;
+    margin-top: 20px;
+    padding-bottom: 10px;
 }
 
 .progress-bar {
@@ -263,24 +260,15 @@ html, body {
 }
 
 @keyframes scorePulse {
-    0% { 
+    0%, 100% { 
         transform: scale(1);
         color: #fff;
-        text-shadow: 
-            0 0 8px rgba(255, 255, 255, 0.7);
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
     }
     50% { 
         transform: scale(1.15);
         color: #00ff00;
-        text-shadow: 
-            0 0 12px rgba(0, 255, 120, 0.8),
-            0 0 20px rgba(0, 255, 120, 0.5);
-    }
-    100% { 
-        transform: scale(1);
-        color: #fff;
-        text-shadow: 
-            0 0 8px rgba(255, 255, 255, 0.7);
+        text-shadow: 0 0 12px rgba(0, 255, 120, 0.8), 0 0 20px rgba(0, 255, 120, 0.5);
     }
 }
 
@@ -288,237 +276,123 @@ html, body {
 @media (max-width: 920px) {
     .quiz-container-wide {
         width: 92%;
-        height: auto;
-        min-height: 480px;
-        padding: 25px;
+        min-height: 420px;
+        padding: 20px;
+        margin: 65px auto 20px;
+    }
+    .question-box {
+        min-height: 90px;
     }
 }
 
 @media (max-width: 768px) {
-    .options-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        row-gap: 15px;
-        place-items: center;
+    .header-controls {
+        top: 8px;
+        padding: 0 12px;
+        height: 55px;
     }
-    
-    .question-text {
-        font-size: 1.6rem;
-        width: 90%;
-    }
-    
-    .option {
-        width: 90%;
-        padding: 6px 4px;
-        font-size: 1.05rem;
-        min-height: 45px;
-    }
-    
-    .timer-container {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .timer-text {
-        font-size: 1.4rem;
-    }
-    
-    .score-display {
-        font-size: 1.4rem;
-    }
-    
-    .progress-bar {
-        font-size: 1.05rem;
-        padding: 8px 12px;
-    }
-    
     .quiz-container-wide {
-        width: 94%;
-        min-height: 460px;
-        padding: 20px;
+        min-height: 380px;
+        padding: 18px;
+        margin: 60px auto 15px;
     }
-    
+    .timer-container {
+        width: 55px;
+        height: 55px;
+    }
     .question-box {
-        min-height: 120px;
-        padding: 12px;
-        margin-bottom: 5px;
-    }
-    
-    .options-grid {
-        margin-top: 5px;
-    }
-    
-    .progress-bar-container {
-        margin-top: 25px;
+        min-height: 80px;
     }
 }
 
 @media (max-width: 480px) {
-    .header-controls {
-        top: 12px;
-        padding: 0 10px;
+    body {
+        align-items: flex-start;
+        padding-top: 10px;
     }
-    
-    .timer-container {
-        width: 50px;
+    .header-controls {
+        top: 6px;
+        padding: 0 10px;
         height: 50px;
     }
-    
-    .timer-background,
-    .timer-progress {
-        stroke-width: 5;
-    }
-    
-    .timer-text {
-        font-size: 1.1rem;
-        line-height: 1;
-        top: 50.5%;
-        left: 50.5%;
-    }
-    
-    .score-display {
-        font-size: 1.1rem;
-        padding: 0 8px;
-    }
-    
-    .cancel-btn {
-        width: 38px;
-        height: 38px;
-    }
-    
-    .cancel-btn svg {
-        width: 16px;
-        height: 16px;
-    }
-    
     .quiz-container-wide {
         width: 96%;
         padding: 15px;
-        margin-top: 75px;
-        min-height: 440px;
-        border-radius: 16px;
+        margin: 55px auto 10px;
+        min-height: 380px;
+        max-height: calc(100vh - 90px);
     }
-    
+    .timer-container {
+        width: 45px;
+        height: 45px;
+    }
+    .timer-text {
+        font-size: 1.0rem;
+    }
     .question-text {
-        font-size: 1.3rem;
-        width: 94%;
+        font-size: 1.2rem;
+        width: 95%;
     }
-    
     .question-box {
-        min-height: 100px;
-        padding: 10px;
-        margin-bottom: 5px;
-        border-radius: 12px;
+        min-height: 70px;
     }
-    
     .option {
-        width: 96%;
-        padding: 8px 3px;
-        font-size: 1rem;
-        min-height: 40px;
-        border-radius: 10px;
-    }
-    
-    .progress-bar {
-        font-size: 1rem;
-        padding: 6px 10px;
+        min-height: 35px;
+        font-size: 0.95rem;
     }
 }
 
 @media (max-width: 360px) {
     .header-controls {
-        top: 10px;
+        top: 5px;
         padding: 0 8px;
+        height: 45px;
     }
-    
-    .timer-container {
-        width: 44px;
-        height: 44px;
-    }
-    
-    .timer-text {
-        font-size: 1rem;
-        line-height: 1;
-    }
-    
-    .score-display {
-        font-size: 1rem;
-    }
-    
-    .cancel-btn {
-        width: 34px;
-        height: 34px;
-    }
-    
     .quiz-container-wide {
-        margin-top: 70px;
-        min-height: 420px;
+        margin: 50px auto 10px;
+        min-height: 350px;
         padding: 12px;
     }
-    
-    .question-text {
-        font-size: 1.2rem;
+    .timer-container {
+        width: 40px;
+        height: 40px;
     }
-    
-    .question-box {
-        min-height: 90px;
-    }
-    
-    .option {
-        font-size: 0.95rem;
-        min-height: 38px;
-    }
-    
-    /* Zentrierungsfix für Timer-Zahlen */
     .timer-text {
-        top: 50.5%;
-        left: 50.5%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        text-align: center;
+        font-size: 0.9rem;
+    }
+    .question-text {
+        font-size: 1.15rem;
+    }
+    .question-box {
+        min-height: 65px;
+    }
+    .option {
+        font-size: 0.9rem;
+        min-height: 32px;
     }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-    .quiz-container-wide {
-        height: 80vh;
-        min-height: 300px;
-        overflow-y: auto;
-        margin-top: 60px;
+    body {
+        align-items: flex-start;
+        padding-top: 5px;
     }
-    
-    .question-box {
-        min-height: 70px;
+    .header-controls {
+        top: 5px;
+        height: 45px;
+    }
+    .quiz-container-wide {
+        margin: 50px auto 10px;
+        min-height: 250px;
+        max-height: calc(100vh - 70px);
         padding: 10px;
     }
-    
-    .options-grid {
-        grid-template-columns: 1fr;
-        gap: 6px;
+    .question-box {
+        min-height: 50px;
+        padding: 8px;
     }
-    
     .option {
-        min-height: 35px;
-        padding: 5px 3px;
+        min-height: 30px;
+        padding: 4px 2px;
     }
-    
-    /* Zentrierungsfix für Timer im Landscape */
-    .timer-text {
-        top: 50.5%;
-        left: 50.5%;
-    }
-}
-
-/* Tablet-spezifische Fixes */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .timer-text {
-        top: 50.5%;
-        left: 50.5%;
-    }
-}
-
-/* Globale Zentrierungskorrektur für Timer */
-.timer-text {
-    transform: translate(-50%, -50%);
-    line-height: 1;
 }
