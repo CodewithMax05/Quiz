@@ -12,14 +12,12 @@ html, body {
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     position: relative;
 }
 
@@ -51,12 +49,9 @@ body::before {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 /* Header-Bar ausblenden */
@@ -67,14 +62,12 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 30px; /* Mehr Platz unten für den Button */
-    text-align: center;
+    margin: 0 auto;
+    padding: 60px 15px 40px; /* Mehr Platz unten für den Button */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Geändert von center auf flex-start */
+    flex: 1;
     position: relative;
-    min-height: calc(100vh - 120px); /* Mindesthöhe für bessere Platzierung */
 }
 
 .headline {
@@ -93,8 +86,7 @@ body::before {
     flex-direction: column;
     align-items: center;
     position: relative;
-    flex: 1; /* Flex-Eigenschaft hinzugefügt */
-    min-height: 0; /* Wichtig für scrollbare Elemente */
+    flex: 1;
 }
 
 /* 4x4 GRID FÜR 16 KATEGORIEN */
@@ -102,12 +94,10 @@ body::before {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    margin-bottom: 30px; /* Mehr Abstand zum Button */
+    margin-bottom: 30px;
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
-    flex: 1; /* Flex-Eigenschaft hinzugefügt */
-    min-height: 0; /* Wichtig für scrollbare Elemente */
 }
 
 /* Kategorie-Karten */
@@ -212,13 +202,12 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: auto; /* Geändert für bessere Positionierung */
-    margin-bottom: 20px; /* Abstand nach unten hinzugefügt */
+    margin-top: 30px;
+    margin-bottom: 10px;
     animation: pulse-purple 2s infinite;
     position: relative;
     z-index: 10;
     opacity: 1 !important;
-    flex-shrink: 0; /* Verhindert Schrumpfen */
 }
 
 .start-button:hover {
@@ -412,11 +401,6 @@ body::before {
     100% { background-position: 300% 50%; }
 }
 
-@keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
-}
-
 /* Responsive Anpassungen */
 @media (max-width: 1200px) {
     .headline {
@@ -448,17 +432,11 @@ body::before {
 
 @media (max-width: 1024px) {
     .container {
-        min-height: calc(100vh - 100px);
-        padding-bottom: 20px;
+        padding-bottom: 30px;
     }
     
     .category-grid {
         margin-bottom: 25px;
-    }
-    
-    .start-button {
-        position: static;
-        opacity: 1 !important;
     }
 }
 
@@ -471,8 +449,7 @@ body::before {
 @media (max-width: 768px) {
     .container {
         padding-top: 50px;
-        padding-bottom: 15px;
-        justify-content: flex-start; /* Geändert für bessere Platzierung */
+        padding-bottom: 25px;
     }
     
     .headline {
@@ -501,16 +478,6 @@ body::before {
     .category-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
-        max-height: 60vh;
-        overflow-y: auto;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        padding: 3px;
-        flex: 1; /* Flex-Eigenschaft hinzugefügt */
-    }
-    
-    .category-grid::-webkit-scrollbar {
-        display: none;
     }
     
     .category-card {
@@ -528,7 +495,6 @@ body::before {
     .start-button {
         padding: 10px 20px;
         font-size: 0.95rem;
-        margin-top: 15px;
     }
     
     .error-message, .info-message {
@@ -550,7 +516,7 @@ body::before {
     
     .container {
         padding-top: 45px;
-        padding-bottom: 10px;
+        padding-bottom: 20px;
     }
     
     .headline {
@@ -561,8 +527,6 @@ body::before {
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
-        max-height: 55vh;
-        margin-bottom: 15px;
     }
     
     .category-card {
@@ -645,17 +609,37 @@ body::before {
     }
 }
 
+/* Spezielle Anpassungen für mittlere Höhen (nicht-Vollbildmodus) */
+@media (max-height: 800px) and (min-width: 769px) {
+    .container {
+        padding-top: 40px;
+        padding-bottom: 30px;
+    }
+    
+    .category-grid {
+        margin-bottom: 25px;
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .start-button {
+        margin-top: 30px;
+    }
+    
+    .category-card {
+        height: 90px;
+    }
+}
+
 /* Anpassungen für kleine Höhen */
 @media (max-height: 700px) {
     .page-wrapper {
         padding: 10px 15px;
-        justify-content: flex-start;
     }
     
     .container {
         padding-top: 40px;
-        padding-bottom: 10px;
-        min-height: auto; /* Höhenbeschränkung entfernt */
+        padding-bottom: 20px;
     }
     
     .headline {
@@ -664,10 +648,8 @@ body::before {
     }
     
     .category-grid {
-        margin-bottom: 25px; /* Erhöhter Abstand zum Button */
+        margin-bottom: 20px;
         gap: 8px;
-        max-height: 50vh;
-        overflow-y: auto; /* Scrollbarkeit hinzugefügt */
     }
     
     .category-card {
@@ -683,8 +665,7 @@ body::before {
     }
     
     .start-button {
-        margin-top: auto; /* Automatischer Abstand */
-        margin-bottom: 20px; /* Zusätzlicher Abstand */
+        margin-top: 20px;
         padding: 8px 18px;
         font-size: 0.9rem;
     }
