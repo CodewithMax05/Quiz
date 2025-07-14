@@ -60,7 +60,7 @@ html, body {
     stroke-linecap: round;
     transform: rotate(-90deg);
     transform-origin: center;
-    transition: stroke-dashoffset 1s linear;
+    /* Transition entfernt für flüssigere Animation */
 }
 
 .timer-text {
@@ -227,13 +227,6 @@ html, body {
 }
 
 /* Fortschrittsbalken */
-.progress-bar-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    padding-bottom: 10px;
-}
-
 .progress-bar {
     font-size: 1.1rem;
     color: #c5cbd3;
@@ -247,6 +240,7 @@ html, body {
     width: auto;
     text-align: center;
     white-space: nowrap;
+    margin-top: 15px;
 }
 
 /* Animationen */

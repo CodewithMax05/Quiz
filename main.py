@@ -5,6 +5,7 @@ from sqlalchemy import func, or_
 import os
 import random
 import csv
+import time
 from collections import defaultdict
 from flask_session import Session
 
@@ -274,11 +275,27 @@ def show_question():
         return redirect(url_for('homepage'))
     
     quiz_data = session['quiz_data']
+    
+    # Wenn die Frage bereits beantwortet wurde, zur nächsten Frage weiterleiten
+    if quiz_data.get('answered', False):
+        return redirect(url_for('next_question'))
+    
     current_index = quiz_data['current_index']
     question = Question.query.get(quiz_data['questions'][current_index])
     
-    options = [question.true, question.wrong1, question.wrong2, question.wrong3]
-    random.shuffle(options)
+    # Antwortoptionen nur beim ersten Aufruf mischen
+    if 'options_order' not in quiz_data:
+        options = [question.true, question.wrong1, question.wrong2, question.wrong3]
+        random.shuffle(options)
+        quiz_data['options_order'] = options
+        session['quiz_data'] = quiz_data
+    else:
+        options = quiz_data['options_order']
+    
+    # Timer-Status initialisieren oder beibehalten
+    if 'timer_start' not in quiz_data:
+        quiz_data['timer_start'] = int(time.time())
+        session['quiz_data'] = quiz_data
     
     was_correct = session.pop('last_answer_correct', False)
     
@@ -290,7 +307,8 @@ def show_question():
         progress=current_index + 1,
         total_questions=quiz_data['total_questions'],
         score=quiz_data['score'],
-        was_correct=was_correct
+        was_correct=was_correct,
+        timer_start=quiz_data['timer_start']  # Wichtig für den Timer
     )
 
 @app.route('/check_answer', methods=['POST'])
@@ -314,23 +332,37 @@ def check_answer():
     if is_correct:
         new_score += 1
         quiz_data['score'] = new_score
-        session['quiz_data'] = quiz_data  # Wichtig: Session aktualisieren
+    
+    # Markiere Frage als beantwortet
+    quiz_data['answered'] = True
+    session['quiz_data'] = quiz_data
     
     # Aktualisierten Score in der Antwort zurückgeben
     return jsonify({
         'is_correct': is_correct,
         'correct_answer': question.true,
-        'current_score': new_score  # Neues Feld für aktuellen Score
+        'current_score': new_score
     })
 
-@app.route('/next_question', methods=['POST'])
+@app.route('/next_question', methods=['GET', 'POST'])
 def next_question():
     if 'quiz_data' not in session or 'username' not in session:
         return redirect(url_for('homepage'))
     
     quiz_data = session['quiz_data']
-    # Antwort wird nicht mehr hier geprüft (wurde bereits in check_answer gemacht)
+    
+    # Entferne "answered" Flag
+    if 'answered' in quiz_data:
+        del quiz_data['answered']
+    
     quiz_data['current_index'] += 1
+    
+    # Timer und Optionen für die nächste Frage zurücksetzen
+    if 'timer_start' in quiz_data:
+        del quiz_data['timer_start']
+    if 'options_order' in quiz_data:
+        del quiz_data['options_order']
+    
     session['quiz_data'] = quiz_data
     
     if quiz_data['current_index'] < quiz_data['total_questions']:

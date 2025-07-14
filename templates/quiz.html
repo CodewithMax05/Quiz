@@ -29,7 +29,9 @@
         </button>
     </div>
 
-    <div class="quiz-container-wide" data-was-correct="{{ 'true' if was_correct else 'false' }}">
+    <div class="quiz-container-wide" 
+         data-was-correct="{{ 'true' if was_correct else 'false' }}"
+         data-timer-start="{{ timer_start }}">
         <div class="question-box">
             <div class="question-text">
                 {{ question.question }}
@@ -60,9 +62,23 @@
         const timerText = document.querySelector('.timer-text');
         const timerProgress = document.querySelector('.timer-progress');
         const timerContainer = document.querySelector('.timer-container');
+        const quizContainer = document.querySelector('.quiz-container-wide');
 
         document.addEventListener('DOMContentLoaded', () => {
-            startTimer();
+            // Timer-Status aus dem Daten-Attribut lesen
+            const timerStart = parseInt(quizContainer.dataset.timerStart);
+            if (timerStart) {
+                const now = Math.floor(Date.now() / 1000);
+                const elapsed = now - timerStart;
+                timeLeft = Math.max(0, 30 - elapsed);
+            }
+            
+            // Wenn Zeit abgelaufen ist, sofort Antwort verarbeiten
+            if (timeLeft <= 0) {
+                handleAnswerEnd();
+            } else {
+                startTimer();
+            }
         });
 
         function startTimer() {
@@ -127,7 +143,7 @@
                 handleAnswerEnd(selectedAnswer, { 
                     is_correct: false, 
                     correct_answer: '',
-                    current_score: parseInt("{{ session['quiz_data']['score'] if 'quiz_data' in session else 0 }}")
+                    current_score: parseInt(scoreDisplay.textContent.replace('Score: ', ''))
                 });
             });
         }
@@ -135,6 +151,9 @@
         function handleAnswerEnd(selected = '', serverResponse = null) {
             clearInterval(timerInterval);
             timerContainer.style.animation = 'none';
+
+            // Für alle Fälle 1 Sekunde warten
+            const redirectDelay = 1000;
 
             // Wenn die Zeit abgelaufen ist (selected ist leer) und keine ServerResponse
             if (selected === '' && serverResponse === null) {
@@ -149,10 +168,10 @@
                 .then(response => response.json())
                 .then(data => {
                     highlightAnswers('', data);
-                    setTimeout(() => document.getElementById('next-form').submit(), 1000);
+                    setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
                 })
                 .catch(() => {
-                    setTimeout(() => document.getElementById('next-form').submit(), 1000);
+                    setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
                 });
                 return;
             }
@@ -163,7 +182,7 @@
             }
 
             // Nach 1 Sekunde automatisch weiter
-            setTimeout(() => document.getElementById('next-form').submit(), 1000);
+            setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
         }
 
         function highlightAnswers(selected, serverResponse) {
