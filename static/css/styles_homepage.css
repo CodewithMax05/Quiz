@@ -67,14 +67,14 @@ body::before {
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 30px; /* Mehr Platz unten für den Button */
+    padding: 60px 15px 30px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    min-height: calc(100vh - 120px); /* Mindesthöhe für bessere Platzierung */
+    min-height: calc(100vh - 120px);
 }
 
 .headline {
@@ -100,7 +100,7 @@ body::before {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    margin-bottom: 30px; /* Mehr Abstand zum Button */
+    margin-bottom: 30px;
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
@@ -278,7 +278,7 @@ body::before {
     opacity: 1;
 }
 
-/* INFO-BUTTON (als <a>-Tag) */
+/* INFO-BUTTON (Button-Element) */
 .info-button {
     display: flex;
     align-items: center;
@@ -288,7 +288,6 @@ body::before {
     border-radius: 50%;
     background: linear-gradient(135deg, #4299e1, #3182ce);
     color: white;
-    text-decoration: none;
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(66, 153, 225, 0.4);
     position: absolute;
@@ -296,6 +295,11 @@ body::before {
     left: 30px;
     z-index: 20;
     animation: pulse-blue 2s infinite;
+    /* Fix für den unerwünschten Rand und Farbwechsel */
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .info-button i {
@@ -306,6 +310,12 @@ body::before {
     background: linear-gradient(135deg, #3182ce, #2b6cb0);
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
+}
+
+/* Entferne den :active-Effekt des Browsers */
+.info-button:active {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0) !important;
+    transform: scale(1.1) !important;
 }
 
 .info-button::after {
@@ -404,11 +414,6 @@ body::before {
 @keyframes border-flow {
     0% { background-position: 0% 50%; }
     100% { background-position: 300% 50%; }
-}
-
-@keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
 }
 
 /* Responsive Anpassungen */

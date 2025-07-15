@@ -23,9 +23,9 @@
             <i class="fas fa-sign-out-alt"></i>
         </a>
 
-        <a href="{{ url_for('show_info') }}" class="info-button" aria-label="Information">
+        <button class="info-button" id="info-button" aria-label="Information">
             <i class="fas fa-question-circle"></i>
-        </a>
+        </button>
         
         <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
         
@@ -182,4 +182,41 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const infoButton = document.getElementById('info-button');
+    
+    infoButton.addEventListener('click', function() {
+        createFlashMessage('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info');
+    });
+
+    function createFlashMessage(text, type) {
+        // Lösche alle vorhandenen benutzerdefinierten Nachrichten
+        document.querySelectorAll('.custom-message').forEach(el => el.remove());
+
+        // Container für Nachricht erstellen
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'} custom-message`;
+        messageDiv.textContent = text;
+
+        // Fortschrittsbalken hinzufügen
+        const progressBar = document.createElement('div');
+        progressBar.className = 'custom-progress-bar';
+        messageDiv.appendChild(progressBar);
+
+        // Nachricht in den DOM einfügen
+        const pageWrapper = document.querySelector('.page-wrapper');
+        if (pageWrapper) {
+            pageWrapper.insertBefore(messageDiv, pageWrapper.firstChild);
+        }
+
+        // Nachricht nach 5 Sekunden ausblenden
+        setTimeout(() => {
+            messageDiv.style.animation = 'fadeOut 0.5s forwards';
+            setTimeout(() => messageDiv.remove(), 500);
+        }, 5000);
+    }
+});
+</script>
 {% endblock %}

@@ -402,14 +402,6 @@ def cancel_quiz():
         session.pop('quiz_data', None)
     return '', 204
 
-@app.route('/show_info')
-def show_info():
-    if 'username' not in session:
-        return redirect(url_for('index'))
-    
-    flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
-    return redirect(url_for('homepage'))
-
 @app.route('/db_stats')
 def db_stats():
     """Zeigt Datenbankstatistiken an (Gesamtzahl und pro Thema)"""
