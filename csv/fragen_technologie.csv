@@ -143,3 +143,70 @@ Technologie;Welche Programmiersprache wird hauptsächlich für maschinelles Lern
 Technologie;Welches Unternehmen entwickelte das Game Boy-Handheld?;Nintendo;Atari;Sega;Sony
 Technologie;Welcher Webbrowser folgte auf Netscape Navigator?;Internet Explorer;Chrome;Firefox;Opera
 Technologie;In welchem Jahr wurde YouTube gegründet?;2005;2003;2007;2001
+Technologie;Welches ist die schnellste Art von RAM?;SRAM;DRAM;SDRAM;DDR5
+Technologie;Was misst die Einheit "PPI"?;Pixel pro Zoll (Bildschirmschärfe);Prozessorleistung pro Instanz;Programmpunkte pro Input;Physische Port-Integrität
+Technologie;Welche Schnittstelle überträgt 4K-Video und Stromversorgung über ein Kabel?;USB-C mit Thunderbolt 3;HDMI 2.1;DisplayPort 1.4;VGA
+Technologie;Was ist der Hauptvorteil von OLED-Displays?;Echte Schwarztöne (keine Hintergrundbeleuchtung);Geringerer Stromverbrauch als LCD;Höhere maximale Helligkeit;Günstigere Herstellung
+Technologie;Welche Technologie ermöglicht Touchscreens?;Kapazitive Sensorik;Infrarot-Gitter;Ultraschall-Erkennung;Druckempfindliche Schichten
+Technologie;Was ist der Unterschied zwischen HDD und SSD?;SSDs haben keine beweglichen Teile;HDDs sind immer schneller;SSDs benötigen mehr Strom;HDDs sind kleiner
+Technologie;Welches Material wird für moderne CPU-Halbleiter verwendet?;Silizium;Kupfer;Aluminium;Graphen
+Technologie;Was ist der Zweck eines Heatspreaders auf CPUs?;Wärmeableitung;Stromversorgung;Schutz vor Staub;Elektromagnetische Abschirmung
+Technologie;Welche GPU-Hersteller dominieren den Markt?;NVIDIA und AMD;Intel und Samsung;IBM und Qualcomm;Apple und Google
+Technologie;Was ist Raytracing?;Berechnung von Lichtstrahlen für realistische Grafiken;3D-Drucktechnologie;Netzwerk-Routing-Algorithmus;Datenbank-Indizierung
+Technologie;Welche Einheit misst die Helligkeit von Displays?;Nits;Lumens;Watts;Kelvin
+Technologie;Was ist der Vorteil von NVMe-SSDs gegenüber SATA?;Schnellere Datenübertragung durch PCIe;Geringerer Preis;Kompatibilität mit älteren PCs;Höhere Kapazität
+Technologie;Welche Technologie nutzt 5G für höhere Geschwindigkeiten?;Millimeterwellen (mmWave);Faseroptik;Koaxialkabel;Bluetooth LE
+Technologie;Was ist der Unterschied zwischen DDR4 und DDR5 RAM?;Höhere Bandbreite und Effizienz bei DDR5;DDR5 ist nur für Laptops;DDR4 hat niedrigere Latenzen;DDR5 benötigt mehr Strom
+Technologie;Welches ist KEIN Typ von mechanischer Tastatur?;Membranschalter (keine mechanischen Switches);Cherry MX Blue;Gateron Brown;Kailh Red
+Technologie;Was ist der Vorteil von IPS-Panels gegenüber TN?;Bessere Blickwinkelstabilität;Schnellere Reaktionszeiten;Geringerer Stromverbrauch;Höherer Kontrast
+Technologie;Welche Funktion hat ein NAS-Gerät?;Zentraler Netzwerkspeicher;Drahtlose Stromversorgung;3D-Rendering;Virenscanning
+Technologie;Was ist der Unterschied zwischen UHD und 4K?;UHD ist 3840x2160, echter 4K ist 4096x2160;4K ist nur für Kinos;UHD hat höhere Farbtiefe;4K unterstützt kein HDR
+Technologie;Welche Technologie ermöglicht kabelloses Laden?;Qi-Standard (induktives Laden);Bluetooth;NFC;Wi-Fi 6
+Technologie;Was ist der Unterschied zwischen SIM- und eSIM?;eSIM ist fest im Gerät verbaut;SIM-Karten sind schneller;eSIM benötigt mehr Strom;SIM-Karten unterstützen kein 5G
+Technologie;Welche Farbe hat ein USB-3.0-Port typischerweise?;Blau;Schwarz;Rot;Grün
+Technologie;Was ist der Hauptzweck eines VPN?;Verschlüsselter Datenverkehr über öffentliche Netze;Erhöhte Internetgeschwindigkeit;Kostenlose Cloud-Speicher;Automatische Backups
+Technologie;Welche Technologie nutzt kontaktloses Bezahlen?;NFC (Near Field Communication);Bluetooth;RFID;Infrarot
+Technologie;Was ist der Unterschied zwischen HTTP und HTTPS?;HTTPS verschlüsselt Daten;HTTP ist schneller;HTTPS benötigt spezielle Hardware;HTTP unterstützt kein Video
+Technologie;Welche Funktion hat ein DAC (Digital-Analog-Converter)?;Wandelt digitale Audiosignale in analoge um;Komprimiert Musikdateien;Entfernt Hintergrundgeräusche;Erhöht die Lautstärke
+Technologie;Was ist der Unterschied zwischen LCD und LED-Displays?;LEDs dienen als Hintergrundbeleuchtung bei LCDs;LCDs sind eine veraltete Technologie;LEDs können keine Farben anzeigen;LCDs sind immer dünner
+Technologie;Welche Technologie nutzt ein 3D-Drucker für präzise Modelle?;FDM (Fused Deposition Modeling);LCD-Beleuchtung;Magnetische Levitation;Dampfbetrieb
+Technologie;Was ist der Unterschied zwischen ARM- und x86-CPUs?;ARM ist energieeffizienter;x86 ist nur für Smartphones;ARM unterstützt kein Multitasking;x86 hat keine 64-Bit-Architektur
+Technologie;Welche Funktion hat ein Cache in CPUs?;Schneller Zwischenspeicher für häufig genutzte Daten;Externe Festplatte;Netzwerkfilter;Grafikbeschleuniger
+Technologie;Was ist der Unterschied zwischen SATA und M.2 SSDs?;M.2 nutzt PCIe für höhere Geschwindigkeit;SATA ist neuer;M.2 benötigt mehr Strom;SATA unterstützt kein NVMe
+Technologie;Welche Technologie ermöglicht adaptive Bildschirm-Aktualisierungsraten?;FreeSync/G-Sync;HDR10+;OLED;Touch Sampling
+Technologie;Was ist der Unterschied zwischen Java und JavaScript?;JavaScript läuft im Browser, Java als eigenständige App;Java ist nur für Spiele;JavaScript benötigt Compiler;Java ist eine Hardware
+Technologie;Welche Funktion hat ein RAID-System?;Datenredundanz oder Performance-Steigerung;Automatische Backups im Internet;Virenschutz;Netzwerkmanagement
+Technologie;Was ist der Unterschied zwischen TCP und UDP?;TCP garantiert Zustellung, UDP ist schnell aber unzuverlässig;UDP ist nur für Video;TCP verschlüsselt Daten;UDP benötigt mehr Bandbreite
+Technologie;Welche Technologie nutzt ein Smartphone für genaue Standortbestimmung?;GPS + GLONASS + Galileo;Nur WiFi-Positionierung;Bluetooth Beacons;NFC
+Technologie;Was ist der Unterschied zwischen 32-Bit- und 64-Bit-Systemen?;64-Bit kann mehr RAM adressieren;32-Bit ist schneller;64-Bit unterstützt keine Grafikkarten;32-Bit benötigt weniger Strom
+Technologie;Welche Funktion hat ein Sandbox-Modus in Browsern?;Isolierte Ausführung von unsicherem Code;Blockiert Werbung;Komprimiert Webseiten;Erhöht Download-Geschwindigkeit
+Technologie;Was ist der Unterschied zwischen Open-Source und Freeware?;Open-Source ermöglicht Code-Einsicht/-Modifikation;Freeware ist immer teurer;Open-Source hat keine Lizenzen;Freeware unterstützt keine Updates
+Technologie;Welche Technologie nutzt ein E-Ink-Display?;Elektrophorese (elektrisch geladene Pigmente);LCD mit speziellem Filter;OLED mit reduzierter Helligkeit;Projektion
+Technologie;Was ist der Unterschied zwischen RISC und CISC CPUs?;RISC hat einfachere Befehle für Effizienz;CISC ist nur für Smartphones;RISC benötigt mehr Transistoren;CISC unterstützt kein Multitasking
+Technologie;Welche Funktion hat ein Zero-Watt-Monitor?;Abschaltung bei Standby ohne Stromverbrauch;Keine Stromversorgung nötig;Läuft mit Solarenergie;Automatische Helligkeitsanpassung
+Technologie;Was ist der Unterschied zwischen Binär- und Hexadezimalsystem?;Hexadezimal ist kompakter für Menschen lesbar;Binär hat mehr Ziffern;Hexadezimal wird nur in der Chemie verwendet;Binär basiert auf 10 Ziffern
+Technologie;Welche Technologie nutzt ein VR-Headset für Bewegungserkennung?;Gyroskope + Beschleunigungssensoren;Nur Kameras;Wärmesensoren;Mikrofone
+Technologie;Was ist der Unterschied zwischen L1, L2 und L3 Cache?;L1 ist schnellster, kleinster Cache nahe der CPU;L3 ist immer außerhalb der CPU;L2 ist nur für Grafiken;L1 ist langsamer als RAM
+Technologie;Welche Funktion hat ein TPM-Chip?;Hardware-Verschlüsselung für Sicherheit;Übertaktung der CPU;Netzwerkgeschwindigkeitsmessung;Akku-Kalibrierung
+Technologie;Was ist der Unterschied zwischen Mono- und Multicore-CPUs?;Multicore kann mehrere Aufgaben parallel bearbeiten;Mono ist immer schneller;Multicore benötigt weniger Strom;Mono unterstützt keine Apps
+Technologie;Welche Technologie nutzt ein Smartphone für Gesichtserkennung?;Infrarot-Kamera + Punktprojektor;Nur Frontkamera;Fingerabdrucksensor;Spracherkennung
+Technologie;Was ist der Unterschied zwischen Lossless und Lossy Audio?;Lossless behält originale Qualität, Lossy komprimiert mit Qualitätsverlust;Lossy ist immer besser;Lossless unterstützt keine Kopfhörer;Lossy ist unkomprimiert
+Technologie;Welche Funktion hat ein KVM-Switch?;Steuerung mehrerer PCs mit einer Tastatur/Maus;Virtuelle Maschinen erstellen;Netzwerküberwachung;Automatische Backups
+Technologie;Was ist der Unterschied zwischen SAS und SATA Festplatten?;SAS ist für Server (höhere Ausfallsicherheit);SATA ist schneller;SAS unterstützt keine SSDs;SATA hat keine Fehlerkorrektur
+Technologie;Welche Technologie nutzt ein Smartphone für drahtlose Kopfhörer?;Bluetooth Codecs (z.B. aptX);WiFi Direct;NFC;Infrarot
+Technologie;Was ist der Unterschied zwischen NTFS und FAT32?;NTFS unterstützt große Dateien + Berechtigungen;FAT32 ist neuer;NTFS funktioniert nicht unter Windows;FAT32 ist sicherer
+Technologie;Welche Funktion hat ein PoE-Switch?;Stromversorgung über Ethernet-Kabel;Schnellere Internetverbindung;Virenschutz;Automatische IP-Vergabe
+Technologie;Was ist der Unterschied zwischen UDP und QUIC?;QUIC ist moderner mit eingebauter Verschlüsselung;UDP ist nur für Video;QUIC benötigt spezielle Hardware;UDP ist Teil von HTTP/3
+Technologie;Welche Technologie nutzt ein Smartphone für schnelles Laden?;USB Power Delivery (USB-PD);Bluetooth 5.0;NFC;WiFi 6
+Technologie;Was ist der Unterschied zwischen Edge- und Cloud-Computing?;Edge verarbeitet Daten näher an der Quelle;Cloud ist immer schneller;Edge benötigt keine Server;Cloud funktioniert offline
+Technologie;Welche Funktion hat ein Smart Home Hub?;Zentrale Steuerung von IoT-Geräten;Erhöhte WiFi-Geschwindigkeit;Verschlüsselung aller Daten;3D-Druck-Steuerung
+Technologie;Was ist der Unterschied zwischen SIM- und RIM-Karten?;RIM ist ein veralteter Standard für Blackberry;SIM ist nur für Android;RIM unterstützt 5G;SIM benötigt keine Aktivierung
+Technologie;Welche Technologie nutzt ein Smartphone für Barometer-Funktionen?;Luftdrucksensor;GPS;NFC;Gyroskop
+Technologie;Was ist der Unterschied zwischen LPDDR4 und LPDDR5 RAM?;LPDDR5 ist effizienter und schneller;LPDDR4 ist nur für Desktop-PCs;LPDDR5 benötigt mehr Strom;LPDDR4 unterstützt kein Multitasking
+Technologie;Welche Funktion hat ein Smartphone für Always-On-Displays?;Zeigt Infos bei gesperrtem Bildschirm;Deaktiviert Touch-Eingabe;Erhöht Akkulaufzeit;Schaltet WiFi automatisch aus
+Technologie;Was ist der Unterschied zwischen H.264 und H.265 Video-Codecs?;H.265 bietet bessere Komprimierung;H.264 ist neuer;H.265 unterstützt kein 4K;H.264 benötigt weniger Rechenleistung
+Technologie;Welche Technologie nutzt ein Smartphone für Dual-SIM?;DSDS (Dual SIM Dual Standby);Zwei separate Funkmodule;NFC-basierte SIM;Cloud-SIM
+Technologie;Was ist der Unterschied zwischen WPA2 und WPA3 Verschlüsselung?;WPA3 bietet stärkere Sicherheit;WPA2 ist veraltet;WPA3 unterstützt kein WiFi;WPA2 ist schneller
+Technologie;Welche Funktion hat ein Smartphone für eSIM-Unterstützung?;Aktivierung ohne physische SIM-Karte;Schnelleres Internet;Geringerer Stromverbrauch;Automatische Backups
+Technologie;Was ist der Unterschied zwischen LCD und Mini-LED Displays?;Mini-LED verwendet tausende kleinere LEDs für besseres HDR;LCD ist immer heller;Mini-LED ist veraltet;LCD unterstützt keine Farben
+Technologie;Welche Technologie nutzt ein Smartphone für 5G mmWave?;Hochfrequente Wellen für extreme Geschwindigkeit;Nur für ländliche Gebiete;Ersetzt Bluetooth;Benötigt keine Antennen

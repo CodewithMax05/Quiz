@@ -33,7 +33,7 @@ Glauben;Welcher Held kämpfte gegen den Minotaurus?;Theseus;Perseus;Herakles;Jas
 Glauben;Wie heißt der höchste Gott in der nordischen Mythologie?;Odin;Thor;Tyr;Loki
 Glauben;Welche Religion hat das Kreuz als Symbol?;Christentum;Islam;Judentum;Hinduismus
 Glauben;Wer ist die Göttin der Jagd in der griechischen Mythologie?;Artemis;Hera;Athene;Demeter
-Glauben;Wie heißt der erste Tempel in Jerusalem?;Salomonischer Tempel ;Parthenon;Pantheon;Hagia Sophia
+Glauben;Wie heißt der erste Tempel in Jerusalem?;Salomonischer Tempel;Parthenon;Pantheon;Hagia Sophia
 Glauben;Welcher Gott hat Flügelschuhe in der griechischen Mythologie?;Hermes;Apollo;Ares;Dionysos
 Glauben;Wie heißt der Gott der Weisheit in der griechischen Mythologie?;Athene;Zeus;Apollo;Hera
 Glauben;Welche Religion hat den Davidstern als Symbol?;Judentum;Christentum;Islam;Buddhismus
@@ -62,7 +62,7 @@ Glauben;Welcher Engel wurde aus dem Himmel verbannt?;Luzifer;Michael;Gabriel;Rap
 Glauben;Wer ist die Mutter von Persephone in der griechischen Mythologie?;Demeter;Hera;Leto;Metis
 Glauben;Welcher Gott wird mit dem Rad als Symbol dargestellt?;Surya;Vishnu;Ganesha;Krishna
 Glauben;Wie heißt Odins achtbeiniges Pferd?;Sleipnir;Gullinbursti;Jormungandr;Fenrir
-Glauben;"Welcher Prophet wird im Islam als ""Siegel der Propheten"" bezeichnet?";Mohammed;Moses;Abraham;Jesus
+Glauben;Welcher Prophet wird im Islam als "Siegel der Propheten" bezeichnet?;Mohammed;Moses;Abraham;Jesus
 Glauben;Wer ist der keltische Gott des Lichts und der Künste?;Lugh;Cernunnos;Dagda;Morrigan
 Glauben;Welche Göttin verwandelte Arachne in eine Spinne?;Athene;Hera;Artemis;Aphrodite
 Glauben;Wie heißt der ägyptische Gott der Mumifizierung?;Anubis;Osiris;Horus;Thot
@@ -80,7 +80,7 @@ Glauben;Welcher Held tötete den Drachen Ladon?;Herakles;Perseus;Theseus;Jason
 Glauben;Wie heißt die keltische Muttergöttin?;Brigid;Morrigan;Danu;Epona
 Glauben;Welcher Gott wird mit einem Dreizack dargestellt?;Poseidon;Zeus;Hades;Ares
 Glauben;Wer ist der aztekische Gott der Wiedergeburt?;Xipe Totec;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
-Glauben;Wie heißt der indische Affengott?;Hanuman;Ganesha;Krishna;Rama
+Glauben;Wie heißt der indische Affengost?;Hanuman;Ganesha;Krishna;Rama
 Glauben;Welcher Prophet wurde in einer Arche gerettet?;Noah;Abraham;Moses;Lot
 Glauben;Wer ist der ägyptische Gott der Morgensonne?;Khepri;Ra;Atum;Horus
 Glauben;Welcher Held segelte mit den Argonauten?;Jason;Perseus;Theseus;Herakles
@@ -101,11 +101,11 @@ Glauben;Welcher Prophet wurde von einem Wal verschluckt?;Jona;Elija;Jeremia;Hese
 Glauben;Wer ist der babylonische Gott der Weisheit?;Ea;Marduk;Anu;Enlil
 Glauben;Welcher griechische Gott wurde von den Kyklopen mit Blitzen bewaffnet?;Zeus;Hades;Poseidon;Kronos
 Glauben;Wie hieß der Speer Odins in der nordischen Mythologie?;Gungnir;Mjölnir;Gram;Tyrfing
-Glauben;"Welcher ägyptische Gott wurde als ""Herr der Mumienbinden"" bezeichnet?";Osiris;Anubis;Ptah;Sokar
+Glauben;Welcher ägyptische Gott wurde als "Herr der Mumienbinden" bezeichnet?;Osiris;Anubis;Ptah;Sokar
 Glauben;In welchem hinduistischen Text findet man die Lehre von den vier Lebensstadien?;Manusmriti;Mahabharata;Ramayana;Puranas
-Glauben;"Welcher Prophet soll den ""Fliegenden Teppich"" besessen haben?";Salomo;Mohammed;Elija;Ezechiel
+Glauben;Welcher Prophet soll den "Fliegenden Teppich" besessen haben?;Salomo;Mohammed;Elija;Ezechiel
 Glauben;Wie heißt die japanische Version des buddhistischen Höllenreichs?;Jigoku;Naraka;Yomi;Meido
-Glauben;Welcher aztekische Gott trug eine Maske aus Menschenhaut?;Xipe Totec;Quetzalcoat;Tezcatlipoca;Huitzilopochtli
+Glauben;Welcher aztekische Gott trug eine Maske aus Menschenhaut?;Xipe Totec;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
 Glauben;Wer war in der griechischen Mythologie der Vater der Harpyien?;Thaumas;Typhon;Pontos;Okeanos
 Glauben;Welches mythische Wesen bewachte in der slawischen Mythologie den Zugang zur Unterwelt?;Zirnitra;Zmey;Vodyanoy;Baba Yaga
 Glauben;In welchem Text wird die babylonische Schöpfungsgeschichte erzählt?;Enuma Elisch;Gilgamesch-Epos;Atrahasis;Kodex Hammurapi
@@ -115,36 +115,123 @@ Glauben;Welcher hinduistische Weise schrieb das Yoga Sutra?;Patanjali;Vyasa;Kapi
 Glauben;Welcher Prophet soll den Koran in einer Nacht empfangen haben?;Al-Khadir;Mohammed;Idris;Musa
 Glauben;Wie heißt der mythische Vogel in der persischen Mythologie?;Simurgh;Roc;Garuda;Phoenix
 Glauben;Welcher griechische Titan wurde von Zeus mit einem Donnerkeil besiegt?;Typhon;Prometheus;Atlas;Epimetheus
-Glauben;"In welchem Text findet man die Lehre vom ""Netz des Indra""?";Avatamsaka Sutra ;Lotos Sutra;Diamant Sutra;Herz Sutra
-Glauben;"Welcher sumerische Gott wurde als ""Herr der Erde"" bezeichnet?";Enlil;Enki;Anu;Marduk
+Glauben;In welchem Text findet man die Lehre vom "Netz des Indra"?;Avatamsaka Sutra;Lotos Sutra;Diamant Sutra;Herz Sutra
+Glauben;Welcher sumerische Gott wurde als "Herr der Erde" bezeichnet?;Enlil;Enki;Anu;Marduk
 Glauben;Wie hieß der Speer des irischen Helden Cú Chulainn?;Gáe Bulg;Fragarach;Caladbolg;Claíomh Solais
-Glauben;"Welcher ägyptische Gott wurde als ""Herr der Fremdländer"" verehrt?";Seth;Min;Onuris;Khnum
+Glauben;Welcher ägyptische Gott wurde als "Herr der Fremdländer" verehrt?;Seth;Min;Onuris;Khnum
 Glauben;Welcher Prophet soll die Sprache der Tiere verstanden haben?;Salomo;David;Jesaja;Daniel
 Glauben;Wie heißt die vedische Göttin der Morgenröte?;Ushas;Saraswati;Lakshmi;Parvati
 Glauben;Welcher griechische Held tötete den Riesen Geryon?;Herakles;Perseus;Theseus;Bellerophon
 Glauben;In welchem Text wird die ägyptische Schöpfung aus dem Urwasser Nun beschrieben?;Pyramidentexte;Totenbuch;Sargtexte;Buch der Erde
-Glauben;"Welcher aztekische Gott wurde als ""Rauchender Spiegel"" bezeichnet?";Tezcatlipoca;Quetzalcoatl;Xolotl;Mixcoatl
-Glauben;Wie hieß der magische Mantel in der walisischen Mythologie?;Gwenn;Gwenn;Llen;Tarnkappe
+Glauben;Welcher aztekische Gott wurde als "Rauchender Spiegel" bezeichnet?;Tezcatlipoca;Quetzalcoatl;Xolotl;Mixcoatl
+Glauben;Wie hieß der magische Mantel in der walisischen Mythologie?;Gwenn;Llen;Tarnkappe;Cloak
 Glauben;Welcher hinduistische Weise soll die Bhagavad Gita offenbart haben?;Vyasa;Valmiki;Yajnavalkya;Vasishtha
-Glauben;"Welcher Prophet soll den ""Brunnen der Unsterblichkeit"" gefunden haben?";Al-Khadir;Elija;Jesaja;Henoch
+Glauben;Welcher Prophet soll den "Brunnen der Unsterblichkeit" gefunden haben?;Al-Khadir;Elija;Jesaja;Henoch
 Glauben;Wie heißt der mythische Vogel in der arabischen Mythologie?;Roc;Simurgh;Garuda;Anzu
 Glauben;Welcher griechische Titan wurde von Zeus an einen Felsen gekettet?;Prometheus;Atlas;Kronos;Iapetos
-Glauben;"In welchem Text findet man die Lehre vom ""Leeren Boot""?";Zhuangzi;Daodejing;I Ging;Analekten
-Glauben;"Welcher mesopotamische Gott wurde als ""Herr der Weisheit"" verehrt?";Ea;Marduk;Enlil;Shamash
+Glauben;In welchem Text findet man die Lehre vom "Leeren Boot"?;Zhuangzi;Daodejing;I Ging;Analekten
+Glauben;Welcher mesopotamische Gott wurde als "Herr der Weisheit" verehrt?;Ea;Marduk;Enlil;Shamash
 Glauben;Wie hieß das magische Horn des keltischen Gottes Dagda?;Uaithne;Dord Fiann;Carnyx;Carynx
-Glauben;"Welcher ägyptische Gott wurde als ""Herr der Zeit"" verehrt?";Heh;Thot;Khepri;Atum
-Glauben;"Welcher Prophet soll den ""Brunnen der Seelen"" bewacht haben?";Melchisedek;Henoch;Metatron;Uriel
+Glauben;Welcher ägyptische Gott wurde als "Herr der Zeit" verehrt?;Heh;Thot;Khepri;Atum
+Glauben;Welcher Prophet soll den "Brunnen der Seelen" bewacht haben?;Melchisedek;Henoch;Metatron;Uriel
 Glauben;Wie heißt die vedische Gottheit des kosmischen Gesetzes?;Rita;Varuna;Mitra;Dharma
 Glauben;Welcher griechische Held kämpfte gegen die Stymphalischen Vögel?;Herakles;Perseus;Theseus;Jason
 Glauben;In welchem Text wird die babylonische Sintflutgeschichte erzählt?;Atrahasis;Enuma Elisch;Gilgamesch-Epos;Kodex Hammurapi
-Glauben;"Welcher aztekische Gott wurde als ""Gehäuteter Herr"" verehrt?";Xipe Totec;Tlaloc;Huitzilopochtli;Xolotl
+Glauben;Welcher aztekische Gott wurde als "Gehäuteter Herr" verehrt?;Xipe Totec;Tlaloc;Huitzilopochtli;Xolotl
 Glauben;Wie hieß der magische Kessel in der walisischen Mythologie?;Pair Dadeni;Cauldron;Grail;Chalice
 Glauben;Welcher hinduistische Weise soll die Upanishaden offenbart haben?;Yajnavalkya;Patanjali;Kapila;Bharata
-Glauben;"Welcher Prophet soll den ""Garten der Unsterblichkeit"" bewacht haben?";Chidr;Henoch;Melchisedek;Uriel
-Glauben;Wie heißt der mythische Vogel in der chinesischen Mythologie?;Kronos;Iapetos;Hyperion;Okeanos
-Glauben;"In welchem Text findet man die Lehre vom ""Unbekannten Gott""?";Corpus Hermeticum ;Nag-Hammadi-Schriften;Pistis Sophia;Zohar
-Glauben;"Welcher sumerische Gott wurde als ""Herr der Süßwasserozeane"" verehrt?";Enki;Enlil;Anu;Nanna
+Glauben;Welcher Prophet soll den "Garten der Unsterblichkeit" bewacht haben?;Chidr;Henoch;Melchisedek;Uriel
+Glauben;Wie heißt der mythische Vogel in der chinesischen Mythologie?;Fenghuang;Garuda;Roc;Simurgh
+Glauben;In welchem Text findet man die Lehre vom "Unbekannten Gott"?;Corpus Hermeticum;Nag-Hammadi-Schriften;Pistis Sophia;Zohar
+Glauben;Welcher sumerische Gott wurde als "Herr der Süßwasserozeane" verehrt?;Enki;Enlil;Anu;Nanna
 Glauben;Wie hieß das magische Schwert des irischen Helden Fergus?;Caladbolg;Fragarach;Claíomh Solais;Gáe Bulg
-Glauben;"Welcher ägyptische Gott wurde als ""Herr der Ewigkeit"" verehrt?";Djehuty;Atum;Nun;Heh
-Glauben;"Welcher Prophet soll den ""Brunnen der Wahrheit"" besessen haben?";Melchisedek;Salomo;Elija;Henoch
+Glauben;Welcher ägyptische Gott wurde als "Herr der Ewigkeit" verehrt?;Djehuty;Atum;Nun;Heh
+Glauben;Welcher Prophet soll den "Brunnen der Wahrheit" besessen haben?;Melchisedek;Salomo;Elija;Henoch
 Glauben;Wie heißt die vedische Gottheit der kosmischen Ordnung?;Dharma;Rita;Karma;Arta
+Glauben;Welcher Gott wird im Hinduismus als "Zerstörer des Universums" verehrt?;Shiva;Vishnu;Brahma;Indra
+Glauben;Wie heißt die japanische Göttin der Unterwelt?;Izanami;Amaterasu;Tsukuyomi;Inari
+Glauben;Welcher Prophet wird im Islam als "Freund Gottes" bezeichnet?;Ibrahim;Musa;Isa;Yunus
+Glauben;Wer ist der ägyptische Gott der Schöpfung?;Atum;Ra;Ptah;Khnum
+Glauben;Wie heißt der keltische Gott des Donners?;Taranis;Lugh;Dagda;Cernunnos
+Glauben;Welche Göttin ist die Personifikation der Gerechtigkeit im alten Ägypten?;Ma'at;Isis;Hathor;Nephthys
+Glauben;Wer ist der Schutzpatron der Reisenden im Christentum?;Christophorus;Michael;Gabriel;Raphael
+Glauben;Wie heißt der hinduistische Gott der Sonne?;Surya;Indra;Varuna;Agni
+Glauben;Welcher Engel ist der Fürst der himmlischen Heerscharen?;Michael;Gabriel;Raphael;Uriel
+Glauben;Wer ist der aztekische Gott des Windes?;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli;Xolotl
+Glauben;Wie heißt die germanische Göttin der Ehe?;Frigg;Freya;Hel;Skadi
+Glauben;Welcher Prophet wird im Islam mit der Sintflut in Verbindung gebracht?;Nuh;Hud;Salih;Shuayb
+Glauben;Wer ist der griechische Gott der Heilkunst?;Asklepios;Apollo;Hephaistos;Hermes
+Glauben;Wie heißt der keltische Gott der Unterwelt?;Arawn;Cernunnos;Dagda;Lugh
+Glauben;Welche Göttin ist die Schutzherrin der Stadt Athen?;Athene;Hera;Artemis;Demeter
+Glauben;Wer ist der ägyptische Gott der Fruchtbarkeit?;Min;Amun;Horus;Anubis
+Glauben;Wie heißt der hinduistische Gott des Todes?;Yama;Shiva;Vishnu;Indra
+Glauben;Welcher Engel überbringt im Islam die Offenbarungen?;Jibril;Mikail;Israfil;Izrail
+Glauben;Wer ist der aztekische Gott des Krieges?;Huitzilopochtli;Quetzalcoatl;Tezcatlipoca;Xolotl
+Glauben;Wie heißt die nordische Göttin der Jugend?;Idun;Freya;Frigg;Hel
+Glauben;Welcher Prophet wird im Judentum als "Vater des Glaubens" verehrt?;Abraham;Moses;David;Salomo
+Glauben;Wer ist der griechische Gott der Weinlese?;Dionysos;Apollo;Hermes;Ares
+Glauben;Wie heißt der ägyptische Gott der Luft?;Shu;Geb;Horus;Thot
+Glauben;Welche Göttin ist die Personifikation der Nacht in der griechischen Mythologie?;Nyx;Hemera;Eos;Selene
+Glauben;Wer ist der Schutzpatron der Armen im Christentum?;Franziskus;Petrus;Paulus;Johannes
+Glauben;Wie heißt der hinduistische Gott des Reichtums?;Kubera;Vishnu;Indra;Yama
+Glauben;Welcher Engel ist der Fürst des Lichts?;Lucifer;Michael;Gabriel;Raphael
+Glauben;Wer ist der aztekische Gott des Feuers?;Xiuhtecuhtli;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die germanische Göttin der Liebe?;Freya;Frigg;Hel;Skadi
+Glauben;Welcher Prophet wird im Islam mit dem goldenen Kalb in Verbindung gebracht?;Harun;Musa;Isa;Yunus
+Glauben;Wer ist der griechische Gott der Träume?;Morpheus;Hypnos;Thanatos;Eros
+Glauben;Wie heißt der keltische Gott der Schmiede?;Gobannus;Lugh;Dagda;Cernunnos
+Glauben;Welche Göttin ist die Schutzherrin der Stadt Rom?;Roma;Minerva;Juno;Venus
+Glauben;Wer ist der ägyptische Gott der Erde?;Geb;Shu;Horus;Thot
+Glauben;Wie heißt der hinduistische Gott der Weisheit?;Brihaspati;Vishnu;Shiva;Indra
+Glauben;Welcher Engel ist der Fürst der Finsternis?;Samael;Michael;Gabriel;Raphael
+Glauben;Wer ist der aztekische Gott der Sterne?;Mixcoatl;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die nordische Göttin des Winters?;Skadi;Freya;Frigg;Hel
+Glauben;Welcher Prophet wird im Judentum als "Gesetzgeber" verehrt?;Moses;Abraham;David;Salomo
+Glauben;Wer ist der griechische Gott der Flüsse?;Acheloos;Poseidon;Triton;Nereus
+Glauben;Wie heißt der ägyptische Gott der Finsternis?;Kuk;Amun;Horus;Anubis
+Glauben;Welche Göttin ist die Personifikation der Morgenröte in der griechischen Mythologie?;Eos;Nyx;Hemera;Selene
+Glauben;Wer ist der Schutzpatron der Tiere im Christentum?;Franziskus;Petrus;Paulus;Johannes
+Glauben;Wie heißt der hinduistische Gott der Opfer?;Agni;Indra;Varuna;Surya
+Glauben;Welcher Engel ist der Fürst der Engel?;Metatron;Michael;Gabriel;Raphael
+Glauben;Wer ist der aztekische Gott der Jagd?;Mixcoatl;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die germanische Göttin des Schicksals?;Urd;Freya;Frigg;Hel
+Glauben;Welcher Prophet wird im Islam mit dem Stab in Verbindung gebracht?;Musa;Harun;Isa;Yunus
+Glauben;Wer ist der griechische Gott der Fruchtbarkeit?;Priapos;Dionysos;Hermes;Ares
+Glauben;Wie heißt der keltische Gott der Heilung?;Dian Cecht;Lugh;Dagda;Cernunnos
+Glauben;Welche Göttin ist die Schutzherrin der Stadt Sparta?;Artemis;Athene;Hera;Demeter
+Glauben;Wer ist der ägyptische Gott der Schreibkunst?;Thot;Anubis;Horus;Osiris
+Glauben;Wie heißt der hinduistische Gott der Musik?;Saraswati;Vishnu;Shiva;Indra
+Glauben;Welcher Engel ist der Fürst der Seraphim?;Seraphiel;Michael;Gabriel;Raphael
+Glauben;Wer ist der aztekische Gott der Künste?;Xochipilli;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die nordische Göttin der Poesie?;Saga;Freya;Frigg;Hel
+Glauben;Welcher Prophet wird im Judentum als "König" verehrt?;David;Moses;Abraham;Salomo
+Glauben;Wer ist der griechische Gott der Gärten?;Priapos;Dionysos;Hermes;Ares
+Glauben;Wie heißt der ägyptische Gott der Schöpfung?;Atum;Ra;Ptah;Khnum
+Glauben;Welche Göttin ist die Personifikation der Gerechtigkeit in der griechischen Mythologie?;Themis;Nike;Nemesis;Dike
+Glauben;Wer ist der Schutzpatron der Kranken im Christentum?;Raphael;Michael;Gabriel;Uriel
+Glauben;Wie heißt der hinduistische Gott der Wissenschaft?;Saraswati;Vishnu;Shiva;Indra
+Glauben;Welcher Engel ist der Fürst der Cherubim?;Cherubiel;Michael;Gabriel;Raphael
+Glauben;Wer ist der aztekische Gott der Blumen?;Xochipilli;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die germanische Göttin der Ehe?;Frigg;Freya;Hel;Skadi
+Glauben;Welcher Prophet wird im Islam mit dem Stier in Verbindung gebracht?;Hud;Nuh;Salih;Shuayb
+Glauben;Wer ist der griechische Gott der Heilkunde?;Asklepios;Apollo;Hephaistos;Hermes
+Glauben;Wie heißt der keltische Gott der Schmiedekunst?;Gobannus;Lugh;Dagda;Cernunnos
+Glauben;Welche Göttin ist die Schutzherrin der Stadt Theben?;Athena;Hera;Artemis;Demeter
+Glauben;Wer ist der ägyptische Gott der Schöpfung?;Atum;Ra;Ptah;Khnum
+Glauben;Wie heißt der hinduistische Gott der Dichtkunst?;Saraswati;Vishnu;Shiva;Indra
+Glauben;Welcher Engel ist der Fürst der Throne?;Ophaniel;Michael;Gabriel;Raphael
+Glauben;Wer ist der aztekische Gott der Musik?;Xochipilli;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die nordische Göttin der Magie?;Freya;Frigg;Hel;Skadi
+Glauben;Welcher Prophet wird im Judentum als "Weiser" verehrt?;Salomo;Moses;Abraham;David
+Glauben;Wer ist der griechische Gott der Heilkräuter?;Asklepios;Apollo;Hephaistos;Hermes
+Glauben;Wie heißt der ägyptische Gott der Schöpfung?;Atum;Ra;Ptah;Khnum
+Glauben;Welche Göttin ist die Personifikation des Sieges in der griechischen Mythologie?;Nike;Themis;Nemesis;Dike
+Glauben;Wer ist der Schutzpatron der Sterbenden im Christentum?;Michael;Gabriel;Raphael;Uriel
+Glauben;Wie heißt der hinduistische Gott der Sprache?;Saraswati;Vishnu;Shiva;Indra
+Glauben;Welcher Engel ist der Fürst der Erzengel?;Michael;Gabriel;Raphael;Uriel
+Glauben;Wer ist der aztekische Gott der Freude?;Xochipilli;Quetzalcoatl;Tezcatlipoca;Huitzilopochtli
+Glauben;Wie heißt die germanische Göttin der Fruchtbarkeit?;Freya;Frigg;Hel;Skadi
+Glauben;Welcher Prophet wird im Islam mit dem Sturm in Verbindung gebracht?;Hud;Nuh;Salih;Shuayb
+Glauben;Wer ist der griechische Gott der Heilkünste?;Asklepios;Apollo;Hephaistos;Hermes
+Glauben;Wie heißt der keltische Gott der Handwerker?;Gobannus;Lugh;Dagda;Cernunnos
+Glauben;Welche Göttin ist die Schutzherrin der Stadt Korinth?;Aphrodite;Hera;Artemis;Demeter

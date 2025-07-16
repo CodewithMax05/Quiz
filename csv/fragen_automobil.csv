@@ -115,3 +115,185 @@ Automobil;Welche Beleuchtung ist bei Tunneln Pflicht?;Abblendlicht;Fernlicht;Sta
 Automobil;Welche Regel gilt bei „Stop-Schild“?;Vollständiger Halt;Langsam vorbeifahren;Nur bei Verkehr achten;Nur nachts halten
 Automobil;Welches Schild zeigt eine „Autobahnkirche“ an?;Blaues Quadrat mit Kirche;Grünes Rechteck mit „Gott“;Gelbes Dreieck mit Kreuz;Rotes Quadrat mit „AK“
 Automobil;Welches Schild zeigt eine „Fähre“ an?;Rot-weißes Dreieck mit Schiff;Blaues Quadrat mit „F“;Gelbes Rechteck mit „Hafen“;Grüner Kreis mit „Wasser“
+Automobil;Welche Farbe hat die Bordsteinkante bei Parkverbot?;Gelb;Rot;Blau;Weiß
+Automobil;Was bedeutet ein blaues Schild mit weißem P?;Parkplatz;Parkverbot;Werkstatt;Tankstelle
+Automobil;Wie nennt man den Sicherheitsabstand bei 100 km/h?;Halber Tachostand (50 m);30 Meter;15 Meter;100 Meter
+Automobil;Welches Schild zeigt eine Sackgasse an?;Roter Kreis mit weißem Balken;Blaues Quadrat mit "Ende";Gelbes Dreieck mit Straße;Grüner Pfeil nach links
+Automobil;Was ist die Regel bei einem "Grünen Pfeil"?;Rechtsabbiegen ohne Halt;Linksabbiegen erlaubt;Geradeausfahren;Fußgänger haben Vorrang
+Automobil;Welche Beleuchtung ist bei Dunkelheit Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
+Automobil;Was bedeutet ein rotes Dreieck mit Ausrufezeichen?;Allgemeine Gefahr;Baustelle;Vorfahrt;Parken erlaubt
+Automobil;Welche Höchstgeschwindigkeit gilt für Pkw mit Anhänger auf Autobahnen?;80 km/h;100 km/h;120 km/h;60 km/h
+Automobil;Was ist ein "Müdigkeitswarner"?;System zur Erkennung von Fahrermüdigkeit;Tempomat;Bremsassistent;Spurhalteassistent
+Automobil;Welches Schild kennzeichnet eine Spielstraße?;Blau mit spielendem Kind;Rot mit Ball;Gelb mit "Spiel";Grün mit Fußgänger
+Automobil;Was bedeutet ein gelbes Blinklicht an einer Baustelle?;Vorsicht, langsam fahren;Stop;Überholverbot;Geschwindigkeitsbegrenzung
+Automobil;Welche Mindestprofiltiefe gilt für Winterreifen?;4 mm;1,6 mm;2 mm;3 mm
+Automobil;Was ist ein "Eco-Modus"?;Spritsparender Fahrmodus;Sportmodus;Geländemodus;Standheizung
+Automobil;Welches Schild zeigt eine Umweltzone?;Roter Kreis mit "Umweltzone";Blau mit grüner Plakette;Gelb mit "CO2";Grün mit "E"
+Automobil;Was bedeutet ein rotes Dreieck mit Fahrrad?;Achtung Radfahrer;Radweg;Fahrradverbot;Fahrradparkplatz
+Automobil;Welche Regel gilt im Reißverschlussverfahren?;Fahrzeuge wechseln sich ab;Rechts vor links;Links überholen;Geradeausfahrer haben Vorrang
+Automobil;Was ist ein "Toter Winkel"?;Bereich, den der Fahrer nicht sieht;Defekter Spiegel;Parklücke;Baustellenbereich
+Automobil;Welches Schild warnt vor Wildwechsel?;Rot-weiß mit Reh;Blau mit Hirsch;Gelb mit Wolf;Grün mit Bär
+Automobil;Was bedeutet ein blaues Schild mit weißem Fahrrad?;Radweg;Fahrradverbot;Fahrradwerkstatt;Fahrradparkplatz
+Automobil;Welche Geschwindigkeit gilt bei Nebel (Sicht < 50 m)?;50 km/h;70 km/h;30 km/h;100 km/h
+Automobil;Was ist ein "Parkassistent"?;System zum Einparken;Tempomat;Bremsassistent;Spurhalteassistent
+Automobil;Welches Schild zeigt eine Autobahnausfahrt?;Blau mit weißer Autobahnnummer;Grün mit "Ausfahrt";Gelb mit Pfeil;Rot mit "Ende"
+Automobil;Was bedeutet ein rotes Dreieck mit Kinder-Symbol?;Achtung Kinder;Schulweg;Kindergarten;Spielplatz
+Automobil;Welche Beleuchtung ist im Tunnel Pflicht?;Abblendlicht;Fernlicht;Standlicht;Nebelscheinwerfer
+Automobil;Was ist ein "Notbremsassistent"?;Automatisches Bremssystem;Tempomat;Spurhalteassistent;Parkhilfe
+Automobil;Welches Schild zeigt eine Steigung?;Rot-weiß mit %-Zahl;Blau mit Berg;Gelb mit Pfeil;Grün mit "Steil"
+Automobil;Was bedeutet ein gelbes Blinklicht an einem Bus?;Bus hält an;Bus hat Panne;Bus fährt durch;Bus wartet
+Automobil;Welche Sicherheitsausrüstung ist für Motorradfahrer Pflicht?;Helm;Handschuhe;Stiefel;Reflektoren
+Automobil;Was ist ein "Adaptiver Tempomat"?;Tempomat mit Abstandshaltung;Bremsassistent;Spurhalteassistent;Parkassistent
+Automobil;Welches Schild zeigt eine Durchfahrt verboten?;Roter Kreis mit Balken;Blau mit "Stop";Gelb mit "Verbot";Grün mit "X"
+Automobil;Was bedeutet ein weißes Dreieck auf der Straße?;Vorfahrt gewähren;Stop;Parken;Einbahnstraße
+Automobil;Welche Regel gilt bei einem Stop-Schild?;Vollständig anhalten;Langsam fahren;Nur bei Verkehr;Nur nachts halten
+Automobil;Was ist ein "Rüttelstreifen"?;Warnstreifen am Fahrbahnrand;Baustellenmarkierung;Radweg;Lärmschutzzone
+Automobil;Welches Schild zeigt eine Bundesstraße?;Gelb mit schwarzer Zahl;Blau mit "B";Rot mit Straße;Grün mit Nummer
+Automobil;Was bedeutet ein rotes Dreieck mit Traktor?;Achtung landw. Fahrzeuge;Traktorweg;Bauernhof;Feldweg
+Automobil;Welche Beleuchtung ist bei Schneefall Pflicht?;Abblendlicht;Fernlicht;Nebelscheinwerfer;Standlicht
+Automobil;Was ist ein "Verkehrszeichen mit Zusatzschild"?;Hauptschild mit zusätzlicher Info;Leuchtendes Schild;Schild mit Pfeilen;Digitales Schild
+Automobil;Welches Schild zeigt eine Fähre?;Blau mit Schiff;Rot mit Anker;Gelb mit Wasser;Grün mit Hafen
+Automobil;Was bedeutet ein grünes Schild mit weißem "P"?;Parkhaus;Parkverbot;Werkstatt;Tankstelle
+Automobil;Welche Regel gilt im Kreisverkehr?;Vorfahrt für Fahrzeuge im Kreis;Vorfahrt für Einfahrende;Rechts vor links;Ampelregelung
+Automobil;Was ist ein "Lichtzeichenanlage"?;Ampel;Blitzer;Warndreieck;Scheinwerfer
+Automobil;Welches Schild zeigt eine Autobahn?;Blau mit weißer "A";Grün mit "AB";Rot mit Fahrbahn;Gelb mit Pfeil
+Automobil;Was bedeutet ein rotes Dreieck mit Schneeflocke?;Schneekettenpflicht;Winterreifenpflicht;Schneefall;Glätte
+Automobil;Welche Höchstgeschwindigkeit gilt für Busse?;80 km/h;100 km/h;60 km/h;120 km/h
+Automobil;Was ist ein "Differenzialsperre"?;Traktionshilfe für Gelände;Bremsassistent;Tempomat;Spurhalteassistent
+Automobil;Welches Schild zeigt eine Gefällestrecke?;Rot-weiß mit %-Zahl;Blau mit Berg;Gelb mit Pfeil;Grün mit "Gefälle"
+Automobil;Was bedeutet ein blaues Schild mit weißem "LKW"?;LKW-Parkplatz;LKW-Überholverbot;LKW-Werkstatt;LKW-Raststätte
+Automobil;Welche Regel gilt bei einem "Vorfahrt gewähren"-Schild?;Bremsbereit sein und ggf. anhalten;Sofort stoppen;Nur langsam fahren;Nur nachts beachten
+Automobil;Was ist ein "Parkleitzeichen"?;Schild mit Parkplatzinfos;Parkschein;Parkuhr;Parkautomat
+Automobil;Welches Schild zeigt eine Haltestelle?;Blau mit "H";Rot mit Bus;Gelb mit "Stop";Grün mit Haltestrich
+Automobil;Was bedeutet ein rotes Dreieck mit Krankenwagen?;Achtung Rettungsfahrzeug;Krankenhaus;Notarzt;Rettungsweg
+Automobil;Welche Beleuchtung ist bei Regen Pflicht?;Abblendlicht;Fernlicht;Nebelscheinwerfer;Standlicht
+Automobil;Was ist ein "Totmannknopf"?;Sicherheitssystem in Zügen;Nothalt;Türöffner;Signalgeber
+Automobil;Welches Schild zeigt eine Autobahnkirche?;Blau mit Kirche;Grün mit Kreuz;Gelb mit "Gott";Rot mit Gebet
+Automobil;Was bedeutet ein rotes Dreieck mit Pferd?;Achtung Reiter;Pferdehof;Reitweg;Pferdeparkplatz
+Automobil;Welche Regel gilt bei einem "Vorfahrtstraße"-Schild?;Vorfahrt bis zum nächsten Kreuzung;Immer Vorfahrt;Nur tagsüber;Nur für Autos
+Automobil;Was ist ein "Reifendruckkontrollsystem"?;Überwachung des Reifendrucks;Reifenwechselhilfe;Reifenprofilmessung;Reifenalarmanlage
+Automobil;Welches Schild zeigt eine Tankstelle?;Blau mit Zapfsäule;Rot mit Benzin;Gelb mit "T";Grün mit Flamme
+Automobil;Was bedeutet ein rotes Dreieck mit Radfahrer und Fußgänger?;Achtung gemischter Weg;Radfahrer verboten;Fußgängerzone;Gemeinsamer Weg
+Automobil;Welche Höchstgeschwindigkeit gilt für Mofas?;25 km/h;45 km/h;30 km/h;20 km/h
+Automobil;Was ist ein "Verkehrsberuhigter Bereich"?;Schrittgeschwindigkeit;30 km/h-Zone;Spielstraße;Fußgängerzone
+Automobil;Welches Schild zeigt eine Raststätte?;Blau mit Gabel und Messer;Rot mit "Rast";Gelb mit Tisch;Grün mit "Pause"
+Automobil;Was bedeutet ein blaues Schild mit weißem "i"?;Information;Internet;Instandsetzung;Intersection
+Automobil;Welche Regel gilt bei einem "Einbahnstraße"-Schild?;Nur in Pfeilrichtung fahren;Keine Regel;Nur nachts beachten;Nur für Anwohner
+Automobil;Was ist ein "Grüne Welle"?;Ampelschaltung für flüssigen Verkehr;Radweg;Umweltzone;Tempolimit
+Automobil;Welches Schild zeigt eine Wasserschutzgebiet?;Blau mit Wassertropfen;Rot mit "Wasser";Gelb mit Fisch;Grün mit See
+Automobil;Was bedeutet ein rotes Dreieck mit Flugzeug?;Achtung Fluglärm;Flughafen;Landebahn;Flugverbotszone
+Automobil;Welche Beleuchtung ist bei Dämmerung Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
+Automobil;Was ist ein "Verkehrsleitsystem"?;Dynamische Wegweisung;Ampel;Blitzer;Warndreieck
+Automobil;Welches Schild zeigt eine Notrufsäule?;Blau mit Telefon;Rot mit "Hilfe";Gelb mit Sirene;Grün mit Kreuz
+Automobil;Was bedeutet ein rotes Dreieck mit Fußgängerüberweg?;Achtung Zebrastreifen;Fußgängerzone;Gehweg;Überweg verboten
+Automobil;Welche Höchstgeschwindigkeit gilt in verkehrsberuhigten Bereichen?;Schrittgeschwindigkeit;20 km/h;30 km/h;15 km/h
+Automobil;Was ist ein "Lane-Assist"?;Spurhalteassistent;Tempomat;Bremsassistent;Parkassistent
+Automobil;Welches Schild zeigt eine Pannenhilfe?;Blau mit Wagenheber;Rot mit "Hilfe";Gelb mit Werkzeug;Grün mit Mechaniker
+Automobil;Was bedeutet ein blaues Schild mit weißem "P" und Rollstuhl?;Behindertenparkplatz;Parkverbot;Rollstuhlweg;Krankenhaus
+Automobil;Welche Regel gilt bei einem "Überholverbot"-Schild?;Überholen verboten;Nur LKWs überholen;Nur tagsüber verboten;Nur für Motorräder
+Automobil;Was ist ein "Car-Sharing-Parkplatz"?;Parkplatz für Carsharing-Fahrzeuge;Privatparkplatz;Taxistand;Mietwagenparkplatz
+Automobil;Welches Schild zeigt eine Mautstelle?;Blau mit Euro-Zeichen;Rot mit "Maut";Gelb mit Kasse;Grün mit Münze
+Automobil;Was bedeutet ein rotes Dreieck mit Baustellenfahrzeug?;Achtung langsame Fahrzeuge;Baustelle;Fahrverbot;Arbeitsstelle
+Automobil;Welche Beleuchtung ist bei starkem Regen Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
+Automobil;Was ist ein "Verkehrsversuch"?;Temporäre Regeländerung;Dauerhafte Änderung;Teststrecke;Simulation
+Automobil;Welches Schild zeigt eine Feuerwehrzufahrt?;Rot mit Feuerwehrsymbol;Blau mit "Feuer";Gelb mit Hydrant;Grün mit Löschfahrzeug
+Automobil;Was bedeutet ein blaues Schild mit weißem "E"?;Einfahrt;Ausfahrt;Einkaufszone;Einstellplatz
+Automobil;Welche Regel gilt bei einem "Anlieger frei"-Schild?;Nur Anwohner dürfen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrslenkungstafel"?;Dynamische Anzeige;Festes Schild;Ampel;Wegweiser
+Automobil;Welches Schild zeigt eine Schulbus-Haltestelle?;Gelb mit Schulbus-Symbol;Rot mit "Schule";Blau mit Kindern;Grün mit "Bus"
+Automobil;Was bedeutet ein rotes Dreieck mit Radweg-Ende?;Achtung Radweg endet;Radfahrer absteigen;Radwegverbot;Neuer Radweg
+Automobil;Welche Höchstgeschwindigkeit gilt für Wohnmobile über 3,5 t?;80 km/h;100 km/h;120 km/h;60 km/h
+Automobil;Was ist ein "Verkehrsstromanalyse"?;Erfassung des Verkehrsflusses;Stauwarnung;Geschwindigkeitsmessung;Parkraumerfassung
+Automobil;Welches Schild zeigt eine Durchlässige Sackgasse?;Weiß mit durchgestrichenem Ende;Blau mit "Durchfahrt";Gelb mit Pfeil;Grün mit "Sack"
+Automobil;Was bedeutet ein blaues Schild mit weißem "L"?;Lehrfahrzeug;LKW;Lastzug;Langsamfahrer
+Automobil;Welche Regel gilt bei einem "Taxi frei"-Schild?;Nur Taxis dürgen einfahren;Alle Fahrzeuge;Keine Regel;Nur nachts
+Automobil;Was ist ein "Verkehrszeichen mit Wechseldisplay"?;Dynamisches Schild;Festes Schild;Leuchtzeichen;Reflektor
+Automobil;Welches Schild zeigt eine Rettungskette?;Blau mit Schneekette;Rot mit "Bergung";Gelb mit Abschleppwagen;Grün mit "Hilfe"
+Automobil;Was bedeutet ein rotes Dreieck mit Seitenwind?;Achtung Seitenwind;Windpark;Sturmwarnung;Windstille
+Automobil;Welche Beleuchtung ist bei Schneetreiben Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
+Automobil;Was ist ein "Verkehrsdatenerfassung"?;Erhebung von Verkehrsdaten;Stauvorhersage;Geschwindigkeitskontrolle;Parküberwachung
+Automobil;Welches Schild zeigt eine Notfallspur?;Rot mit "Notfall";Blau mit Kreuz;Gelb mit "Hilfe";Grün mit Pfeil
+Automobil;Was bedeutet ein blaues Schild mit weißem "K"?;Krankenhaus;Kindergarten;Kraftwerk;Kontrollstelle
+Automobil;Welche Regel gilt bei einem "Fahrrad frei"-Schild?;Nur Radfahrer dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrsleitrechner"?;Steuerung von Ampelschaltungen;Geschwindigkeitsmesser;Parkuhr;Stauwarner
+Automobil;Welches Schild zeigt eine Pannenbucht?;Blau mit Pannendreieck;Rot mit "Stop";Gelb mit Werkzeug;Grün mit "Hilfe"
+Automobil;Was bedeutet ein rotes Dreieck mit Steinschlag?;Achtung Steinschlaggefahr;Bergwerk;Baustelle;Felswand
+Automobil;Welche Höchstgeschwindigkeit gilt für Busse mit Anhänger?;60 km/h;80 km/h;100 km/h;70 km/h
+Automobil;Was ist ein "Verkehrsflussoptimierung"?;Verbesserung des Verkehrsflusses;Stauauflösung;Geschwindigkeitsbegrenzung;Parkraumverwaltung
+Automobil;Welches Schild zeigt eine Nothaltebucht?;Rot mit "Notstop";Blau mit Pannendreieck;Gelb mit "Halt";Grün mit "Sicherheit"
+Automobil;Was bedeutet ein blaues Schild mit weißem "T"?;Tankstelle;Telefon;Toilette;Tunnel
+Automobil;Welche Regel gilt bei einem "Anhänger frei"-Schild?;Nur Fahrzeuge mit Anhänger dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrsmonitoringsystem"?;Überwachung des Verkehrs;Stauanzeige;Geschwindigkeitskontrolle;Parkraumbewirtschaftung
+Automobil;Welches Schild zeigt eine Notausfahrt?;Grün mit "Notausgang";Rot mit "Flucht";Blau mit Pfeil;Gelb mit "Sicherheit"
+Automobil;Was bedeutet ein rotes Dreieck mit Splitt?;Achtung Rollsplitt;Baustelle;Schotterweg;Fahrbahnschäden
+Automobil;Welche Beleuchtung ist bei Nebel < 50 m Sicht Pflicht?;Nebelschlussleuchte;Abblendlicht;Standlicht;Fernlicht
+Automobil;Was ist ein "Verkehrsdatenspeicher"?;Archivierung von Verkehrsdaten;Stauvorhersage;Geschwindigkeitsprotokoll;Parkdatenbank
+Automobil;Welches Schild zeigt eine Notruftelefon?;Blau mit Telefonhörer;Rot mit "Hilfe";Gelb mit Sirene;Grün mit Kreuz
+Automobil;Was bedeutet ein blaues Schild mit weißem "WC"?;Toilette;Waschstraße;Werkstatt;Wasserstelle
+Automobil;Welche Regel gilt bei einem "Mofas frei"-Schild?;Nur Mofas dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrsleitsäule"?;Dynamische Wegweiser;Festes Schild;Ampel;Blitzer
+Automobil;Welches Schild zeigt eine Notwasserung?;Blau mit Flugzeug auf Wasser;Rot mit "Notfall";Gelb mit Rettungsring;Grün mit "See"
+Automobil;Was bedeutet ein rotes Dreieck mit Schleudergefahr?;Achtung rutschige Fahrbahn;Glätte;Aquaplaning;Schneefall
+Automobil;Welche Höchstgeschwindigkeit gilt für Motorräder mit Beiwagen?;80 km/h;100 km/h;120 km/h;60 km/h
+Automobil;Was ist ein "Verkehrsflussmessung"?;Erfassung der Fahrzeugströme;Stauberechnung;Geschwindigkeitsüberwachung;Parkraumerfassung
+Automobil;Welches Schild zeigt eine Notbremsstrecke?;Rot mit "Notbremsung";Blau mit Bremsweg;Gelb mit Gefälle;Grün mit "Sicherheit"
+Automobil;Was bedeutet ein blaues Schild mit weißem "R"?;Rastplatz;Reparatur;Restaurant;Rettungspunkt
+Automobil;Welche Regel gilt bei einem "Krankenwagen frei"-Schild?;Nur Rettungsfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit LED"?;Leuchtendes Verkehrsschild;Reflektierendes Schild;Digitale Anzeige;Beleuchtetes Schild
+Automobil;Welches Schild zeigt eine Notfalltelefon?;Blau mit Telefon und Kreuz;Rot mit "Notruf";Gelb mit Sirene;Grün mit "Hilfe"
+Automobil;Was bedeutet ein rotes Dreieck mit Gegenverkehr?;Achtung Gegenverkehr;Einbahnstraße;Überholverbot;Kreuzung
+Automobil;Welche Beleuchtung ist bei Dämmerung mit Regen Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
+Automobil;Was ist ein "Verkehrsdatennetz"?;Vernetzung von Verkehrssystemen;Staunetz;Geschwindigkeitsnetz;Parkleitnetz
+Automobil;Welches Schild zeigt eine Notfallzufahrt?;Rot mit "Notfall";Blau mit Kreuz;Gelb mit "Hilfe";Grün mit Pfeil
+Automobil;Was bedeutet ein blaues Schild mit weißem "S"?;Sackgasse;Straßenreinigung;Schule;Sportplatz
+Automobil;Welche Regel gilt bei einem "Polizei frei"-Schild?;Nur Polizeifahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrsleitsystem mit Kamera"?;Überwachung mit Kameras;Geschwindigkeitsmessung;Parkraumkontrolle;Stauerkennung
+Automobil;Welches Schild zeigt eine Notrufsäule mit Defibrillator?;Blau mit Herz und Blitz;Rot mit "Defi";Gelb mit Kreuz;Grün mit "Leben"
+Automobil;Was bedeutet ein rotes Dreieck mit Fußgänger und Radfahrer?;Achtung gemeinsamer Weg;Fußgängerzone;Radweg;Getrennter Weg
+Automobil;Welche Höchstgeschwindigkeit gilt für Trikes?;80 km/h;100 km/h;60 km/h;120 km/h
+Automobil;Was ist ein "Verkehrsflussvisualisierung"?;Darstellung des Verkehrsflusses;Staukarte;Geschwindigkeitsanzeige;Parkraumkarte
+Automobil;Welches Schild zeigt eine Notfall-Leitplanke?;Rot mit Leitplanke;Blau mit "Sicherheit";Gelb mit Absperrung;Grün mit "Schutz"
+Automobil;Was bedeutet ein blaues Schild mit weißem "U"?;Umleitung;Ufer;Unterführung;Umweltzone
+Automobil;Welche Regel gilt bei einem "Einsatzfahrzeug frei"-Schild?;Nur Rettungskräfte dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit Wechselverkehr"?;Dynamische Regelung;Feste Regelung;Temporäre Regelung;Testphase
+Automobil;Welches Schild zeigt eine Notfall-Treppe?;Blau mit Treppe und Pfeil;Rot mit "Flucht";Gelb mit "Ausgang";Grün mit "Sicherheit"
+Automobil;Was bedeutet ein rotes Dreieck mit Straßenbahn?;Achtung Straßenbahn;Straßenbahnhaltestelle;Straßenbahnverbot;Straßenbahnkreuzung
+Automobil;Welche Beleuchtung ist bei Nebel > 50 m Sicht Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
+Automobil;Was ist ein "Verkehrsdatenanalyse"?;Auswertung von Verkehrsdaten;Stauprognose;Geschwindigkeitsauswertung;Parkraumanalyse
+Automobil;Welches Schild zeigt eine Notfall-Rutsche?;Blau mit Rutsche;Rot mit "Flucht";Gelb mit "Schnell";Grün mit "Sicherheit"
+Automobil;Was bedeutet ein blaues Schild mit weißem "V"?;Verkehrsübungsplatz;Verkehrsschule;Verkehrsinsel;Verkehrsberuhigung
+Automobil;Welche Regel gilt bei einem "Feuerwehr frei"-Schild?;Nur Feuerwehrfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit Sensor"?;Schild mit Bewegungserkennung;Lichtsensor;Temperatursensor;Regensensor
+Automobil;Welches Schild zeigt eine Notfall-Beleuchtung?;Blau mit Lampe;Rot mit "Licht";Gelb mit Blitz;Grün mit "Sicherheit"
+Automobil;Was bedeutet ein rotes Dreieck mit Pannenfahrzeug?;Achtung liegengebliebenes Fahrzeug;Abschleppwagen;Werkstatt;Pannenhelfer
+Automobil;Welche Höchstgeschwindigkeit gilt für Quadricycles?;80 km/h;100 km/h;60 km/h;45 km/h
+Automobil;Was ist ein "Verkehrsflussregelung"?;Steuerung des Verkehrsflusses;Stauvermeidung;Geschwindigkeitskontrolle;Parkraumsteuerung
+Automobil;Welches Schild zeigt eine Notfall-Beschleunigung?;Rot mit "Notfall";Blau mit "Schnell";Gelb mit Pfeil;Grün mit "Gas"
+Automobil;Was bedeutet ein blaues Schild mit weißem "Z"?;Zollstelle;Zone;Zufahrt;Zentrum
+Automobil;Welche Regel gilt bei einem "Rettungsdienst frei"-Schild?;Nur Rettungsfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit Fernbedienung"?;Ferneinstellbares Schild;Handbedienung;Automatische Steuerung;Manuelle Regelung
+Automobil;Welches Schild zeigt eine Notfall-Verzögerung?;Rot mit "Langsam";Blau mit "Bremsen";Gelb mit "Stop";Grün mit "Vorsicht"
+Automobil;Was bedeutet ein rotes Dreieck mit Abschleppwagen?;Achtung Abschleppvorgang;Abschleppdienst;Pannenhilfe;Werkstatt
+Automobil;Welche Beleuchtung ist bei Schneefall mit Nebel Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
+Automobil;Was ist ein "Verkehrsdatenmanagement"?;Verwaltung von Verkehrsdaten;Staumanagement;Geschwindigkeitsmanagement;Parkdatenverwaltung
+Automobil;Welches Schild zeigt eine Notfall-Umleitung?;Blau mit Umleitungspfeil;Rot mit "Umweg";Gelb mit "Alternativ";Grün mit "Ausweichen"
+Automobil;Was bedeutet ein blaues Schild mit weißem "Y"?;Y-Kreuzung;Yachtclub;Y-Punkt;Y-Verzweigung
+Automobil;Welche Regel gilt bei einem "THW frei"-Schild?;Nur THW-Fahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit Sprachausgabe"?;Audiovisuelles Schild;Akustische Ansage;Sprachsteuerung;Tonausgabe
+Automobil;Welches Schild zeigt eine Notfall-Kommunikation?;Blau mit Sprechblase;Rot mit "Info";Gelb mit "Hilfe";Grün mit "Sprechen"
+Automobil;Was bedeutet ein rotes Dreieck mit Pannenauto?;Achtung Pannenfahrzeug;Abschleppwagen;Werkstatt;Pannenhelfer
+Automobil;Welche Höchstgeschwindigkeit gilt für Leichtkrafträder?;80 km/h;100 km/h;45 km/h;60 km/h
+Automobil;Was ist ein "Verkehrsflussüberwachung"?;Kontrolle des Verkehrsflusses;Stauüberwachung;Geschwindigkeitskontrolle;Parkraumüberwachung
+Automobil;Welches Schild zeigt eine Notfall-Information?;Blau mit "i";Rot mit "Achtung";Gelb mit "Warnung";Grün mit "Hinweis"
+Automobil;Was bedeutet ein blaues Schild mit weißem "X"?;Kreuzung;X-Punkt;Verbot;Kontrollstelle
+Automobil;Welche Regel gilt bei einem "Bundeswehr frei"-Schild?;Nur Militärfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit Touchscreen"?;Interaktives Schild;Berührungsempfindlich;Digitale Steuerung;Manuelle Eingabe
+Automobil;Welches Schild zeigt eine Notfall-Assistenz?;Blau mit "Hilfe";Rot mit "Notfall";Gelb mit "Support";Grün mit "Assistenz"
+Automobil;Was bedeutet ein rotes Dreieck mit Sonderfahrzeug?;Achtung langsames Fahrzeug;Baustellenfahrzeug;Abschleppwagen;Pannenfahrzeug
+Automobil;Welche Beleuchtung ist bei Starkregen mit Nebel Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
+Automobil;Was ist ein "Verkehrsdatenarchiv"?;Speicherung von Verkehrsdaten;Stauarchiv;Geschwindigkeitsarchiv;Parkdatenarchiv
+Automobil;Welches Schild zeigt eine Notfall-Koordination?;Blau mit "Koordination";Rot mit "Leitung";Gelb mit "Organisation";Grün mit "Planung"
+Automobil;Was bedeutet ein blaues Schild mit weißem "W"?;Wasserstelle;Werkstatt;Wegweiser;Warnung
+Automobil;Welche Regel gilt bei einem "Katastrophenschutz frei"-Schild?;Nur Katastrophenschutzfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
+Automobil;Was ist ein "Verkehrszeichen mit Gestensteuerung"?;Schild mit Gestenerkennung;Handzeichen;Körpersteuerung;Bewegungserkennung
+Automobil;Welches Schild zeigt eine Notfall-Lenkung?;Blau mit Lenkrad;Rot mit "Steuerung";Gelb mit "Führung";Grün mit "Kontrolle"

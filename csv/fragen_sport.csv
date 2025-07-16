@@ -94,7 +94,7 @@ Sport;Welche Wurfart wird im Baseball am häufigsten eingesetzt?;Fastball;Slowba
 Sport;Wer gewann 2018 die Fußball-WM in Russland?;Frankreich;Kroatien;Belgien;England
 Sport;Wer gewann 2015 die Formel-1-Weltmeisterschaft?;Lewis Hamilton;Nico Rosberg;Sebastian Vettel;Jenson Button
 Sport;Welcher Verein gewann die englische Premier League 2015/2016?;Leicester City;Liverpool;Chelsea;Manchester United
-Sport;Welche Bezeichnung hat im Golf ein Ergebnis, das zwei unter Par liegt?;Eagle;Birdie;Bogey;Albatross
+Sport;Welche Bezeichnung hat im Golf ein Ergebnis, dass zwei unter Par liegt?;Eagle;Birdie;Bogey;Albatross
 Sport;Welches dieser Teams ist kein Mitglied der 'Original Six' der NHL?;Philadelphia Flyers;New York Rangers;Toronto Maple Leafs;Boston Bruins
 Sport;Wer ist Rekordtorschütze der englischen Fußballnationalmannschaft?;Wayne Rooney;David Beckham;Steven Gerrard;Michael Owen
 Sport;Aus welchem Land stammt Kabaddi, ein Kontaktsport, bei dem getackelt wird?;Indien;Australien;Türkei;Kambodscha
@@ -125,3 +125,78 @@ Sport;Welche Fußballnationalmannschaft gewann die EM 2016?;Portugal;Frankreich;
 Sport;Welcher Afroamerikaner trug unter anderem zur Integration der Major League Baseball bei?;Jackie Robinson;Curt Flood;Roy Campanella;Satchel Paige
 Sport;Welche der folgenden Sportarten wird beim mongolischen Naadam-Festival traditionell NICHT gespielt?;American Football;Ringen;Bogenschießen;Pferderennen
 Sport;Von welcher portugiesischen Insel stammt der Fußballspieler Cristiano Ronaldo?;Madeira;Terceira;Santa Maria;Porto Santo
+Sport;Welcher Tennisspieler hält den Rekord für die meisten Grand-Slam-Titel im Einzel?;Roger Federer;Rafael Nadal;Novak Djokovic;Pete Sampras
+Sport;In welchem Jahr wurde die erste Fußball-Weltmeisterschaft ausgetragen?;1930;1926;1934;1938
+Sport;Welcher Golfer gewann als erster alle vier Major-Turniere im selben Jahr?;Bobby Jones;Jack Nicklaus;Tiger Woods;Arnold Palmer
+Sport;Wie viele Spieler sind beim Beachvolleyball pro Team auf dem Feld?;2;3;4;5
+Sport;Welcher Boxer war der erste Schwergewichtsweltmeister im Profiboxen?;John L. Sullivan;Jack Dempsey;Joe Louis;Rocky Marciano
+Sport;Welche Sportart wird auch als "The Sweet Science" bezeichnet?;Boxen;Fechten;Tennis;Golf
+Sport;Wie viele olympische Goldmedaillen gewann Usain Bolt?;8;6;9;7
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Winterspielen 2018?;Norwegen;Deutschland;Kanada;USA
+Sport;Wie viele Spieler sind beim Rugby Union in einem Team?;15;11;13;9
+Sport;Welcher Schwimmstil wird auch als "Schmetterling" bezeichnet?;Delfin;Brust;Rücken;Kraul
+Sport;Welcher Radrennfahrer gewann die meisten Tour de France?;Lance Armstrong;Eddy Merckx;Bernard Hinault;Miguel Indurain
+Sport;Wie viele Spieler sind beim Baseball in einem Team?;9;7;10;11
+Sport;Welcher Sport wird auch als "The King of Sports" bezeichnet?;Fußball;Basketball;Tennis;Golf
+Sport;Wie viele Spieler sind beim Eishockey in einem Team?;6;5;7;4
+Sport;Welcher Sport wird auch als "The Beautiful Game" bezeichnet?;Fußball;Basketball;Tennis;Golf
+Sport;Wie viele Spieler sind beim Basketball in einem Team?;5;4;6;7
+Sport;Welcher Sport wird auch als "The Fastest Game on Two Feet" bezeichnet?;Lacrosse;Hockey;Fußball;Basketball
+Sport;Wie viele Spieler sind beim Cricket in einem Team?;11;9;10;12
+Sport;Welcher Sport wird auch als "The Gentleman's Game" bezeichnet?;Cricket;Golf;Tennis;Polo
+Sport;Wie viele Spieler sind beim Polo in einem Team?;4;3;5;6
+Sport;Welcher Sport wird auch als "The Sport of Kings" bezeichnet?;Pferderennen;Golf;Tennis;Polo
+Sport;Wie viele Spieler sind beim American Football in einem Team?;11;9;10;12
+Sport;Welcher Sport wird auch als "The National Pastime" bezeichnet?;Baseball;Football;Basketball;Hockey
+Sport;Wie viele Spieler sind beim Feldhockey in einem Team?;11;9;10;12
+Sport;Welcher Sport wird auch als "The Fastest Game on Ice" bezeichnet?;Eishockey;Curling;Eisschnelllauf;Eiskunstlauf
+Sport;Wie viele Spieler sind beim Wasserball in einem Team?;7;5;6;8
+Sport;Welcher Sport wird auch als "The Roaring Game" bezeichnet?;Curling;Bowling;Eishockey;Kegeln
+Sport;Wie viele Spieler sind beim Softball in einem Team?;9;7;10;11
+Sport;Welcher Sport wird auch als "The Thinking Man's Game" bezeichnet?;Schach;Bridge;Poker;Go
+Sport;Wie viele Spieler sind beim Volleyball in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of Inches" bezeichnet?;Baseball;Football;Basketball;Hockey
+Sport;Wie viele Spieler sind beim Handball in einem Team?;7;5;6;8
+Sport;Welcher Sport wird auch als "The Sport of the Gods" bezeichnet?;Polo;Golf;Tennis;Kricket
+Sport;Wie viele Spieler sind beim Futsal in einem Team?;5;4;6;7
+Sport;Welcher Sport wird auch als "The Beautiful Science" bezeichnet?;Boxen;Fechten;Tennis;Golf
+Sport;Wie viele Spieler sind beim Rugby League in einem Team?;13;11;12;14
+Sport;Welcher Sport wird auch als "The Game of the Century" bezeichnet?;Schach;Go;Bridge;Poker
+Sport;Wie viele Spieler sind beim Kabaddi in einem Team?;7;5;6;8
+Sport;Welcher Sport wird auch als "The Game of the People" bezeichnet?;Fußball;Basketball;Tennis;Golf
+Sport;Wie viele Spieler sind beim Netball in einem Team?;7;5;6;8
+Sport;Welcher Sport wird auch als "The Game of the Mind" bezeichnet?;Schach;Go;Bridge;Poker
+Sport;Wie viele Spieler sind beim Aussie Rules Football in einem Team?;18;16;17;19
+Sport;Welcher Sport wird auch als "The Game of the Brave" bezeichnet?;Bullriding;Boxen;Karate;Judo
+Sport;Wie viele Spieler sind beim Gaelic Football in einem Team?;15;13;14;16
+Sport;Welcher Sport wird auch als "The Game of the Skilled" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Hurling in einem Team?;15;13;14;16
+Sport;Welcher Sport wird auch als "The Game of the Strong" bezeichnet?;Gewichtheben;Powerlifting;Bodybuilding;Strongman
+Sport;Wie viele Spieler sind beim Camogie in einem Team?;15;13;14;16
+Sport;Welcher Sport wird auch als "The Game of the Quick" bezeichnet?;Squash;Badminton;Tischtennis;Tennis
+Sport;Wie viele Spieler sind beim Rounders in einem Team?;9;7;10;11
+Sport;Welcher Sport wird auch als "The Game of the Agile" bezeichnet?;Gymnastik;Turnen;Akrobatik;Parkour
+Sport;Wie viele Spieler sind beim Korfball in einem Team?;8;6;7;9
+Sport;Welcher Sport wird auch als "The Game of the Precise" bezeichnet?;Bogenschießen;Schießen;Darts;Golf
+Sport;Wie viele Spieler sind beim Sepak Takraw in einem Team?;3;2;4;5
+Sport;Welcher Sport wird auch als "The Game of the Endurance" bezeichnet?;Marathon;Triathlon;Radfahren;Schwimmen
+Sport;Wie viele Spieler sind beim Ultimate Frisbee in einem Team?;7;5;6;8
+Sport;Welcher Sport wird auch als "The Game of the Tacticians" bezeichnet?;Schach;Go;Stratego;Risiko
+Sport;Wie viele Spieler sind beim Shinty in einem Team?;12;10;11;13
+Sport;Welcher Sport wird auch als "The Game of the Warriors" bezeichnet?;MMA;Boxen;Kickboxen;Karate
+Sport;Wie viele Spieler sind beim Bandy in einem Team?;11;9;10;12
+Sport;Welcher Sport wird auch als "The Game of the Kings" bezeichnet?;Polo;Golf;Tennis;Kricket
+Sport;Wie viele Spieler sind beim Pesäpallo in einem Team?;9;7;10;11
+Sport;Welcher Sport wird auch als "The Game of the Gods" bezeichnet?;Polo;Golf;Tennis;Kricket
+Sport;Wie viele Spieler sind beim Broomball in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Champions" bezeichnet?;Boxen;Fechten;Tennis;Golf
+Sport;Wie viele Spieler sind beim Floorball in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Masters" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Ringette in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Experts" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Ball Hockey in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Professionals" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Underwater Hockey in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Elite" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Underwater Rugby in einem Team?;6;5;7;8
+

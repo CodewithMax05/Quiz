@@ -7,16 +7,18 @@
 
 {% block body %}
 <div class="page-wrapper">
-    <!-- Flash-Nachrichten -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <!-- Flash-Nachrichten Container -->
+    <div id="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
     
     <div class="container">
         <a href="{{ url_for('logout') }}" class="logout-button" aria-label="Logout">
@@ -185,38 +187,40 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const infoButton = document.getElementById('info-button');
-    
-    infoButton.addEventListener('click', function() {
-        createFlashMessage('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info');
-    });
+        const infoButton = document.getElementById('info-button');
+        const flashContainer = document.getElementById('flash-container');
+        
+        infoButton.addEventListener('click', function() {
+            createFlashMessage('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info');
+        });
 
-    function createFlashMessage(text, type) {
-        // Lösche alle vorhandenen benutzerdefinierten Nachrichten
-        document.querySelectorAll('.custom-message').forEach(el => el.remove());
-
-        // Container für Nachricht erstellen
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'} custom-message`;
-        messageDiv.textContent = text;
-
-        // Fortschrittsbalken hinzufügen
-        const progressBar = document.createElement('div');
-        progressBar.className = 'custom-progress-bar';
-        messageDiv.appendChild(progressBar);
-
-        // Nachricht in den DOM einfügen
-        const pageWrapper = document.querySelector('.page-wrapper');
-        if (pageWrapper) {
-            pageWrapper.insertBefore(messageDiv, pageWrapper.firstChild);
+        function createFlashMessage(text, type) {
+            // Lösche alle vorhandenen Nachrichten
+            flashContainer.innerHTML = '';
+            
+            // Neue Nachricht erstellen
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
+            messageDiv.textContent = text;
+            
+            // Fortschrittsbalken hinzufügen
+            const progressBar = document.createElement('div');
+            progressBar.className = 'custom-progress-bar';
+            messageDiv.appendChild(progressBar);
+            
+            // Nachricht in den Container einfügen
+            flashContainer.appendChild(messageDiv);
+            
+            // Nachricht nach 5 Sekunden entfernen
+            setTimeout(() => {
+                messageDiv.style.animation = 'fadeOut 0.5s forwards';
+                setTimeout(() => {
+                    if (flashContainer.contains(messageDiv)) {
+                        flashContainer.removeChild(messageDiv);
+                    }
+                }, 500);
+            }, 5000);
         }
-
-        // Nachricht nach 5 Sekunden ausblenden
-        setTimeout(() => {
-            messageDiv.style.animation = 'fadeOut 0.5s forwards';
-            setTimeout(() => messageDiv.remove(), 500);
-        }, 5000);
-    }
-});
+    });
 </script>
 {% endblock %}

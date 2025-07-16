@@ -203,11 +203,11 @@ def register():
 @app.route('/homepage')
 def homepage():
     if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
         # Zeige Info-Nachricht nur beim ersten Aufruf
         if not session.get('info_shown'):
             flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
             session['info_shown'] = True
-        user = User.query.filter_by(username=session['username']).first()
         return render_template(
             'homepage.html',
             username=session['username'],
