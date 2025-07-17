@@ -27,19 +27,13 @@
     </div>
 </div>
 <script>
-    function handleAuth(action) {
-        // Sound SOFORT beim Klick abspielen
-        playSound('clickSound');
-        
-        // Formular nach kurzer Verzögerung abschicken
-        setTimeout(() => {
-            const form = document.getElementById('auth-form');
-            form.action = action === 'login' 
-                ? "{{ url_for('login') }}" 
-                : "{{ url_for('register') }}";
-            form.method = "post";
-            form.submit();
-        }, 150); // 150ms Verzögerung für den Sound
+    function submitForm(action) {
+        const form = document.getElementById('auth-form');
+        form.action = action === 'login' 
+            ? "{{ url_for('login') }}" 
+            : "{{ url_for('register') }}";
+        form.method = "post";
+        form.submit();
     }
 </script>
 {% endblock %}

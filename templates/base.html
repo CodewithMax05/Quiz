@@ -37,17 +37,19 @@
 		<script>
 			// Globale Funktion zum Abspielen von Sounds
 			function playSound(soundId) {
-				try {
-					const sound = document.getElementById(soundId);
-					if (sound) {
-						// Zurücksetzen und sofort abspielen
-						sound.currentTime = 0;
-						sound.play().catch(e => console.log("Sound play failed:", e));
-					}
-				} catch (e) {
-					console.error("Sound error:", e);
+				const sound = document.getElementById(soundId);
+				if (sound) {
+					sound.currentTime = 0;
+					sound.play().catch(e => console.log("Sound play failed:", e));
 				}
 			}
+			
+			// Event-Listener für alle Buttons
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('button, input[type="button"], .sound-button').forEach(button => {
+					button.addEventListener('click', () => playSound('clickSound'));
+				});
+			});
 		</script>
 	</body>
 </html>
