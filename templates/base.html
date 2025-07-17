@@ -17,6 +17,11 @@
 		<meta name="msapplication-TileColor" content="#2b5797">
 		<meta name="theme-color" content="#1a1a2e">
 
+		<!-- Sounds -->
+		<audio id="clickSound" preload="auto">
+			<source src="{{ url_for('static', filename='sounds/button_klick_1.mp3') }}" type="audio/mpeg">
+		</audio>
+
 		{%block head%}
 
 		{% endblock %}
@@ -28,5 +33,23 @@
 		{%block body%}
 
 		{% endblock %}
+
+		<script>
+			// Globale Funktion zum Abspielen von Sounds
+			function playSound(soundId) {
+				const sound = document.getElementById(soundId);
+				if (sound) {
+					sound.currentTime = 0;
+					sound.play().catch(e => console.log("Sound play failed:", e));
+				}
+			}
+			
+			// Event-Listener für alle Buttons
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('button, input[type="button"], .sound-button').forEach(button => {
+					button.addEventListener('click', () => playSound('clickSound'));
+				});
+			});
+		</script>
 	</body>
 </html>
