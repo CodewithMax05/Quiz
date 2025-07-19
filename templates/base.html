@@ -37,17 +37,25 @@
 		<script>
 			// Globale Funktion zum Abspielen von Sounds
 			function playSound(soundId) {
-				const sound = document.getElementById(soundId);
-				if (sound) {
-					sound.currentTime = 0;
+				try {
+					// Sound-Instanz dynamisch erstellen
+					const sound = new Audio("{{ url_for('static', filename='sounds/button_klick_1.mp3') }}");
+					sound.volume = 1.0;
 					sound.play().catch(e => console.log("Sound play failed:", e));
+				} catch (e) {
+					console.error("Sound error:", e);
 				}
 			}
 			
 			// Event-Listener für alle Buttons
 			document.addEventListener('DOMContentLoaded', () => {
 				document.querySelectorAll('button, input[type="button"], .sound-button').forEach(button => {
-					button.addEventListener('click', () => playSound('clickSound'));
+					button.addEventListener('click', () => {
+						// Sound nur bei Aktionen ohne Form-Submit
+						if (!button.closest('form')) {
+							playSound('clickSound');
+						}
+					});
 				});
 			});
 		</script>

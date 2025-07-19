@@ -28,12 +28,18 @@
 </div>
 <script>
     function submitForm(action) {
-        const form = document.getElementById('auth-form');
-        form.action = action === 'login' 
-            ? "{{ url_for('login') }}" 
-            : "{{ url_for('register') }}";
-        form.method = "post";
-        form.submit();
+        // Sound direkt abspielen BEVOR Formular gesendet wird
+        playSound('clickSound');
+        
+        // Kurze Verzögerung für Sound-Wiedergabe
+        setTimeout(() => {
+            const form = document.getElementById('auth-form');
+            form.action = action === 'login' 
+                ? "{{ url_for('login') }}" 
+                : "{{ url_for('register') }}";
+            form.method = "post";
+            form.submit();
+        }, 150); // 150ms Verzögerung für Sound
     }
 </script>
 {% endblock %}
