@@ -697,3 +697,66 @@ body::before {
         font-size: 1.4rem;
     }
 }
+
+
+
+
+
+
+
+
+/* NEU: Korrigiertes Ranking-Button-Styling */
+.ranking-button {
+    position: absolute;
+    top: 15px;
+    right: 100px;
+    width: 55px;
+    height: 55px;
+    opacity: 1;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+    text-decoration: none;
+    z-index: 9999;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    animation: pulse-orange 2s infinite;
+}
+
+.ranking-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #f5b041, #e67e22);
+}
+
+/* Neue Animation für orange Buttons */
+@keyframes pulse-orange {
+    0% { box-shadow: 0 0 0 0 rgba(245, 176, 65, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(245, 176, 65, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 176, 65, 0); }
+}
+
+/* Tooltip für den Ranking-Button */
+.ranking-button::after {
+    content: "Ranking";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.ranking-button:hover::after {
+    opacity: 1;
+}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ranking.css') }}"/>
+{% endblock %}
+
+{% block body %}
+    <!-- Sternenhintergrund -->
+    <div class="stars-background">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
+
+    <!-- Flexibler Haupt-Wrapper -->
+    <div class="ranking-wrapper">
+        <!-- Überschrift oben über beide Spalten -->
+        <h1>Top 10 Spieler</h1>
+
+        <!-- Linke Spalte: Leaderboard -->
+        <div class="ranking-left">
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <div class="header-item">Platz</div>
+                    <div class="header-item">Username</div>
+                    <div class="header-item">Punkte</div>
+                    <div class="header-item">Datum</div>
+                </div>
+                <div class="leaderboard-content">
+                    {% for player in top_players %}
+                    <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}">
+                        <div class="leaderboard-cell position">
+                            {% if loop.index == 1 %}🥇
+                            {% elif loop.index == 2 %}🥈
+                            {% elif loop.index == 3 %}🥉
+                            {% else %}{{ loop.index }}{% endif %}
+                        </div>
+                        <div class="leaderboard-cell username">{{ player.username }}</div>
+                        <div class="leaderboard-cell score">{{ player.score }}</div>
+                        <div class="leaderboard-cell date">{{ player.timestamp.strftime('%d.%m.%Y %H:%M') }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Rechte Spalte: Zurück-Button -->
+        <div class="ranking-right">
+            <a href="{{ url_for('homepage') }}" class="thema-button sound-button">
+                <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
+            </a>
+        </div>
+    </div>
+{% endblock %}

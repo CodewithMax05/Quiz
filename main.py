@@ -431,6 +431,45 @@ def db_stats():
     except Exception as e:
         return f"<p style='color:red;'>Fehler: {str(e)}</p>"
 
+
+
+
+
+
+
+
+
+
+
+from datetime import datetime
+
+
+@app.route('/ranking')
+def ranking():
+    top_players = [
+        {'username': 'Justin', 'score': 1200, 'timestamp': datetime.now()},
+        {'username': 'Lara', 'score': 1100, 'timestamp': datetime.now()},
+        {'username': 'Alex', 'score': 900, 'timestamp': datetime.now()},
+        {'username': 'Tom', 'score': 800, 'timestamp': datetime.now()},
+        {'username': 'Max', 'score': 700, 'timestamp': datetime.now()},
+        {'username': 'Michael', 'score': 200, 'timestamp': datetime.now()},
+        {'username': 'Micha', 'score': 150, 'timestamp': datetime.now()},
+        {'username': 'Mario', 'score': 100, 'timestamp': datetime.now()},
+        {'username': 'Lili', 'score': 50, 'timestamp': datetime.now()},
+        {'username': 'Swen', 'score': 25, 'timestamp': datetime.now()},
+        {'username': 'Marcus', 'score': 20, 'timestamp': datetime.now()},
+    ]
+    
+    # Sortieren + Begrenzen
+    top_players = sorted(top_players, key=lambda x: x['score'], reverse=True)[:10]
+    
+    return render_template('ranking.html', top_players=top_players)
+
+
+
+
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
