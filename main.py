@@ -31,7 +31,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
+    registration = db.Column(db.Date, nullable=True )               #Todo: nullable noch auf false ändern
     highscore = db.Column(db.Integer, default=0)
+    points = db.Column(db.Integer, default=0)
+    set_up_time = db.Column(db.Date, nullable=True)                    #Todo: nullable noch auf false ändern
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -444,7 +447,7 @@ def db_stats():
 from datetime import datetime
 
 
-@app.route('/ranking')
+@app.route('/ranking')                      #Todo: auf DB ändern
 def ranking():
     top_players = [
         {'username': 'Justin', 'score': 1200, 'timestamp': datetime.now()},
