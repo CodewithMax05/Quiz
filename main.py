@@ -446,31 +446,57 @@ def db_stats():
 
 from datetime import datetime
 
-
-@app.route('/ranking')                      #Todo: auf DB ändern
+@app.route('/ranking')                      
 def ranking():
-    top_players = [
-        {'username': 'Justin', 'score': 1200, 'timestamp': datetime.now()},
-        {'username': 'Lara', 'score': 1100, 'timestamp': datetime.now()},
-        {'username': 'Alex', 'score': 900, 'timestamp': datetime.now()},
-        {'username': 'Tom', 'score': 800, 'timestamp': datetime.now()},
-        {'username': 'Max', 'score': 700, 'timestamp': datetime.now()},
-        {'username': 'Michael', 'score': 200, 'timestamp': datetime.now()},
-        {'username': 'Micha', 'score': 150, 'timestamp': datetime.now()},
-        {'username': 'Mario', 'score': 100, 'timestamp': datetime.now()},
-        {'username': 'Lili', 'score': 50, 'timestamp': datetime.now()},
-        {'username': 'Swen', 'score': 25, 'timestamp': datetime.now()},
-        {'username': 'Marcus', 'score': 20, 'timestamp': datetime.now()},
+    from datetime import datetime
+
+    # ✳️ Liste aller Spieler (Demo – später aus DB laden)
+    all_players = [
+        {'username': 'Michael', 'id': 1, 'registration': datetime.now(), 'highscore': 30, 'points': 900, 'set_up_time': datetime.now()},
+        {'username': 'Laura', 'id': 2, 'registration': datetime.now(), 'highscore': 28, 'points': 839, 'set_up_time': datetime.now()},
+        {'username': 'Tobi', 'id': 3, 'registration': datetime.now(), 'highscore': 27, 'points': 818, 'set_up_time': datetime.now()},
+        {'username': 'Sofia', 'id': 4, 'registration': datetime.now(), 'highscore': 24, 'points': 739, 'set_up_time': datetime.now()},
+        {'username': 'Ben', 'id': 5, 'registration': datetime.now(), 'highscore': 21, 'points': 714, 'set_up_time': datetime.now()},
+        {'username': 'Anna', 'id': 6, 'registration': datetime.now(), 'highscore': 20, 'points': 677, 'set_up_time': datetime.now()},
+        {'username': 'Felix', 'id': 7, 'registration': datetime.now(), 'highscore': 19, 'points': 630, 'set_up_time': datetime.now()},
+        {'username': 'Nina', 'id': 8, 'registration': datetime.now(), 'highscore': 16, 'points': 528, 'set_up_time': datetime.now()},
+        {'username': 'Jonas', 'id': 9, 'registration': datetime.now(), 'highscore': 15, 'points': 435, 'set_up_time': datetime.now()},
+        {'username': 'Lea', 'id': 10, 'registration': datetime.now(), 'highscore': 14, 'points': 426, 'set_up_time': datetime.now()},
+        {'username': 'Tim', 'id': 11, 'registration': datetime.now(), 'highscore': 10, 'points': 331, 'set_up_time': datetime.now()},
+        {'username': 'Emily', 'id': 12, 'registration': datetime.now(), 'highscore': 8, 'points': 322, 'set_up_time': datetime.now()},
+        {'username': 'Chris', 'id': 13, 'registration': datetime.now(), 'highscore': 5, 'points': 230, 'set_up_time': datetime.now()},
+        {'username': 'Lena', 'id': 14, 'registration': datetime.now(), 'highscore': 3, 'points': 121, 'set_up_time': datetime.now()},
+        {'username': 's4005560', 'id': 15, 'registration': datetime.now(), 'highscore': 2, 'points': 36, 'set_up_time': datetime.now()},
     ]
-    
-    # Sortieren + Begrenzen
-    top_players = sorted(top_players, key=lambda x: x['score'], reverse=True)[:10]
-    
-    return render_template('ranking.html', top_players=top_players)
 
+    # 🔢 Sortiere nach Punkten absteigend
+    sorted_players = sorted(all_players, key=lambda x: x['points'], reverse=True)
 
+    # 🔟 Top 10 extrahieren
+    top_players = sorted_players[:10]
 
+    # 👤 Aktuellen Benutzer aus der Session holen
+    current_user = session.get('username')
 
+    # 👉 Variablen für den eingeloggten Spieler initialisieren
+    current_player = None
+    player_rank = None
+
+    # 🔍 Aktuellen Benutzer in der vollständigen Rangliste finden
+    if current_user:
+        for idx, player in enumerate(sorted_players, start=1):
+            if player['username'] == current_user:
+                current_player = player     # Spieler-Objekt speichern
+                player_rank = idx           # Platz speichern (1-basiert)
+                break
+
+    # 📤 An ranking.html übergeben:
+    return render_template(
+        'ranking.html',
+        top_players=top_players,          # Nur Top 10
+        current_player=current_player,    # Falls außerhalb der Top 10
+        player_rank=player_rank           # Position des Spielers
+    )
 
 
 if __name__ == '__main__':

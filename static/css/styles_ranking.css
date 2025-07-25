@@ -1,7 +1,4 @@
-/* STYLES_RANKING.CSS */
-/* Styling für die Ranking-Seite im Design des Quiz-Systems */
-
-/* Hintergrund übernommen von homepage.css */
+/* 🌌 GLOBALSTIL & HINTERGRUND */
 html, body {
     margin: 0;
     padding: 0;
@@ -11,15 +8,15 @@ html, body {
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; /* ❌ Scrollen deaktiviert */
+    position: relative;
 }
 
 body {
     min-height: 100vh;
-    position: relative;
 }
 
-/* Wrapper für flexibles Layout */
+/* 💠 RANKING-LAYOUT */
 .ranking-wrapper {
     display: flex;
     justify-content: space-between;
@@ -32,13 +29,11 @@ body {
     padding: 1rem;
 }
 
-/* Linke Spalte */
 .ranking-left {
     flex: 1 1 600px;
     min-width: 300px;
 }
 
-/* Rechte Spalte (Button) */
 .ranking-right {
     flex: 0 1 200px;
     display: flex;
@@ -48,20 +43,19 @@ body {
     min-width: 200px;
 }
 
-/* Überschrift im Wrapper */
 .ranking-wrapper h1 {
     width: 100%;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+/* ✨ STERNENHINTERGRUND */
 body::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background:
         radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0px, transparent 2px),
         radial-gradient(circle at 40% 70%, rgba(255,255,255,0.15) 0px, transparent 1px),
@@ -78,70 +72,49 @@ body::before {
     100% { opacity: 1; }
 }
 
-/* Container-Stile */
-.ranking-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
-    color: white;
-    text-align: center;
-}
-
-/* Überschrift */
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-/* Leaderboard */
+/* 📋 LEADERBOARD-STIL */
 .leaderboard {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
     padding: 1rem;
     margin-bottom: 2rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    max-height: fit-content;
-    overflow: visible;
+    height: 70vh; /* 🔽 Begrenzung auf Bildschirmhöhe */
+    overflow-y: auto;  /* ✅ Scrollbar nur bei Überlauf */
+    overflow-x: hidden;
 }
 
-/* Tabellenkopf */
+/* 🧠 KOPF & ZEILEN */
 .leaderboard-header {
     display: grid;
     grid-template-columns: 1fr 3fr 2fr 3fr;
-    padding: 1rem 0;
-    font-weight: bold;
+    padding: 0,5rem 0;
+    font-weight: 600;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Tabellenzeilen */
 .leaderboard-row {
     display: grid;
     grid-template-columns: 1fr 3fr 2fr 3fr;
-    padding: 0.4rem 0;
+    padding: 0.1rem 0;
     font-size: 0.95rem;
     align-items: center;
     transition: all 0.3s ease;
 }
+
 .leaderboard-row:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Podium-Stil */
+/* 🥇 PODIUM-STIL */
 .leaderboard-row.podium {
     font-weight: bold;
 }
-.leaderboard-row:nth-child(1) {
-    color: gold;
-}
-.leaderboard-row:nth-child(2) {
-    color: silver;
-}
-.leaderboard-row:nth-child(3) {
-    color: #cd7f32;
-}
+.leaderboard-row:nth-child(1) { color: gold; }
+.leaderboard-row:nth-child(2) { color: silver; }
+.leaderboard-row:nth-child(3) { color: #cd7f32; }
 
-/* Zellen */
+/* 📦 ZELLEN */
 .leaderboard-cell {
     padding: 0.5rem;
 }
@@ -161,71 +134,16 @@ h1 {
     font-size: 0.9rem;
 }
 
-/* Button */
-.action-button {
-    margin-top: 2rem;
-}
-.home-button {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    background: linear-gradient(45deg, #1a1a2e, #16213e);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-.home-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(45deg, #16213e, #1a1a2e);
+/* 🌟 EIGENE PLATZIERUNG */
+.leaderboard-row.highlight {
+    background-color: rgba(255, 255, 255, 0.07);
+    font-weight: bold;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Sternenhintergrund */
-.stars-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
-.stars, .stars2, .stars3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-}
-.stars:after, .stars2:after, .stars3:after {
-    content: "";
-    position: absolute;
-    top: -2000px;
-    left: 0;
-    width: 100%;
-    height: 2000px;
-    background: radial-gradient(ellipse at bottom,
-        rgba(255,255,255,0.3) 0%,
-        rgba(255,255,255,0) 70%);
-    animation: stars-animation 20s linear infinite;
-}
-.stars2:after {
-    animation-delay: 10s;
-    animation-duration: 25s;
-    opacity: 0.5;
-}
-.stars3:after {
-    animation-delay: 15s;
-    animation-duration: 30s;
-    opacity: 0.3;
-}
-
-/* Thema-Button (wie Start-Button auf Homepage) */
+/* 🎮 BUTTON-STIL */
 .thema-button {
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
@@ -245,14 +163,22 @@ h1 {
     animation: pulse-purple 2s infinite;
     position: relative;
     z-index: 10;
-    opacity: 1 !important;
-    max-width: 100%;
-    box-sizing: border-box;
-    flex-wrap: wrap;
     white-space: normal;
     text-align: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
+/* 🔧 "Deine Platzierung"-Zeile ohne Umbruch */
+.leaderboard-subtitle {
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 0.95rem;
+    padding-left: 0.5rem;
+    text-align: left;
+    color: #f0f4f8;
+    white-space: nowrap;     /* ✅ Verhindert Zeilenumbruch */
 
 .thema-button:hover {
     transform: translateY(-2px);
@@ -264,40 +190,70 @@ h1 {
     font-size: 1.3rem;
 }
 
+/* 🌠 ANIMATIONEN */
 @keyframes stars-animation {
     0% { transform: translateY(0); }
     100% { transform: translateY(2000px); }
 }
 
-/* 🔧 MEDIA QUERIES - Reagiert auf kleine Viewport-Höhen */
+/* 🪐 HINTERGRUND-LAYER */
+.stars-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.stars, .stars2, .stars3 {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+}
+
+.stars:after, .stars2:after, .stars3:after {
+    content: "";
+    position: absolute;
+    top: -2000px;
+    width: 100%;
+    height: 2000px;
+    background: radial-gradient(ellipse at bottom,
+        rgba(255,255,255,0.3) 0%,
+        rgba(255,255,255,0) 70%);
+    animation: stars-animation 20s linear infinite;
+}
+
+.stars2:after {
+    animation-delay: 10s;
+    animation-duration: 25s;
+    opacity: 0.5;
+}
+
+.stars3:after {
+    animation-delay: 15s;
+    animation-duration: 30s;
+    opacity: 0.3;
+}
+
+/* 📱 RESPONSIVE QUERIES */
 @media (max-height: 850px) {
     h1 {
         font-size: 2rem;
         margin-bottom: 1rem;
     }
-
     .leaderboard-row {
         padding: 0.3rem 0;
         font-size: 0.85rem;
     }
-
     .score {
         font-size: 1rem;
     }
-
     .date {
         font-size: 0.8rem;
     }
-
-    .action-button {
-        margin-top: 1rem;
-    }
-
     .home-button {
         padding: 0.6rem 1.5rem;
         font-size: 0.9rem;
     }
-
     .ranking-container {
         padding: 0.5rem;
     }
@@ -308,7 +264,6 @@ h1 {
         font-size: 1rem;
         padding: 10px 20px;
     }
-
     .thema-button i {
         font-size: 1.2rem;
     }

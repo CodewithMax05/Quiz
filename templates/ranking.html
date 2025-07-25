@@ -36,11 +36,31 @@
                             {% else %}{{ loop.index }}{% endif %}
                         </div>
                         <div class="leaderboard-cell username">{{ player.username }}</div>
-                        <div class="leaderboard-cell score">{{ player.score }}</div>
-                        <div class="leaderboard-cell date">{{ player.timestamp.strftime('%d.%m.%Y %H:%M') }}</div>
+                        <div class="leaderboard-cell score">{{ player.points }}</div>
+                        <div class="leaderboard-cell date">
+                            {{ player.set_up_time.strftime('%d.%m.%Y %H:%M') }}
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
+
+                {% if current_player and player_rank > 10 %}
+                <!-- Eigene Platzierung unterhalb der Top 10 -->
+                <div class="leaderboard-header" style="margin-top: 2rem;">
+                    <div class="header-item">Deine Platzierung</div>
+                    <div class="header-item"></div>
+                    <div class="header-item"></div>
+                    <div class="header-item"></div>
+                </div>
+                <div class="leaderboard-row highlight">
+                    <div class="leaderboard-cell position">#{{ player_rank }}</div>
+                    <div class="leaderboard-cell username">{{ current_player.username }}</div>
+                    <div class="leaderboard-cell score">{{ current_player.points }}</div>
+                    <div class="leaderboard-cell date">
+                        {{ current_player.set_up_time.strftime('%d.%m.%Y %H:%M') }}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
 
