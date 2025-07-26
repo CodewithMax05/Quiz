@@ -466,7 +466,7 @@ def ranking():
         {'username': 'Emily', 'id': 12, 'registration': datetime.now(), 'highscore': 8, 'points': 322, 'set_up_time': datetime.now()},
         {'username': 'Chris', 'id': 13, 'registration': datetime.now(), 'highscore': 5, 'points': 230, 'set_up_time': datetime.now()},
         {'username': 'Lena', 'id': 14, 'registration': datetime.now(), 'highscore': 3, 'points': 121, 'set_up_time': datetime.now()},
-        {'username': 's4005560', 'id': 15, 'registration': datetime.now(), 'highscore': 2, 'points': 36, 'set_up_time': datetime.now()},
+        {'username': 's4005560', 'id': 15, 'registration': datetime.now(), 'highscore': 2, 'points': 736, 'set_up_time': datetime.now()},
     ]
 
     # 🔢 Sortiere nach Punkten absteigend
