@@ -46,10 +46,12 @@
 
                 {% if current_player %}
                 <!-- Eigene Platzierung unterhalb der Top 10 -->
-                <div class="leaderboard-row full-width-title">
-                    <div class="leaderboard-cell span-all">Deine Platzierung</div>
+                <div class="leaderboard-header" style="margin-top: 2rem;">
+                    <div class="header-item">Deine Platzierung</div>
+                    <div class="header-item"></div>
+                    <div class="header-item"></div>
+                    <div class="header-item"></div>
                 </div>
-
                 <div class="leaderboard-row highlight">
                     <div class="leaderboard-cell position">#{{ player_rank }}</div>
                     <div class="leaderboard-cell username">{{ current_player.username }}</div>
