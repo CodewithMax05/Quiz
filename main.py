@@ -8,6 +8,7 @@ import csv
 import time
 from collections import defaultdict
 from flask_session import Session
+from datetime import datetime, timezone
 
 app = Flask(__name__)
 
@@ -31,10 +32,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
-    registration = db.Column(db.Date, nullable=True )               #Todo: nullable noch auf false ändern
     highscore = db.Column(db.Integer, default=0)
-    points = db.Column(db.Integer, default=0)
-    set_up_time = db.Column(db.Date, nullable=True)                    #Todo: nullable noch auf false ändern
+    highscore_time = db.Column(db.DateTime)
+    correct_answers = db.Column(db.Integer, default=0)
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -143,7 +143,50 @@ def initialize_database():
                     print(f"❌ Fehler beim Import von {csv_file}: {str(e)}")
                     db.session.rollback()
             
-            print(f"Datenbankinitialisierung abgeschlossen. Importierte Fragen: {total_imported}")
+            print(f"Importierte Fragen: {total_imported}")
+            
+            # Testbenutzer hinzufügen (nur in Entwicklung oder bei erzwungenem Reset)
+            if not is_production or force_init:
+                print("Prüfe Testbenutzer...")
+                from datetime import datetime
+                
+                test_users = [
+                    {'username': 'Michael', 'password': 'test', 'highscore': 900, 'highscore_time': datetime(2025, 1, 15, tzinfo=timezone.utc), 'correct_answers': 15},
+                    {'username': 'Laura', 'password': 'test', 'highscore': 839, 'highscore_time': datetime(2025, 1, 16, tzinfo=timezone.utc), 'correct_answers': 14},
+                    {'username': 'Tobi', 'password': 'test', 'highscore': 818, 'highscore_time': datetime(2025, 1, 17, tzinfo=timezone.utc), 'correct_answers': 13},
+                    {'username': 'Sofia', 'password': 'test', 'highscore': 739, 'highscore_time': datetime(2025, 1, 18, tzinfo=timezone.utc), 'correct_answers': 12},
+                    {'username': 'Ben', 'password': 'test', 'highscore': 714, 'highscore_time': datetime(2025, 1, 19, tzinfo=timezone.utc), 'correct_answers': 11},
+                    {'username': 'Anna', 'password': 'test', 'highscore': 677, 'highscore_time': datetime(2025, 1, 20, tzinfo=timezone.utc), 'correct_answers': 10},
+                    {'username': 'Felix', 'password': 'test', 'highscore': 630, 'highscore_time': datetime(2025, 1, 21, tzinfo=timezone.utc), 'correct_answers': 9},
+                    {'username': 'Nina', 'password': 'test', 'highscore': 528, 'highscore_time': datetime(2025, 1, 22, tzinfo=timezone.utc), 'correct_answers': 8},
+                    {'username': 'Jonas', 'password': 'test', 'highscore': 435, 'highscore_time': datetime(2025, 1, 23, tzinfo=timezone.utc), 'correct_answers': 7},
+                    {'username': 'Lea', 'password': 'test', 'highscore': 426, 'highscore_time': datetime(2025, 1, 24, tzinfo=timezone.utc), 'correct_answers': 6},
+                    {'username': 'Tim', 'password': 'test', 'highscore': 331, 'highscore_time': datetime(2025, 1, 25, tzinfo=timezone.utc), 'correct_answers': 5},
+                    {'username': 'Emily', 'password': 'test', 'highscore': 322, 'highscore_time': datetime(2025, 1, 26, tzinfo=timezone.utc), 'correct_answers': 4},
+                    {'username': 'Chris', 'password': 'test', 'highscore': 230, 'highscore_time': datetime(2025, 1, 27, tzinfo=timezone.utc), 'correct_answers': 3},
+                    {'username': 'Lena', 'password': 'test', 'highscore': 121, 'highscore_time': datetime(2025, 1, 28, tzinfo=timezone.utc), 'correct_answers': 2},
+                    {'username': 's4005560', 'password': 'test', 'highscore': 736, 'highscore_time': datetime(2025, 1, 29, tzinfo=timezone.utc), 'correct_answers': 12}
+                ]
+
+                added_users = 0
+                for user_data in test_users:
+                    if not User.query.filter_by(username=user_data['username']).first():
+                        new_user = User(
+                            username=user_data['username'],
+                            highscore=user_data['highscore'],
+                            highscore_time=user_data['highscore_time']
+                        )
+                        new_user.set_password(user_data['password'])
+                        db.session.add(new_user)
+                        added_users += 1
+                
+                if added_users > 0:
+                    db.session.commit()
+                    print(f"✅ {added_users} Testbenutzer hinzugefügt")
+                else:
+                    print("ℹ️ Keine neuen Testbenutzer benötigt")
+            
+            print("Datenbankinitialisierung abgeschlossen")
             
         except Exception as e:
             print(f"❌❌ KRITISCHER FEHLER: {str(e)}")
@@ -267,7 +310,8 @@ def start_custom_quiz():
         'questions': [q.id for q in selected_questions],
         'current_index': 0,
         'total_questions': num_questions,
-        'score': 0
+        'score': 0,
+        'correct_count': 0
     }
     
     return redirect(url_for('show_question'))
@@ -328,22 +372,32 @@ def check_answer():
         return jsonify({'error': 'Question not found'}), 404
         
     user_answer = request.form.get('answer', '')
+    time_left = int(request.form.get('time_left', 0))
     is_correct = user_answer == question.true
     
-    # Score aktualisieren
-    new_score = quiz_data['score']
+    # Punkte basierend auf verbleibender Zeit berechnen
+    if is_correct and time_left > 0:
+        points_earned = 30 + 70 * (time_left / 30) ** 2.0
+        points_earned = round(points_earned)
+    else:
+        points_earned = 0
+
+    # Neuer Zähler für korrekte Antworten
     if is_correct:
-        new_score += 1
-        quiz_data['score'] = new_score
+        quiz_data['correct_count'] += 1
+
+    # Score übergeben
+    new_score = quiz_data['score'] + points_earned
+    quiz_data['score'] = new_score
     
     # Markiere Frage als beantwortet
     quiz_data['answered'] = True
     session['quiz_data'] = quiz_data
     
-    # Aktualisierten Score in der Antwort zurückgeben
     return jsonify({
         'is_correct': is_correct,
         'correct_answer': question.true,
+        'points_earned': points_earned,
         'current_score': new_score
     })
 
@@ -380,15 +434,26 @@ def evaluate_quiz():
     quiz_data = session.pop('quiz_data', None)
     score = quiz_data.get('score', 0)
     total = quiz_data.get('total_questions', 0)
+    correct_count = quiz_data.get('correct_count', 0)
     
     # Highscore-Logik
     user = User.query.filter_by(username=session['username']).first()
     new_highscore = False
+    new_correct_highscore = False
     
     if user:
-        if score > user.highscore:
-            user.highscore = score
+        # Highscore für Punkte
+        if quiz_data['score'] > user.highscore:
+            user.highscore = quiz_data['score']
+            user.highscore_time = datetime.now(timezone.utc)
             new_highscore = True
+
+        # Highscore für korrekte Antworten
+        if correct_count > user.correct_answers:
+            user.correct_answers = correct_count
+            new_correct_highscore = True
+
+        if new_highscore or new_correct_highscore:
             db.session.commit()
     
     return render_template(
@@ -434,70 +499,39 @@ def db_stats():
     except Exception as e:
         return f"<p style='color:red;'>Fehler: {str(e)}</p>"
 
-
-
-
-
-
-
-
-
-
-
-from datetime import datetime
-
 @app.route('/ranking')                      
 def ranking():
-    from datetime import datetime
+    # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
+    players_with_highscore = User.query.filter(User.highscore > 0).order_by(
+        User.highscore.desc(),
+        User.highscore_time.asc() # Wer zuerst den Score erreicht hat, kommt höher
+    ).all()
 
-    # ✳️ Liste aller Spieler (Demo – später aus DB laden)
-    all_players = [
-        {'username': 'Michael', 'id': 1, 'registration': datetime.now(), 'highscore': 30, 'points': 900, 'set_up_time': datetime.now()},
-        {'username': 'Laura', 'id': 2, 'registration': datetime.now(), 'highscore': 28, 'points': 839, 'set_up_time': datetime.now()},
-        {'username': 'Tobi', 'id': 3, 'registration': datetime.now(), 'highscore': 27, 'points': 818, 'set_up_time': datetime.now()},
-        {'username': 'Sofia', 'id': 4, 'registration': datetime.now(), 'highscore': 24, 'points': 739, 'set_up_time': datetime.now()},
-        {'username': 'Ben', 'id': 5, 'registration': datetime.now(), 'highscore': 21, 'points': 714, 'set_up_time': datetime.now()},
-        {'username': 'Anna', 'id': 6, 'registration': datetime.now(), 'highscore': 20, 'points': 677, 'set_up_time': datetime.now()},
-        {'username': 'Felix', 'id': 7, 'registration': datetime.now(), 'highscore': 19, 'points': 630, 'set_up_time': datetime.now()},
-        {'username': 'Nina', 'id': 8, 'registration': datetime.now(), 'highscore': 16, 'points': 528, 'set_up_time': datetime.now()},
-        {'username': 'Jonas', 'id': 9, 'registration': datetime.now(), 'highscore': 15, 'points': 435, 'set_up_time': datetime.now()},
-        {'username': 'Lea', 'id': 10, 'registration': datetime.now(), 'highscore': 14, 'points': 426, 'set_up_time': datetime.now()},
-        {'username': 'Tim', 'id': 11, 'registration': datetime.now(), 'highscore': 10, 'points': 331, 'set_up_time': datetime.now()},
-        {'username': 'Emily', 'id': 12, 'registration': datetime.now(), 'highscore': 8, 'points': 322, 'set_up_time': datetime.now()},
-        {'username': 'Chris', 'id': 13, 'registration': datetime.now(), 'highscore': 5, 'points': 230, 'set_up_time': datetime.now()},
-        {'username': 'Lena', 'id': 14, 'registration': datetime.now(), 'highscore': 3, 'points': 121, 'set_up_time': datetime.now()},
-        {'username': 's4005560', 'id': 15, 'registration': datetime.now(), 'highscore': 2, 'points': 736, 'set_up_time': datetime.now()},
-    ]
+    # Top 10 Spieler
+    top_players = players_with_highscore[:10]
 
-    # 🔢 Sortiere nach Punkten absteigend
-    sorted_players = sorted(all_players, key=lambda x: x['points'], reverse=True)
-
-    # 🔟 Top 10 extrahieren
-    top_players = sorted_players[:10]
-
-    # 👤 Aktuellen Benutzer aus der Session holen
+    # Aktuellen Benutzer finden
     current_user = session.get('username')
-
-    # 👉 Variablen für den eingeloggten Spieler initialisieren
     current_player = None
     player_rank = None
-
-    # 🔍 Aktuellen Benutzer in der vollständigen Rangliste finden
+    
     if current_user:
-        for idx, player in enumerate(sorted_players, start=1):
-            if player['username'] == current_user:
-                current_player = player     # Spieler-Objekt speichern
-                player_rank = idx           # Platz speichern (1-basiert)
+        for idx, player in enumerate(players_with_highscore, start=1):
+            if player.username == current_user:
+                current_player = player
+                player_rank = idx
                 break
+        
+        # Wenn der aktuelle Benutzer keinen Highscore hat
+        if not current_player:
+            current_player = User.query.filter_by(username=current_user).first()
 
-    # 📤 An ranking.html übergeben:
     return render_template(
         'ranking.html',
-        top_players=top_players,          # Nur Top 10
-        current_player=current_player,    # Falls außerhalb der Top 10
-        player_rank=player_rank           # Position des Spielers
+        top_players=top_players,
+        current_player=current_player,
+        player_rank=player_rank
     )
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

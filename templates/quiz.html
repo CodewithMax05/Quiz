@@ -107,28 +107,29 @@
         }
 
         function selectOption(elem) {
-            // Deaktiviere weitere Klicks, um Mehrfachantworten zu verhindern
+            // Deaktiviere weitere Klicks
             const options = document.querySelectorAll('.option');
             options.forEach(opt => opt.style.pointerEvents = 'none');
             
             const selectedAnswer = elem.textContent.trim();
             const scoreDisplay = document.getElementById('score-display');
+            const timeLeft = parseInt(timerText.textContent); // Verbleibende Zeit
             
-            // Sende Antwort zur Überprüfung an den Server
+            // Sende Antwort zur Überprüfung
             fetch("{{ url_for('check_answer') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `answer=${encodeURIComponent(selectedAnswer)}`
+                body: `answer=${encodeURIComponent(selectedAnswer)}&time_left=${timeLeft}`
             })
             .then(response => response.json())
             .then(data => {
-                // SOFORTIGES SCORE-UPDATE
+                // Score sofort aktualisieren
                 scoreDisplay.textContent = 'Score: ' + data.current_score;
                 
-                // Animation bei richtiger Antwort
-                if (data.is_correct) {
+                // Animation bei Punktgewinn
+                if (data.points_earned > 0) {
                     scoreDisplay.classList.add('score-update');
                     setTimeout(() => {
                         scoreDisplay.classList.remove('score-update');
@@ -139,7 +140,6 @@
             })
             .catch(error => {
                 console.error('Fehler:', error);
-                // Im Fehlerfall trotzdem fortfahren
                 handleAnswerEnd(selectedAnswer, { 
                     is_correct: false, 
                     correct_answer: '',
@@ -152,18 +152,16 @@
             clearInterval(timerInterval);
             timerContainer.style.animation = 'none';
 
-            // Für alle Fälle 1 Sekunde warten
             const redirectDelay = 1000;
 
-            // Wenn die Zeit abgelaufen ist (selected ist leer) und keine ServerResponse
+            // Timeout-Fall (Zeit abgelaufen)
             if (selected === '' && serverResponse === null) {
-                // Frage den Server nach der korrekten Antwort
                 fetch("{{ url_for('check_answer') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `answer=`
+                    body: `answer=&time_left=0` // 0 Punkte bei Timeout
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -176,12 +174,11 @@
                 return;
             }
 
-            // Highlight der Antworten basierend auf Server-Antwort
+            // Normale Antwortverarbeitung
             if (serverResponse) {
                 highlightAnswers(selected, serverResponse);
             }
 
-            // Nach 1 Sekunde automatisch weiter
             setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
         }
 
