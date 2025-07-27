@@ -38,11 +38,7 @@
                         <div class="leaderboard-cell username">{{ player.username }}</div>
                         <div class="leaderboard-cell score">{{ player.highscore }}</div>
                         <div class="leaderboard-cell date">
-                            {% if player.highscore_time %}
-                                {{ player.highscore_time.strftime('%d.%m.%Y %H:%M') }}
-                            {% else %}
-                                Noch nicht gespielt
-                            {% endif %}
+                            {{ (player.highscore_time or player.first_played) | to_local_time }}
                         </div>
                     </div>
                     {% endfor %}
@@ -57,12 +53,15 @@
                     <div class="header-item"></div>
                 </div>
                 <div class="leaderboard-row highlight">
-                    <div class="leaderboard-cell position">#{{ player_rank }}</div>
+                    <div class="leaderboard-cell position">
+                        {% if player_rank %}#{{ player_rank }}
+                        {% else %}N/A{% endif %}
+                    </div>
                     <div class="leaderboard-cell username">{{ current_player.username }}</div>
                     <div class="leaderboard-cell score">{{ current_player.highscore }}</div>
                     <div class="leaderboard-cell date">
-                        {% if current_player.highscore_time %}
-                            {{ current_player.highscore_time.strftime('%d.%m.%Y %H:%M') }}
+                        {% if current_player.highscore_time or current_player.first_played %}
+                            {{ (current_player.highscore_time or current_player.first_played) | to_local_time }}
                         {% else %}
                             Noch nicht gespielt
                         {% endif %}
