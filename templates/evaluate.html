@@ -16,7 +16,13 @@
         <h1>Glückwunsch {{ session.username }},<br>du hast das Quiz erfolgreich abgeschlossen!</h1>
         
         <div class="score-display">
-            <span class="correct">{{ score }}</span> von <span class="total">{{ total }}</span> Fragen richtig
+            <div class="correct-answers">
+                <span class="correct">{{ correct_answers }}</span> von 
+                <span class="total">{{ total }}</span> Fragen richtig
+            </div>
+            <div class="points-earned">
+                Punktzahl: <span class="points">{{ score }}</span>
+            </div>
         </div>
         
         <div class="performance-rating">

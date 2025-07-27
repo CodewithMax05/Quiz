@@ -471,6 +471,7 @@ def evaluate_quiz():
         'evaluate.html',
         score=score,
         total=total,
+        correct_answers=quiz_data.get('correct_count', 0),
         new_highscore=new_highscore,
         highscore=user.highscore if user else score
     )

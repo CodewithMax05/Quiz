@@ -16,8 +16,8 @@ body {
     color: #f0f4f8;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Geändert von center zu flex-start */
-    padding-top: 5vh; /* Neuer oberer Abstand */
+    align-items: flex-start;
+    padding-top: 5vh;
     overflow-x: hidden;
     position: relative;
 }
@@ -83,7 +83,7 @@ body {
     100% { opacity: 0.8; }
 }
 
-/* Ergebnis-Container - Höher positioniert */
+/* Ergebnis-Container */
 .result-container {
     text-align: center;
     padding: 30px 20px;
@@ -96,7 +96,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 10;
     position: relative;
-    margin: 5vh auto 20px; /* Oben 5vh für höhere Platzierung */
+    margin: 5vh auto 20px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -111,22 +111,40 @@ body {
     line-height: 1.3;
 }
 
-/* Punkteanzeige */
+/* Score-Anzeige Container */
 .score-display {
-    font-size: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin: 20px 0;
-    font-weight: bold;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    line-height: 1.2;
 }
 
-.score-display .correct {
+/* Korrekte Antworten */
+.correct-answers {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Punktzahl-Anzeige */
+.points-earned {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Farben für die Werte */
+.correct-answers .correct {
     color: #2ecc71;
 }
 
-.score-display .total {
+.correct-answers .total {
     color: #3498db;
+}
+
+.points-earned .points {
+    color: #ffdd40;
+    text-shadow: 0 0 8px rgba(255, 221, 64, 0.5);
 }
 
 /* Leistungsbewertung */
@@ -217,7 +235,7 @@ body {
 /* Responsive Anpassungen */
 @media (max-width: 768px) {
     body {
-        padding-top: 4vh; /* Weniger Abstand auf Tablets */
+        padding-top: 4vh;
     }
     
     .result-container {
@@ -231,9 +249,12 @@ body {
         margin-bottom: 15px;
     }
     
-    .score-display {
+    .correct-answers {
+        font-size: 1.6rem;
+    }
+    
+    .points-earned {
         font-size: 2.0rem;
-        margin: 15px 0;
     }
     
     .performance-rating {
@@ -263,13 +284,13 @@ body {
 @media (max-width: 480px) {
     body {
         background-size: 500% 500%;
-        padding-top: 3vh; /* Weniger Abstand auf Handys */
+        padding-top: 3vh;
     }
     
     .result-container {
         padding: 20px 12px;
         width: 90%;
-        margin: 3vh auto 15px; /* Angepasster oberer Abstand */
+        margin: 3vh auto 15px;
         border-radius: 14px;
     }
     
@@ -278,9 +299,12 @@ body {
         line-height: 1.25;
     }
     
-    .score-display {
+    .correct-answers {
+        font-size: 1.4rem;
+    }
+    
+    .points-earned {
         font-size: 1.8rem;
-        margin: 12px 0;
     }
     
     .performance-rating {
@@ -316,7 +340,7 @@ body {
 
 @media (max-width: 360px) {
     body {
-        padding-top: 2vh; /* Minimaler Abstand auf sehr kleinen Geräten */
+        padding-top: 2vh;
     }
     
     .result-container {
@@ -329,7 +353,11 @@ body {
         font-size: 1.3rem;
     }
     
-    .score-display {
+    .correct-answers {
+        font-size: 1.3rem;
+    }
+    
+    .points-earned {
         font-size: 1.6rem;
     }
     
