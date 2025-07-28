@@ -91,6 +91,11 @@
 
             <!-- Rechte Spalte (Unter der Liste) -->
             <div class="ranking-column-right">
+                <!-- Einfache Suchleiste -->
+                <div class="simple-search">
+                    <input type="text" id="player-search" placeholder="Spieler suchen..." 
+                           onkeypress="if(event.key === 'Enter') searchPlayer()">
+                </div>
                 <!-- Spielerinfo-Karte -->
                 <div class="player-info-card">
                     <h3>Spielerprofil</h3>
@@ -159,6 +164,37 @@
             document.getElementById('info-highscore').textContent = row.dataset.score || "0";
             document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
             document.getElementById('info-correct').textContent = row.dataset.correct || "0";
+        }
+        
+        async function searchPlayer() {
+            const searchInput = document.getElementById('player-search');
+            const username = searchInput.value.trim();
+            
+            if (!username) return;
+
+            try {
+                const response = await fetch(`/api/search_player?username=${encodeURIComponent(username)}`);
+                const player = await response.json();
+                
+                if (player.error) {
+                    alert(player.error);
+                    return;
+                }
+
+                // Spielerdaten anzeigen
+                document.getElementById('info-id').textContent = player.id || "N/A";
+                document.getElementById('info-username').textContent = player.username || "N/A";
+                document.getElementById('info-registered').textContent = player.first_played || "N/A";
+                document.getElementById('info-highscore').textContent = player.highscore || "0";
+                document.getElementById('info-highscore-date').textContent = player.highscore_time || "N/A";
+                document.getElementById('info-correct').textContent = player.correct_high || "0";
+                
+                // Highlight entfernen
+                document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
+                
+            } catch (error) {
+                console.error('Fehler bei der Suche:', error);
+            }
         }
     </script>
 {% endblock %}

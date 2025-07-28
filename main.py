@@ -550,6 +550,26 @@ def ranking():
         player_rank=player_rank
     )
 
+@app.route('/api/search_player')
+def search_player():
+    username = request.args.get('username', '').strip()
+    if not username:
+        return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
+    
+    user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
+    if not user:
+        return jsonify({'error': 'Spieler nicht gefunden'}), 404
+    
+    return jsonify({
+        'id': user.id,
+        'username': user.username,
+        'first_played': to_local_time(user.first_played) if user.first_played else "N/A",
+        'highscore': user.highscore,
+        'highscore_time': to_local_time(user.highscore_time) if user.highscore_time else "N/A",
+        'correct_high': user.correct_high
+    })
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
