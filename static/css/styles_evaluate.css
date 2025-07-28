@@ -226,6 +226,59 @@ body {
     background: linear-gradient(135deg, #3a00b3, #6d1fc1);
 }
 
+
+
+
+
+/* Container für beide Buttons zentriert */
+.action-buttons-evaluate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* Replik des Ranking-Buttons aus homepage.css */
+.ranking-button {
+    width: 55px;
+    height: 55px;
+    opacity: 1;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    animation: pulse-orange 2s infinite;
+    position: relative;
+}
+
+.ranking-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #f5b041, #e67e22);
+}
+
+
+
+/* Animation */
+@keyframes pulse-orange {
+    0% { box-shadow: 0 0 0 0 rgba(245, 176, 65, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(245, 176, 65, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 176, 65, 0); }
+}
+
+
+
+
+
+
 @keyframes pulse-purple {
     0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
     70% { box-shadow: 0 0 0 12px rgba(116, 0, 224, 0); }

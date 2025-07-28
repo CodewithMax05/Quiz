@@ -185,6 +185,7 @@ body::before {
     text-align: left;
     color: #f0f4f8;
     white-space: nowrap;     /* ✅ Verhindert Zeilenumbruch */
+}
 
 .thema-button:hover {
     transform: translateY(-2px);
@@ -192,18 +193,9 @@ body::before {
     background: linear-gradient(135deg, #3a00b3, #6d1fc1);
 }
 
-
-
-
-
 .leaderboard-row.full-width-title {
     grid-template-columns: 1fr;
 }
-
-
-
-
-
 
 .thema-button i {
     font-size: 1.3rem;
