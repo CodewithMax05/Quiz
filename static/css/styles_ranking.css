@@ -8,7 +8,7 @@ html, body {
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* ❌ Scrollen deaktiviert */
+    overflow: hidden;
     position: relative;
 }
 
@@ -16,198 +16,50 @@ body {
     min-height: 100vh;
 }
 
-/* 💠 RANKING-LAYOUT */
-.ranking-wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1rem;
-}
-
-.ranking-left {
+/* 💠 RANKING-LAYOUT - ANPASSUNGEN FÜR MEHR ABSTAND */
+.ranking-container {
+    padding: 0.5rem 1rem;
+    height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
-
-    flex: 1 1 600px;
-    min-width: 300px;
+    overflow: hidden;
 }
 
-.ranking-right {
-    flex: 0 1 200px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100%;
-    min-width: 200px;
-}
-
-.ranking-wrapper h1 {
-    width: 100%;
+.ranking-title {
     text-align: center;
-    margin-bottom: 0rem;
-    font-size: 2.5rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    margin: 2rem 0 1.5rem 0; /* Stark erhöhter Abstand (2rem oben, 1.5rem unten) */
+    color: #ffffff;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(142, 45, 226, 0.7);
+}
+
+.ranking-content {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-top: 2rem; /* Deutlich erhöhter Abstand unter der Überschrift */
+    flex: 1;
+    min-height: 0;
+    padding: 0 2rem; /* NEU: Seitlicher Abstand für beide Boxen zusammen */
+}
+
+/* NEUE ANPASSUNG: Seitliche Abstände für einzelne Spalten */
+.ranking-column-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem; /* NEU: Abstand vom linken Rand */
+}
+
+.ranking-column-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    margin-right: 1rem; /* NEU: Abstand vom rechten Rand */
 }
 
 /* ✨ STERNENHINTERGRUND */
-body::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0px, transparent 2px),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.15) 0px, transparent 1px),
-        radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0px, transparent 1px),
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.15) 0px, transparent 1px),
-        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0px, transparent 1px);
-    background-size: 200px 200px;
-    z-index: -1;
-    animation: twinkle 8s infinite alternate;
-}
-
-@keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
-}
-
-/* 📋 LEADERBOARD-STIL */
-.leaderboard {
-    background: rgba(26, 26, 46, 0.8);
-    border-radius: 15px;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    flex: 1 1 auto;
-    overflow-y: auto;  /* ✅ Scrollbar nur bei Überlauf */
-    overflow-x: hidden;
-}
-
-/* 🧠 KOPF & ZEILEN */
-.leaderboard-header {
-    display: grid;
-    grid-template-columns: 1fr 3fr 2fr 3fr;
-    padding: 0,5rem 0;
-    font-weight: 600;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.leaderboard-row {
-    display: grid;
-    grid-template-columns: 1fr 3fr 2fr 3fr;
-    padding: 0.1rem 0;
-    font-size: 0.95rem;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.leaderboard-row:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* 🥇 PODIUM-STIL */
-.leaderboard-row.podium {
-    font-weight: bold;
-}
-.leaderboard-row:nth-child(1) { color: gold; }
-.leaderboard-row:nth-child(2) { color: silver; }
-.leaderboard-row:nth-child(3) { color: #cd7f32; }
-
-/* 📦 ZELLEN */
-.leaderboard-cell {
-    padding: 0.5rem;
-}
-.position {
-    font-size: 1.2rem;
-}
-.username {
-    text-align: left;
-    padding-left: 1rem;
-}
-.score {
-    font-family: 'Courier New', monospace;
-    font-size: 1.1rem;
-}
-.date {
-    color: #aaa;
-    font-size: 0.9rem;
-}
-
-/* 🌟 EIGENE PLATZIERUNG */
-.leaderboard-row.highlight {
-    background-color: rgba(255, 255, 255, 0.07);
-    color: #ffffff;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.platzierung-header .header-item {
-    white-space: nowrap;
-}
-
-/* 🎮 BUTTON-STIL */
-.thema-button {
-    background: linear-gradient(135deg, #4a00e0, #8e2de2);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(74, 0, 224, 0.4);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    animation: pulse-purple 2s infinite;
-    position: relative;
-    z-index: 10;
-    white-space: normal;
-    text-align: center;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    max-width: 100%;
-}
-
-/* 🔧 "Deine Platzierung"-Zeile ohne Umbruch */
-.leaderboard-subtitle {
-    margin-top: 1rem;
-    font-weight: bold;
-    font-size: 0.95rem;
-    padding-left: 0.5rem;
-    text-align: left;
-    color: #f0f4f8;
-    white-space: nowrap;     /* ✅ Verhindert Zeilenumbruch */
-}
-
-.thema-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(74, 0, 224, 0.5);
-    background: linear-gradient(135deg, #3a00b3, #6d1fc1);
-}
-
-.leaderboard-row.full-width-title {
-    grid-template-columns: 1fr;
-}
-
-.thema-button i {
-    font-size: 1.3rem;
-}
-
-/* 🌠 ANIMATIONEN */
-@keyframes stars-animation {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(2000px); }
-}
-
-/* 🪐 HINTERGRUND-LAYER */
 .stars-background {
     position: fixed;
     inset: 0;
@@ -245,114 +97,142 @@ body::before {
     opacity: 0.3;
 }
 
-/* 📱 RESPONSIVE QUERIES */
-@media (max-height: 850px) {
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-    .leaderboard-row {
-        padding: 0.3rem 0;
-        font-size: 0.85rem;
-    }
-    .score {
-        font-size: 1rem;
-    }
-    .date {
-        font-size: 0.8rem;
-    }
-    .home-button {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.9rem;
-    }
-    .ranking-container {
-        display: flex;
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem;
-    }
+/* 📋 LEADERBOARD-STIL */
+.leaderboard {
+    background: rgba(26, 26, 46, 0.8);
+    border-radius: 15px;
+    padding: 0.8rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-@media (max-width: 480px) {
-    .thema-button {
-        font-size: 1rem;
-        padding: 10px 20px;
-    }
-    .thema-button i {
-        font-size: 1.2rem;
-    }
+.leaderboard-header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr 3fr;
+    padding: 0.5rem 0;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-
-/* Füge diese Regeln am Ende der Datei hinzu */
 .leaderboard-row {
-  cursor: pointer;
-  transition: background 0.2s ease;
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr 3fr;
+    padding: 0.1rem 0;
+    font-size: 0.95rem;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .leaderboard-row:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .leaderboard-row.active {
-  background: rgba(0, 119, 255, 0.1) !important;
-  box-shadow: inset 0 0 0 1px rgba(0, 119, 255, 0.3);
+    background: rgba(0, 119, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(0, 119, 255, 0.3);
 }
 
-.player-info {
-  background: rgba(26, 26, 46, 0.8);
-  border-radius: 15px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+/* 🥇 PODIUM-STIL */
+.leaderboard-row.podium {
+    font-weight: bold;
+}
+.leaderboard-row:nth-child(1) { color: gold; }
+.leaderboard-row:nth-child(2) { color: silver; }
+.leaderboard-row:nth-child(3) { color: #cd7f32; }
+
+/* 📦 ZELLEN */
+.leaderboard-cell {
+    padding: 0.4rem;
+}
+.position {
+    font-size: 1.1rem;
+}
+.username {
+    text-align: left;
+    padding-left: 0.8rem;
+}
+.score {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+}
+.date {
+    color: #aaa;
+    font-size: 0.85rem;
 }
 
-.player-info h3 {
-  margin-top: 0;
-  color: #8e2de2;
-  text-align: center;
+/* 🌟 EIGENE PLATZIERUNG */
+.leaderboard-row.highlight {
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.ranking-column-left {
-    flex: 2;
-}
-
-.ranking-column-right {
+/* 🎮 SPIELERINFO-KARTE */
+.player-info-card {
+    background: rgba(26, 26, 46, 0.8);
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
 }
 
 .player-info-card h3 {
     color: #8e2de2;
-    margin-top: 0;
+    margin: 0.5rem 0;
     text-align: center;
-    font-size: 1.5rem;
-    padding-bottom: 0.5rem;
+    font-size: 1.3rem;
+    padding-bottom: 0.3rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.player-info-content p {
-    margin: 1rem 0;
-    font-size: 1.1rem;
+.player-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
 }
 
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-/* Zurück-Button */
+.info-label {
+    color: #8e2de2;
+    font-weight: 500;
+}
+
+.info-value {
+    text-align: right;
+    color: #ffffff;
+}
+
+.highlight .info-value {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* 🔙 ZURÜCK-BUTTON */
 .back-button {
     display: block;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
     text-align: center;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
 }
 
 .back-button:hover {
@@ -360,13 +240,90 @@ body::before {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive Design */
+/* 🌠 ANIMATIONEN */
+@keyframes stars-animation {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(2000px); }
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* 📱 RESPONSIVE DESIGN */
 @media (max-width: 768px) {
-    .ranking-container {
+    .ranking-title {
+        margin: 1.8rem 0 1.2rem 0; /* Etwas weniger Abstand auf mobilen Geräten */
+    }
+    
+    .ranking-content {
+        margin-top: 1.5rem;
         flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem; /* NEU: Weniger seitlicher Abstand auf Mobile */
+    }
+    
+    .ranking-column-left, 
+    .ranking-column-right {
+        margin-left: 0; /* NEU: Kein zusätzlicher Abstand auf Mobile */
+        margin-right: 0;
     }
     
     .ranking-column-right {
         min-width: 100%;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+    
+    .info-value {
+        text-align: left;
+    }
+
+    .ranking-container {
+        height: auto;
+        padding: 0.5rem;
+    }
+    
+    .leaderboard {
+        height: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .ranking-content {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .ranking-column-left {
+        width: 60%;
+    }
+    
+    .ranking-column-right {
+        width: 35%;
+        margin-left: 5%;
+    }
+}
+
+@media (max-height: 700px) {
+    .ranking-title {
+        margin: 1.5rem 0 1rem 0; /* Kompakter auf kleinen Bildschirmen */
+    }
+    
+    .ranking-content {
+        margin-top: 1.2rem;
+    }
+    
+    .leaderboard-row {
+        padding: 0;
+        font-size: 0.85rem;
+    }
+    
+    .leaderboard-cell {
+        padding: 0.3rem;
     }
 }

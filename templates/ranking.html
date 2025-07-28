@@ -5,123 +5,160 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Sternenhintergrund (unverändert) -->
+    <!-- Sternenhintergrund -->
     <div class="stars-background">
         <div class="stars"></div>
         <div class="stars2"></div>
         <div class="stars3"></div>
     </div>
 
-    <!-- Haupt-Container mit zwei Spalten -->
-    <div class="ranking-container">
-        <!-- Linke Spalte (Leaderboard) -->
-        <div class="ranking-column-left">
-            <h1>Top 10 Spieler</h1>
-            
-            <div class="leaderboard">
-                <div class="leaderboard-header">
-                    <div class="header-item">Platz</div>
-                    <div class="header-item">Username</div>
-                    <div class="header-item">Punkte</div>
-                    <div class="header-item">Datum</div>
-                </div>
-                
-                <!-- Top 10 Liste (klickbar) -->
-                <div class="leaderboard-content">
-                    {% for player in top_players %}
-                    <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
-                         data-username="{{ player.username }}"
-                         data-score="{{ player.highscore }}"
+    <!-- Haupt-Container -->
+    <div class="ranking-wrapper">
+        <!-- Zentrierte Überschrift -->
+        <h1 class="ranking-title">Top 10 Spieler</h1>
+
+        <!-- Inhalt unter der Überschrift -->
+        <div class="ranking-content">
+            <!-- Linke Spalte (Leaderboard) -->
+            <div class="ranking-column-left">
+                <div class="leaderboard">
+                    <div class="leaderboard-header">
+                        <div class="header-item">Platz</div>
+                        <div class="header-item">Username</div>
+                        <div class="header-item">Punkte</div>
+                        <div class="header-item">Datum</div>
+                    </div>
+                    
+                    <!-- Top 10 Liste -->
+                    <div class="leaderboard-content">
+                        {% for player in top_players %}
+                        <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
+                             data-user-id="{{ player.id }}"
+                             data-username="{{ player.username }}"
+                             data-registered="{{ player.first_played|to_local_time }}"
+                             data-score="{{ player.highscore }}"
+                             data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_local_time }}{% endif %}"
+                             data-correct="{{ player.correct_high }}"
+                             onclick="updatePlayerInfo(this)">
+                            <div class="leaderboard-cell position">
+                                {% if loop.index == 1 %}🥇
+                                {% elif loop.index == 2 %}🥈
+                                {% elif loop.index == 3 %}🥉
+                                {% else %}{{ loop.index }}{% endif %}
+                            </div>
+                            <div class="leaderboard-cell username">{{ player.username }}</div>
+                            <div class="leaderboard-cell score">{{ player.highscore }}</div>
+                            <div class="leaderboard-cell date">
+                                {{ (player.highscore_time or player.first_played) | to_local_time }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Eigene Platzierung -->
+                    {% if current_player %}
+                    <div class="leaderboard-header platzierung-header" style="margin-top: 2rem;">
+                        <div class="header-item">Deine Platzierung</div>
+                        <div class="header-item"></div>
+                        <div class="header-item"></div>
+                        <div class="header-item"></div>
+                    </div>
+                    <div class="leaderboard-row highlight" 
+                         data-user-id="{{ current_player.id }}"
+                         data-username="{{ current_player.username }}"
+                         data-registered="{{ current_player.first_played|to_local_time }}"
+                         data-score="{{ current_player.highscore }}"
+                         data-highscore-date="{% if current_player.highscore_time %}{{ current_player.highscore_time|to_local_time }}{% endif %}"
+                         data-correct="{{ current_player.correct_high }}"
                          onclick="updatePlayerInfo(this)">
                         <div class="leaderboard-cell position">
-                            {% if loop.index == 1 %}🥇
-                            {% elif loop.index == 2 %}🥈
-                            {% elif loop.index == 3 %}🥉
-                            {% else %}{{ loop.index }}{% endif %}
+                            {% if player_rank %}#{{ player_rank }}
+                            {% else %}N/A{% endif %}
                         </div>
-                        <div class="leaderboard-cell username">{{ player.username }}</div>
-                        <div class="leaderboard-cell score">{{ player.highscore }}</div>
+                        <div class="leaderboard-cell username">{{ current_player.username }}</div>
+                        <div class="leaderboard-cell score">{{ current_player.highscore }}</div>
                         <div class="leaderboard-cell date">
-                            {{ (player.highscore_time or player.first_played) | to_local_time }}
+                            {% if current_player.highscore_time or current_player.first_played %}
+                                {{ (current_player.highscore_time or current_player.first_played) | to_local_time }}
+                            {% else %}
+                                Noch nicht gespielt
+                            {% endif %}
                         </div>
                     </div>
-                    {% endfor %}
-                </div>
-
-                <!-- Eigene Platzierung -->
-                {% if current_player %}
-                <div class="leaderboard-header platzierung-header" style="margin-top: 2rem;">
-                    <div class="header-item">Deine Platzierung</div>
-                    <div class="header-item"></div>
-                    <div class="header-item"></div>
-                    <div class="header-item"></div>
-                </div>
-                <div class="leaderboard-row highlight" 
-                     data-username="{{ current_player.username }}"
-                     data-score="{{ current_player.highscore }}"
-                     onclick="updatePlayerInfo(this)">
-                    <div class="leaderboard-cell position">
-                        {% if player_rank %}#{{ player_rank }}
-                        {% else %}N/A{% endif %}
-                    </div>
-                    <div class="leaderboard-cell username">{{ current_player.username }}</div>
-                    <div class="leaderboard-cell score">{{ current_player.highscore }}</div>
-                    <div class="leaderboard-cell date">
-                        {% if current_player.highscore_time or current_player.first_played %}
-                            {{ (current_player.highscore_time or current_player.first_played) | to_local_time }}
-                        {% else %}
-                            Noch nicht gespielt
-                        {% endif %}
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <!-- Rechte Spalte (Extrafeld + Button) -->
-        <div class="ranking-column-right">
-            <!-- Spielerinfo-Karte -->
-            <div class="player-info-card">
-                <h3>Spielerinfo</h3>
-                <div class="player-info-content">
-                    <p>Name: <span id="info-username">{{ current_player.username if current_player else "N/A" }}</span></p>
-                    <p>Punkte: <span id="info-score">{{ current_player.highscore if current_player else "0" }}</span></p>
+                    {% endif %}
                 </div>
             </div>
-            
-            <!-- Zurück-Button -->
-            <a href="{{ url_for('homepage') }}" class="back-button">
-                <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
-            </a>
+
+            <!-- Rechte Spalte (Unter der Liste) -->
+            <div class="ranking-column-right">
+                <!-- Spielerinfo-Karte -->
+                <div class="player-info-card">
+                    <h3>Spielerprofil</h3>
+                    <div class="player-info-content">
+                        <div class="info-row">
+                            <span class="info-label">ID:</span>
+                            <span id="info-id" class="info-value">{{ current_player.id if current_player else "N/A" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Username:</span>
+                            <span id="info-username" class="info-value">{{ current_player.username if current_player else "N/A" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Registriert am:</span>
+                            <span id="info-registered" class="info-value">
+                                {% if current_player %}{{ current_player.first_played|to_local_time }}{% else %}N/A{% endif %}
+                            </span>
+                        </div>
+                        <div class="info-row highlight">
+                            <span class="info-label">Highscore:</span>
+                            <span id="info-highscore" class="info-value">{{ current_player.highscore if current_player else "0" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Highscoredatum:</span>
+                            <span id="info-highscore-date" class="info-value">
+                                {% if current_player and current_player.highscore_time %}
+                                    {{ current_player.highscore_time|to_local_time }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Richtige Fragen:</span>
+                            <span id="info-correct" class="info-value">{{ current_player.correct_high if current_player else "0" }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Zurück-Button -->
+                <a href="{{ url_for('homepage') }}" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
+                </a>
+            </div>
         </div>
     </div>
 
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Standardmäßig eigenen Spieler auswählen
             const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
             if (defaultPlayer) {
                 defaultPlayer.classList.add('active');
-                if (!defaultPlayer.dataset.username) {
-                    document.getElementById('info-username').textContent = "N/A";
-                    document.getElementById('info-score').textContent = "0";
-                }
             }
         });
 
         function updatePlayerInfo(row) {
-            // Alle Zeilen deaktivieren
-            document.querySelectorAll('.leaderboard-row').forEach(r => {
-                r.classList.remove('active');
-            });
-            
-            // Aktive Zeile hervorheben
+            // Highlight aktive Zeile
+            document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
             row.classList.add('active');
-            
-            // Daten anzeigen
-            document.getElementById('info-username').textContent = row.dataset.username;
-            document.getElementById('info-score').textContent = row.dataset.score;
+
+            // Alle Daten aktualisieren
+            document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
+            document.getElementById('info-username').textContent = row.dataset.username || "N/A";
+            document.getElementById('info-registered').textContent = row.dataset.registered || "N/A";
+            document.getElementById('info-highscore').textContent = row.dataset.score || "0";
+            document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
+            document.getElementById('info-correct').textContent = row.dataset.correct || "0";
         }
     </script>
 {% endblock %}
