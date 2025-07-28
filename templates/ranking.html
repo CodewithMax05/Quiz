@@ -2,6 +2,7 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ranking.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
@@ -91,6 +92,31 @@
 
             <!-- Rechte Spalte (Unter der Liste) -->
             <div class="ranking-column-right">
+
+
+
+
+
+
+                <!-- Info-Button-->
+                <div class="info-button-container">
+                    <button class="ranking-info-button" id="ranking-info-button">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                    
+                    <div class="info-popup" id="info-popup">
+                        <button class="close-btn" aria-label="Schließen">&times;</button>
+                        <div class="popup-content">
+                            Weitere Informationen zum Spieler durch Klick oder Suche
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
                 <!-- Einfache Suchleiste -->
                 <div class="search-wrapper">
                     <input type="text" id="player-search" placeholder="Spieler suchen..." 
@@ -196,5 +222,37 @@
                 console.error('Fehler bei der Suche:', error);
             }
         }
+
+
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const infoBtn = document.getElementById('ranking-info-button');
+        const popup = document.getElementById('info-popup');
+        const closeBtn = popup.querySelector('.close-btn');
+
+            infoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                popup.classList.toggle('show-popup');
+            });
+
+            closeBtn.addEventListener('click', () => {
+                popup.classList.remove('show-popup');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!popup.contains(e.target) && e.target !== infoBtn) {
+                    popup.classList.remove('show-popup');
+                }
+            });
+        });
+
+
+
+
+
     </script>
 {% endblock %}
