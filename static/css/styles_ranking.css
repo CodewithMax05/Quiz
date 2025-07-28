@@ -279,3 +279,33 @@ body::before {
         font-size: 1.2rem;
     }
 }
+
+
+/* Füge diese Regeln am Ende der Datei hinzu */
+.leaderboard-row {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.leaderboard-row:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.leaderboard-row.active {
+  background: rgba(0, 119, 255, 0.1) !important;
+  box-shadow: inset 0 0 0 1px rgba(0, 119, 255, 0.3);
+}
+
+.player-info {
+  background: rgba(26, 26, 46, 0.8);
+  border-radius: 15px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.player-info h3 {
+  margin-top: 0;
+  color: #8e2de2;
+  text-align: center;
+}
