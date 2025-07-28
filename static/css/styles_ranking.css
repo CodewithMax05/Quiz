@@ -266,7 +266,11 @@ body::before {
         font-size: 0.9rem;
     }
     .ranking-container {
-        padding: 0.5rem;
+        display: flex;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
     }
 }
 
@@ -308,4 +312,61 @@ body::before {
   margin-top: 0;
   color: #8e2de2;
   text-align: center;
+}
+
+.ranking-column-left {
+    flex: 2;
+}
+
+.ranking-column-right {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.player-info-card h3 {
+    color: #8e2de2;
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-info-content p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+}
+
+
+/* Zurück-Button */
+.back-button {
+    display: block;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .ranking-container {
+        flex-direction: column;
+    }
+    
+    .ranking-column-right {
+        min-width: 100%;
+    }
 }

@@ -5,20 +5,19 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Sternenhintergrund (bleibt unverändert) -->
+    <!-- Sternenhintergrund (unverändert) -->
     <div class="stars-background">
         <div class="stars"></div>
         <div class="stars2"></div>
         <div class="stars3"></div>
     </div>
 
-    <!-- Haupt-Wrapper -->
-    <div class="ranking-wrapper">
-        <!-- Überschrift -->
-        <h1>Top 10 Spieler</h1>
-
+    <!-- Haupt-Container mit zwei Spalten -->
+    <div class="ranking-container">
         <!-- Linke Spalte (Leaderboard) -->
-        <div class="ranking-left">
+        <div class="ranking-column-left">
+            <h1>Top 10 Spieler</h1>
+            
             <div class="leaderboard">
                 <div class="leaderboard-header">
                     <div class="header-item">Platz</div>
@@ -27,7 +26,7 @@
                     <div class="header-item">Datum</div>
                 </div>
                 
-                <!-- Top 10 Liste (jetzt klickbar) -->
+                <!-- Top 10 Liste (klickbar) -->
                 <div class="leaderboard-content">
                     {% for player in top_players %}
                     <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
@@ -49,7 +48,7 @@
                     {% endfor %}
                 </div>
 
-                <!-- Eigene Platzierung (bleibt unverändert) -->
+                <!-- Eigene Platzierung -->
                 {% if current_player %}
                 <div class="leaderboard-header platzierung-header" style="margin-top: 2rem;">
                     <div class="header-item">Deine Platzierung</div>
@@ -80,29 +79,30 @@
         </div>
 
         <!-- Rechte Spalte (Extrafeld + Button) -->
-        <div class="ranking-right">
-            <!-- Neues Spielerinfo-Extrafeld -->
-            <div class="player-info">
+        <div class="ranking-column-right">
+            <!-- Spielerinfo-Karte -->
+            <div class="player-info-card">
                 <h3>Spielerinfo</h3>
-                <p>Name: <span id="info-username">{{ current_player.username if current_player else "N/A" }}</span></p>
-                <p>Punkte: <span id="info-score">{{ current_player.highscore if current_player else "0" }}</span></p>
+                <div class="player-info-content">
+                    <p>Name: <span id="info-username">{{ current_player.username if current_player else "N/A" }}</span></p>
+                    <p>Punkte: <span id="info-score">{{ current_player.highscore if current_player else "0" }}</span></p>
+                </div>
             </div>
             
-            <!-- Existierender Zurück-Button -->
-            <a href="{{ url_for('homepage') }}" class="thema-button sound-button">
+            <!-- Zurück-Button -->
+            <a href="{{ url_for('homepage') }}" class="back-button">
                 <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
             </a>
         </div>
     </div>
 
-    <!-- JavaScript für klickbare Zeilen -->
+    <!-- JavaScript -->
     <script>
-        // Standardmäßig eigenen Spieler auswählen
         document.addEventListener('DOMContentLoaded', () => {
+            // Standardmäßig eigenen Spieler auswählen
             const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
             if (defaultPlayer) {
                 defaultPlayer.classList.add('active');
-                // Falls kein current_player existiert, Extrafeld leeren
                 if (!defaultPlayer.dataset.username) {
                     document.getElementById('info-username').textContent = "N/A";
                     document.getElementById('info-score').textContent = "0";
@@ -119,7 +119,7 @@
             // Aktive Zeile hervorheben
             row.classList.add('active');
             
-            // Daten ins Extrafeld übertragen
+            // Daten anzeigen
             document.getElementById('info-username').textContent = row.dataset.username;
             document.getElementById('info-score').textContent = row.dataset.score;
         }
