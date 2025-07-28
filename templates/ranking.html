@@ -92,9 +92,9 @@
             <!-- Rechte Spalte (Unter der Liste) -->
             <div class="ranking-column-right">
                 <!-- Einfache Suchleiste -->
-                <div class="simple-search">
+                <div class="search-wrapper">
                     <input type="text" id="player-search" placeholder="Spieler suchen..." 
-                           onkeypress="if(event.key === 'Enter') searchPlayer()">
+                        onkeypress="if(event.key === 'Enter') searchPlayer()">
                 </div>
                 <!-- Spielerinfo-Karte -->
                 <div class="player-info-card">
@@ -165,7 +165,7 @@
             document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
             document.getElementById('info-correct').textContent = row.dataset.correct || "0";
         }
-        
+
         async function searchPlayer() {
             const searchInput = document.getElementById('player-search');
             const username = searchInput.value.trim();

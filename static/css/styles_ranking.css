@@ -16,7 +16,7 @@ body {
     min-height: 100vh;
 }
 
-/* 💠 RANKING-LAYOUT - ANPASSUNGEN FÜR MEHR ABSTAND */
+/* 💠 RANKING-LAYOUT */
 .ranking-container {
     padding: 0.5rem 1rem;
     height: calc(100vh - 60px);
@@ -27,7 +27,7 @@ body {
 
 .ranking-title {
     text-align: center;
-    margin: 2rem 0 1.5rem 0; /* Stark erhöhter Abstand (2rem oben, 1.5rem unten) */
+    margin: 2rem 0 1.5rem 0;
     color: #ffffff;
     font-size: 2.2rem;
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.7);
@@ -37,18 +37,17 @@ body {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    margin-top: 2rem; /* Deutlich erhöhter Abstand unter der Überschrift */
+    margin-top: 2rem;
     flex: 1;
     min-height: 0;
-    padding: 0 2rem; /* NEU: Seitlicher Abstand für beide Boxen zusammen */
+    padding: 0 1rem;
 }
 
-/* NEUE ANPASSUNG: Seitliche Abstände für einzelne Spalten */
 .ranking-column-left {
     flex: 2;
     display: flex;
     flex-direction: column;
-    margin-left: 1rem; /* NEU: Abstand vom linken Rand */
+    margin-left: 1rem;
 }
 
 .ranking-column-right {
@@ -56,7 +55,45 @@ body {
     display: flex;
     flex-direction: column;
     min-width: 300px;
-    margin-right: 1rem; /* NEU: Abstand vom rechten Rand */
+    width: calc(100% - 1rem);
+    margin-right: 0;
+    padding-right: 0;
+    gap: 1rem;
+}
+
+/* 🔍 SUCHLEISTE (FINAL ANGEPASST) */
+.search-wrapper {
+    width: 100%;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: rgba(26, 26, 46, 0.8); /* Exakt wie Infofeld */
+    color: white;
+    font-family: inherit;
+    font-size: 0.95rem;
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.search-wrapper input:focus {
+    outline: none;
+    background: rgba(26, 26, 46, 0.9);
+    box-shadow: 
+        0 0 0 2px rgba(142, 45, 226, 0.5),
+        0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.search-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* ✨ STERNENHINTERGRUND */
@@ -177,6 +214,7 @@ body {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
     padding: 1rem;
+    margin-right: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     flex: 1;
@@ -232,7 +270,7 @@ body {
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin-top: 1rem;
+    margin-right: 1rem;
 }
 
 .back-button:hover {
@@ -246,32 +284,31 @@ body {
     100% { transform: translateY(2000px); }
 }
 
-@keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
-}
-
 /* 📱 RESPONSIVE DESIGN */
 @media (max-width: 768px) {
     .ranking-title {
-        margin: 1.8rem 0 1.2rem 0; /* Etwas weniger Abstand auf mobilen Geräten */
+        margin: 1.8rem 0 1.2rem 0;
     }
     
     .ranking-content {
         margin-top: 1.5rem;
         flex-direction: column;
         gap: 1rem;
-        padding: 0 1rem; /* NEU: Weniger seitlicher Abstand auf Mobile */
+        padding: 0 1rem;
     }
     
     .ranking-column-left, 
     .ranking-column-right {
-        margin-left: 0; /* NEU: Kein zusätzlicher Abstand auf Mobile */
+        margin-left: 0;
         margin-right: 0;
+        width: 100%;
     }
     
-    .ranking-column-right {
-        min-width: 100%;
+    .search-wrapper,
+    .player-info-card,
+    .back-button {
+        margin-right: 0;
+        padding-right: 0;
     }
     
     .info-row {
@@ -304,14 +341,14 @@ body {
     }
     
     .ranking-column-right {
-        width: 35%;
-        margin-left: 5%;
+        width: calc(35% - 1rem);
+        margin-left: 1rem;
     }
 }
 
 @media (max-height: 700px) {
     .ranking-title {
-        margin: 1.5rem 0 1rem 0; /* Kompakter auf kleinen Bildschirmen */
+        margin: 1.5rem 0 1rem 0;
     }
     
     .ranking-content {
@@ -326,23 +363,4 @@ body {
     .leaderboard-cell {
         padding: 0.3rem;
     }
-}
-
-/* Einfache Suchleiste */
-.simple-search {
-    margin-bottom: 1rem;
-}
-
-.simple-search input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-.simple-search input:focus {
-    outline: none;
-    border-color: #8e2de2;
 }
