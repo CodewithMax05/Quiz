@@ -30,6 +30,9 @@ body {
 }
 
 .ranking-left {
+    display: flex;
+    flex-direction: column;
+
     flex: 1 1 600px;
     min-width: 300px;
 }
@@ -79,7 +82,7 @@ body::before {
     padding: 1rem;
     margin-bottom: 2rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    height: 70vh; /* 🔽 Begrenzung auf Bildschirmhöhe */
+    flex: 1 1 auto;
     overflow-y: auto;  /* ✅ Scrollbar nur bei Überlauf */
     overflow-x: hidden;
 }
@@ -140,6 +143,10 @@ body::before {
     color: #ffffff;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.platzierung-header .header-item {
+    white-space: nowrap;
 }
 
 /* 🎮 BUTTON-STIL */
