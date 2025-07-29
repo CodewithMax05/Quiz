@@ -62,32 +62,17 @@
         const timerText = document.querySelector('.timer-text');
         const timerProgress = document.querySelector('.timer-progress');
         const timerContainer = document.querySelector('.timer-container');
-        const quizContainer = document.querySelector('.quiz-container-wide');
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Server-Startzeit in Millisekunden
-            const serverStartTime = parseInt(quizContainer.dataset.timerStart);
-            
-            // Aktuelle Client-Zeit in Millisekunden
-            const now = Date.now();
-            
-            // Berechne vergangene Zeit in Sekunden
-            const elapsedSeconds = (now - serverStartTime) / 1000;
-            
-            // Verbleibende Zeit berechnen (mindestens 0)
-            timeLeft = Math.max(0, 30 - Math.floor(elapsedSeconds));
-            
-            timerText.textContent = timeLeft;
-            
-            if (timeLeft <= 0) {
-                handleAnswerEnd();
-            } else {
-                startTimer();
-            }
+            // Starte den Timer immer bei 30 Sekunden
+            startTimer();
         });
 
         function startTimer() {
+            timeLeft = 30; // Immer bei 30 starten
+            timerText.textContent = timeLeft;
             updateTimerProgress();
+            
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerText.textContent = timeLeft;
@@ -98,7 +83,13 @@
                 }
                 
                 if (timeLeft <= 0) {
-                    handleAnswerEnd(); // Timeout case
+                    clearInterval(timerInterval);
+                    // Deaktiviere Optionen
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                    });
+                    // Sende automatisch leere Antwort bei Timeout
+                    handleAnswerEnd();
                 }
             }, 1000);
         }
@@ -113,12 +104,14 @@
         }
 
         function selectOption(elem) {
+            // Stoppe Timer und deaktiviere weitere Klicks
+            clearInterval(timerInterval);
+            timerContainer.style.animation = 'none';
             const options = document.querySelectorAll('.option');
             options.forEach(opt => opt.style.pointerEvents = 'none');
             
             const selectedAnswer = elem.textContent.trim();
             const scoreDisplay = document.getElementById('score-display');
-            const timeLeft = parseInt(timerText.textContent);
             
             fetch("{{ url_for('check_answer') }}", {
                 method: 'POST',
@@ -138,48 +131,39 @@
                     }, 500);
                 }
                 
-                handleAnswerEnd(selectedAnswer, data);
+                highlightAnswers(selectedAnswer, data);
+                setTimeout(() => document.getElementById('next-form').submit(), 1000);
             })
             .catch(error => {
                 console.error('Fehler:', error);
-                handleAnswerEnd(selectedAnswer, { 
+                highlightAnswers(selectedAnswer, { 
                     is_correct: false, 
                     correct_answer: '',
                     current_score: parseInt(scoreDisplay.textContent.replace('Score: ', ''))
                 });
+                setTimeout(() => document.getElementById('next-form').submit(), 1000);
             });
         }
 
-        function handleAnswerEnd(selected = '', serverResponse = null) {
-            clearInterval(timerInterval);
-            timerContainer.style.animation = 'none';
-
-            const redirectDelay = 1000;
-
-            if (selected === '' && serverResponse === null) {
-                fetch("{{ url_for('check_answer') }}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `answer=`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    highlightAnswers('', data);
-                    setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
-                })
-                .catch(() => {
-                    setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
-                });
-                return;
-            }
-
-            if (serverResponse) {
-                highlightAnswers(selected, serverResponse);
-            }
-
-            setTimeout(() => document.getElementById('next-form').submit(), redirectDelay);
+        function handleAnswerEnd() {
+            const scoreDisplay = document.getElementById('score-display');
+            
+            fetch("{{ url_for('check_answer') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `answer=`
+            })
+            .then(response => response.json())
+            .then(data => {
+                scoreDisplay.textContent = 'Score: ' + data.current_score;
+                highlightAnswers('', data);
+                setTimeout(() => document.getElementById('next-form').submit(), 1000);
+            })
+            .catch(() => {
+                setTimeout(() => document.getElementById('next-form').submit(), 1000);
+            });
         }
 
         function highlightAnswers(selected, serverResponse) {
@@ -189,9 +173,9 @@
                 const optionText = opt.textContent.trim();
                 opt.classList.remove('correct', 'wrong');
                 
-                if (optionText === serverResponse.correct_answer) {
+                if (serverResponse && optionText === serverResponse.correct_answer) {
                     opt.classList.add('correct');
-                } else {
+                } else if (serverResponse) {
                     opt.classList.add('wrong');
                 }
             });

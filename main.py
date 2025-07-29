@@ -351,9 +351,9 @@ def show_question():
     else:
         options = quiz_data['options_order']
     
-    # NEU: Verwende Millisekunden für präzisere Zeitmessung
+    # Timer-Startzeit serverseitig speichern (in Sekunden)
     if 'timer_start' not in quiz_data:
-        quiz_data['timer_start'] = int(time.time() * 1000)  # Millisekunden
+        quiz_data['timer_start'] = time.time()  # Sekunden als float
         session['quiz_data'] = quiz_data
     
     was_correct = session.pop('last_answer_correct', False)
@@ -366,8 +366,7 @@ def show_question():
         progress=current_index + 1,
         total_questions=quiz_data['total_questions'],
         score=quiz_data['score'],
-        was_correct=was_correct,
-        timer_start=quiz_data['timer_start']  # Millisekunden
+        was_correct=was_correct
     )
 
 @app.route('/check_answer', methods=['POST'])
@@ -385,14 +384,14 @@ def check_answer():
         
     user_answer = request.form.get('answer', '')
     
-    # NEU: Server-seitige Zeitberechnung
-    start_time = quiz_data['timer_start'] / 1000.0  # Zurück zu Sekunden
+    # Serverseitige Zeitberechnung
+    start_time = quiz_data['timer_start']
     elapsed = time.time() - start_time
     time_left = max(0, 30 - elapsed)  # Maximal 30 Sekunden
     
     is_correct = user_answer == question.true
     
-    # Punkte basierend auf server-seitiger Zeit berechnen
+    # Punkteberechnung
     if is_correct and time_left > 0:
         points_earned = 30 + 70 * (time_left / 30) ** 2.0
         points_earned = round(points_earned)
