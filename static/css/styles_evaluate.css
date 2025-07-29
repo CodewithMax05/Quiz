@@ -237,11 +237,10 @@ body {
     position: relative;
 }
 
-/* Replik des Ranking-Buttons aus homepage.css */
+/* Ranking-Button Styling (aktualisiert) */
 .ranking-button {
     width: 55px;
     height: 55px;
-    opacity: 1;
     border-radius: 50%;
     background: linear-gradient(135deg, #f6d365, #fda085);
     display: flex;
@@ -253,12 +252,16 @@ body {
     box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
     animation: pulse-orange 2s infinite;
-    position: relative;
 }
 
 .ranking-button:hover {
     transform: scale(1.1);
     background: linear-gradient(135deg, #f5b041, #e67e22);
+}
+
+/* Entferne Tooltip komplett */
+.ranking-button::after {
+    content: none;
 }
 
 /* Animation */
@@ -321,6 +324,11 @@ body {
         padding: 11px 25px;
         font-size: 1.1rem;
     }
+    
+    .ranking-button {
+        width: 46px;
+        height: 46px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -378,6 +386,11 @@ body {
         font-size: 1.05rem;
         margin-top: 25px;
     }
+    
+    .ranking-button {
+        width: 44px;
+        height: 44px;
+    }
 }
 
 @media (max-width: 360px) {
@@ -422,5 +435,10 @@ body {
     .home-button {
         padding: 9px 20px;
         font-size: 1.0rem;
+    }
+    
+    .ranking-button {
+        width: 42px;
+        height: 42px;
     }
 }
