@@ -65,15 +65,20 @@
         const quizContainer = document.querySelector('.quiz-container-wide');
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Timer-Status aus dem Daten-Attribut lesen
-            const timerStart = parseInt(quizContainer.dataset.timerStart);
-            if (timerStart) {
-                const now = Math.floor(Date.now() / 1000);
-                const elapsed = now - timerStart;
-                timeLeft = Math.max(0, 30 - elapsed);
-            }
+            // Server-Startzeit in Millisekunden
+            const serverStartTime = parseInt(quizContainer.dataset.timerStart);
             
-            // Wenn Zeit abgelaufen ist, sofort Antwort verarbeiten
+            // Aktuelle Client-Zeit in Millisekunden
+            const now = Date.now();
+            
+            // Berechne vergangene Zeit in Sekunden
+            const elapsedSeconds = (now - serverStartTime) / 1000;
+            
+            // Verbleibende Zeit berechnen (mindestens 0)
+            timeLeft = Math.max(0, 30 - Math.floor(elapsedSeconds));
+            
+            timerText.textContent = timeLeft;
+            
             if (timeLeft <= 0) {
                 handleAnswerEnd();
             } else {
@@ -82,15 +87,16 @@
         });
 
         function startTimer() {
-            timerText.textContent = timeLeft;
             updateTimerProgress();
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerText.textContent = timeLeft;
                 updateTimerProgress();
+                
                 if (timeLeft <= 10) {
                     timerContainer.style.animation = 'pulse 0.5s infinite alternate';
                 }
+                
                 if (timeLeft <= 0) {
                     handleAnswerEnd(); // Timeout case
                 }
@@ -107,28 +113,24 @@
         }
 
         function selectOption(elem) {
-            // Deaktiviere weitere Klicks
             const options = document.querySelectorAll('.option');
             options.forEach(opt => opt.style.pointerEvents = 'none');
             
             const selectedAnswer = elem.textContent.trim();
             const scoreDisplay = document.getElementById('score-display');
-            const timeLeft = parseInt(timerText.textContent); // Verbleibende Zeit
+            const timeLeft = parseInt(timerText.textContent);
             
-            // Sende Antwort zur Überprüfung
             fetch("{{ url_for('check_answer') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `answer=${encodeURIComponent(selectedAnswer)}&time_left=${timeLeft}`
+                body: `answer=${encodeURIComponent(selectedAnswer)}`
             })
             .then(response => response.json())
             .then(data => {
-                // Score sofort aktualisieren
                 scoreDisplay.textContent = 'Score: ' + data.current_score;
                 
-                // Animation bei Punktgewinn
                 if (data.points_earned > 0) {
                     scoreDisplay.classList.add('score-update');
                     setTimeout(() => {
@@ -154,14 +156,13 @@
 
             const redirectDelay = 1000;
 
-            // Timeout-Fall (Zeit abgelaufen)
             if (selected === '' && serverResponse === null) {
                 fetch("{{ url_for('check_answer') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `answer=&time_left=0` // 0 Punkte bei Timeout
+                    body: `answer=`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -174,7 +175,6 @@
                 return;
             }
 
-            // Normale Antwortverarbeitung
             if (serverResponse) {
                 highlightAnswers(selected, serverResponse);
             }
@@ -187,14 +187,11 @@
             
             options.forEach(opt => {
                 const optionText = opt.textContent.trim();
-                
-                // Reset classes
                 opt.classList.remove('correct', 'wrong');
                 
                 if (optionText === serverResponse.correct_answer) {
                     opt.classList.add('correct');
                 } else {
-                    // Markiere alle falschen Antworten als falsch
                     opt.classList.add('wrong');
                 }
             });

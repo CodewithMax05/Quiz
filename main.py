@@ -337,14 +337,12 @@ def show_question():
     
     quiz_data = session['quiz_data']
     
-    # Wenn die Frage bereits beantwortet wurde, zur nächsten Frage weiterleiten
     if quiz_data.get('answered', False):
         return redirect(url_for('next_question'))
     
     current_index = quiz_data['current_index']
     question = Question.query.get(quiz_data['questions'][current_index])
     
-    # Antwortoptionen nur beim ersten Aufruf mischen
     if 'options_order' not in quiz_data:
         options = [question.true, question.wrong1, question.wrong2, question.wrong3]
         random.shuffle(options)
@@ -353,9 +351,9 @@ def show_question():
     else:
         options = quiz_data['options_order']
     
-    # Timer-Status initialisieren oder beibehalten
+    # NEU: Verwende Millisekunden für präzisere Zeitmessung
     if 'timer_start' not in quiz_data:
-        quiz_data['timer_start'] = int(time.time())
+        quiz_data['timer_start'] = int(time.time() * 1000)  # Millisekunden
         session['quiz_data'] = quiz_data
     
     was_correct = session.pop('last_answer_correct', False)
@@ -369,7 +367,7 @@ def show_question():
         total_questions=quiz_data['total_questions'],
         score=quiz_data['score'],
         was_correct=was_correct,
-        timer_start=quiz_data['timer_start']  # Wichtig für den Timer
+        timer_start=quiz_data['timer_start']  # Millisekunden
     )
 
 @app.route('/check_answer', methods=['POST'])
@@ -386,25 +384,26 @@ def check_answer():
         return jsonify({'error': 'Question not found'}), 404
         
     user_answer = request.form.get('answer', '')
-    time_left = int(request.form.get('time_left', 0))
+    
+    # NEU: Server-seitige Zeitberechnung
+    start_time = quiz_data['timer_start'] / 1000.0  # Zurück zu Sekunden
+    elapsed = time.time() - start_time
+    time_left = max(0, 30 - elapsed)  # Maximal 30 Sekunden
+    
     is_correct = user_answer == question.true
     
-    # Punkte basierend auf verbleibender Zeit berechnen
+    # Punkte basierend auf server-seitiger Zeit berechnen
     if is_correct and time_left > 0:
         points_earned = 30 + 70 * (time_left / 30) ** 2.0
         points_earned = round(points_earned)
     else:
         points_earned = 0
 
-    # Neuer Zähler für korrekte Antworten
     if is_correct:
         quiz_data['correct_count'] += 1
 
-    # Score übergeben
     new_score = quiz_data['score'] + points_earned
     quiz_data['score'] = new_score
-    
-    # Markiere Frage als beantwortet
     quiz_data['answered'] = True
     session['quiz_data'] = quiz_data
     
