@@ -646,7 +646,6 @@ body::before {
     }
     
     .ranking-button {
-        /* Näher am rechten Rand für Handys */
         right: 60px;
     }
     
@@ -765,7 +764,7 @@ body::before {
     }
     
     .logout-button {
-        right: 55px;
+        right: 10px;
     }
     
     .info-button {
