@@ -637,7 +637,8 @@ body::before {
     }
     
     .logout-button {
-        right: 10px;
+        /* Näher am rechten Rand für Handys */
+        right: 5px;
     }
     
     .info-button {
@@ -645,7 +646,8 @@ body::before {
     }
     
     .ranking-button {
-        right: 60px; /* Vergrößerter Abstand */
+        /* Näher am rechten Rand für Handys */
+        right: 60px;
     }
     
     .logout-button i, .info-button i, .ranking-button i {
@@ -722,8 +724,14 @@ body::before {
         font-size: 1.2rem;
     }
     
+    .logout-button {
+        /* Noch näher am rechten Rand für sehr kleine Handys */
+        right: 3px;
+    }
+    
     .ranking-button {
-        right: 55px; /* Vergrößerter Abstand */
+        /* Noch näher am rechten Rand für sehr kleine Handys */
+        right: 55px;
         width: 42px;
         height: 42px;
     }
@@ -757,7 +765,7 @@ body::before {
     }
     
     .logout-button {
-        right: 60px;
+        right: 55px;
     }
     
     .info-button {
@@ -765,7 +773,7 @@ body::before {
     }
     
     .ranking-button {
-        right: 110px; /* Vergrößerter Abstand */
+        right: 110px; 
     }
     
     .logout-button i, .info-button i, .ranking-button i {
