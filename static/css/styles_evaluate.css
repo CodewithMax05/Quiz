@@ -205,7 +205,9 @@ body {
 }
 
 .home-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 12px 30px;
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
@@ -219,6 +221,8 @@ body {
     cursor: pointer;
     animation: pulse-purple 2s infinite;
     line-height: 1.2;
+    height: 55px; /* Feste Höhe für Desktop */
+    box-sizing: border-box;
 }
 
 .home-button:hover {
@@ -324,6 +328,7 @@ body {
     .home-button {
         padding: 11px 25px;
         font-size: 1.1rem;
+        height: 50px; /* Gleiche Höhe für beide Buttons */
     }
     
     .ranking-button {
@@ -387,12 +392,18 @@ body {
         padding: 10px 22px;
         font-size: 1.05rem;
         margin-top: 25px;
+        height: 45px; /* Gleiche Höhe für beide Buttons */
     }
     
     .ranking-button {
         width: 45px;
         height: 45px;
         font-size: 1.5rem;
+    }
+    
+    /* Vertikale Ausrichtung optimieren */
+    .action-buttons-evaluate {
+        align-items: flex-end;
     }
 }
 
@@ -438,11 +449,17 @@ body {
     .home-button {
         padding: 9px 20px;
         font-size: 1.0rem;
+        height: 42px; /* Gleiche Höhe für beide Buttons */
     }
     
     .ranking-button {
         width: 42px;
         height: 42px;
         font-size: 1.4rem;
+    }
+    
+    /* Vertikale Ausrichtung optimieren */
+    .action-buttons-evaluate {
+        align-items: flex-end;
     }
 }
