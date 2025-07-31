@@ -1,4 +1,148 @@
 subject;question;true;wrong1;wrong2;wrong3
+Sport;Wie viele Spieler sind beim Korfball in einem Team?;8;6;7;9
+Sport;Welcher Sport wird auch als "The Game of the Precise" bezeichnet?;Bogenschießen;Schießen;Darts;Golf
+Sport;Wie viele Spieler sind beim Sepak Takraw in einem Team?;3;2;4;5
+Sport;Welcher Sport wird auch als "The Game of the Endurance" bezeichnet?;Marathon;Triathlon;Radfahren;Schwimmen
+Sport;Wie viele Spieler sind beim Ultimate Frisbee in einem Team?;7;5;6;8
+Sport;Welcher Sport wird auch als "The Game of the Tacticians" bezeichnet?;Schach;Go;Stratego;Risiko
+Sport;Wie viele Spieler sind beim Shinty in einem Team?;12;10;11;13
+Sport;Welcher Sport wird auch als "The Game of the Warriors" bezeichnet?;MMA;Boxen;Kickboxen;Karate
+Sport;Wie viele Spieler sind beim Bandy in einem Team?;11;9;10;12
+Sport;Welcher Sport wird auch als "The Game of the Kings" bezeichnet?;Polo;Golf;Tennis;Kricket
+Sport;Wie viele Spieler sind beim Pesäpallo in einem Team?;9;7;10;11
+Sport;Welcher Sport wird auch als "The Game of the Gods" bezeichnet?;Polo;Golf;Tennis;Kricket
+Sport;Wie viele Spieler sind beim Broomball in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Champions" bezeichnet?;Boxen;Fechten;Tennis;Golf
+Sport;Wie viele Spieler sind beim Floorball in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Masters" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Ringette in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Experts" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Ball Hockey in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Professionals" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Underwater Hockey in einem Team?;6;5;7;8
+Sport;Welcher Sport wird auch als "The Game of the Elite" bezeichnet?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Spieler sind beim Underwater Rugby in einem Team?;6;5;7;8
+Sport;Welcher Tennisspieler gewann als erster alle vier Grand-Slam-Turniere im selben Jahr (1938)?;Don Budge;Rod Laver;Roger Federer;Andre Agassi
+Sport;Wie viele Spieler sind beim Tischtennis-Doppel pro Team auf dem Feld?;2;1;3;4
+Sport;Welcher Sprinter hält den Weltrekord im 200-Meter-Lauf (19.19 Sekunden)?;Usain Bolt;Justin Gatlin;Tyson Gay;Yohan Blake
+Sport;Welches Land gewann die erste Fußball-WM 1930?;Uruguay;Argentinien;Brasilien;Italien
+Sport;Wie viele Goldmedaillen gewann Michael Phelps bei Olympischen Spielen?;23;19;15;28
+Sport;Welcher Boxer war unter dem Spitznamen "The Greatest" bekannt?;Muhammad Ali;Mike Tyson;Joe Frazier;George Foreman
+Sport;In welchem Jahr wurde die NBA gegründet?;1946;1950;1936;1960
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Sommerspielen 2016?;USA;China;Großbritannien;Russland
+Sport;Wie viele Sätze werden beim Tennis im Herren-Einzel bei Grand-Slam-Turnieren maximal gespielt?;5;3;7;9
+Sport;Welcher Golfer gewann als jüngster Spieler das Masters Tournament (1997)?;Tiger Woods;Jordan Spieth;Rory McIlroy;Jack Nicklaus
+Sport;Wie viele Spieler sind beim Wasserball pro Team im Wasser?;7;5;6;8
+Sport;Welcher Schwimmer gewann als erster sieben Goldmedaillen bei einer Olympiade (1972)?;Mark Spitz;Michael Phelps;Ian Thorpe;Ryan Lochte
+Sport;Welches Land gewann die Fußball-EM 2004 überraschend?;Griechenland;Portugal;Frankreich;Tschechien
+Sport;Wie viele Kilometer beträgt die Gesamtlänge der Tour de France (ca.)?;3500;2500;4000;3000
+Sport;Welcher Skispringer gewann als erster vier Einzel-Weltmeisterschaften in Folge?;Matti Nykänen;Adam Małysz;Kamil Stoch;Simon Ammann
+Sport;Welches Land gewann die erste Frauen-Fußball-WM 1991?;USA;Norwegen;Deutschland;Schweden
+Sport;Wie viele Spieler sind beim Lacrosse pro Team auf dem Feld?;10;8;12;6
+Sport;Welcher Radfahrer gewann die meisten Etappen bei der Tour de France?;Eddy Merckx;Mark Cavendish;Lance Armstrong;Bernard Hinault
+Sport;In welchem Jahr wurde die erste Frauen-Fußball-Bundesliga in Deutschland eingeführt?;1990;1985;1995;2000
+Sport;Welcher Sprinter hält den Weltrekord im 100-Meter-Lauf (9.58 Sekunden)?;Usain Bolt;Justin Gatlin;Tyson Gay;Asafa Powell
+Sport;Wie viele Spieler sind beim Squash pro Match auf dem Court?;2;1;3;4
+Sport;Welcher Tennisspieler gewann die meisten Grand-Slam-Titel im Einzel (Frauen)?;Margaret Court;Serena Williams;Steffi Graf;Martina Navratilova
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Winterspielen 2010?;USA;Kanada;Deutschland;Norwegen
+Sport;Wie viele Spieler sind beim Rugby League pro Team auf dem Feld?;13;11;15;9
+Sport;Welcher Basketballspieler erzielte die meisten Punkte in einem NBA-Spiel (100)?;Wilt Chamberlain;Kobe Bryant;Michael Jordan;Elgin Baylor
+Sport;Welches Land gewann die Fußball-WM 2010 in Südafrika?;Spanien;Niederlande;Deutschland;Uruguay
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 2016?;17;12;20;15
+Sport;Welcher Skirennläufer gewann die meisten Weltcup-Rennen (86)?;Ingemar Stenmark;Marcel Hirscher;Hermann Maier;Alberto Tomba
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Sommerspielen 2008?;China;USA;Russland;Großbritannien
+Sport;Wie viele Spieler sind beim Cricket pro Team auf dem Feld?;11;9;13;15
+Sport;Welcher Tennisspieler gewann als erster den "Golden Slam" (1988)?;Steffi Graf;Serena Williams;Margaret Court;Martina Navratilova
+Sport;Welches Land gewann die Fußball-EM 1992 überraschend?;Dänemark;Deutschland;Niederlande;Schweden
+Sport;Wie viele Spieler sind beim Handball pro Team auf dem Feld?;7;5;6;8
+Sport;Welcher Schwimmer hält den Weltrekord über 1500m Freistil (14:31.02 Minuten)?;Sun Yang;Grant Hackett;Kieren Perkins;Ian Thorpe
+Sport;Welches Land gewann die erste Hockey-WM der Herren 1971?;Pakistan;Indien;Deutschland;Australien
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Winterspielen 2018?;14;11;9;7
+Sport;Welcher Skispringer hält den Weitenrekord (253,5 m)?;Stefan Kraft;Peter Prevc;Kamil Stoch;Ryoyu Kobayashi
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Sommerspielen 2004?;USA;China;Russland;Australien
+Sport;Wie viele Spieler sind beim Baseball pro Team auf dem Feld?;9;7;10;11
+Sport;Welcher Tennisspieler gewann die meisten Grand-Slam-Titel im Doppel (Frauen)?;Martina Navratilova;Pam Shriver;Lisa Raymond;Samantha Stosur
+Sport;Welches Land gewann die Fußball-WM 1954 ("Wunder von Bern")?;Deutschland;Ungarn;Brasilien;Österreich
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 2012?;11;8;13;6
+Sport;Welcher Radfahrer gewann die meisten Grand Tours (Giro, Tour, Vuelta)?;Eddy Merckx;Bernard Hinault;Alberto Contador;Chris Froome
+Sport;Welches Land gewann die erste Volleyball-WM der Männer 1949?;Sowjetunion;Tschechoslowakei;Bulgarien;Rumänien
+Sport;Wie viele Spieler sind beim American Football pro Team auf dem Feld?;11;9;13;15
+Sport;Welcher Tennisspieler gewann die meisten Grand-Slam-Titel im Mixed?;Martina Navratilova;Margaret Court;Billie Jean King;Doris Hart
+Sport;Welches Land gewann die Fußball-WM 1978?;Argentinien;Niederlande;Brasilien;Italien
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Winterspielen 2014?;8;5;11;7
+Sport;Welcher Skirennläufer gewann die meisten Weltcup-Gesamtwertungen (8)?;Marc Girardelli;Hermann Maier;Marcel Hirscher;Ingemar Stenmark
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Sommerspielen 2000?;USA;Russland;China;Australien
+Sport;Welcher Tennisspieler hält den Rekord für die meisten Siege in Folge (109 Matches)?;Martina Navratilova;Steffi Graf;Serena Williams;Chris Evert
+Sport;In welchem Jahr wurde der erste offizielle Marathonlauf bei den Olympischen Spielen ausgetragen?;1896;1900;1912;1924
+Sport;Welches Land gewann die erste Eishockey-WM der Herren 1920?;Kanada;USA;Schweden;Tschechien
+Sport;Wie viele Spieler sind beim Kabaddi pro Team auf dem Feld?;7;5;9;11
+Sport;Welcher Sprinter hält den Weltrekord im 400-Meter-Lauf (43.03 Sekunden)?;Wayde van Niekerk;Michael Johnson;Steven Gardiner;Quincy Watts
+Sport;Welches Land gewann die meisten Medaillen bei den Olympischen Winterspielen 2006?;Deutschland;USA;Österreich;Norwegen
+Sport;Wie viele Goldmedaillen gewann Simone Biles bei Olympischen Spielen insgesamt?;7;4;9;5
+Sport;Welcher Boxer war unter dem Spitznamen "The Brown Bomber" bekannt?;Joe Louis;Jack Johnson;Sonny Liston;Floyd Patterson
+Sport;In welchem Jahr wurde die erste Frauen-Fußball-WM ausgetragen?;1991;1987;1995;1999
+Sport;Welcher Schwimmer hält den Weltrekord über 200m Schmetterling (1:50.73 Minuten)?;Kristóf Milák;Michael Phelps;László Cseh;Tom Shields
+Sport;Wie viele Spieler sind beim Australian Football pro Team auf dem Feld?;18;15;20;22
+Sport;Welches Land gewann die erste Basketball-WM der Herren 1950?;Argentinien;USA;Sowjetunion;Brasilien
+Sport;Welcher Radfahrer gewann die meisten Etappen bei der Giro d'Italia?;Mario Cipollini;Eddy Merckx;Alfredo Binda;Mark Cavendish
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 2008?;16;11;13;9
+Sport;Welcher Skispringer gewann als erster vier Einzel-Olympiasiege?;Simon Ammann;Matti Nykänen;Kamil Stoch;Thomas Morgenstern
+Sport;Welches Land gewann die erste Handball-WM der Herren 1938?;Deutschland;Schweden;Dänemark;Rumänien
+Sport;Wie viele Spieler sind beim Korfball pro Team auf dem Feld?;8;6;10;12
+Sport;Welcher Tennisspieler gewann die meisten Grand-Slam-Titel im Doppel (Herren)?;Mike Bryan;Todd Woodbridge;Daniel Nestor;Bob Bryan
+Sport;Welches Land gewann die Fußball-WM 1962?;Brasilien;Tschechoslowakei;Chile;Ungarn
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Winterspielen 2002?;12;8;5;16
+Sport;Welcher Sprinter hält den Weltrekord im 110-Meter-Hürdenlauf (12.80 Sekunden)?;Aries Merritt;Colin Jackson;Dayron Robles;Liu Xiang
+Sport;Welches Land gewann die erste Volleyball-WM der Frauen 1952?;Sowjetunion;Japan;USA;Polen
+Sport;Wie viele Spieler sind beim Hurling pro Team auf dem Feld?;15;13;17;11
+Sport;Welcher Boxer war unter dem Spitznamen "The Brockton Blockbuster" bekannt?;Rocky Marciano;Joe Frazier;George Foreman;Larry Holmes
+Sport;Welches Land gewann die erste Tischtennis-WM der Herren 1926?;Ungarn;China;Schweden;England
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 2004?;13;9;16;11
+Sport;Welcher Skirennläufer gewann die meisten Weltcup-Rennen in einer Saison (13)?;Mikaela Shiffrin;Hermann Maier;Marcel Hirscher;Annemarie Moser-Pröll
+Sport;Welches Land gewann die erste Badminton-WM der Herren 1977?;Dänemark;Indonesien;China;Malaysia
+Sport;Wie viele Spieler sind beim Pesäpallo pro Team auf dem Feld?;9;7;11;13
+Sport;Welcher Tennisspieler gewann die meisten French-Open-Titel im Einzel (Herren)?;Rafael Nadal;Björn Borg;Max Decugis;Henri Cochet
+Sport;Welches Land gewann die Fußball-WM 1974?;Deutschland;Niederlande;Polen;Brasilien
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Winterspielen 1998?;12;9;6;14
+Sport;Welcher Sprinter hält den Weltrekord im 400-Meter-Hürdenlauf (45.94 Sekunden)?;Karsten Warholm;Kevin Young;Edwin Moses;Rai Benjamin
+Sport;Welches Land gewann die erste Curling-WM der Herren 1959?;Schottland;Kanada;Schweden;Schweiz
+Sport;Wie viele Spieler sind beim Shinty pro Team auf dem Feld?;12;10;14;16
+Sport;Welcher Boxer war unter dem Spitznamen "The Galveston Giant" bekannt?;Jack Johnson;Joe Louis;Sonny Liston;Floyd Patterson
+Sport;Welches Land gewann die erste Rugby-Union-WM 1987?;Neuseeland;Frankreich;Australien;England
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 2000?;14;9;12;17
+Sport;Welcher Skispringer gewann als erster zwei Goldmedaillen bei einer Olympiade (1972)?;Wojciech Fortuna;Matti Nykänen;Thomas Morgenstern;Simon Ammann
+Sport;Welches Land gewann die erste Biathlon-WM 1958?;Schweden;Norwegen;Deutschland;Sowjetunion
+Sport;Wie viele Spieler sind beim Sepak Takraw pro Team auf dem Feld?;3;2;4;5
+Sport;Welcher Tennisspieler gewann die meisten Australian-Open-Titel im Einzel (Herren)?;Novak Djokovic;Roy Emerson;Roger Federer;Jack Crawford
+Sport;Welches Land gewann die Fußball-WM 1990?;Deutschland;Argentinien;Italien;England
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Winterspielen 1994?;9;6;12;7
+Sport;Welcher Sprinter hält den Weltrekord im 4x100-Meter-Staffellauf (36.84 Sekunden)?;Jamaika;USA;Großbritannien;Kanada
+Sport;Welches Land gewann die erste Eiskunstlauf-WM 1896?;Deutschland;Österreich;Russland;USA
+Sport;Wie viele Spieler sind beim Bandy pro Team auf dem Feld?;11;9;13;15
+Sport;Welcher Boxer war unter dem Spitznamen "The Louisville Lip" bekannt?;Muhammad Ali;Joe Frazier;George Foreman;Mike Tyson
+Sport;Welches Land gewann die erste Ski-WM 1925?;Tschechoslowakei;Norwegen;Österreich;Finnland
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 1996?;20;13;17;25
+Sport;Welcher Skirennläufer gewann die meisten Abfahrts-Weltcuprennen (40)?;Franz Klammer;Hermann Maier;Peter Müller;Stephan Eberharter
+Sport;Welcher Tischtennisspieler hält den Rekord für die meisten Olympia-Goldmedaillen (4)?;Ma Long;Jan-Ove Waldner;Zhang Jike;Wang Hao
+Sport;In welchem Jahr wurde der erste offizielle Ironman-Triathlon ausgetragen?;1978;1982;1975;1985
+Sport;Welches Land gewann die erste moderne Pentathlon-WM 1949?;Schweden;Ungarn;Sowjetunion;Deutschland
+Sport;Wie viele Spieler sind beim Quidditch pro Team auf dem Feld?;7;5;9;11
+Sport;Welcher Badmintonspieler hält den Rekord für die meisten WM-Titel im Einzel (5)?;Lin Dan;Lee Chong Wei;Taufik Hidayat;Peter Gade
+Sport;Welches Land gewann die erste Squash-WM der Herren 1976?;Australien;England;Pakistan;Ägypten
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Winterspielen 2010?;10;7;12;15
+Sport;Welcher Fechter gewann die meisten Olympia-Goldmedaillen (6)?;Edoardo Mangiarotti;Aladár Gerevich;Christian d'Oriola;Ramon Fonst
+Sport;In welchem Jahr wurde der erste offizielle Ultramarathon (100 km) ausgetragen?;1960;1955;1972;1980
+Sport;Welches Land gewann die erste Ringen-WM der Herren 1904?;Österreich;Russland;Ungarn;Deutschland
+Sport;Wie viele Spieler sind beim Kricket-Testmatch pro Team auf dem Feld?;11;9;13;15
+Sport;Welcher Bogenschütze hält den Olympia-Rekord für die meisten Goldmedaillen (4)?;Hubert Van Innis;Darrell Pace;Kim Woo-jin;Brady Ellison
+Sport;Welches Land gewann die erste moderne Fünfkampf-Olympiagoldmedaille 1912?;Schweden;Ungarn;USA;Deutschland
+Sport;Wie viele Goldmedaillen gewann Deutschland bei den Olympischen Sommerspielen 1992?;33;27;40;21
+Sport;Welcher Gewichtheber hält den Weltrekord im Reißen (222 kg, Superschwergewicht)?;Lasha Talakhadze;Hossein Rezazadeh;Behdad Salimi;Alexej Lovchev
+Sport;Welches Land gewann die erste Karate-WM 1970?;Japan;Frankreich;USA;Spanien
+Sport;Wie viele Spieler sind beim Wasserball-Torwart zusätzlich im Wasser?;6;5;7;8
+Sport;Welcher Judoka gewann die meisten Weltmeistertitel (8)?;Teddy Riner;Yasuhiro Yamashita;David Douillet;Toshihiko Koga
+Sport;In welchem Jahr wurde der erste offizielle Skateboard-Weltmeister gekürt?;1975;1980;1968;1985
+Sport;Welches Land gewann die erste Taekwondo-WM 1973?;Südkorea;USA;Mexiko;Iran
 Sport;Was ist die exakte Länge eines geraden Abschnitts in Bahn 1 einer olympischen Laufbahn?;84.39m;100m;100yd;109.36yd
 Sport;Wer gewann die Formel-1-Weltmeisterschaft der Fahrer 2017?;Lewis Hamilton;Sebastian Vettel;Nico Rosberg;Max Verstappen
 Sport;Welcher Autohersteller gewann 2017 das 24-Stunden-Rennen von Le Mans?;Porsche;Toyota;Audi;Chevrolet
@@ -26,7 +170,6 @@ Sport;In welcher kanadischen Provinz wurde Eishockeyspieler Wayne Gretzky gebore
 Sport;Wer gewann 1999 die Champions League?;Manchester United;Barcelona;Bayern München;Liverpool
 Sport;Welches Basketball-Team hat die meisten NBA-Finals erreicht?;Los Angeles Lakers;Boston Celtics;Philadelphia 76ers;Golden State Warriors
 Sport;Welche Kugelfarbe ist im Snooker 3 Punkte wert?;Grün;Gelb;Braun;Blau
-Sport;Wer gewann nach einer märchenhaften Saison die englische Premier League 2015/2016?;Leicester City;Tottenham Hotspur;Watford;Stoke City
 Sport;Welches Land ist Gastgeber der Fußball-WM 2022?;Katar;Uganda;Vietnam;Bolivien
 Sport;Wie oft gewann Martina Navrátilová die Wimbledon-Einzelmeisterschaft?;Neun;Zehn;Sieben;Acht
 Sport;Welcher Boxer wurde 1997 gesperrt, weil er Evander Holyfield ins Ohr biss?;Mike Tyson;Roy Jones Jr.;Evander Holyfield;Lennox Lewis
@@ -44,7 +187,6 @@ Sport;In welchem Jahr wurde die Eishockey-Legende Wayne Gretzky geboren?;1961;19
 Sport;Wie lautet Tiger Woods' niedrigster Score in einer Golfrunde?;61;65;63;67
 Sport;Welcher englische Fußballverein trägt den Spitznamen 'The Foxes'?;Leicester City;Northampton Town;Bradford City;West Bromwich Albion
 Sport;Welches Team hat die meisten Stanley Cups in der NHL gewonnen?;Montreal Canadiens;Chicago Blackhawks;Toronto Maple Leafs;Detroit Red Wings
-Sport;Welches Land war Gastgeber der Fußball-WM 2022?;Katar;USA;Japan;Schweiz
 Sport;Wie oft muss im Baseball ein Ball außerhalb der Strikezone geworfen werden, bevor der Schlagmann einen Walk erhält?;4;1;2;3
 Sport;Welche Fußballnationalmannschaft gewann 2015 die Copa América?;Chile;Argentinien;Brasilien;Paraguay
 Sport;Zu welchem NRL-Team gehört Josh Mansour?;Penrith Panthers;Melbourne Storm;Sydney Roosters;North Queensland Cowboys
@@ -52,7 +194,6 @@ Sport;Wie viele Punktezonen hat ein herkömmliches Dartboard?;82;62;42;102
 Sport;Wer gewann 1998 das Daytona 500?;Dale Earnhardt;John Anderson;Jeff Gordon;Michael Waltrip
 Sport;Welcher Formel-1-Fahrer wechselte in der Mitte der Saison 2017 sein Team?;Carlos Sainz Jr.;Daniil Kvyat;Jolyon Palmer;Rio Haryanto
 Sport;Welcher NBA-Spieler hat in seiner Karriere die meisten Spiele absolviert?;Robert Parish;Kareem Abdul-Jabbar;Kevin Garnett;Kobe Bryant
-Sport;Wie lautete das Endergebnis des WM-Spiels Brasilien - Deutschland 2014?;1-7;1-5;1-6;2-6
 Sport;Welche Stadt hat alle ihre Profi-Sportteams, deren Trikots dasselbe Farbschema tragen?;Pittsburgh;New York;Seattle;Tampa Bay
 Sport;Wer gewann 2016 die UEFA Champions League?;Real Madrid C.F.;FC Bayern München;Atlético Madrid;Manchester City F.C.
 Sport;Wie viele Spieler sollen gleichzeitig auf dem Spielfeld stehen?;22;20;24;26
@@ -176,27 +317,3 @@ Sport;Wie viele Spieler sind beim Camogie in einem Team?;15;13;14;16
 Sport;Welcher Sport wird auch als "The Game of the Quick" bezeichnet?;Squash;Badminton;Tischtennis;Tennis
 Sport;Wie viele Spieler sind beim Rounders in einem Team?;9;7;10;11
 Sport;Welcher Sport wird auch als "The Game of the Agile" bezeichnet?;Gymnastik;Turnen;Akrobatik;Parkour
-Sport;Wie viele Spieler sind beim Korfball in einem Team?;8;6;7;9
-Sport;Welcher Sport wird auch als "The Game of the Precise" bezeichnet?;Bogenschießen;Schießen;Darts;Golf
-Sport;Wie viele Spieler sind beim Sepak Takraw in einem Team?;3;2;4;5
-Sport;Welcher Sport wird auch als "The Game of the Endurance" bezeichnet?;Marathon;Triathlon;Radfahren;Schwimmen
-Sport;Wie viele Spieler sind beim Ultimate Frisbee in einem Team?;7;5;6;8
-Sport;Welcher Sport wird auch als "The Game of the Tacticians" bezeichnet?;Schach;Go;Stratego;Risiko
-Sport;Wie viele Spieler sind beim Shinty in einem Team?;12;10;11;13
-Sport;Welcher Sport wird auch als "The Game of the Warriors" bezeichnet?;MMA;Boxen;Kickboxen;Karate
-Sport;Wie viele Spieler sind beim Bandy in einem Team?;11;9;10;12
-Sport;Welcher Sport wird auch als "The Game of the Kings" bezeichnet?;Polo;Golf;Tennis;Kricket
-Sport;Wie viele Spieler sind beim Pesäpallo in einem Team?;9;7;10;11
-Sport;Welcher Sport wird auch als "The Game of the Gods" bezeichnet?;Polo;Golf;Tennis;Kricket
-Sport;Wie viele Spieler sind beim Broomball in einem Team?;6;5;7;8
-Sport;Welcher Sport wird auch als "The Game of the Champions" bezeichnet?;Boxen;Fechten;Tennis;Golf
-Sport;Wie viele Spieler sind beim Floorball in einem Team?;6;5;7;8
-Sport;Welcher Sport wird auch als "The Game of the Masters" bezeichnet?;Golf;Tennis;Badminton;Squash
-Sport;Wie viele Spieler sind beim Ringette in einem Team?;6;5;7;8
-Sport;Welcher Sport wird auch als "The Game of the Experts" bezeichnet?;Golf;Tennis;Badminton;Squash
-Sport;Wie viele Spieler sind beim Ball Hockey in einem Team?;6;5;7;8
-Sport;Welcher Sport wird auch als "The Game of the Professionals" bezeichnet?;Golf;Tennis;Badminton;Squash
-Sport;Wie viele Spieler sind beim Underwater Hockey in einem Team?;6;5;7;8
-Sport;Welcher Sport wird auch als "The Game of the Elite" bezeichnet?;Golf;Tennis;Badminton;Squash
-Sport;Wie viele Spieler sind beim Underwater Rugby in einem Team?;6;5;7;8
-

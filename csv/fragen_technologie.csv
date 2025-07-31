@@ -1,4 +1,124 @@
 ﻿subject;question;true;wrong1;wrong2;wrong3
+Technologie;Was ist der Unterschied zwischen SAS und SATA Festplatten?;SAS ist für Server (höhere Ausfallsicherheit);SATA ist schneller;SAS unterstützt keine SSDs;SATA hat keine Fehlerkorrektur
+Technologie;Welche Technologie nutzt ein Smartphone für drahtlose Kopfhörer?;Bluetooth Codecs (z.B. aptX);WiFi Direct;NFC;Infrarot
+Technologie;Was ist der Unterschied zwischen NTFS und FAT32?;NTFS unterstützt große Dateien + Berechtigungen;FAT32 ist neuer;NTFS funktioniert nicht unter Windows;FAT32 ist sicherer
+Technologie;Welche Funktion hat ein PoE-Switch?;Stromversorgung über Ethernet-Kabel;Schnellere Internetverbindung;Virenschutz;Automatische IP-Vergabe
+Technologie;Was ist der Unterschied zwischen UDP und QUIC?;QUIC ist moderner mit eingebauter Verschlüsselung;UDP ist nur für Video;QUIC benötigt spezielle Hardware;UDP ist Teil von HTTP/3
+Technologie;Welche Technologie nutzt ein Smartphone für schnelles Laden?;USB Power Delivery (USB-PD);Bluetooth 5.0;NFC;WiFi 6
+Technologie;Was ist der Unterschied zwischen Edge- und Cloud-Computing?;Edge verarbeitet Daten näher an der Quelle;Cloud ist immer schneller;Edge benötigt keine Server;Cloud funktioniert offline
+Technologie;Welche Funktion hat ein Smart Home Hub?;Zentrale Steuerung von IoT-Geräten;Erhöhte WiFi-Geschwindigkeit;Verschlüsselung aller Daten;3D-Druck-Steuerung
+Technologie;Was ist der Unterschied zwischen SIM- und RIM-Karten?;RIM ist ein veralteter Standard für Blackberry;SIM ist nur für Android;RIM unterstützt 5G;SIM benötigt keine Aktivierung
+Technologie;Welche Technologie nutzt ein Smartphone für Barometer-Funktionen?;Luftdrucksensor;GPS;NFC;Gyroskop
+Technologie;Was ist der Unterschied zwischen LPDDR4 und LPDDR5 RAM?;LPDDR5 ist effizienter und schneller;LPDDR4 ist nur für Desktop-PCs;LPDDR5 benötigt mehr Strom;LPDDR4 unterstützt kein Multitasking
+Technologie;Welche Funktion hat ein Smartphone für Always-On-Displays?;Zeigt Infos bei gesperrtem Bildschirm;Deaktiviert Touch-Eingabe;Erhöht Akkulaufzeit;Schaltet WiFi automatisch aus
+Technologie;Was ist der Unterschied zwischen H.264 und H.265 Video-Codecs?;H.265 bietet bessere Komprimierung;H.264 ist neuer;H.265 unterstützt kein 4K;H.264 benötigt weniger Rechenleistung
+Technologie;Welche Technologie nutzt ein Smartphone für Dual-SIM?;DSDS (Dual SIM Dual Standby);Zwei separate Funkmodule;NFC-basierte SIM;Cloud-SIM
+Technologie;Was ist der Unterschied zwischen WPA2 und WPA3 Verschlüsselung?;WPA3 bietet stärkere Sicherheit;WPA2 ist veraltet;WPA3 unterstützt kein WiFi;WPA2 ist schneller
+Technologie;Welche Funktion hat ein Smartphone für eSIM-Unterstützung?;Aktivierung ohne physische SIM-Karte;Schnelleres Internet;Geringerer Stromverbrauch;Automatische Backups
+Technologie;Was ist der Unterschied zwischen LCD und Mini-LED Displays?;Mini-LED verwendet tausende kleinere LEDs für besseres HDR;LCD ist immer heller;Mini-LED ist veraltet;LCD unterstützt keine Farben
+Technologie;Welche Technologie nutzt ein Smartphone für 5G mmWave?;Hochfrequente Wellen für extreme Geschwindigkeit;Nur für ländliche Gebiete;Ersetzt Bluetooth;Benötigt keine Antennen
+Technologie;Was ist der Hauptzweck eines QR-Codes?;Schnelle Datenerfassung durch Scannen;Videoübertragung;Stromversorgung;Spracherkennung
+Technologie;Welches Material wird für flexible Displays verwendet?;OLED;Aluminium;Glasfaser;Kork
+Technologie;Was misst die Einheit "mAh"?;Batteriekapazität;Prozessorgeschwindigkeit;Internetgeschwindigkeit;Bildschirmhelligkeit
+Technologie;Welches Unternehmen entwickelte den ersten Consumer-GPS-Empfänger?;Garmin;Apple;Sony;Nokia
+Technologie;Was ist der Hauptvorteil von LiDAR-Sensoren?;Präzise Abstandsmessung;Stromerzeugung;Datenkomprimierung;Sprachaufnahme
+Technologie;Welche Technologie nutzt kontaktlose Kreditkarten?;RFID;Bluetooth;Infrarot;USB-C
+Technologie;Was ist ein "Phablet"?;Smartphone-Tablet-Hybrid;Neuer Prozessortyp;Cloud-Speicherdienst;Verschlüsselungsstandard
+Technologie;Welches ist KEIN gängiger IoT-Protokoll?;HTML;MQTT;Zigbee;LoRaWAN
+Technologie;Was macht der Befehl "chmod" in Linux?;Ändert Dateiberechtigungen;Löscht Verzeichnisse;Installiert Software;Startet den Drucker
+Technologie;Welches Unternehmen entwickelte den ersten kommerziellen SSD?;SanDisk;Intel;Samsung;Seagate
+Technologie;Was ist "physische Sicherheit" in der IT?;Schutz vor Diebstahl/Zugriff auf Hardware;Firewall-Konfiguration;Passwortstärke;Verschlüsselungsalgorithmus
+Technologie;Welches ist KEIN Vorteil von Microservices?;Einfachere Monolith-Architektur;Bessere Skalierbarkeit;Unabhängige Deployment;Technologievielfalt
+Technologie;Was ist ein "Cold Wallet" in der Kryptowelt?;Offline-Speicherung von Krypto-Assets;Kühlschrank mit Internetanschluss;Cloud-Backup;CPU-Mining-Software
+Technologie;Welche Programmiersprache wurde für Android-Entwicklung vor Kotlin primär genutzt?;Java;Python;Swift;C#
+Technologie;Was ist der Hauptzweck von Kubernetes?;Container-Orchestrierung;Datenbankverwaltung;Netzwerksicherheit;Hardware-Diagnose
+Technologie;Welches ist KEIN NoSQL-Datenbanktyp?;SQLite;MongoDB;Cassandra;Redis
+Technologie;Was bedeutet "IaC" in der DevOps-Welt?;Infrastructure as Code;Internet as Cloud;Integrated as Controller;Intelligent as Computer
+Technologie;Welches Tool wird für kontinuierliche Integration genutzt?;Jenkins;Photoshop;Excel;PowerPoint
+Technologie;Was ist ein "Canary Release"?;Schrittweise Rollout-Strategie;Vogelkamera;Kryptowährung;Netzwerkkabeltyp
+Technologie;Welches ist KEIN gängiger API-Authentifizierungsstandard?;FTP;OAuth;JWT;API-Key
+Technologie;Was ist der Hauptzweck von GraphQL?;Flexible Datenabfragen;Video-Rendering;Passwort-Generierung;CPU-Übertaktung
+Technologie;Welches Unternehmen entwickelte den ersten 1-TB-SSD?;Samsung;Western Digital;Toshiba;Kingston
+Technologie;Was ist "Sharding" in Datenbanken?;Horizontale Partitionierung;Datenlöschung;Backup-Strategie;Verschlüsselungsmethode
+Technologie;Welches ist KEIN Vorteil von Serverless Computing?;Geringere Latenz;Automatische Skalierung;Kein Server-Management;Pay-per-Use
+Technologie;Was ist ein "Blue-Green Deployment"?;Parallele Produktions/Test-Umgebungen;Farbkalibrierung;Bluetooth-Update;Energiesparmodus
+Technologie;Welches Protokoll nutzt ein Smart Lock typischerweise?;Z-Wave;HTML;JPEG;MP3
+Technologie;Was ist der Hauptzweck von Prometheus?;Monitoring und Alerting;Datenbankverwaltung;Code-Kompilierung;Netzwerk-Verschlüsselung
+Technologie;Welches ist KEIN Feature von IPv6?;Rückwärtskompatibilität mit IPv4;Größerer Adressraum;Integrierte Sicherheit;Autokonfiguration
+Technologie;Was ist "FinTech"?;Technologie im Finanzsektor;Filmproduktionstool;Fitness-Tracker;Feinmechanik
+Technologie;Welches Unternehmen entwickelte den ersten 5G-Chip?;Qualcomm;Intel;AMD;NVIDIA
+Technologie;Was ist ein "Zero Trust"-Sicherheitsmodell?;Verifizierung jeder Zugriffsanfrage;Passwortloses Login;Offene Netzwerke;Deaktivierte Firewall
+Technologie;Welches ist KEIN Blockchain-Konsensmechanismus?;Proof of Internet;Proof of Work;Proof of Stake;Delegated Proof of Stake
+Technologie;Was ist "Edge AI"?;KI-Modelle auf Endgeräten;Cloud-basierte KI;KI für Bildbearbeitung;KI in der Raumfahrt
+Technologie;Welches Tool wird für Container-Isolierung genutzt?;gVisor;Excel;Photoshop;PowerShell
+Technologie;Was ist der Hauptzweck von WebAssembly?;Schnelle Ausführung im Browser;Datenbankabfragen;Netzwerkrouting;Betriebssystementwicklung
+Technologie;Welches ist KEIN Vorteil von Quantum Computing?;Schnelleres Video-Streaming;Optimierung komplexer Systeme;Kryptographie-Bruch;Molekülsimulation
+Technologie;Was ist "Digital Twin"?;Virtuelles Abbild physischer Systeme;3D-Drucker;VR-Brille;Blockchain-Wallet
+Technologie;Welches Unternehmen entwickelte den ersten 1-nm-Chip?;IBM;TSMC;Intel;Samsung
+Technologie;Was ist "Neuromorphic Computing"?;Chips nach Vorbild des Gehirns;Quantencomputer;Cloud-Server;KI-Training
+Technologie;Welches ist KEIN Merkmal von 6G?;Ersetzt Glasfaser;Terahertz-Frequenzen;1 Tbps Geschwindigkeit;Nanosekunden-Latenz
+Technologie;Was ist "Homomorphic Encryption"?;Verschlüsselung bei Datenverarbeitung;WLAN-Sicherheit;Blockchain-Protokoll;Passwort-Hashing
+Technologie;Welches Unternehmen entwickelte den ersten PCIe 5.0 SSD?;Micron;Seagate;Western Digital;Kingston
+Technologie;Was ist "Swarm Intelligence" in der Robotik?;Kollektives Verhalten einfacher Einheiten;Quantenalgorithmus;Cloud-Computing;3D-Rendering
+Technologie;Welches ist KEIN Anwendungsfall von AR?;Datenbankoptimierung;Medizinische Visualisierung;Spiele;Architekturplanung
+Technologie;Was ist "Memristor"?;Passiver Schaltkreis mit Gedächtnis;CPU-Cache;Grafikkern;Netzwerkadapter
+Technologie;Welches Unternehmen führte "Ray Tracing" in GPUs ein?;NVIDIA;AMD;Intel;Qualcomm
+Technologie;Was ist "Federated Learning"?;Dezentrales KI-Training;Blockchain-Mining;Cloud-Speicher;Robotik-Steuerung
+Technologie;Welches ist KEIN Vorteil von RISC-V?;Proprietäre Lizenzgebühren;Offene Architektur;Energieeffizienz;Skalierbarkeit
+Technologie;Was ist "Post-Quantum-Kryptografie"?;Verschlüsselung gegen Quantenangriffe;Blockchain-Update;KI-Sicherheit;5G-Verschlüsselung
+Technologie;Welches Unternehmen entwickelte den ersten 3D-NAND-Speicher?;Samsung;Micron;SK Hynix;Intel
+Technologie;Was ist "Ambient Computing"?;Nahtlose Integration von Technologie in Umgebung;Lautsprechertechnik;Monitorbeleuchtung;Datenbank-Indizierung
+Technologie;Was ist der Hauptzweck eines CAPTCHA?;Mensch von Bot unterscheiden;Passwort verschlüsseln;Daten komprimieren;Hardware beschleunigen
+Technologie;Welche Einheit misst die Bildschirmaktualisierungsrate?;Hertz (Hz);Bit;Byte;Lumen
+Technologie;Was ist der Hauptvorteil von DDR5 gegenüber DDR4 RAM?;Höhere Bandbreite;Geringere Latenz;Niedrigerer Preis;Kleinere Bauform
+Technologie;Welches Unternehmen entwickelte den ersten 1-TB-SSD?;Samsung;Intel;Western Digital;Seagate
+Technologie;Was ist der Hauptzweck von NFC?;Kurze Reichweite Datenübertragung;Lange Distanz Kommunikation;Stromversorgung;Grafikberechnung
+Technologie;Welche Technologie ermöglicht "Always-On-Displays"?;OLED;LCD;LED;Plasma
+Technologie;Was ist der Hauptvorteil von Wi-Fi 6?;Höhere Effizienz in dichten Umgebungen;Längere Reichweite;Geringerer Stromverbrauch;Keine Passwörter nötig
+Technologie;Welches ist KEIN Vorteil von USB-C?;Höhere Spannung als USB-A;Reversible Stecker;Hohe Datenrate;Stromlieferung
+Technologie;Was ist der Hauptzweck eines Heatpipes in Laptops?;Wärmeableitung;Stromversorgung;Datenübertragung;Akku-Ladung
+Technologie;Welches Unternehmen führte den ersten 64-Bit Smartphone-Chip ein?;Apple;Samsung;Qualcomm;Huawei
+Technologie;Was ist der Hauptvorteil von eSIM?;Kein physischer SIM-Slot nötig;Schnelleres Internet;Geringerer Preis;Bessere Netzabdeckung
+Technologie;Welche Technologie nutzt ein Smartphone für Schrittzählung?;Beschleunigungssensor;GPS;Mikrofon;Barometer
+Technologie;Was ist der Hauptzweck von DLSS?;Bessere Grafikperformance mit KI;Akku sparen;Daten verschlüsseln;Lautsprecher optimieren
+Technologie;Welches ist KEIN Merkmal von 5G?;Geringere Latenz als 6G;Höhere Bandbreite;Mehr Geräte pro Zelle;Energieeffizienz
+Technologie;Was ist der Hauptvorteil von LPDDR5 RAM?;Geringerer Stromverbrauch;Höhere Kapazität;Geringere Kosten;Bessere Kompatibilität
+Technologie;Welches Unternehmen entwickelte den ersten 3D-NAND-Speicher?;Samsung;Micron;SK Hynix;Intel
+Technologie;Was ist der Hauptzweck von Thunderbolt?;Hohe Geschwindigkeit Daten/Video/Strom;Nur Videoübertragung;Nur Stromversorgung;Nur Audio
+Technologie;Welche Technologie ermöglicht kabellose Ohrhörer?;Bluetooth;NFC;Wi-Fi;Infrarot
+Technologie;Was ist der Hauptvorteil von Mini-LED?;Bessere HDR-Darstellung;Geringerer Preis;Dünnere Bauform;Geringerer Stromverbrauch
+Technologie;Welches ist KEIN Vorteil von Cloud-Gaming?;Keine Internetverbindung nötig;Keine teure Hardware;Sofortiger Zugriff;Plattformunabhängigkeit
+Technologie;Was ist der Hauptzweck eines VPN?;Sichere Verbindung über öffentliche Netze;Internet beschleunigen;Daten komprimieren;Hardware überwachen
+Technologie;Welches Unternehmen entwickelte den ersten PCIe 4.0 SSD?;Corsair;Samsung;WD;Seagate
+Technologie;Was ist der Hauptvorteil von MEMS-Lautsprechern?;Kleinere Bauform;Höhere Lautstärke;Geringerer Preis;Bessere Basswiedergabe
+Technologie;Welche Technologie nutzt ein Smartphone für Augmented Reality?;Beschleunigungssensor + Gyroskop;Nur Kamera;NFC;Fingerabdrucksensor
+Technologie;Was ist der Hauptzweck von RISC-V?;Offene Prozessorarchitektur;Grafikberechnung;Datenverschlüsselung;Netzwerkkommunikation
+Technologie;Welches ist KEIN Vorteil von Folding-Displays?;Geringerer Preis;Größere Bildschirmfläche;Tragbarkeit;Innovatives Design
+Technologie;Was ist der Hauptvorteil von UFS-Speicher?;Höhere Geschwindigkeit als eMMC;Geringerer Preis;Größere Kapazität;Bessere Kompatibilität
+Technologie;Welches Unternehmen führte Raytracing in GPUs ein?;NVIDIA;AMD;Intel;Qualcomm
+Technologie;Was ist der Hauptzweck von LiDAR in Smartphones?;Präzise Tiefenmessung;Bessere Fotos;Lautsprecher optimieren;Akku sparen
+Technologie;Welche Technologie ermöglicht kontaktloses Bezahlen?;NFC;Bluetooth;Wi-Fi;USB
+Technologie;Was ist der Hauptvorteil von Graphen-Akkus?;Schnellere Ladung;Geringere Kapazität;Höhere Kosten;Größere Bauform
+Technologie;Welches ist KEIN Merkmal von Edge Computing?;Zentrale Datenverarbeitung;Geringere Latenz;Lokale Verarbeitung;Bandbreitenersparnis
+Technologie;Was ist der Hauptzweck von TPM-Chips?;Hardware-basierte Sicherheit;Grafikbeschleunigung;Netzwerkgeschwindigkeit;Akku-Kapazität
+Technologie;Welches Unternehmen entwickelte den ersten 7nm Prozessor?;TSMC;Intel;Samsung;GlobalFoundries
+Technologie;Was ist der Hauptvorteil von Wi-Fi 6E?;Zusätzliches 6GHz Band;Längere Reichweite;Geringerer Stromverbrauch;Keine Router nötig
+Technologie;Welche Technologie nutzt ein Smartphone für Spracherkennung?;Neuronale Engine;NFC;Bluetooth;Fingerabdrucksensor
+Technologie;Was ist der Hauptzweck von Smart-Home-Hubs?;Geräte zentral steuern;Internet beschleunigen;Daten speichern;Akku sparen
+Technologie;Welches ist KEIN Vorteil von MicroLED?;Geringere Helligkeit als OLED;Perfekte Schwarztöne;Hoher Kontrast;Lange Lebensdauer
+Technologie;Was ist der Hauptvorteil von PCIe 5.0?;Doppelte Bandbreite von 4.0;Geringerer Stromverbrauch;Kleinere Bauform;Geringere Kosten
+Technologie;Welches Unternehmen entwickelte den ersten 1TB MicroSD?;Micron;SanDisk;Samsung;Kingston
+Technologie;Was ist der Hauptzweck von HBM-Speicher?;Hohe Bandbreite für GPUs;Geringerer Stromverbrauch;Kleinere Bauform;Geringere Kosten
+Technologie;Welche Technologie ermöglicht "Handy-TV"?;DVB-T2;Bluetooth;NFC;Wi-Fi
+Technologie;Was ist der Hauptvorteil von LEO-Satelliteninternet?;Geringe Latenz;Geringere Kosten;Keine Bodenstationen;Unbegrenzte Daten
+Technologie;Welches ist KEIN Merkmal von RISC-Architektur?;Komplexe Befehle;Einfache Befehle;Energieeffizienz;Schnelle Ausführung
+Technologie;Was ist der Hauptzweck von Smart-Mesh-Netzwerken?;Bessere Abdeckung;Internet beschleunigen;Daten speichern;Akku sparen
+Technologie;Welches Unternehmen entwickelte den ersten 5nm Prozessor?;TSMC;Intel;Samsung;GlobalFoundries
+Technologie;Was ist der Hauptvorteil von LTPO-Displays?;Dynamische Refresh-Rate;Höhere Helligkeit;Geringerer Preis;Kleinere Bauform
+Technologie;Welche Technologie nutzt ein Smartphone für 3D-Fotos?;ToF-Sensor;NFC;Bluetooth;Fingerabdrucksensor
+Technologie;Was ist der Hauptzweck von Zero Trust Security?;Immer verifizieren;Passwörter abschaffen;Firewalls deaktivieren;Daten löschen
+Technologie;Welches ist KEIN Vorteil von Silicon Carbide in Halbleitern?;Geringere Leistung;Höhere Effizienz;Bessere Hitzeleitung;Höhere Spannung
+Technologie;Was ist der Hauptvorteil von Open RAN?;Herstellerunabhängigkeit;Geringere Kosten;Höhere Sicherheit;Bessere Performance
 Technologie;Was ist die Hauptfunktion eines Betriebssystems?;Hardware verwalten und Programme ausführen;Spiele ausführen; Internetseiten erstellen;Drucker reparieren
 Technologie;Welches Gerät speichert Daten dauerhaft?;Festplatte (HDD/SSD);Monitor;CPU;RAM
 Technologie;Was verbindet Computer in einem Netzwerk?;Router;Drucker;Monitor;Tastatur
@@ -192,21 +312,3 @@ Technologie;Was ist der Unterschied zwischen Mono- und Multicore-CPUs?;Multicore
 Technologie;Welche Technologie nutzt ein Smartphone für Gesichtserkennung?;Infrarot-Kamera + Punktprojektor;Nur Frontkamera;Fingerabdrucksensor;Spracherkennung
 Technologie;Was ist der Unterschied zwischen Lossless und Lossy Audio?;Lossless behält originale Qualität, Lossy komprimiert mit Qualitätsverlust;Lossy ist immer besser;Lossless unterstützt keine Kopfhörer;Lossy ist unkomprimiert
 Technologie;Welche Funktion hat ein KVM-Switch?;Steuerung mehrerer PCs mit einer Tastatur/Maus;Virtuelle Maschinen erstellen;Netzwerküberwachung;Automatische Backups
-Technologie;Was ist der Unterschied zwischen SAS und SATA Festplatten?;SAS ist für Server (höhere Ausfallsicherheit);SATA ist schneller;SAS unterstützt keine SSDs;SATA hat keine Fehlerkorrektur
-Technologie;Welche Technologie nutzt ein Smartphone für drahtlose Kopfhörer?;Bluetooth Codecs (z.B. aptX);WiFi Direct;NFC;Infrarot
-Technologie;Was ist der Unterschied zwischen NTFS und FAT32?;NTFS unterstützt große Dateien + Berechtigungen;FAT32 ist neuer;NTFS funktioniert nicht unter Windows;FAT32 ist sicherer
-Technologie;Welche Funktion hat ein PoE-Switch?;Stromversorgung über Ethernet-Kabel;Schnellere Internetverbindung;Virenschutz;Automatische IP-Vergabe
-Technologie;Was ist der Unterschied zwischen UDP und QUIC?;QUIC ist moderner mit eingebauter Verschlüsselung;UDP ist nur für Video;QUIC benötigt spezielle Hardware;UDP ist Teil von HTTP/3
-Technologie;Welche Technologie nutzt ein Smartphone für schnelles Laden?;USB Power Delivery (USB-PD);Bluetooth 5.0;NFC;WiFi 6
-Technologie;Was ist der Unterschied zwischen Edge- und Cloud-Computing?;Edge verarbeitet Daten näher an der Quelle;Cloud ist immer schneller;Edge benötigt keine Server;Cloud funktioniert offline
-Technologie;Welche Funktion hat ein Smart Home Hub?;Zentrale Steuerung von IoT-Geräten;Erhöhte WiFi-Geschwindigkeit;Verschlüsselung aller Daten;3D-Druck-Steuerung
-Technologie;Was ist der Unterschied zwischen SIM- und RIM-Karten?;RIM ist ein veralteter Standard für Blackberry;SIM ist nur für Android;RIM unterstützt 5G;SIM benötigt keine Aktivierung
-Technologie;Welche Technologie nutzt ein Smartphone für Barometer-Funktionen?;Luftdrucksensor;GPS;NFC;Gyroskop
-Technologie;Was ist der Unterschied zwischen LPDDR4 und LPDDR5 RAM?;LPDDR5 ist effizienter und schneller;LPDDR4 ist nur für Desktop-PCs;LPDDR5 benötigt mehr Strom;LPDDR4 unterstützt kein Multitasking
-Technologie;Welche Funktion hat ein Smartphone für Always-On-Displays?;Zeigt Infos bei gesperrtem Bildschirm;Deaktiviert Touch-Eingabe;Erhöht Akkulaufzeit;Schaltet WiFi automatisch aus
-Technologie;Was ist der Unterschied zwischen H.264 und H.265 Video-Codecs?;H.265 bietet bessere Komprimierung;H.264 ist neuer;H.265 unterstützt kein 4K;H.264 benötigt weniger Rechenleistung
-Technologie;Welche Technologie nutzt ein Smartphone für Dual-SIM?;DSDS (Dual SIM Dual Standby);Zwei separate Funkmodule;NFC-basierte SIM;Cloud-SIM
-Technologie;Was ist der Unterschied zwischen WPA2 und WPA3 Verschlüsselung?;WPA3 bietet stärkere Sicherheit;WPA2 ist veraltet;WPA3 unterstützt kein WiFi;WPA2 ist schneller
-Technologie;Welche Funktion hat ein Smartphone für eSIM-Unterstützung?;Aktivierung ohne physische SIM-Karte;Schnelleres Internet;Geringerer Stromverbrauch;Automatische Backups
-Technologie;Was ist der Unterschied zwischen LCD und Mini-LED Displays?;Mini-LED verwendet tausende kleinere LEDs für besseres HDR;LCD ist immer heller;Mini-LED ist veraltet;LCD unterstützt keine Farben
-Technologie;Welche Technologie nutzt ein Smartphone für 5G mmWave?;Hochfrequente Wellen für extreme Geschwindigkeit;Nur für ländliche Gebiete;Ersetzt Bluetooth;Benötigt keine Antennen

@@ -1,4 +1,140 @@
 ﻿subject;question;true;wrong1;wrong2;wrong3
+Kunst;Welcher Stil ist "Rayonnant"?;Gotische Architekturphase;Barock;Renaissance;Neoklassizismus
+Kunst;Wer entwarf den "Tulip Table"?;Eero Saarinen;Isamu Noguchi;Marcel Breuer;Alvar Aalto
+Kunst;Was ist "Verismo"?;Realistischer Malstil (19. Jh.);Abstrakter Expressionismus;Surrealismus;Kubismus
+Kunst;Welcher Künstler schuf "No. 5, 1948" (teuerstes Gemälde)?;Jackson Pollock;Mark Rothko;Willem de Kooning;Barnett Newman
+Kunst;Was ist "Pietra Dura"?;Steinintarsienarbeit;Marmorskulptur;Sandsteinrelief;Granitpolieren
+Kunst;Wer malte "Die Anatomie des Dr. Tulp"?;Rembrandt;Rubens;Vermeer;Frans Hals
+Kunst;Was ist "Shin-hanga"?;Japanischer Neodruck (20. Jh.);Chinesische Tuschemalerei;Koreanische Keramik;Indische Miniatur
+Kunst;Welcher Architekt entwarf "Fallingwater"?;Frank Lloyd Wright;Le Corbusier;Mies van der Rohe;Alvar Aalto
+Kunst;Was ist "Polychromie"?;Mehrfarbigkeit in Skulpturen;Monochrome Malerei;Schwarz-Weiß-Fotografie;Graustufenzeichnung
+Kunst;Wer schuf "The Treachery of Images" ("Dies ist keine Pfeife")?;René Magritte;Salvador Dalí;Max Ernst;Joan Miró
+Kunst;Was ist "Temperamalerei"?;Maltechnik mit Ei-Emulsion;Ölmalerei;Aquarell;Acryl
+Kunst;Welcher Künstler ist für "Light and Space"-Bewegung bekannt?;James Turrell;Dan Flavin;Robert Irwin;Larry Bell
+Kunst;Was ist "Millefiori"?;Glasperlen mit Blumenmuster;Keramikfliesen;Seidenstickerei;Holzintarsien
+Kunst;Wer entwarf den "Wassily Chair"?;Marcel Breuer;Le Corbusier;Charles Eames;Alvar Aalto
+Kunst;Was ist "Vedutenmalerei"?;Stadtansichten (18. Jh.);Landschaftsmalerei;Porträtmalerei;Stillleben
+Kunst;Welcher Künstler schuf "The Son of Man"?;René Magritte;Salvador Dalí;Max Ernst;Yves Tanguy
+Kunst;Was ist "Bauhaus-Design"?;Funktionale Wandgestaltung;Barocke Ornamente;Victorianische Muster;Art-Deco-Design
+Kunst;Wer malte "Die Jüdin von Toledo"?;Eugène Delacroix;Théodore Géricault;Jean-Auguste-Dominique Ingres;William-Adolphe Bouguereau
+Kunst;Was ist "Vitreausmalerei"?;Glasmalerei;Fresko;Enkaustik;Aquarell
+Kunst;Welcher Stil ist "Tiffany"?;Art-Nouveau-Glasarbeiten;Barocke Silberarbeiten;Renaissance-Bronzen;Gotische Steinmetzarbeiten
+Kunst;Wer entwarf den "Chaise Longue LC4"?;Le Corbusier;Charlotte Perriand;Eileen Gray;Marcel Breuer
+Kunst;Was ist "Polke-Dot"?;Punkte als künstlerisches Motiv (Yayoi Kusama);Streifen;Kariert;Wellenlinien
+Kunst;Welcher Künstler schuf "The Weather Project" (Tate Modern)?;Olafur Eliasson;Anish Kapoor;Damien Hirst;Ai Weiwei
+Kunst;Was ist "Scagliola"?;Marmorimitation aus Gips;Echtmarmor;Granit;Sandstein
+Kunst;Wer malte "Die Ernte"?;Pieter Bruegel der Ältere;Hieronymus Bosch;Rembrandt;Jan Steen
+Kunst;Was ist "Shibori"?;Japanische Färbetechnik mit Abbindungen;Chinesische Seidenmalerei;Koreanische Töpferkunst;Indische Blockdrucke
+Kunst;Welcher Architekt entwarf "Seagram Building"?;Ludwig Mies van der Rohe;Le Corbusier;Frank Lloyd Wright;Philip Johnson
+Kunst;Was ist "Intaglio"?;Vertiefte Drucktechnik (Radierung);Hochdruck;Siebdruck;Lithografie
+Kunst;Wer schuf "The Swing" (Fragonard)?;Jean-Honoré Fragonard;François Boucher;Antoine Watteau;Élisabeth Vigée Le Brun
+Kunst;Was ist "Verdaccio"?;Grünliche Untermalungstechnik;Rötelzeichnung;Blaue Lasur;Goldgrund
+Kunst;Welcher Künstler ist für "Neonkunst" bekannt?;Bruce Nauman;Dan Flavin;James Turrell;Jenny Holzer
+Kunst;Was ist "Marouflage"?;Aufziehen von Leinwand auf Wand;Fresko-Technik;Ölmalerei;Aquarell
+Kunst;Wer entwarf den "Barcelona Pavilion"?;Ludwig Mies van der Rohe;Le Corbusier;Walter Gropius;Alvar Aalto
+Kunst;Was ist "Gouache"?;Deckfarbenmalerei;Ölmalerei;Aquarell;Acryl
+Kunst;Welcher Künstler schuf "Die Persistenz der Erinnerung" (schmelzende Uhren)?;Salvador Dalí;René Magritte;Max Ernst;Joan Miró
+Kunst;Was ist ein "Triptychon"?;Ein dreiteiliges Gemälde oder Altarbild;Eine Skulptur aus Marmor;Eine Drucktechnik;Ein Aquarell
+Kunst;Welcher Architekt entwarf die "Fallingwater"-Villa?;Frank Lloyd Wright;Le Corbusier;Mies van der Rohe;Antoni Gaudí
+Kunst;Was ist "Bauhaus-Keramik"?;Keramik mit funktionalem Design;Barocke Porzellanfiguren;Japanische Raku-Ware;Griechische Vasen
+Kunst;Wer malte "Die Geburt des Dionysos" (Pompeji-Fresko)?;Unbekannter römischer Künstler;Michelangelo;Raffael;Botticelli
+Kunst;Welche Technik nutzte William Turner für seine Seestücke?;Ölmalerei mit Lichteffekten;Aquarell;Holzschnitt;Fresko
+Kunst;Was ist "Vexillologie"?;Die Wissenschaft der Flaggenkunde;Studium der Münzen;Analyse von Wappen;Erforschung von Siegeln
+Kunst;Wer schuf die Skulptur "Die Bürger von Calais"?;Auguste Rodin;Constantin Brâncuși;Alberto Giacometti;Henry Moore
+Kunst;Was ist "Ikebana"?;Japanische Blumensteckkunst;Chinesische Kalligrafie;Koreanische Töpferkunst;Indische Batik
+Kunst;Welcher Stil kennzeichnet die "Wiener Secession"?;Jugendstil mit geometrischen Elementen;Barock;Gotik;Brutalismus
+Kunst;Wer entwarf den "Red Blue Chair"?;Gerrit Rietveld;Marcel Breuer;Charles Eames;Le Corbusier
+Kunst;Was ist "Gouache"?;Deckfarbenmalerei mit hoher Pigmentdichte;Ölmalerei;Aquarell;Enkaustik
+Kunst;Welcher Künstler ist für "Cut-Outs" aus farbigem Papier bekannt?;Henri Matisse;Pablo Picasso;Georges Braque;Marc Chagall
+Kunst;Was ist "Scagliola"?;Marmorimitation aus Gips und Leim;Echtholzintarsien;Bronzeguss;Glasbläserei
+Kunst;Wer malte "Das Konzert" (Vermeer)?;Johannes Vermeer;Rembrandt;Frans Hals;Pieter de Hooch
+Kunst;Welches Material nutzte Barbara Hepworth für abstrakte Skulpturen?;Holz und Stein;Metall;Glas;Plastik
+Kunst;Was ist "Chiaroscuro"?;Kontrastreiche Hell-Dunkel-Malerei;Punktierte Muster;Goldgrundtechnik;Aquarellverlauf
+Kunst;Wer entwarf das "Sydney Opera House"?;Jørn Utzon;Frank Gehry;Zaha Hadid;Oscar Niemeyer
+Kunst;Welche Epoche prägte "Die Garten der Lüste" von Hieronymus Bosch?;Niederländische Renaissance;Barock;Gotik;Rokoko
+Kunst;Was ist "Fresko-Secco"?;Malerei auf trockenem Putz;Öl auf Leinwand;Aquarell auf Papier;Acryl auf Holz
+Kunst;Wer schuf "Die Betenden Hände"?;Albrecht Dürer;Michelangelo;Leonardo da Vinci;Rembrandt
+Kunst;Welcher Künstler ist für "ZERO"-Lichtinstallationen bekannt?;Günther Uecker;Joseph Beuys;Anselm Kiefer;Gerhard Richter
+Kunst;Was ist "Bauhaus-Tapete"?;Funktionale Wandgestaltung mit geometrischen Mustern;Barocke Ornamente;Victorianische Blumenmuster;Art-Deco-Metalloptik
+Kunst;Wer malte "Die Ernte" (Bruegel)?;Pieter Bruegel der Ältere;Hieronymus Bosch;Jan van Eyck;Rembrandt
+Kunst;Welche Technik nutzte Hokusai für "Die große Welle vor Kanagawa"?;Holzschnitt (Ukiyo-e);Ölmalerei;Aquarell;Lithografie
+Kunst;Was ist "Trompe-l'œil"?;Illusionistische Malerei, die 3D-Effekte simuliert;Abstrakte Farbfelder;Monochrome Grafik;Skulpturale Reliefs
+Kunst;Wer entwarf den "Tulpenstuhl"?;Eero Saarinen;Arne Jacobsen;Charles Eames;Verner Panton
+Kunst;Welcher Künstler schuf "Die flüssigen Räume" (durchtrennte Leinwände)?;Lucio Fontana;Yves Klein;Piero Manzoni;Alberto Burri
+Kunst;Was ist "Arte Povera"?;Kunst mit einfachen Materialien wie Jute oder Erde;Luxusobjekte aus Gold;Hyperrealistische Malerei;Digitale Installationen
+Kunst;Wer malte "Die Anbetung der Hirten" (Giorgione)?;Giorgione;Tizian;Caravaggio;Raffael
+Kunst;Welches Prinzip lehrt der "Goldene Schnitt"?;Harmonische Proportionen (ca. 1:1,618);Farbkontraste;Perspektivische Fluchtlinien;Symmetrische Komposition
+Kunst;Was ist "Mail Art"?;Kunstwerke, die per Post versendet werden;Digitale E-Mail-Kunst;3D-Druck;Virtual-Reality-Installationen
+Kunst;Wer schuf "Die Kartoffelesser" (düstere Bauernszenen)?;Vincent van Gogh;Paul Gauguin;Édouard Manet;Camille Pissarro
+Kunst;Welcher Stil ist für "Rayonnant"-Architektur bekannt?;Gotik mit strahlenförmigen Fenstern;Barock;Renaissance;Neoklassizismus
+Kunst;Was ist "Hanji"?;Traditionelles koreanisches Papier für Kunstwerke;Japanische Tusche;Chinesische Seide;Indische Baumwolle
+Kunst;Wer entwarf den "Panton Chair"?;Verner Panton;Eero Saarinen;Charles Eames;Arne Jacobsen
+Kunst;Welche Technik nutzt "Cloisonné"?;Emaillearbeiten mit Metallzellen;Glasbläserei;Holzschnitzerei;Bronzeguss
+Kunst;Was ist "Biedermeier"-Möbeldesign?;Bürgerlicher, schlichter Stil des 19. Jahrhunderts;Barocke Prunksucht;Gotische Ornamentik;Art-Deco-Glanz
+Kunst;Wer malte "Die vier Jahreszeiten" als allegorische Porträts?;Giuseppe Arcimboldo;Caravaggio;Tizian;Rubens
+Kunst;Welcher Künstler schuf "The Weather Project" (Tate Modern, 2003)?;Olafur Eliasson;Anish Kapoor;Damien Hirst;Ai Weiwei
+Kunst;Was ist "Kinetic Art"?;Kunst mit Bewegungselementen;Statische Skulpturen;Malerei;Fotografie
+Kunst;Wer entwarf die "Villa Rotonda"?;Andrea Palladio;Michelangelo;Leonardo da Vinci;Bernini
+Kunst;Welche Farbe dominiert in Yves Kleins "IKB"-Serie?;Internationales Klein-Blau;Rot;Grün;Gelb
+Kunst;Was ist "Frottage"?;Abreibetechnik von Oberflächen;Ölmalerei;Aquarell;Siebdruck
+Kunst;Wer schuf "Der Kuss" (Skulptur von Rodin)?;Auguste Rodin;Constantin Brâncuși;Alberto Giacometti;Henry Moore
+Kunst;Welcher Architekt prägte den "International Style"?;Ludwig Mies van der Rohe;Antoni Gaudí;Frank Lloyd Wright;Le Corbusier
+Kunst;Was ist "Polychromie" in der Antike?;Bemalte Skulpturen und Architektur;Monochrome Malerei;Holzschnitzerei;Glasfenster
+Kunst;Wer malte "Die Anbetung der Könige" (Gent Altar)?;Jan van Eyck;Hieronymus Bosch;Pieter Bruegel;Rembrandt
+Kunst;Welche Technik nutzte Jackson Pollock für "Action Painting"?;Drip Painting (Tropftechnik);Aquarell;Holzschnitt;Fresko
+Kunst;Was ist "Temperamalerei"?;Malerei mit Ei-Emulsion als Bindemittel;Ölfarbe;Acryl;Aquarell
+Kunst;Wer schuf "Die Freiheit führt das Volk" (Juli-Revolution 1830)?;Eugène Delacroix;Théodore Géricault;Jacques-Louis David;Jean-Auguste-Dominique Ingres
+Kunst;Welcher Künstler schuf die Serie "Water Lilies"?;Claude Monet;Pierre-Auguste Renoir;Édouard Manet;Camille Pissarro
+Kunst;Was ist ein "Camera Obscura"?;Vorläufer der Fotografie (Lichtprojektion);Eine Maltechnik;Ein Skulpturenwerkzeug;Eine Druckpresse
+Kunst;Welcher Architekt entwarf das "Glass House"?;Philip Johnson;Ludwig Mies van der Rohe;Frank Lloyd Wright;Le Corbusier
+Kunst;Was charakterisiert den "Suprematismus"?;Geometrische Abstraktion (z.B. schwarzes Quadrat);Realistische Porträts;Barocke Ornamente;Impressionistische Landschaften
+Kunst;Wer schuf das Wandgemälde "Man at the Crossroads"?;Diego Rivera;Frida Kahlo;José Clemente Orozco;David Alfaro Siqueiros
+Kunst;Welche Technik nutzte Albrecht Dürer für "Rhinoceros"?;Holzschnitt;Ölmalerei;Aquarell;Fresko
+Kunst;Was ist "Bauhaus-Typografie"?;Funktionale Schriftgestaltung ohne Serifen;Gotische Kalligrafie;Barocke Verschnörkelungen;Handgeschriebene Gedichte
+Kunst;Wer malte "The Two Fridas"?;Frida Kahlo;Diego Rivera;Remedios Varo;Leonora Carrington
+Kunst;Welches Material nutzte Alexander Calder für Mobiles?;Metall;Glas;Stein;Holz
+Kunst;Was ist "Verdaccio" in der Malerei?;Grünliche Untermalung für Hauttöne;Rote Pigmente;Blaue Lasur;Goldgrund
+Kunst;Wer entwarf den "Barcelona Chair"?;Ludwig Mies van der Rohe;Le Corbusier;Marcel Breuer;Charles Eames
+Kunst;Welcher Stil ist für "Rayonnant"-Fenster bekannt?;Gotik (strahlenförmige Maßwerke);Barock;Renaissance;Art Deco
+Kunst;Was ist "Grisaille"-Glasmalerei?;Graustufen-Glasfenster;Buntglas;Spiegelglas;Milchglas
+Kunst;Wer schuf "The Physical Impossibility of Death in the Mind of Someone Living"?;Damien Hirst;Jeff Koons;Tracey Emin;Banksy
+Kunst;Welche Epoche prägte "Las Meninas" von Velázquez?;Spanischer Barock;Italienische Renaissance;Niederländischer Realismus;Französischer Klassizismus
+Kunst;Was ist "Enkaustik"?;Maltechnik mit heißem Wachs;Aquarell;Ölfarbe;Acryl
+Kunst;Wer entwarf die "Chapel of Notre-Dame-du-Haut"?;Le Corbusier;Oscar Niemeyer;Antoni Gaudí;Frank Lloyd Wright
+Kunst;Welcher Künstler ist für "Infinity Mirror Rooms" bekannt?;Yayoi Kusama;James Turrell;Olafur Eliasson;Anish Kapoor
+Kunst;Was ist "Shin-hanga"?;Japanischer Neodruck des 20. Jahrhunderts;Chinesische Tuschemalerei;Koreanische Keramik;Indische Miniatur
+Kunst;Wer malte "The Card Players"?;Paul Cézanne;Édouard Manet;Pierre-Auguste Renoir;Claude Monet
+Kunst;Welche Technik nutzte Rembrandt für "The Three Crosses"?;Radierung;Ölmalerei;Aquarell;Fresko
+Kunst;Was ist "Pietra Dura"?;Steinintarsienarbeit;Marmorskulptur;Sandsteinrelief;Bronzeguss
+Kunst;Wer schuf "The Dinner Party"?;Judy Chicago;Marina Abramović;Yoko Ono;Tracey Emin
+Kunst;Welches Prinzip lehrt die "Gestaltpsychologie" in der Kunst?;Wahrnehmung von Ganzheiten (z.B. Nähe, Ähnlichkeit);Farbenlehre;Zentralperspektive;Goldener Schnitt
+Kunst;Was ist "Tachismus"?;Abstrakte Malerei mit spontanen Pinselstrichen;Hyperrealismus;Minimalismus;Konzeptkunst
+Kunst;Wer entwarf den "Tulip Table"?;Eero Saarinen;Arne Jacobsen;Charles Eames;Verner Panton
+Kunst;Welcher Künstler schuf "No. 5, 1948" (teuerstes Gemälde)?;Jackson Pollock;Mark Rothko;Willem de Kooning;Barnett Newman
+Kunst;Was ist "Verismo" in der Malerei?;Realistischer Stil des 19. Jahrhunderts;Abstrakter Expressionismus;Surrealismus;Kubismus
+Kunst;Wer malte "The Anatomy Lesson of Dr. Nicolaes Tulp"?;Rembrandt;Rubens;Vermeer;Frans Hals
+Kunst;Welche Technik nutzte Hokusai für "36 Ansichten des Berges Fuji"?;Holzschnitt (Ukiyo-e);Ölmalerei;Aquarell;Lithografie
+Kunst;Was ist "Scandinavian Design"?;Funktional-ästhetisches Design aus Nordeuropa;Barocke Prunksucht;Gotische Ornamentik;Art-Deco-Glanz
+Kunst;Wer schuf "The Son of Man"?;René Magritte;Salvador Dalí;Max Ernst;Yves Tanguy
+Kunst;Welcher Architekt entwarf das "Seagram Building"?;Ludwig Mies van der Rohe;Le Corbusier;Frank Lloyd Wright;Philip Johnson
+Kunst;Was ist "Polychromie" in der Antike?;Bemalte Skulpturen und Architektur;Monochrome Malerei;Holzschnitzerei;Glasfenster
+Kunst;Wer malte "The Harvesters"?;Pieter Bruegel der Ältere;Hieronymus Bosch;Jan van Eyck;Rembrandt
+Kunst;Welche Technik nutzte Jackson Pollock für "Autumn Rhythm"?;Drip Painting (Tropftechnik);Aquarell;Holzschnitt;Fresko
+Kunst;Was ist "Temperamalerei"?;Malerei mit Ei-Emulsion als Bindemittel;Ölfarbe;Acryl;Aquarell
+Kunst;Wer schuf "The Kiss" (Gustav Klimt)?;Gustav Klimt;Egon Schiele;Oskar Kokoschka;Alfons Mucha
+Kunst;Welcher Stil ist für "Rayonnant"-Architektur bekannt?;Gotik mit strahlenförmigen Fenstern;Barock;Renaissance;Neoklassizismus
+Kunst;Was ist "Hanji"?;Traditionelles koreanisches Papier für Kunstwerke;Japanische Tusche;Chinesische Seide;Indische Baumwolle
+Kunst;Wer entwarf den "Panton Chair"?;Verner Panton;Eero Saarinen;Charles Eames;Arne Jacobsen
+Kunst;Welche Technik nutzt "Cloisonné"?;Emaillearbeiten mit Metallzellen;Glasbläserei;Holzschnitzerei;Bronzeguss
+Kunst;Was ist "Biedermeier"-Möbeldesign?;Bürgerlicher, schlichter Stil des 19. Jahrhunderts;Barocke Prunksucht;Gotische Ornamentik;Art-Deco-Glanz
+Kunst;Wer malte "The Four Seasons" als allegorische Porträts?;Giuseppe Arcimboldo;Caravaggio;Tizian;Rubens
+Kunst;Welcher Künstler schuf "The Weather Project" (Tate Modern, 2003)?;Olafur Eliasson;Anish Kapoor;Damien Hirst;Ai Weiwei
+Kunst;Was ist "Kinetic Art"?;Kunst mit Bewegungselementen;Statische Skulpturen;Malerei;Fotografie
+Kunst;Wer entwarf die "Villa Rotonda"?;Andrea Palladio;Michelangelo;Leonardo da Vinci;Bernini
+Kunst;Welche Farbe dominiert in Yves Kleins "IKB"-Serie?;Internationales Klein-Blau;Rot;Grün;Gelb
+Kunst;Was ist "Frottage"?;Abreibetechnik von Oberflächen;Ölmalerei;Aquarell;Siebdruck
+Kunst;Wer schuf "Der Kuss" (Skulptur von Rodin)?;Auguste Rodin;Constantin Brâncuși;Alberto Giacometti;Henry Moore
+Kunst;Welcher Architekt prägte den "International Style"?;Ludwig Mies van der Rohe;Antoni Gaudí;Frank Lloyd Wright;Le Corbusier
 Kunst;Wer malte die „Mona Lisa“?;Leonardo da Vinci;Vincent van Gogh;Pablo Picasso;Claude Monet
 Kunst;Welche Farbe entsteht, wenn man Blau und Gelb mischt?;Grün;Rot;Lila;Orange
 Kunst;Was ist die Primärfarbe?;Rot;Grün;Orange;Lila
@@ -37,7 +173,7 @@ Kunst;Was ist ein „Museum“?;Ein Ort, um Kunst zu sehen;Ein Ort, um Kunst zu 
 Kunst;Welche Farbe hat eine Banane?;Gelb;Rot;Blau;Grün
 Kunst;Was ist „Karikatur“?;Eine übertriebene oder lustige Zeichnung;Eine realistische Zeichnung;Eine Skulptur;Ein Ölbild
 Kunst;Welche Form hat ein Pizza-Teller?;Kreis;Quadrat;Dreieck;Herz
-Kunst;Was ist ein „Porträt”?”;Ein Bild einer Person;Ein Bild einer Landschaft;Eine abstrakte Zeichnung;Eine Skulptur
+Kunst;Was ist ein Porträt?;Ein Bild einer Person;Ein Bild einer Landschaft;Eine abstrakte Zeichnung;Eine Skulptur
 Kunst;Welche Farbe hat Schokolade?;Braun;Weiß;Blau;Grün
 Kunst;Was ist ein „Bleistift“?;Ein Werkzeug zum Schreiben oder Skizzieren;Ein Pinsel;Eine Farbe;Ein Bild
 Kunst;Welche Farbe hat eine Erdbeere?;Rot;Blau;Grün;Gelb
@@ -175,37 +311,3 @@ Kunst;Welcher Künstler ist für "Spiral Jetty" bekannt?;Robert Smithson;Michael
 Kunst;Was ist "Trompe-l'œil"-Architektur?;Illusionistische Fassadengestaltung;Gotische Kathedralen;Brutalismus;Gläserne Vorhangfassaden
 Kunst;Wer schuf "The Kiss" (Gustav Klimt)?;Gustav Klimt;Egon Schiele;Oskar Kokoschka;Alfons Mucha
 Kunst;Was ist "Grisaille"-Glasmalerei?;Graustufen-Glasfenster;Buntglasfenster;Spiegelglas;Glasgravur
-Kunst;Welcher Stil ist "Rayonnant"?;Gotische Architekturphase;Barock;Renaissance;Neoklassizismus
-Kunst;Wer entwarf den "Tulip Table"?;Eero Saarinen;Isamu Noguchi;Marcel Breuer;Alvar Aalto
-Kunst;Was ist "Verismo"?;Realistischer Malstil (19. Jh.);Abstrakter Expressionismus;Surrealismus;Kubismus
-Kunst;Welcher Künstler schuf "No. 5, 1948" (teuerstes Gemälde)?;Jackson Pollock;Mark Rothko;Willem de Kooning;Barnett Newman
-Kunst;Was ist "Pietra Dura"?;Steinintarsienarbeit;Marmorskulptur;Sandsteinrelief;Granitpolieren
-Kunst;Wer malte "Die Anatomie des Dr. Tulp"?;Rembrandt;Rubens;Vermeer;Frans Hals
-Kunst;Was ist "Shin-hanga"?;Japanischer Neodruck (20. Jh.);Chinesische Tuschemalerei;Koreanische Keramik;Indische Miniatur
-Kunst;Welcher Architekt entwarf "Fallingwater"?;Frank Lloyd Wright;Le Corbusier;Mies van der Rohe;Alvar Aalto
-Kunst;Was ist "Polychromie"?;Mehrfarbigkeit in Skulpturen;Monochrome Malerei;Schwarz-Weiß-Fotografie;Graustufenzeichnung
-Kunst;Wer schuf "The Treachery of Images" ("Dies ist keine Pfeife")?;René Magritte;Salvador Dalí;Max Ernst;Joan Miró
-Kunst;Was ist "Temperamalerei"?;Maltechnik mit Ei-Emulsion;Ölmalerei;Aquarell;Acryl
-Kunst;Welcher Künstler ist für "Light and Space"-Bewegung bekannt?;James Turrell;Dan Flavin;Robert Irwin;Larry Bell
-Kunst;Was ist "Millefiori"?;Glasperlen mit Blumenmuster;Keramikfliesen;Seidenstickerei;Holzintarsien
-Kunst;Wer entwarf den "Wassily Chair"?;Marcel Breuer;Le Corbusier;Charles Eames;Alvar Aalto
-Kunst;Was ist "Vedutenmalerei"?;Stadtansichten (18. Jh.);Landschaftsmalerei;Porträtmalerei;Stillleben
-Kunst;Welcher Künstler schuf "The Son of Man"?;René Magritte;Salvador Dalí;Max Ernst;Yves Tanguy
-Kunst;Was ist "Bauhaus-Tapete"?;Funktionale Wandgestaltung;Barocke Ornamente;Victorianische Muster;Art-Deco-Design
-Kunst;Wer malte "Die Jüdin von Toledo"?;Eugène Delacroix;Théodore Géricault;Jean-Auguste-Dominique Ingres;William-Adolphe Bouguereau
-Kunst;Was ist "Vitreausmalerei"?;Glasmalerei;Fresko;Enkaustik;Aquarell
-Kunst;Welcher Stil ist "Tiffany"?;Art-Nouveau-Glasarbeiten;Barocke Silberarbeiten;Renaissance-Bronzen;Gotische Steinmetzarbeiten
-Kunst;Wer entwarf den "Chaise Longue LC4"?;Le Corbusier;Charlotte Perriand;Eileen Gray;Marcel Breuer
-Kunst;Was ist "Polke-Dot"?;Punkte als künstlerisches Motiv (Yayoi Kusama);Streifen;Kariert;Wellenlinien
-Kunst;Welcher Künstler schuf "The Weather Project" (Tate Modern)?;Olafur Eliasson;Anish Kapoor;Damien Hirst;Ai Weiwei
-Kunst;Was ist "Scagliola"?;Marmorimitation aus Gips;Echtmarmor;Granit;Sandstein
-Kunst;Wer malte "Die Ernte"?;Pieter Bruegel der Ältere;Hieronymus Bosch;Rembrandt;Jan Steen
-Kunst;Was ist "Shibori"?;Japanische Färbetechnik mit Abbindungen;Chinesische Seidenmalerei;Koreanische Töpferkunst;Indische Blockdrucke
-Kunst;Welcher Architekt entwarf "Seagram Building"?;Ludwig Mies van der Rohe;Le Corbusier;Frank Lloyd Wright;Philip Johnson
-Kunst;Was ist "Intaglio"?;Vertiefte Drucktechnik (Radierung);Hochdruck;Siebdruck;Lithografie
-Kunst;Wer schuf "The Swing" (Fragonard)?;Jean-Honoré Fragonard;François Boucher;Antoine Watteau;Élisabeth Vigée Le Brun
-Kunst;Was ist "Verdaccio"?;Grünliche Untermalungstechnik;Rötelzeichnung;Blaue Lasur;Goldgrund
-Kunst;Welcher Künstler ist für "Neonkunst" bekannt?;Bruce Nauman;Dan Flavin;James Turrell;Jenny Holzer
-Kunst;Was ist "Marouflage"?;Aufziehen von Leinwand auf Wand;Fresko-Technik;Ölmalerei;Aquarell
-Kunst;Wer entwarf den "Barcelona Pavilion"?;Ludwig Mies van der Rohe;Le Corbusier;Walter Gropius;Alvar Aalto
-Kunst;Was ist "Gouache"?;Deckfarbenmalerei;Ölmalerei;Aquarell;Acryl
