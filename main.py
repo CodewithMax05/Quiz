@@ -541,6 +541,11 @@ def ranking():
                 player_rank = idx
                 break
 
+    # Flash-Nachricht beim ersten Besuch
+    if not session.get('ranking_info_shown'):
+        # flash("Hier siehst du die Top 10 Spieler!", "info")
+        session['ranking_info_shown'] = True
+
     return render_template(
         'ranking.html',
         top_players=top_players,

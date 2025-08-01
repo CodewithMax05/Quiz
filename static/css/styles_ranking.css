@@ -284,14 +284,68 @@ body {
     100% { transform: translateY(2000px); }
 }
 
-/* ===== INFOBUTTON MIT POPUP ===== */
+/* ===== INFOBUTTON MIT POPUP ===== 
 .info-button-container {
     position: absolute;
     top: 15px;
     right: 30px;
     z-index: 20;
     height: 50px;
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.info-button-container {
+    position: absolute;
+    top: 15px;
+    right: 100px;
+    z-index: 20;
+    height: 50px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .ranking-info-button {
     display: flex;
@@ -340,7 +394,7 @@ body {
     opacity: 1;
 }
 
-/* Popup links vom Button */
+/* Popup links vom Button 
 .info-popup {
     position: absolute;
     top: 50%;
@@ -399,7 +453,114 @@ body {
 
 .info-popup .close-btn:hover {
     color: white;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== FLASH-NACHRICHTEN (100% SICHERER OVERRIDE) ===== */
+#flash-container {
+    position: fixed;
+    top: 15px;
+    left: 30px;
+    z-index: 1000;
+    width: auto;
+    max-width: 80vw;
 }
+
+#flash-container > div {
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
+    width: auto;
+    max-width: 300px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    color: white;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+    position: relative;
+}
+
+#flash-container > .error-message {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+#flash-container > .info-message {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+}
+
+#flash-container > div::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    animation: progressBar 5s linear forwards;
+    width: 100%;
+    border-radius: 0 0 10px 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-20px); visibility: hidden; }
+}
+
+@keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Pulsierende Animation */
 @keyframes pulse-blue {
