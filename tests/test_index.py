@@ -104,6 +104,16 @@ class TestLoginMenu:
         assert response.status_code == 200
         # Genauer String-Vergleich mit der bekannten Fehlermeldung
         assert b'Passwort muss mindestens 5 Zeichen haben' in response.data'''
+    
+    '''def test_login_fail_short_password(self, client):
+        """❌ Test: Fehlschlag beim Registrieren - Passwort zu kurz"""
+        client.post('/register', data={
+            'username': 'ShortPassUser',
+            'password': '123'  # Zu kurz (min. 5 Zeichen)
+        }, follow_redirects=True)
+        
+        messages = [msg for msg in get_flashed_messages()]
+        assert any("Passwort muss mindestens 5 Zeichen haben" in msg for msg in messages)'''
 
     def test_login_fail_long_username(self, client):
         """❌ Test: Fehlschlag beim Registrieren - Username zu lang"""
@@ -115,10 +125,6 @@ class TestLoginMenu:
         assert response.status_code == 200
         # Überprüfe auf die exakte Flash-Nachricht aus Ihrer App
         assert b'Benutzername darf maximal 12 Zeichen haben' in response.data
-
-
-
-
 
     def test_empty_username_with_flash(self, client):
         """❌ Test: Fehlender Benutzername (Flash Message)"""
