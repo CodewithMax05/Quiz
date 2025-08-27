@@ -105,23 +105,6 @@
 
             <!-- Rechte Spalte (Unter der Liste) -->
             <div class="ranking-column-right">
-                <!-- Info-Button-->
-                <!-- Relativer Wrapper für präzise Positionierung -->
-                <!--<div class="info-button-wrapper"> -->
-                    <!-- Absolut platzierter Container mit Button und Flash -->
-                    <!--<div class="info-button-container">
-                        <button class="ranking-info-button" id="ranking-info-button">
-                            <i class="fas fa-question-circle"></i>
-                        </button> -->
-
-                        <!-- Flash-Nachricht -->
-                        <!--<div id="flash-container">
-                            <div class="info-message">Weitere Informationen zum Spieler durch Klick oder Suche</div>
-                        </div>
-                    </div>
-                </div> -->
-
-
                 <!-- Einfache Suchleiste -->
                 <div class="search-wrapper">
                     <input type="text" id="player-search" placeholder="Spieler suchen..." 
@@ -233,26 +216,41 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const rankingInfoButton = document.getElementById("ranking-info-button");
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoButton = document.getElementById('ranking-info-button');
+            const flashContainer = document.getElementById('flash-container');
+            
+            infoButton.addEventListener('click', function() {
+                createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
+            });
 
-            rankingInfoButton.addEventListener("click", function () {
-                // Prüfen, ob bereits ein Fenster angezeigt wird
-                if (document.getElementById("flash-container")) return;
-
-                // Container erstellen
-                const flash = document.createElement("div");
-                flash.id = "flash-container";
-                flash.textContent = "Weitere Informationen zum Spieler durch Klick oder Suche";
-
-                // Zum Body hinzufügen
-                document.body.appendChild(flash);
-
+            function createFlashMessage(text, type) {
+                // Vorherige Nachricht entfernen
+                flashContainer.innerHTML = '';
+                
+                // Neue Nachricht erstellen
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
+                messageDiv.textContent = text;
+                
+                // Fortschrittsbalken hinzufügen
+                const progressBar = document.createElement('div');
+                progressBar.className = 'custom-progress-bar';
+                messageDiv.appendChild(progressBar);
+                
+                // Nachricht anzeigen
+                flashContainer.appendChild(messageDiv);
+                
                 // Nach 5 Sekunden entfernen
                 setTimeout(() => {
-                    flash.remove();
-                }, 5500);
-            });
+                    messageDiv.style.animation = 'fadeOut 0.5s forwards';
+                    setTimeout(() => {
+                        if (flashContainer.contains(messageDiv)) {
+                            flashContainer.removeChild(messageDiv);
+                        }
+                    }, 500);
+                }, 5000);
+            }
         });
     </script>
 {% endblock %}

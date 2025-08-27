@@ -543,7 +543,7 @@ def ranking():
 
     # Flash-Nachricht beim ersten Besuch
     if not session.get('ranking_info_shown'):
-        # flash("Hier siehst du die Top 10 Spieler!", "info")
+        flash("Weitere Informationen zum Spieler durch Klick oder Suche", "info")
         session['ranking_info_shown'] = True
 
     return render_template(
