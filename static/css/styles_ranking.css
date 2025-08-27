@@ -378,13 +378,36 @@ body {
 }
 
 #flash-container {
-    position: absolute;
-    top: 50%;
-    left: 100px; /* Kleiner Abstand rechts vom Button */
-    transform: translateY(-50%);
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
-    width: 280px;
-    max-width: 280px;
+    width: auto;
+    max-width: 320px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+}
+
+#flash-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    animation: progressBar 5s linear forwards;
+    width: 100%;
+    border-radius: 0 0 10px 10px;
 }
 
 #flash-container > div {
