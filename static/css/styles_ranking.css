@@ -17,13 +17,7 @@ body {
 }
 
 /* 💠 RANKING-LAYOUT */
-.ranking-container {
-    padding: 0.5rem 1rem;
-    height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
+
 
 .ranking-title {
     text-align: center;
@@ -283,30 +277,7 @@ body {
 }
 
 /* ===== INFOBUTTON MIT POPUP ===== */
-.info-button-wrapper {
-    position: relative;
-}
 
-.info-button-container {
-    position: absolute;
-    top: 15px;
-    right: 100px;
-    z-index: 20;
-    height: 50px;
-    background: red;
-}
-
-.dynamic-flash-message {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
-  z-index: 1000;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  animation: fadeIn 0.3s ease;
-}
 
 .player-info-title-row {
     display: flex;
@@ -436,24 +407,7 @@ body {
     background: linear-gradient(135deg, #4299e1, #3182ce);
 }
 
-.info-message {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    padding: 14px 18px;
-    border-radius: 10px;
-    text-align: center;
-    background: linear-gradient(135deg, #4299e1, #3182ce);
-    color: white;
-    font-size: 0.95rem;
-    font-weight: 500;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    animation: fadeIn 0.5s ease;
-}
+
 
 .custom-progress-bar {
     position: absolute;
@@ -565,10 +519,6 @@ body {
         top: 10px;
     }
     
-    .info-popup {
-        right: calc(100% + 5px);
-        width: 250px;
-    }
 }
 
 @media (max-width: 480px) {
