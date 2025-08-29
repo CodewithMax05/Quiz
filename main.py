@@ -1,5 +1,5 @@
-import eventlet
-eventlet.monkey_patch()
+from gevent import monkey, spawn, sleep
+monkey.patch_all()
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_bcrypt import Bcrypt
@@ -19,10 +19,10 @@ from threading import Timer, Lock
 app = Flask(__name__)
 
 socketio = SocketIO(app, 
-                   async_mode='eventlet', 
+                   async_mode='gevent',  # Ändere zu gevent
                    cors_allowed_origins="*", 
                    manage_session=False,
-                   logger=False,  # Logger ausschalten für bessere Performance
+                   logger=False,
                    engineio_logger=False,
                    ping_timeout=60,
                    ping_interval=25,
@@ -87,7 +87,7 @@ class QuizTimer:
             self.start_time = time.time()
             self.time_left = self.duration
             # Starte den Timer in einem Greenlet
-            self.greenlet = eventlet.spawn(self._run_timer)
+            self.greenlet = spawn(self._run_timer)
 
     def _run_timer(self):
         """Läuft in einem eigenen Greenlet und sendet Timer-Updates"""
@@ -121,7 +121,7 @@ class QuizTimer:
             # Exakt 1 Sekunde warten
             next_update = start_time + (30 - self.time_left + 1)
             sleep_time = max(0, next_update - time.time())
-            eventlet.sleep(sleep_time)
+            sleep(sleep_time)
 
     def stop(self):
         with self.lock:
