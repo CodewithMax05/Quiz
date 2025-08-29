@@ -74,8 +74,8 @@
             initializeSocket() {
                 console.log('Initialisiere Socket-Verbindung...');
                 
-                this.socket = io({ 
-                    transports: ['polling'],
+                this.socket = io(window.location.origin, { 
+                    transports: ['websocket', 'polling'],
                     reconnection: true,
                     reconnectionAttempts: this.maxReconnectAttempts,
                     reconnectionDelay: 1000,
