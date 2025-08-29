@@ -31,16 +31,16 @@
 
     <div class="quiz-container-wide" 
          data-was-correct="{{ 'true' if was_correct else 'false' }}"
-         data-timer-start="{{ timer_start }}">
+         data-room-id="{{ room_id }}">
         <div class="question-box">
             <div class="question-text">
                 {{ question.question }}
             </div>
         </div>
 
-        <div class="options-grid">
+        <div class="options-grid" id="options-grid">
             {% for option in options %}
-            <div class="option" onclick="selectOption(this)">
+            <div class="option" data-answer="{{ option }}">
                 {{ option }}
             </div>
             {% endfor %}
@@ -56,136 +56,479 @@
     </div>
     
     <script>
-        let timerInterval;
-        let timeLeft = 30;
+        class QuizManager {
+            constructor() {
+                this.socket = null;
+                this.roomId = document.querySelector('.quiz-container-wide').dataset.roomId;
+                this.hasAnswered = false;
+                this.isConnected = false;
+                this.reconnectAttempts = 0;
+                this.maxReconnectAttempts = 5;
+                this.selectedOption = null;
+                
+                console.log('Quiz Manager initialisiert für Raum:', this.roomId);
+                this.initializeSocket();
+                this.setupEventListeners();
+            }
 
-        const timerText = document.querySelector('.timer-text');
-        const timerProgress = document.querySelector('.timer-progress');
-        const timerContainer = document.querySelector('.timer-container');
+            initializeSocket() {
+                console.log('Initialisiere Socket-Verbindung...');
+                
+                this.socket = io(window.location.origin, { 
+                    transports: ['websocket', 'polling'],
+                    reconnection: true,
+                    reconnectionAttempts: this.maxReconnectAttempts,
+                    reconnectionDelay: 1000,
+                    reconnectionDelayMax: 5000,
+                    timeout: 20000,
+                    forceNew: false
+                });
+
+                // Connection Events
+                this.socket.on('connect', () => {
+                    console.log('Socket verbunden, ID:', this.socket.id);
+                    this.isConnected = true;
+                    this.reconnectAttempts = 0;
+                    this.joinQuizSession();
+                });
+
+                this.socket.on('disconnect', (reason) => {
+                    console.log('Socket getrennt:', reason);
+                    this.isConnected = false;
+                    
+                    if (reason === 'io server disconnect') {
+                        console.log('Server hat Verbindung getrennt');
+                    } else if (reason === 'transport close' || reason === 'ping timeout') {
+                        console.log('Netzwerkproblem - versuche Reconnect');
+                    }
+                });
+
+                this.socket.on('connect_error', (error) => {
+                    console.error('Verbindungsfehler:', error.message);
+                    this.isConnected = false;
+                    this.reconnectAttempts++;
+                });
+
+                this.socket.on('reconnect', (attemptNumber) => {
+                    console.log('Reconnected nach', attemptNumber, 'Versuchen');
+                    this.joinQuizSession();
+                });
+
+                this.socket.on('reconnect_failed', () => {
+                    console.error('Reconnect fehlgeschlagen nach', this.maxReconnectAttempts, 'Versuchen');
+                    alert('Verbindung zum Server verloren. Bitte lade die Seite neu.');
+                });
+
+                // Success Events
+                this.socket.on('connection_success', (data) => {
+                    console.log('Verbindung erfolgreich:', data);
+                });
+
+                // Timer Events
+                this.socket.on('time_update', (data) => {
+                    this.updateTimer(data.time_left);
+                });
+
+                this.socket.on('time_out', () => {
+                    console.log('Zeit abgelaufen - automatische Antwort');
+                    this.handleTimeOut();
+                });
+
+                // Answer Events
+                this.socket.on('answer_result', (data) => {
+                    console.log('Antwort-Ergebnis erhalten:', data);
+                    this.handleAnswerResult(data);
+                });
+
+                // Error Events
+                this.socket.on('error', (data) => {
+                    console.error('Socket-Fehler:', data);
+                });
+            }
+
+            joinQuizSession() {
+                if (!this.roomId) {
+                    console.error('Keine Room-ID vorhanden');
+                    return;
+                }
+
+                console.log('Trete Quiz-Session bei:', this.roomId);
+                this.socket.emit('join_quiz_session', { 
+                    room_id: this.roomId 
+                });
+            }
+
+            setupEventListeners() {
+                const options = document.querySelectorAll('.option');
+                options.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        if (!this.hasAnswered) {
+                            this.selectOption(e.currentTarget);
+                        }
+                    });
+                });
+            }
+
+            selectOption(element) {
+                if (this.hasAnswered) {
+                    console.log('Bereits geantwortet');
+                    return;
+                }
+
+                if (!this.isConnected) {
+                    console.error('Nicht mit Server verbunden');
+                    alert('Verbindungsproblem. Bitte warte einen Moment oder lade die Seite neu.');
+                    return;
+                }
+
+                console.log('Option ausgewählt:', element.textContent.trim());
+                this.hasAnswered = true;
+                this.selectedOption = element;
+
+                // Visuelles Feedback
+                element.classList.add('selected');
+                
+                // Alle Optionen deaktivieren und als beantwortet markieren
+                const allOptions = document.querySelectorAll('.option');
+                allOptions.forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                    opt.style.cursor = 'default';
+                    opt.classList.add('answered');
+                });
+
+                const selectedAnswer = element.dataset.answer.trim();
+                this.submitAnswer(selectedAnswer);
+            }
+
+            submitAnswer(answer) {
+                if (!this.isConnected) {
+                    console.error('Nicht verbunden - kann Antwort nicht senden');
+                    this.socket.connect();
+                    setTimeout(() => {
+                        if (this.isConnected) {
+                            this.submitAnswer(answer);
+                        } else {
+                            alert('Verbindungsproblem. Bitte lade die Seite neu.');
+                        }
+                    }, 1000);
+                    return;
+                }
+
+                console.log('Sende Antwort:', answer);
+                this.socket.emit('submit_answer', {
+                    room_id: this.roomId,
+                    answer: answer
+                });
+            }
+
+            updateTimer(timeLeft) {
+                const timerText = document.querySelector('.timer-text');
+                const timerProgress = document.querySelector('.timer-progress');
+                const timerContainer = document.querySelector('.timer-container');
+                
+                if (!timerText || !timerProgress) {
+                    console.error('Timer-Elemente nicht gefunden');
+                    return;
+                }
+
+                // Timer-Text aktualisieren
+                timerText.textContent = Math.max(0, timeLeft);
+                
+                // Fortschrittsbalken aktualisieren (283 ist Umfang des Kreises)
+                const progress = (timeLeft / 30) * 283;
+                const offset = Math.max(0, 283 - progress);
+                timerProgress.style.strokeDashoffset = offset;
+                
+                // Farbe basierend auf verbleibender Zeit
+                const ratio = Math.max(0, timeLeft / 30);
+                const red = Math.floor(255 * (1 - ratio));
+                const green = Math.floor(255 * ratio);
+                timerProgress.style.stroke = `rgb(${red}, ${green}, 0)`;
+                
+                // Pulseffekt bei niedriger Zeit
+                if (timeLeft <= 10 && timeLeft > 0) {
+                    timerContainer.classList.add('pulse');
+                } else {
+                    timerContainer.classList.remove('pulse');
+                }
+                
+                // Debug-Ausgabe
+                console.log('Timer update:', timeLeft);
+            }
+
+            handleTimeOut() {
+                if (this.hasAnswered) return;
+                
+                console.log('Behandle Timeout');
+                this.hasAnswered = true;
+                
+                // Alle Optionen deaktivieren
+                const allOptions = document.querySelectorAll('.option');
+                allOptions.forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                    opt.style.cursor = 'default';
+                    opt.classList.add('disabled', 'answered');
+                });
+
+                // Automatisch leere Antwort senden
+                this.submitAnswer('');
+            }
+
+            handleAnswerResult(data) {
+                if (data.error) {
+                    console.error('Antwort-Fehler:', data.error);
+                    alert('Ein Fehler ist aufgetreten. Die Seite wird neu geladen.');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                    return;
+                }
+
+                console.log('Verarbeite Antwort-Ergebnis:', data);
+
+                // Score aktualisieren mit Animation
+                this.updateScore(data.current_score, data.points_earned);
+                
+                // Antworten hervorheben
+                this.highlightAnswers(data);
+                
+                // Prüfe, ob dies die letzte Frage ist
+                const progressText = document.querySelector('.progress-bar').textContent;
+                const match = progressText.match(/Frage (\d+) von (\d+)/);
+                const currentQuestion = parseInt(match[1]);
+                const totalQuestions = parseInt(match[2]);
+                
+                if (currentQuestion < totalQuestions) {
+                    // Normale Frage - nach 2.5 Sekunden zur nächsten Frage
+                    setTimeout(() => {
+                        this.goToNextQuestion();
+                    }, 2500);
+                } else {
+                    // Letzte Frage - nach 2.5 Sekunden zur Auswertung
+                    setTimeout(() => {
+                        window.location.href = "{{ url_for('evaluate_quiz') }}";
+                    }, 2500);
+                }
+            }
+
+            updateScore(newScore, pointsEarned) {
+                const scoreDisplay = document.getElementById('score-display');
+                if (scoreDisplay) {
+                    // Zeige Punkte-Animation nur bei positiven Punkten
+                    if (pointsEarned > 0) {
+                        const pointsIndicator = document.createElement('div');
+                        pointsIndicator.className = 'points-indicator';
+                        pointsIndicator.textContent = `+${pointsEarned}`;
+                        scoreDisplay.style.position = 'relative';
+                        scoreDisplay.appendChild(pointsIndicator);
+                        
+                        setTimeout(() => {
+                            pointsIndicator.remove();
+                        }, 1500);
+                        
+                        // Score mit grüner Animation aktualisieren
+                        scoreDisplay.textContent = `Score: ${newScore}`;
+                        scoreDisplay.classList.add('score-positive-update');
+                        setTimeout(() => {
+                            scoreDisplay.classList.remove('score-positive-update');
+                        }, 800);
+                    } else {
+                        // Score ohne Animation aktualisieren
+                        scoreDisplay.textContent = `Score: ${newScore}`;
+                    }
+                }
+            }
+
+            highlightAnswers(result) {
+                const allOptions = document.querySelectorAll('.option');
+                
+                allOptions.forEach(option => {
+                    const optionText = option.dataset.answer.trim();
+                    
+                    // Entferne alle vorherigen Klassen
+                    option.classList.remove('correct', 'wrong', 'selected');
+                    option.style.opacity = '1';
+                    
+                    // Markiere alle Optionen als beantwortet
+                    option.classList.add('answered');
+                    
+                    // Richtige Antwort grün markieren
+                    if (optionText === result.correct_answer) {
+                        option.classList.add('correct');
+                    } 
+                    // Falsche gewählte Antwort rot markieren
+                    else if (this.selectedOption && this.selectedOption === option) {
+                        option.classList.add('wrong');
+                    }
+                    // Alle anderen falschen Optionen rot markieren
+                    else {
+                        option.classList.add('wrong');
+                    }
+                });
+            }
+
+            // NEUE METHODE: Timer zurücksetzen
+            resetTimer() {
+                if (this.isConnected) {
+                    this.socket.emit('reset_timer', {
+                        room_id: this.roomId
+                    });
+                }
+            }
+
+            // NEUE METHODE: Nächste Frage laden
+            loadNextQuestion() {
+                fetch('/next_question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else {
+                        this.updateQuestion(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fehler beim Laden der nächsten Frage:', error);
+                });
+            }
+
+            // NEUE METHODE: Frage aktualisieren
+            updateQuestion(data) {
+                // Aktualisiere die Frage
+                const questionTextElement = document.querySelector('.question-text');
+                if (questionTextElement) {
+                    questionTextElement.textContent = data.question;
+                }
+
+                // Aktualisiere die Optionen
+                const optionsGrid = document.getElementById('options-grid');
+                if (optionsGrid) {
+                    // Leere das Grid
+                    optionsGrid.innerHTML = '';
+
+                    // Füge neue Optionen hinzu
+                    data.options.forEach(option => {
+                        const optionElement = document.createElement('div');
+                        optionElement.className = 'option';
+                        optionElement.dataset.answer = option;
+                        optionElement.textContent = option;
+                        optionsGrid.appendChild(optionElement);
+                    });
+
+                    // Setze Event-Listener für die neuen Optionen
+                    this.setupEventListeners();
+                }
+
+                // Aktualisiere Fortschritt
+                const progressBar = document.querySelector('.progress-bar');
+                if (progressBar) {
+                    progressBar.textContent = `Frage ${data.progress} von ${data.total_questions}`;
+                }
+
+                // Aktualisiere Score
+                const scoreDisplay = document.getElementById('score-display');
+                if (scoreDisplay) {
+                    scoreDisplay.textContent = `Score: ${data.score}`;
+                }
+
+                // Setze Zustand zurück
+                this.hasAnswered = false;
+                this.selectedOption = null;
+                
+                // Timer visuell zurücksetzen
+                const timerText = document.querySelector('.timer-text');
+                if (timerText) {
+                    timerText.textContent = '30';
+                }
+                const timerProgress = document.querySelector('.timer-progress');
+                if (timerProgress) {
+                    timerProgress.style.strokeDashoffset = '0';
+                    timerProgress.style.stroke = `rgb(0, 255, 0)`;
+                }
+            }
+
+            // GEÄNDERTE METHODE: Zur nächsten Frage wechseln
+            goToNextQuestion() {
+                console.log('Gehe zur nächsten Frage');
+                
+                // Prüfe, ob dies die letzte Frage ist
+                const progressText = document.querySelector('.progress-bar').textContent;
+                const match = progressText.match(/Frage (\d+) von (\d+)/);
+                const currentQuestion = parseInt(match[1]);
+                const totalQuestions = parseInt(match[2]);
+                
+                if (currentQuestion < totalQuestions) {
+                    // Timer zurücksetzen über WebSocket
+                    this.resetTimer();
+                    
+                    // Frage per AJAX laden
+                    this.loadNextQuestion();
+                } else {
+                    // Letzte Frage - weiter zur Auswertung
+                    console.log('Letzte Frage beantwortet - weiter zur Auswertung');
+                    setTimeout(() => {
+                        window.location.href = "{{ url_for('evaluate_quiz') }}";
+                    }, 500); // Kurze Verzögerung für einen sanften Übergang
+                }
+            }
+
+            disconnect() {
+                if (this.socket && this.socket.connected) {
+                    console.log('Socket wird getrennt');
+                    this.socket.disconnect();
+                }
+            }
+        }
+
+        // Globale Instanz
+        let quizManager;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Starte den Timer immer bei 30 Sekunden
-            startTimer();
+            console.log('DOM geladen - initialisiere Quiz');
+            // Sofort initialisieren
+            quizManager = new QuizManager();
         });
 
-        function startTimer() {
-            timeLeft = 30; // Immer bei 30 starten
-            timerText.textContent = timeLeft;
-            updateTimerProgress();
-            
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerText.textContent = timeLeft;
-                updateTimerProgress();
-                
-                if (timeLeft <= 10) {
-                    timerContainer.style.animation = 'pulse 0.5s infinite alternate';
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    // Deaktiviere Optionen
-                    document.querySelectorAll('.option').forEach(opt => {
-                        opt.style.pointerEvents = 'none';
-                    });
-                    // Sende automatisch leere Antwort bei Timeout
-                    handleAnswerEnd();
-                }
-            }, 1000);
-        }
+        // Cleanup bei Seitenverlassen (nur bei wirklichem Verlassen)
+        window.addEventListener('beforeunload', (e) => {
+            // Nur disconnect wenn wir wirklich die Seite verlassen
+            if (quizManager && !document.getElementById('next-form').submitting) {
+                quizManager.disconnect();
+            }
+        });
 
-        function updateTimerProgress() {
-            const progress = (timeLeft / 30) * 283;
-            timerProgress.style.strokeDashoffset = 283 - progress;
-            const ratio = timeLeft / 30;
-            const red = Math.floor(255 * (1 - ratio));
-            const green = Math.floor(255 * ratio);
-            timerProgress.style.stroke = `rgb(${red},${green},0)`;
-        }
+        // Markiere Form-Submit um beforeunload zu unterscheiden
+        document.getElementById('next-form').addEventListener('submit', function() {
+            this.submitting = true;
+        });
 
-        function selectOption(elem) {
-            // Stoppe Timer und deaktiviere weitere Klicks
-            clearInterval(timerInterval);
-            timerContainer.style.animation = 'none';
-            const options = document.querySelectorAll('.option');
-            options.forEach(opt => opt.style.pointerEvents = 'none');
-            
-            const selectedAnswer = elem.textContent.trim();
-            const scoreDisplay = document.getElementById('score-display');
-            
-            fetch("{{ url_for('check_answer') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `answer=${encodeURIComponent(selectedAnswer)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                scoreDisplay.textContent = 'Score: ' + data.current_score;
-                
-                if (data.points_earned > 0) {
-                    scoreDisplay.classList.add('score-update');
-                    setTimeout(() => {
-                        scoreDisplay.classList.remove('score-update');
-                    }, 500);
-                }
-                
-                highlightAnswers(selectedAnswer, data);
-                setTimeout(() => document.getElementById('next-form').submit(), 1000);
-            })
-            .catch(error => {
-                console.error('Fehler:', error);
-                highlightAnswers(selectedAnswer, { 
-                    is_correct: false, 
-                    correct_answer: '',
-                    current_score: parseInt(scoreDisplay.textContent.replace('Score: ', ''))
-                });
-                setTimeout(() => document.getElementById('next-form').submit(), 1000);
-            });
-        }
-
-        function handleAnswerEnd() {
-            const scoreDisplay = document.getElementById('score-display');
-            
-            fetch("{{ url_for('check_answer') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `answer=`
-            })
-            .then(response => response.json())
-            .then(data => {
-                scoreDisplay.textContent = 'Score: ' + data.current_score;
-                highlightAnswers('', data);
-                setTimeout(() => document.getElementById('next-form').submit(), 1000);
-            })
-            .catch(() => {
-                setTimeout(() => document.getElementById('next-form').submit(), 1000);
-            });
-        }
-
-        function highlightAnswers(selected, serverResponse) {
-            const options = document.querySelectorAll('.option');
-            
-            options.forEach(opt => {
-                const optionText = opt.textContent.trim();
-                opt.classList.remove('correct', 'wrong');
-                
-                if (serverResponse && optionText === serverResponse.correct_answer) {
-                    opt.classList.add('correct');
-                } else if (serverResponse) {
-                    opt.classList.add('wrong');
-                }
-            });
-        }
+        // Page Visibility API - Verbindung bei Tab-Wechsel aufrechterhalten
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && quizManager && !quizManager.isConnected) {
+                console.log('Tab wieder aktiv - versuche Reconnect');
+                quizManager.socket.connect();
+            }
+        });
 
         function confirmCancel() {
             if (confirm("Möchtest du das Quiz wirklich abbrechen?\nDein aktueller Fortschritt geht verloren.")) {
+                if (quizManager) {
+                    quizManager.disconnect();
+                }
+                
                 fetch("{{ url_for('cancel_quiz') }}", { method: 'POST' })
-                .then(() => window.location.href = "{{ url_for('homepage') }}")
-                .catch(() => window.location.href = "{{ url_for('homepage') }}");
+                .then(() => {
+                    window.location.href = "{{ url_for('homepage') }}";
+                })
+                .catch(() => {
+                    window.location.href = "{{ url_for('homepage') }}";
+                });
             }
         }
     </script>

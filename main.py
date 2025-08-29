@@ -1,3 +1,6 @@
+import eventlet
+eventlet.monkey_patch()
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
@@ -9,8 +12,21 @@ import time
 from collections import defaultdict
 from flask_session import Session
 from datetime import datetime, timezone, timedelta
+from flask_socketio import SocketIO, emit, join_room, leave_room
+import uuid
+from threading import Timer, Lock
 
 app = Flask(__name__)
+
+socketio = SocketIO(app, 
+                   async_mode='eventlet', 
+                   cors_allowed_origins="*", 
+                   manage_session=False,
+                   logger=False,  # Logger ausschalten für bessere Performance
+                   engineio_logger=False,
+                   ping_timeout=60,
+                   ping_interval=25,
+                   max_http_buffer_size=1e8)
 
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db')
 if database_url.startswith('postgres://'):
@@ -52,6 +68,84 @@ class Question(db.Model):
     wrong2 = db.Column(db.String(150), nullable=False)
     wrong3 = db.Column(db.String(150), nullable=False)
 
+class QuizTimer:
+    def __init__(self, socketio, room_id, duration=30):
+        self.socketio = socketio
+        self.room_id = room_id
+        self.duration = duration
+        self.time_left = duration
+        self.is_running = False
+        self.lock = Lock()
+        self.start_time = None
+        self.greenlet = None
+
+    def start(self):
+        with self.lock:
+            if self.is_running:
+                return
+            self.is_running = True
+            self.start_time = time.time()
+            self.time_left = self.duration
+            # Starte den Timer in einem Greenlet
+            self.greenlet = eventlet.spawn(self._run_timer)
+
+    def _run_timer(self):
+        """Läuft in einem eigenen Greenlet und sendet Timer-Updates"""
+        start_time = time.time()
+        while self.is_running:
+            with self.lock:
+                if not self.is_running:
+                    break
+                    
+                # Berechne verbleibende Zeit genau
+                elapsed = time.time() - start_time
+                self.time_left = max(0, self.duration - int(elapsed))
+                
+                # Sende Update an den Raum
+                try:
+                    self.socketio.emit('time_update', 
+                                    {'time_left': self.time_left}, 
+                                    room=self.room_id)
+                except Exception as e:
+                    print(f"Fehler beim Senden des Timer-Updates: {e}")
+                
+                # Zeit abgelaufen?
+                if self.time_left <= 0:
+                    try:
+                        self.socketio.emit('time_out', room=self.room_id)
+                    except Exception as e:
+                        print(f"Fehler beim Timeout: {e}")
+                    self.is_running = False
+                    break
+            
+            # Exakt 1 Sekunde warten
+            next_update = start_time + (30 - self.time_left + 1)
+            sleep_time = max(0, next_update - time.time())
+            eventlet.sleep(sleep_time)
+
+    def stop(self):
+        with self.lock:
+            self.is_running = False
+            if self.greenlet:
+                try:
+                    self.greenlet.kill()
+                except:
+                    pass
+                self.greenlet = None
+
+    def get_time_left(self):
+        with self.lock:
+            if not self.is_running or not self.start_time:
+                return 0
+            elapsed = time.time() - self.start_time
+            return max(0, self.duration - int(elapsed))
+
+# Thread-safe Timer Management
+active_timers = {}
+timer_lock = Lock()
+# Speichere Socket-Sessions zu Räumen
+socket_rooms = {}
+
 # Serverseitige Session-Konfiguration
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SESSION_SQLALCHEMY'] = db
@@ -59,6 +153,30 @@ app.config['SESSION_PERMANENT'] = False
 server_session = Session(app)
 
 bcrypt = Bcrypt(app)
+
+def stop_timer(room_id):
+    """Stoppt und entfernt Timer sicher"""
+    with timer_lock:
+        if room_id in active_timers:
+            active_timers[room_id].stop()
+            del active_timers[room_id]
+            print(f"Timer für Raum {room_id} gestoppt")
+
+def get_or_create_timer(room_id):
+    """Erstellt oder gibt existierenden Timer zurück"""
+    with timer_lock:
+        if room_id not in active_timers:
+            timer = QuizTimer(socketio, room_id, duration=30)
+            active_timers[room_id] = timer
+            timer.start()
+            print(f"Neuer Timer für Raum {room_id} gestartet")
+        else:
+            # Timer existiert bereits - prüfe ob er läuft
+            timer = active_timers[room_id]
+            if not timer.is_running:
+                timer.start()
+                print(f"Timer für Raum {room_id} neu gestartet")
+        return active_timers[room_id]
 
 # Template-Filter für lokale Zeit
 @app.template_filter('to_local_time')
@@ -71,6 +189,11 @@ def to_local_time(utc_time):
 # Automatische Datenbankinitialisierung beim App-Start
 def initialize_database():
     """Erstellt Tabellen und importiert neue Fragen bei jedem Start"""
+    # Verhindere doppelte Ausführung im Reloader
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        print("⏩ Überspringe Datenbankinitialisierung im Reloader")
+        return
+    
     with app.app_context():
         try:
             # Tabellen erstellen
@@ -182,6 +305,7 @@ def initialize_database():
                         username=user_data['username'],
                         highscore=user_data['highscore'],
                         highscore_time=user_data['highscore_time'],
+                        correct_high=user_data.get('correct_high', 0),
                         first_played=user_data['highscore_time']  # Erstes Spiel setzen
                     )
                     new_user.set_password(user_data['password'])
@@ -277,6 +401,12 @@ def homepage():
 
 @app.route('/logout')
 def logout():
+    # Timer stoppen bei Logout
+    if 'quiz_data' in session:
+        room_id = session['quiz_data'].get('room_id')
+        if room_id:
+            stop_timer(room_id)
+    
     session.clear()
     return redirect(url_for('index'))
 
@@ -284,6 +414,12 @@ def logout():
 def start_custom_quiz():
     if 'username' not in session:
         return redirect(url_for('index'))
+    
+    # Alten Timer stoppen, falls vorhanden
+    if 'quiz_data' in session:
+        old_room_id = session['quiz_data'].get('room_id')
+        if old_room_id:
+            stop_timer(old_room_id)
     
     selected_topics = request.form.getlist('topics')
     
@@ -319,13 +455,17 @@ def start_custom_quiz():
     random.shuffle(selected_questions)
     num_questions = min(30, len(selected_questions))
 
+    # Room-ID für WebSocket erstellen
+    room_id = str(uuid.uuid4())
+    
     session['quiz_data'] = {
         'subject': ', '.join(selected_topics),
         'questions': [q.id for q in selected_questions],
         'current_index': 0,
         'total_questions': num_questions,
         'score': 0,
-        'correct_count': 0
+        'correct_count': 0,
+        'room_id': room_id
     }
     
     return redirect(url_for('show_question'))
@@ -351,11 +491,6 @@ def show_question():
     else:
         options = quiz_data['options_order']
     
-    # Timer-Startzeit serverseitig speichern (in Sekunden)
-    if 'timer_start' not in quiz_data:
-        quiz_data['timer_start'] = time.time()  # Sekunden als float
-        session['quiz_data'] = quiz_data
-    
     was_correct = session.pop('last_answer_correct', False)
     
     return render_template(
@@ -366,7 +501,8 @@ def show_question():
         progress=current_index + 1,
         total_questions=quiz_data['total_questions'],
         score=quiz_data['score'],
-        was_correct=was_correct
+        was_correct=was_correct,
+        room_id=quiz_data['room_id']
     )
 
 @app.route('/check_answer', methods=['POST'])
@@ -384,19 +520,10 @@ def check_answer():
         
     user_answer = request.form.get('answer', '')
     
-    # Serverseitige Zeitberechnung
-    start_time = quiz_data['timer_start']
-    elapsed = time.time() - start_time
-    time_left = max(0, 30 - elapsed)  # Maximal 30 Sekunden
-    
     is_correct = user_answer == question.true
     
-    # Punkteberechnung
-    if is_correct and time_left > 0:
-        points_earned = 30 + 70 * (time_left / 30) ** 2.0
-        points_earned = round(points_earned)
-    else:
-        points_earned = 0
+    # Vereinfachte Punkteberechnung (da Timer über WebSocket läuft)
+    points_earned = 100 if is_correct else 0
 
     if is_correct:
         quiz_data['correct_count'] += 1
@@ -413,10 +540,10 @@ def check_answer():
         'current_score': new_score
     })
 
-@app.route('/next_question', methods=['GET', 'POST'])
+@app.route('/next_question', methods=['POST'])
 def next_question():
     if 'quiz_data' not in session or 'username' not in session:
-        return redirect(url_for('homepage'))
+        return jsonify({'redirect': url_for('homepage')})
     
     quiz_data = session['quiz_data']
     
@@ -426,17 +553,27 @@ def next_question():
     
     quiz_data['current_index'] += 1
     
-    # Timer und Optionen für die nächste Frage zurücksetzen
-    if 'timer_start' in quiz_data:
-        del quiz_data['timer_start']
+    # Optionen für die nächste Frage zurücksetzen
     if 'options_order' in quiz_data:
         del quiz_data['options_order']
     
     session['quiz_data'] = quiz_data
     
     if quiz_data['current_index'] < quiz_data['total_questions']:
-        return redirect(url_for('show_question'))
-    return redirect(url_for('evaluate_quiz'))
+        # Frage als JSON zurückgeben
+        question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
+        options = [question.true, question.wrong1, question.wrong2, question.wrong3]
+        random.shuffle(options)
+        
+        return jsonify({
+            'question': question.question,
+            'options': options,
+            'progress': quiz_data['current_index'] + 1,
+            'total_questions': quiz_data['total_questions'],
+            'score': quiz_data['score']
+        })
+    else:
+        return jsonify({'redirect': url_for('evaluate_quiz')})
 
 @app.route('/evaluate')
 def evaluate_quiz():
@@ -444,16 +581,22 @@ def evaluate_quiz():
         return redirect(url_for('homepage'))
     
     quiz_data = session.pop('quiz_data', None)
-    score = quiz_data.get('score', 0)
-    total = quiz_data.get('total_questions', 0)
-    correct_count = quiz_data.get('correct_count', 0)
+    
+    # Timer stoppen
+    room_id = quiz_data.get('room_id') if quiz_data else None
+    if room_id:
+        stop_timer(room_id)
+    
+    score = quiz_data.get('score', 0) if quiz_data else 0
+    total = quiz_data.get('total_questions', 0) if quiz_data else 0
+    correct_count = quiz_data.get('correct_count', 0) if quiz_data else 0
     
     # Highscore-Logik
     user = User.query.filter_by(username=session['username']).first()
     new_highscore = False
     now = datetime.now(timezone.utc)
     
-    if user:
+    if user and quiz_data:
         # Setze Zeitpunkt des ersten Spiels, falls noch nicht vorhanden
         if not user.first_played:
             user.first_played = now
@@ -473,7 +616,7 @@ def evaluate_quiz():
         'evaluate.html',
         score=score,
         total=total,
-        correct_answers=quiz_data.get('correct_count', 0),
+        correct_answers=correct_count,
         new_highscore=new_highscore,
         highscore=user.highscore if user else score
     )
@@ -481,6 +624,11 @@ def evaluate_quiz():
 @app.route('/cancel_quiz', methods=['POST'])
 def cancel_quiz():
     if 'quiz_data' in session:
+        # Timer stoppen, falls vorhanden
+        room_id = session['quiz_data'].get('room_id')
+        if room_id:
+            stop_timer(room_id)
+        
         session.pop('quiz_data', None)
     return '', 204
 
@@ -563,6 +711,13 @@ def search_player():
     if not user:
         return jsonify({'error': 'Spieler nicht gefunden'}), 404
     
+    # Helper-Funktion für lokale Zeit-Konvertierung
+    def to_local_time(utc_time):
+        if utc_time is None:
+            return "N/A"
+        local_time = utc_time + timedelta(hours=2)
+        return local_time.strftime('%d.%m.%Y %H:%M')
+    
     return jsonify({
         'id': user.id,
         'username': user.username,
@@ -572,7 +727,113 @@ def search_player():
         'correct_high': user.correct_high
     })
 
+# WebSocket Event Handlers
+@socketio.on('connect')
+def handle_connect():
+    print(f"Client connected: {request.sid}")
+    if 'username' in session:
+        emit('connection_success', {'message': 'Verbunden'})
+    else:
+        emit('connection_error', {'error': 'Nicht angemeldet'})
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print(f"Client disconnected: {request.sid}")
+    # Cleanup socket_rooms
+    if request.sid in socket_rooms:
+        room_id = socket_rooms[request.sid]
+        leave_room(room_id)
+        del socket_rooms[request.sid]
+
+@socketio.on('reset_timer')
+def handle_reset_timer(data):
+    room_id = data.get('room_id')
+    if room_id in active_timers:
+        active_timers[room_id].stop()
+        active_timers[room_id].start()
+        print(f"Timer für Raum {room_id} zurückgesetzt")
+
+@socketio.on('join_quiz_session')
+def handle_join_quiz_session(data):
+    room_id = data.get('room_id')
+    if not room_id:
+        emit('error', {'error': 'Keine Room-ID'})
+        return
+    
+    print(f"Client {request.sid} joining room {room_id}")
+    join_room(room_id)
+    socket_rooms[request.sid] = room_id
+    
+    # Timer für diesen Raum erstellen/abrufen und starten
+    timer = get_or_create_timer(room_id)
+    
+    # Aktuellen Timer-Stand senden
+    emit('time_update', {'time_left': timer.get_time_left()})
+
+@socketio.on('submit_answer')
+def handle_submit_answer(data):
+    room_id = data.get('room_id')
+    user_answer = data.get('answer', '')
+    
+    if not room_id or 'quiz_data' not in session:
+        emit('answer_result', {'error': 'Session expired'})
+        return
+        
+    quiz_data = session['quiz_data']
+    current_index = quiz_data['current_index']
+    question_id = quiz_data['questions'][current_index]
+    question = Question.query.get(question_id)
+    
+    if not question:
+        emit('answer_result', {'error': 'Question not found'})
+        return
+    
+    # Timer stoppen für diesen Raum
+    with timer_lock:
+        timer = active_timers.get(room_id)
+        if timer:
+            time_left = timer.get_time_left()
+            timer.stop()
+        else:
+            time_left = 0
+    
+    # Antwort prüfen
+    is_correct = user_answer == question.true
+    
+    # Zeitbasierte Punkteberechnung
+    if is_correct and time_left > 0:
+        # Zeitbonus: 30 Basispunkte + bis zu 70 Bonuspunkte
+        points_earned = 30 + int(70 * (time_left / 30) ** 2.0)
+    else:
+        points_earned = 0
+
+    if is_correct:
+        quiz_data['correct_count'] += 1
+
+    new_score = quiz_data['score'] + points_earned
+    quiz_data['score'] = new_score
+    quiz_data['answered'] = True
+    session['quiz_data'] = quiz_data
+    
+    # Ergebnis an Client senden
+    emit('answer_result', {
+        'is_correct': is_correct,
+        'correct_answer': question.true,
+        'points_earned': points_earned,
+        'current_score': new_score,
+        'time_left': time_left,
+        'user_answer': user_answer  # Füge die Benutzerantwort hinzu
+    })
 
 if __name__ == '__main__':
+    # Initialisiere Datenbank nur im Hauptprozess
+    if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        initialize_database()
+    
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    
+    # In Production: verwende den Port von der Environment Variable
+    if is_production:
+        socketio.run(app, host='0.0.0.0', port=port)
+    else:
+        socketio.run(app, host='0.0.0.0', port=port, debug=True)
