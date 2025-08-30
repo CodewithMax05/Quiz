@@ -74,14 +74,17 @@
             initializeSocket() {
                 console.log('Initialisiere Socket-Verbindung...');
                 
-                this.socket = io(window.location.origin, { 
-                    transports: ['websocket', 'polling'],
+                // WebSocket-URL basierend auf der aktuellen Domain
+                const socketUrl = window.location.origin;
+                
+                this.socket = io(socketUrl, {
+                    transports: ['websocket', 'polling'],  // WebSocket priorisieren
+                    upgrade: true,
                     reconnection: true,
                     reconnectionAttempts: this.maxReconnectAttempts,
                     reconnectionDelay: 1000,
                     reconnectionDelayMax: 5000,
-                    timeout: 20000,
-                    forceNew: false
+                    timeout: 20000
                 });
 
                 // Connection Events

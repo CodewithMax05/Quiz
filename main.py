@@ -20,15 +20,19 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 app = Flask(__name__)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
+# WebSocket-Konfiguration für Render
 socketio = SocketIO(app, 
-                   async_mode='gevent',  # Ändere zu gevent
+                   async_mode='gevent',
                    cors_allowed_origins="*", 
                    manage_session=False,
-                   logger=False,
-                   engineio_logger=False,
+                   logger=True,  # Für Debugging aktivieren
+                   engineio_logger=True,  # Für Debugging aktivieren
                    ping_timeout=60,
                    ping_interval=25,
-                   max_http_buffer_size=1e8)
+                   max_http_buffer_size=1e8,
+                   allow_upgrades=True,  # WebSocket-Upgrades erlauben
+                   transports=['websocket', 'polling'])  # Beide Transportmethoden
 
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db')
 if database_url.startswith('postgres://'):
