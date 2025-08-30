@@ -305,12 +305,12 @@
                     // Normale Frage - nach 2.5 Sekunden zur nächsten Frage
                     setTimeout(() => {
                         this.goToNextQuestion();
-                    }, 2500);
+                    }, 1500);
                 } else {
                     // Letzte Frage - nach 2.5 Sekunden zur Auswertung
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
-                    }, 2500);
+                    }, 1500);
                 }
             }
 
