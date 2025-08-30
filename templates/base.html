@@ -28,7 +28,9 @@
 		<!--Titel ändern?-->
 		<title>Quiz</title>
 	</head>
-	<body  data-was-correct="{{ 'true' if was_correct else 'false' }}">
+	<body data-was-correct="{{ 'true' if was_correct else 'false' }}" 
+		  data-is-logged-in="{{ 'true' if is_logged_in else 'false' }}"
+		  data-automatic-logout-url="{{ url_for('automatic_logout') }}">
 		
 		{%block body%}
 
@@ -60,6 +62,88 @@
 						}
 					});
 				});
+			});
+
+			// Inaktivitäts-Timer (nur für eingeloggte Benutzer)
+			document.addEventListener('DOMContentLoaded', function() {
+				// Werte aus den Datenattributen des Body-Elements lesen
+				const body = document.body;
+				const isLoggedIn = body.getAttribute('data-is-logged-in') === 'true';
+				const automaticLogoutUrl = body.getAttribute('data-automatic-logout-url');
+				
+				if (isLoggedIn) {
+					let inactivityTimer;
+					let warningTimer;
+					const warningTime = 2 * 60 * 1000; // 2 Minuten
+					const logoutTime = 3 * 60 * 1000; // 1 Minute nach Warnung (3 Minuten total)
+					let warningMessageElement = null;
+
+					function resetInactivityTimer() {
+						clearTimeout(inactivityTimer);
+						clearTimeout(warningTimer);
+						
+						// Entferne Warnmeldung, falls vorhanden
+						if (warningMessageElement) {
+							warningMessageElement.remove();
+							warningMessageElement = null;
+						}
+						
+						inactivityTimer = setTimeout(showInactivityWarning, warningTime);
+					}
+
+					function showInactivityWarning() {
+						// Erstelle Warnmeldung
+						warningMessageElement = createFlashMessage('Sie waren 2 Minuten inaktiv. Sie werden in 1 Minute automatisch abgemeldet.', 'warning');
+						
+						// Setze Timer für automatischen Logout
+						warningTimer = setTimeout(logoutDueToInactivity, logoutTime - warningTime);
+					}
+
+					function logoutDueToInactivity() {
+						// Sofortige Weiterleitung zur Logout-URL
+						window.location.href = automaticLogoutUrl;
+					}
+
+					function createFlashMessage(text, type) {
+						const flashContainer = document.getElementById('flash-container');
+						if (!flashContainer) return null;
+						
+						// Lösche vorhandene Warnungen
+						const existingWarnings = flashContainer.querySelectorAll('.warning-message, .info-message');
+						existingWarnings.forEach(warning => warning.remove());
+						
+						const messageDiv = document.createElement('div');
+						messageDiv.className = `${type}-message`;
+						messageDiv.textContent = text;
+						messageDiv.style.zIndex = '9999'; // Sehr hoher z-index
+						
+						// Fortschrittsbalken für die Warnung (1 Minute)
+						const progressBar = document.createElement('div');
+						progressBar.className = 'custom-progress-bar';
+						progressBar.style.animation = 'progressBar 60s linear forwards'; // 60 Sekunden
+						messageDiv.appendChild(progressBar);
+						
+						// Nachricht nach 1 Minute entfernen
+						setTimeout(() => {
+							if (flashContainer.contains(messageDiv)) {
+								flashContainer.removeChild(messageDiv);
+								warningMessageElement = null;
+							}
+						}, logoutTime - warningTime);
+						
+						flashContainer.appendChild(messageDiv);
+						return messageDiv;
+					}
+
+					// Timer starten
+					resetInactivityTimer();
+					
+					// Event-Listener für Aktivität
+					const events = ['mousemove', 'keypress', 'touchstart', 'click', 'scroll'];
+					events.forEach(event => {
+						document.addEventListener(event, resetInactivityTimer);
+					});
+				}
 			});
 		</script>
 	</body>

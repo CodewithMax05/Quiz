@@ -11,11 +11,10 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                        {{ message }}
-                        <!-- Fortschrittsbalken hinzufügen -->
-                        <div class="custom-progress-bar"></div>
-                    </div>
+                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                    {{ message }}
+                    <div class="custom-progress-bar"></div>
+                </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}

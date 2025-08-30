@@ -5,15 +5,26 @@
 {% endblock %}
 
 {% block body %}
-<div class="login-wrapper">
-    <!-- Flash-Nachrichten -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="error-message">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+    <!-- Flash-Nachrichten Container -->
+    <div id="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'permanent' %}
+                    <div class="permanent-message" id="permanent-flash">
+                        <div class="message-content">{{ message }}</div>
+                        <button class="close-btn" onclick="closePermanentMessage()">&times;</button>
+                    </div>
+                    {% else %}
+                    <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                        {{ message }}
+                        <div class="custom-progress-bar"></div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
     
     <div class="container"> 
         <h1>Willkommen</h1>
@@ -41,5 +52,30 @@
             form.submit();
         }, 150); // 150ms Verzögerung für Sound
     }
+    
+    function closePermanentMessage() {
+        const permanentMessage = document.getElementById('permanent-flash');
+        if (permanentMessage) {
+            permanentMessage.style.opacity = '0';
+            permanentMessage.style.transition = 'opacity 0.5s ease';
+            
+            // Nach der Animation komplett entfernen
+            setTimeout(() => {
+                if (permanentMessage.parentNode) {
+                    permanentMessage.parentNode.removeChild(permanentMessage);
+                }
+            }, 500);
+        }
+    }
+    
+    // Event-Listener für Formular-Submit (Anmeldung)
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('auth-form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                closePermanentMessage();
+            });
+        }
+    });
 </script>
 {% endblock %}

@@ -733,6 +733,22 @@ def search_player():
         'correct_high': user.correct_high
     })
 
+@app.route('/automatic_logout')
+def automatic_logout():
+    # Timer stoppen bei Logout
+    if 'quiz_data' in session:
+        room_id = session['quiz_data'].get('room_id')
+        if room_id:
+            stop_timer(room_id)
+    
+    session.clear()
+    flash('Sie wurden aufgrund von Inaktivität automatisch abgemeldet.', 'permanent')
+    return redirect(url_for('index'))
+
+@app.context_processor
+def inject_user():
+    return dict(is_logged_in='username' in session)
+
 # WebSocket Event Handlers
 @socketio.on('connect')
 def handle_connect():
