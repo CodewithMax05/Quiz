@@ -110,7 +110,12 @@
                 <div class="search-wrapper">
                     <input type="text" id="player-search" placeholder="Spieler suchen..." 
                         onkeypress="if(event.key === 'Enter') searchPlayer()">
+                    <button type="button" class="search-button" aria-label="Spieler suchen" onclick="searchPlayer()">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
+
+
                 <!-- Spielerinfo-Karte -->
                 <div class="player-info-card">
                     <div class="player-info-title-row">
