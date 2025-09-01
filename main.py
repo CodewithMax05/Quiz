@@ -700,11 +700,14 @@ def ranking():
         flash("Weitere Informationen zum Spieler durch Klick oder Suche", "info")
         session['ranking_info_shown'] = True
 
+    player_rank_map = {player.id: idx for idx, player in enumerate(players_with_highscore, start=1)}
+
     return render_template(
         'ranking.html',
         top_players=top_players,
         current_player=current_player,
-        player_rank=player_rank
+        player_rank=player_rank,
+        player_rank_map=player_rank_map
     )
 
 @app.route('/api/search_player')

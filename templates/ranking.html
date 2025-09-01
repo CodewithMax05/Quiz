@@ -48,6 +48,7 @@
                     <div class="leaderboard-content">
                         {% for player in top_players %}
                         <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
+                             data-rank="{{ player_rank_map[player.id] }}"     
                              data-user-id="{{ player.id }}"
                              data-username="{{ player.username }}"
                              data-registered="{{ player.first_played|to_local_time }}"
@@ -79,6 +80,7 @@
                         <div class="header-item"></div>
                     </div>
                     <div class="leaderboard-row highlight" 
+                         data-rank="{{ player_rank }}"
                          data-user-id="{{ current_player.id }}"
                          data-username="{{ current_player.username }}"
                          data-registered="{{ current_player.first_played|to_local_time }}"
@@ -225,11 +227,10 @@
             document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
             row.classList.add('active');
 
-            // Platzierung berechnen anhand der Position in der Tabelle
-            const allRows = Array.from(document.querySelectorAll('.leaderboard-row'));
-            const rank = allRows.indexOf(row) + 1;
+            
 
             // Alle Daten aktualisieren
+            const rank = row.dataset.rank || "N/A";
             document.getElementById('info-rank').textContent = `#${rank}`;
             document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
             document.getElementById('info-username').textContent = row.dataset.username || "N/A";
