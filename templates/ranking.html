@@ -227,8 +227,6 @@
             document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
             row.classList.add('active');
 
-            
-
             // Alle Daten aktualisieren
             const rank = row.dataset.rank;
             document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;

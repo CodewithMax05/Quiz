@@ -712,35 +712,17 @@ def ranking():
 
 @app.route('/api/search_player')
 def search_player():
-    #username = request.args.get('username', '').strip()
-    #if not username:
-    #    return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
-    
-    #if not username:
-    #    flash('Bitte gib einen Benutzernamen ein!', 'error')
-    #    return redirect(url_for('ranking'))
-    
-    #user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
-    #if not user:
-    #    return jsonify({'error': 'Spieler nicht gefunden'}), 404
-    
-    #if not username:
-    #    flash('Spieler nicht gefunden!', 'error')
-    #    return redirect(url_for('ranking'))
-
-    username = request.form.get('username', '').strip()
+    username = request.args.get('username', '').strip()
     if not username:
-        flash('Bitte gib einen Benutzernamen ein!', 'error')
-        return redirect(url_for('ranking'))
+        return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
+        #flash('Bitte gib einen Benutzernamen ein!', 'error')
+        #return redirect(url_for('ranking'))
 
     user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
     if not user:
-        flash('Spieler nicht gefunden!', 'error')
-        return redirect(url_for('ranking'))
-
-    # Zeige Spielerprofil oder leite weiter
-    return render_template('player_profile.html', user=user)
-    
+        return jsonify({'error': 'Spieler nicht gefunden'}), 404
+        #flash('Spieler nicht gefunden!', 'error')
+        #return redirect(url_for('ranking'))
     
     # Rang berechnen
     players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
