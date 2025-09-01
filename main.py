@@ -717,6 +717,14 @@ def search_player():
     if not user:
         return jsonify({'error': 'Spieler nicht gefunden'}), 404
     
+    # Rang berechnen
+    players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
+        User.highscore.desc(),
+        User.highscore_time.asc(),
+        User.username.asc()
+    ).all()
+    rank = next((idx for idx, p in enumerate(players_with_highscore, start=1) if p.id == user.id), None)
+    
     # Helper-Funktion für lokale Zeit-Konvertierung
     def to_local_time(utc_time):
         if utc_time is None:
@@ -725,6 +733,7 @@ def search_player():
         return local_time.strftime('%d.%m.%Y %H:%M')
     
     return jsonify({
+        'rank': rank if rank else "N/A",
         'id': user.id,
         'username': user.username,
         'first_played': to_local_time(user.first_played) if user.first_played else "N/A",

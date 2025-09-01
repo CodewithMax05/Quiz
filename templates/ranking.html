@@ -126,6 +126,12 @@
                     </div>
                     <div class="player-info-content">
                         <div class="info-row">
+                            <span class="info-label">Platzierung:</span>
+                            <span id="info-rank" class="info-value">
+                                {% if player_rank %}#{{ player_rank }}{% else %}N/A{% endif %}
+                            </span>
+                        </div>
+                        <div class="info-row">
                             <span class="info-label">ID:</span>
                             <span id="info-id" class="info-value">{{ current_player.id if current_player else "N/A" }}</span>
                         </div>
@@ -219,7 +225,12 @@
             document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
             row.classList.add('active');
 
+            // Platzierung berechnen anhand der Position in der Tabelle
+            const allRows = Array.from(document.querySelectorAll('.leaderboard-row'));
+            const rank = allRows.indexOf(row) + 1;
+
             // Alle Daten aktualisieren
+            document.getElementById('info-rank').textContent = `#${rank}`;
             document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
             document.getElementById('info-username').textContent = row.dataset.username || "N/A";
             document.getElementById('info-registered').textContent = row.dataset.registered || "N/A";
@@ -244,6 +255,7 @@
                 }
 
                 // Spielerdaten anzeigen
+                document.getElementById('info-rank').textContent = player.rank ? `#${player.rank}` : "N/A";
                 document.getElementById('info-id').textContent = player.id || "N/A";
                 document.getElementById('info-username').textContent = player.username || "N/A";
                 document.getElementById('info-registered').textContent = player.first_played || "N/A";
