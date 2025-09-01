@@ -134,12 +134,12 @@
                             </span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">ID:</span>
-                            <span id="info-id" class="info-value">{{ current_player.id if current_player else "N/A" }}</span>
-                        </div>
-                        <div class="info-row">
                             <span class="info-label">Username:</span>
                             <span id="info-username" class="info-value">{{ current_player.username if current_player else "N/A" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Spieler-ID:</span>
+                            <span id="info-id" class="info-value">{{ current_player.id if current_player else "N/A" }}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Registriert am:</span>
@@ -231,9 +231,9 @@
 
             // Alle Daten aktualisieren
             const rank = row.dataset.rank;
-            document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank; // ✅ Hier eingefügt
-            document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
+            document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
             document.getElementById('info-username').textContent = row.dataset.username || "N/A";
+            document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
             document.getElementById('info-registered').textContent = row.dataset.registered || "N/A";
             document.getElementById('info-highscore').textContent = row.dataset.score || "0";
             document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
@@ -257,8 +257,8 @@
 
                 // Spielerdaten anzeigen
                 document.getElementById('info-rank').textContent = player.rank ? `${player.rank}` : "N/A";
-                document.getElementById('info-id').textContent = player.id || "N/A";
                 document.getElementById('info-username').textContent = player.username || "N/A";
+                document.getElementById('info-id').textContent = player.id || "N/A";
                 document.getElementById('info-registered').textContent = player.first_played || "N/A";
                 document.getElementById('info-highscore').textContent = player.highscore || "0";
                 document.getElementById('info-highscore-date').textContent = player.highscore_time || "N/A";

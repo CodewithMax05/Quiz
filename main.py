@@ -737,8 +737,8 @@ def search_player():
     
     return jsonify({
         'rank': rank if rank else "N/A",
-        'id': user.id,
         'username': user.username,
+        'id': user.id,
         'first_played': to_local_time(user.first_played) if user.first_played else "N/A",
         'highscore': user.highscore,
         'highscore_time': to_local_time(user.highscore_time) if user.highscore_time else "N/A",
