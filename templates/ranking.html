@@ -130,7 +130,7 @@
                         <div class="info-row">
                             <span class="info-label">Platzierung:</span>
                             <span id="info-rank" class="info-value">
-                                {% if player_rank %}#{{ player_rank }}{% else %}N/A{% endif %}
+                                {% if player_rank %}{{ player_rank }}{% else %}N/A{% endif %}
                             </span>
                         </div>
                         <div class="info-row">
@@ -230,8 +230,8 @@
             
 
             // Alle Daten aktualisieren
-            const rank = row.dataset.rank || "N/A";
-            document.getElementById('info-rank').textContent = `#${rank}`;
+            const rank = row.dataset.rank;
+            document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank; // ✅ Hier eingefügt
             document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
             document.getElementById('info-username').textContent = row.dataset.username || "N/A";
             document.getElementById('info-registered').textContent = row.dataset.registered || "N/A";
@@ -256,7 +256,7 @@
                 }
 
                 // Spielerdaten anzeigen
-                document.getElementById('info-rank').textContent = player.rank ? `#${player.rank}` : "N/A";
+                document.getElementById('info-rank').textContent = player.rank ? `${player.rank}` : "N/A";
                 document.getElementById('info-id').textContent = player.id || "N/A";
                 document.getElementById('info-username').textContent = player.username || "N/A";
                 document.getElementById('info-registered').textContent = player.first_played || "N/A";
