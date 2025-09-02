@@ -720,14 +720,10 @@ def search_player():
     username = request.args.get('username', '').strip()
     if not username:
         return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
-        #flash('Bitte gib einen Benutzernamen ein!', 'error')
-        #return redirect(url_for('ranking'))
 
     user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
     if not user:
         return jsonify({'error': 'Spieler nicht gefunden'}), 404
-        #flash('Spieler nicht gefunden!', 'error')
-        #return redirect(url_for('ranking'))
     
     # Rang berechnen
     players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(

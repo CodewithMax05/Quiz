@@ -117,7 +117,6 @@
                     </button>
                 </div>
 
-
                 <!-- Spielerinfo-Karte -->
                 <div class="player-info-card">
                     <div class="player-info-title-row">
@@ -193,7 +192,7 @@
                 createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
             });
 
-            function createFlashMessage(text, type) {
+            function createFlashMessage(text, type = 'info') {
                 // Lösche alle vorhandenen Nachrichten
                 flashContainer.innerHTML = '';
                 
@@ -220,6 +219,8 @@
                     }, 500);
                 }, 5000);
             }
+
+            window.createFlashMessage = createFlashMessage;
         });
 
         function updatePlayerInfo(row) {
@@ -242,31 +243,35 @@
             const searchInput = document.getElementById('player-search');
             const username = searchInput.value.trim();
             
-            if (!username) return;
+            if (!username) {
+                createFlashMessage('Bitte gib einen Benutzernamen ein', 'error');
+                return;
+            }
 
             try {
                 const response = await fetch(`/api/search_player?username=${encodeURIComponent(username)}`);
-                const player = await response.json();
+                const data = await response.json();
                 
-                if (player.error) {
-                    alert(player.error);
+                if (!response.ok) {
+                    createFlashMessage(data.error, 'error');
                     return;
                 }
 
                 // Spielerdaten anzeigen
-                document.getElementById('info-rank').textContent = player.rank ? `${player.rank}` : "N/A";
-                document.getElementById('info-username').textContent = player.username || "N/A";
-                document.getElementById('info-id').textContent = player.id || "N/A";
-                document.getElementById('info-registered').textContent = player.first_played || "N/A";
-                document.getElementById('info-highscore').textContent = player.highscore || "0";
-                document.getElementById('info-highscore-date').textContent = player.highscore_time || "N/A";
-                document.getElementById('info-correct').textContent = player.correct_high || "0";
+                document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
+                document.getElementById('info-username').textContent = data.username || "N/A";
+                document.getElementById('info-id').textContent = data.id || "N/A";
+                document.getElementById('info-registered').textContent = data.first_played || "N/A";
+                document.getElementById('info-highscore').textContent = data.highscore || "0";
+                document.getElementById('info-highscore-date').textContent = data.highscore_time || "N/A";
+                document.getElementById('info-correct').textContent = data.correct_high || "0";
                 
                 // Highlight entfernen
                 document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
                 
             } catch (error) {
                 console.error('Fehler bei der Suche:', error);
+                createFlashMessage('Ein Fehler ist aufgetreten', 'error');
             }
         }
     </script>
