@@ -1,0 +1,56 @@
+/* 🌌 GLOBALSTIL & HINTERGRUND */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ✨ STERNENHINTERGRUND */
+.page-wrapper::before,
+.page-wrapper::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: transparent;
+}
+
+.page-wrapper::before {
+    background: radial-gradient(ellipse at bottom,
+        rgba(255,255,255,0.3) 0%,
+        rgba(255,255,255,0) 70%);
+    animation: stars-animation 20s linear infinite;
+}
+
+.page-wrapper::after {
+    background: radial-gradient(ellipse at bottom,
+        rgba(255,255,255,0.15) 0%,
+        rgba(255,255,255,0) 70%);
+    animation: stars-animation 30s linear infinite;
+}
+
+@keyframes stars-animation {
+    from { transform: translateY(0); }
+    to { transform: translateY(2000px); }
+}
+
+/* 📄 IMPRESSUM SEITE */
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.impressum-title {
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(142, 45, 226, 0.7);
+}
