@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_impressum.css') }}"/>
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <!-- Flash-Nachrichten Container -->
+    <div id="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                    {{ message }}
+                    <div class="custom-progress-bar"></div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Impressum-Inhalt -->
+    <div class="container">
+        <h1 class="impressum-title">Impressum</h1>
+    </div>
+</div>
+{% endblock %}
