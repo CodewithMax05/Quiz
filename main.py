@@ -312,7 +312,7 @@ def initialize_database():
                         highscore=user_data['highscore'],
                         highscore_time=user_data['highscore_time'],
                         correct_high=user_data.get('correct_high', 0),
-                        first_played=user_data['highscore_time']  # Erstes Spiel setzen
+                        first_played=user_data.get('first_played', datetime.now(timezone.utc))  # Erstes Spiel setzen
                     )
                     new_user.set_password(user_data['password'])
                     db.session.add(new_user)
@@ -380,7 +380,12 @@ def register():
             flash('Benutzername bereits vergeben', 'error')
             return redirect(url_for('index'))
         
-        new_user = User(username=username)
+        new_user = User(
+            username=username,
+            first_played=datetime.now(timezone.utc)
+        )
+
+        #new_user = User(username=username)
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
