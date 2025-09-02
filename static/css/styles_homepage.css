@@ -360,7 +360,7 @@ body::before {
     opacity: 1;
 }
 
-/* Flash-Nachrichten Container */
+/* Flash-Nachrichten Container - ANGEpasst für mobile Geräte */
 #flash-container {
     position: fixed;
     top: 20px;
@@ -424,7 +424,7 @@ body::before {
     border-radius: 0 0 10px 10px;
 }
 
-/* Permanente Nachrichten */
+/* Permanente Nachrichten - ANGEPASST für mobile Geräte */
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
@@ -645,9 +645,17 @@ body::before {
         margin-top: 15px;
     }
     
-    .error-message, .info-message {
-        top: 10px;
-        max-width: 280px;
+    /* ANGEPASST für mobile Nachrichten */
+    #flash-container {
+        top: 15px;
+        width: 85%;
+        max-width: 310px;
+    }
+    
+    .error-message, .info-message, .permanent-message {
+        top: 15px;
+        max-width: 310px;
+        width: 100%;
     }
 }
 
@@ -738,11 +746,19 @@ body::before {
         font-size: 1.1rem;
     }
     
-    .error-message, .info-message {
-        top: 5px;
-        padding: 10px 12px;
-        font-size: 0.9rem;
-        max-width: 250px;
+    /* ANGEPASST für mobile Nachrichten */
+    #flash-container {
+        top: 10px;
+        width: 85%;
+        max-width: 260px;
+    }
+    
+    .error-message, .info-message, .permanent-message {
+        top: 10px;
+        padding: 12px 15px;
+        font-size: 0.95rem;
+        max-width: 260px;
+        width: 100%;
     }
 }
 
@@ -780,6 +796,19 @@ body::before {
     
     .ranking-button i {
         font-size: 1.3rem;
+    }
+    
+    /* ANGEPASST für sehr kleine Geräte */
+    #flash-container {
+        top: 8px;
+        max-width: 240px;
+    }
+    
+    .error-message, .info-message, .permanent-message {
+        top: 8px;
+        max-width: 240px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
     }
 }
 
@@ -846,7 +875,12 @@ body::before {
         font-size: 0.9rem;
     }
     
-    .error-message, .info-message {
+    /* ANGEPASST für kleine Höhen */
+    #flash-container {
+        top: 8px;
+    }
+    
+    .error-message, .info-message, .permanent-message {
         top: 8px;
     }
 }
