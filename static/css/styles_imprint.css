@@ -58,13 +58,14 @@ html, body {
 .impressum-content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 900px;
     margin: 2rem auto;
     gap: 2rem;
 }
 
 .impressum-image {
+    margin-top: 0;
     width: 200px;
     height: auto;
 }
@@ -73,9 +74,9 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    justify-content: center;
+    justify-content: flex;
     font-size: 1.1rem;
-    flex: 1;
+    margin-top: 0;
 }
 
 .info-row {
