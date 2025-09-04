@@ -210,9 +210,8 @@ body::before {
     border-radius: 50%;
     color: #fff;
     text-decoration: none;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #6c757d, #5a6268);
     box-shadow: 0 3px 8px rgba(37, 117, 252, 0.4);
-    animation: pulse-blue 2s infinite;
     transition: all 0.3s ease;
     position: relative;
     flex-shrink: 0;
@@ -226,8 +225,8 @@ body::before {
 
 .imprint-button:hover {
     transform: scale(1.1);
-    background: linear-gradient(135deg, #4a00e0, #8e2de2);
-    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.5);
+    background: linear-gradient(135deg, #495057, #6c757d);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
 
 /* Tooltip für Impressum */
