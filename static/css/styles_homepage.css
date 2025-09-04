@@ -221,7 +221,6 @@ body::before {
     color: #fff;
     text-decoration: none;
     background: linear-gradient(135deg, #6c757d, #5a6268);
-    /*box-shadow: 0 3px 8px rgba(37, 117, 252, 0.4);*/
     transition: all 0.3s ease;
     flex-shrink: 0;
 }
