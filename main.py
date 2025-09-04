@@ -750,6 +750,10 @@ def search_player():
         'correct_high': user.correct_high
     })
 
+@app.route('/imprint')
+def imprint():
+    return render_template('imprint.html')
+
 @app.route('/automatic_logout')
 def automatic_logout():
     # Timer stoppen bei Logout
