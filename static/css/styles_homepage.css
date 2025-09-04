@@ -194,14 +194,24 @@ body::before {
 
 /* Button-Row (Impressum + Start nebeneinander) */
 .button-row {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px; /* Abstand zwischen Impressum und Start */
     margin-top: 0px;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
+
 .imprint-button {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,9 +223,7 @@ body::before {
     background: linear-gradient(135deg, #6c757d, #5a6268);
     box-shadow: 0 3px 8px rgba(37, 117, 252, 0.4);
     transition: all 0.3s ease;
-    position: relative;
     flex-shrink: 0;
-    margin-top: 20px;
 }
 
 .imprint-button i {
@@ -224,14 +232,13 @@ body::before {
 }
 
 .imprint-button:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) translateY(-50%);
     background: linear-gradient(135deg, #495057, #6c757d);
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
 
-/* Tooltip für Impressum */
 .imprint-button::after {
-    content: "Impressum";
+    content: "Impressum & Support";
     position: absolute;
     bottom: -40px;
     left: 50%;
@@ -241,6 +248,7 @@ body::before {
     padding: 6px 12px;
     border-radius: 4px;
     font-size: 0.9rem;
+    font-weight: bold;
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.3s;
@@ -267,7 +275,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 0px;
     animation: pulse-purple 2s infinite;
     position: relative;
     z-index: 10;
