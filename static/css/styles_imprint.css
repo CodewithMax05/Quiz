@@ -54,3 +54,23 @@ html, body {
     color: #ffffff;
     text-shadow: 0 0 12px rgba(142, 45, 226, 0.7);
 }
+
+.impressum-content {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    width: 900px;
+    margin-top: 2rem;
+}
+
+.impressum-image {
+    width: 200px;
+    height: auto;
+}
+
+.impressum-text {
+    flex: 1;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #e0e6ed;
+}
