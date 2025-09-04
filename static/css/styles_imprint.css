@@ -76,7 +76,7 @@ html, body {
     gap: 1rem;
     justify-content: flex;
     font-size: 1.1rem;
-    margin-top: 0;
+    margin-top: 25px;
 }
 
 .info-row {
