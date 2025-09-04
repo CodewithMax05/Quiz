@@ -22,24 +22,27 @@
     </div>
 
     <!-- Impressum-Inhalt -->
-    <div class="container">
+     <div class="container">
         <h1 class="impressum-title">Impressum</h1>
     </div>
-    <div class="container">
     <div class="impressum-content">
         <img src="{{ url_for('static', filename='pictures/Logo-Huhn.png') }}" alt="Impressum Logo" class="impressum-image">
-        <div class="impressum-text">
-            <p>
-                Quiz-Game
-            </p>
-            <p>
-                Version 1.0.0
-            </p>
-            <p>
-                Entwickler: Justin Burian & Max Schick
-            </p>
+
+    <!-- Neuer Bereich für Infos als zweispaltige Liste -->
+        <div class="impressum-info">
+            <div class="info-row">
+                <span class="info-label">Gamename:</span>
+                <span class="info-value">Game-Quiz</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Version:</span>
+                <span class="info-value">1.0.0</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Entwickler:</span>
+                <span class="info-value">Justin Burian<br>Max Schieck</span>
+            </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}
