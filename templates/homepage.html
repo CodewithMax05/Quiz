@@ -182,9 +182,14 @@
                 </label>
             </div>
             
-            <button type="submit" class="start-button">
-                <i class="fas fa-play-circle"></i> Quiz starten
-            </button>
+            <div class="button-row">
+                <a href="{{ url_for('imprint') }}" class="imprint-button" aria-label="Impressum">
+                    <i class="fas fa-star"></i>
+                </a>
+                <button type="submit" class="start-button">
+                    <i class="fas fa-play-circle"></i> Quiz starten
+                </button>
+            </div>
         </form>
     </div>
 </div>

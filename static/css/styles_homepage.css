@@ -228,7 +228,8 @@ body::before {
 /* Buttons (Logout, Info, Ranking) */
 .logout-button,
 .info-button,
-.ranking-button {
+.ranking-button,
+.imprint-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -250,9 +251,55 @@ body::before {
 
 .logout-button i,
 .info-button i,
-.ranking-button i {
+.ranking-button i,
+.imprint-button {
     font-size: 1.8rem;
     color: white;
+}
+
+/* Button-Row (Impressum + Start nebeneinander) */
+.button-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Abstand zwischen Impressum und Start */
+    margin-top: 20px;
+}
+
+/* Impressum-Button */
+.imprint-button {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 3px 8px rgba(37, 117, 252, 0.4);
+    animation: pulse-blue 2s infinity;
+    transition: all 0.3s ease;
+}
+
+.imprint-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.5);
+}
+
+/* Tooltip für Impressum */
+.imprint-button::after {
+    content: "Impressum";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.imprint-button:hover::after {
+    opacity: 1;
 }
 
 /* Logout-Button */
