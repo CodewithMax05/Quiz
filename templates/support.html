@@ -7,8 +7,37 @@
 
 {% block body %}
 <div class="page-wrapper">
+    <!-- Flash-Nachrichten Container -->
+    <div id="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                    {{ message }}
+                    <div class="custom-progress-bar"></div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Support-Inhalt -->
     <div class="container">
         <h1 class="support-title">Support</h1>
+    </div>
+    <div class="support-content">
+        <form class="support-form">
+            <div class="info-row">
+                <span class="info-label">Kategorie:</span>
+                <span class="info-value">
+                    <select id="category" name="category" class="dropup-select">
+                        <option value="A">Option A</option>
+                        <option value="B">Option B</option>
+                        <option value="C">Option C</option>
+                    </select>
+                </span>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}
