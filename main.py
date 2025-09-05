@@ -754,6 +754,10 @@ def search_player():
 def imprint():
     return render_template('imprint.html')
 
+@app.route('/support')
+def support():
+    return render_template('support.html')
+
 @app.route('/automatic_logout')
 def automatic_logout():
     # Timer stoppen bei Logout
