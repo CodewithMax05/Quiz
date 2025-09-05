@@ -106,6 +106,7 @@ html, body {
 
 .back-button {
     display: block;
+    width: 220px;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
     text-align: center;
