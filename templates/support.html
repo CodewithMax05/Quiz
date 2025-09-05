@@ -27,14 +27,54 @@
     </div>
     <div class="support-content">
         <form class="support-form">
+            <!-- Kategorie-Auswahl -->
             <div class="info-row">
                 <span class="info-label">Kategorie:</span>
                 <span class="info-value">
                     <select id="category" name="category" class="dropup-select">
-                        <option value="A">Option A</option>
-                        <option value="B">Option B</option>
-                        <option value="C">Option C</option>
+                        <option value="" disabled selected>Bitte auswählen</option>
+                        <option value="A">Feedback</option>
+                        <option value="B">Fehlermeldung - Fragen</option>
+                        <option value="C">Fehlermeldung - Allgemein</option>
                     </select>
+                </span>
+            </div>
+
+            <!-- Username-Feld -->
+            <div class="info-row">
+                <span class="info-label">Username:</span>
+                <span class="info-value">
+                    <input type="text" id="username" name="username"
+                           value="{{ session.get('username', '') }}"
+                           class="form-input">
+                </span>
+            </div>
+
+            <!-- Telefon -->
+            <div class="info-row">
+                <span class="info-label">Telefon:</span>
+                <span class="info-value">
+                    <input type="text" id="contact" name="contact"
+                           placeholder="Telefonnummer"
+                           class="form-input">
+                </span>
+            </div>
+
+            <!-- Mail -->
+            <div class="info-row">
+                <span class="info-label">E-Mail:</span>
+                <span class="info-value">
+                    <input type="text" id="contact" name="contact"
+                           placeholder="E-Mail"
+                           class="form-input">
+                </span>
+            </div>
+
+            <!-- Nachricht -->
+            <div class="info-row">
+                <span class="info-label">Nachricht:</span>
+                <span class="info-value">
+                    <textarea id="message" name="message" rows="5" class="form-input"></textarea>
                 </span>
             </div>
         </form>
