@@ -93,3 +93,32 @@ html, body {
 .info-value {
     color: #a8c5db;
 }
+
+/* 🔙 ZURÜCK-BUTTON */
+.link-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 900px;
+    margin: 2rem auto;
+    gap: 2rem;
+}
+
+.back-button {
+    display: block;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-right: 1rem;
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}

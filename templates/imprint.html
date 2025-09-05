@@ -27,8 +27,6 @@
     </div>
     <div class="impressum-content">
         <img src="{{ url_for('static', filename='pictures/Logo-Huhn.png') }}" alt="Impressum Logo" class="impressum-image">
-
-    <!-- Neuer Bereich für Infos als zweispaltige Liste -->
         <div class="impressum-info">
             <div class="info-row">
                 <span class="info-label">Gamename:</span>
@@ -52,9 +50,16 @@
             </div>
         </div>
     </div>
-    <!-- Zurück-Button -->
-    <a href="{{ url_for('homepage') }}" class="back-button">
-        <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
-    </a>
+    <div class="link-content">
+        <!-- Zurück-Button -->
+        <a href="{{ url_for('homepage') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
+        </a>
+        <!-- Support-Button !!! noch nicht aktiv-->
+        <a href="{{ url_for('homepage') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Support
+        </a>
+    </div>
+    
 </div>
 {% endblock %}
