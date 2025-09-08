@@ -132,7 +132,11 @@ html, body {
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin-right: 1rem;
+    /*margin-right: 1rem;*/
+    border: none;               /* WICHTIG: Standard-Button-Rahmen entfernen */
+    cursor: pointer;            /* Mauszeiger */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem
 }
 
 .support-button:hover {
