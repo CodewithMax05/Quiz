@@ -32,10 +32,10 @@
                 <span class="info-label">Kategorie:</span>
                 <span class="info-value">
                     <select id="category" name="category" class="dropup-select">
-                        <option value="" disabled selected>Bitte auswählen</option>
-                        <option value="A">Feedback</option>
-                        <option value="B">Fehlermeldung - Fragen</option>
-                        <option value="C">Fehlermeldung - Allgemein</option>
+                        <option value="" disabled {% if not category %}selected{% endif %}>Bitte auswählen</option>
+                        <option value="A" {% if category=='A' %}selected{% endif %}>Feedback</option>
+                        <option value="B" {% if category=='B' %}selected{% endif %}>Fehlermeldung - Fragen</option>
+                        <option value="C" {% if category=='C' %}selected{% endif %}>Fehlermeldung - Allgemein</option>
                     </select>
                 </span>
             </div>
@@ -56,6 +56,7 @@
                 <span class="info-value">
                     <input type="text" id="phone" name="phone"
                            placeholder="Telefonnummer"
+                           value="{{ phone | default('') }}"
                            class="form-input">
                 </span>
             </div>
@@ -66,6 +67,7 @@
                 <span class="info-value">
                     <input type="text" id="email" name="email"
                            placeholder="E-Mail"
+                           value="{{ email | default('') }}"
                            class="form-input">
                 </span>
             </div>
@@ -74,7 +76,7 @@
             <div class="info-row">
                 <span class="info-label">Nachricht:</span>
                 <span class="info-value">
-                    <textarea id="message" name="message" rows="5" class="form-input"></textarea>
+                    <textarea id="message" name="message" rows="5" class="form-input">{{ message | default('') }}</textarea>
                 </span>
             </div>
             <div class="link-content">

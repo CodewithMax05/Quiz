@@ -814,7 +814,14 @@ def support():
         # Validierung
         if not category or not username or not message:
             flash("Bitte alle Pflichtfelder ausfüllen!", "error")
-            return redirect(url_for('support'))
+            return render_template(
+                'support.html',
+                category=category,
+                username=username,
+                phone=phone,
+                email=email,
+                message=message
+            )
 
         # Anfrage speichern
         support_requests.append({
