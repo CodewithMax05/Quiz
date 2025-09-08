@@ -820,7 +820,7 @@ def support():
             "message": message
         })
 
-        flash("✅ Deine Nachricht wurde gespeichert!", "info")
+        flash("Deine Nachricht wurde gespeichert!", "success")
         return redirect(url_for('support'))
 
     return render_template('support.html')

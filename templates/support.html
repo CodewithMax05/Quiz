@@ -12,7 +12,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                <div class="{{ 'success-message' if category=='success' else 'error-message' }}">
                     {{ message }}
                     <div class="custom-progress-bar"></div>
                 </div>
@@ -54,7 +54,7 @@
             <div class="info-row">
                 <span class="info-label">Telefon:</span>
                 <span class="info-value">
-                    <input type="text" id="contact" name="contact"
+                    <input type="text" id="phone" name="phone"
                            placeholder="Telefonnummer"
                            class="form-input">
                 </span>
@@ -64,9 +64,9 @@
             <div class="info-row">
                 <span class="info-label">E-Mail:</span>
                 <span class="info-value">
-                    <input type="text" id="contact" name="contact"
+                    <input type="text" id="email" name="email"
                            placeholder="E-Mail"
-                           class="form-input" required>
+                           class="form-input">
                 </span>
             </div>
 
@@ -82,7 +82,6 @@
                 <a href="{{ url_for('homepage') }}" class="support-button">
                     Zurück zur Themenwahl
                 </a>
-                <!-- Support-Button-->
                 <!-- Support-Button -->
                 <button type="submit" class="support-button">
                     Formular abschicken
@@ -91,4 +90,57 @@
         </form>
     </div> 
 </div>
+
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
+        if (defaultPlayer) {
+            defaultPlayer.classList.add('active');
+        }
+
+        // Info-Button Funktion
+        const infoButton = document.getElementById('ranking-info-button');
+        const flashContainer = document.getElementById('flash-container');
+        
+        infoButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
+        });
+
+        function createFlashMessage(text, type = 'info') {
+            // Lösche alle vorhandenen Nachrichten
+            flashContainer.innerHTML = '';
+            
+            // Neue Nachricht erstellen
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
+            messageDiv.textContent = text;
+            
+            // Fortschrittsbalken hinzufügen
+            const progressBar = document.createElement('div');
+            progressBar.className = 'custom-progress-bar';
+            messageDiv.appendChild(progressBar);
+            
+            // Nachricht in den Container einfügen
+            flashContainer.appendChild(messageDiv);
+            
+            // Nachricht nach 5 Sekunden entfernen
+            setTimeout(() => {
+                messageDiv.style.animation = 'fadeOut 0.5s forwards';
+                setTimeout(() => {
+                    if (flashContainer.contains(messageDiv)) {
+                        flashContainer.removeChild(messageDiv);
+                    }
+                }, 500);
+            }, 5000);
+        }
+
+        window.createFlashMessage = createFlashMessage;
+    });
+</script>
 {% endblock %}
