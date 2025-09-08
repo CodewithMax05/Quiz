@@ -199,7 +199,7 @@ def initialize_database():
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
         print("⏩ Überspringe Datenbankinitialisierung im Reloader")
         return
-    
+#test  
     with app.app_context():
         try:
             # Tabellen erstellen
