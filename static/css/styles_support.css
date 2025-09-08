@@ -110,6 +110,13 @@ html, body {
     color: black;
 }
 
+.form-note {
+    width: 100%;
+    color: #f0f4f8;
+    text-align: right;
+    font-size: 1rem;
+}
+
 /* 🔙 ZURÜCK-BUTTON */
 .link-content {
     display: flex;

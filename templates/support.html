@@ -29,7 +29,7 @@
         <form class="support-form" method="POST" action="{{ url_for('support') }}">
             <!-- Kategorie-Auswahl -->
             <div class="info-row">
-                <span class="info-label">Kategorie:</span>
+                <span class="info-label">Kategorie: *</span>
                 <span class="info-value">
                     <select id="category" name="category" class="dropup-select">
                         <option value="" disabled {% if not category %}selected{% endif %}>Bitte auswählen</option>
@@ -42,7 +42,7 @@
 
             <!-- Username-Feld -->
             <div class="info-row">
-                <span class="info-label">Username:</span>
+                <span class="info-label">Username: *</span>
                 <span class="info-value">
                     <input type="text" id="username" name="username"
                            value="{{ session.get('username', '') }}"
@@ -74,10 +74,14 @@
 
             <!-- Nachricht -->
             <div class="info-row">
-                <span class="info-label">Nachricht:</span>
+                <span class="info-label">Nachricht: *</span>
                 <span class="info-value">
                     <textarea id="message" name="message" rows="5" class="form-input">{{ message | default('') }}</textarea>
                 </span>
+            </div>
+           <!-- Hinweis auf Pflichtfelder -->
+            <div class="form-note">
+                <strong>* Pflichtfelder</strong>
             </div>
             <div class="link-content">
                 <!-- Zurück-Button -->
