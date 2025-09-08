@@ -811,6 +811,11 @@ def support():
         email = request.form.get('email')
         message = request.form.get('message')
 
+        # Validierung
+        if not category or not username or not message:
+            flash("Bitte alle Pflichtfelder ausfüllen!", "error")
+            return redirect(url_for('support'))
+
         # Anfrage speichern
         support_requests.append({
             "category": category,

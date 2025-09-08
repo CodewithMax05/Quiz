@@ -31,7 +31,7 @@
             <div class="info-row">
                 <span class="info-label">Kategorie:</span>
                 <span class="info-value">
-                    <select id="category" name="category" class="dropup-select" required>
+                    <select id="category" name="category" class="dropup-select">
                         <option value="" disabled selected>Bitte auswählen</option>
                         <option value="A">Feedback</option>
                         <option value="B">Fehlermeldung - Fragen</option>
@@ -46,7 +46,7 @@
                 <span class="info-value">
                     <input type="text" id="username" name="username"
                            value="{{ session.get('username', '') }}"
-                           class="form-input" required>
+                           class="form-input">
                 </span>
             </div>
 
@@ -74,7 +74,7 @@
             <div class="info-row">
                 <span class="info-label">Nachricht:</span>
                 <span class="info-value">
-                    <textarea id="message" name="message" rows="5" class="form-input" required></textarea>
+                    <textarea id="message" name="message" rows="5" class="form-input"></textarea>
                 </span>
             </div>
             <div class="link-content">
