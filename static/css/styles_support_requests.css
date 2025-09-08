@@ -80,6 +80,10 @@ html, body {
     border: 1px solid #ddd;
     text-align: left;
     vertical-align: top;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .requests-table th {
@@ -88,6 +92,7 @@ html, body {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .requests-table tr:nth-child(even) {
