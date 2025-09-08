@@ -41,22 +41,22 @@
         </div>
         
         <div class="performance-rating">
-            {% if score == total %}
+            {% if correct_answers == total %}
                 <div class="perfect">
                     <span>🏆 Perfektes Ergebnis!</span>
                     <p>Alle Fragen richtig beantwortet - herausragende Leistung!</p>
                 </div>
-            {% elif score > total * 0.8 %}
+            {% elif correct_answers >= total * 0.8 %}
                 <div class="excellent">
                     <span>⭐ Großartige Leistung!</span>
                     <p>Du bist auf dem besten Weg zum Quiz-Meister!</p>
                 </div>
-            {% elif score > total * 0.65 %}
+            {% elif correct_answers >= total * 0.65 %}
                 <div class="good">
                     <span>👍 Gute Arbeit!</span>
                     <p>Solides Wissen - nur noch wenige Lücken!</p>
                 </div>
-            {% elif score > total * 0.5 %}
+            {% elif correct_answers >= total * 0.5 %}
                 <div class="average">
                     <span>💪 Weiter so!</span>
                     <p>Die Hälfte geschafft - mit etwas Übung schaffst du mehr!</p>
