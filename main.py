@@ -17,6 +17,27 @@ import uuid
 from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+
+
+
+
+
+
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+
+
+
+
+
+
+
+
+
+
 app = Flask(__name__)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
@@ -757,9 +778,73 @@ def search_player():
 def imprint():
     return render_template('imprint.html')
 
-@app.route('/support')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# einfache Liste für Support-Anfragen
+support_requests = []
+
+@app.route('/support', methods=['GET', 'POST'])
 def support():
+    if request.method == 'POST':
+        category = request.form.get('category')
+        username = request.form.get('username')
+        phone = request.form.get('phone')
+        email = request.form.get('email')
+        message = request.form.get('message')
+
+        # Anfrage speichern
+        support_requests.append({
+            "category": category,
+            "username": username,
+            "phone": phone,
+            "email": email,
+            "message": message
+        })
+
+        flash("✅ Deine Nachricht wurde gespeichert!", "info")
+        return redirect(url_for('support'))
+
     return render_template('support.html')
+
+@app.route('/support_requests')
+def support_requests_page():
+    return render_template('support_requests.html', requests=support_requests)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/automatic_logout')
 def automatic_logout():
