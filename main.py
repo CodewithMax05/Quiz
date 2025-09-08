@@ -300,7 +300,7 @@ def initialize_database():
                 {'username': 'Emily', 'password': 'test', 'highscore': 322, 'highscore_time': datetime(2025, 1, 26, tzinfo=timezone.utc), 'correct_high': 28},
                 {'username': 'Chris', 'password': 'test', 'highscore': 230, 'highscore_time': datetime(2025, 1, 27, tzinfo=timezone.utc), 'correct_high': 28},
                 {'username': 'Lena', 'password': 'test', 'highscore': 121, 'highscore_time': datetime(2025, 1, 28, tzinfo=timezone.utc), 'correct_high': 28},
-                {'username': 's4005560', 'password': 'test', 'highscore': 736, 'highscore_time': datetime(2025, 1, 29, tzinfo=timezone.utc), 'correct_high': 28}
+                {'username': 'Max', 'password': 'test', 'highscore': 736, 'highscore_time': datetime(2025, 1, 29, tzinfo=timezone.utc), 'correct_high': 28}
             ]
 
             added_users = 0
@@ -335,8 +335,9 @@ def initialize_database():
         except Exception as e:
             print(f"❌❌ KRITISCHER FEHLER: {str(e)}")
 
-# Initialisierung beim App-Start
-initialize_database()
+# Initialisierung nur im Hauptprozess durchführen
+if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+    initialize_database()
 
 # Ab hier alle Routes 
 @app.route('/')
@@ -873,10 +874,6 @@ def handle_submit_answer(data):
     })
 
 if __name__ == '__main__':
-    # Initialisiere Datenbank nur im Hauptprozess
-    if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        initialize_database()
-    
     port = int(os.environ.get('PORT', 5000))
     
     # In Production: verwende den Port von der Environment Variable
