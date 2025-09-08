@@ -45,6 +45,8 @@ app.config.update(
     SESSION_COOKIE_SECURE=is_production,
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_REFRESH_EACH_REQUEST=True,  # Session-Cookie wird bei jeder Anfrage erneuert
+    PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex())
 )
 
