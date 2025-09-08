@@ -41,7 +41,7 @@ html, body {
     to { transform: translateY(2000px); }
 }
 
-/* 📄 SUPPORT SEITE */
+/* 📄 SUPPORT SEITE - Titel */
 .container {
     flex: 1;
     display: flex;
@@ -55,7 +55,7 @@ html, body {
     text-shadow: 0 0 12px rgba(142, 45, 226, 0.7);
 }
 
-/* 📑 2-Spalten Layout wie Impressum */
+/* 📑 SUPPORT SEITE - Formularlayout */
 .support-content {
     display: flex;
     justify-content: center;
@@ -65,39 +65,44 @@ html, body {
 }
 
 .support-form {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     font-size: 1.1rem;
 }
 
+/* 📋 FORMULARZEILEN (LABEL + VALUE) */
 .info-row {
     display: flex;
-    gap: 2rem;
+    width: 100%;
+    gap: 1rem;
     align-items: center;
 }
 
 .info-label {
+    flex: 0 0 150px;
     font-weight: bold;
-    min-width: 150px;
     color: white;
 }
 
 .info-value {
+    flex: 1 1 auto;
+    min-width: 0;
     color: black;
 }
 
 /* ⬆️ Dropup/Select */
-.dropup-select {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: 1px solid gray;
-    font-size: 1rem;
-    background: white;
-    color: black;
-    cursor: pointer;
-    appearance: none;
-    outline: none;
+.info-value .form-input,
+.info-value .dropup-select,
+.info-value textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid gray;
+  background: white;
+  color: black;
+  font-size: 1rem;
 }
 
 .dropup-select option {
