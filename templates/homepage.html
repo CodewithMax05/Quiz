@@ -186,14 +186,16 @@
                 <a href="{{ url_for('imprint') }}" class="imprint-button" aria-label="Impressum">
                     <i class="fas fa-info"></i>
                 </a>
+                
+                <button type="submit" class="start-button">
+                    <i class="fas fa-play-circle"></i> Quiz starten
+                </button>
+
                 {% if is_admin %}
                 <a href="{{ url_for('admin_panel') }}" class="admin-button" aria-label="Admin Panel">
                     <i class="fas fa-cogs"></i>
                 </a>
                 {% endif %}
-                <button type="submit" class="start-button">
-                    <i class="fas fa-play-circle"></i> Quiz starten
-                </button>
             </div>
         </form>
     </div>

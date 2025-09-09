@@ -194,35 +194,29 @@ body::before {
 
 /* Button-Row (Impressum + Start nebeneinander) */
 .button-row {
-    position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 3 Spalten gleich breit */
     align-items: center;
-    justify-content: center;
-    margin-top: 0px;
     width: 100%;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
+    max-width: 900px; /* wie bei dir */
+    margin: 0 auto;
+    margin-top: 20px;
 }
 
-
+/* Impressum-Button */
 .imprint-button {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    justify-self: start;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    color: #fff;
-    text-decoration: none;
     background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    text-decoration: none;
     transition: all 0.3s ease;
-    flex-shrink: 0;
+    position: relative;
 }
 
 .imprint-button i {
@@ -231,7 +225,7 @@ body::before {
 }
 
 .imprint-button:hover {
-    transform: scale(1.1) translateY(-50%);
+    transform: scale(1.1);
     background: linear-gradient(135deg, #495057, #6c757d);
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
@@ -260,21 +254,18 @@ body::before {
 
 /* Admin-Button */
 .admin-button {
-    position: absolute;
-    left: 60px; /* Abstand rechts neben Impressum */
-    top: 50%;
-    transform: translateY(-50%);
+    justify-self: end;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    color: #fff;
-    text-decoration: none;
     background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+    text-decoration: none;
     transition: all 0.3s ease;
-    flex-shrink: 0;
+    position: relative;
 }
 
 .admin-button i {
@@ -283,13 +274,13 @@ body::before {
 }
 
 .admin-button:hover {
-    transform: scale(1.1) translateY(-50%);
+    transform: scale(1.1);
     background: linear-gradient(135deg, #1e7e34, #28a745);
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5);
 }
 
 .admin-button::after {
-    content: "Admin Panel";
+    content: "Admin Übersicht";
     position: absolute;
     bottom: -40px;
     left: 50%;
@@ -312,6 +303,7 @@ body::before {
 
 /* Start-Button */
 .start-button {
+    justify-self: center;
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
     border: none;
@@ -326,11 +318,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 0px;
     animation: pulse-purple 2s infinite;
-    position: relative;
-    z-index: 10;
-    opacity: 1 !important;
 }
 
 .start-button:hover {
