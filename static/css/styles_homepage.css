@@ -319,6 +319,9 @@ body::before {
     justify-content: center;
     gap: 10px;
     animation: pulse-purple 2s infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .start-button:hover {
