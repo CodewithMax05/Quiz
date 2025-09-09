@@ -63,6 +63,22 @@ body {
     z-index: 1;
 }
 
+/* Suchleiste: Autofill / Hintergrund anpassen */
+.search-wrapper input:-webkit-autofill,
+.search-wrapper input:-webkit-autofill:hover,
+.search-wrapper input:-webkit-autofill:focus,
+.search-wrapper input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(26, 26, 46, 0.8) inset !important; /* Gleicher Hintergrund wie normal */
+    -webkit-text-fill-color: white !important; /* Textfarbe behalten */
+    transition: background-color 5000s ease-in-out 0s; /* Flash vermeiden */
+}
+
+/* Firefox */
+.search-wrapper input:-moz-autofill {
+    box-shadow: 0 0 0px 1000px rgba(26, 26, 46, 0.8) inset !important;
+    -moz-text-fill-color: white !important;
+}
+
 .search-wrapper input {
     width: 100%;
     padding: 0.7rem 2.25rem 0.7rem 1rem; /* top right bottom left */

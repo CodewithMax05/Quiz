@@ -108,6 +108,23 @@ h1 {
     color: white;
 }
 
+/* Autofill verhindern, dass Hintergrund sich ändert */
+input.input-field:-webkit-autofill,
+input.input-field:-webkit-autofill:hover,
+input.input-field:-webkit-autofill:focus,
+input.input-field:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.12) inset !important; /* Gleicher Hintergrund wie normal */
+    -webkit-text-fill-color: white !important; /* Textfarbe behalten */
+    transition: background-color 5000s ease-in-out 0s; /* Trick, um Flash zu vermeiden */
+}
+
+/* Firefox */
+input.input-field:-moz-autofill {
+    box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.12) inset !important;
+    -moz-text-fill-color: white !important;
+}
+
+
 .input-field::placeholder {
     color: rgba(255, 255, 255, 0.75);
 }

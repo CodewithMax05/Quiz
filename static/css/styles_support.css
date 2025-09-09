@@ -92,6 +92,32 @@ html, body {
     color: black;
 }
 
+/* 🌟 Autofill verhindern, dass Hintergrund sich ändert für alle Support-Inputs */
+.info-value input.form-input:-webkit-autofill,
+.info-value textarea.form-input:-webkit-autofill,
+.info-value select.dropup-select:-webkit-autofill,
+.info-value input.form-input:-webkit-autofill:hover,
+.info-value textarea.form-input:-webkit-autofill:hover,
+.info-value select.dropup-select:-webkit-autofill:hover,
+.info-value input.form-input:-webkit-autofill:focus,
+.info-value textarea.form-input:-webkit-autofill:focus,
+.info-value select.dropup-select:-webkit-autofill:focus,
+.info-value input.form-input:-webkit-autofill:active,
+.info-value textarea.form-input:-webkit-autofill:active,
+.info-value select.dropup-select:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.12) inset !important; /* Hintergrund wie normal */
+    -webkit-text-fill-color: black !important; /* Textfarbe behalten */
+    transition: background-color 5000s ease-in-out 0s; /* Flash vermeiden */
+}
+
+/* Firefox */
+.info-value input.form-input:-moz-autofill,
+.info-value textarea.form-input:-moz-autofill,
+.info-value select.dropup-select:-moz-autofill {
+    box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.12) inset !important;
+    -moz-text-fill-color: black !important;
+}
+
 /* ⬆️ Dropup/Select */
 .info-value .form-input,
 .info-value .dropup-select,
