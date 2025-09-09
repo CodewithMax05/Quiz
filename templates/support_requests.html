@@ -6,6 +6,20 @@
 
 {% block body %}
 <div class="page-wrapper">
+    <!-- Flash-Nachrichten Container -->
+    <div id="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="{{ 'success-message' if category=='success' else 'error-message' }}">
+                    {{ message }}
+                    <div class="custom-progress-bar"></div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <!-- Titel -->
     <div class="container">
         <h1 class="support-title">Gespeicherte Support-Anfragen</h1>
@@ -44,44 +58,42 @@
     <!-- Button -->
     <div class="link-content">
         <a href="javascript:void(0)" id="toggle-delete-mode" class="requests-button delete-button">🗑️ Eintrag löschen</a>
-
         <a href="{{ url_for('support') }}" class="requests-button">Zurück zum Support</a>
     </div>
 </div>
 
 
-
 <!-- JavaScript für Löschmodus -->
 <script>
-let deleteMode = false;
+    let deleteMode = false;
 
-document.getElementById('toggle-delete-mode').addEventListener('click', () => {
-    deleteMode = !deleteMode;
-    document.getElementById('toggle-delete-mode').textContent = deleteMode
-        ? '🚫 Löschen abbrechen'
-        : '🗑️ Eintrag löschen';
+    document.getElementById('toggle-delete-mode').addEventListener('click', () => {
+        deleteMode = !deleteMode;
+        document.getElementById('toggle-delete-mode').textContent = deleteMode
+            ? '🚫 Löschen abbrechen'
+            : '🗑️ Eintrag löschen';
 
-    document.querySelectorAll('.request-row').forEach(row => {
-        row.style.cursor = deleteMode ? 'pointer' : 'default';
-        row.classList.toggle('highlight-delete', deleteMode);
-    });
-});
-
-document.querySelectorAll('.request-row').forEach(row => {
-    row.addEventListener('click', () => {
-        if (!deleteMode) return;
-
-        const requestId = row.dataset.id;
-
-        fetch(`/delete_request/${requestId}`, {
-            method: 'POST'
-        }).then(() => {
-            location.reload();
-        }).catch(err => {
-            alert('Fehler beim Löschen');
-            console.error(err);
+        document.querySelectorAll('.request-row').forEach(row => {
+            row.style.cursor = deleteMode ? 'pointer' : 'default';
+            row.classList.toggle('highlight-delete', deleteMode);
         });
     });
-});
+
+    document.querySelectorAll('.request-row').forEach(row => {
+        row.addEventListener('click', () => {
+            if (!deleteMode) return;
+
+            const requestId = row.dataset.id;
+
+            fetch(`/delete_request/${requestId}`, {
+                method: 'POST'
+            }).then(() => {
+                location.reload();
+            }).catch(err => {
+                alert('Fehler beim Löschen');
+                console.error(err);
+            });
+        });
+    });
 </script>
 {% endblock %}

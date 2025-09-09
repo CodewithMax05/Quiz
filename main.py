@@ -17,27 +17,6 @@ import uuid
 from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-
-
-
-
-
-
-
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-
-
-
-
-
-
-
-
-
-
 app = Flask(__name__)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
@@ -778,27 +757,6 @@ def search_player():
 def imprint():
     return render_template('imprint.html')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # einfache Liste für Support-Anfragen
 support_requests = []
 
@@ -848,21 +806,6 @@ def delete_request(request_id):
     support_requests = [r for r in support_requests if r["id"] != request_id]
     flash("Anfrage erfolgreich gelöscht!", "success")
     return redirect(url_for('support_requests_page'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @app.route('/automatic_logout')
 def automatic_logout():
