@@ -368,6 +368,16 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash('Bitte melde dich zuerst an', 'error')
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 # Ab hier alle Routes 
 @app.route('/')
 def index():
@@ -429,6 +439,7 @@ def register():
     return redirect(url_for('index'))
 
 @app.route('/homepage')
+@login_required
 def homepage():
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
@@ -444,6 +455,7 @@ def homepage():
     return redirect(url_for('index'))
 
 @app.route('/logout')
+@login_required
 def logout():
     # Timer stoppen bei Logout
     if 'quiz_data' in session:
@@ -455,6 +467,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/start_custom_quiz', methods=['POST'])
+@login_required
 def start_custom_quiz():
     if 'username' not in session:
         return redirect(url_for('index'))
@@ -515,6 +528,7 @@ def start_custom_quiz():
     return redirect(url_for('show_question'))
 
 @app.route('/show_question')
+@login_required
 def show_question():
     if 'quiz_data' not in session:
         return redirect(url_for('homepage'))
@@ -550,6 +564,7 @@ def show_question():
     )
 
 @app.route('/check_answer', methods=['POST'])
+@login_required
 def check_answer():
     if 'quiz_data' not in session:
         return jsonify({'error': 'Session expired'}), 400
@@ -585,6 +600,7 @@ def check_answer():
     })
 
 @app.route('/next_question', methods=['POST'])
+@login_required
 def next_question():
     if 'quiz_data' not in session or 'username' not in session:
         return jsonify({'redirect': url_for('homepage')})
@@ -620,6 +636,7 @@ def next_question():
         return jsonify({'redirect': url_for('evaluate_quiz')})
 
 @app.route('/evaluate')
+@login_required
 def evaluate_quiz():
     if 'quiz_data' not in session or 'username' not in session:
         return redirect(url_for('homepage'))
@@ -666,6 +683,7 @@ def evaluate_quiz():
     )
 
 @app.route('/cancel_quiz', methods=['POST'])
+@login_required
 def cancel_quiz():
     if 'quiz_data' in session:
         # Timer stoppen, falls vorhanden
@@ -677,6 +695,7 @@ def cancel_quiz():
     return '', 204
 
 @app.route('/db_stats')
+@login_required
 @admin_required
 def db_stats():
     total = db.session.query(func.count(Question.id)).scalar()
@@ -687,7 +706,8 @@ def db_stats():
 
     return render_template("db_stats.html", total=total, topic_counts=topic_counts)
 
-@app.route('/ranking')                      
+@app.route('/ranking')      
+@login_required                
 def ranking():
     # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
     players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
@@ -731,6 +751,7 @@ def ranking():
     )
 
 @app.route('/api/search_player')
+@login_required
 def search_player():
     username = request.args.get('username', '').strip()
     if not username:
@@ -766,6 +787,7 @@ def search_player():
     })
 
 @app.route('/imprint')
+@login_required
 def imprint():
     return render_template('imprint.html')
 
@@ -773,6 +795,7 @@ def imprint():
 support_requests = []
 
 @app.route('/support', methods=['GET', 'POST'])
+@login_required
 def support():
     if request.method == 'POST':
         category = request.form.get('category')
@@ -809,11 +832,13 @@ def support():
     return render_template('support.html')
 
 @app.route('/support_requests')
+@login_required
 @admin_required
 def support_requests_page():
     return render_template('support_requests.html', requests=support_requests)
 
 @app.route('/delete_request/<request_id>', methods=['POST'])
+@login_required
 def delete_request(request_id):
     global support_requests
     support_requests = [r for r in support_requests if r["id"] != request_id]
@@ -821,6 +846,7 @@ def delete_request(request_id):
     return redirect(url_for('support_requests_page'))
 
 @app.route('/automatic_logout')
+@login_required
 def automatic_logout():
     # Timer stoppen bei Logout
     if 'quiz_data' in session:
@@ -847,6 +873,7 @@ def inject_user():
 
 #Admin Panel
 @app.route('/admin')
+@login_required
 @admin_required
 def admin_panel():
     # Statistiken für das Dashboard sammeln
@@ -862,6 +889,7 @@ def admin_panel():
     )
 
 @app.route('/add_question', methods=['POST'])
+@login_required
 @admin_required
 def add_question():
     try:
