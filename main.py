@@ -825,6 +825,7 @@ def support():
 
         # Anfrage speichern
         support_requests.append({
+            "id": str(uuid.uuid4()),
             "category": category,
             "username": username,
             "phone": phone,
@@ -841,7 +842,12 @@ def support():
 def support_requests_page():
     return render_template('support_requests.html', requests=support_requests)
 
-
+@app.route('/delete_request/<request_id>', methods=['POST'])
+def delete_request(request_id):
+    global support_requests
+    support_requests = [r for r in support_requests if r["id"] != request_id]
+    flash("Anfrage erfolgreich gelöscht!", "success")
+    return redirect(url_for('support_requests_page'))
 
 
 

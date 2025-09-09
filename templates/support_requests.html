@@ -22,6 +22,7 @@
                     <th>Telefon</th>
                     <th>E-Mail</th>
                     <th>Nachricht</th>
+                    <th>Aktion</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +33,11 @@
                     <td>{{ req.phone }}</td>
                     <td>{{ req.email }}</td>
                     <td>{{ req.message }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_request', request_id=req.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="delete-button">🗑️ Löschen</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
