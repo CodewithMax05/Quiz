@@ -41,6 +41,11 @@ html, body {
     to { transform: translateY(2000px); }
 }
 
+/* scrollen */
+html, body {
+    overflow: auto !important;
+}
+
 /* Titel */
 .container {
     flex: 1;
