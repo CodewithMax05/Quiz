@@ -16,6 +16,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import uuid
 from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -60,6 +61,7 @@ class User(db.Model):
     highscore_time = db.Column(db.DateTime)
     correct_high = db.Column(db.Integer, default=0)
     first_played = db.Column(db.DateTime)  
+    is_admin = db.Column(db.Boolean, default=False)
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -332,6 +334,18 @@ def initialize_database():
             else:
                 print("ℹ️ Keine neuen Testbenutzer benötigt")
             
+            admin_user = User.query.filter_by(username='AdminZugang').first()
+            if not admin_user:
+                admin_user = User(
+                    username='AdminZugang',
+                    is_admin=True,
+                    first_played=datetime.now(timezone.utc)
+                )
+                admin_user.set_password('adminzugang')
+                db.session.add(admin_user)
+                db.session.commit()
+                print("✅ Admin-Benutzer erstellt")
+
             print("Datenbankinitialisierung abgeschlossen")
             
         except Exception as e:
@@ -340,6 +354,19 @@ def initialize_database():
 # Initialisierung nur im Hauptprozess durchführen
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
+
+# Admin Panel
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            return redirect(url_for('index'))
+        user = User.query.filter_by(username=session['username']).first()
+        if not user or not user.is_admin:
+            flash('Zugriff verweigert: Admin-Bereich', 'error')
+            return redirect(url_for('homepage'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Ab hier alle Routes 
 @app.route('/')
@@ -357,6 +384,9 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             session['username'] = username
+            # Admin-Benutzer direkt zum Admin-Panel weiterleiten
+            if user.is_admin:
+                return redirect(url_for('admin_panel'))
             return redirect(url_for('homepage')) 
         
         flash('Ungültige Anmeldedaten', 'error')
@@ -647,6 +677,7 @@ def cancel_quiz():
     return '', 204
 
 @app.route('/db_stats')
+@admin_required
 def db_stats():
     """Zeigt Datenbankstatistiken an (Gesamtzahl und pro Thema)"""
     try:
@@ -797,6 +828,7 @@ def support():
     return render_template('support.html')
 
 @app.route('/support_requests')
+@admin_required
 def support_requests_page():
     return render_template('support_requests.html', requests=support_requests)
 
@@ -822,6 +854,43 @@ def automatic_logout():
 @app.context_processor
 def inject_user():
     return dict(is_logged_in='username' in session)
+
+#Admin Panel
+@app.route('/admin')
+@admin_required
+def admin_panel():
+    # Statistiken für das Dashboard sammeln
+    total_users = User.query.count()
+    total_questions = Question.query.count()
+    total_support_requests = len(support_requests)
+    
+    return render_template(
+        'admin_panel.html',
+        total_users=total_users,
+        total_questions=total_questions,
+        total_support_requests=total_support_requests
+    )
+
+@app.route('/add_question', methods=['POST'])
+@admin_required
+def add_question():
+    try:
+        new_question = Question(
+            subject=request.form['subject'].lower().strip(),
+            question=request.form['question'].strip(),
+            true=request.form['true'].strip(),
+            wrong1=request.form['wrong1'].strip(),
+            wrong2=request.form['wrong2'].strip(),
+            wrong3=request.form['wrong3'].strip()
+        )
+        db.session.add(new_question)
+        db.session.commit()
+        flash('Frage erfolgreich hinzugefügt!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Fehler beim Hinzufügen der Frage: {str(e)}', 'error')
+    
+    return redirect(url_for('admin_panel'))
 
 # WebSocket Event Handlers
 @socketio.on('connect')
