@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_db_stats.css') }}"/>
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="container">
+        <h1 class="db-title">📊 Datenbank-Statistiken</h1>
+    </div>
+
+    <div class="db-content">
+        <!-- Gesamtzahl -->
+        <div class="stat-box">
+            <h2>Gesamtzahl der Fragen</h2>
+            <p class="stat-number">{{ total }}</p>
+        </div>
+
+        <!-- Fragen pro Thema -->
+        <div class="stat-box">
+            <h2>Fragen pro Thema</h2>
+            <ul class="topic-list">
+                {% for topic, count in topic_counts %}
+                    <li><b>{{ topic.capitalize() }}</b>: {{ count }} Fragen</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="link-content">
+        <a href="{{ url_for('admin_panel') }}" class="db-button">
+            Zurück zum Admin-Panel
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -679,32 +679,13 @@ def cancel_quiz():
 @app.route('/db_stats')
 @admin_required
 def db_stats():
-    """Zeigt Datenbankstatistiken an (Gesamtzahl und pro Thema)"""
-    try:
-        # Gesamtzahl der Fragen
-        total = db.session.query(func.count(Question.id)).scalar()
-        
-        # Anzahl pro Thema
-        topic_counts = db.session.query(
-            Question.subject,
-            func.count(Question.id)
-        ).group_by(Question.subject).all()
-        
-        # Erstelle eine formatierte Ausgabe
-        output = f"<h2>📊 Datenbank-Statistiken</h2>"
-        output += f"<p><b>Gesamtzahl der Fragen:</b> {total}</p>"
-        output += "<h3>Fragen pro Thema:</h3><ul>"
-        
-        for topic, count in topic_counts:
-            output += f"<li><b>{topic.capitalize()}:</b> {count} Fragen</li>"
-            
-        output += "</ul>"
-        output += "<p><i>ℹ️ Diese Route kann später entfernt werden</i></p>"
-        
-        return output
-        
-    except Exception as e:
-        return f"<p style='color:red;'>Fehler: {str(e)}</p>"
+    total = db.session.query(func.count(Question.id)).scalar()
+    topic_counts = db.session.query(
+        Question.subject,
+        func.count(Question.id)
+    ).group_by(Question.subject).all()
+
+    return render_template("db_stats.html", total=total, topic_counts=topic_counts)
 
 @app.route('/ranking')                      
 def ranking():
