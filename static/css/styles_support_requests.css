@@ -58,6 +58,7 @@ html, body {
 /* Tabelle */
 .requests-content {
     display: flex;
+    gap: 1rem;
     justify-content: center;
     align-items: flex-start;
     width: 90%;
@@ -99,23 +100,24 @@ html, body {
     background: #f5f5f5;
 }
 
-.requests-table th:last-child,
-.requests-table td:last-child {
-    width: 100px;
-    padding: 8px;
-    text-align: center;
+/* Buttons nebeneinander oder untereinander */
+.requests-actions {
+    display: flex;
+    flex-direction: column; /* untereinander */
+    gap: 0.5rem;
 }
 
 .delete-button {
     background: #e74c3c;
     border: none;
-    padding: 6px 10px;
+    padding: 8px 12px;
     border-radius: 6px;
     color: white;
     cursor: pointer;
     font-weight: bold;
     transition: background 0.2s;
-    display: inline-block;
+    width: 100px; /* einheitliche Breite */
+    text-align: center;
 }
 
 .delete-button:hover {

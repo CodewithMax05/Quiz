@@ -22,22 +22,16 @@
                     <th>Telefon</th>
                     <th>E-Mail</th>
                     <th>Nachricht</th>
-                    <th>Aktion</th>
                 </tr>
             </thead>
             <tbody>
                 {% for req in requests %}
-                <tr>
+                <tr class="request-row" data-id="{{ req.id }}">
                     <td>{{ req.category }}</td>
                     <td>{{ req.username }}</td>
                     <td>{{ req.phone }}</td>
                     <td>{{ req.email }}</td>
                     <td>{{ req.message }}</td>
-                    <td>
-                        <form action="{{ url_for('delete_request', request_id=req.id) }}" method="post" style="display:inline;">
-                            <button type="submit" class="delete-button">🗑️ Löschen</button>
-                        </form>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -47,9 +41,50 @@
         {% endif %}
     </div>
 
+    <!-- Löschmodus-Button -->
+    <div class="link-content">
+        <button id="toggle-delete-mode" class="requests-button">🗑️ Eintrag löschen</button>
+    </div>
+
     <!-- Zurück-Button -->
     <div class="link-content">
         <a href="{{ url_for('support') }}" class="requests-button">Zurück zum Support</a>
     </div>
 </div>
+
+
+
+<!-- JavaScript für Löschmodus -->
+<script>
+let deleteMode = false;
+
+document.getElementById('toggle-delete-mode').addEventListener('click', () => {
+    deleteMode = true;
+    document.getElementById('toggle-delete-mode').textContent = deleteMode
+        ? '🚫 Löschen abbrechen'
+        : '🗑️ Eintrag löschen';
+
+    document.querySelectorAll('.request-row').forEach(row => {
+        row.style.cursor = deleteMode ? 'pointer' : 'default';
+        row.classList.toggle('highlight-delete', deleteMode);
+    });
+});
+
+document.querySelectorAll('.request-row').forEach(row => {
+    row.addEventListener('click', () => {
+        if (!deleteMode) return;
+
+        const requestId = row.dataset.id;
+
+        fetch(`/delete_request/${requestId}`, {
+            method: 'POST'
+        }).then(() => {
+            location.reload();
+        }).catch(err => {
+            alert('Fehler beim Löschen');
+            console.error(err);
+        });
+    });
+});
+</script>
 {% endblock %}
