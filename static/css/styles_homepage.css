@@ -258,6 +258,58 @@ body::before {
     opacity: 1;
 }
 
+/* Admin-Button */
+.admin-button {
+    position: absolute;
+    left: 60px; /* Abstand rechts neben Impressum */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(135deg, #28a745, #218838);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.admin-button i {
+    font-size: 1.3rem;
+    color: white;
+}
+
+.admin-button:hover {
+    transform: scale(1.1) translateY(-50%);
+    background: linear-gradient(135deg, #1e7e34, #28a745);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5);
+}
+
+.admin-button::after {
+    content: "Admin Panel";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.admin-button:hover::after {
+    opacity: 1;
+}
+
 /* Start-Button */
 .start-button {
     background: linear-gradient(135deg, #4a00e0, #8e2de2);

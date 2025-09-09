@@ -832,9 +832,29 @@ def automatic_logout():
     flash('Sie wurden aufgrund von Inaktivität automatisch abgemeldet.', 'permanent')
     return redirect(url_for('index'))
 
+
+
+
+
+
 @app.context_processor
 def inject_user():
-    return dict(is_logged_in='username' in session)
+    user = None
+    is_admin = False
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        if user and user.is_admin:
+            is_admin = True
+    return dict(
+        is_logged_in='username' in session,
+        is_admin=is_admin
+    )
+
+
+
+
+
+
 
 #Admin Panel
 @app.route('/admin')
