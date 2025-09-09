@@ -100,30 +100,6 @@ html, body {
     background: #f5f5f5;
 }
 
-/* Buttons nebeneinander oder untereinander */
-.requests-actions {
-    display: flex;
-    flex-direction: column; /* untereinander */
-    gap: 0.5rem;
-}
-
-.delete-button {
-    background: #e74c3c;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
-    width: 100px; /* einheitliche Breite */
-    text-align: center;
-}
-
-.delete-button:hover {
-    background: #c0392b;
-}
-
 /* Keine Anfragen */
 .no-requests {
     text-align: center;
@@ -137,6 +113,7 @@ html, body {
     display: flex;
     justify-content: center;
     margin: 2rem;
+    gap: 1rem;
 }
 
 .requests-button {
@@ -158,3 +135,10 @@ html, body {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
+.delete-button {
+    background: linear-gradient(135deg, #e53935, #b71c1c); /* Rot statt Lila */
+}
+
+.delete-button:hover {
+    box-shadow: 0 6px 15px rgba(183, 28, 28, 0.5);
+}

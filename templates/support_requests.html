@@ -41,13 +41,10 @@
         {% endif %}
     </div>
 
-    <!-- Löschmodus-Button -->
+    <!-- Button -->
     <div class="link-content">
-        <button id="toggle-delete-mode" class="requests-button">🗑️ Eintrag löschen</button>
-    </div>
+        <a href="javascript:void(0)" id="toggle-delete-mode" class="requests-button delete-button">🗑️ Eintrag löschen</a>
 
-    <!-- Zurück-Button -->
-    <div class="link-content">
         <a href="{{ url_for('support') }}" class="requests-button">Zurück zum Support</a>
     </div>
 </div>
@@ -59,7 +56,7 @@
 let deleteMode = false;
 
 document.getElementById('toggle-delete-mode').addEventListener('click', () => {
-    deleteMode = true;
+    deleteMode = !deleteMode;
     document.getElementById('toggle-delete-mode').textContent = deleteMode
         ? '🚫 Löschen abbrechen'
         : '🗑️ Eintrag löschen';
