@@ -334,14 +334,17 @@ def initialize_database():
             else:
                 print("ℹ️ Keine neuen Testbenutzer benötigt")
             
-            admin_user = User.query.filter_by(username='AdminZugang').first()
+            admin_username = os.environ.get('ADMIN_USERNAME', 'AdminZugang')
+            admin_password = os.environ.get('ADMIN_PASSWORD', 'adminzugang')
+
+            admin_user = User.query.filter_by(username=admin_username).first()
             if not admin_user:
                 admin_user = User(
-                    username='AdminZugang',
+                    username=admin_username,
                     is_admin=True,
                     first_played=datetime.now(timezone.utc)
                 )
-                admin_user.set_password('adminzugang')
+                admin_user.set_password(admin_password)
                 db.session.add(admin_user)
                 db.session.commit()
                 print("✅ Admin-Benutzer erstellt")
