@@ -4,6 +4,7 @@ monkey.patch_all()
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import SQLAlchemyError, OperationalError
 from sqlalchemy import func, or_
 import os
 import random
@@ -18,9 +19,18 @@ from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from functools import wraps
 from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren
+
+#Brute Force Schutz
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
@@ -50,6 +60,7 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     SESSION_REFRESH_EACH_REQUEST=True,  # Session-Cookie wird bei jeder Anfrage erneuert
     PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
+    SESSION_USE_SIGNER=True,
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex())
 )
 
@@ -396,73 +407,89 @@ def index():
     return render_template('index.html')
 
 @app.route('/login', methods=['POST'])
+@limiter.limit("5 per minute")
 def login():
-    username = request.form['username'].strip()
-    password = request.form['password'].strip()
+    try:
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
 
-    if username and password:
-        user = User.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            session['username'] = username
-            # Admin-Benutzer direkt zum Admin-Panel weiterleiten
-            if user.is_admin:
-                return redirect(url_for('admin_panel'))
-            return redirect(url_for('homepage')) 
+        if username and password:
+            user = User.query.filter_by(username=username).first()
+            if user and user.check_password(password):
+                session['username'] = username
+                # Admin-Benutzer direkt zum Admin-Panel weiterleiten
+                if user.is_admin:
+                    return redirect(url_for('admin_panel'))
+                return redirect(url_for('homepage')) 
+            
+            flash('Ungültige Anmeldedaten', 'error')
+            return redirect(url_for('index'))
         
-        flash('Ungültige Anmeldedaten', 'error')
+        flash('Bitte fülle alle Felder aus', 'error')
         return redirect(url_for('index'))
-    
-    flash('Bitte fülle alle Felder aus', 'error')
-    return redirect(url_for('index'))
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler beim Login: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/register', methods=['POST'])
 def register():
-    username = request.form['username'].strip()
-    password = request.form['password'].strip()
+    try:
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
 
-    #Mindestanforderungen
-    if len(username) > 12:
-        flash('Benutzername darf maximal 12 Zeichen haben', 'error')
-        return redirect(url_for('index'))
-    if len(password) < 5:
-        flash('Passwort muss mindestens 5 Zeichen haben', 'error')
-        return redirect(url_for('index'))
-
-    if username and password:
-        if User.query.filter_by(username=username).first():
-            flash('Benutzername bereits vergeben', 'error')
+        # Mindestanforderungen
+        if len(username) > 12:
+            flash('Benutzername darf maximal 12 Zeichen haben', 'error')
             return redirect(url_for('index'))
-        
-        new_user = User(
-            username=username,
-            first_played=datetime.now(timezone.utc)
-        )
+        if len(password) < 5:
+            flash('Passwort muss mindestens 5 Zeichen haben', 'error')
+            return redirect(url_for('index'))
 
-        #new_user = User(username=username)
-        new_user.set_password(password)
-        db.session.add(new_user)
-        db.session.commit()
-        session['username'] = username
-        return redirect(url_for('homepage'))
+        if username and password:
+            if User.query.filter_by(username=username).first():
+                flash('Benutzername bereits vergeben', 'error')
+                return redirect(url_for('index'))
+            
+            new_user = User(
+                username=username,
+                first_played=datetime.now(timezone.utc)
+            )
+            new_user.set_password(password)
+            db.session.add(new_user)
+            db.session.commit()
+            session['username'] = username
+            return redirect(url_for('homepage'))
+        
+        flash('Bitte fülle alle Felder aus', 'error')
+        return redirect(url_for('index'))
     
-    flash('Bitte fülle alle Felder aus', 'error')
-    return redirect(url_for('index'))
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()  # Wichtig bei Fehlern!
+        print(f"Datenbankfehler bei der Registrierung: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/homepage')
 @login_required
 def homepage():
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
-        # Zeige Info-Nachricht nur beim ersten Aufruf
-        if not session.get('info_shown'):
-            flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
-            session['info_shown'] = True
-        return render_template(
-            'homepage.html',
-            username=session['username'],
-            highscore=user.highscore if user else 0
-        )
-    return redirect(url_for('index'))
+    try:
+        if 'username' in session:
+            user = User.query.filter_by(username=session['username']).first()
+            # Zeige Info-Nachricht nur beim ersten Aufruf
+            if not session.get('info_shown'):
+                flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
+                session['info_shown'] = True
+            return render_template(
+                'homepage.html',
+                username=session['username'],
+                highscore=user.highscore if user else 0
+            )
+        return redirect(url_for('index'))
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/logout')
 @login_required
@@ -540,170 +567,194 @@ def start_custom_quiz():
 @app.route('/show_question')
 @login_required
 def show_question():
-    if 'quiz_data' not in session:
-        return redirect(url_for('homepage'))
-    
-    quiz_data = session['quiz_data']
-    
-    if quiz_data.get('answered', False):
-        return redirect(url_for('next_question'))
-    
-    current_index = quiz_data['current_index']
-    question = Question.query.get(quiz_data['questions'][current_index])
-    
-    if 'options_order' not in quiz_data:
-        options = [question.true, question.wrong1, question.wrong2, question.wrong3]
-        random.shuffle(options)
-        quiz_data['options_order'] = options
-        session['quiz_data'] = quiz_data
-    else:
-        options = quiz_data['options_order']
-    
-    was_correct = session.pop('last_answer_correct', False)
-    
-    # Berechne die verbleibende Zeit vom Server-Timer
-    room_id = quiz_data.get('room_id')
-    time_left = 30  # Default-Wert
-    
-    if room_id:
-        with timer_lock:
-            timer = active_timers.get(room_id)
-            if timer and timer.is_running:
-                time_left = timer.get_time_left()
-    
-    return render_template(
-        'quiz.html',
-        subject=quiz_data['subject'],
-        question=question,
-        options=options,
-        progress=current_index + 1,
-        total_questions=quiz_data['total_questions'],
-        score=quiz_data['score'],
-        was_correct=was_correct,
-        room_id=room_id,
-        time_left=time_left  # Füge time_left hinzu
-    )
+    try:
+        if 'quiz_data' not in session:
+            return redirect(url_for('homepage'))
+        
+        quiz_data = session['quiz_data']
+        
+        if quiz_data.get('answered', False):
+            return redirect(url_for('next_question'))
+        
+        current_index = quiz_data['current_index']
+        question = Question.query.get(quiz_data['questions'][current_index])
+        
+        if 'options_order' not in quiz_data:
+            options = [question.true, question.wrong1, question.wrong2, question.wrong3]
+            random.shuffle(options)
+            quiz_data['options_order'] = options
+            session['quiz_data'] = quiz_data
+        else:
+            options = quiz_data['options_order']
+        
+        was_correct = session.pop('last_answer_correct', False)
+        
+        # Berechne die verbleibende Zeit vom Server-Timer
+        room_id = quiz_data.get('room_id')
+        time_left = 30  # Default-Wert
+        
+        if room_id:
+            with timer_lock:
+                timer = active_timers.get(room_id)
+                if timer and timer.is_running:
+                    time_left = timer.get_time_left()
+        
+        return render_template(
+            'quiz.html',
+            subject=quiz_data['subject'],
+            question=question,
+            options=options,
+            progress=current_index + 1,
+            total_questions=quiz_data['total_questions'],
+            score=quiz_data['score'],
+            was_correct=was_correct,
+            room_id=room_id,
+            time_left=time_left  # Füge time_left hinzu
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/check_answer', methods=['POST'])
 @login_required
 def check_answer():
-    if 'quiz_data' not in session:
-        return jsonify({'error': 'Session expired'}), 400
+    try:
+        if 'quiz_data' not in session:
+            return jsonify({'error': 'Session expired'}), 400
+            
+        quiz_data = session['quiz_data']
+        current_index = quiz_data['current_index']
+        question_id = quiz_data['questions'][current_index]
+        question = Question.query.get(question_id)
         
-    quiz_data = session['quiz_data']
-    current_index = quiz_data['current_index']
-    question_id = quiz_data['questions'][current_index]
-    question = Question.query.get(question_id)
-    
-    if not question:
-        return jsonify({'error': 'Question not found'}), 404
+        if not question:
+            return jsonify({'error': 'Question not found'}), 404
+            
+        user_answer = request.form.get('answer', '')
         
-    user_answer = request.form.get('answer', '')
-    
-    is_correct = user_answer == question.true
-    
-    # Vereinfachte Punkteberechnung (da Timer über WebSocket läuft)
-    points_earned = 100 if is_correct else 0
+        is_correct = user_answer == question.true
+        
+        # Vereinfachte Punkteberechnung (da Timer über WebSocket läuft)
+        points_earned = 100 if is_correct else 0
 
-    if is_correct:
-        quiz_data['correct_count'] += 1
+        if is_correct:
+            quiz_data['correct_count'] += 1
 
-    new_score = quiz_data['score'] + points_earned
-    quiz_data['score'] = new_score
-    quiz_data['answered'] = True
-    session['quiz_data'] = quiz_data
-    
-    return jsonify({
-        'is_correct': is_correct,
-        'correct_answer': question.true,
-        'points_earned': points_earned,
-        'current_score': new_score
-    })
-
-# In der next_question Route, CSRF-Schutz deaktivieren:
-@app.route('/next_question', methods=['POST'])
-@csrf.exempt  # CSRF-Schutz deaktivieren
-@login_required
-def next_question():
-    if 'quiz_data' not in session or 'username' not in session:
-        return jsonify({'redirect': url_for('homepage')})
-    
-    quiz_data = session['quiz_data']
-    
-    # Entferne "answered" Flag
-    if 'answered' in quiz_data:
-        del quiz_data['answered']
-    
-    quiz_data['current_index'] += 1
-    
-    # Optionen für die nächste Frage zurücksetzen
-    if 'options_order' in quiz_data:
-        del quiz_data['options_order']
-    
-    session['quiz_data'] = quiz_data
-    
-    if quiz_data['current_index'] < quiz_data['total_questions']:
-        # Frage als JSON zurückgeben
-        question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
-        options = [question.true, question.wrong1, question.wrong2, question.wrong3]
-        random.shuffle(options)
+        new_score = quiz_data['score'] + points_earned
+        quiz_data['score'] = new_score
+        quiz_data['answered'] = True
+        session['quiz_data'] = quiz_data
         
         return jsonify({
-            'question': question.question,
-            'options': options,
-            'progress': quiz_data['current_index'] + 1,
-            'total_questions': quiz_data['total_questions'],
-            'score': quiz_data['score']
+            'is_correct': is_correct,
+            'correct_answer': question.true,
+            'points_earned': points_earned,
+            'current_score': new_score
         })
-    else:
-        return jsonify({'redirect': url_for('evaluate_quiz')})
+    
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler in check_answer: {str(e)}")
+        return jsonify({'error': 'Datenbankfehler aufgetreten. Bitte versuche es später erneut.'}), 500
+    except Exception as e:
+        print(f"Unerwarteter Fehler in check_answer: {str(e)}")
+        return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
+
+@app.route('/next_question', methods=['POST'])
+@login_required
+def next_question():
+    try:
+        if 'quiz_data' not in session or 'username' not in session:
+            return jsonify({'redirect': url_for('homepage')})
+        
+        quiz_data = session['quiz_data']
+        
+        # Entferne "answered" Flag
+        if 'answered' in quiz_data:
+            del quiz_data['answered']
+        
+        quiz_data['current_index'] += 1
+        
+        # Optionen für die nächste Frage zurücksetzen
+        if 'options_order' in quiz_data:
+            del quiz_data['options_order']
+        
+        session['quiz_data'] = quiz_data
+        
+        if quiz_data['current_index'] < quiz_data['total_questions']:
+            # Frage als JSON zurückgeben
+            question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
+            options = [question.true, question.wrong1, question.wrong2, question.wrong3]
+            random.shuffle(options)
+            
+            return jsonify({
+                'question': question.question,
+                'options': options,
+                'progress': quiz_data['current_index'] + 1,
+                'total_questions': quiz_data['total_questions'],
+                'score': quiz_data['score']
+            })
+        else:
+            return jsonify({'redirect': url_for('evaluate_quiz')})
+    
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler in next_question: {str(e)}")
+        return jsonify({'error': 'Datenbankfehler aufgetreten. Bitte versuche es später erneut.', 'redirect': url_for('homepage')})
+    except Exception as e:
+        print(f"Unerwarteter Fehler in next_question: {str(e)}")
+        return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.', 'redirect': url_for('homepage')})
 
 @app.route('/evaluate')
 @login_required
 def evaluate_quiz():
-    if 'quiz_data' not in session or 'username' not in session:
-        return redirect(url_for('homepage'))
-    
-    quiz_data = session.pop('quiz_data', None)
-    
-    # Timer stoppen
-    room_id = quiz_data.get('room_id') if quiz_data else None
-    if room_id:
-        stop_timer(room_id)
-    
-    score = quiz_data.get('score', 0) if quiz_data else 0
-    total = quiz_data.get('total_questions', 0) if quiz_data else 0
-    correct_count = quiz_data.get('correct_count', 0) if quiz_data else 0
-    
-    # Highscore-Logik
-    user = User.query.filter_by(username=session['username']).first()
-    new_highscore = False
-    now = datetime.now(timezone.utc)
-    
-    if user and quiz_data:
-        # Setze Zeitpunkt des ersten Spiels, falls noch nicht vorhanden
-        if not user.first_played:
-            user.first_played = now
+    try:
+        if 'quiz_data' not in session or 'username' not in session:
+            return redirect(url_for('homepage'))
         
-        # Highscore für Punkte
-        if quiz_data['score'] > user.highscore:
-            user.highscore = quiz_data['score']
-            user.highscore_time = now
-            new_highscore = True
+        quiz_data = session.pop('quiz_data', None)
+        
+        # Timer stoppen
+        room_id = quiz_data.get('room_id') if quiz_data else None
+        if room_id:
+            stop_timer(room_id)
+        
+        score = quiz_data.get('score', 0) if quiz_data else 0
+        total = quiz_data.get('total_questions', 0) if quiz_data else 0
+        correct_count = quiz_data.get('correct_count', 0) if quiz_data else 0
+        
+        # Highscore-Logik
+        user = User.query.filter_by(username=session['username']).first()
+        new_highscore = False
+        now = datetime.now(timezone.utc)
+        
+        if user and quiz_data:
+            # Setze Zeitpunkt des ersten Spiels, falls noch nicht vorhanden
+            if not user.first_played:
+                user.first_played = now
+            
+            # Highscore für Punkte
+            if quiz_data['score'] > user.highscore:
+                user.highscore = quiz_data['score']
+                user.highscore_time = now
+                new_highscore = True
 
-        if correct_count > user.correct_high:
-            user.correct_high = correct_count
+            if correct_count > user.correct_high:
+                user.correct_high = correct_count
+            
+            db.session.commit()
         
-        db.session.commit()
-    
-    return render_template(
-        'evaluate.html',
-        score=score,
-        total=total,
-        correct_answers=correct_count,
-        new_highscore=new_highscore,
-        highscore=user.highscore if user else score
-    )
+        return render_template(
+            'evaluate.html',
+            score=score,
+            total=total,
+            correct_answers=correct_count,
+            new_highscore=new_highscore,
+            highscore=user.highscore if user else score
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/cancel_quiz', methods=['POST'])
 @login_required
@@ -721,93 +772,114 @@ def cancel_quiz():
 @login_required
 @admin_required
 def db_stats():
-    total = db.session.query(func.count(Question.id)).scalar()
-    topic_counts = db.session.query(
-        Question.subject,
-        func.count(Question.id)
-    ).group_by(Question.subject).all()
+    try:
+        total = db.session.query(func.count(Question.id)).scalar()
+        topic_counts = db.session.query(
+            Question.subject,
+            func.count(Question.id)
+        ).group_by(Question.subject).all()
 
-    return render_template("db_stats.html", total=total, topic_counts=topic_counts)
+        return render_template(
+            "db_stats.html", 
+            total=total, topic_counts=topic_counts
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/ranking')      
 @login_required                
 def ranking():
-    # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
-    players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
-        User.highscore.desc(),
-        User.highscore_time.asc(), # Wer zuerst den Score erreicht hat, kommt höher
-        User.username.asc()
-    ).all()
+    try:
+        # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
+        players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
+            User.highscore.desc(),
+            User.highscore_time.asc(), # Wer zuerst den Score erreicht hat, kommt höher
+            User.username.asc()
+        ).all()
 
-    # Top 10 Spieler
-    top_players = players_with_highscore[:10]
+        # Top 10 Spieler
+        top_players = players_with_highscore[:10]
 
-    # Aktuellen Benutzer finden
-    current_user = session.get('username')
-    current_player = None
-    player_rank = None
-    
-    if current_user:
-        # Finde den aktuellen Benutzer in der Datenbank
-        current_player = User.query.filter_by(username=current_user).first()
+        # Aktuellen Benutzer finden
+        current_user = session.get('username')
+        current_player = None
+        player_rank = None
+        
+        if current_user:
+            # Finde den aktuellen Benutzer in der Datenbank
+            current_player = User.query.filter_by(username=current_user).first()
 
-        # Bestimme den Rang des Benutzers
-        for idx, player in enumerate(players_with_highscore, start=1):
-            if player.username == current_user:
-                current_player = player
-                player_rank = idx
-                break
+            # Bestimme den Rang des Benutzers
+            for idx, player in enumerate(players_with_highscore, start=1):
+                if player.username == current_user:
+                    current_player = player
+                    player_rank = idx
+                    break
 
-    # Flash-Nachricht beim ersten Besuch
-    if not session.get('ranking_info_shown'):
-        flash("Weitere Informationen zum Spieler durch Klick oder Suche", "info")
-        session['ranking_info_shown'] = True
+        # Flash-Nachricht beim ersten Besuch
+        if not session.get('ranking_info_shown'):
+            flash("Weitere Informationen zum Spieler durch Klick oder Suche", "info")
+            session['ranking_info_shown'] = True
 
-    player_rank_map = {player.id: idx for idx, player in enumerate(players_with_highscore, start=1)}
+        player_rank_map = {player.id: idx for idx, player in enumerate(players_with_highscore, start=1)}
 
-    return render_template(
-        'ranking.html',
-        top_players=top_players,
-        current_player=current_player,
-        player_rank=player_rank,
-        player_rank_map=player_rank_map
-    )
+        return render_template(
+            'ranking.html',
+            top_players=top_players,
+            current_player=current_player,
+            player_rank=player_rank,
+            player_rank_map=player_rank_map
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/api/search_player')
 @login_required
 def search_player():
-    username = request.args.get('username', '').strip()
-    if not username:
-        return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
+    try:
+        username = request.args.get('username', '').strip()
+        if not username:
+            return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
 
-    user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
-    if not user:
-        return jsonify({'error': 'Spieler nicht gefunden'}), 404
+        user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
+        if not user:
+            return jsonify({'error': 'Spieler nicht gefunden'}), 404
+        
+        # Rang berechnen
+        players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
+            User.highscore.desc(),
+            User.highscore_time.asc(),
+            User.username.asc()
+        ).all()
+        rank = next((idx for idx, p in enumerate(players_with_highscore, start=1) if p.id == user.id), None)
+        
+        # Helper-Funktion für lokale Zeit-Konvertierung
+        def to_local_time(utc_time):
+            if utc_time is None:
+                return "N/A"
+            local_time = utc_time + timedelta(hours=2)
+            return local_time.strftime('%d.%m.%Y %H:%M')
+        
+        return jsonify({
+            'rank': rank if rank else "N/A",
+            'username': user.username,
+            'id': user.id,
+            'first_played': to_local_time(user.first_played) if user.first_played else "N/A",
+            'highscore': user.highscore,
+            'highscore_time': to_local_time(user.highscore_time) if user.highscore_time else "N/A",
+            'correct_high': user.correct_high
+        })
     
-    # Rang berechnen
-    players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
-        User.highscore.desc(),
-        User.highscore_time.asc(),
-        User.username.asc()
-    ).all()
-    rank = next((idx for idx, p in enumerate(players_with_highscore, start=1) if p.id == user.id), None)
-    
-    # Helper-Funktion für lokale Zeit-Konvertierung
-    def to_local_time(utc_time):
-        if utc_time is None:
-            return "N/A"
-        local_time = utc_time + timedelta(hours=2)
-        return local_time.strftime('%d.%m.%Y %H:%M')
-    
-    return jsonify({
-        'rank': rank if rank else "N/A",
-        'username': user.username,
-        'id': user.id,
-        'first_played': to_local_time(user.first_played) if user.first_played else "N/A",
-        'highscore': user.highscore,
-        'highscore_time': to_local_time(user.highscore_time) if user.highscore_time else "N/A",
-        'correct_high': user.correct_high
-    })
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler in search_player: {str(e)}")
+        return jsonify({'error': 'Datenbankfehler aufgetreten. Bitte versuche es später erneut.'}), 500
+    except Exception as e:
+        print(f"Unerwarteter Fehler in search_player: {str(e)}")
+        return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
 
 @app.route('/imprint')
 @login_required
@@ -899,37 +971,70 @@ def inject_user():
 @login_required
 @admin_required
 def admin_panel():
-    # Statistiken für das Dashboard sammeln
-    total_users = User.query.count()
-    total_questions = Question.query.count()
-    total_support_requests = len(support_requests)
-    
-    return render_template(
-        'admin_panel.html',
-        total_users=total_users,
-        total_questions=total_questions,
-        total_support_requests=total_support_requests
-    )
+    try:
+        # Statistiken für das Dashboard sammeln
+        total_users = User.query.count()
+        total_questions = Question.query.count()
+        total_support_requests = len(support_requests)
+        
+        return render_template(
+            'admin_panel.html',
+            total_users=total_users,
+            total_questions=total_questions,
+            total_support_requests=total_support_requests
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/add_question', methods=['POST'])
 @login_required
 @admin_required
 def add_question():
     try:
+        subject = request.form['subject'].lower().strip()
+        question_text = request.form['question'].strip()
+        true_answer = request.form['true'].strip()
+        wrong1 = request.form['wrong1'].strip()
+        wrong2 = request.form['wrong2'].strip()
+        wrong3 = request.form['wrong3'].strip()
+        
+        # Validierung der Eingaben
+        if not all([subject, question_text, true_answer, wrong1, wrong2, wrong3]):
+            flash('Bitte fülle alle Felder aus', 'error')
+            return redirect(url_for('admin_panel'))
+            
+        if len(question_text) > 500:
+            flash('Frage darf maximal 500 Zeichen haben', 'error')
+            return redirect(url_for('admin_panel'))
+            
+        # Prüfen ob Frage bereits existiert
+        existing = Question.query.filter_by(question=question_text).first()
+        if existing:
+            flash('Diese Frage existiert bereits', 'error')
+            return redirect(url_for('admin_panel'))
+            
         new_question = Question(
-            subject=request.form['subject'].lower().strip(),
-            question=request.form['question'].strip(),
-            true=request.form['true'].strip(),
-            wrong1=request.form['wrong1'].strip(),
-            wrong2=request.form['wrong2'].strip(),
-            wrong3=request.form['wrong3'].strip()
+            subject=subject,
+            question=question_text,
+            true=true_answer,
+            wrong1=wrong1,
+            wrong2=wrong2,
+            wrong3=wrong3
         )
         db.session.add(new_question)
         db.session.commit()
         flash('Frage erfolgreich hinzugefügt!', 'success')
+        
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Hinzufügen der Frage: {str(e)}")
+        flash('Datenbankfehler beim Hinzufügen der Frage', 'error')
     except Exception as e:
         db.session.rollback()
-        flash(f'Fehler beim Hinzufügen der Frage: {str(e)}', 'error')
+        print(f"Unerwarteter Fehler beim Hinzufügen der Frage: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
     
     return redirect(url_for('admin_panel'))
 
@@ -978,58 +1083,65 @@ def handle_join_quiz_session(data):
 
 @socketio.on('submit_answer')
 def handle_submit_answer(data):
-    room_id = data.get('room_id')
-    user_answer = data.get('answer', '')
-    
-    if not room_id or 'quiz_data' not in session:
-        emit('answer_result', {'error': 'Session expired'})
-        return
+    try:
+        room_id = data.get('room_id')
+        user_answer = data.get('answer', '')
         
-    quiz_data = session['quiz_data']
-    current_index = quiz_data['current_index']
-    question_id = quiz_data['questions'][current_index]
-    question = Question.query.get(question_id)
-    
-    if not question:
-        emit('answer_result', {'error': 'Question not found'})
-        return
-    
-    # Timer stoppen für diesen Raum
-    with timer_lock:
-        timer = active_timers.get(room_id)
-        if timer:
-            time_left = timer.get_time_left()
-            timer.stop()
+        if not room_id or 'quiz_data' not in session:
+            emit('answer_result', {'error': 'Session expired'})
+            return
+            
+        quiz_data = session['quiz_data']
+        current_index = quiz_data['current_index']
+        question_id = quiz_data['questions'][current_index]
+        question = Question.query.get(question_id)
+        
+        if not question:
+            emit('answer_result', {'error': 'Question not found'})
+            return
+        
+        # Timer stoppen für diesen Raum
+        with timer_lock:
+            timer = active_timers.get(room_id)
+            if timer:
+                time_left = timer.get_time_left()
+                timer.stop()
+            else:
+                time_left = 0
+        
+        # Antwort prüfen
+        is_correct = user_answer == question.true
+        
+        # Zeitbasierte Punkteberechnung
+        if is_correct and time_left > 0:
+            # Zeitbonus: 30 Basispunkte + bis zu 70 Bonuspunkte
+            points_earned = 30 + int(70 * (time_left / 30) ** 2.0)
         else:
-            time_left = 0
-    
-    # Antwort prüfen
-    is_correct = user_answer == question.true
-    
-    # Zeitbasierte Punkteberechnung
-    if is_correct and time_left > 0:
-        # Zeitbonus: 30 Basispunkte + bis zu 70 Bonuspunkte
-        points_earned = 30 + int(70 * (time_left / 30) ** 2.0)
-    else:
-        points_earned = 0
+            points_earned = 0
 
-    if is_correct:
-        quiz_data['correct_count'] += 1
+        if is_correct:
+            quiz_data['correct_count'] += 1
 
-    new_score = quiz_data['score'] + points_earned
-    quiz_data['score'] = new_score
-    quiz_data['answered'] = True
-    session['quiz_data'] = quiz_data
-    
-    # Ergebnis an Client senden
-    emit('answer_result', {
-        'is_correct': is_correct,
-        'correct_answer': question.true,
-        'points_earned': points_earned,
-        'current_score': new_score,
-        'time_left': time_left,
-        'user_answer': user_answer  # Füge die Benutzerantwort hinzu
-    })
+        new_score = quiz_data['score'] + points_earned
+        quiz_data['score'] = new_score
+        quiz_data['answered'] = True
+        session['quiz_data'] = quiz_data
+        
+        # Ergebnis an Client senden
+        emit('answer_result', {
+            'is_correct': is_correct,
+            'correct_answer': question.true,
+            'points_earned': points_earned,
+            'current_score': new_score,
+            'time_left': time_left,
+            'user_answer': user_answer  # Füge die Benutzerantwort hinzu
+        })
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler in submit_answer: {str(e)}")
+        emit('answer_result', {'error': 'Datenbankfehler aufgetreten'})
+    except Exception as e:
+        print(f"Unerwarteter Fehler in submit_answer: {str(e)}")
+        emit('answer_result', {'error': 'Ein unerwarteter Fehler ist aufgetreten'})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

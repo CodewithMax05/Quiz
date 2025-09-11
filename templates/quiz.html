@@ -399,10 +399,14 @@
 
             // NEUE METHODE: Nächste Frage laden
             loadNextQuestion() {
+                // CSRF-Token aus dem Meta-Tag holen
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
                 fetch('/next_question', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
                     },
                     body: JSON.stringify({})
                 })
