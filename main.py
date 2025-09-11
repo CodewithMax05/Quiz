@@ -17,8 +17,10 @@ import uuid
 from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from functools import wraps
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
@@ -195,6 +197,11 @@ def to_local_time(utc_time):
         return "Noch nicht gespielt"
     local_time = utc_time + timedelta(hours=2)
     return local_time.strftime('%d.%m.%Y %H:%M')
+
+# CSRF-Token global verfügbar machen
+@app.context_processor
+def inject_csrf_token():
+    return dict(csrf_token=generate_csrf)
 
 # Automatische Datenbankinitialisierung beim App-Start
 def initialize_database():
@@ -554,6 +561,16 @@ def show_question():
     
     was_correct = session.pop('last_answer_correct', False)
     
+    # Berechne die verbleibende Zeit vom Server-Timer
+    room_id = quiz_data.get('room_id')
+    time_left = 30  # Default-Wert
+    
+    if room_id:
+        with timer_lock:
+            timer = active_timers.get(room_id)
+            if timer and timer.is_running:
+                time_left = timer.get_time_left()
+    
     return render_template(
         'quiz.html',
         subject=quiz_data['subject'],
@@ -563,7 +580,8 @@ def show_question():
         total_questions=quiz_data['total_questions'],
         score=quiz_data['score'],
         was_correct=was_correct,
-        room_id=quiz_data['room_id']
+        room_id=room_id,
+        time_left=time_left  # Füge time_left hinzu
     )
 
 @app.route('/check_answer', methods=['POST'])
@@ -602,7 +620,9 @@ def check_answer():
         'current_score': new_score
     })
 
+# In der next_question Route, CSRF-Schutz deaktivieren:
 @app.route('/next_question', methods=['POST'])
+@csrf.exempt  # CSRF-Schutz deaktivieren
 @login_required
 def next_question():
     if 'quiz_data' not in session or 'username' not in session:

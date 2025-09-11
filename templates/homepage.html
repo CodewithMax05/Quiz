@@ -36,6 +36,7 @@
         <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
         
         <form action="/start_custom_quiz" method="POST" class="categories-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="category-grid">
                 <!-- Musik -->
                 <label class="category-card">

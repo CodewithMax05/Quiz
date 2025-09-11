@@ -45,7 +45,8 @@
 
     <div class="quiz-container-wide" 
          data-was-correct="{{ 'true' if was_correct else 'false' }}"
-         data-room-id="{{ room_id }}">
+         data-room-id="{{ room_id }}"
+         data-initial-time-left="{{ time_left }}">
         <div class="question-box">
             <div class="question-text">
                 {{ question.question }}
@@ -65,6 +66,7 @@
         </div>
 
         <form id="next-form" action="/next_question" method="POST" style="display: none;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <input type="hidden" id="selected-answer" name="answer">
         </form>
     </div>
@@ -79,6 +81,8 @@
                 this.reconnectAttempts = 0;
                 this.maxReconnectAttempts = 5;
                 this.selectedOption = null;
+                this.initialTimeLeft = parseInt(document.querySelector('.quiz-container-wide').dataset.initialTimeLeft) || 30;
+                this.updateTimer(this.initialTimeLeft); // Timer sofort mit korrektem Wert initialisieren
                 
                 console.log('Quiz Manager initialisiert für Raum:', this.roomId);
                 this.initializeSocket();
@@ -316,12 +320,12 @@
                 const totalQuestions = parseInt(match[2]);
                 
                 if (currentQuestion < totalQuestions) {
-                    // Normale Frage - nach 2.5 Sekunden zur nächsten Frage
+                    // Normale Frage - nach 1.5 Sekunden zur nächsten Frage
                     setTimeout(() => {
                         this.goToNextQuestion();
                     }, 1500);
                 } else {
-                    // Letzte Frage - nach 2.5 Sekunden zur Auswertung
+                    // Letzte Frage - nach 1.5 Sekunden zur Auswertung
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 1500);

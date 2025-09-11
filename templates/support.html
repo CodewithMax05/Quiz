@@ -27,6 +27,7 @@
     </div>
     <div class="support-content">
         <form class="support-form" method="POST" action="{{ url_for('support') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <!-- Kategorie-Auswahl -->
             <div class="info-row">
                 <span class="info-label">Kategorie: *</span>

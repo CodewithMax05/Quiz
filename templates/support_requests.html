@@ -95,5 +95,25 @@
             });
         });
     });
+
+    document.querySelectorAll('.request-row').forEach(row => {
+        row.addEventListener('click', () => {
+            if (!deleteMode) return;
+
+            const requestId = row.dataset.id;
+
+            fetch(`/delete_request/${requestId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                }
+            }).then(() => {
+                location.reload();
+            }).catch(err => {
+                alert('Fehler beim Löschen');
+                console.error(err);
+            });
+        });
+    });
 </script>
 {% endblock %}
