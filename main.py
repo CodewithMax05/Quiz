@@ -21,16 +21,29 @@ from functools import wraps
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren
 
-#Brute Force Schutz
-limiter = Limiter(
-    app=app,
-    key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"]
-)
+# Brute Force Protection with Redis fallback
+try:
+    limiter = Limiter(
+        key_func=get_remote_address,
+        app=app,
+        storage_uri=os.environ.get("REDIS_URL"),
+        default_limits=["200 per day", "50 per hour"]
+    )
+except Exception:
+    limiter = Limiter(
+        key_func=get_remote_address,
+        app=app,
+        storage_uri="memory://",
+        default_limits=["200 per day", "50 per hour"]
+    )
+    print("Using in-memory rate limiting storage due to Redis connection issues")
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
@@ -214,6 +227,20 @@ def to_local_time(utc_time):
 def inject_csrf_token():
     return dict(csrf_token=generate_csrf)
 
+#Brutforce Event Handler
+@app.errorhandler(429)
+def too_many_requests(error):
+    # Berechne verbleibende Zeit des Rate-Limits
+    retry_after = getattr(error, 'retry_after', 60)
+    # Sicherstellen, dass retry_after immer ein numerischer Wert ist
+    if retry_after is None:
+        retry_after = 60
+    session['rate_limit_remaining'] = retry_after
+    session['rate_limit_start'] = time.time()
+    
+    flash(f'Zu viele Fehlversuche. Bitte warte {retry_after} Sekunden.', 'warning')
+    return redirect(url_for('index'))
+
 # Automatische Datenbankinitialisierung beim App-Start
 def initialize_database():
     """Erstellt Tabellen und importiert neue Fragen bei jedem Start"""
@@ -226,7 +253,7 @@ def initialize_database():
         try:
             # Tabellen erstellen
             db.create_all()
-            
+
             # Environment-Variable für erzwungenen Import prüfen
             force_init = os.environ.get('FORCE_DB_INIT', 'false').lower() == 'true'
             
@@ -395,6 +422,12 @@ def login_required(f):
         if 'username' not in session:
             flash('Bitte melde dich zuerst an', 'error')
             return redirect(url_for('index'))
+        # Prüfe, ob der Benutzer existiert
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            session.clear()
+            flash('Ihre Sitzung ist ungültig. Bitte melden Sie sich erneut an.', 'error')
+            return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -402,12 +435,34 @@ def login_required(f):
 # Ab hier alle Routes 
 @app.route('/')
 def index():
-    if 'username' in session: 
-        return redirect(url_for('homepage')) 
-    return render_template('index.html')
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        if user:
+            return redirect(url_for('homepage'))
+        else:
+            session.clear()
+    
+    # Berechne verbleibende Zeit für Rate-Limit
+    rate_limit_remaining = 0
+    if 'rate_limit_remaining' in session and 'rate_limit_start' in session:
+        try:
+            elapsed = time.time() - session['rate_limit_start']
+            # Sicherstellen, dass beide Werte numerisch sind
+            if isinstance(session['rate_limit_remaining'], (int, float)) and isinstance(session['rate_limit_start'], (int, float)):
+                rate_limit_remaining = max(0, session['rate_limit_remaining'] - elapsed)
+            else:
+                # Ungültige Werte zurücksetzen
+                session.pop('rate_limit_remaining', None)
+                session.pop('rate_limit_start', None)
+        except (TypeError, KeyError):
+            # Im Fehlerfall Werte zurücksetzen
+            session.pop('rate_limit_remaining', None)
+            session.pop('rate_limit_start', None)
+    
+    return render_template('index.html', rate_limit_remaining=rate_limit_remaining)
 
 @app.route('/login', methods=['POST'])
-@limiter.limit("5 per minute")
+@limiter.limit("5 per minute", error_message="Zu viele Fehlversuche")
 def login():
     try:
         username = request.form['username'].strip()

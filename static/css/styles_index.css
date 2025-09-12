@@ -108,6 +108,11 @@ h1 {
     color: white;
 }
 
+.input-field:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Autofill verhindern, dass Hintergrund sich ändert */
 input.input-field:-webkit-autofill,
 input.input-field:-webkit-autofill:hover,
@@ -124,7 +129,6 @@ input.input-field:-moz-autofill {
     -moz-text-fill-color: white !important;
 }
 
-
 .input-field::placeholder {
     color: rgba(255, 255, 255, 0.75);
 }
@@ -137,7 +141,7 @@ input.input-field:-moz-autofill {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Stil für permanente Nachrichten (ohne Progress-Bar) */
+/* Stil für permanente Nachrichten (MIT Progress-Bar) */
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
@@ -164,6 +168,7 @@ input.input-field:-moz-autofill {
     padding-right: 10px;
 }
 
+/* Close Button für permanente Nachrichten */
 .permanent-message .close-btn {
     background: none;
     border: none;
@@ -184,9 +189,49 @@ input.input-field:-moz-autofill {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Sicherstellen, dass keine Progress-Bar angezeigt wird */
+/* Keine Progress-Bar für permanente Nachrichten */
 .permanent-message .custom-progress-bar {
     display: none;
+}
+
+/* Warning-Nachricht (Brute Force) */
+.warning-message {
+    background: linear-gradient(135deg, #ff8c00, #ff5500);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.warning-message .message-content {
+    flex: 1;
+    text-align: center;
+}
+
+/* Progress-Bar für Warning-Nachrichten anzeigen */
+.warning-message .custom-progress-bar {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 0 0 10px 10px;
+    animation: progressBar 60s linear forwards;
 }
 
 /* Buttons ohne Bewegungsanimation */
@@ -207,6 +252,11 @@ input.input-field:-moz-autofill {
         inset 0 -3px 8px rgba(0, 0, 0, 0.2);
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .btn-login {
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
@@ -220,7 +270,7 @@ input.input-field:-moz-autofill {
 }
 
 /* Neue Hover-Effekte ohne Bewegung */
-.btn:hover {
+.btn:hover:not(:disabled) {
     box-shadow: 
         0 8px 25px rgba(0, 0, 0, 0.35),
         inset 0 -3px 8px rgba(0, 0, 0, 0.25),
@@ -228,14 +278,14 @@ input.input-field:-moz-autofill {
     filter: brightness(1.1);
 }
 
-.btn-login:hover {
+.btn-login:hover:not(:disabled) {
     box-shadow: 
         0 8px 25px rgba(0, 0, 0, 0.35),
         inset 0 -3px 8px rgba(0, 0, 0, 0.25),
         0 0 15px #8e2de2; /* Lila Glow */
 }
 
-.btn-register:hover {
+.btn-register:hover:not(:disabled) {
     box-shadow: 
         0 8px 25px rgba(0, 0, 0, 0.35),
         inset 0 -3px 8px rgba(0, 0, 0, 0.25),
@@ -253,6 +303,66 @@ input.input-field:-moz-autofill {
     0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
     70% { box-shadow: 0 0 0 14px rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
     100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+}
+
+/* Warning-Nachricht (Brute Force) - gleiches Aussehen wie permanent, aber mit Fortschrittsbalken */
+.warning-locked {
+    background: linear-gradient(135deg, #ff8c00, #ff5500);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.warning-locked .message-content {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.warning-locked .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.warning-locked .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Progress-Bar für Warning-Nachrichten anzeigen */
+.warning-locked .custom-progress-bar {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 0 0 10px 10px;
+    animation: progressBar 60s linear forwards;
 }
 
 /* FEHLERMELDUNG - ANPASSUNG */
@@ -342,6 +452,13 @@ input.input-field:-moz-autofill {
         max-width: 310px;
     }
     
+    .permanent-message,
+    .warning-message {
+        top: 15px;
+        width: 85%;
+        max-width: 310px;
+    }
+    
     @keyframes fadeIn {
         from { opacity: 0; top: 0; }
         to { opacity: 1; top: 15px; }
@@ -388,6 +505,15 @@ input.input-field:-moz-autofill {
     
     /* Fehlermeldung für Mobilgeräte */
     .error-message {
+        top: 10px;
+        width: 85%;
+        max-width: 260px;
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .permanent-message,
+    .warning-message {
         top: 10px;
         width: 85%;
         max-width: 260px;

@@ -15,6 +15,14 @@
                         <div class="message-content">{{ message }}</div>
                         <button class="close-btn" onclick="closePermanentMessage()">&times;</button>
                     </div>
+                    {% elif category == 'warning' %}
+                        {% if rate_limit_remaining > 0 %}
+                        <div class="permanent-message warning-locked" id="warning-flash" data-remaining="{{ rate_limit_remaining | int }}">
+                            <div class="message-content">{{ message }}</div>
+                            <button class="close-btn" onclick="closeWarningMessage()">&times;</button>
+                            <div class="custom-progress-bar"></div>
+                        </div>
+                        {% endif %}
                     {% else %}
                     <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
                         {{ message }}
@@ -31,52 +39,87 @@
         
         <form id="auth-form" method="post"> 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="text" name="username" placeholder="Username" class="input-field" required>
-            <input type="password" name="password" placeholder="Password" class="input-field" required>
-            <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')">
-            <input type="button" value="Register" class="btn btn-register sound-button" onclick="submitForm('register')">
+            <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field">
+            <input type="password" name="password" placeholder="Password" class="input-field" required id="password-field">
+            <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
+            <input type="button" value="Register" class="btn btn-register sound-button" onclick="submitForm('register')" id="register-btn">
         </form>
     </div>
-</div>
-<script>
-    function submitForm(action) {
-        // Sound direkt abspielen BEVOR Formular gesendet wird
-        playSound('clickSound');
+
+    <script>
+        let permanentMessageTimeout;
+        let warningMessageTimeout;
         
-        // Kurze Verzögerung für Sound-Wiedergabe
-        setTimeout(() => {
-            const form = document.getElementById('auth-form');
-            form.action = action === 'login' 
-                ? "{{ url_for('login') }}" 
-                : "{{ url_for('register') }}";
-            form.method = "post";
-            form.submit();
-        }, 150); // 150ms Verzögerung für Sound
-    }
-    
-    function closePermanentMessage() {
-        const permanentMessage = document.getElementById('permanent-flash');
-        if (permanentMessage) {
-            permanentMessage.style.opacity = '0';
-            permanentMessage.style.transition = 'opacity 0.5s ease';
+        function submitForm(action) {
+            // Sound direkt abspielen BEVOR Formular gesendet wird
+            playSound('clickSound');
             
-            // Nach der Animation komplett entfernen
+            // Kurze Verzögerung für Sound-Wiedergabe
             setTimeout(() => {
-                if (permanentMessage.parentNode) {
-                    permanentMessage.parentNode.removeChild(permanentMessage);
+                const form = document.getElementById('auth-form');
+                form.action = action === 'login' 
+                    ? "{{ url_for('login') }}" 
+                    : "{{ url_for('register') }}";
+                form.method = "post";
+                form.submit();
+            }, 150); // 150ms Verzögerung für Sound
+        }
+        
+        function closePermanentMessage() {
+            const permanentMessage = document.getElementById('permanent-flash');
+            if (permanentMessage) {
+                permanentMessage.style.opacity = '0';
+                permanentMessage.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    if (permanentMessage.parentNode) {
+                        permanentMessage.parentNode.removeChild(permanentMessage);
+                    }
+                }, 500);
+            }
+        }
+        
+        function closeWarningMessage() {
+            const warningMessage = document.getElementById('warning-flash');
+            if (warningMessage) {
+                clearTimeout(warningMessageTimeout);
+                warningMessage.style.opacity = '0';
+                warningMessage.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    if (warningMessage.parentNode) {
+                        warningMessage.parentNode.removeChild(warningMessage);
+                    }
+                }, 500);
+            }
+        }
+        
+        // Automatisches Schließen nach der verbleibenden Zeit für Warn-Nachrichten
+        document.addEventListener('DOMContentLoaded', function() {
+            const warningMessage = document.getElementById('warning-flash');
+            
+            if (warningMessage) {
+                // Verbleibende Zeit aus dem Datenattribut lesen
+                const remainingTime = parseInt(warningMessage.getAttribute('data-remaining')) || 60;
+                
+                // Fortschrittsbalken animieren
+                const progressBar = warningMessage.querySelector('.custom-progress-bar');
+                if (progressBar) {
+                    progressBar.style.animation = `progressBar ${remainingTime}s linear forwards`;
                 }
-            }, 500);
-        }
-    }
-    
-    // Event-Listener für Formular-Submit (Anmeldung)
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('auth-form');
-        if (form) {
-            form.addEventListener('submit', function() {
-                closePermanentMessage();
-            });
-        }
-    });
-</script>
+                
+                // Nach der verbleibenden Zeit Nachricht entfernen
+                warningMessageTimeout = setTimeout(() => {
+                    warningMessage.style.opacity = '0';
+                    warningMessage.style.transition = 'opacity 0.5s ease';
+                    
+                    setTimeout(() => {
+                        if (warningMessage.parentNode) {
+                            warningMessage.parentNode.removeChild(warningMessage);
+                        }
+                    }, 500);
+                }, remainingTime * 1000); // Umrechnung in Millisekunden
+            }
+        });
+    </script>
 {% endblock %}
