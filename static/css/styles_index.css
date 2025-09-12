@@ -222,18 +222,6 @@ input.input-field:-moz-autofill {
     text-align: center;
 }
 
-/* Progress-Bar für Warning-Nachrichten anzeigen */
-.warning-message .custom-progress-bar {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 0 0 10px 10px;
-    animation: progressBar 60s linear forwards;
-}
-
 /* Buttons ohne Bewegungsanimation */
 .btn {
     width: 85%;
@@ -307,7 +295,7 @@ input.input-field:-moz-autofill {
 
 /* Warning-Nachricht (Brute Force) - gleiches Aussehen wie permanent, aber mit Fortschrittsbalken */
 .warning-locked {
-    background: linear-gradient(135deg, #ff8c00, #ff5500);
+    background: linear-gradient(135deg, #ff8c00, #ff5500) !important;
     color: white;
     padding: 14px 18px;
     border-radius: 10px;
@@ -351,18 +339,6 @@ input.input-field:-moz-autofill {
 
 .warning-locked .close-btn:hover {
     background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Progress-Bar für Warning-Nachrichten anzeigen */
-.warning-locked .custom-progress-bar {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 0 0 10px 10px;
-    width: 100%; 
 }
 
 /* FEHLERMELDUNG - ANPASSUNG */

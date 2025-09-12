@@ -16,25 +16,10 @@
                         <button class="close-btn" onclick="closePermanentMessage()">&times;</button>
                     </div>
                     {% elif category == 'warning' %}
-                        {% if rate_limit_remaining > 0 %}
-                        <!-- Warning bei aktivem Rate-Limit: übergebe remaining & total als data-Attribute -->
-                        <div class="permanent-message warning-locked" id="warning-flash"
-                             data-remaining="{{ rate_limit_remaining | int }}"
-                             data-total="{{ rate_limit_total | int }}">
-                            <div class="message-content">
-                                {{ message }}
-                                <!-- Zeige sekundenzähler an -->
-                                <span id="warning-timer"> ({{ rate_limit_remaining | int }}s)</span>
-                            </div>
-                            <button class="close-btn" onclick="closeWarningMessage()">&times;</button>
-                            <div class="custom-progress-bar"></div>
-                        </div>
-                        {% else %}
-                        <!-- Fallback: normale Warning (ohne Progressbar) -->
-                        <div class="warning-message">
-                            <div class="message-content">{{ message }}</div>
-                        </div>
-                        {% endif %}
+                    <div class="permanent-message warning-locked" id="warning-flash">
+                        <div class="message-content">{{ message }}</div>
+                        <button class="close-btn" onclick="closeWarningMessage()">&times;</button>
+                    </div>
                     {% else %}
                     <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
                         {{ message }}
@@ -58,9 +43,6 @@
     </div>
 
     <script>
-        let permanentMessageTimeout;
-        let warningMessageTimeout;
-
         function submitForm(action) {
             playSound('clickSound');
             setTimeout(() => {
@@ -90,8 +72,6 @@
         function closeWarningMessage() {
             const warningMessage = document.getElementById('warning-flash');
             if (warningMessage) {
-                clearInterval(warningCountdownInterval);
-                clearTimeout(warningMessageTimeout);
                 warningMessage.style.opacity = '0';
                 warningMessage.style.transition = 'opacity 0.5s ease';
                 
@@ -102,73 +82,5 @@
                 }, 500);
             }
         }
-
-        // Globale Variable zum Interval (damit close ggf. stoppt)
-        let warningCountdownInterval = null;
-
-        // Automatisches Steuern der Warning-Progressbar
-        document.addEventListener('DOMContentLoaded', function() {
-            const warningMessage = document.getElementById('warning-flash');
-            if (!warningMessage) return;
-
-            // Lese verbleibende Zeit und das Gesamtfenster
-            let remaining = parseInt(warningMessage.getAttribute('data-remaining')) || 0;
-            let total = parseInt(warningMessage.getAttribute('data-total')) || 60;
-            const progressBar = warningMessage.querySelector('.custom-progress-bar');
-            const timerSpan = document.getElementById('warning-timer');
-
-            // Wenn keine verbleibende Zeit, entferne die Warnung nach kurzer Anzeige
-            if (remaining <= 0) {
-                warningMessageTimeout = setTimeout(() => {
-                    if (warningMessage.parentNode) warningMessage.parentNode.removeChild(warningMessage);
-                }, 1500);
-                return;
-            }
-
-            // Setze initiale Breite: proportionell zur verbleibenden Zeit
-            // Wir möchten die Breite = (remaining / total) * 100% (d.h. proportional)
-            const initialPercent = Math.max(0, Math.min(100, (remaining / total) * 100));
-            progressBar.style.width = initialPercent + '%';
-
-            // Forciere Reflow, damit Transition sauber angewendet wird
-            // (sonst wird die nachfolgende Änderung eventuell nicht animiert)
-            void progressBar.offsetWidth;
-
-            // Animations-Strategie:
-            // Übergang (CSS-Transition) statt CSS-Keyframe: wir setzen die Transition-Dauer
-            progressBar.style.transition = `width ${remaining}s linear`;
-
-            // Kurz verzögern, dann animieren wir die Breite auf 0%
-            setTimeout(() => {
-                progressBar.style.width = '0%';
-            }, 50);
-
-            // Countdown-Text jede Sekunde aktualisieren
-            let current = remaining;
-            if (timerSpan) {
-                timerSpan.textContent = ` (${current}s)`;
-            }
-            warningCountdownInterval = setInterval(() => {
-                current = current - 1;
-                if (current <= 0) {
-                    clearInterval(warningCountdownInterval);
-                    // Entferne die Warnung elegant
-                    warningMessage.style.opacity = '0';
-                    warningMessage.style.transition = 'opacity 0.5s ease';
-                    setTimeout(() => {
-                        if (warningMessage.parentNode) warningMessage.parentNode.removeChild(warningMessage);
-                    }, 500);
-                    return;
-                }
-                if (timerSpan) {
-                    timerSpan.textContent = ` (${current}s)`;
-                }
-            }, 1000);
-
-            // Fallback: falls Browser die Transition nicht ausführt, entferne nach remaining Sekunden
-            warningMessageTimeout = setTimeout(() => {
-                if (warningMessage.parentNode) warningMessage.parentNode.removeChild(warningMessage);
-            }, remaining * 1000 + 700);
-        });
     </script>
 {% endblock %}
