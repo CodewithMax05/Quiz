@@ -239,7 +239,7 @@ def inject_csrf_token():
 #Brutforce Event Handler
 @app.errorhandler(429)
 def too_many_requests(error):
-    flash('Zu viele Fehlversuche. Bitte warte eine Weile.', 'warning')
+    flash('Zu viele Fehlversuche. Bitte gedulde dich einen Moment.', 'warning')
     return redirect(url_for('index'))
 
 # Automatische Datenbankinitialisierung beim App-Start
@@ -477,31 +477,36 @@ def register():
         username = request.form['username'].strip()
         password = request.form['password'].strip()
 
-        # Mindestanforderungen
+        # 1. Prüfen ob alle Felder ausgefüllt sind
+        if not username or not password:
+            flash('Bitte fülle alle Felder aus', 'error')
+            return redirect(url_for('index'))
+        
+        # 2. Prüfen ob Benutzername zu lang ist
         if len(username) > 12:
             flash('Benutzername darf maximal 12 Zeichen haben', 'error')
             return redirect(url_for('index'))
+            
+        # 3. Prüfen ob Benutzername bereits existiert
+        if User.query.filter_by(username=username).first():
+            flash('Benutzername bereits vergeben', 'error')
+            return redirect(url_for('index'))
+        
+        # 4. Prüfen ob Passwort mindestens 5 Zeichen hat
         if len(password) < 5:
             flash('Passwort muss mindestens 5 Zeichen haben', 'error')
             return redirect(url_for('index'))
-
-        if username and password:
-            if User.query.filter_by(username=username).first():
-                flash('Benutzername bereits vergeben', 'error')
-                return redirect(url_for('index'))
-            
-            new_user = User(
-                username=username,
-                first_played=datetime.now(timezone.utc)
-            )
-            new_user.set_password(password)
-            db.session.add(new_user)
-            db.session.commit()
-            session['username'] = username
-            return redirect(url_for('homepage'))
         
-        flash('Bitte fülle alle Felder aus', 'error')
-        return redirect(url_for('index'))
+        # Wenn alle Validierungen bestanden sind, Benutzer erstellen
+        new_user = User(
+            username=username,
+            first_played=datetime.now(timezone.utc)
+        )
+        new_user.set_password(password)
+        db.session.add(new_user)
+        db.session.commit()
+        session['username'] = username
+        return redirect(url_for('homepage'))
     
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()  # Wichtig bei Fehlern!
