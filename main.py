@@ -29,23 +29,6 @@ load_dotenv()
 app = Flask(__name__)
 csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren
 
-# Brute Force Protection with Redis fallback
-try:
-    limiter = Limiter(
-        key_func=get_remote_address,
-        app=app,
-        storage_uri=os.environ.get("REDIS_URL"),
-        default_limits=["200 per day", "50 per hour"]
-    )
-except Exception:
-    limiter = Limiter(
-        key_func=get_remote_address,
-        app=app,
-        storage_uri="memory://",
-        default_limits=["200 per day", "50 per hour"]
-    )
-    print("Nutze in-memory rate limiting Speicher wegen Redis Verbindungsproblemen")
-
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # WebSocket-Konfiguration für Render
@@ -69,6 +52,29 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 is_production = os.environ.get('FLASK_ENV') == 'production'
 
+# Brute Force Protection with Redis fallback
+try:
+    redis_url = os.environ.get("REDIS_URL")
+    if is_production and not redis_url:
+        raise RuntimeError("REDIS_URL is required in production")
+    
+    limiter = Limiter(
+        key_func=get_remote_address,
+        app=app,
+        storage_uri=redis_url if redis_url else "memory://",
+        default_limits=["200 per day", "50 per hour"],
+        strategy="fixed-window",  # Konsistenteres Verhalten
+        enabled=True
+    )
+except Exception as e:
+    limiter = Limiter(
+        key_func=get_remote_address,
+        app=app,
+        storage_uri="memory://",
+        default_limits=["200 per day", "50 per hour"]
+    )
+    print(f"Using in-memory rate limiting: {str(e)}")
+
 app.config.update(
     SESSION_COOKIE_SECURE=is_production,
     SESSION_COOKIE_HTTPONLY=True,
@@ -76,7 +82,10 @@ app.config.update(
     SESSION_REFRESH_EACH_REQUEST=True,  # Session-Cookie wird bei jeder Anfrage erneuert
     PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
     SESSION_USE_SIGNER=True,
-    SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex())
+    SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
+    SESSION_COOKIE_DOMAIN=None,
+    SESSION_COOKIE_PATH='/',
+    SESSION_COOKIE_MAX_AGE=86400  # 24 Stunden
 )
 
 db = SQLAlchemy(app)
@@ -400,9 +409,22 @@ def initialize_database():
         except Exception as e:
             print(f"❌❌ KRITISCHER FEHLER: {str(e)}")
 
+# Redis-Verbindung testen
+def check_redis_connection():
+    try:
+        if is_production and os.environ.get('REDIS_URL'):
+            redis_conn = redis.from_url(os.environ['REDIS_URL'])
+            redis_conn.ping()
+            print("✅ Redis verbunden")
+            return True
+    except Exception as e:
+        print(f"❌ Redis nicht verfügbar: {str(e)}")
+    return False
+
 # Initialisierung nur im Hauptprozess durchführen
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
+    check_redis_connection()
 
 # Admin Panel
 def admin_required(f):
@@ -466,6 +488,7 @@ def login():
         
         flash('Bitte fülle alle Felder aus', 'error')
         return redirect(url_for('index'))
+    
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler beim Login: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
