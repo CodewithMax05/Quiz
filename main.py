@@ -10,6 +10,7 @@ import os
 import random
 import csv
 import time
+import redis
 from collections import defaultdict
 from flask_session import Session
 from datetime import datetime, timezone, timedelta
@@ -67,6 +68,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 is_production = os.environ.get('FLASK_ENV') == 'production'
+
+# Dauer des Rate-Limit-Fensters in Sekunden (kann per ENV überschrieben werden)
+RATE_LIMIT_WINDOW = int(os.environ.get('RATE_LIMIT_WINDOW', '60'))
+
 app.config.update(
     SESSION_COOKIE_SECURE=is_production,
     SESSION_COOKIE_HTTPONLY=True,
@@ -183,8 +188,15 @@ timer_lock = Lock()
 socket_rooms = {}
 
 # Serverseitige Session-Konfiguration
-app.config['SESSION_TYPE'] = 'sqlalchemy'
-app.config['SESSION_SQLALCHEMY'] = db
+if is_production and os.environ.get('REDIS_URL'):
+    app.config['SESSION_TYPE'] = 'redis'
+    # Verwende REDIS_URL aus den Umgebungsvariablen
+    app.config['SESSION_REDIS'] = redis.from_url(os.environ['REDIS_URL'])
+else:
+    # Lokale/Entwicklungsumgebung: Standardmäßig SQLAlchemy (SQLite)
+    app.config['SESSION_TYPE'] = 'sqlalchemy'
+    app.config['SESSION_SQLALCHEMY'] = db
+
 app.config['SESSION_PERMANENT'] = False
 server_session = Session(app)
 
@@ -230,15 +242,30 @@ def inject_csrf_token():
 #Brutforce Event Handler
 @app.errorhandler(429)
 def too_many_requests(error):
-    # Berechne verbleibende Zeit des Rate-Limits
-    retry_after = getattr(error, 'retry_after', 60)
-    # Sicherstellen, dass retry_after immer ein numerischer Wert ist
+    """
+    Fehlerhandler für zu viele Anfragen.
+    Speichert einen absoluten Ablauf-Zeitstempel in der Session:
+      session['rate_limit_expires_at'] = timestamp (time.time() + retry_after)
+    und übergibt beim Redirect auf index die verbleibende Zeit.
+    """
+    # retry_after kann von Flask-Limiter geliefert werden oder None sein
+    retry_after = getattr(error, 'retry_after', None)
     if retry_after is None:
-        retry_after = 60
-    session['rate_limit_remaining'] = retry_after
-    session['rate_limit_start'] = time.time()
-    
+        retry_after = RATE_LIMIT_WINDOW
+    try:
+        retry_after = int(retry_after)
+    except Exception:
+        retry_after = RATE_LIMIT_WINDOW
+
+    # Absolute Ablaufzeitpunkt speichern
+    expires_at = time.time() + retry_after
+    session['rate_limit_expires_at'] = expires_at
+    # Wir speichern auch das gesamtfenster (z.B. 60s) damit Client weiß, wie groß die Progressbar ist
+    session['rate_limit_total'] = RATE_LIMIT_WINDOW
+
+    # Benutzer informieren
     flash(f'Zu viele Fehlversuche. Bitte warte {retry_after} Sekunden.', 'warning')
+    # Redirect zur Login-Seite; index() liest die Session und zeigt die Progressbar an
     return redirect(url_for('index'))
 
 # Automatische Datenbankinitialisierung beim App-Start
@@ -435,31 +462,39 @@ def login_required(f):
 # Ab hier alle Routes 
 @app.route('/')
 def index():
+    # Wenn eingeloggt, weiterleiten zur Homepage
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
         if user:
             return redirect(url_for('homepage'))
         else:
             session.clear()
-    
-    # Berechne verbleibende Zeit für Rate-Limit
+
+    # Berechne verbleibende Zeit für Rate-Limit aus einem gespeicherten expires_at-Timestamp
     rate_limit_remaining = 0
-    if 'rate_limit_remaining' in session and 'rate_limit_start' in session:
+    rate_limit_total = RATE_LIMIT_WINDOW
+
+    expires_at = session.get('rate_limit_expires_at')
+    if expires_at:
         try:
-            elapsed = time.time() - session['rate_limit_start']
-            # Sicherstellen, dass beide Werte numerisch sind
-            if isinstance(session['rate_limit_remaining'], (int, float)) and isinstance(session['rate_limit_start'], (int, float)):
-                rate_limit_remaining = max(0, session['rate_limit_remaining'] - elapsed)
-            else:
-                # Ungültige Werte zurücksetzen
-                session.pop('rate_limit_remaining', None)
-                session.pop('rate_limit_start', None)
-        except (TypeError, KeyError):
-            # Im Fehlerfall Werte zurücksetzen
-            session.pop('rate_limit_remaining', None)
-            session.pop('rate_limit_start', None)
-    
-    return render_template('index.html', rate_limit_remaining=rate_limit_remaining)
+            remaining = int(max(0, expires_at - time.time()))
+        except Exception:
+            remaining = 0
+
+        if remaining > 0:
+            rate_limit_remaining = remaining
+            # keep rate_limit_total if stored in session (falls unterschiedlich)
+            rate_limit_total = int(session.get('rate_limit_total', RATE_LIMIT_WINDOW))
+        else:
+            # Falls abgelaufen, aufräumen
+            session.pop('rate_limit_expires_at', None)
+            session.pop('rate_limit_total', None)
+            rate_limit_remaining = 0
+            rate_limit_total = RATE_LIMIT_WINDOW
+
+    return render_template('index.html',
+                           rate_limit_remaining=rate_limit_remaining,
+                           rate_limit_total=rate_limit_total)
 
 @app.route('/login', methods=['POST'])
 @limiter.limit("5 per minute", error_message="Zu viele Fehlversuche")
