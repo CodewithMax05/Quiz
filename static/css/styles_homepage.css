@@ -23,7 +23,7 @@ body {
     position: relative;
 }
 
-/* Sternenhintergrund für die ganze Seite */
+/* Sternenhintergrund für die ganze Seite 
 body::before {
     content: '';
     position: absolute;
@@ -45,7 +45,7 @@ body::before {
 @keyframes twinkle {
     0% { opacity: 0.3; }
     100% { opacity: 1; }
-}
+}*/
 
 .page-wrapper {
     flex: 1;

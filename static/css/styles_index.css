@@ -55,11 +55,11 @@ html, body {
     z-index: 1;
 }
 
-/* Sternenhintergrund mit mehr Tiefe */
+/* Sternenhintergrund mit mehr Tiefe 
 .container::before {
     content: '';
     position: absolute;
-    top: -5px; /* Erweitert für sichtbare Umrandung */
+    top: -5px;
     left: -5px;
     right: -5px;
     bottom: -5px;
@@ -72,13 +72,13 @@ html, body {
     background-size: 250px 250px;
     z-index: -1;
     animation: twinkle 10s infinite alternate;
-    border-radius: 28px; /* Größer als Container für sichtbaren Rand */
+    border-radius: 28px;  
 }
 
 @keyframes twinkle {
     0% { opacity: 0.4; }
     100% { opacity: 0.8; }
-}
+}*/
 
 h1 {
     color: white;

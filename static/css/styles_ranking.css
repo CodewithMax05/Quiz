@@ -149,7 +149,7 @@ body.ranking-page {
     outline: none;
 }
 
-/* ✨ STERNENHINTERGRUND */
+/* ✨ STERNENHINTERGRUND 
 .stars-background {
     position: fixed;
     inset: 0;
@@ -185,7 +185,7 @@ body.ranking-page {
     animation-delay: 15s;
     animation-duration: 30s;
     opacity: 0.3;
-}
+}*/
 
 /* 📋 LEADERBOARD-STIL */
 .leaderboard {

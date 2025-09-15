@@ -28,7 +28,7 @@ body {
     100% { background-position: 0% 0%; }
 }
 
-/* Sternenhintergrund */
+/* Sternenhintergrund 
 .stars-background {
     position: fixed;
     top: 0;
@@ -81,7 +81,7 @@ body {
 @keyframes twinkle {
     0% { opacity: 0.4; }
     100% { opacity: 0.8; }
-}
+}*/
 
 /* Ergebnis-Container */
 .result-container {
