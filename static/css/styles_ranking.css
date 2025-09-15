@@ -16,6 +16,28 @@ body {
     min-height: 100vh;
 }
 
+
+/* Body speziell für Ranking */
+body.ranking-page {
+    overflow-y: auto;    /* wichtig: Scrollen für mobile Ansicht */
+    overflow-x: hidden;  /* horizontales Scrollen verhindern */
+}
+
+/* Leaderboard, Player-Info etc. */
+.ranking-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.ranking-page .back-button {
+    margin-bottom: 20px; /* 👈 zusätzlicher Abstand nach unten */
+}
+
+
 /* 💠 RANKING-LAYOUT */
 .ranking-title {
     text-align: center;
