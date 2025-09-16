@@ -35,6 +35,7 @@
                     <select id="category" name="category" class="dropup-select">
                         <option value="" disabled {% if not category %}selected{% endif %}>Bitte auswählen</option>
                         <option value="Feedback" {% if category=='Feedback' %}selected{% endif %}>Feedback</option>
+                        <option value="Einreichung - Fragen" {% if category=='Einreichung - Fragen' %}selected{% endif %}>Einreichung - Fragen</option>
                         <option value="Fehlermeldung - Fragen" {% if category=='Fehlermeldung - Fragen' %}selected{% endif %}>Fehlermeldung - Fragen</option>
                         <option value="Fehlermeldung - Allgemein" {% if category=='Fehlermeldung - Allgemein' %}selected{% endif %}>Fehlermeldung - Allgemein</option>
                     </select>
