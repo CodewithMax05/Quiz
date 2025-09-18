@@ -7,7 +7,7 @@
 
 {% block body %}
 <div class="page-wrapper">
-    <!-- Flash-Nachrichten Container -->
+    <!-- Flash-Nachrichten -->
     <div id="flash-container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -21,12 +21,14 @@
         {% endwith %}
     </div>
 
-    <!-- Impressum-Inhalt -->
-    <div class="container">
+    <!-- Haupt-Block -->
+    <div class="impressum-box">
         <h1 class="impressum-title">Impressum</h1>
-    </div>
-    <div class="impressum-content">
-        <img src="{{ url_for('static', filename='pictures/Logo-Huhn.png') }}" alt="Impressum Logo" class="impressum-image">
+
+        <img src="{{ url_for('static', filename='pictures/Logo-Huhn.png') }}"
+             alt="Impressum Logo"
+             class="impressum-image">
+
         <div class="impressum-info">
             <div class="info-row">
                 <span class="info-label">Gamename:</span>
@@ -53,16 +55,12 @@
                 <span class="info-value">Diese Webseite verwendet technisch notwendige Session-Cookies für den Spielbetrieb. Es werden keine Tracking-Cookies eingesetzt.</span>
             </div>
         </div>
+
+        <!-- Buttons -->
+        <div class="link-content">
+            <a href="{{ url_for('homepage') }}" class="back-button">Zurück zur Themenwahl</a>
+            <a href="{{ url_for('support') }}" class="back-button">Support</a>
+        </div>
     </div>
-    <div class="link-content">
-        <!-- Zurück-Button -->
-        <a href="{{ url_for('homepage') }}" class="back-button">
-            Zurück zur Themenwahl
-        </a>
-        <!-- Support-Button-->
-        <a href="{{ url_for('support') }}" class="back-button">
-            Support
-        </a>
-    </div>  
 </div>
 {% endblock %}
