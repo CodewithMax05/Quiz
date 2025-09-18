@@ -6,61 +6,61 @@
 {% endblock %}
 
 {% block body %}
-<div class="page-wrapper">
-    <!-- Flash-Nachrichten -->
-    <div id="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                    {{ message }}
-                    <div class="custom-progress-bar"></div>
+    <div class="page-wrapper">
+        <!-- Flash-Nachrichten -->
+        <div id="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
+                        {{ message }}
+                        <div class="custom-progress-bar"></div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Haupt-Block -->
+        <div class="impressum-box">
+            <h1 class="impressum-title">Impressum</h1>
+
+            <img src="{{ url_for('static', filename='pictures/Logo-Huhn.png') }}"
+                alt="Impressum Logo"
+                class="impressum-image">
+
+            <div class="impressum-info">
+                <div class="info-row">
+                    <span class="info-label">Gamename:</span>
+                    <span class="info-value">Game-Quiz</span>
                 </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
+                <div class="info-row">
+                    <span class="info-label">Version:</span>
+                    <span class="info-value">1.0.0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Entwickler:</span>
+                    <span class="info-value">Justin Burian<br>Max Schieck</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Allgemeiner Hinweis:</span>
+                    <span class="info-value">Diese private Webseite dient ausschließlich zu Lern- und Unterhaltungszwecken. Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der Inhalte übernommen.</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Haftungsausschluss:</span>
+                    <span class="info-value">Dieses Spiel enthält visuelle Effekte (z. B. Lichtblitze, Animationen), die bei empfindlichen Personen Unwohlsein hervorrufen können. Eine Haftung für gesundheitliche Schäden wird ausgeschlossen.</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Cookies:</span>
+                    <span class="info-value">Diese Webseite verwendet technisch notwendige Session-Cookies für den Spielbetrieb. Es werden keine Tracking-Cookies eingesetzt.</span>
+                </div>
+            </div>
 
-    <!-- Haupt-Block -->
-    <div class="impressum-box">
-        <h1 class="impressum-title">Impressum</h1>
-
-        <img src="{{ url_for('static', filename='pictures/Logo-Huhn.png') }}"
-             alt="Impressum Logo"
-             class="impressum-image">
-
-        <div class="impressum-info">
-            <div class="info-row">
-                <span class="info-label">Gamename:</span>
-                <span class="info-value">Game-Quiz</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Version:</span>
-                <span class="info-value">1.0.0</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Entwickler:</span>
-                <span class="info-value">Justin Burian<br>Max Schieck</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Allgemeiner Hinweis:</span>
-                <span class="info-value">Diese private Webseite dient ausschließlich zu Lern- und Unterhaltungszwecken. Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der Inhalte übernommen.</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Haftungsausschluss:</span>
-                <span class="info-value">Dieses Spiel enthält visuelle Effekte (z. B. Lichtblitze, Animationen), die bei empfindlichen Personen Unwohlsein hervorrufen können. Eine Haftung für gesundheitliche Schäden wird ausgeschlossen.</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Cookies:</span>
-                <span class="info-value">Diese Webseite verwendet technisch notwendige Session-Cookies für den Spielbetrieb. Es werden keine Tracking-Cookies eingesetzt.</span>
+            <!-- Buttons -->
+            <div class="link-content">
+                <a href="{{ url_for('homepage') }}" class="back-button">Zurück zur Themenwahl</a>
+                <a href="{{ url_for('support') }}" class="back-button">Support</a>
             </div>
         </div>
-
-        <!-- Buttons -->
-        <div class="link-content">
-            <a href="{{ url_for('homepage') }}" class="back-button">Zurück zur Themenwahl</a>
-            <a href="{{ url_for('support') }}" class="back-button">Support</a>
-        </div>
     </div>
-</div>
 {% endblock %}
