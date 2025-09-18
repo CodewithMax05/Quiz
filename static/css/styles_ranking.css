@@ -149,44 +149,6 @@ body.ranking-page {
     outline: none;
 }
 
-/* ✨ STERNENHINTERGRUND 
-.stars-background {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.stars, .stars2, .stars3 {
-    position: absolute;
-    inset: 0;
-    background: transparent;
-}
-
-.stars:after, .stars2:after, .stars3:after {
-    content: "";
-    position: absolute;
-    top: -2000px;
-    width: 100%;
-    height: 2000px;
-    background: radial-gradient(ellipse at bottom,
-        rgba(255,255,255,0.3) 0%,
-        rgba(255,255,255,0) 70%);
-    animation: stars-animation 20s linear infinite;
-}
-
-.stars2:after {
-    animation-delay: 10s;
-    animation-duration: 25s;
-    opacity: 0.5;
-}
-
-.stars3:after {
-    animation-delay: 15s;
-    animation-duration: 30s;
-    opacity: 0.3;
-}*/
-
 /* 📋 LEADERBOARD-STIL */
 .leaderboard {
     background: rgba(26, 26, 46, 0.8);

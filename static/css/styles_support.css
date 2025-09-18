@@ -12,35 +12,6 @@ html, body {
     position: relative;
 }
 
-/* ✨ STERNENHINTERGRUND 
-.page-wrapper::before,
-.page-wrapper::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: transparent;
-}
-
-.page-wrapper::before {
-    background: radial-gradient(ellipse at bottom,
-        rgba(255,255,255,0.3) 0%,
-        rgba(255,255,255,0) 70%);
-    animation: stars-animation 20s linear infinite;
-}
-
-.page-wrapper::after {
-    background: radial-gradient(ellipse at bottom,
-        rgba(255,255,255,0.15) 0%,
-        rgba(255,255,255,0) 70%);
-    animation: stars-animation 30s linear infinite;
-}
-
-@keyframes stars-animation {
-    from { transform: translateY(0); }
-    to { transform: translateY(2000px); }
-}*/
-
 /* 📄 SUPPORT SEITE - Titel */
 .container {
     flex: 1;

@@ -22,30 +22,6 @@ body {
     position: relative;
 }
 
-/* Sternenhintergrund für die ganze Seite 
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0px, transparent 2px),
-        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
-        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0px, transparent 1px),
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15) 0px, transparent 1px),
-        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0px, transparent 1px);
-    background-size: 200px 200px;
-    z-index: -1;
-    animation: twinkle 8s infinite alternate;
-}
-
-@keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
-}*/
-
 .page-wrapper {
     flex: 1;
     display: flex;
