@@ -169,34 +169,6 @@ input.input-field:-moz-autofill {
     display: none;
 }
 
-/* Warning-Nachricht (Brute Force) */
-.warning-message {
-    background: linear-gradient(135deg, #ff8c00, #ff5500);
-    color: white;
-    padding: 14px 18px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.5s;
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85%;
-    max-width: 400px;
-    z-index: 9999;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.warning-message .message-content {
-    flex: 1;
-    text-align: center;
-}
-
 /* Buttons ohne Bewegungsanimation */
 .btn {
     width: 85%;
@@ -266,54 +238,6 @@ input.input-field:-moz-autofill {
     0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
     70% { box-shadow: 0 0 0 14px rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
     100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
-}
-
-/* Warning-Nachricht (Brute Force) - gleiches Aussehen wie permanent, aber mit Fortschrittsbalken */
-.warning-locked {
-    background: linear-gradient(135deg, #ff8c00, #ff5500) !important;
-    color: white;
-    padding: 14px 18px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.5s;
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85%;
-    max-width: 400px;
-    z-index: 9999;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-}
-
-.warning-locked .message-content {
-    flex: 1;
-    padding-right: 10px;
-}
-
-.warning-locked .close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.3s;
-}
-
-.warning-locked .close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* FEHLERMELDUNG - ANPASSUNG */
@@ -403,8 +327,7 @@ input.input-field:-moz-autofill {
         max-width: 310px;
     }
     
-    .permanent-message,
-    .warning-message {
+    .permanent-message {
         top: 15px;
         width: 85%;
         max-width: 310px;
@@ -463,8 +386,7 @@ input.input-field:-moz-autofill {
         font-size: 0.95rem;
     }
     
-    .permanent-message,
-    .warning-message {
+    .permanent-message {
         top: 10px;
         width: 85%;
         max-width: 260px;

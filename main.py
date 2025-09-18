@@ -10,7 +10,6 @@ import os
 import random
 import csv
 import time
-import redis
 from collections import defaultdict
 from flask_session import Session
 from datetime import datetime, timezone, timedelta
@@ -20,8 +19,6 @@ from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from functools import wraps
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -51,29 +48,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 is_production = os.environ.get('FLASK_ENV') == 'production'
-
-# Brute Force Protection with Redis fallback
-try:
-    redis_url = os.environ.get("REDIS_URL")
-    if is_production and not redis_url:
-        raise RuntimeError("REDIS_URL is required in production")
-    
-    limiter = Limiter(
-        key_func=get_remote_address,
-        app=app,
-        storage_uri=redis_url if redis_url else "memory://",
-        default_limits=["200 per day", "50 per hour"],
-        strategy="fixed-window",  # Konsistenteres Verhalten
-        enabled=True
-    )
-except Exception as e:
-    limiter = Limiter(
-        key_func=get_remote_address,
-        app=app,
-        storage_uri="memory://",
-        default_limits=["200 per day", "50 per hour"]
-    )
-    print(f"Using in-memory rate limiting: {str(e)}")
 
 app.config.update(
     SESSION_COOKIE_SECURE=is_production,
@@ -194,15 +168,8 @@ timer_lock = Lock()
 socket_rooms = {}
 
 # Serverseitige Session-Konfiguration
-if is_production and os.environ.get('REDIS_URL'):
-    app.config['SESSION_TYPE'] = 'redis'
-    # Verwende REDIS_URL aus den Umgebungsvariablen
-    app.config['SESSION_REDIS'] = redis.from_url(os.environ['REDIS_URL'])
-else:
-    # Lokale/Entwicklungsumgebung: Standardmäßig SQLAlchemy (SQLite)
-    app.config['SESSION_TYPE'] = 'sqlalchemy'
-    app.config['SESSION_SQLALCHEMY'] = db
-
+app.config['SESSION_TYPE'] = 'sqlalchemy'
+app.config['SESSION_SQLALCHEMY'] = db
 app.config['SESSION_PERMANENT'] = False
 server_session = Session(app)
 
@@ -244,12 +211,6 @@ def to_local_time(utc_time):
 @app.context_processor
 def inject_csrf_token():
     return dict(csrf_token=generate_csrf)
-
-#Brutforce Event Handler
-@app.errorhandler(429)
-def too_many_requests(error):
-    flash('Zu viele Fehlversuche. Bitte gedulde dich einen Moment.', 'warning')
-    return redirect(url_for('index'))
 
 # Automatische Datenbankinitialisierung beim App-Start
 def initialize_database():
@@ -409,22 +370,9 @@ def initialize_database():
         except Exception as e:
             print(f"❌❌ KRITISCHER FEHLER: {str(e)}")
 
-# Redis-Verbindung testen
-def check_redis_connection():
-    try:
-        if is_production and os.environ.get('REDIS_URL'):
-            redis_conn = redis.from_url(os.environ['REDIS_URL'])
-            redis_conn.ping()
-            print("✅ Redis verbunden")
-            return True
-    except Exception as e:
-        print(f"❌ Redis nicht verfügbar: {str(e)}")
-    return False
-
 # Initialisierung nur im Hauptprozess durchführen
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
-    check_redis_connection()
 
 # Admin Panel
 def admin_required(f):
@@ -468,7 +416,6 @@ def index():
     return render_template('index.html')
 
 @app.route('/login', methods=['POST'])
-@limiter.limit("5 per minute", error_message="Zu viele Fehlversuche")
 def login():
     try:
         username = request.form['username'].strip()

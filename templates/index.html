@@ -15,11 +15,6 @@
                         <div class="message-content">{{ message }}</div>
                         <button class="close-btn" onclick="closePermanentMessage()">&times;</button>
                     </div>
-                    {% elif category == 'warning' %}
-                    <div class="permanent-message warning-locked" id="warning-flash">
-                        <div class="message-content">{{ message }}</div>
-                        <button class="close-btn" onclick="closeWarningMessage()">&times;</button>
-                    </div>
                     {% else %}
                     <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
                         {{ message }}
@@ -64,20 +59,6 @@
                 setTimeout(() => {
                     if (permanentMessage.parentNode) {
                         permanentMessage.parentNode.removeChild(permanentMessage);
-                    }
-                }, 500);
-            }
-        }
-        
-        function closeWarningMessage() {
-            const warningMessage = document.getElementById('warning-flash');
-            if (warningMessage) {
-                warningMessage.style.opacity = '0';
-                warningMessage.style.transition = 'opacity 0.5s ease';
-                
-                setTimeout(() => {
-                    if (warningMessage.parentNode) {
-                        warningMessage.parentNode.removeChild(warningMessage);
                     }
                 }, 500);
             }
