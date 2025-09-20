@@ -22,14 +22,14 @@
     </div>
     
     <div class="container">
-        <a href="{{ url_for('ranking') }}" class="ranking-button" aria-label="Ranking">
+        <a href="{{ url_for('ranking') }}" class="ranking-button sound-button" aria-label="Ranking">
             <i class="fas fa-trophy"></i>
         </a>
-        <a href="{{ url_for('logout') }}" class="logout-button" aria-label="Logout">
+        <a href="{{ url_for('logout') }}" class="logout-button sound-button" aria-label="Logout">
             <i class="fas fa-sign-out-alt"></i>
         </a>
 
-        <button class="info-button" id="info-button" aria-label="Information">
+        <button class="info-button sound-button" id="info-button" aria-label="Information">
             <i class="fas fa-question-circle"></i>
         </button>
         
@@ -184,16 +184,16 @@
             </div>
             
             <div class="button-row">
-                <a href="{{ url_for('imprint') }}" class="imprint-button" aria-label="Impressum">
+                <a href="{{ url_for('imprint') }}" class="imprint-button sound-button" aria-label="Impressum">
                     <i class="fas fa-info"></i>
                 </a>
                 
-                <button type="submit" class="start-button">
+                <button type="submit" class="start-button sound-button">
                     <i class="fas fa-play-circle"></i> Quiz starten
                 </button>
 
                 {% if is_admin %}
-                <a href="{{ url_for('admin_panel') }}" class="admin-button" aria-label="Admin Panel">
+                <a href="{{ url_for('admin_panel') }}" class="admin-button sound-button" aria-label="Admin Panel">
                     <i class="fas fa-cogs"></i>
                 </a>
                 {% endif %}

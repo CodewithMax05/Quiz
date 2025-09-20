@@ -54,7 +54,17 @@
 					console.error("Sound error:", e);
 				}
 			}
-			
+			// neu
+			// Sound-Event für alle Buttons
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('.sound-button').forEach(el => {
+					el.addEventListener('click', () => {
+						playSound('clickSound');
+					});
+				});
+			});
+
+			/*
 			// Event-Listener für alle Buttons
 			document.addEventListener('DOMContentLoaded', () => {
 				document.querySelectorAll('button, input[type="button"], .sound-button').forEach(button => {
@@ -65,7 +75,8 @@
 						}
 					});
 				});
-			});
+			}); 
+			*/
 
 			// Inaktivitäts-Timer (nur für eingeloggte Benutzer)
 			document.addEventListener('DOMContentLoaded', function() {
