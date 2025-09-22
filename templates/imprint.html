@@ -6,22 +6,7 @@
 {% endblock %}
 
 {% block body %}
-
-    <!-- Flash-Nachrichten -->
-    <div id="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                    {{ message }}
-                    <div class="custom-progress-bar"></div>
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
-
-        <!-- Haupt-Block -->
+    <!-- Haupt-Block -->
     <div class="impressum-container">
         <div class="impressum-box">
             <h1 class="impressum-title">Impressum</h1>

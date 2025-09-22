@@ -5,28 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
-{% block body %}
-    <!-- Flash-Nachrichten Container -->
-    <div id="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                    {{ message }}
-                    <div class="custom-progress-bar"></div>
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
-
-    <!-- Gemeinsamer Sternenhintergrund -->
-    <div class="stars-background">
-        <div class="stars"></div>
-        <div class="stars2"></div>
-        <div class="stars3"></div>
-    </div>
-    
+{% block body %}    
     <div class="result-container">
         <h1>Glückwunsch {{ session.username }},<br>du hast das Quiz erfolgreich abgeschlossen!</h1>
         

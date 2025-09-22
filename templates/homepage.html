@@ -7,19 +7,6 @@
 
 {% block body %}
 <div class="page-wrapper">
-    <!-- Flash-Nachrichten Container -->
-    <div id="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                    {{ message }}
-                    <div class="custom-progress-bar"></div>
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
     
     <div class="container">
         <a href="{{ url_for('ranking') }}" class="ranking-button sound-button" aria-label="Ranking">

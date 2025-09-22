@@ -4,27 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_index.css') }}"/>
 {% endblock %}
 
-{% block body %}
-    <!-- Flash-Nachrichten Container -->
-    <div id="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if category == 'permanent' %}
-                    <div class="permanent-message" id="permanent-flash">
-                        <div class="message-content">{{ message }}</div>
-                        <button class="close-btn" onclick="closePermanentMessage()">&times;</button>
-                    </div>
-                    {% else %}
-                    <div class="{% if category == 'error' %}error-message{% else %}info-message{% endif %}">
-                        {{ message }}
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
-    
+{% block body %}    
     <div class="container"> 
         <h1>Willkommen</h1>
         
@@ -48,20 +28,6 @@
                 form.method = "post";
                 form.submit();
             }, 150);
-        }
-        
-        function closePermanentMessage() {
-            const permanentMessage = document.getElementById('permanent-flash');
-            if (permanentMessage) {
-                permanentMessage.style.opacity = '0';
-                permanentMessage.style.transition = 'opacity 0.5s ease';
-                
-                setTimeout(() => {
-                    if (permanentMessage.parentNode) {
-                        permanentMessage.parentNode.removeChild(permanentMessage);
-                    }
-                }, 500);
-            }
         }
     </script>
 {% endblock %}

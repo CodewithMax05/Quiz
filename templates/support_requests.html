@@ -6,19 +6,6 @@
 
 {% block body %}
 <div class="page-wrapper">
-    <!-- Flash-Nachrichten Container -->
-    <div id="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="{{ 'success-message' if category=='success' else 'error-message' }}">
-                    {{ message }}
-                    <div class="custom-progress-bar"></div>
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
 
     <!-- Titel -->
     <div class="container">

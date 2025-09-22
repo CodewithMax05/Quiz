@@ -34,6 +34,27 @@
 	<body data-was-correct="{{ 'true' if was_correct else 'false' }}" 
 		  data-is-logged-in="{{ 'true' if is_logged_in else 'false' }}"
 		  data-automatic-logout-url="{{ url_for('automatic_logout') }}">
+
+		<!-- ZENTRALER FLASH-MESSAGE CONTAINER -->
+		<div id="flash-container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						{% if category == 'permanent' %}
+						<div class="permanent-message" id="permanent-flash">
+							<div class="message-content">{{ message }}</div>
+							<button class="close-btn" onclick="closePermanentMessage()">&times;</button>
+						</div>
+						{% else %}
+						<div class="{% if category == 'error' %}error-message{% elif category == 'info' %}info-message{% else %}success-message{% endif %}">
+							{{ message }}
+							<div class="custom-progress-bar"></div>
+						</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
 		
 		{%block body%}
 
@@ -64,19 +85,57 @@
 				});
 			});
 
-			/*
-			// Event-Listener für alle Buttons
-			document.addEventListener('DOMContentLoaded', () => {
-				document.querySelectorAll('button, input[type="button"], .sound-button').forEach(button => {
-					button.addEventListener('click', () => {
-						// Sound nur bei Aktionen ohne Form-Submit
-						if (!button.closest('form')) {
-							playSound('clickSound');
+			// Funktion für permanente Nachrichten (aus index.html)
+			function closePermanentMessage() {
+				const permanentMessage = document.getElementById('permanent-flash');
+				if (permanentMessage) {
+					permanentMessage.style.opacity = '0';
+					permanentMessage.style.transition = 'opacity 0.5s ease';
+					
+					setTimeout(() => {
+						if (permanentMessage.parentNode) {
+							permanentMessage.parentNode.removeChild(permanentMessage);
 						}
-					});
+					}, 500);
+				}
+			}
+
+			// Globale Flash-Message Funktion (für ranking.html, homepage.html, etc.)
+			function createFlashMessage(text, type = 'info') {
+				const flashContainer = document.getElementById('flash-container');
+				if (!flashContainer) return;
+				
+				// Lösche alle vorhandenen Nachrichten (außer permanent)
+				const messages = flashContainer.querySelectorAll('.error-message, .success-message, .info-message');
+				messages.forEach(msg => {
+					if (!msg.closest('.permanent-message')) {
+						msg.remove();
+					}
 				});
-			}); 
-			*/
+				
+				// Neue Nachricht erstellen
+				const messageDiv = document.createElement('div');
+				messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
+				messageDiv.textContent = text;
+				
+				// Fortschrittsbalken hinzufügen
+				const progressBar = document.createElement('div');
+				progressBar.className = 'custom-progress-bar';
+				messageDiv.appendChild(progressBar);
+				
+				// Nachricht in den Container einfügen
+				flashContainer.appendChild(messageDiv);
+				
+				// Nachricht nach 5 Sekunden entfernen
+				setTimeout(() => {
+					messageDiv.style.animation = 'fadeOut 0.5s forwards';
+					setTimeout(() => {
+						if (flashContainer.contains(messageDiv)) {
+							flashContainer.removeChild(messageDiv);
+						}
+					}, 500);
+				}, 5000);
+			}
 
 			// Inaktivitäts-Timer (nur für eingeloggte Benutzer)
 			document.addEventListener('DOMContentLoaded', function() {
