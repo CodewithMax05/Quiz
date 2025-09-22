@@ -66,7 +66,7 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
+    username = db.Column(db.String(150), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(150), nullable=False)
     highscore = db.Column(db.Integer, default=0)
     highscore_time = db.Column(db.DateTime)
@@ -859,17 +859,31 @@ def search_player():
         if not username:
             return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
 
-        user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
+        # Case-sensitive Suche mit exaktem Match
+        user = User.query.filter(User.username == username).first()
         if not user:
             return jsonify({'error': 'Spieler nicht gefunden'}), 404
         
-        # Rang berechnen
-        players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
-            User.highscore.desc(),
-            User.highscore_time.asc(),
-            User.username.asc()
+        # Rang berechnen - optimierte Version
+        # Zuerst alle Highscores abrufen und dann lokal sortieren
+        all_players = User.query.filter(
+            User.first_played.isnot(None),
+            User.highscore.isnot(None)
+        ).with_entities(
+            User.id, 
+            User.highscore, 
+            User.highscore_time,
+            User.username
         ).all()
-        rank = next((idx for idx, p in enumerate(players_with_highscore, start=1) if p.id == user.id), None)
+        
+        # Lokal sortieren für bessere Performance
+        sorted_players = sorted(
+            all_players, 
+            key=lambda x: (-x.highscore, x.highscore_time or datetime.min)
+        )
+        
+        # Rang finden
+        rank = next((idx for idx, p in enumerate(sorted_players, start=1) if p.id == user.id), None)
         
         # Helper-Funktion für lokale Zeit-Konvertierung
         def to_local_time(utc_time):
