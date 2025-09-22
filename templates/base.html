@@ -131,10 +131,10 @@
 						messageDiv.textContent = text;
 						messageDiv.style.zIndex = '9999'; // Sehr hoher z-index
 						
-						// Fortschrittsbalken für die Warnung (1 Minute)
+						// Fortschrittsbalken für die Warnung (5 Minute)
 						const progressBar = document.createElement('div');
 						progressBar.className = 'custom-progress-bar';
-						progressBar.style.animation = 'progressBar 60s linear forwards'; // 60 Sekunden
+						progressBar.style.animation = 'progressBar 300s linear forwards'; // 300 Sekunden
 						messageDiv.appendChild(progressBar);
 						
 						// Nachricht nach 1 Minute entfernen
