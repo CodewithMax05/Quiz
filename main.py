@@ -502,7 +502,9 @@ def register():
 
 @app.route("/settings")
 def settings():
+    flash('Einstellungen erfolgreich gespeichert!', 'info')
     return render_template("settings.html", is_logged_in=('user_id' in session))
+
 
 @app.route('/change_username', methods=['POST'])
 def change_username():

@@ -47,11 +47,41 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
         const flashContainer = document.getElementById('flash-container');
 
-        // Test-Flash
-        createFlashMessage("Willkommen in den Settings!", "info");
+        // Funktion für neue Meldungen per JS
+        function createFlashMessage(text, type = 'info') {
+            if (!flashContainer) return;
+
+            // Entferne nur vorherige clientseitige Nachrichten, nicht die vom Server
+            const messages = flashContainer.querySelectorAll('.error-message.from-client, .success-message.from-client, .info-message.from-client');
+            messages.forEach(msg => msg.remove());
+
+            // Neue Nachricht erstellen
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${type === 'error' ? 'error-message' : type === 'success' ? 'success-message' : 'info-message'} from-client`;
+            messageDiv.textContent = text;
+
+            const progressBar = document.createElement('div');
+            progressBar.className = 'custom-progress-bar';
+            messageDiv.appendChild(progressBar);
+
+            flashContainer.appendChild(messageDiv);
+
+            // Nachricht nach 5 Sekunden entfernen
+            setTimeout(() => {
+                messageDiv.style.animation = 'fadeOut 0.5s forwards';
+                setTimeout(() => {
+                    if (flashContainer.contains(messageDiv)) {
+                        flashContainer.removeChild(messageDiv);
+                    }
+                }, 500);
+            }, 5000);
+        }
+
+        // Expose global
+        window.createFlashMessage = createFlashMessage;
     });
 
 
