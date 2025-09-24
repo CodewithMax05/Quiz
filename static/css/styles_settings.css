@@ -1,0 +1,47 @@
+/* Hintergrund wie Homepage */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background-size: 300% 300%;
+    background-attachment: fixed;
+    animation: gradientFlow 12s ease infinite;
+    color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.page-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.container {
+    background: rgba(15, 32, 39, 0.45);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    max-width: 600px;
+    width: 90%;
+}
+
+h1.headline {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: white;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+}

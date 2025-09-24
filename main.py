@@ -483,6 +483,18 @@ def register():
         print(f"Datenbankfehler bei der Registrierung: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
+    
+
+
+
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html", is_logged_in=('user_id' in session))
+
+
+
+
 
 @app.route('/homepage')
 @login_required

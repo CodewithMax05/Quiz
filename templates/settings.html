@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_settings.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="container">
+        <h1 class="headline">Settings</h1>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const flashContainer = document.getElementById('flash-container');
+
+        // Test-Flash
+        createFlashMessage("Willkommen in den Settings!", "info");
+    });
+</script>
+{% endblock %}
