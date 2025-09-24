@@ -45,3 +45,76 @@ h1.headline {
     color: white;
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
 }
+
+
+
+
+
+
+
+.settings-list {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+}
+
+.setting-toggle {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.1rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.setting-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.setting-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 5px;
+    padding: 0 20px;
+    border-radius: 10px;
+}
+
+.setting-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 0;
+}
+
+.setting-content input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.setting-content button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #1f8ef1;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.setting-content button:hover {
+    background-color: #0f6ac9;
+}

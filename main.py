@@ -492,6 +492,69 @@ def register():
 def settings():
     return render_template("settings.html", is_logged_in=('user_id' in session))
 
+@app.route('/change_username', methods=['POST'])
+def change_username():
+    current_username = request.form.get('current_username', '').strip()
+    new_username = request.form.get('new_username', '').strip()
+    password = request.form.get('password', '')
+
+    user = User.query.filter_by(username=session['username']).first()
+
+    # 1. Prüfen, ob aktueller Benutzername korrekt ist
+    if current_username != user.username:
+        flash("Der eingegebene aktuelle Benutzername stimmt nicht!", "error")
+        return redirect(url_for('settings'))
+
+    # 2. Passwort prüfen
+    if not user.check_password(password):
+        flash("Falsches Passwort!", "error")
+        return redirect(url_for('settings'))
+
+    # 3. Neuer Benutzername darf nicht leer sein oder zu lang
+    if not new_username:
+        flash("Neuer Benutzername darf nicht leer sein!", "error")
+        return redirect(url_for('settings'))
+    if len(new_username) > 12:
+        flash("Benutzername darf maximal 12 Zeichen haben!", "error")
+        return redirect(url_for('settings'))
+
+    # 4. Prüfen, ob Benutzername schon existiert
+    existing_user = User.query.filter_by(username=new_username).first()
+    if existing_user:
+        flash("Benutzername bereits vergeben!", "error")
+        return redirect(url_for('settings'))
+
+    # 5. Ändern
+    user.username = new_username
+    db.session.commit()
+    session['username'] = new_username
+    flash("Benutzername erfolgreich geändert!", "success")
+    return redirect(url_for('settings'))
+
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    current_password = request.form.get('current_password', '')
+    new_password = request.form.get('new_password', '')
+    confirm_password = request.form.get('confirm_password', '')
+
+    user = User.query.filter_by(username=session['username']).first()
+    if not user or not user.check_password(current_password):
+        flash("Aktuelles Passwort ist falsch!", "error")
+        return redirect(url_for('settings'))
+
+    if new_password != confirm_password:
+        flash("Neue Passwörter stimmen nicht überein!", "error")
+        return redirect(url_for('settings'))
+
+    if len(new_password) < 5:
+        flash("Neues Passwort muss mindestens 5 Zeichen haben!", "error")
+        return redirect(url_for('settings'))
+
+    user.set_password(new_password)
+    db.session.commit()
+    flash("Passwort erfolgreich geändert!", "success")
+    return redirect(url_for('settings'))
 
 
 

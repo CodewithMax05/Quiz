@@ -9,6 +9,40 @@
 <div class="page-wrapper">
     <div class="container">
         <h1 class="headline">Settings</h1>
+
+        <div class="settings-list">
+            <!-- Benutzername ändern -->
+            <div class="setting-item">
+                <button class="setting-toggle">Benutzername ändern <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    <form id="username-form" method="POST" action="{{ url_for('change_username') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="text" name="current_username" placeholder="Aktueller Benutzername" required>
+                        <input type="text" name="new_username" placeholder="Neuer Benutzername" required>
+                        <input type="password" name="password" placeholder="Passwort" required>
+                        <button type="submit">Speichern</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Passwort ändern -->
+            <div class="setting-item">
+                <button class="setting-toggle">Passwort ändern <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    <form id="password-form" method="POST" action="{{ url_for('change_password') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="password" name="current_password" placeholder="Aktuelles Passwort" required>
+                        <input type="password" name="new_password" placeholder="Neues Passwort" required>
+                        <input type="password" name="confirm_password" placeholder="Neues Passwort bestätigen" required>
+                        <button type="submit">Speichern</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
     </div>
 </div>
 
@@ -19,5 +53,26 @@
         // Test-Flash
         createFlashMessage("Willkommen in den Settings!", "info");
     });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggles = document.querySelectorAll('.setting-toggle');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                if(content.style.maxHeight){
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    });
+
+
 </script>
 {% endblock %}
