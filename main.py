@@ -488,6 +488,18 @@ def register():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route("/settings")
 def settings():
     return render_template("settings.html", is_logged_in=('user_id' in session))
@@ -498,19 +510,18 @@ def change_username():
     new_username = request.form.get('new_username', '').strip()
     password = request.form.get('password', '')
 
-    user = User.query.filter_by(username=session['username']).first()
-
-    # 1. Prüfen, ob aktueller Benutzername korrekt ist
-    if current_username != user.username:
-        flash("Der eingegebene aktuelle Benutzername stimmt nicht!", "error")
+    # Benutzer anhand des eingegebenen aktuellen Benutzernamens suchen
+    user = User.query.filter_by(username=current_username).first()
+    if not user:
+        flash("Benutzer nicht gefunden!", "error")
         return redirect(url_for('settings'))
 
-    # 2. Passwort prüfen
+    # Passwort prüfen
     if not user.check_password(password):
         flash("Falsches Passwort!", "error")
         return redirect(url_for('settings'))
 
-    # 3. Neuer Benutzername darf nicht leer sein oder zu lang
+    # Neuer Benutzername darf nicht leer sein oder zu lang
     if not new_username:
         flash("Neuer Benutzername darf nicht leer sein!", "error")
         return redirect(url_for('settings'))
@@ -518,18 +529,22 @@ def change_username():
         flash("Benutzername darf maximal 12 Zeichen haben!", "error")
         return redirect(url_for('settings'))
 
-    # 4. Prüfen, ob Benutzername schon existiert
-    existing_user = User.query.filter_by(username=new_username).first()
-    if existing_user:
+    # Prüfen, ob Benutzername schon existiert
+    if User.query.filter_by(username=new_username).first():
         flash("Benutzername bereits vergeben!", "error")
         return redirect(url_for('settings'))
 
-    # 5. Ändern
+    # Benutzernamen ändern
     user.username = new_username
     db.session.commit()
-    session['username'] = new_username
+
+    # Session aktualisieren, falls der User gerade eingeloggt war
+    if 'username' in session and session['username'] == current_username:
+        session['username'] = new_username
+
     flash("Benutzername erfolgreich geändert!", "success")
     return redirect(url_for('settings'))
+
 
 
 @app.route('/change_password', methods=['POST'])
