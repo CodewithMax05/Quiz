@@ -186,3 +186,41 @@ h1.headline {
     0% { width: 100%; }
     100% { width: 0%; }
 }
+
+
+
+/* Zurück-Button */
+.back-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;   /* statt left */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #888, #aaa);
+    color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    text-decoration: none;
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+
+.back-button:hover {
+    background: linear-gradient(135deg, #999, #bbb);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+        0 0 8px rgba(255, 255, 255, 0.15);
+    filter: brightness(1.1);
+}
+
+.back-button i {
+    pointer-events: none;
+}
