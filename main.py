@@ -613,7 +613,7 @@ def delete_account():
     session.clear()
 
     flash("Dein Account wurde dauerhaft gelöscht.", "success")
-    return redirect(url_for('index'))
+    return redirect(url_for('settings'))
 
 
 
