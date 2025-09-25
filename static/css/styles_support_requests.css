@@ -34,24 +34,38 @@ html, body {
 
 /* Tabelle */
 .requests-content {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    align-items: flex-start;
     width: 90%;
     margin: 2rem auto;
+
+    /* Scrollen */
     overflow-x: auto;
+    overflow-y: auto;
+
+    /* Block, nicht Flex */
+    display: block;
+
+    /* Max Höhe für vertikales Scrollen */
+    max-height: 60vh;
 }
 
 .requests-table {
-    width: 100%;
     border-collapse: collapse;
     background: #ffffff;
     color: #000000;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+    /* Breite */
+    width: max-content;       /* natürliche Breite der Inhalte */
+    min-width: 1000px;         /* Mindestbreite */
+    max-width: 1400px;        /* maximale Breite */
+
+    /* Zentrieren */
+    margin: 0 auto;
 }
+
+
 
 .requests-table th, .requests-table td {
     padding: 0.75rem 1rem;
@@ -64,6 +78,32 @@ html, body {
     word-break: break-word;
 }
 
+.requests-table th:nth-child(1),
+.requests-table td:nth-child(1) {
+    min-width: 120px; /* Kategorie */
+}
+
+.requests-table th:nth-child(2),
+.requests-table td:nth-child(2) {
+    min-width: 150px; /* Spielername */
+}
+
+.requests-table th:nth-child(3),
+.requests-table td:nth-child(3) {
+    min-width: 150px; /* Telefon */
+}
+
+.requests-table th:nth-child(4),
+.requests-table td:nth-child(4) {
+    min-width: 200px; /* E-Mail */
+}
+
+.requests-table th:nth-child(5),
+.requests-table td:nth-child(5) {
+    min-width: 300px; /* Nachricht */
+}
+
+
 .requests-table th {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -75,6 +115,16 @@ html, body {
 
 .requests-table tr:nth-child(even) {
     background: #f5f5f5;
+}
+
+/* Scrollbar Styling optional */
+.requests-content::-webkit-scrollbar {
+    height: 8px;
+}
+
+.requests-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 4px;
 }
 
 /* Keine Anfragen */
