@@ -59,6 +59,7 @@ h1.headline {
 
 .setting-item {
     margin-bottom: 20px;
+    height: auto;
 }
 
 .setting-toggle {
