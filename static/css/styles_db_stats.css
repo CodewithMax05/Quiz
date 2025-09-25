@@ -53,8 +53,9 @@ html, body {
    Boxen für Statistiken
 ------------------------- */
 .stat-box {
-    flex: 1 1 400px;             /* wächst und schrumpft */
-    min-width: 250px;            /* verhindert zu kleines Schrumpfen */
+    width: 300px;                /* feste Breite auf Desktop */
+    max-width: 100%;             /* nie größer als Bildschirm */
+    min-width: 250px;            /* Mindestbreite */
     background: rgba(255,255,255,0.05);
     padding: 1.5rem;
     border-radius: 12px;
@@ -91,6 +92,13 @@ html, body {
 
 .topic-list li {
     margin: 0.4rem 0;
+}
+
+/* Abstand für Gesamtzeile */
+.topic-list p {
+    margin-top: 0.8rem;
+    font-weight: bold;
+    color: #f0f4f8;
 }
 
 /* -------------------------
@@ -134,9 +142,8 @@ html, body {
     }
 
     .stat-box {
-        flex: 1 1 auto;   /* automatische Breite */
-        width: 100%;      /* volle Breite */
-        min-width: 0;     /* schrumpfen möglich */
+        width: 80%;   /* passt sich wie Button an */
+        min-width: 0; /* schrumpfen möglich */
     }
 
     .db-title {
@@ -154,6 +161,7 @@ html, body {
     }
 
     .stat-box {
+        width: 90%;
         padding: 1rem;
     }
 

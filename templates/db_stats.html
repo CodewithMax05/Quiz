@@ -18,8 +18,8 @@
                 {% for topic, count in topic_counts %}
                     <li><b>{{ topic.capitalize() }}</b>: {{ count }} Fragen</li>
                 {% endfor %}
-                <p class="topic-list">Gesamt: {{ total }}</p>
             </ul>
+            <p class="total-line">Gesamt: {{ total }}</p>
         </div>
     </div>
 
