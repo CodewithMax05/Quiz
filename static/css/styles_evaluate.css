@@ -1,4 +1,4 @@
-/* Gemeinsamer Hintergrund für alle Seiten */
+/* Gemeinsamer Hintergrund für alle Seiten 
 body {
     margin: 0;
     padding: 0;
@@ -20,7 +20,7 @@ body {
     padding-top: 5vh;
     overflow-x: hidden;
     position: relative;
-}
+} */
 
 @keyframes gradientFlow {
     0% { background-position: 0% 0%; }

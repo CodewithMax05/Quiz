@@ -1,4 +1,4 @@
-/* 🌌 GLOBAL */
+/* 🌌 GLOBAL 
 html, body {
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ html, body {
     justify-content: center;
     align-items: flex-start;
     overflow-y: auto;
-}
+} */
 
 /* Haupt-Container */
 .impressum-container {

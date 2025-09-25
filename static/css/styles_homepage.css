@@ -1,13 +1,13 @@
-/* Basis-Styles */
+/* Basis-Styles 
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, 
-                #0f2027, /* Tiefes Blau */
-                #203a43, /* Dunkles Türkis */
-                #2c5364  /* Mittleres Blau */
+                #0f2027, /* Tiefes Blau 
+                #203a43, /* Dunkles Türkis 
+                #2c5364  /* Mittleres Blau 
     );
     color: #f0f4f8;
     display: flex;
@@ -21,7 +21,7 @@ body {
     flex-direction: column;
     overflow: hidden;
     position: relative;
-}
+} */
 
 .page-wrapper {
     flex: 1;

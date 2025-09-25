@@ -1,4 +1,4 @@
-/* Hintergrund übernehmen */
+/* Hintergrund übernehmen 
 html, body {
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ html, body {
     flex-direction: column;
     overflow: hidden;
     position: relative;
-}
+} */
 
 /* scrollen */
 html, body {

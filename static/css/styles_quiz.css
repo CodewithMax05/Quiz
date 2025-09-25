@@ -1,6 +1,6 @@
 /* styles_quiz.css */
 
-/* === EINHEITLICHE HINTERGRUND & BASIS === */
+/* === EINHEITLICHE HINTERGRUND & BASIS === 
 html, body {
     margin: 0;
     padding: 0;
@@ -8,9 +8,9 @@ html, body {
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, 
-                #0f2027, /* Tiefes Blau */
-                #203a43, /* Dunkles Türkis */
-                #2c5364  /* Mittleres Blau */
+                #0f2027, /* Tiefes Blau 
+                #203a43, /* Dunkles Türkis 
+                #2c5364  /* Mittleres Blau 
     );
     color: #f0f4f8;
     display: flex;
@@ -19,7 +19,7 @@ html, body {
     align-items: center;
     overflow: auto;
     position: relative;
-}
+} */
 
 /* === HEADER-CONTROLS (Timer, Score, Cancel) === */
 .header-controls {

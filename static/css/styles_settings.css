@@ -1,4 +1,4 @@
-/* Hintergrund wie Homepage */
+/* Hintergrund wie Homepage 
 html, body {
     margin: 0;
     padding: 0;
@@ -10,10 +10,10 @@ html, body {
     animation: gradientFlow 12s ease infinite;
     color: #f0f4f8;
 
-    /* Scrollen wieder aktivieren */
+    /* Scrollen wieder aktivieren 
     display: block;
     overflow-y: auto;
-}
+} */
 
 @keyframes gradientFlow {
     0% { background-position: 0% 0%; }

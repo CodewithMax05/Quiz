@@ -1,25 +1,35 @@
 /* ==========================
    1. Basis-Styles / Body
-   ========================== */
+   ========================== 
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(
-        135deg, 
-        #0f2027 0%, 
-        #203a43 50%, 
-        #2c5364 100%
-    );
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+            135deg, 
+            #0f2027 0%, 
+            #203a43 50%, 
+            #2c5364 100%
+        );
     background-size: 300% 300%;
     background-attachment: fixed;
     animation: gradientFlow 12s ease infinite;
-    color: #f0f4f8;
-    display: flex;
+        color: #f0f4f8;
+        display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+} */
+
+html, body {
+    background-size: 300% 300%;
+    background-attachment: fixed;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-direction: row;
+    position: static;
 }
 
 @keyframes gradientFlow {
