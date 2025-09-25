@@ -1,4 +1,4 @@
-/* 🌌 GLOBALSTIL & HINTERGRUND */
+/* 🌌 GLOBALSTIL & HINTERGRUND 
 html, body {
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ html, body {
     flex-direction: column;
     overflow-y: auto;
     position: relative;
-}
+} */
 
 /* 📄 SUPPORT SEITE - Titel */
 .container {
