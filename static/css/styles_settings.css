@@ -9,9 +9,10 @@ html, body {
     background-attachment: fixed;
     animation: gradientFlow 12s ease infinite;
     color: #f0f4f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    /* Scrollen wieder aktivieren */
+    display: block;
+    overflow-y: auto;
 }
 
 @keyframes gradientFlow {
@@ -20,24 +21,35 @@ html, body {
     100% { background-position: 0% 0%; }
 }
 
+/* Wrapper nur für horizontale Zentrierung */
 .page-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 40px;
+    padding: 40px 20px;  /* oben/unten Platz lassen */
+    box-sizing: border-box;
 }
 
+/* Container-Box */
 .container {
     background: rgba(15, 32, 39, 0.45);
     backdrop-filter: blur(15px);
     border-radius: 20px;
-    padding: 50px;
+    padding: 40px;
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    max-width: 600px;
-    width: 90%;
+
+    /* Standardbreite + Responsivität */
+    width: 600px;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    /* Damit lange Inhalte innerhalb umbrechen */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
+
 
 h1.headline {
     font-size: 2.5rem;
