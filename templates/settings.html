@@ -17,9 +17,9 @@
                 <div class="setting-content">
                     <form id="username-form" method="POST" action="{{ url_for('change_username') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <input type="text" name="current_username" placeholder="Aktueller Benutzername" required>
-                        <input type="text" name="new_username" placeholder="Neuer Benutzername" required>
-                        <input type="password" name="password" placeholder="Passwort" required>
+                        <input type="text" name="current_username" placeholder="Aktueller Benutzername" value="" required>
+                        <input type="text" name="new_username" placeholder="Neuer Benutzername" value="" required>
+                        <input type="password" name="password" placeholder="Passwort" value="" required>
                         <button type="submit">Speichern</button>
                     </form>
                 </div>
@@ -31,13 +31,17 @@
                 <div class="setting-content">
                     <form id="password-form" method="POST" action="{{ url_for('change_password') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <input type="password" name="current_password" placeholder="Aktuelles Passwort" required>
-                        <input type="password" name="new_password" placeholder="Neues Passwort" required>
-                        <input type="password" name="confirm_password" placeholder="Neues Passwort bestätigen" required>
+                        
+                        <input type="text" name="username" placeholder="Aktueller Benutzername" value="" required>
+                        <input type="password" name="current_password" placeholder="Aktuelles Passwort" value="" required>
+                        <input type="password" name="new_password" placeholder="Neues Passwort" value="" required>
+                        <input type="password" name="confirm_password" placeholder="Neues Passwort bestätigen" value="" required>
+                        
                         <button type="submit">Speichern</button>
                     </form>
                 </div>
             </div>
+
 
 
 

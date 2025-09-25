@@ -551,15 +551,23 @@ def change_username():
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
+    username = request.form.get('username', '').strip()
     current_password = request.form.get('current_password', '')
     new_password = request.form.get('new_password', '')
     confirm_password = request.form.get('confirm_password', '')
 
-    user = User.query.filter_by(username=session['username']).first()
-    if not user or not user.check_password(current_password):
+    # 1. Benutzer anhand des Usernames finden
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash("Benutzer nicht gefunden!", "error")
+        return redirect(url_for('settings'))
+
+    # 2. Aktuelles Passwort prüfen
+    if not user.check_password(current_password):
         flash("Aktuelles Passwort ist falsch!", "error")
         return redirect(url_for('settings'))
 
+    # 3. Prüfen, ob neues Passwort korrekt eingegeben wurde
     if new_password != confirm_password:
         flash("Neue Passwörter stimmen nicht überein!", "error")
         return redirect(url_for('settings'))
@@ -568,10 +576,13 @@ def change_password():
         flash("Neues Passwort muss mindestens 5 Zeichen haben!", "error")
         return redirect(url_for('settings'))
 
+    # 4. Neues Passwort setzen
     user.set_password(new_password)
     db.session.commit()
+
     flash("Passwort erfolgreich geändert!", "success")
     return redirect(url_for('settings'))
+
 
 
 
