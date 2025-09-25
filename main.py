@@ -585,6 +585,38 @@ def change_password():
 
 
 
+@app.route('/delete_account', methods=['POST'])
+def delete_account():
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '')
+    confirm_delete = request.form.get('confirm_delete', '').strip()
+
+    # 1. Benutzer finden
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash("Benutzer nicht gefunden!", "error")
+        return redirect(url_for('settings'))
+
+    # 2. Passwort prüfen
+    if not user.check_password(password):
+        flash("Passwort ist falsch!", "error")
+        return redirect(url_for('settings'))
+
+    # 3. Bestätigung prüfen
+    if confirm_delete != "LÖSCHEN":
+        flash("Bitte schreibe exakt 'LÖSCHEN', um den Account zu löschen.", "error")
+        return redirect(url_for('settings'))
+
+    # 4. Benutzer löschen
+    db.session.delete(user)
+    db.session.commit()
+    session.clear()
+
+    flash("Dein Account wurde dauerhaft gelöscht.", "success")
+    return redirect(url_for('index'))
+
+
+
 
 
 @app.route('/homepage')

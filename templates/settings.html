@@ -42,6 +42,28 @@
                 </div>
             </div>
 
+            <!-- Account löschen -->
+            <div class="setting-item">
+                <button class="setting-toggle">Account löschen <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    <form id="delete-account-form" method="POST" action="{{ url_for('delete_account') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="text" name="username" placeholder="Benutzername" value="" required>
+                        <input type="password" name="password" placeholder="Passwort" required>
+
+                        <p style="color: red; font-weight: bold; margin-top: 10px;">
+                            Um dein Konto zu löschen, schreibe bitte <u>LÖSCHEN</u> in das Feld:
+                        </p>
+                        <input type="text" name="confirm_delete" placeholder="LÖSCHEN" value="" required>
+
+                        <button type="submit" style="background-color: darkred; color: white; margin-top: 10px;">
+                            Account endgültig löschen
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+
 
 
 
