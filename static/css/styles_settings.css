@@ -207,12 +207,14 @@ h1.headline {
 }
 
 
+.button-wrapper {
+    text-align: right;      /* Button links ausrichten */
+    margin-bottom: 20px;   /* Abstand zum Titel */
+}
 
 /* Zurück-Button */
 .back-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;   /* statt left */
+    position: static;
     width: 40px;
     height: 40px;
     border-radius: 50%;
