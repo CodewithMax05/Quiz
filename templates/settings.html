@@ -18,7 +18,7 @@
         <div class="settings-list">
             <!-- Benutzername ändern -->
             <div class="setting-item">
-                <button class="setting-toggle">Benutzername ändern <i class="fa fa-chevron-down"></i></button>
+                <button class="setting-toggle">Username ändern <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="username-form" method="POST" action="{{ url_for('change_username') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
