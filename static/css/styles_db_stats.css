@@ -36,19 +36,24 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    width: 900px;
+    width: 100%;
+    max-width: 900px; /* maximale Breite des Containers */
     margin: 2rem auto;
     gap: 2rem;
+    flex-wrap: wrap; /* Boxen umbrechen */
 }
 
 /* Boxen für Statistiken */
 .stat-box {
-    flex: 1;
+    flex: 1 1 250px; /* flexibel: wächst und schrumpft, Mindestbreite 250px */
     background: rgba(255,255,255,0.05);
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    min-width: 250px; /* verhindert zu kleines Schrumpfen */
+    max-width: 100%;  /* passt sich Containerbreite an */
 }
+
 
 .stat-box h2 {
     font-size: 1.5rem;
@@ -97,4 +102,45 @@ html, body {
 .db-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Media Queries für kleine Bildschirme */
+@media (max-width: 950px) {
+    .db-content {
+        width: 100%;
+        flex-direction: column; /* Boxen untereinander */
+        align-items: center;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .stat-box {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .db-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .db-button {
+        width: 200px;
+    }
+}
+
+@media (max-width: 500px) {
+    .db-title {
+        font-size: 1.5rem;
+    }
+
+    .stat-box {
+        padding: 1rem;
+    }
+
+    .db-button {
+        width: 150px;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
 }
