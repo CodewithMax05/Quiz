@@ -23,10 +23,11 @@ html, body {
 
 /* Wrapper nur für horizontale Zentrierung */
 .page-wrapper {
-    width: 100%;
+    min-height: 100vh;         /* mindestens Bildschirmhöhe */
     display: flex;
-    justify-content: center;
-    padding: 40px 20px;  /* oben/unten Platz lassen */
+    justify-content: center;   /* horizontal zentrieren */
+    align-items: center;       /* vertikal zentrieren */
+    padding: 40px 20px;
     box-sizing: border-box;
 }
 
