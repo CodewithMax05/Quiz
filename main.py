@@ -583,6 +583,10 @@ def change_password():
     flash("Passwort erfolgreich geändert!", "success")
     return redirect(url_for('settings'))
 
+@app.route('/change_avatar', methods=['POST'])
+def change_avatar():
+    pass
+
 
 
 @app.route('/delete_account', methods=['POST'])
