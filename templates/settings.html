@@ -71,6 +71,25 @@
                 </div>
             </div>
 
+            <!-- Cookies löschen -->
+            <div class="setting-item">
+                <button class="setting-toggle">Cookies löschen <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    <form id="delete-cookies-form" method="POST" action="{{ url_for('clear_cookies') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <p style="color: red; font-weight: bold; margin-top: 10px;">
+                            Zum Löschen aller Cookies <u>LÖSCHEN</u> eingeben:
+                        </p>
+                        <input type="text" name="confirm_delete" placeholder="LÖSCHEN" value="" required>
+
+                        <button type="submit" style="background-color: darkred; color: white; margin-top: 10px;">
+                            Cookies löschen
+                        </button>
+                    </form>
+                </div>
+            </div>
+
 
 
 

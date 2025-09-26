@@ -615,6 +615,23 @@ def delete_account():
     flash("Dein Account wurde dauerhaft gelöscht.", "success")
     return redirect(url_for('settings'))
 
+@app.route('/clear_cookies', methods=['POST'])
+def clear_cookies():
+    confirm_delete = request.form.get('confirm_delete', '').strip()
+
+    if confirm_delete != "LÖSCHEN":
+        flash("Bitte schreibe exakt 'LÖSCHEN', um die Cookies zu löschen.", "error")
+        return redirect(url_for('settings'))
+
+    resp = redirect(url_for('settings'))
+
+    # Session-Cookie gezielt löschen
+    resp.delete_cookie('session', path='/', domain=None)
+
+    session.clear()
+    flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
+    return resp
+
 
 
 
