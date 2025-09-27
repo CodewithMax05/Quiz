@@ -1,26 +1,3 @@
-/* Hintergrund wie Homepage 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    background-size: 300% 300%;
-    background-attachment: fixed;
-    animation: gradientFlow 12s ease infinite;
-    color: #f0f4f8;
-
-    /* Scrollen wieder aktivieren 
-    display: block;
-    overflow-y: auto;
-} */
-
-@keyframes gradientFlow {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
-}
-
 /* Wrapper nur für horizontale Zentrierung */
 .page-wrapper {
     min-height: 100vh;         /* mindestens Bildschirmhöhe */

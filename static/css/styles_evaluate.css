@@ -1,27 +1,3 @@
-/* Gemeinsamer Hintergrund für alle Seiten 
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(
-        135deg, 
-        #0f2027 0%, 
-        #203a43 50%, 
-        #2c5364 100%
-    );
-    background-size: 400% 400%;
-    background-attachment: fixed;
-    animation: gradientFlow 12s ease infinite;
-    color: #f0f4f8;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 5vh;
-    overflow-x: hidden;
-    position: relative;
-} */
-
 @keyframes gradientFlow {
     0% { background-position: 0% 0%; }
     50% { background-position: 100% 100%; }

@@ -1,16 +1,4 @@
-/* 🌌 GLOBAL 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #f0f4f8;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    overflow-y: auto;
-} */
+/* 🌌 GLOBAL */
 
 /* Haupt-Container */
 .impressum-container {
