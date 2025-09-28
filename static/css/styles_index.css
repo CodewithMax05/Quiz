@@ -149,6 +149,22 @@ input.input-field:-moz-autofill {
     animation: pulse-green 2.5s infinite;
 }
 
+.btn-cookie-accept,
+.btn-cookie-decline {
+    min-width: 100px; /* <- Mindestbreite */
+}
+.btn-cookie-accept {
+    background: linear-gradient(135deg, #018818, #39d453);
+    color: white;
+    animation: pulse-green 2.5s infinite;
+}
+
+.btn-cookie-decline {
+    background: linear-gradient(135deg, #ff0000, #b61818);
+    color: white;
+    animation: pulse-green 2.5s infinite;
+}
+
 /* Hover-Effekte */
 .btn:hover:not(:disabled) {
     box-shadow: 
@@ -171,6 +187,22 @@ input.input-field:-moz-autofill {
         inset 0 -3px 8px rgba(0, 0, 0, 0.25),
         0 0 15px #38ef7d;
 }
+
+.btn-cookie-accept:hover:not(:disabled) {
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+        0 0 15px #39d453;
+}
+
+.btn-cookie-decline:hover:not(:disabled) {
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+        0 0 15px #b61818;
+}
+
+
 
 /* ==========================
    6. Settings-Button
