@@ -540,15 +540,14 @@ def login():
         else:
             session.permanent = False
 
-        # Ziel abhängig von Admin-Flag
+        # Weiterleitung
         target_endpoint = 'admin_panel' if user.is_admin else 'homepage'
         resp = redirect(url_for(target_endpoint))
 
-        # Gespeicherte Login-Cookies nur wenn Consent vorhanden (30 Tage)
+        # Gespeicherte Login-Cookies nur wenn Consent vorhanden
         if request.cookies.get('cookie_consent') == 'true':
             max_age = 60 * 60 * 24 * 30  # 30 Tage
             resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
-            # Passwort als HttpOnly-Cookie (Server kann es lesen, JS nicht)
             resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
 
         return resp
@@ -563,6 +562,7 @@ def login():
         return redirect(url_for('index'))
 
 
+
 # -------------------------
 # Register (mit gleicher Admin-/Homepage-Logik)
 # -------------------------
@@ -572,7 +572,7 @@ def register():
         username = request.form['username'].strip()
         password = request.form['password'].strip()
 
-        # Validierungen wie gehabt
+        # Validierungen
         if not username or not password:
             flash('Bitte fülle alle Felder aus', 'error')
             return redirect(url_for('index'))
@@ -586,7 +586,7 @@ def register():
             return redirect(url_for('index'))
 
         if len(password) < 5:
-            flash('Passwort muss mindestens 5 Zeichen haben', 'error')
+            flash('Passwort muss mindestens 5 Zeichen haben!', 'error')
             return redirect(url_for('index'))
 
         # Benutzer anlegen
@@ -600,23 +600,34 @@ def register():
 
         # Direkt einloggen
         session['username'] = username
-        # permanent nur bei Consent
+
         if request.cookies.get('cookie_consent') == 'true':
             session.permanent = True
         else:
             session.permanent = False
 
-        # Weiterleitung (normalerweise kein Admin bei Registrierung, trotzdem geprüft)
         target_endpoint = 'admin_panel' if new_user.is_admin else 'homepage'
         resp = redirect(url_for(target_endpoint))
 
-        # Gespeicherte Login-Cookies nur wenn Consent vorhanden (30 Tage)
+        # Login-Daten speichern nur bei Consent
         if request.cookies.get('cookie_consent') == 'true':
             max_age = 60 * 60 * 24 * 30  # 30 Tage
             resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
             resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
 
         return resp
+
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler bei der Registrierung: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler bei der Registrierung: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
+        return redirect(url_for('index'))
+
 
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()
@@ -760,35 +771,6 @@ def delete_account():
 
     flash("Dein Account wurde dauerhaft gelöscht.", "success")
     return redirect(url_for('settings'))
-
-@app.route('/update_cookie_consent', methods=['POST'])
-@login_required
-def update_cookie_consent():
-    consent = request.form.get('cookie_consent') == 'true'
-    resp = redirect(url_for('settings'))
-
-    # Consent-Cookie setzen
-    resp.set_cookie('cookie_consent', 'true' if consent else 'false', max_age=60*60*24*365, samesite='Lax')
-
-    # Falls der Nutzer eingeloggt ist und Consent aktiviert wurde: Login-Cookies speichern
-    if consent and 'username' in session:
-        username = session['username']
-        # Passwort holen (aus Sicherheitsgründen hier aus session nicht verfügbar, falls nicht gespeichert)
-        # Bei bestehendem Login-Cookie muss password über POST oder Session gespeichert sein
-        password = request.cookies.get('saved_password') or ''
-        max_age = 60 * 60 * 24 * 30  # 30 Tage
-        resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
-        if password:
-            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
-        flash("Cookies wurden aktiviert und Login-Cookies gespeichert.", "success")
-    elif not consent:
-        # Wenn Consent deaktiviert wird, Cookies löschen
-        cookies_to_delete = ['saved_username', 'saved_password']
-        for cookie_name in cookies_to_delete:
-            resp.delete_cookie(cookie_name, path='/')
-        flash("Cookies wurden deaktiviert.", "info")
-
-    return resp
 
 
 @app.route('/clear_cookies', methods=['POST'])
