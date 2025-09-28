@@ -313,7 +313,40 @@ input.input-field:-moz-autofill {
 }
 
 /* ==========================
-   8. Keyframes / Animationen
+   8. Cookie Consent Modal
+   ========================== */
+.cookie-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    z-index: 3000;
+}
+.cookie-content {
+    background: rgba(15,32,39,0.95);
+    padding: 22px;
+    border-radius: 14px;
+    max-width: 480px;
+    width: calc(100% - 40px);
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.cookie-content h2 { 
+    margin: 0 0 8px 0; 
+    font-weight: 600; 
+}
+.cookie-content p { 
+    margin: 0 0 14px 0; 
+    font-size: 0.95rem; 
+    color: rgba(255,255,255,0.9); 
+}
+
+
+/* ==========================
+   9. Keyframes / Animationen
    ========================== */
 @keyframes fadeIn {
     from { opacity: 0; top: 0; } 
@@ -348,7 +381,7 @@ input.input-field:-moz-autofill {
 }
 
 /* ==========================
-   9. Responsive Anpassungen
+   10. Responsive Anpassungen
    ========================== */
 @media (max-width: 768px) {
     .container {

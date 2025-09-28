@@ -172,6 +172,16 @@ socket_rooms = {}
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SESSION_SQLALCHEMY'] = db
 app.config['SESSION_PERMANENT'] = False
+
+
+
+
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
+
+
+
+
+
 server_session = Session(app)
 
 bcrypt = Bcrypt(app)
@@ -467,71 +477,119 @@ def manage_page_flags():
         session.pop('on_ranking_page', None)
 
 # Ab hier alle Routes 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -------------------------
+# Index (immer index.html)
+# -------------------------
 @app.route('/')
 def index():
+    # Damit Links wie Settings immer erreichbar sind, bleiben wir auf index
     session.pop('on_ranking_page', None)
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
-        if user:
-            return redirect(url_for('homepage'))
-        else:
-            session.clear()
 
-    return render_template('index.html')
+    # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
+    saved_username = request.cookies.get('saved_username', '')
+    saved_password = request.cookies.get('saved_password', '')
 
+    return render_template(
+        'index.html',
+        saved_username=saved_username,
+        saved_password=saved_password
+    )
+
+
+# -------------------------
+# Login (mit Admin-Weiterleitung)
+# -------------------------
 @app.route('/login', methods=['POST'])
 def login():
     try:
         username = request.form['username'].strip()
         password = request.form['password'].strip()
 
-        if username and password:
-            user = User.query.filter_by(username=username).first()
-            if user and user.check_password(password):
-                session['username'] = username
-                # Admin-Benutzer direkt zum Admin-Panel weiterleiten
-                if user.is_admin:
-                    return redirect(url_for('admin_panel'))
-                return redirect(url_for('homepage')) 
-            
+        if not username or not password:
+            flash('Bitte fülle alle Felder aus', 'error')
+            return redirect(url_for('index'))
+
+        user = User.query.filter_by(username=username).first()
+        if not user or not user.check_password(password):
             flash('Ungültige Anmeldedaten', 'error')
             return redirect(url_for('index'))
-        
-        flash('Bitte fülle alle Felder aus', 'error')
-        return redirect(url_for('index'))
-    
+
+        # Authentifiziert
+        session['username'] = username
+
+        # Session permanent nur wenn Consent gesetzt
+        if request.cookies.get('cookie_consent') == 'true':
+            session.permanent = True
+        else:
+            session.permanent = False
+
+        # Ziel abhängig von Admin-Flag
+        target_endpoint = 'admin_panel' if user.is_admin else 'homepage'
+        resp = redirect(url_for(target_endpoint))
+
+        # Gespeicherte Login-Cookies nur wenn Consent vorhanden (30 Tage)
+        if request.cookies.get('cookie_consent') == 'true':
+            max_age = 60 * 60 * 24 * 30  # 30 Tage
+            resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
+            # Passwort als HttpOnly-Cookie (Server kann es lesen, JS nicht)
+            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
+
+        return resp
+
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler beim Login: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
+    except Exception as e:
+        print(f"Unerwarteter Fehler beim Login: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
+        return redirect(url_for('index'))
 
+
+# -------------------------
+# Register (mit gleicher Admin-/Homepage-Logik)
+# -------------------------
 @app.route('/register', methods=['POST'])
 def register():
     try:
         username = request.form['username'].strip()
         password = request.form['password'].strip()
 
-        # 1. Prüfen ob alle Felder ausgefüllt sind
+        # Validierungen wie gehabt
         if not username or not password:
             flash('Bitte fülle alle Felder aus', 'error')
             return redirect(url_for('index'))
-        
-        # 2. Prüfen ob Benutzername zu lang ist
+
         if len(username) > 12:
             flash('Benutzername darf maximal 12 Zeichen haben', 'error')
             return redirect(url_for('index'))
-            
-        # 3. Prüfen ob Benutzername bereits existiert
+
         if User.query.filter_by(username=username).first():
             flash('Benutzername bereits vergeben', 'error')
             return redirect(url_for('index'))
-        
-        # 4. Prüfen ob Passwort mindestens 5 Zeichen hat
+
         if len(password) < 5:
             flash('Passwort muss mindestens 5 Zeichen haben', 'error')
             return redirect(url_for('index'))
-        
-        # Wenn alle Validierungen bestanden sind, Benutzer erstellen
+
+        # Benutzer anlegen
         new_user = User(
             username=username,
             first_played=datetime.now(timezone.utc)
@@ -539,14 +597,52 @@ def register():
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
+
+        # Direkt einloggen
         session['username'] = username
-        return redirect(url_for('homepage'))
-    
+        # permanent nur bei Consent
+        if request.cookies.get('cookie_consent') == 'true':
+            session.permanent = True
+        else:
+            session.permanent = False
+
+        # Weiterleitung (normalerweise kein Admin bei Registrierung, trotzdem geprüft)
+        target_endpoint = 'admin_panel' if new_user.is_admin else 'homepage'
+        resp = redirect(url_for(target_endpoint))
+
+        # Gespeicherte Login-Cookies nur wenn Consent vorhanden (30 Tage)
+        if request.cookies.get('cookie_consent') == 'true':
+            max_age = 60 * 60 * 24 * 30  # 30 Tage
+            resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
+            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
+
+        return resp
+
     except (SQLAlchemyError, OperationalError) as e:
-        db.session.rollback()  # Wichtig bei Fehlern!
+        db.session.rollback()
         print(f"Datenbankfehler bei der Registrierung: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler bei der Registrierung: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
+        return redirect(url_for('index'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 @app.route("/settings")
 def settings():
@@ -705,17 +801,37 @@ def homepage():
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
 
+
+
+
+
+
+
+
+# -------------------------
+# Logout (bestehendes Verhalten beibehalten)
+# -------------------------
 @app.route('/logout')
 @login_required
 def logout():
-    # Timer stoppen bei Logout
+    # Falls Quiz aktiv: Timer stoppen
     if 'quiz_data' in session:
         room_id = session['quiz_data'].get('room_id')
         if room_id:
             stop_timer(room_id)
-    
+
     session.clear()
     return redirect(url_for('index'))
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/start_custom_quiz', methods=['POST'])
 @login_required
