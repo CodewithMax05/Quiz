@@ -761,6 +761,36 @@ def delete_account():
     flash("Dein Account wurde dauerhaft gelöscht.", "success")
     return redirect(url_for('settings'))
 
+@app.route('/update_cookie_consent', methods=['POST'])
+@login_required
+def update_cookie_consent():
+    consent = request.form.get('cookie_consent') == 'true'
+    resp = redirect(url_for('settings'))
+
+    # Consent-Cookie setzen
+    resp.set_cookie('cookie_consent', 'true' if consent else 'false', max_age=60*60*24*365, samesite='Lax')
+
+    # Falls der Nutzer eingeloggt ist und Consent aktiviert wurde: Login-Cookies speichern
+    if consent and 'username' in session:
+        username = session['username']
+        # Passwort holen (aus Sicherheitsgründen hier aus session nicht verfügbar, falls nicht gespeichert)
+        # Bei bestehendem Login-Cookie muss password über POST oder Session gespeichert sein
+        password = request.cookies.get('saved_password') or ''
+        max_age = 60 * 60 * 24 * 30  # 30 Tage
+        resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
+        if password:
+            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
+        flash("Cookies wurden aktiviert und Login-Cookies gespeichert.", "success")
+    elif not consent:
+        # Wenn Consent deaktiviert wird, Cookies löschen
+        cookies_to_delete = ['saved_username', 'saved_password']
+        for cookie_name in cookies_to_delete:
+            resp.delete_cookie(cookie_name, path='/')
+        flash("Cookies wurden deaktiviert.", "info")
+
+    return resp
+
+
 @app.route('/clear_cookies', methods=['POST'])
 def clear_cookies():
     confirm_delete = request.form.get('confirm_delete', '').strip()

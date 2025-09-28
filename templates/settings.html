@@ -84,6 +84,23 @@
                 </div>
             </div>
 
+            <!-- Cookie-Einstellungen -->
+            <div class="setting-item">
+                <button class="setting-toggle">Cookie-Aktivieren <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    <form id="cookie-consent-form" method="POST" action="{{ url_for('update_cookie_consent') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <label style="color: white; font-weight: bold; margin-top: 10px;">
+                            <input type="checkbox" name="cookie_consent" value="true" {% if request.cookies.get('cookie_consent') == 'true' %}checked{% endif %}>
+                            Cookies aktivieren
+                        </label>                        
+                        <button type="submit" style="margin-top: 10px;">Speichern</button>
+                    </form>
+                </div>
+            </div>
+
+
             <!-- Cookies löschen -->
             <div class="setting-item">
                 <button class="setting-toggle">Cookies löschen <i class="fa fa-chevron-down"></i></button>
