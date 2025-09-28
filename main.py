@@ -18,7 +18,8 @@ import uuid
 from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from functools import wraps
-from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_wtf.csrf import CSRFProtect, generate_csrf, validate_csrf
+from wtforms import ValidationError
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -374,6 +375,35 @@ def initialize_database():
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
 
+# Error Handler für 405 Method Not Allowed
+@app.errorhandler(405)
+def method_not_allowed(error):
+    flash('Ungültige Zugriffsmethode für diese Seite.', 'error')
+    if 'username' in session:
+        return redirect(url_for('homepage'))
+    else:
+        return redirect(url_for('index'))
+    
+def quiz_required(f):
+    """Prüft ob ein Quiz aktiv ist"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'quiz_data' not in session:
+            flash('Kein aktives Quiz gefunden. Bitte starte ein neues Quiz.', 'error')
+            return redirect(url_for('homepage'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def support_required(f):
+    """Prüft ob Support-Anfragen existieren (für Admin)"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not support_requests:
+            flash('Keine Support-Anfragen vorhanden.', 'error')
+            return redirect(url_for('admin_panel'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 # Admin Panel
 def admin_required(f):
     @wraps(f)
@@ -402,10 +432,44 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+@app.before_request
+def check_csrf():
+    # CSRF für API-Routes deaktivieren, die JSON verwenden
+    if request.path.startswith('/api/'):
+        return  # Keine CSRF-Validierung für API-Endpoints
+    
+    if request.method in ['POST', 'PUT', 'DELETE', 'PATCH']:
+        try:
+            # Für Form-Daten
+            if request.content_type and 'application/x-www-form-urlencoded' in request.content_type:
+                validate_csrf(request.form.get('csrf_token'))
+            # Für JSON-Daten
+            elif request.content_type and 'application/json' in request.content_type:
+                if request.json:
+                    validate_csrf(request.json.get('csrf_token'))
+        except ValidationError:
+            if request.path.startswith('/api/'):
+                return jsonify({'error': 'CSRF-Validierung fehlgeschlagen'}), 400
+            else:
+                flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
+                if 'username' in session:
+                    return redirect(url_for('homepage'))
+                else:
+                    return redirect(url_for('index'))
+
+@app.before_request
+def manage_page_flags():
+    # Entferne Ranking-Flag bei Navigation zu anderen Seiten
+    if (request.endpoint and 
+        request.endpoint not in ['ranking', 'search_player'] and
+        request.method == 'GET' and
+        not request.path.startswith('/api/')):
+        session.pop('on_ranking_page', None)
 
 # Ab hier alle Routes 
 @app.route('/')
 def index():
+    session.pop('on_ranking_page', None)
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
         if user:
@@ -484,27 +548,11 @@ def register():
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @app.route("/settings")
 def settings():
+    session.pop('on_ranking_page', None)
     flash('Einstellungen erfolgreich gespeichert!', 'info')
     return render_template("settings.html", is_logged_in=('user_id' in session))
-
 
 @app.route('/change_username', methods=['POST'])
 def change_username():
@@ -587,8 +635,6 @@ def change_password():
 def change_avatar():
     pass
 
-
-
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
     username = request.form.get('username', '').strip()
@@ -636,13 +682,11 @@ def clear_cookies():
     flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
     return resp
 
-
-
-
-
 @app.route('/homepage')
 @login_required
 def homepage():
+    session.pop('on_ranking_page', None)
+
     try:
         if 'username' in session:
             user = User.query.filter_by(username=session['username']).first()
@@ -676,6 +720,10 @@ def logout():
 @app.route('/start_custom_quiz', methods=['POST'])
 @login_required
 def start_custom_quiz():
+    if request.method != 'POST':
+        flash('Ungültige Zugriffsmethode.', 'error')
+        return redirect(url_for('homepage'))
+
     if 'username' not in session:
         return redirect(url_for('index'))
     
@@ -736,18 +784,38 @@ def start_custom_quiz():
 
 @app.route('/show_question')
 @login_required
+@quiz_required 
 def show_question():
+    if request.method != 'GET':
+        flash('Ungültige Zugriffsmethode.', 'error')
+        return redirect(url_for('homepage'))
+
     try:
         if 'quiz_data' not in session:
             return redirect(url_for('homepage'))
         
         quiz_data = session['quiz_data']
+
+        # Prüfe ob das Quiz bereits beendet wurde
+        if quiz_data.get('completed', False):
+            flash('Das Quiz wurde bereits beendet.', 'error')
+            return redirect(url_for('homepage'))
         
         if quiz_data.get('answered', False):
             return redirect(url_for('next_question'))
         
         current_index = quiz_data['current_index']
+
+        # Prüfe ob der Index gültig ist
+        if current_index >= quiz_data['total_questions']:
+            flash('Das Quiz ist bereits beendet.', 'error')
+            return redirect(url_for('evaluate_quiz'))
+
         question = Question.query.get(quiz_data['questions'][current_index])
+
+        if not question:
+            flash('Frage nicht gefunden.', 'error')
+            return redirect(url_for('homepage'))
         
         if 'options_order' not in quiz_data:
             options = [question.true, question.wrong1, question.wrong2, question.wrong3]
@@ -785,10 +853,18 @@ def show_question():
         print(f"Datenbankfehler auf der Homepage: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
+    except Exception as e:
+        print(f"Unerwarteter Fehler in show_question: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
+        return redirect(url_for('homepage'))
 
 @app.route('/check_answer', methods=['POST'])
 @login_required
+@quiz_required 
 def check_answer():
+    if request.method != 'POST':
+        return jsonify({'error': 'Ungültige Zugriffsmethode'}), 405
+
     try:
         if 'quiz_data' not in session:
             return jsonify({'error': 'Session expired'}), 400
@@ -832,7 +908,11 @@ def check_answer():
 
 @app.route('/next_question', methods=['POST'])
 @login_required
+@quiz_required 
 def next_question():
+    if request.method != 'POST':
+        return jsonify({'error': 'Ungültige Zugriffsmethode', 'redirect': url_for('homepage')}), 405
+    
     try:
         if 'quiz_data' not in session or 'username' not in session:
             return jsonify({'redirect': url_for('homepage')})
@@ -876,7 +956,9 @@ def next_question():
 
 @app.route('/evaluate')
 @login_required
+@quiz_required 
 def evaluate_quiz():
+    session.pop('on_ranking_page', None)
     try:
         if 'quiz_data' not in session or 'username' not in session:
             return redirect(url_for('homepage'))
@@ -928,7 +1010,11 @@ def evaluate_quiz():
 
 @app.route('/cancel_quiz', methods=['POST'])
 @login_required
+@quiz_required 
 def cancel_quiz():
+    if request.method != 'POST':
+        return jsonify({'error': 'Ungültige Zugriffsmethode'}), 405
+    
     if 'quiz_data' in session:
         # Timer stoppen, falls vorhanden
         room_id = session['quiz_data'].get('room_id')
@@ -961,6 +1047,9 @@ def db_stats():
 @app.route('/ranking')      
 @login_required                
 def ranking():
+    # Setze Flag in Session wenn auf Ranking-Seite
+    session['on_ranking_page'] = True
+
     try:
         # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
         players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
@@ -1007,13 +1096,31 @@ def ranking():
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
 
-@app.route('/api/search_player')
+@app.route('/api/search_player', methods=['POST'])
 @login_required
+@csrf.exempt
 def search_player():
+    print(f"DEBUG: search_player called - session: {dict(session)}")  # Debug
+    print(f"DEBUG: on_ranking_page: {session.get('on_ranking_page')}")  # Debug
+    
+    if not session.get('on_ranking_page'):
+        print("DEBUG: Blocked - not on ranking page")  # Debug
+        return jsonify({'error': 'Zugriff verweigert. Diese Funktion ist nur über die Ranking-Seite verfügbar.'}), 403
+
     try:
-        username = request.args.get('username', '').strip()
+        # Bessere JSON/Form-Daten Handhabung
+        if request.content_type and 'application/json' in request.content_type:
+            data = request.get_json() or {}
+        else:
+            data = request.form
+
+        print(f"DEBUG: Received data: {data}")  # Debug
+
+        username = data.get('username', '').strip()
         if not username:
             return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
+
+        print(f"DEBUG: Searching for username: {username}")  # Debug
 
         # Case-sensitive Suche mit exaktem Match
         user = User.query.filter(User.username == username).first()
@@ -1041,6 +1148,8 @@ def search_player():
         # Rang finden
         rank = next((idx for idx, p in enumerate(sorted_players, start=1) if p.id == user.id), None)
         
+        print(f"DEBUG: Found user - rank: {rank}")  # Debug
+
         # Helper-Funktion für lokale Zeit-Konvertierung
         def to_local_time(utc_time):
             if utc_time is None:
@@ -1064,6 +1173,14 @@ def search_player():
     except Exception as e:
         print(f"Unerwarteter Fehler in search_player: {str(e)}")
         return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
+
+@app.route('/api/set_ranking_flag', methods=['POST'])
+@login_required
+@csrf.exempt
+def set_ranking_flag():
+    session['on_ranking_page'] = True
+    session.modified = True  # Wichtig: Session als geändert markieren
+    return jsonify({'status': 'success'})
 
 @app.route('/imprint')
 @login_required
@@ -1118,6 +1235,8 @@ def support_requests_page():
 
 @app.route('/delete_request/<request_id>', methods=['POST'])
 @login_required
+@admin_required
+@support_required
 def delete_request(request_id):
     global support_requests
     support_requests = [r for r in support_requests if r["id"] != request_id]
@@ -1127,6 +1246,10 @@ def delete_request(request_id):
 @app.route('/automatic_logout')
 @login_required
 def automatic_logout():
+    if request.method != 'GET':
+        flash('Ungültige Zugriffsmethode.', 'error')
+        return redirect(url_for('homepage'))
+    
     # Timer stoppen bei Logout
     if 'quiz_data' in session:
         room_id = session['quiz_data'].get('room_id')
@@ -1155,6 +1278,7 @@ def inject_user():
 @login_required
 @admin_required
 def admin_panel():
+    session.pop('on_ranking_page', None)
     try:
         # Statistiken für das Dashboard sammeln
         total_users = User.query.count()
@@ -1176,6 +1300,10 @@ def admin_panel():
 @login_required
 @admin_required
 def add_question():
+    if request.method != 'POST':
+        flash('Ungültige Zugriffsmethode.', 'error')
+        return redirect(url_for('admin_panel'))
+
     try:
         subject = request.form['subject'].lower().strip()
         question_text = request.form['question'].strip()

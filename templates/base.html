@@ -64,6 +64,25 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 		
 		<script>
+			// Globale Fehlerbehandlung für AJAX-Antworten
+			function handleAjaxError(response) {
+				if (response.redirect) {
+					window.location.href = response.redirect;
+					return true;
+				}
+				if (response.error) {
+					createFlashMessage(response.error, 'error');
+					return true;
+				}
+				return false;
+			}
+
+			// AJAX-Fehlerbehandlung für Fetch-API
+			function handleFetchError(error) {
+				console.error('Fetch error:', error);
+				createFlashMessage('Ein Netzwerkfehler ist aufgetreten. Bitte versuche es erneut.', 'error');
+			}
+
 			// Globale Funktion zum Abspielen von Sounds
 			function playSound(soundId) {
 				try {

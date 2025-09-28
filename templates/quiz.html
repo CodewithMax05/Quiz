@@ -397,8 +397,16 @@
                     },
                     body: JSON.stringify({})
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    // Verwende die globale Fehlerbehandlung
+                    if (handleAjaxError(data)) return;
+
                     if (data.redirect) {
                         window.location.href = data.redirect;
                     } else {
@@ -533,12 +541,28 @@
                 if (quizManager) {
                     quizManager.disconnect();
                 }
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
                 
-                fetch("{{ url_for('cancel_quiz') }}", { method: 'POST' })
+                fetch("{{ url_for('cancel_quiz') }}", { 
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text(); // Da cancel_quiz 204 No Content zurückgibt
+                })
                 .then(() => {
                     window.location.href = "{{ url_for('homepage') }}";
                 })
-                .catch(() => {
+                .catch(error => {
+                    console.error('Fehler beim Abbrechen des Quiz:', error);
+                    handleFetchError(error);
+                    // Trotzdem zur Homepage weiterleiten
                     window.location.href = "{{ url_for('homepage') }}";
                 });
             }
