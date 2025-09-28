@@ -771,12 +771,15 @@ def clear_cookies():
 
     resp = redirect(url_for('settings'))
 
-    # Session-Cookie gezielt löschen
-    resp.delete_cookie('session', path='/', domain=None)
+    # Alle relevanten Cookies löschen
+    cookies_to_delete = ['session', 'saved_username', 'saved_password', 'cookie_consent']
+    for cookie_name in cookies_to_delete:
+        resp.delete_cookie(cookie_name, path='/')
 
     session.clear()
     flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
     return resp
+
 
 @app.route('/homepage')
 @login_required
