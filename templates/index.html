@@ -65,14 +65,13 @@
 
         function declineCookies() {
             playSound('clickSound');
-            localStorage.setItem('cookie_consent_declined', 'true');
+            setCookie('cookie_consent', 'false', 7); // Ablehnung: 7 Tage gültig
             document.getElementById('cookie-consent').style.display = 'none';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const hasConsent = document.cookie.includes('cookie_consent=true');
-            const declined = localStorage.getItem('cookie_consent_declined');
-            if (!hasConsent && !declined) {
+            const consent = getCookie('cookie_consent');
+            if (!consent) {
                 const modal = document.getElementById('cookie-consent');
                 if (modal) modal.style.display = 'flex';
             }
