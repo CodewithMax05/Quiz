@@ -843,11 +843,6 @@ def show_question():
         if quiz_data.get('completed', False):
             flash('Das Quiz wurde bereits beendet.', 'error')
             return redirect(url_for('homepage'))
-
-        # Prüfe ob das Quiz bereits beendet wurde
-        if quiz_data.get('completed', False):
-            flash('Das Quiz wurde bereits beendet.', 'error')
-            return redirect(url_for('homepage'))
         
         if quiz_data.get('answered', False):
             return redirect(url_for('next_question'))
@@ -897,6 +892,7 @@ def show_question():
             room_id=room_id,
             time_left=time_left  # Füge time_left hinzu
         )
+    
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler auf der Homepage: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
