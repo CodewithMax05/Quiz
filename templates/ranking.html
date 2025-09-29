@@ -242,8 +242,6 @@
             }
 
             try {
-                console.log('Sending search request for:', username); // Debug
-
                 const response = await fetch('/api/search_player', {
                     method: 'POST',
                     headers: {
@@ -253,8 +251,6 @@
                         username: username
                     })
                 });
-
-                console.log('Response status:', response.status); // Debug
                 
                 if (!response.ok) {
                     // Fehler vom Server als JSON parsen
@@ -264,7 +260,6 @@
                 }
 
                 const data = await response.json();
-                console.log('Response data:', data); // Debug
 
                 // Spielerdaten anzeigen
                 document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";

@@ -59,8 +59,7 @@ app.config.update(
     SESSION_USE_SIGNER=True,
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
     SESSION_COOKIE_DOMAIN=None,
-    SESSION_COOKIE_PATH='/',
-    SESSION_COOKIE_MAX_AGE=86400  # 24 Stunden
+    SESSION_COOKIE_PATH='/'
 )
 
 db = SQLAlchemy(app)
@@ -458,21 +457,9 @@ def check_csrf():
                 else:
                     return redirect(url_for('index'))
 
-@app.before_request
-def manage_page_flags():
-    # Entferne Ranking-Flag bei Navigation zu anderen Seiten
-    if (request.endpoint and 
-        request.endpoint not in ['ranking', 'search_player'] and
-        request.method == 'GET' and
-        not request.path.startswith('/api/')):
-        session.pop('on_ranking_page', None)
-
 # Ab hier alle Routes 
 @app.route('/')
 def index():
-    # Damit Links wie Settings immer erreichbar sind, bleiben wir auf index
-    session.pop('on_ranking_page', None)
-
     # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
     saved_username = request.cookies.get('saved_username', '')
     saved_password = request.cookies.get('saved_password', '')
@@ -604,8 +591,6 @@ def register():
 
 @app.route("/settings")
 def settings():
-    session.pop('on_ranking_page', None)
-    flash('Einstellungen erfolgreich gespeichert!', 'info')
     return render_template("settings.html", is_logged_in=('user_id' in session))
 
 @app.route('/change_username', methods=['POST'])
@@ -743,8 +728,6 @@ def clear_cookies():
 @app.route('/homepage')
 @login_required
 def homepage():
-    session.pop('on_ranking_page', None)
-
     try:
         if 'username' in session:
             user = User.query.filter_by(username=session['username']).first()
@@ -1016,7 +999,6 @@ def next_question():
 @login_required
 @quiz_required 
 def evaluate_quiz():
-    session.pop('on_ranking_page', None)
     try:
         if 'quiz_data' not in session or 'username' not in session:
             return redirect(url_for('homepage'))
@@ -1105,9 +1087,6 @@ def db_stats():
 @app.route('/ranking')      
 @login_required                
 def ranking():
-    # Setze Flag in Session wenn auf Ranking-Seite
-    session['on_ranking_page'] = True
-
     try:
         # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
         players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
@@ -1158,13 +1137,6 @@ def ranking():
 @login_required
 @csrf.exempt
 def search_player():
-    print(f"DEBUG: search_player called - session: {dict(session)}")  # Debug
-    print(f"DEBUG: on_ranking_page: {session.get('on_ranking_page')}")  # Debug
-    
-    if not session.get('on_ranking_page'):
-        print("DEBUG: Blocked - not on ranking page")  # Debug
-        return jsonify({'error': 'Zugriff verweigert. Diese Funktion ist nur über die Ranking-Seite verfügbar.'}), 403
-
     try:
         # Bessere JSON/Form-Daten Handhabung
         if request.content_type and 'application/json' in request.content_type:
@@ -1172,13 +1144,9 @@ def search_player():
         else:
             data = request.form
 
-        print(f"DEBUG: Received data: {data}")  # Debug
-
         username = data.get('username', '').strip()
         if not username:
             return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
-
-        print(f"DEBUG: Searching for username: {username}")  # Debug
 
         # Case-sensitive Suche mit exaktem Match
         user = User.query.filter(User.username == username).first()
@@ -1205,8 +1173,6 @@ def search_player():
         
         # Rang finden
         rank = next((idx for idx, p in enumerate(sorted_players, start=1) if p.id == user.id), None)
-        
-        print(f"DEBUG: Found user - rank: {rank}")  # Debug
 
         # Helper-Funktion für lokale Zeit-Konvertierung
         def to_local_time(utc_time):
@@ -1231,14 +1197,6 @@ def search_player():
     except Exception as e:
         print(f"Unerwarteter Fehler in search_player: {str(e)}")
         return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
-
-@app.route('/api/set_ranking_flag', methods=['POST'])
-@login_required
-@csrf.exempt
-def set_ranking_flag():
-    session['on_ranking_page'] = True
-    session.modified = True  # Wichtig: Session als geändert markieren
-    return jsonify({'status': 'success'})
 
 @app.route('/imprint')
 @login_required
@@ -1336,7 +1294,6 @@ def inject_user():
 @login_required
 @admin_required
 def admin_panel():
-    session.pop('on_ranking_page', None)
     try:
         # Statistiken für das Dashboard sammeln
         total_users = User.query.count()
