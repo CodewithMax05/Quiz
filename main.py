@@ -379,10 +379,7 @@ if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
 @app.errorhandler(405)
 def method_not_allowed(error):
     flash('Ungültige Zugriffsmethode für diese Seite.', 'error')
-    if 'username' in session:
-        return redirect(url_for('homepage'))
-    else:
-        return redirect(url_for('index'))
+    return render_template('index.html'), 405
     
 def quiz_required(f):
     """Prüft ob ein Quiz aktiv ist"""
