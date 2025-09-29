@@ -55,7 +55,7 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
     SESSION_REFRESH_EACH_REQUEST=True,  # Session-Cookie wird bei jeder Anfrage erneuert
-    PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
+    PERMANENT_SESSION_LIFETIME=timedelta(days=30),
     SESSION_USE_SIGNER=True,
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
     SESSION_COOKIE_DOMAIN=None,
@@ -172,15 +172,6 @@ socket_rooms = {}
 app.config['SESSION_TYPE'] = 'sqlalchemy'
 app.config['SESSION_SQLALCHEMY'] = db
 app.config['SESSION_PERMANENT'] = False
-
-
-
-
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
-
-
-
-
 
 server_session = Session(app)
 
@@ -477,26 +468,6 @@ def manage_page_flags():
         session.pop('on_ranking_page', None)
 
 # Ab hier alle Routes 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# -------------------------
-# Index (immer index.html)
-# -------------------------
 @app.route('/')
 def index():
     # Damit Links wie Settings immer erreichbar sind, bleiben wir auf index
@@ -512,10 +483,6 @@ def index():
         saved_password=saved_password
     )
 
-
-# -------------------------
-# Login (mit Admin-Weiterleitung)
-# -------------------------
 @app.route('/login', methods=['POST'])
 def login():
     try:
@@ -561,11 +528,6 @@ def login():
         flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
         return redirect(url_for('index'))
 
-
-
-# -------------------------
-# Register (mit gleicher Admin-/Homepage-Logik)
-# -------------------------
 @app.route('/register', methods=['POST'])
 def register():
     try:
@@ -640,21 +602,6 @@ def register():
         flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
         return redirect(url_for('index'))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 @app.route("/settings")
 def settings():
     session.pop('on_ranking_page', None)
@@ -815,17 +762,7 @@ def homepage():
         print(f"Datenbankfehler auf der Homepage: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
-
-
-
-
-
-
-
-
-# -------------------------
-# Logout (bestehendes Verhalten beibehalten)
-# -------------------------
+    
 @app.route('/logout')
 @login_required
 def logout():
@@ -837,16 +774,6 @@ def logout():
 
     session.clear()
     return redirect(url_for('index'))
-
-
-
-
-
-
-
-
-
-
 
 @app.route('/start_custom_quiz', methods=['POST'])
 @login_required
