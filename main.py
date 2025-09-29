@@ -388,6 +388,11 @@ def quiz_required(f):
         if 'quiz_data' not in session:
             flash('Kein aktives Quiz gefunden. Bitte starte ein neues Quiz.', 'error')
             return redirect(url_for('homepage'))
+        
+        if session['quiz_data'].get('completed', False):
+            flash('Dieses Quiz wurde bereits abgeschlossen.', 'error')
+            return redirect(url_for('homepage'))
+        
         return f(*args, **kwargs)
     return decorated_function
 
@@ -838,6 +843,11 @@ def show_question():
         if quiz_data.get('completed', False):
             flash('Das Quiz wurde bereits beendet.', 'error')
             return redirect(url_for('homepage'))
+
+        # Prüfe ob das Quiz bereits beendet wurde
+        if quiz_data.get('completed', False):
+            flash('Das Quiz wurde bereits beendet.', 'error')
+            return redirect(url_for('homepage'))
         
         if quiz_data.get('answered', False):
             return redirect(url_for('next_question'))
@@ -966,6 +976,10 @@ def next_question():
         # Optionen für die nächste Frage zurücksetzen
         if 'options_order' in quiz_data:
             del quiz_data['options_order']
+
+        # Markiere Quiz als abgeschlossen, wenn letzte Frage erreicht
+        if quiz_data['current_index'] >= quiz_data['total_questions']:
+            quiz_data['completed'] = True
         
         session['quiz_data'] = quiz_data
         
@@ -1000,7 +1014,12 @@ def evaluate_quiz():
         if 'quiz_data' not in session or 'username' not in session:
             return redirect(url_for('homepage'))
         
-        quiz_data = session.pop('quiz_data', None)
+        quiz_data = session['quiz_data']
+
+        # Stelle sicher, dass alle Fragen beantwortet wurden
+        if quiz_data['current_index'] < quiz_data['total_questions']:
+            flash('Du musst erst alle Fragen beantworten!', 'error')
+            return redirect(url_for('show_question'))
         
         # Timer stoppen
         room_id = quiz_data.get('room_id') if quiz_data else None
