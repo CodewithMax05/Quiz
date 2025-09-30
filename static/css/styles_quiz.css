@@ -197,7 +197,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     background-color: rgba(255, 255, 255, 0.18) !important;
 }
-
+/*
 #flash-container {
     position: fixed;
     top: 20px;
@@ -260,7 +260,7 @@
     border-radius: 0 0 10px 10px;
 }
 
-/* Stil für permanente Nachrichten (ohne Progress-Bar) */
+/* Stil für permanente Nachrichten (ohne Progress-Bar) 
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
@@ -307,10 +307,11 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Sicherstellen, dass keine Progress-Bar angezeigt wird */
+/* Sicherstellen, dass keine Progress-Bar angezeigt wird 
 .permanent-message .custom-progress-bar {
     display: none;
 }
+*/
 
 /* === ANTWORT-STATUS === */
 .option.correct {
@@ -451,17 +452,18 @@
     75% { transform: translateX(5px); }
 }
 
-/* Fade-In-Animation für Nachrichten */
+/* Fade-In-Animation für Nachrichten 
 @keyframes fadeIn {
     from { opacity: 0; top: 0; }
     to { opacity: 1; top: 20px; }
 }
 
-/* Fade-Out-Animation für Nachrichten */
+/* Fade-Out-Animation für Nachrichten 
 @keyframes fadeOut {
     from { opacity: 1; top: 20px; }
     to { opacity: 0; top: 0; }
 }
+*/
 
 /* ================= RESPONSIVE ANPASSUNGEN ================= */
 @media (max-width: 1200px) {

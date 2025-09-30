@@ -185,7 +185,7 @@
     background: linear-gradient(135deg, #f5b041, #e67e22);
 }
 
-/* Entferne Tooltip komplett */
+/* Entferne Tooltip komplett 
 .ranking-button::after {
     content: none;
 }
@@ -250,9 +250,9 @@
     animation: progressBar 5s linear forwards;
     width: 100%;
     border-radius: 0 0 10px 10px;
-}
+}*/
 
-/* Stil für permanente Nachrichten (ohne Progress-Bar) */
+/* Stil für permanente Nachrichten (ohne Progress-Bar) 
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
@@ -297,7 +297,7 @@
 
 .permanent-message .close-btn:hover {
     background-color: rgba(255, 255, 255, 0.2);
-}
+}*/
 
 /* Sicherstellen, dass keine Progress-Bar angezeigt wird */
 .permanent-message .custom-progress-bar {

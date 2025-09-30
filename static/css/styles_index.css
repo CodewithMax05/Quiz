@@ -261,7 +261,7 @@ input.input-field:-moz-autofill {
 
 /* ==========================
    7. Fehlermeldungen / Nachrichten
-   ========================== */
+   ========================== 
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
@@ -310,7 +310,7 @@ input.input-field:-moz-autofill {
 
 .permanent-message .custom-progress-bar {
     display: none;
-}
+}*/
 
 /* Fehlermeldung 
 .error-message {
@@ -451,7 +451,7 @@ input.input-field:-moz-autofill {
         width: 85%;
         max-width: 310px;
     }
-    */
+    
     @keyframes fadeIn {
         from { opacity: 0; top: 0; }
         to { opacity: 1; top: 15px; }
@@ -460,7 +460,7 @@ input.input-field:-moz-autofill {
     @keyframes fadeOut {
         from { opacity: 1; top: 15px; }
         to { opacity: 0; top: 0; visibility: hidden; }
-    }
+    }*/
 }
 
 @media (max-width: 480px) {

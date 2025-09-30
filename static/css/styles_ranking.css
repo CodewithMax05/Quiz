@@ -350,7 +350,7 @@ body.ranking-page {
     opacity: 1;
 }
 
-/* Flash-Nachrichten Stile */
+/* Flash-Nachrichten Stile 
 #flash-container {
     position: fixed;
     top: 20px;
@@ -409,9 +409,9 @@ body.ranking-page {
     animation: progressBar 5s linear forwards;
     width: 100%;
     border-radius: 0 0 10px 10px;
-}
+}*/
 
-/* Stil für permanente Nachrichten (ohne Progress-Bar) */
+/* Stil für permanente Nachrichten (ohne Progress-Bar) 
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
@@ -458,7 +458,7 @@ body.ranking-page {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Sicherstellen, dass keine Progress-Bar angezeigt wird */
+/* Sicherstellen, dass keine Progress-Bar angezeigt wird 
 .permanent-message .custom-progress-bar {
     display: none;
 }
@@ -476,7 +476,7 @@ body.ranking-page {
 @keyframes progressBar {
     0% { width: 100%; }
     100% { width: 0%; }
-}
+}*/
 
 @keyframes pulse-blue {
     0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.5); }

@@ -118,7 +118,7 @@ h1.headline {
 
 
 
-/* Flash-Nachrichten Container */
+/* Flash-Nachrichten Container 
 #flash-container {
     position: fixed;
     top: 20px;
@@ -129,7 +129,7 @@ h1.headline {
     max-width: 400px;
 }
 
-/* Meldungen */
+/* Meldungen 
 .success-message, .error-message, .info-message {
     padding: 14px 18px;
     border-radius: 10px;
@@ -155,7 +155,7 @@ h1.headline {
     background: linear-gradient(135deg, #4299e1, #3182ce);
 }
 
-/* Fortschrittsbalken */
+/* Fortschrittsbalken 
 .custom-progress-bar {
     position: absolute;
     bottom: 0;
@@ -167,7 +167,7 @@ h1.headline {
     border-radius: 0 0 10px 10px;
 }
 
-/* Animationen */
+/* Animationen 
 @keyframes fadeIn {
     from { opacity: 0; top: 0; }
     to { opacity: 1; top: 20px; }
@@ -182,7 +182,7 @@ h1.headline {
     0% { width: 100%; }
     100% { width: 0%; }
 }
-
+*/
 
 .button-wrapper {
     text-align: right;      /* Button links ausrichten */

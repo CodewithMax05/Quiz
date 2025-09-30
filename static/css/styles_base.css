@@ -77,3 +77,53 @@ html, body {
     0% { width: 100%; }
     100% { width: 0%; }
 }
+
+.permanent-message {
+    background: linear-gradient(135deg, #ff8c00, #ff5500);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.permanent-message .message-content {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.permanent-message .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.permanent-message .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.permanent-message .custom-progress-bar {
+    display: none;
+}
