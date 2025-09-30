@@ -62,3 +62,18 @@ html, body {
     width: 100%;
     border-radius: 0 0 10px 10px;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; top: 0; }
+    to { opacity: 1; top: 20px; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; top: 20px; }
+    to { opacity: 0; top: 0; visibility: hidden; }
+}
+
+@keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
