@@ -12,16 +12,13 @@ html, body {
     position: relative;
 }
 
-
-
-
 /* Nachrichten */
 #flash-container {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1000;
+    z-index: 9999 !important;
     width: 85%;
     max-width: 400px;
 }
@@ -31,11 +28,10 @@ html, body {
     border-radius: 10px;
     text-align: center;
     position: relative;
-    z-index: 9999;
+    z-index: 9999 !important;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.3);
     overflow: hidden;
-
     color: white;
 }
 
