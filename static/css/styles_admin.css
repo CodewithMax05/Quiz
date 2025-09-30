@@ -217,51 +217,6 @@ body {
     padding: 8px 12px;
 }
 
-/* Flash-Nachrichten Container 
-#flash-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    width: 85%;
-    max-width: 400px;
-}
-
-.error-message, 
-.info-message {
-    padding: 14px 18px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
-    position: relative;
-    z-index: 100;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow: hidden;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.error-message {
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
-}
-
-.info-message {
-    background: linear-gradient(135deg, #4299e1, #3182ce);
-}
-
-.custom-progress-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.4);
-    animation: progressBar 5s linear forwards;
-    width: 100%;
-    border-radius: 0 0 10px 10px;
-}*/
-
 /* Theme Radio Container */
 .theme-radio-container {
     background-color: rgba(255, 255, 255, 0.1);
@@ -315,22 +270,6 @@ body {
 .theme-radio-container .form-check-input:focus {
     box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
 }
-
-/* Animationen 
-@keyframes fadeIn {
-    from { opacity: 0; top: 0; }
-    to { opacity: 1; top: 20px; }
-}
-
-@keyframes fadeOut {
-    from { opacity: 1; top: 20px; }
-    to { opacity: 0; top: 0; visibility: hidden; }
-}
-
-@keyframes progressBar {
-    0% { width: 100%; }
-    100% { width: 0%; }
-}*/
 
 @keyframes pulse-purple {
     0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
@@ -403,21 +342,6 @@ body {
         max-width: 100%;
         margin-bottom: 15px;
     }
-    
-    /* Flash-Nachrichten Container 
-    #flash-container {
-        top: 15px;
-        width: 85%;
-        max-width: 310px;
-    }
-    
-    .error-message, .info-message {
-        top: 15px;
-        max-width: 310px;
-        width: 100%;
-        padding: 12px 15px;
-        font-size: 0.95rem;
-    }*/
     
     /* Navbar Anpassungen für Mobile */
     .admin-nav .nav-link-text {
@@ -496,19 +420,6 @@ body {
     .stats-row .col-md-4 {
         margin-bottom: 12px;
     }
-    
-    /* Flash-Nachrichten Container 
-    #flash-container {
-        top: 10px;
-        max-width: 260px;
-    }
-    
-    .error-message, .info-message {
-        top: 10px;
-        max-width: 260px;
-        padding: 10px 12px;
-        font-size: 0.9rem;
-    }*/
     
     /* Admin Card Buttons auf Mobile */
     .admin-card-btn {

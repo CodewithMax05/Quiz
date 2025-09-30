@@ -28,7 +28,6 @@
     white-space: normal;
 }
 
-
 h1.headline {
     font-size: 2.2rem;
     font-weight: 400;
@@ -36,12 +35,6 @@ h1.headline {
     color: white;
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
 }
-
-
-
-
-
-
 
 .settings-list {
     text-align: left;
@@ -114,75 +107,6 @@ h1.headline {
 .setting-content button:hover {
     background-color: #0f6ac9;
 }
-
-
-
-
-/* Flash-Nachrichten Container 
-#flash-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    width: 85%;
-    max-width: 400px;
-}
-
-/* Meldungen 
-.success-message, .error-message, .info-message {
-    padding: 14px 18px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
-    position: relative;
-    z-index: 100;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow: hidden;
-    color: white;
-}
-
-.success-message {
-    background: linear-gradient(135deg, #38a169, #2f855a);
-}
-
-.error-message {
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
-}
-
-.info-message {
-    background: linear-gradient(135deg, #4299e1, #3182ce);
-}
-
-/* Fortschrittsbalken 
-.custom-progress-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.4);
-    animation: progressBar 5s linear forwards;
-    width: 100%;
-    border-radius: 0 0 10px 10px;
-}
-
-/* Animationen 
-@keyframes fadeIn {
-    from { opacity: 0; top: 0; }
-    to { opacity: 1; top: 20px; }
-}
-
-@keyframes fadeOut {
-    from { opacity: 1; top: 20px; }
-    to { opacity: 0; top: 0; visibility: hidden; }
-}
-
-@keyframes progressBar {
-    0% { width: 100%; }
-    100% { width: 0%; }
-}
-*/
 
 .button-wrapper {
     text-align: right;      /* Button links ausrichten */
