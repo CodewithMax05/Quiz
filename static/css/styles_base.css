@@ -26,7 +26,7 @@ html, body {
     max-width: 400px;
 }
 
-.info-message, .success-message, .error-message, .warning-message {
+.info-message, .success-message, .error-message, .warning-message, .permanent-message {
     padding: 14px 18px;
     border-radius: 10px;
     text-align: center;
@@ -59,6 +59,38 @@ html, body {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
 }
 
+.permanent-message {
+    animation: fadeIn 0.5s;       
+    background: linear-gradient(135deg, #ff8c00, #ff5500);   
+    display: flex;
+    align-items: center;      
+    text-align: center;      
+}
+
+.permanent-message .message-content {
+    flex: 1;             
+    text-align: center; 
+    padding: 0 10px;
+}
+
+.permanent-message .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.permanent-message .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 .custom-progress-bar {
     position: absolute;
     bottom: 0;
@@ -87,7 +119,7 @@ html, body {
 
 
 
-/* das soll weg */
+/* das soll weg 
 .permanent-message {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
     color: white;
