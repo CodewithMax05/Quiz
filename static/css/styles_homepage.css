@@ -456,24 +456,7 @@
     background: linear-gradient(135deg, #4299e1, #3182ce);
 }
 
-.warning-message {
-    background: linear-gradient(135deg, #ff8c00, #ff5500);
-    color: white;
-    padding: 14px 18px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.5s;
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85%;
-    max-width: 400px;
-    z-index: 9999;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow: hidden;
-}
+
 
 .custom-progress-bar {
     position: absolute;
