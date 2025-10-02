@@ -390,19 +390,11 @@ def quiz_required(f):
             return redirect(url_for('homepage'))
         
         if session['quiz_data'].get('completed', False):
-            flash('Dieses Quiz wurde bereits abgeschlossen.', 'error')
-            return redirect(url_for('homepage'))
+            # Wenn Quiz abgeschlossen ist, erlaube nur Zugriff auf evaluate_quiz
+            if f.__name__ != 'evaluate_quiz':
+                flash('Dieses Quiz wurde bereits abgeschlossen.', 'error')
+                return redirect(url_for('evaluate_quiz'))
         
-        return f(*args, **kwargs)
-    return decorated_function
-
-def support_required(f):
-    """Prüft ob Support-Anfragen existieren (für Admin)"""
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not support_requests:
-            flash('Keine Support-Anfragen vorhanden.', 'error')
-            return redirect(url_for('admin_panel'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -841,18 +833,12 @@ def show_question():
 
         # Prüfe ob das Quiz bereits beendet wurde
         if quiz_data.get('completed', False):
-            flash('Das Quiz wurde bereits beendet.', 'error')
-            return redirect(url_for('homepage'))
+            return redirect(url_for('evaluate_quiz'))
         
         if quiz_data.get('answered', False):
             return redirect(url_for('next_question'))
         
         current_index = quiz_data['current_index']
-
-        # Prüfe ob der Index gültig ist
-        if current_index >= quiz_data['total_questions']:
-            flash('Das Quiz ist bereits beendet.', 'error')
-            return redirect(url_for('evaluate_quiz'))
 
         question = Question.query.get(quiz_data['questions'][current_index])
 
@@ -890,7 +876,7 @@ def show_question():
             score=quiz_data['score'],
             was_correct=was_correct,
             room_id=room_id,
-            time_left=time_left  # Füge time_left hinzu
+            time_left=time_left
         )
     
     except (SQLAlchemyError, OperationalError) as e:
@@ -934,13 +920,18 @@ def check_answer():
         new_score = quiz_data['score'] + points_earned
         quiz_data['score'] = new_score
         quiz_data['answered'] = True
+
+        if current_index >= quiz_data['total_questions'] - 1:
+            quiz_data['completed'] = True
+
         session['quiz_data'] = quiz_data
         
         return jsonify({
             'is_correct': is_correct,
             'correct_answer': question.true,
             'points_earned': points_earned,
-            'current_score': new_score
+            'current_score': new_score,
+            'is_last_question': (current_index >= quiz_data['total_questions'] - 1)
         })
     
     except (SQLAlchemyError, OperationalError) as e:
@@ -966,34 +957,36 @@ def next_question():
         # Entferne "answered" Flag
         if 'answered' in quiz_data:
             del quiz_data['answered']
+
+        # Prüfe ob dies die letzte Frage war, die gerade beantwortet wurde
+        current_index_after_answer = quiz_data['current_index']
+        
+        # Wenn die gerade beantwortete Frage die letzte war (Index = total_questions - 1)
+        if current_index_after_answer >= quiz_data['total_questions'] - 1:
+            quiz_data['completed'] = True
+            session['quiz_data'] = quiz_data
+            return jsonify({'redirect': url_for('evaluate_quiz')})
         
         quiz_data['current_index'] += 1
         
         # Optionen für die nächste Frage zurücksetzen
         if 'options_order' in quiz_data:
             del quiz_data['options_order']
-
-        # Markiere Quiz als abgeschlossen, wenn letzte Frage erreicht
-        if quiz_data['current_index'] >= quiz_data['total_questions']:
-            quiz_data['completed'] = True
         
         session['quiz_data'] = quiz_data
         
-        if quiz_data['current_index'] < quiz_data['total_questions']:
-            # Frage als JSON zurückgeben
-            question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
-            options = [question.true, question.wrong1, question.wrong2, question.wrong3]
-            random.shuffle(options)
-            
-            return jsonify({
-                'question': question.question,
-                'options': options,
-                'progress': quiz_data['current_index'] + 1,
-                'total_questions': quiz_data['total_questions'],
-                'score': quiz_data['score']
-            })
-        else:
-            return jsonify({'redirect': url_for('evaluate_quiz')})
+        # Frage als JSON zurückgeben
+        question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
+        options = [question.true, question.wrong1, question.wrong2, question.wrong3]
+        random.shuffle(options)
+        
+        return jsonify({
+            'question': question.question,
+            'options': options,
+            'progress': quiz_data['current_index'] + 1,
+            'total_questions': quiz_data['total_questions'],
+            'score': quiz_data['score']
+        })
     
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler in next_question: {str(e)}")
@@ -1004,16 +997,19 @@ def next_question():
 
 @app.route('/evaluate')
 @login_required
-@quiz_required 
 def evaluate_quiz():
     try:
         if 'quiz_data' not in session or 'username' not in session:
+            flash('Kein Quiz zur Auswertung gefunden.', 'error')
             return redirect(url_for('homepage'))
         
         quiz_data = session['quiz_data']
 
-        # Stelle sicher, dass alle Fragen beantwortet wurden
-        if quiz_data['current_index'] < quiz_data['total_questions']:
+        # Prüfe ob das Quiz als abgeschlossen markiert wurde ODER alle Fragen beantwortet wurden
+        is_completed = quiz_data.get('completed', False)
+        all_questions_answered = (quiz_data.get('current_index', 0) > quiz_data.get('total_questions', 0) - 1)
+        
+        if not is_completed and not all_questions_answered:
             flash('Du musst erst alle Fragen beantworten!', 'error')
             return redirect(url_for('show_question'))
         
@@ -1046,6 +1042,9 @@ def evaluate_quiz():
                 user.correct_high = correct_count
             
             db.session.commit()
+
+        # Session-Cleanup nach erfolgreicher Auswertung
+        session.pop('quiz_data', None)
         
         return render_template(
             'evaluate.html',
@@ -1264,7 +1263,6 @@ def support_requests_page():
 @app.route('/delete_request/<request_id>', methods=['POST'])
 @login_required
 @admin_required
-@support_required
 def delete_request(request_id):
     global support_requests
     support_requests = [r for r in support_requests if r["id"] != request_id]
@@ -1464,6 +1462,10 @@ def handle_submit_answer(data):
         new_score = quiz_data['score'] + points_earned
         quiz_data['score'] = new_score
         quiz_data['answered'] = True
+
+        if current_index >= quiz_data['total_questions'] - 1:
+            quiz_data['completed'] = True
+
         session['quiz_data'] = quiz_data
         
         # Ergebnis an Client senden
@@ -1473,7 +1475,8 @@ def handle_submit_answer(data):
             'points_earned': points_earned,
             'current_score': new_score,
             'time_left': time_left,
-            'user_answer': user_answer  # Füge die Benutzerantwort hinzu
+            'user_answer': user_answer,
+            'is_last_question': (current_index >= quiz_data['total_questions'] - 1) 
         })
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler in submit_answer: {str(e)}")

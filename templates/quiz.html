@@ -299,23 +299,35 @@
                 // Antworten hervorheben
                 this.highlightAnswers(data);
                 
-                // Prüfe, ob dies die letzte Frage ist
-                const progressText = document.querySelector('.progress-bar').textContent;
-                const match = progressText.match(/Frage (\d+) von (\d+)/);
-                const currentQuestion = parseInt(match[1]);
-                const totalQuestions = parseInt(match[2]);
+                // Prüfe, ob dies die letzte Frage ist (entweder über Server-Flag oder lokale Berechnung)
+                const isLastQuestion = data.is_last_question || 
+                    (this.getCurrentQuestionNumber() >= this.getTotalQuestions());
                 
-                if (currentQuestion < totalQuestions) {
+                if (!isLastQuestion) {
                     // Normale Frage - nach 1.5 Sekunden zur nächsten Frage
                     setTimeout(() => {
                         this.goToNextQuestion();
                     }, 1500);
                 } else {
                     // Letzte Frage - nach 1.5 Sekunden zur Auswertung
+                    console.log('Letzte Frage beantwortet - weiter zur Auswertung');
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 1500);
                 }
+            }
+
+            // Hilfsmethoden für Fragen-Zählung
+            getCurrentQuestionNumber() {
+                const progressText = document.querySelector('.progress-bar').textContent;
+                const match = progressText.match(/Frage (\d+) von (\d+)/);
+                return match ? parseInt(match[1]) : 1;
+            }
+
+            getTotalQuestions() {
+                const progressText = document.querySelector('.progress-bar').textContent;
+                const match = progressText.match(/Frage (\d+) von (\d+)/);
+                return match ? parseInt(match[2]) : 30;
             }
 
             updateScore(newScore, pointsEarned) {
