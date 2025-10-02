@@ -1,7 +1,7 @@
 from gevent import monkey, spawn, sleep
 monkey.patch_all()
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, abort
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError, OperationalError
@@ -378,6 +378,13 @@ if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
 # Error Handler für 405 Method Not Allowed
 @app.errorhandler(405)
 def method_not_allowed(error):
+    # Session beenden bei ungültiger Zugriffsmethode
+    if 'quiz_data' in session:
+        room_id = session['quiz_data'].get('room_id')
+        if room_id:
+            stop_timer(room_id)
+    
+    session.clear()
     flash('Ungültige Zugriffsmethode für diese Seite.', 'error')
     return render_template('index.html'), 405
     
@@ -454,6 +461,10 @@ def check_csrf():
 # Ab hier alle Routes 
 @app.route('/')
 def index():
+    # Wenn Benutzer bereits angemeldet ist, zur Homepage weiterleiten
+    if 'username' in session:
+        return redirect(url_for('homepage'))
+
     # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
     saved_username = request.cookies.get('saved_username', '')
     saved_password = request.cookies.get('saved_password', '')
@@ -755,8 +766,7 @@ def logout():
 @login_required
 def start_custom_quiz():
     if request.method != 'POST':
-        flash('Ungültige Zugriffsmethode.', 'error')
-        return redirect(url_for('homepage'))
+        abort(405)
 
     if 'username' not in session:
         return redirect(url_for('index'))
@@ -821,8 +831,7 @@ def start_custom_quiz():
 @quiz_required 
 def show_question():
     if request.method != 'GET':
-        flash('Ungültige Zugriffsmethode.', 'error')
-        return redirect(url_for('homepage'))
+        abort(405)
 
     try:
         if 'quiz_data' not in session:
@@ -892,7 +901,7 @@ def show_question():
 @quiz_required 
 def check_answer():
     if request.method != 'POST':
-        return jsonify({'error': 'Ungültige Zugriffsmethode'}), 405
+        abort(405)
 
     try:
         if 'quiz_data' not in session:
@@ -945,7 +954,7 @@ def check_answer():
 @quiz_required 
 def next_question():
     if request.method != 'POST':
-        return jsonify({'error': 'Ungültige Zugriffsmethode', 'redirect': url_for('homepage')}), 405
+        abort(405)
     
     try:
         if 'quiz_data' not in session or 'username' not in session:
@@ -1063,7 +1072,7 @@ def evaluate_quiz():
 @quiz_required 
 def cancel_quiz():
     if request.method != 'POST':
-        return jsonify({'error': 'Ungültige Zugriffsmethode'}), 405
+        abort(405)
     
     if 'quiz_data' in session:
         # Timer stoppen, falls vorhanden
@@ -1326,8 +1335,7 @@ def admin_panel():
 @admin_required
 def add_question():
     if request.method != 'POST':
-        flash('Ungültige Zugriffsmethode.', 'error')
-        return redirect(url_for('admin_panel'))
+        abort(405)
 
     try:
         subject = request.form['subject'].lower().strip()
