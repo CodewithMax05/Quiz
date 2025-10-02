@@ -718,7 +718,6 @@ def clear_cookies():
     flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
     return resp
 
-
 @app.route('/homepage')
 @login_required
 def homepage():
@@ -1272,8 +1271,9 @@ def delete_request(request_id):
 @app.route('/automatic_logout')
 @login_required
 def automatic_logout():
-    if request.method != 'GET':
-        flash('Ungültige Zugriffsmethode.', 'error')
+    # Prüfe, ob der Aufruf vom Inaktivitäts-Timer kommt
+    if not request.referrer or not request.referrer.startswith(request.host_url):
+        flash('Ungültiger Zugriff auf den automatischen Logout.', 'error')
         return redirect(url_for('homepage'))
     
     # Timer stoppen bei Logout
