@@ -765,8 +765,11 @@ def playermenu():
     return render_template(
         'playermenu.html',
         username=user.username,
-        avatar=user.avatar
+        avatar=user.avatar,
+        first_played=user.first_played,
+        highscore=user.highscore
     )
+
 
 
 

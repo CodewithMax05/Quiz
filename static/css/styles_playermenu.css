@@ -85,11 +85,11 @@ body.playermenu-page {
     height: 35px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
     color: white;
     font-size: 1rem;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(142, 45, 226, 0.8);
+    box-shadow: 0 0 10px rgba(255,65,108,0.7);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -98,22 +98,30 @@ body.playermenu-page {
     box-shadow: 0 0 15px rgba(255,65,108,1);
 }
 
-/* Rechte Box: Username */
+/* Rechte Box: Username + Infos */
 .username-box {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     background: transparent;
     box-shadow: none;
     padding: 0;
+    gap: 0.3rem;
 }
 
-/* Username */
 .player-username {
     font-size: 2rem;
     font-weight: bold;
     color: #fff;
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.8);
+}
+
+/* Player Infos (Datum, Highscore) */
+.player-info {
+    font-size: 1rem;
+    color: #ccc;
+    text-shadow: 0 0 5px rgba(142,45,226,0.5);
 }
 
 /* Buttons unten */
@@ -192,6 +200,8 @@ body.playermenu-page {
     .username-box {
         width: 100%;
         justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 
     .menu-buttons {

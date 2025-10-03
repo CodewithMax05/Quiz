@@ -17,7 +17,7 @@
             <!-- Avatar + Username Kasten -->
             <div class="player-info-box">
 
-                <!-- Linke Box: Avatar + Button (Button unten rechts am Avatar) -->
+                <!-- Linke Box: Avatar + Button -->
                 <div class="avatar-button-box">
                     <div class="avatar-container">
                         <img src="{{ url_for('static', filename='pictures/avatar/' + avatar) }}" alt="Avatar" class="player-avatar">
@@ -25,9 +25,13 @@
                     </div>
                 </div>
 
-                <!-- Rechte Box: Username -->
+                <!-- Rechte Box: Username + Infos -->
                 <div class="username-box">
                     <h2 class="player-username">{{ username }}</h2>
+                    <p class="player-info">
+                        Registriert am: {{ first_played.strftime('%d.%m.%Y %H:%M') if first_played else "Unbekannt" }}
+                    </p>
+                    <p class="player-info">Highscore: {{ highscore }}</p>
                 </div>
 
             </div>
