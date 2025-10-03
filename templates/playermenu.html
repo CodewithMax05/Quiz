@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_playermenu.css') }}"/>
+{% endblock %}
+
+{% block body %}
+<body class="playermenu-page">
+    <div class="playermenu-wrapper">
+
+        <!-- Avatar + Username -->
+        <div class="player-profile">
+            <img src="{{ url_for('static', filename='avatar/' + avatar) }}" alt="Avatar" class="player-avatar">
+            <h2 class="player-username">{{ username }}</h2>
+        </div>
+
+        <!-- Buttons -->
+        <div class="menu-buttons">
+            <a href="{{ url_for('homepage') }}" class="circle-button singleplayer sound-button">
+                <span>🎮</span>
+                <p>Singleplayer</p>
+            </a>
+            <a href="{{ url_for('homepage') }}" class="circle-button multiplayer sound-button">
+                <span>⚔️</span>
+                <p>Multiplayer</p>
+            </a>
+        </div>
+
+    </div>
+</body>
+{% endblock %}

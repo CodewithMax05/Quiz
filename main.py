@@ -73,6 +73,7 @@ class User(db.Model):
     correct_high = db.Column(db.Integer, default=0)
     first_played = db.Column(db.DateTime)  
     is_admin = db.Column(db.Boolean, default=False)
+    avatar = db.Column(db.String(200), default="avatar0.png")  # <-- Avatar-Bild
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -742,6 +743,43 @@ def clear_cookies():
     session.clear()
     flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
     return resp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/playermenu')
+@login_required
+def playermenu():
+    user = User.query.filter_by(username=session['username']).first()
+    return render_template(
+        'playermenu.html',
+        username=user.username,
+        avatar=user.avatar
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/homepage')
 @login_required
