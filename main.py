@@ -208,11 +208,6 @@ def to_local_time(utc_time):
     local_time = utc_time + timedelta(hours=2)
     return local_time.strftime('%d.%m.%Y %H:%M')
 
-# CSRF-Token global verfügbar machen
-@app.context_processor
-def inject_csrf_token():
-    return dict(csrf_token=generate_csrf)
-
 # Automatische Datenbankinitialisierung beim App-Start
 def initialize_database():
     """Erstellt Tabellen und importiert neue Fragen bei jedem Start"""
@@ -433,6 +428,12 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# CSRF-Token global verfügbar machen
+@app.context_processor
+def inject_csrf_token():
+    return dict(csrf_token=generate_csrf)
+
+# führt die eigentliche Sicherheitsprüfung durch
 @app.before_request
 def check_csrf():
     # CSRF für API-Routes deaktivieren, die JSON verwenden
@@ -457,6 +458,19 @@ def check_csrf():
                     return redirect(url_for('homepage'))
                 else:
                     return redirect(url_for('index'))
+                
+@app.context_processor
+def inject_user():
+    user = None
+    is_admin = False
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        if user and user.is_admin:
+            is_admin = True
+    return dict(
+        is_logged_in='username' in session,
+        is_admin=is_admin
+    )
 
 # Ab hier alle Routes 
 @app.route('/')
@@ -1294,19 +1308,6 @@ def automatic_logout():
     session.clear()
     flash('Sie wurden aufgrund von Inaktivität automatisch abgemeldet.', 'permanent')
     return redirect(url_for('index'))
-
-@app.context_processor
-def inject_user():
-    user = None
-    is_admin = False
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
-        if user and user.is_admin:
-            is_admin = True
-    return dict(
-        is_logged_in='username' in session,
-        is_admin=is_admin
-    )
 
 #Admin Panel
 @app.route('/admin')
