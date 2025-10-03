@@ -179,7 +179,7 @@
     transition: all 0.3s ease;
 }
 
-/* Button-Row (Impressum + Start nebeneinander) */
+/* Button-Row (Support + Start nebeneinander) */
 .button-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr; /* 3 Spalten gleich breit */
@@ -190,8 +190,8 @@
     margin-top: 20px;
 }
 
-/* Impressum-Button */
-.imprint-button {
+/* Support-Button */
+.support-button {
     justify-self: start;
     display: flex;
     align-items: center;
@@ -206,19 +206,19 @@
     position: relative;
 }
 
-.imprint-button i {
+.support-button i {
     font-size: 1.3rem;
     color: white;
 }
 
-.imprint-button:hover {
+.support-button:hover {
     transform: scale(1.1);
     background: linear-gradient(135deg, #495057, #6c757d);
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
 
-.imprint-button::after {
-    content: "Impressum & Support";
+.support-button::after {
+    content: "Support";
     position: absolute;
     bottom: -40px;
     left: 50%;
@@ -235,7 +235,7 @@
     pointer-events: none;
 }
 
-.imprint-button:hover::after {
+.support-button:hover::after {
     opacity: 1;
 }
 
