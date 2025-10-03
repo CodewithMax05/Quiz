@@ -478,7 +478,7 @@ def inject_user():
 def index():
     # Wenn Benutzer bereits angemeldet ist, zur Homepage weiterleiten
     if 'username' in session:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('playermenu'))
 
     # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
     saved_username = request.cookies.get('saved_username', '')
@@ -515,7 +515,7 @@ def login():
             session.permanent = False
 
         # Weiterleitung
-        target_endpoint = 'admin_panel' if user.is_admin else 'homepage'
+        target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
         resp = redirect(url_for(target_endpoint))
 
         # Gespeicherte Login-Cookies nur wenn Consent vorhanden
@@ -575,7 +575,7 @@ def register():
         else:
             session.permanent = False
 
-        target_endpoint = 'admin_panel' if new_user.is_admin else 'homepage'
+        target_endpoint = 'admin_panel' if new_user.is_admin else 'playermenu'
         resp = redirect(url_for(target_endpoint))
 
         # Login-Daten speichern nur bei Consent
