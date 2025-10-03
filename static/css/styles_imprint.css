@@ -7,7 +7,7 @@
     align-items: center;
     width: 100%;
     padding: 2rem 1rem;
-    /*box-sizing: border-box;*/
+    box-sizing: border-box;
 }
 
 .impressum-box {
@@ -20,6 +20,7 @@
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    box-sizing: border-box;
 }
 
 /* Titel */
@@ -44,11 +45,13 @@
     gap: 0.8rem;
     font-size: 1.05rem;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .info-row {
     display: flex;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .info-label {
@@ -59,33 +62,40 @@
 
 .info-value {
     color: #a8c5db;
+    word-break: break-word;
+    flex: 1;
 }
 
-/* Buttons */
+/* Container für die Buttons */
 .link-content {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Zentriert die Buttons */
     flex-wrap: wrap;
     gap: 1rem;
     margin-top: 2rem;
     width: 100%;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Button */
 .back-button {
-    flex: 1;
-    min-width: 200px;
-    max-width: 250px;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 12px 20px; /* etwas großzügiger */
     border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: inline-block;
+    max-width: 250px;    /* maximale Breite */
+    width: 100%;         /* Standardbreite: passt sich Container an */
+    box-sizing: border-box;
 }
 
+/* Hover Effekt */
 .back-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.4);
@@ -105,5 +115,11 @@
     .info-value {
         text-align: left;
         word-break: break-word;
+    }
+
+    .back-button {
+        width: 90%;       /* Nimmt 90% der Bildschirmbreite ein */
+        max-width: 250px; /* bleibt maximal so groß wie Desktop */
+        margin: 0 auto;   /* Zentriert den Button horizontal */
     }
 }
