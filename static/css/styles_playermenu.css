@@ -37,22 +37,78 @@ body.playermenu-page {
     margin: 0;
 }
 
-/* Avatar + Username nebeneinander */
-.player-top {
+/* Äußere Box für Avatar + Username */
+.player-info-box {
     display: flex;
-    align-items: center;
     gap: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    background: rgba(40, 40, 70, 0.6);
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(142,45,226,0.5);
 }
 
+/* Linke Box: Avatar + Button */
+.avatar-button-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* Container für Avatar + Button unten rechts */
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Avatar */
 .player-avatar {
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     border: 3px solid #8e2de2;
     box-shadow: 0 0 20px rgba(142, 45, 226, 0.6);
     object-fit: cover;
 }
 
+/* Kleiner runder Button unten rechts am Avatar */
+.small-circle-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translate(25%, 25%);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(142, 45, 226, 0.8);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.small-circle-button:hover {
+    transform: translate(25%, 25%) scale(1.2);
+    box-shadow: 0 0 15px rgba(255,65,108,1);
+}
+
+/* Rechte Box: Username */
+.username-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* Username */
 .player-username {
     font-size: 2rem;
     font-weight: bold;
@@ -60,7 +116,7 @@ body.playermenu-page {
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.8);
 }
 
-/* Buttons */
+/* Buttons unten */
 .menu-buttons {
     display: flex;
     gap: 2rem;
@@ -123,9 +179,21 @@ body.playermenu-page {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .player-top {
+    .player-info-box {
         flex-direction: column;
+        align-items: center;
     }
+
+    .avatar-button-box {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .username-box {
+        width: 100%;
+        justify-content: center;
+    }
+
     .menu-buttons {
         flex-direction: column;
     }

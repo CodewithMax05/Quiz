@@ -14,13 +14,25 @@
             <!-- Überschrift -->
             <h1 class="playermenu-title">Spielermenü</h1>
 
-            <!-- Avatar links + Username rechts -->
-            <div class="player-top">
-                <img src="{{ url_for('static', filename='pictures/avatar/' + avatar) }}" alt="Avatar" class="player-avatar">
-                <h2 class="player-username">{{ username }}</h2>
+            <!-- Avatar + Username Kasten -->
+            <div class="player-info-box">
+
+                <!-- Linke Box: Avatar + Button (Button unten rechts am Avatar) -->
+                <div class="avatar-button-box">
+                    <div class="avatar-container">
+                        <img src="{{ url_for('static', filename='pictures/avatar/' + avatar) }}" alt="Avatar" class="player-avatar">
+                        <button class="small-circle-button">✏️</button>
+                    </div>
+                </div>
+
+                <!-- Rechte Box: Username -->
+                <div class="username-box">
+                    <h2 class="player-username">{{ username }}</h2>
+                </div>
+
             </div>
 
-            <!-- Buttons -->
+            <!-- Buttons unten -->
             <div class="menu-buttons">
                 <a href="{{ url_for('homepage') }}" class="circle-button singleplayer sound-button">
                     <span>🎮</span>
@@ -32,6 +44,7 @@
                     <p>Cooming Soon</p>
                 </a>
             </div>
+
         </div>
 
     </div>
