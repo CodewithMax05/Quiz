@@ -9,11 +9,6 @@
     <div class="container"> 
         <h1>Willkommen</h1>
 
-        <!-- Neuer Settings-Button -->
-        <a href="{{ url_for('settings') }}" class="settings-button sound-button" aria-label="Einstellungen">
-            <i class="fas fa-cog"></i>
-        </a>
-        
         <form id="auth-form" method="post"> 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field" value="{{ saved_username }}">
@@ -21,6 +16,19 @@
             <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
             <input type="button" value="Register" class="btn btn-register sound-button" onclick="submitForm('register')" id="register-btn">
         </form>
+
+        <!-- Neue Button-Gruppe -->
+        <div class="extra-buttons">
+            <a href="{{ url_for('settings') }}" class="round-button sound-button" aria-label="Einstellungen">
+                <i class="fas fa-cog"></i>
+            </a>
+            <a href="{{ url_for('imprint') }}" class="round-button sound-button" aria-label="Impressum">
+                <i class="fas fa-landmark"></i>
+            </a>
+            <a href="{{ url_for('support') }}" class="round-button sound-button" aria-label="Support">
+                <i class="fas fa-comments"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Cookie Consent Modal -->
