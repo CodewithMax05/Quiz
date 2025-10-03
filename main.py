@@ -1232,7 +1232,6 @@ def search_player():
         return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
 
 @app.route('/imprint')
-@login_required
 def imprint():
     return render_template('imprint.html')
 
@@ -1240,7 +1239,6 @@ def imprint():
 support_requests = []
 
 @app.route('/support', methods=['GET', 'POST'])
-@login_required
 def support():
     if request.method == 'POST':
         category = request.form.get('category')
