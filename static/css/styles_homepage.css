@@ -74,9 +74,9 @@
 }
 
 .category-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(0, 180, 255, 0.7);
 }
 
@@ -97,13 +97,47 @@
 
 .category-card input[type="checkbox"]:checked + .card-content {
     color: #4299e1;
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.3), rgba(56, 178, 172, 0.3));
+    border: 2px solid #4299e1;
     transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
+    animation: selected-pulse 2s infinite;
+}
+
+.category-card input[type="checkbox"]:checked + .card-content span {
+    color: #4299e1;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(66, 153, 225, 0.5);
 }
 
 .category-card input[type="checkbox"]:checked + .card-content i {
     color: #4299e1;
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.4));
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 10px rgba(66, 153, 225, 0.8));
+}
+
+.category-card input[type="checkbox"]:checked:hover + .card-content {
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.4), rgba(56, 178, 172, 0.4));
+    border-color: #3182ce;
+}
+
+/* Häkchen für ausgewählte Karten */
+.category-card input[type="checkbox"]:checked + .card-content::after {
+    content: "✓";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #4299e1;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .category-card::before {
@@ -451,6 +485,12 @@
    100% { background-position: 300% 50%; }
 }
 
+@keyframes selected-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(66, 153, 225, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
+}
+
 /* Responsive Anpassungen */
 @media (max-width: 1200px) {
     .headline {
@@ -569,6 +609,14 @@
         padding: 10px 20px;
         font-size: 0.95rem;
         margin-top: 15px;
+    }
+    
+    .category-card input[type="checkbox"]:checked + .card-content::after {
+        top: 5px;
+        right: 5px;
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
     }
 }
 
