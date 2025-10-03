@@ -79,6 +79,9 @@
 
         let selectedAvatar = null;
 
+        // CSRF-Token aus Template
+        const csrfToken = "{{ csrf_token() }}";
+
         // Avatare dynamisch laden
         const avatars = ['avatar0.png','avatar1.png','avatar2.png','avatar3.png','avatar4.png'];
         avatars.forEach(av => {
@@ -104,13 +107,14 @@
         // Avatar speichern
         saveBtn.addEventListener("click", () => {
             if (!selectedAvatar) return alert("Bitte wähle einen Avatar aus!");
-            fetch("{{ url_for('change_avatar') }}", {
+
+            fetch("{{ url_for('update_avatar') }}", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({avatar: selectedAvatar})
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    avatar: selectedAvatar,
+                    csrf_token: csrfToken
+                })
             })
             .then(res => res.json())
             .then(data => {

@@ -777,15 +777,17 @@ def update_avatar():
     avatar = data.get('avatar')
     if not avatar:
         return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
-    
-    # User-Objekt aus DB holen
-    user = User.query.filter_by(id=session['user_id']).first()
+
+    # Benutzer über Session-Username holen
+    user = User.query.filter_by(username=session.get('username')).first()
     if not user:
         return jsonify({"success": False, "error": "Benutzer nicht gefunden!"})
-    
+
     user.avatar = avatar
     db.session.commit()
     return jsonify({"success": True})
+
+
 
 
 
