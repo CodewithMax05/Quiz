@@ -1241,13 +1241,13 @@ support_requests = []
 @app.route('/support', methods=['GET', 'POST'])
 def support():
     if request.method == 'POST':
+        # ... (deine Validierung + Speichern der Anfrage bleibt gleich)
         category = request.form.get('category')
         username = request.form.get('username')
         phone = request.form.get('phone')
         email = request.form.get('email')
         message = request.form.get('message')
 
-        # Validierung
         if not category or not username or not message:
             flash("Bitte alle Pflichtfelder ausfüllen!", "error")
             return render_template(
@@ -1256,10 +1256,10 @@ def support():
                 username=username,
                 phone=phone,
                 email=email,
-                message=message
+                message=message,
+                back_target=session.get("support_back_target", "index")  # Rücksprungziel merken
             )
 
-        # Anfrage speichern
         support_requests.append({
             "id": str(uuid.uuid4()),
             "category": category,
@@ -1272,7 +1272,18 @@ def support():
         flash("Deine Nachricht wurde gespeichert!", "success")
         return redirect(url_for('support'))
 
-    return render_template('support.html')
+    # GET: Herkunft bestimmen
+    ref = request.referrer or ""
+    if "/homepage" in ref:
+        session["support_back_target"] = "homepage"
+    else:
+        session["support_back_target"] = "index"
+
+    return render_template(
+        'support.html',
+        back_target=session["support_back_target"]
+    )
+
 
 @app.route('/support_requests')
 @login_required
