@@ -1,7 +1,7 @@
 from gevent import monkey, spawn, sleep
 monkey.patch_all()
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, abort, make_response
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError, OperationalError
@@ -389,6 +389,12 @@ def quiz_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'quiz_data' not in session:
+            # Prüfe ob das Quiz ordnungsgemäß beendet wurde
+            if session.get('quiz_properly_ended'):
+                # Flag zurücksetzen und ohne Fehler zur Homepage weiterleiten
+                session.pop('quiz_properly_ended', None)
+                return redirect(url_for('homepage'))
+            
             flash('Kein aktives Quiz gefunden. Bitte starte ein neues Quiz.', 'error')
             return redirect(url_for('homepage'))
         
@@ -901,7 +907,6 @@ def show_question():
         
         # Wenn Frage bereits beantwortet wurde, leite direkt zur nächsten Frage weiter
         if quiz_data.get('answered', False):
-            # Prüfe ob dies die letzte Frage war
             current_index = quiz_data['current_index']
             if current_index >= quiz_data['total_questions'] - 1:
                 # Letzte Frage - zur Auswertung
@@ -913,11 +918,9 @@ def show_question():
                     del quiz_data['options_order']
                 quiz_data['answered'] = False
                 session['quiz_data'] = quiz_data
-                # Zur neu geladenen Frage weiterleiten (rekursiver Aufruf)
                 return redirect(url_for('show_question'))
         
         current_index = quiz_data['current_index']
-
         question = Question.query.get(quiz_data['questions'][current_index])
 
         if not question:
@@ -936,7 +939,7 @@ def show_question():
         
         # Berechne die verbleibende Zeit vom Server-Timer
         room_id = quiz_data.get('room_id')
-        time_left = 30  # Default-Wert
+        time_left = 30
         
         if room_id:
             with timer_lock:
@@ -944,7 +947,7 @@ def show_question():
                 if timer and timer.is_running:
                     time_left = timer.get_time_left()
         
-        return render_template(
+        response = make_response(render_template(
             'quiz.html',
             subject=quiz_data['subject'],
             question=question,
@@ -955,7 +958,14 @@ def show_question():
             was_correct=was_correct,
             room_id=room_id,
             time_left=time_left
-        )
+        ))
+        
+        # Cache-Header für Quiz-Seite
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        
+        return response
     
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler in show_question: {str(e)}")
@@ -1080,14 +1090,19 @@ def evaluate_quiz():
         # Prüfe ob Auswertungsdaten in der Session vorhanden sind (für Neuladen)
         if 'evaluation_data' in session:
             data = session['evaluation_data']
-            return render_template(
+            response = make_response(render_template(
                 'evaluate.html',
                 score=data['score'],
                 total=data['total'],
                 correct_answers=data['correct_answers'],
                 new_highscore=data['new_highscore'],
                 highscore=data['highscore']
-            )
+            ))
+            # Cache-Header setzen
+            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = '0'
+            return response
         
         if 'quiz_data' not in session or 'username' not in session:
             flash('Kein Quiz zur Auswertung gefunden.', 'error')
@@ -1097,34 +1112,37 @@ def evaluate_quiz():
 
         # Prüfe ob das Quiz als abgeschlossen markiert wurde ODER alle Fragen beantwortet wurden
         is_completed = quiz_data.get('completed', False)
-        all_questions_answered = (quiz_data.get('current_index', 0) > quiz_data.get('total_questions', 0) - 1)
+        all_questions_answered = (quiz_data.get('current_index', 0) >= quiz_data.get('total_questions', 0) - 1)
         
         if not is_completed and not all_questions_answered:
             flash('Du musst erst alle Fragen beantworten!', 'error')
             return redirect(url_for('show_question'))
         
-        # Timer stoppen
+        # Timer stoppen und Raum komplett aufräumen
         room_id = quiz_data.get('room_id') if quiz_data else None
         if room_id:
             stop_timer(room_id)
+            # WebSocket-Raum aufräumen
+            with timer_lock:
+                if room_id in active_timers:
+                    del active_timers[room_id]
         
-        score = quiz_data.get('score', 0) if quiz_data else 0
-        total = quiz_data.get('total_questions', 0) if quiz_data else 0
-        correct_count = quiz_data.get('correct_count', 0) if quiz_data else 0
+        score = quiz_data.get('score', 0)
+        total = quiz_data.get('total_questions', 0)
+        correct_count = quiz_data.get('correct_count', 0)
         
         # Highscore-Logik
         user = User.query.filter_by(username=session['username']).first()
         new_highscore = False
         now = datetime.now(timezone.utc)
         
-        if user and quiz_data:
-            # Setze Zeitpunkt des ersten Spiels, falls noch nicht vorhanden
+        if user:
             if not user.first_played:
                 user.first_played = now
             
             # Highscore für Punkte
-            if quiz_data['score'] > user.highscore:
-                user.highscore = quiz_data['score']
+            if score > user.highscore:
+                user.highscore = score
                 user.highscore_time = now
                 new_highscore = True
 
@@ -1143,19 +1161,31 @@ def evaluate_quiz():
         }
         session['evaluation_data'] = evaluation_data
 
-        # Session-Cleanup nach erfolgreicher Auswertung
+        # WICHTIG: Komplette Quiz-Daten aus Session entfernen
         session.pop('quiz_data', None)
         
-        return render_template(
+        # Flag setzen, dass Quiz ordnungsgemäß beendet wurde
+        session['quiz_properly_ended'] = True
+        
+        # Response mit Cache-Control Headern
+        response = make_response(render_template(
             'evaluate.html',
             score=score,
             total=total,
             correct_answers=correct_count,
             new_highscore=new_highscore,
             highscore=user.highscore if user else score
-        )
+        ))
+        
+        # Verhindert, dass der Browser die Seite cached
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        
+        return response
+        
     except (SQLAlchemyError, OperationalError) as e:
-        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        print(f"Datenbankfehler in evaluate_quiz: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
 
