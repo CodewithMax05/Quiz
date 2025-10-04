@@ -744,20 +744,6 @@ def clear_cookies():
     flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
     return resp
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @app.route('/playermenu')
 @login_required
 def playermenu():
@@ -786,23 +772,6 @@ def update_avatar():
     user.avatar = avatar
     db.session.commit()
     return jsonify({"success": True})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @app.route('/homepage')
 @login_required
@@ -918,8 +887,22 @@ def show_question():
         if quiz_data.get('completed', False):
             return redirect(url_for('evaluate_quiz'))
         
+        # Wenn Frage bereits beantwortet wurde, leite direkt zur nächsten Frage weiter
         if quiz_data.get('answered', False):
-            return redirect(url_for('next_question'))
+            # Prüfe ob dies die letzte Frage war
+            current_index = quiz_data['current_index']
+            if current_index >= quiz_data['total_questions'] - 1:
+                # Letzte Frage - zur Auswertung
+                return redirect(url_for('evaluate_quiz'))
+            else:
+                # Nächste Frage laden
+                quiz_data['current_index'] += 1
+                if 'options_order' in quiz_data:
+                    del quiz_data['options_order']
+                quiz_data['answered'] = False
+                session['quiz_data'] = quiz_data
+                # Zur neu geladenen Frage weiterleiten (rekursiver Aufruf)
+                return redirect(url_for('show_question'))
         
         current_index = quiz_data['current_index']
 
@@ -963,7 +946,7 @@ def show_question():
         )
     
     except (SQLAlchemyError, OperationalError) as e:
-        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        print(f"Datenbankfehler in show_question: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
     except Exception as e:
