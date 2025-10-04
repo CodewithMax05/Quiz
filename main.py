@@ -777,6 +777,10 @@ def update_avatar():
 @login_required
 def homepage():
     try:
+        # Alte Auswertungsdaten löschen, wenn Benutzer zur Homepage zurückkehrt
+        if 'evaluation_data' in session:
+            session.pop('evaluation_data', None)
+            
         if 'username' in session:
             user = User.query.filter_by(username=session['username']).first()
             # Zeige Info-Nachricht nur beim ersten Aufruf
@@ -797,6 +801,10 @@ def homepage():
 @app.route('/logout')
 @login_required
 def logout():
+    # Alte Auswertungsdaten löschen
+    if 'evaluation_data' in session:
+        session.pop('evaluation_data', None)
+        
     # Falls Quiz aktiv: Timer stoppen
     if 'quiz_data' in session:
         room_id = session['quiz_data'].get('room_id')
@@ -809,6 +817,10 @@ def logout():
 @app.route('/start_custom_quiz', methods=['POST'])
 @login_required
 def start_custom_quiz():
+    # Alte Auswertungsdaten löschen, wenn ein neues Quiz startet
+    if 'evaluation_data' in session:
+        session.pop('evaluation_data', None)
+
     if request.method != 'POST':
         abort(405)
 
@@ -1065,6 +1077,18 @@ def next_question():
 @login_required
 def evaluate_quiz():
     try:
+        # Prüfe ob Auswertungsdaten in der Session vorhanden sind (für Neuladen)
+        if 'evaluation_data' in session:
+            data = session['evaluation_data']
+            return render_template(
+                'evaluate.html',
+                score=data['score'],
+                total=data['total'],
+                correct_answers=data['correct_answers'],
+                new_highscore=data['new_highscore'],
+                highscore=data['highscore']
+            )
+        
         if 'quiz_data' not in session or 'username' not in session:
             flash('Kein Quiz zur Auswertung gefunden.', 'error')
             return redirect(url_for('homepage'))
@@ -1108,6 +1132,16 @@ def evaluate_quiz():
                 user.correct_high = correct_count
             
             db.session.commit()
+
+        # Speichere Auswertungsdaten in separater Session-Variable für Neuladen
+        evaluation_data = {
+            'score': score,
+            'total': total,
+            'correct_answers': correct_count,
+            'new_highscore': new_highscore,
+            'highscore': user.highscore if user else score
+        }
+        session['evaluation_data'] = evaluation_data
 
         # Session-Cleanup nach erfolgreicher Auswertung
         session.pop('quiz_data', None)
