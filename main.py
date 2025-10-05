@@ -435,6 +435,26 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def logout_required(f):
+    """Prüft ob Benutzer NICHT angemeldet ist - nur dann Zugriff erlaubt"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' in session:
+            # Benutzer ist angemeldet - Zugriff verweigern
+            route_name = request.endpoint
+            if route_name == 'imprint':
+                flash('Impressum nur über Startseite erreichbar.', 'error')
+            elif route_name == 'settings':
+                flash('Einstellungen nur über Startseite erreichbar.', 'error')
+            else:
+                flash('Diese Seite ist nur über die Startseite erreichbar.', 'error')
+            
+            # Zurück zur Homepage
+            return redirect(url_for('homepage'))
+        
+        return f(*args, **kwargs)
+    return decorated_function
+
 def prevent_quiz_exit(f):
     """Verhindert das Verlassen eines aktiven Quiz ohne Bestätigung"""
     @wraps(f)
@@ -500,6 +520,7 @@ def inject_user():
 
 # Ab hier alle Routes 
 @app.route('/')
+@prevent_quiz_exit 
 def index():
     # Wenn Benutzer bereits angemeldet ist, zur Homepage weiterleiten
     if 'username' in session:
@@ -635,6 +656,7 @@ def register():
         return redirect(url_for('index'))
 
 @app.route("/settings")
+@logout_required 
 def settings():
     return render_template("settings.html", is_logged_in=('user_id' in session))
 
@@ -771,6 +793,7 @@ def clear_cookies():
 
 @app.route('/playermenu')
 @login_required
+@prevent_quiz_exit 
 def playermenu():
     user = User.query.filter_by(username=session['username']).first()
     return render_template(
@@ -1383,6 +1406,7 @@ def search_player():
         return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
 
 @app.route('/imprint')
+@logout_required 
 def imprint():
     return render_template('imprint.html')
 
@@ -1390,6 +1414,7 @@ def imprint():
 support_requests = []
 
 @app.route('/support', methods=['GET', 'POST'])
+@prevent_quiz_exit 
 def support():
     if request.method == 'POST':
         # ... (deine Validierung + Speichern der Anfrage bleibt gleich)
