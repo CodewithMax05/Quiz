@@ -124,6 +124,14 @@
                         this.hideConfirmationModal();
                     }
                 });
+
+                // Modal automatisch öffnen, wenn show_exit_modal Parameter gesetzt ist
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('show_exit_modal') === 'true') {
+                    this.showConfirmationModal();
+                    // URL bereinigen ohne Reload
+                    window.history.replaceState({}, '', window.location.pathname);
+    }
             }
 
             showConfirmationModal() {
@@ -149,25 +157,33 @@
                     this.socket.disconnect();
                 }
 
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const csrfToken = document.querySelector('input[name="csrf_token"]').value;
                 
                 fetch("{{ url_for('cancel_quiz') }}", { 
                     method: 'POST',
                     headers: {
-                        'X-CSRFToken': csrfToken
-                    }
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `csrf_token=${encodeURIComponent(csrfToken)}`
                 })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    return response.text();
+                    return response.json();
                 })
-                .then(() => {
-                    window.location.href = "{{ url_for('homepage') }}";
+                .then(data => {
+                    // Wenn eine Zielseite zurückgegeben wurde, dorthin weiterleiten
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else {
+                        window.location.href = "{{ url_for('homepage') }}";
+                    }
                 })
                 .catch(error => {
                     console.error('Fehler beim Abbrechen des Quiz:', error);
+                    // Im Fehlerfall einfach zur Homepage weiterleiten
                     window.location.href = "{{ url_for('homepage') }}";
                 });
             }

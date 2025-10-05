@@ -435,6 +435,25 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def prevent_quiz_exit(f):
+    """Verhindert das Verlassen eines aktiven Quiz ohne Bestätigung"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Prüfe ob Quiz gerade abgebrochen wurde
+        if session.pop('quiz_cancelled', False):
+            # Quiz wurde absichtlich abgebrochen, erlaube Zugriff
+            return f(*args, **kwargs)
+        
+        # Prüfe ob ein aktives Quiz läuft und ob es nicht abgeschlossen ist
+        if 'quiz_data' in session and not session['quiz_data'].get('completed', False):
+            # Speichere das gewünschte Ziel in der Session
+            target_route = request.endpoint
+            session['pending_navigation'] = target_route
+            # Redirect zurück zur Quiz-Seite mit Modal-Trigger
+            return redirect(url_for('show_question', show_exit_modal='true'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 # CSRF-Token global verfügbar machen
 @app.context_processor
 def inject_csrf_token():
@@ -781,6 +800,7 @@ def update_avatar():
 
 @app.route('/homepage')
 @login_required
+@prevent_quiz_exit
 def homepage():
     try:
         # Alte Auswertungsdaten löschen, wenn Benutzer zur Homepage zurückkehrt
@@ -826,6 +846,10 @@ def start_custom_quiz():
     # Alte Auswertungsdaten löschen, wenn ein neues Quiz startet
     if 'evaluation_data' in session:
         session.pop('evaluation_data', None)
+
+    # Alte pending_navigation löschen
+    if 'pending_navigation' in session:
+        session.pop('pending_navigation', None)
 
     if request.method != 'POST':
         abort(405)
@@ -946,6 +970,10 @@ def show_question():
                 timer = active_timers.get(room_id)
                 if timer and timer.is_running:
                     time_left = timer.get_time_left()
+
+        # Prüfe ob Modal angezeigt werden soll (bei versuchtem Seitenwechsel)
+        show_exit_modal = request.args.get('show_exit_modal') == 'true'
+        pending_navigation = session.get('pending_navigation', '')
         
         response = make_response(render_template(
             'quiz.html',
@@ -957,7 +985,9 @@ def show_question():
             score=quiz_data['score'],
             was_correct=was_correct,
             room_id=room_id,
-            time_left=time_left
+            time_left=time_left,
+            show_exit_modal=show_exit_modal,
+            pending_navigation=pending_navigation
         ))
         
         # Cache-Header für Quiz-Seite
@@ -1203,7 +1233,19 @@ def cancel_quiz():
             stop_timer(room_id)
         
         session.pop('quiz_data', None)
-    return '', 204
+
+    # Prüfe ob eine ausstehende Navigation existiert
+    target = session.pop('pending_navigation', None)
+    
+    # WICHTIG: Flag setzen, dass Quiz absichtlich abgebrochen wurde
+    session['quiz_cancelled'] = True
+    session.modified = True  # Sicherstellen, dass Session gespeichert wird
+
+    if target:
+        return jsonify({'redirect': url_for(target)})
+    
+    # WICHTIG: Immer JSON zurückgeben, auch wenn kein Target
+    return jsonify({'redirect': url_for('homepage')})
 
 @app.route('/db_stats')
 @login_required
@@ -1226,7 +1268,8 @@ def db_stats():
         return redirect(url_for('index'))
 
 @app.route('/ranking')      
-@login_required                
+@login_required     
+@prevent_quiz_exit           
 def ranking():
     try:
         # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
