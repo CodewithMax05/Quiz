@@ -1610,7 +1610,7 @@ def handle_join_quiz_session(data):
     timer = get_or_create_timer(room_id)
     
     # Aktuellen Timer-Stand senden
-    emit('time_update', {'time_left': timer.get_time_left()})
+    print(f"Client {request.sid} hat Raum {room_id} betreten, Timer läuft")
 
 @socketio.on('submit_answer')
 def handle_submit_answer(data):
