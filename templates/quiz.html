@@ -87,10 +87,36 @@
                 this.isModalOpen = false;
                 
                 console.log('Quiz Manager initialisiert für Raum:', this.roomId);
+                this.setupBrowserNavigation();
                 this.initializeSocket();
                 this.setupEventListeners();
                 this.setupModal();
                 this.updateTimer(this.initialTimeLeft);
+            }
+
+            setupBrowserNavigation() {
+                // 1. Popstate listener zum Anzeigen des Modals
+                window.addEventListener('popstate', (event) => {
+                    // Blockiere Standard-Navigation und zeige Modal
+                    history.pushState({}, document.title, location.href);
+                    this.showConfirmationModal();
+                });
+
+                // 2. Aktuelle Seite als History-Eintrag festschreiben (ersetzt ggf. initialen Zustand)
+                history.replaceState({}, document.title, location.href);
+
+                // 3. Füge einen neuen History-Eintrag bei der ersten Nutzer-Geste hinzu
+                const gestureEvent = (window.ontouchend !== undefined ? 'touchend' : 'click');
+                document.addEventListener(gestureEvent, () => {
+                    history.pushState({}, document.title, location.href);
+                }, { once: true });
+            }
+
+            cleanupHistory() {
+                // Entferne den zusätzlichen History-State
+                if (history.state) {
+                    history.back();
+                }
             }
 
             setupModal() {
@@ -131,7 +157,7 @@
                     this.showConfirmationModal();
                     // URL bereinigen ohne Reload
                     window.history.replaceState({}, '', window.location.pathname);
-    }
+                }
             }
 
             showConfirmationModal() {
@@ -152,38 +178,27 @@
 
             confirmCancel() {
                 this.hideConfirmationModal();
-                
+                // Entferne eventuellen History-Eintrag nicht per history.back (kein cleanupHistory),
+                // sondern vertraue auf die anschließende Weiterleitung.
                 if (this.socket) {
                     this.socket.disconnect();
                 }
-
+                // Abbruch-Request an Server
                 const csrfToken = document.querySelector('input[name="csrf_token"]').value;
-                
-                fetch("{{ url_for('cancel_quiz') }}", { 
+                fetch("{{ url_for('cancel_quiz') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': csrfToken,
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: `csrf_token=${encodeURIComponent(csrfToken)}`
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
+                }).then(response => response.json())
                 .then(data => {
-                    // Wenn eine Zielseite zurückgegeben wurde, dorthin weiterleiten
-                    if (data.redirect) {
-                        window.location.href = data.redirect;
-                    } else {
-                        window.location.href = "{{ url_for('homepage') }}";
-                    }
+                    // Weiterleitung auf die Zielseite oder Homepage
+                    window.location.href = data.redirect || "{{ url_for('homepage') }}";
                 })
                 .catch(error => {
                     console.error('Fehler beim Abbrechen des Quiz:', error);
-                    // Im Fehlerfall einfach zur Homepage weiterleiten
                     window.location.href = "{{ url_for('homepage') }}";
                 });
             }
