@@ -68,4 +68,13 @@
             </a>
         </div>
     </div>
+
+    <script>
+        // Entferne das Quiz-Flag beim Beenden des Quiz
+        try { 
+            sessionStorage.removeItem('quiz_active'); 
+        } catch (e) {
+            console.warn('sessionStorage remove failed:', e);
+        }
+    </script>
 {% endblock %}

@@ -997,6 +997,10 @@ def show_question():
         # Prüfe ob Modal angezeigt werden soll (bei versuchtem Seitenwechsel)
         show_exit_modal = request.args.get('show_exit_modal') == 'true'
         pending_navigation = session.get('pending_navigation', '')
+
+        # Wenn show_exit_modal gesetzt ist, entferne pending_navigation aus der Session
+        if show_exit_modal:
+            session.pop('pending_navigation', None)
         
         response = make_response(render_template(
             'quiz.html',
@@ -1269,6 +1273,19 @@ def cancel_quiz():
     
     # WICHTIG: Immer JSON zurückgeben, auch wenn kein Target
     return jsonify({'redirect': url_for('homepage')})
+
+@app.route('/quiz_session_status')
+@login_required
+@quiz_required
+def quiz_session_status():
+    """Gibt den aktuellen Quiz-Status zurück - verhindert Session-Timeouts"""
+    if 'quiz_data' in session:
+        return jsonify({
+            'active': True,
+            'current_question': session['quiz_data'].get('current_index', 0) + 1,
+            'total_questions': session['quiz_data'].get('total_questions', 30)
+        })
+    return jsonify({'active': False})
 
 @app.route('/db_stats')
 @login_required

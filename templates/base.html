@@ -241,5 +241,32 @@
 				}
 			});
 		</script>
+
+		<!-- Quiz-Schutz-Script -->
+		<script>
+			/*
+			Wenn ein Quiz aktiv ist (clientseitiger Marker), dann
+			redirect zur Show-Question-Seite des Quiz und zeige das Exit-Modal.
+			Dieses Script wird z.B. beim Zurück-Navigieren ausgeführt (pageshow),
+			auch wenn die Seite aus dem bfcache wiederhergestellt wurde.
+			*/
+			window.addEventListener('pageshow', function(e) {
+				try {
+					const active = sessionStorage.getItem('quiz_active');
+					if (active === '1') {
+						// Wenn wir bereits auf der Quiz-Seite sind, nichts tun
+						if (location.pathname.startsWith('/show_question') || location.pathname.startsWith('/evaluate')) {
+							return;
+						}
+						// verweise zurück zur Quiz-Seite; der Server/quiz.html zeigt dann das Modal
+						// prevent_quiz_exit setzt serverseitig pending_navigation und show_exit_modal
+						window.location.href = '/show_question?show_exit_modal=true';
+					}
+				} catch (err) {
+					// sessionStorage evtl. nicht verfügbar — ignorieren
+					console.warn('pageshow: sessionStorage Fehler', err);
+				}
+			});
+		</script>
 	</body>
 </html>

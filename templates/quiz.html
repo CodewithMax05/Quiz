@@ -72,7 +72,6 @@
     </div>
     
     <script>
-        // Der JavaScript-Code bleibt komplett unverändert
         class QuizManager {
             constructor() {
                 this.socket = null;
@@ -85,38 +84,73 @@
                 this.initialTimeLeft = parseInt(document.querySelector('.quiz-container-wide').dataset.initialTimeLeft) || 30;
                 this.confirmationModal = null;
                 this.isModalOpen = false;
-                
+                this.pendingVisibilityChange = false;
+
                 console.log('Quiz Manager initialisiert für Raum:', this.roomId);
+
+                // Markiere in sessionStorage, dass ein Quiz aktiv ist
+                try {
+                    sessionStorage.setItem('quiz_active', '1');
+                } catch (e) {
+                    console.warn('sessionStorage not available:', e);
+                }
+
                 this.setupBrowserNavigation();
+                this.setupGlobalEventListeners();
                 this.initializeSocket();
                 this.setupEventListeners();
                 this.setupModal();
                 this.updateTimer(this.initialTimeLeft);
+                this.keepSessionAlive();
             }
 
             setupBrowserNavigation() {
-                // 1. Popstate listener zum Anzeigen des Modals
+                // 1. Sofort einen History-Eintrag hinzufügen
+                try {
+                    history.pushState({ quiz: true }, document.title, location.href);
+                } catch (e) {
+                    console.warn('History pushState failed:', e);
+                }
+                
+                // 2. Popstate listener zum Anzeigen des Modals
                 window.addEventListener('popstate', (event) => {
-                    // Blockiere Standard-Navigation und zeige Modal
-                    history.pushState({}, document.title, location.href);
-                    this.showConfirmationModal();
+                    // Verhindere Navigation und zeige Modal
+                    if (!this.isModalOpen) {
+                        try {
+                            history.pushState({ quiz: true }, document.title, location.href);
+                        } catch (e) {}
+                        this.showConfirmationModal();
+                    }
                 });
-
-                // 2. Aktuelle Seite als History-Eintrag festschreiben (ersetzt ggf. initialen Zustand)
-                history.replaceState({}, document.title, location.href);
-
-                // 3. Füge einen neuen History-Eintrag bei der ersten Nutzer-Geste hinzu
-                const gestureEvent = (window.ontouchend !== undefined ? 'touchend' : 'click');
-                document.addEventListener(gestureEvent, () => {
-                    history.pushState({}, document.title, location.href);
-                }, { once: true });
             }
 
-            cleanupHistory() {
-                // Entferne den zusätzlichen History-State
-                if (history.state) {
-                    history.back();
-                }
+            setupGlobalEventListeners() {
+                // Verhindere alle unerwünschten Browser-Dialoge
+                window.addEventListener('beforeunload', (e) => {
+                    if (!this.hasAnswered && !this.isModalOpen) {
+                        // Zeige unser Modal statt des Browser-Dialogs
+                        e.preventDefault();
+                        e.returnValue = '';
+                        this.showConfirmationModal();
+                        return '';
+                    }
+                });
+
+                // Fange auch andere Verlassen-Versuche ab
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'hidden' && !this.hasAnswered && !this.isModalOpen) {
+                        // Tab gewechselt - zeige Modal wenn zurückgekehrt wird
+                        this.pendingVisibilityChange = true;
+                    }
+                });
+
+                // Prüfe ob wir von einem Tab-Wechsel zurückkommen
+                window.addEventListener('focus', () => {
+                    if (this.pendingVisibilityChange && !this.isModalOpen) {
+                        this.pendingVisibilityChange = false;
+                        this.showConfirmationModal();
+                    }
+                });
             }
 
             setupModal() {
@@ -135,12 +169,20 @@
                 
                 document.getElementById('dismissCancelBtn').addEventListener('click', () => {
                     this.hideConfirmationModal();
+                    // History-State wiederherstellen
+                    try {
+                        history.pushState({ quiz: true }, document.title, location.href);
+                    } catch (e) {}
                 });
                 
                 // Modal schließen bei Klick außerhalb des Inhalts
                 this.confirmationModal.addEventListener('click', (e) => {
                     if (e.target === this.confirmationModal) {
                         this.hideConfirmationModal();
+                        // History-State wiederherstellen
+                        try {
+                            history.pushState({ quiz: true }, document.title, location.href);
+                        } catch (e) {}
                     }
                 });
                 
@@ -148,15 +190,21 @@
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && this.isModalOpen) {
                         this.hideConfirmationModal();
+                        // History-State wiederherstellen
+                        try {
+                            history.pushState({ quiz: true }, document.title, location.href);
+                        } catch (e) {}
                     }
                 });
 
-                // Modal automatisch öffnen, wenn show_exit_modal Parameter gesetzt ist
+                // Prüfe URL-Parameter für Modal
                 const urlParams = new URLSearchParams(window.location.search);
                 if (urlParams.get('show_exit_modal') === 'true') {
-                    this.showConfirmationModal();
-                    // URL bereinigen ohne Reload
-                    window.history.replaceState({}, '', window.location.pathname);
+                    setTimeout(() => {
+                        this.showConfirmationModal();
+                        // URL bereinigen ohne Reload
+                        window.history.replaceState({ quiz: true }, '', window.location.pathname);
+                    }, 100);
                 }
             }
 
@@ -177,12 +225,26 @@
             }
 
             confirmCancel() {
+                // Wir entfernen sofort das lokale Flag (so dass andere Seiten nicht gleich wieder redirecten)
+                try { 
+                    sessionStorage.removeItem('quiz_active'); 
+                } catch (e) {
+                    console.warn('sessionStorage remove failed:', e);
+                }
+
                 this.hideConfirmationModal();
-                // Entferne eventuellen History-Eintrag nicht per history.back (kein cleanupHistory),
-                // sondern vertraue auf die anschließende Weiterleitung.
+                
+                // Entferne eventuellen History-Eintrag
+                try {
+                    if (history.state) {
+                        history.back();
+                    }
+                } catch (e) {}
+
                 if (this.socket) {
                     this.socket.disconnect();
                 }
+                
                 // Abbruch-Request an Server
                 const csrfToken = document.querySelector('input[name="csrf_token"]').value;
                 fetch("{{ url_for('cancel_quiz') }}", {
@@ -201,6 +263,16 @@
                     console.error('Fehler beim Abbrechen des Quiz:', error);
                     window.location.href = "{{ url_for('homepage') }}";
                 });
+            }
+
+            keepSessionAlive() {
+                // Verhindert Session-Timeouts während des Quiz
+                setInterval(() => {
+                    if (!this.hasAnswered && !this.isModalOpen) {
+                        fetch('/quiz_session_status')
+                            .catch(error => console.log('Session keep-alive fehlgeschlagen:', error));
+                    }
+                }, 60000); // Alle 60 Sekunden
             }
 
             // ... (restliche Methoden bleiben unverändert)
@@ -301,7 +373,7 @@
 
             selectOption(element) {
                 if (this.hasAnswered) {
-                    console.log('Bereais geantwortet');
+                    console.log('Bereits geantwortet');
                     return;
                 }
 
@@ -420,6 +492,12 @@
                     }, 1500);
                 } else {
                     console.log('Letzte Frage beantwortet - weiter zur Auswertung');
+                    // Quiz beendet => sessionStorage löschen
+                    try { 
+                        sessionStorage.removeItem('quiz_active'); 
+                    } catch (e) {
+                        console.warn('sessionStorage remove failed:', e);
+                    }
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 1500);
@@ -581,6 +659,12 @@
                     this.loadNextQuestion();
                 } else {
                     console.log('Letzte Frage beantwortet - weiter zur Auswertung');
+                    // Quiz beendet => sessionStorage löschen
+                    try { 
+                        sessionStorage.removeItem('quiz_active'); 
+                    } catch (e) {
+                        console.warn('sessionStorage remove failed:', e);
+                    }
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 500);
