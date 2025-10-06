@@ -85,6 +85,8 @@
                 this.confirmationModal = null;
                 this.isModalOpen = false;
                 this.pendingVisibilityChange = false;
+                this.allowNavigation = false; // Neues Flag für erlaubte Navigation
+                this.beforeUnloadHandler = this.beforeUnload.bind(this); // Gebundene Handler-Referenz
 
                 console.log('Quiz Manager initialisiert für Raum:', this.roomId);
 
@@ -126,19 +128,11 @@
 
             setupGlobalEventListeners() {
                 // Verhindere alle unerwünschten Browser-Dialoge
-                window.addEventListener('beforeunload', (e) => {
-                    if (!this.hasAnswered && !this.isModalOpen) {
-                        // Zeige unser Modal statt des Browser-Dialogs
-                        e.preventDefault();
-                        e.returnValue = '';
-                        this.showConfirmationModal();
-                        return '';
-                    }
-                });
+                window.addEventListener('beforeunload', this.beforeUnloadHandler);
 
                 // Fange auch andere Verlassen-Versuche ab
                 document.addEventListener('visibilitychange', () => {
-                    if (document.visibilityState === 'hidden' && !this.hasAnswered && !this.isModalOpen) {
+                    if (document.visibilityState === 'hidden' && !this.hasAnswered && !this.isModalOpen && !this.allowNavigation) {
                         // Tab gewechselt - zeige Modal wenn zurückgekehrt wird
                         this.pendingVisibilityChange = true;
                     }
@@ -146,7 +140,7 @@
 
                 // Prüfe ob wir von einem Tab-Wechsel zurückkommen
                 window.addEventListener('focus', () => {
-                    if (this.pendingVisibilityChange && !this.isModalOpen) {
+                    if (this.pendingVisibilityChange && !this.isModalOpen && !this.allowNavigation) {
                         this.pendingVisibilityChange = false;
                         this.showConfirmationModal();
                     }
@@ -208,6 +202,23 @@
                 }
             }
 
+            beforeUnload(e) {
+                if (!this.allowNavigation && !this.hasAnswered && !this.isModalOpen) {
+                    // Zeige unser Modal statt des Browser-Dialogs
+                    e.preventDefault();
+                    e.returnValue = '';
+                    this.showConfirmationModal();
+                    return '';
+                }
+            }
+
+            // Entfernt den beforeunload-Handler
+            removeBeforeUnloadHandler() {
+                window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+                // Setze auch window.onbeforeunload zurück für maximale Kompatibilität
+                window.onbeforeunload = null;
+            }
+
             showConfirmationModal() {
                 if (this.confirmationModal) {
                     this.confirmationModal.style.display = 'flex';
@@ -225,6 +236,10 @@
             }
 
             confirmCancel() {
+                // Erlaube Navigation und entferne Handler
+                this.allowNavigation = true;
+                this.removeBeforeUnloadHandler();
+
                 // Wir entfernen sofort das lokale Flag (so dass andere Seiten nicht gleich wieder redirecten)
                 try { 
                     sessionStorage.removeItem('quiz_active'); 
@@ -498,6 +513,8 @@
                     } catch (e) {
                         console.warn('sessionStorage remove failed:', e);
                     }
+                    this.allowNavigation = true;
+                    this.removeBeforeUnloadHandler();
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 1500);
@@ -665,6 +682,9 @@
                     } catch (e) {
                         console.warn('sessionStorage remove failed:', e);
                     }
+                    this.allowNavigation = true;
+                    this.removeBeforeUnloadHandler();
+
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 500);
@@ -676,6 +696,7 @@
                     console.log('Socket wird getrennt');
                     this.socket.disconnect();
                 }
+                this.removeBeforeUnloadHandler();
             }
         }
 
@@ -687,7 +708,8 @@
         });
 
         window.addEventListener('beforeunload', (e) => {
-            if (quizManager && !document.getElementById('next-form').submitting) {
+            if (quizManager && !document.getElementById('next-form').submitting && !quizManager.allowNavigation) {
+                // Nur QuizManager disconnecten, aber nicht den Browser-Dialog auslösen
                 quizManager.disconnect();
             }
         });
