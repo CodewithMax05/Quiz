@@ -3,16 +3,13 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_playermenu.css') }}"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 {% endblock %}
 
 {% block body %}
 <body class="playermenu-page">
     <div class="playermenu-wrapper">
-
         <!-- Profilkarte -->
         <div class="player-card">
-
             <!-- Überschrift + Zurück-Button -->
             <div class="title-bar">
                 <h1 class="playermenu-title">Spielermenü</h1>
@@ -21,12 +18,8 @@
                 </a>
             </div>
 
-
-
-
             <!-- Avatar + Username Kasten -->
             <div class="player-info-box">
-
                 <!-- Linke Box: Avatar + Button -->
                 <div class="avatar-button-box">
                     <div class="avatar-container">
@@ -43,7 +36,6 @@
                     </p>
                     <p class="player-info">Highscore: {{ highscore }}</p>
                 </div>
-
             </div>
 
             <!-- Buttons unten -->
@@ -58,9 +50,7 @@
                     <p>Coming Soon</p>
                 </a>
             </div>
-
         </div>
-
     </div>
 
     <!-- Avatar-Auswahl Modal -->
@@ -68,9 +58,28 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Avatar ändern</h2>
-            <div id="avatar-list" class="avatar-list">
-                <!-- Avatare werden hier dynamisch geladen -->
+            
+            <!-- Karussell Container -->
+            <div class="carousel-container">
+                <button class="carousel-button prev-button" id="prev-avatar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="avatar-carousel">
+                    <div class="carousel-track" id="carousel-track">
+                        <!-- Avatare werden hier dynamisch geladen -->
+                    </div>
+                </div>
+                
+                <button class="carousel-button next-button" id="next-avatar">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
+            
+            <div class="carousel-indicator">
+                <span id="current-index">1</span> / <span id="total-avatars">0</span>
+            </div>
+            
             <div class="modal-buttons">
                 <button id="save-avatar" class="modal-action-button">Speichern</button>
                 <button id="cancel-avatar" class="modal-cancel-button">Abbrechen</button>
@@ -85,30 +94,96 @@
         const closeBtn = modal.querySelector(".close-button");
         const cancelBtn = document.getElementById("cancel-avatar");
         const saveBtn = document.getElementById("save-avatar");
-        const avatarList = document.getElementById("avatar-list");
+        const carouselTrack = document.getElementById("carousel-track");
+        const prevButton = document.getElementById("prev-avatar");
+        const nextButton = document.getElementById("next-avatar");
+        const currentIndexSpan = document.getElementById("current-index");
+        const totalAvatarsSpan = document.getElementById("total-avatars");
 
         let selectedAvatar = null;
+        let currentAvatarIndex = 0;
+        let avatars = [];
+        const avatarsPerView = 3;
 
         // CSRF-Token aus Template
         const csrfToken = "{{ csrf_token() }}";
 
-        // Avatare dynamisch laden
-        const avatars = ['avatar0.png','avatar1.png','avatar2.png','avatar3.png','avatar4.png'];
-        avatars.forEach(av => {
-            const img = document.createElement("img");
-            img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + av;
-            img.dataset.filename = av;
-            img.classList.add("avatar-item");
-            img.addEventListener("click", () => {
-                document.querySelectorAll(".avatar-list img").forEach(i => i.classList.remove("selected"));
-                img.classList.add("selected");
-                selectedAvatar = av;
+        // Alle verfügbaren Avatare
+        function loadAllAvatars() {
+            // Hier kannst du alle verfügbaren Avatare definieren
+            return [
+                'avatar0.png', 'avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png',
+                'avatar5.png', 'avatar6.png', 'avatar7.png', 'avatar8.png', 'avatar9.png'
+            ];
+        }
+
+        // Avatare im Karussell anzeigen
+        function displayAvatars() {
+            carouselTrack.innerHTML = '';
+            avatars.forEach((av, index) => {
+                const avatarContainer = document.createElement("div");
+                avatarContainer.className = "avatar-carousel-item";
+                
+                const img = document.createElement("img");
+                img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + av;
+                img.dataset.filename = av;
+                img.classList.add("avatar-item");
+                
+                if (selectedAvatar === av) {
+                    img.classList.add("selected");
+                }
+                
+                img.addEventListener("click", () => {
+                    document.querySelectorAll(".avatar-item").forEach(i => i.classList.remove("selected"));
+                    img.classList.add("selected");
+                    selectedAvatar = av;
+                });
+                
+                avatarContainer.appendChild(img);
+                carouselTrack.appendChild(avatarContainer);
             });
-            avatarList.appendChild(img);
+            
+            totalAvatarsSpan.textContent = Math.ceil(avatars.length / avatarsPerView);
+            updateCarousel();
+        }
+
+        // Karussell-Position aktualisieren
+        function updateCarousel() {
+            const itemWidth = 100 / avatarsPerView;
+            const translateX = -currentAvatarIndex * (100 / avatarsPerView);
+            carouselTrack.style.transform = `translateX(${translateX}%)`;
+            currentIndexSpan.textContent = currentAvatarIndex + 1;
+            
+            // Buttons aktivieren/deaktivieren
+            prevButton.disabled = currentAvatarIndex === 0;
+            nextButton.disabled = currentAvatarIndex >= Math.ceil(avatars.length / avatarsPerView) - 1;
+        }
+
+        // Vorherige Avatare anzeigen
+        prevButton.addEventListener("click", () => {
+            if (currentAvatarIndex > 0) {
+                currentAvatarIndex--;
+                updateCarousel();
+            }
+        });
+
+        // Nächste Avatare anzeigen
+        nextButton.addEventListener("click", () => {
+            const maxIndex = Math.ceil(avatars.length / avatarsPerView) - 1;
+            if (currentAvatarIndex < maxIndex) {
+                currentAvatarIndex++;
+                updateCarousel();
+            }
         });
 
         // Modal öffnen
-        openBtn.addEventListener("click", () => modal.style.display = "flex");
+        openBtn.addEventListener("click", () => {
+            avatars = loadAllAvatars();
+            currentAvatarIndex = 0;
+            selectedAvatar = "{{ avatar }}"; // Aktuellen Avatar setzen
+            displayAvatars();
+            modal.style.display = "flex";
+        });
 
         // Modal schließen
         closeBtn.addEventListener("click", () => modal.style.display = "none");
@@ -116,29 +191,37 @@
 
         // Avatar speichern
         saveBtn.addEventListener("click", () => {
-            if (!selectedAvatar) return alert("Bitte wähle einen Avatar aus!");
+            if (!selectedAvatar) {
+                createFlashMessage("Bitte wähle einen Avatar aus!", "error");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('avatar', selectedAvatar);
+            formData.append('csrf_token', "{{ csrf_token() }}");
 
             fetch("{{ url_for('update_avatar') }}", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    avatar: selectedAvatar,
-                    csrf_token: csrfToken
-                })
+                body: formData
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
                 if (data.success) {
                     document.querySelector(".player-avatar").src = "{{ url_for('static', filename='pictures/avatar/') }}" + selectedAvatar;
                     modal.style.display = "none";
-                    alert("Avatar erfolgreich geändert!");
+                    createFlashMessage("Avatar erfolgreich geändert!", "success");
                 } else {
-                    alert(data.error || "Fehler beim Ändern des Avatars!");
+                    createFlashMessage(data.error || "Fehler beim Ändern des Avatars!", "error");
                 }
             })
             .catch(err => {
-                console.error(err);
-                alert("Fehler beim Verbinden mit dem Server!");
+                console.error("Fetch error:", err);
+                createFlashMessage("Fehler beim Verbinden mit dem Server!", "error");
             });
         });
 

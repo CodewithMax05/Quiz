@@ -807,8 +807,7 @@ def playermenu():
 @app.route('/update_avatar', methods=['POST'])
 @login_required
 def update_avatar():
-    data = request.get_json()
-    avatar = data.get('avatar')
+    avatar = request.form.get('avatar')
     if not avatar:
         return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
 
