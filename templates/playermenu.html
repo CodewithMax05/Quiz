@@ -77,7 +77,7 @@
             </div>
             
             <div class="carousel-indicator">
-                <span id="current-index">1</span> / <span id="total-avatars">0</span>
+                <span id="current-index">1</span> / <span id="total-avatars">26</span>
             </div>
             
             <div class="modal-buttons">
@@ -103,23 +103,23 @@
         let selectedAvatar = null;
         let currentAvatarIndex = 0;
         let avatars = [];
-        const avatarsPerView = 3;
+        const totalAvatarCount = 26; // Gesamtzahl der Avatare
 
         // CSRF-Token aus Template
         const csrfToken = "{{ csrf_token() }}";
 
         // Alle verfügbaren Avatare
         function loadAllAvatars() {
-            // Alle 26 Avatare von avatar0.png bis avatar25.png
-            return Array.from({length: 26}, (_, i) => `avatar${i}.png`);
+            return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
         }
 
-        // Avatare im Karussell anzeigen
+        // Avatare im Karussell anzeigen (nur einen Avatar gleichzeitig)
         function displayAvatars() {
             carouselTrack.innerHTML = '';
             avatars.forEach((av, index) => {
                 const avatarContainer = document.createElement("div");
                 avatarContainer.className = "avatar-carousel-item";
+                avatarContainer.style.display = index === currentAvatarIndex ? 'block' : 'none';
                 
                 const img = document.createElement("img");
                 img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + av;
@@ -140,45 +140,52 @@
                 carouselTrack.appendChild(avatarContainer);
             });
             
-            totalAvatarsSpan.textContent = Math.ceil(avatars.length / avatarsPerView);
             updateCarousel();
         }
 
         // Karussell-Position aktualisieren
         function updateCarousel() {
-            const itemWidth = 100 / avatarsPerView;
-            const translateX = -currentAvatarIndex * (100 / avatarsPerView);
-            carouselTrack.style.transform = `translateX(${translateX}%)`;
-            currentIndexSpan.textContent = currentAvatarIndex + 1;
-            totalAvatarsSpan.textContent = Math.ceil(avatars.length / avatarsPerView);
+            // Verstecke alle Avatare
+            document.querySelectorAll(".avatar-carousel-item").forEach(item => {
+                item.style.display = 'none';
+            });
             
-            // Buttons aktivieren/deaktivieren
-            prevButton.disabled = currentAvatarIndex === 0;
-            nextButton.disabled = currentAvatarIndex >= Math.ceil(avatars.length / avatarsPerView) - 1;
+            // Zeige nur den aktuellen Avatar
+            const currentItem = document.querySelectorAll(".avatar-carousel-item")[currentAvatarIndex];
+            if (currentItem) {
+                currentItem.style.display = 'block';
+            }
+            
+            // Aktualisiere Anzeige
+            currentIndexSpan.textContent = currentAvatarIndex + 1;
+            totalAvatarsSpan.textContent = totalAvatarCount;
         }
 
-        // Vorherige Avatare anzeigen
+        // Vorherigen Avatar anzeigen (zirkulär)
         prevButton.addEventListener("click", () => {
-            if (currentAvatarIndex > 0) {
-                currentAvatarIndex--;
-                updateCarousel();
-            }
+            currentAvatarIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
+            updateCarousel();
         });
 
-        // Nächste Avatare anzeigen
+        // Nächsten Avatar anzeigen (zirkulär)
         nextButton.addEventListener("click", () => {
-            const maxIndex = Math.ceil(avatars.length / avatarsPerView) - 1;
-            if (currentAvatarIndex < maxIndex) {
-                currentAvatarIndex++;
-                updateCarousel();
-            }
+            currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
+            updateCarousel();
         });
 
         // Modal öffnen
         openBtn.addEventListener("click", () => {
             avatars = loadAllAvatars();
             currentAvatarIndex = 0;
-            selectedAvatar = "{{ avatar }}"; // Aktuellen Avatar setzen
+            
+            // Finde Index des aktuellen Avatars
+            const currentAvatar = "{{ avatar }}";
+            const currentIndex = avatars.findIndex(av => av === currentAvatar);
+            if (currentIndex !== -1) {
+                currentAvatarIndex = currentIndex;
+            }
+            
+            selectedAvatar = currentAvatar;
             displayAvatars();
             modal.style.display = "flex";
         });
