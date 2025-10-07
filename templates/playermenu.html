@@ -103,7 +103,7 @@
         let selectedAvatar = null;
         let currentAvatarIndex = 0;
         let avatars = [];
-        const totalAvatarCount = 26; // Gesamtzahl der Avatare
+        const totalAvatarCount = 26;
 
         // CSRF-Token aus Template
         const csrfToken = "{{ csrf_token() }}";
@@ -113,27 +113,51 @@
             return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
         }
 
-        // Avatare im Karussell anzeigen (nur einen Avatar gleichzeitig)
+        // Berechne die drei anzuzeigenden Avatare (links, mitte, rechts)
+        function getVisibleAvatars() {
+            const prevIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
+            const nextIndex = (currentAvatarIndex + 1) % totalAvatarCount;
+            return [
+                { index: prevIndex, filename: avatars[prevIndex], position: 'left' },
+                { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' },
+                { index: nextIndex, filename: avatars[nextIndex], position: 'right' }
+            ];
+        }
+
+        // Avatare im Karussell anzeigen (immer 3 gleichzeitig)
         function displayAvatars() {
             carouselTrack.innerHTML = '';
-            avatars.forEach((av, index) => {
+            const visibleAvatars = getVisibleAvatars();
+            
+            visibleAvatars.forEach((avatarData) => {
                 const avatarContainer = document.createElement("div");
-                avatarContainer.className = "avatar-carousel-item";
-                avatarContainer.style.display = index === currentAvatarIndex ? 'block' : 'none';
+                avatarContainer.className = `avatar-carousel-item ${avatarData.position}`;
                 
                 const img = document.createElement("img");
-                img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + av;
-                img.dataset.filename = av;
+                img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + avatarData.filename;
+                img.dataset.filename = avatarData.filename;
+                img.dataset.index = avatarData.index;
                 img.classList.add("avatar-item");
                 
-                if (selectedAvatar === av) {
+                // Markiere den mittleren Avatar als ausgewählt
+                if (avatarData.position === 'center') {
                     img.classList.add("selected");
+                    if (!selectedAvatar) {
+                        selectedAvatar = avatarData.filename;
+                    }
                 }
                 
                 img.addEventListener("click", () => {
-                    document.querySelectorAll(".avatar-item").forEach(i => i.classList.remove("selected"));
-                    img.classList.add("selected");
-                    selectedAvatar = av;
+                    // Wenn auf einen seitlichen Avatar geklickt wird, navigiere dorthin
+                    if (avatarData.position !== 'center') {
+                        currentAvatarIndex = avatarData.index;
+                        displayAvatars();
+                    } else {
+                        // Wenn auf den mittleren Avatar geklickt wird, wähle ihn aus
+                        document.querySelectorAll(".avatar-item").forEach(i => i.classList.remove("selected"));
+                        img.classList.add("selected");
+                        selectedAvatar = avatarData.filename;
+                    }
                 });
                 
                 avatarContainer.appendChild(img);
@@ -145,18 +169,6 @@
 
         // Karussell-Position aktualisieren
         function updateCarousel() {
-            // Verstecke alle Avatare
-            document.querySelectorAll(".avatar-carousel-item").forEach(item => {
-                item.style.display = 'none';
-            });
-            
-            // Zeige nur den aktuellen Avatar
-            const currentItem = document.querySelectorAll(".avatar-carousel-item")[currentAvatarIndex];
-            if (currentItem) {
-                currentItem.style.display = 'block';
-            }
-            
-            // Aktualisiere Anzeige
             currentIndexSpan.textContent = currentAvatarIndex + 1;
             totalAvatarsSpan.textContent = totalAvatarCount;
         }
@@ -164,19 +176,18 @@
         // Vorherigen Avatar anzeigen (zirkulär)
         prevButton.addEventListener("click", () => {
             currentAvatarIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
-            updateCarousel();
+            displayAvatars();
         });
 
         // Nächsten Avatar anzeigen (zirkulär)
         nextButton.addEventListener("click", () => {
             currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
-            updateCarousel();
+            displayAvatars();
         });
 
         // Modal öffnen
         openBtn.addEventListener("click", () => {
             avatars = loadAllAvatars();
-            currentAvatarIndex = 0;
             
             // Finde Index des aktuellen Avatars
             const currentAvatar = "{{ avatar }}";
