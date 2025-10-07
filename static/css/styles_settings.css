@@ -108,41 +108,37 @@ h1.headline {
     background-color: #0f6ac9;
 }
 
-.button-wrapper {
-    text-align: right;      /* Button links ausrichten */
-    margin-bottom: 20px;   /* Abstand zum Titel */
-}
-
-/* Zurück-Button */
-.back-button {
-    position: static;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #888, #aaa);
-    color: #f5f5f5;
+/* Container für die Buttons */
+.link-content {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
+    justify-content: center; /* Zentriert die Buttons */
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Button */
+.back-button1 {
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    text-align: center;
+    padding: 12px 20px; /* etwas großzügiger */
+    border-radius: 10px;
     text-decoration: none;
-    box-shadow: 
-        0 6px 15px rgba(0, 0, 0, 0.35),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
-    z-index: 10;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: inline-block;
+    max-width: 250px;    /* maximale Breite */
+    width: 100%;         /* Standardbreite: passt sich Container an */
+    box-sizing: border-box;
 }
 
-
-.back-button:hover {
-    background: linear-gradient(135deg, #999, #bbb);
-    box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.4),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
-        0 0 8px rgba(255, 255, 255, 0.15);
-    filter: brightness(1.1);
-}
-
-.back-button i {
-    pointer-events: none;
+/* Hover Effekt */
+.back-button1:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }

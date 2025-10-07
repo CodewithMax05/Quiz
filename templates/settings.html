@@ -8,13 +8,6 @@
 {% block body %}
 <div class="page-wrapper">
     <div class="container">
-        <!-- Zurück-Button -->
-        <div class="button-wrapper">
-            <a href="{{ url_for('index') }}" class="back-button sound-button" aria-label="Zurück zur Startseite">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-        </div>
-
         <h1 class="headline">Einstellungen</h1>
 
         <div class="settings-list">
@@ -101,13 +94,10 @@
                     </form>
                 </div>
             </div>
-
-
-
-
-
-
-
+        </div>
+        <div class="link-content">
+            <a href="{{ url_for('index') }}" class="back-button1 sound-button">Zurück zum Login</a>
+        </div>
     </div>
 </div>
 
