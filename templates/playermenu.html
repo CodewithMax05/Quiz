@@ -110,11 +110,8 @@
 
         // Alle verfügbaren Avatare
         function loadAllAvatars() {
-            // Hier kannst du alle verfügbaren Avatare definieren
-            return [
-                'avatar0.png', 'avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png',
-                'avatar5.png', 'avatar6.png', 'avatar7.png', 'avatar8.png', 'avatar9.png'
-            ];
+            // Alle 26 Avatare von avatar0.png bis avatar25.png
+            return Array.from({length: 26}, (_, i) => `avatar${i}.png`);
         }
 
         // Avatare im Karussell anzeigen
@@ -153,6 +150,7 @@
             const translateX = -currentAvatarIndex * (100 / avatarsPerView);
             carouselTrack.style.transform = `translateX(${translateX}%)`;
             currentIndexSpan.textContent = currentAvatarIndex + 1;
+            totalAvatarsSpan.textContent = Math.ceil(avatars.length / avatarsPerView);
             
             // Buttons aktivieren/deaktivieren
             prevButton.disabled = currentAvatarIndex === 0;
