@@ -139,24 +139,21 @@
                 img.dataset.index = avatarData.index;
                 img.classList.add("avatar-item");
                 
-                // Markiere den mittleren Avatar als ausgewählt
-                if (avatarData.position === 'center') {
+                // Markiere nur den ausgewählten Avatar
+                if (avatarData.filename === selectedAvatar) {
                     img.classList.add("selected");
-                    if (!selectedAvatar) {
-                        selectedAvatar = avatarData.filename;
-                    }
                 }
                 
                 img.addEventListener("click", () => {
-                    // Wenn auf einen seitlichen Avatar geklickt wird, navigiere dorthin
+                    // Setze den angeklickten Avatar als ausgewählt
+                    document.querySelectorAll(".avatar-item").forEach(i => i.classList.remove("selected"));
+                    img.classList.add("selected");
+                    selectedAvatar = avatarData.filename;
+                    
+                    // Wenn auf einen seitlichen Avatar geklickt wird, navigiere auch dorthin
                     if (avatarData.position !== 'center') {
                         currentAvatarIndex = avatarData.index;
                         displayAvatars();
-                    } else {
-                        // Wenn auf den mittleren Avatar geklickt wird, wähle ihn aus
-                        document.querySelectorAll(".avatar-item").forEach(i => i.classList.remove("selected"));
-                        img.classList.add("selected");
-                        selectedAvatar = avatarData.filename;
                     }
                 });
                 
@@ -189,14 +186,20 @@
         openBtn.addEventListener("click", () => {
             avatars = loadAllAvatars();
             
-            // Finde Index des aktuellen Avatars
-            const currentAvatar = "{{ avatar }}";
+            // WICHTIG: Avatar aus dem aktuell angezeigten Bild auslesen, nicht aus dem Template
+            const currentPlayerAvatar = document.querySelector(".player-avatar");
+            const currentAvatar = currentPlayerAvatar.src.split('/').pop(); // Extrahiert den Dateinamen aus dem Pfad
+            
             const currentIndex = avatars.findIndex(av => av === currentAvatar);
             if (currentIndex !== -1) {
                 currentAvatarIndex = currentIndex;
+                selectedAvatar = currentAvatar; // Setze den aktuellen Avatar als ausgewählt
+            } else {
+                // Fallback: avatar0 als Standard
+                currentAvatarIndex = 0;
+                selectedAvatar = avatars[0];
             }
             
-            selectedAvatar = currentAvatar;
             displayAvatars();
             modal.style.display = "flex";
         });
@@ -228,7 +231,10 @@
             })
             .then(data => {
                 if (data.success) {
-                    document.querySelector(".player-avatar").src = "{{ url_for('static', filename='pictures/avatar/') }}" + selectedAvatar;
+                    // Avatar-Bild aktualisieren
+                    const playerAvatar = document.querySelector(".player-avatar");
+                    playerAvatar.src = "{{ url_for('static', filename='pictures/avatar/') }}" + selectedAvatar;
+                    
                     modal.style.display = "none";
                     createFlashMessage("Avatar erfolgreich geändert!", "success");
                 } else {
