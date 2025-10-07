@@ -1462,7 +1462,7 @@ def support():
             "message": message
         })
 
-        flash("Deine Nachricht wurde gespeichert!", "success")
+        flash("Deine Anfrage wurde verschickt!", "success")
         return redirect(url_for('support'))
 
     # GET: Herkunft bestimmen
