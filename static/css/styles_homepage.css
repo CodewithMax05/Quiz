@@ -321,8 +321,8 @@
     font-size: 1.3rem;
 }
 
-/* Buttons (Logout, Info, Ranking) */
-.logout-button,
+/* Buttons (Playermenu, Info, Ranking) */
+.playermenu-button,
 .info-button,
 .ranking-button {
     display: flex;
@@ -344,22 +344,22 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-.logout-button i,
+.playermenu-button i,
 .info-button i,
 .ranking-button i {
     font-size: 1.8rem;
     color: white;
 }
 
-/* Logout-Button */
-.logout-button {
+/* Playermenu-Button */
+.playermenu-button {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
     animation: pulse-red 2s infinite;
     right: 30px;
 }
 
-.logout-button:hover {
+.playermenu-button:hover {
     background: linear-gradient(135deg, #e53935, #c62828);
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
@@ -399,8 +399,8 @@
 }
 
 /* Tooltips für Buttons */
-.logout-button::after {
-    content: "Logout";
+.playermenu-button::after {
+    content: "Playermenu";
     position: absolute;
     bottom: -40px;
     left: 50%;
@@ -450,7 +450,7 @@
     pointer-events: none;
 }
 
-.logout-button:hover::after,
+.playermenu-button:hover::after,
 .info-button:hover::after,
 .ranking-button:hover::after {
     opacity: 1;
@@ -497,13 +497,13 @@
         font-size: 1.6rem;
     }
     
-    .logout-button, .info-button, .ranking-button {
+    .playermenu-button, .info-button, .ranking-button {
         width: 50px;
         height: 50px;
         top: 12px;
     }
     
-    .logout-button {
+    .playermenu-button {
         right: 25px;
     }
     
@@ -515,7 +515,7 @@
         right: 95px;
     }
     
-    .logout-button i, .info-button i, .ranking-button i {
+    .playermenu-button i, .info-button i, .ranking-button i {
         font-size: 1.7rem;
     }
 }
@@ -557,13 +557,13 @@
         margin-bottom: 15px;
     }
     
-    .logout-button, .info-button, .ranking-button {
+    .playermenu-button, .info-button, .ranking-button {
         width: 46px;
         height: 46px;
         top: 10px;
     }
     
-    .logout-button {
+    .playermenu-button {
         right: 15px;
     }
     
@@ -575,7 +575,7 @@
         right: 75px;
     }
     
-    .logout-button i, .info-button i, .ranking-button i {
+    .playermenu-button i, .info-button i, .ranking-button i {
         font-size: 1.5rem;
     }
     
@@ -645,13 +645,13 @@
         margin-bottom: 10px;
     }
     
-    .logout-button, .info-button, .ranking-button {
+    .playermenu-button, .info-button, .ranking-button {
         width: 44px;
         height: 44px;
         top: 8px;
     }
     
-    .logout-button {
+    .playermenu-button {
         right: 5px;
     }
     
@@ -663,11 +663,11 @@
         right: 60px;
     }
     
-    .logout-button i, .info-button i, .ranking-button i {
+    .playermenu-button i, .info-button i, .ranking-button i {
         font-size: 1.4rem;
     }
     
-    .logout-button::after, 
+    .playermenü-button::after, 
     .info-button::after, 
     .ranking-button::after {
         font-size: 0.8rem;
@@ -730,7 +730,7 @@
         font-size: 1.2rem;
     }
     
-    .logout-button {
+    .playermenu-button {
         right: 3px;
     }
     
@@ -762,13 +762,13 @@
         font-size: 1.4rem;
     }
     
-    .logout-button, .info-button, .ranking-button {
+    .playermenu-button, .info-button, .ranking-button {
         width: 42px;
         height: 42px;
         top: 6px;
     }
     
-    .logout-button {
+    .playermenu-button {
         right: 10px;
     }
     
@@ -780,7 +780,7 @@
         right: 70px; 
     }
     
-    .logout-button i, .info-button i, .ranking-button i {
+    .playermenu-button i, .info-button i, .ranking-button i {
         font-size: 1.4rem;
     }
     

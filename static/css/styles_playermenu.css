@@ -29,12 +29,41 @@ body.playermenu-page {
     text-align: center;
 }
 
+/* Titelzeile */
+.title-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* Überschrift */
 .playermenu-title {
     font-size: 2.2rem;
     color: #ffffff;
     text-shadow: 0 0 15px rgba(142, 45, 226, 0.8);
     margin: 0;
+}
+
+/* Zurück-Button */
+.back-circle-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    box-shadow: 0 0 20px rgba(255, 65, 108, 0.7);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.back-circle-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px rgba(255, 65, 108, 1);
 }
 
 /* Äußere Box für Avatar + Username */
