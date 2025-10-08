@@ -234,6 +234,16 @@
                 return;
             }
 
+            // Prüfen ob der ausgewählte Avatar der gleiche ist wie der aktuelle
+            const currentPlayerAvatar = document.querySelector(".player-avatar");
+            const currentAvatar = currentPlayerAvatar.src.split('/').pop();
+            
+            if (selectedAvatar === currentAvatar) {
+                createFlashMessage("Der Avatar wurde nicht geändert!", "info");
+                modal.style.display = "none";
+                return;
+            }
+
             const formData = new FormData();
             formData.append('avatar', selectedAvatar);
             formData.append('csrf_token', "{{ csrf_token() }}");
