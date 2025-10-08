@@ -830,6 +830,11 @@ def update_avatar():
     if not avatar:
         return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
 
+    # Validieren, dass der Avatar existiert
+    valid_avatars = [f"avatar{i}.png" for i in range(26)]
+    if avatar not in valid_avatars:
+        return jsonify({"success": False, "error": "Ungültiger Avatar!"})
+
     # Benutzer über Session-Username holen
     user = User.query.filter_by(username=session.get('username')).first()
     if not user:

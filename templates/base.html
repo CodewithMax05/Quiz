@@ -135,9 +135,18 @@
 					}
 				});
 				
-				// Neue Nachricht erstellen
+				// Neue Nachricht erstellen mit korrekter Klasse
 				const messageDiv = document.createElement('div');
-				messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
+				
+				// Korrekte Klasse basierend auf type setzen
+				if (type === 'error') {
+					messageDiv.className = 'error-message';
+				} else if (type === 'success') {
+					messageDiv.className = 'success-message'; // Das wird grün
+				} else {
+					messageDiv.className = 'info-message'; // Standard ist blau
+				}
+				
 				messageDiv.textContent = text;
 				
 				// Fortschrittsbalken hinzufügen
