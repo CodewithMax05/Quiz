@@ -146,75 +146,62 @@ h1.headline {
 
 /* SPEZIFISCHE CSS FÜR AVATAR EINGABEFELDER - OHNE ALLGEMEINE REGELN ZU ÜBERSCHREIBEN */
 
+/* AVATAR CSS FÜR DIE EINSTELLUNGEN */
+
 /* Avatar Settings Container */
 .avatar-settings-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px; /* Weniger Abstand zwischen den Elementen */
 }
 
-/* Avatar Eingabefelder - SPEZIFISCH */
-.avatar-input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    margin-bottom: 12px;
-}
-
-.avatar-input::placeholder {
-    color: #ccc;
-}
-
-.avatar-input:focus {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-/* Avatar Auswahl Container */
+/* Avatar Auswahl Container - WENIGER HÖHE */
 .avatar-selection-container {
-    margin: 15px 0;
-    padding: 15px;
+    margin: 10px 0; /* Weniger Außenabstand */
+    padding: 10px; /* Weniger Innenabstand */
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     text-align: center;
 }
 
-/* Karussell Container */
+/* Weniger Abstand über der Überschrift */
+.avatar-selection-container h4 {
+    margin: 0 0 10px 0; /* Oben: 0, unten: 10px */
+    font-size: 1rem; /* Etwas kleinere Schrift */
+}
+
+/* Karussell Container - WENIGER ABSTAND */
 .carousel-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px; /* Sehr kleine Abstände für mehr Platz */
-    margin: 15px 0;
+    gap: 5px;
+    margin: 10px 0; /* Weniger Abstand oben/unten */
     position: relative;
 }
 
-/* Avatar Karussell - MEHR BREITE FÜR 3 AVATARE */
+/* Avatar Karussell */
 .avatar-carousel {
-    width: 280px; /* Mehr Breite für 3 Avatare */
+    width: 280px;
     overflow: hidden;
     position: relative;
-    flex: 1; /* Nimmt verfügbaren Platz ein */
+    flex: 1;
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.3s ease;
     width: 100%;
-    justify-content: space-between; /* Avatare gleichmäßig verteilen */
+    justify-content: space-between;
     align-items: center;
 }
 
 .avatar-carousel-item {
-    flex: 0 0 33.333%; /* Immer 3 Avatare nebeneinander */
+    flex: 0 0 33.333%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2px; /* Sehr kleine Abstände */
+    padding: 2px;
     box-sizing: border-box;
 }
 
@@ -231,7 +218,7 @@ h1.headline {
     transform: scale(1);
 }
 
-/* Kleinere Karussell Buttons - WENIGER BREITE */
+/* Kleinere Karussell Buttons */
 .carousel-button {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid #8e2de2;
@@ -243,13 +230,13 @@ h1.headline {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.9rem; /* Kleinere Icons */
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     box-shadow: 0 0 6px rgba(142, 45, 226, 0.5);
     flex-shrink: 0;
-    min-width: 28px; /* Verhindert Größenschwankungen */
+    min-width: 28px;
     max-width: 28px;
-    padding: 0; /* Kein Padding für schmale Buttons */
+    padding: 0;
 }
 
 .carousel-button:hover:not(:disabled) {
@@ -258,17 +245,17 @@ h1.headline {
     box-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
 }
 
-/* Karussell Indicator */
+/* Karussell Indicator - WENIGER ABSTAND */
 .carousel-indicator {
     text-align: center;
     color: #fff;
     font-size: 0.9rem;
-    margin-bottom: 10px;
+    margin: 5px 0; /* Weniger Abstand */
 }
 
-/* Avatar Bilder - OPTIMIERTE GRÖSSE */
+/* Avatar Bilder */
 .avatar-item {
-    width: 70px; /* Größere Avatare für bessere Sichtbarkeit */
+    width: 70px;
     height: 70px;
     border-radius: 50%;
     cursor: pointer;
@@ -289,10 +276,10 @@ h1.headline {
     transform: scale(1.1);
 }
 
-/* Avatar Speichern Button */
+/* Avatar Speichern Button - WENIGER ABSTAND */
 .save-avatar-button {
     width: 100%;
-    padding: 12px 14px;
+    padding: 10px 12px; /* Weniger Padding */
     border-radius: 8px;
     border: none;
     background-color: #1f8ef1;
@@ -300,8 +287,8 @@ h1.headline {
     cursor: pointer;
     transition: background 0.3s;
     box-sizing: border-box;
-    font-size: 1rem;
-    margin-top: 10px;
+    font-size: 0.9rem; /* Etwas kleinere Schrift */
+    margin-top: 5px; /* Weniger Abstand oben */
 }
 
 .save-avatar-button:hover {
@@ -326,6 +313,11 @@ h1.headline {
         min-width: 26px;
         max-width: 26px;
     }
+    
+    .avatar-selection-container {
+        margin: 8px 0;
+        padding: 8px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -347,5 +339,15 @@ h1.headline {
         height: 24px;
         min-width: 24px;
         max-width: 24px;
+    }
+    
+    .avatar-selection-container {
+        margin: 5px 0;
+        padding: 8px;
+    }
+    
+    .avatar-selection-container h4 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
     }
 }

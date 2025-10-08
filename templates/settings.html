@@ -50,9 +50,9 @@
                     <form id="avatar-form">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         
-                        <!-- Eingabefelder für Benutzername und Passwort - MIT SPEZIFISCHEN KLASSEN -->
-                        <input type="text" id="avatar-username" name="username" placeholder="Benutzername" value="" required class="avatar-input">
-                        <input type="password" id="avatar-password" name="password" placeholder="Passwort" value="" required class="avatar-input">
+                       <!-- Eingabefelder für Benutzername und Passwort - OHNE SPEZIFISCHE KLASSE -->
+                        <input type="text" id="avatar-username" name="username" placeholder="Benutzername" value="" required>
+                        <input type="password" id="avatar-password" name="password" placeholder="Passwort" value="" required>
                         
                         <!-- Avatar Auswahl Bereich -->
                         <div class="avatar-selection-container">
