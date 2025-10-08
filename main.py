@@ -74,7 +74,7 @@ class User(db.Model):
     first_played = db.Column(db.DateTime)  
     is_admin = db.Column(db.Boolean, default=False)
     avatar = db.Column(db.String(200), default="avatar0.png")  # <-- Avatar-Bild
-    anzahl_spiele = db.Column(db.Integer, default=0)
+    number_of_games = db.Column(db.Integer, default=0)
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -872,7 +872,8 @@ def playermenu():
         username=user.username,
         avatar=user.avatar,
         first_played=user.first_played,
-        highscore=user.highscore
+        highscore=user.highscore,
+        number_of_games=user.number_of_games
     )
 
 @app.route('/update_avatar', methods=['POST'])
@@ -1286,12 +1287,12 @@ def evaluate_quiz():
                 quiz_completed_flag = is_completed or all_questions_answered
                 if quiz_completed_flag:
                     # Defensive: falls Feld nicht existiert oder None
-                    if getattr(user, 'anzahl_spiele', None) is None:
-                        user.anzahl_spiele = 0
-                    user.anzahl_spiele += 1
+                    if getattr(user, 'number_of_games', None) is None:
+                        user.number_of_games = 0
+                    user.number_of_games += 1
             except Exception as e:
                 # Fehler beim Erhöhen soll die Auswertung nicht abbrechen
-                print(f"Fehler beim Erhöhen von anzahl_spiele: {e}")
+                print(f"Fehler beim Erhöhen von number_of_games: {e}")
 
             db.session.commit()
 
