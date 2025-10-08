@@ -74,6 +74,7 @@ class User(db.Model):
     first_played = db.Column(db.DateTime)  
     is_admin = db.Column(db.Boolean, default=False)
     avatar = db.Column(db.String(200), default="avatar0.png")  # <-- Avatar-Bild
+    anzahl_spiele = db.Column(db.Integer, default=0)
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -1280,6 +1281,18 @@ def evaluate_quiz():
             if correct_count > user.correct_high:
                 user.correct_high = correct_count
             
+            # prüfen nochmal explizit auf vollständigen Abschluss (defensive Prüfung)
+            try:
+                quiz_completed_flag = is_completed or all_questions_answered
+                if quiz_completed_flag:
+                    # Defensive: falls Feld nicht existiert oder None
+                    if getattr(user, 'anzahl_spiele', None) is None:
+                        user.anzahl_spiele = 0
+                    user.anzahl_spiele += 1
+            except Exception as e:
+                # Fehler beim Erhöhen soll die Auswertung nicht abbrechen
+                print(f"Fehler beim Erhöhen von anzahl_spiele: {e}")
+
             db.session.commit()
 
         # Speichere Auswertungsdaten in separater Session-Variable für Neuladen
