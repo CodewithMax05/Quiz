@@ -411,6 +411,18 @@
                     opt.classList.add('answered');
                 });
 
+                // URL bei manueller Antwort aktualisieren
+                const currentQuestionNumber = this.getCurrentQuestionNumber();
+                try {
+                    const newUrl = `/show_question?q=${currentQuestionNumber}&answered=true`;
+                    history.replaceState({ 
+                        question: currentQuestionNumber,
+                        answered: true 
+                    }, '', newUrl);
+                } catch (e) {
+                    console.warn('URL update nach manueller Antwort fehlgeschlagen:', e);
+                }
+
                 const selectedAnswer = element.dataset.answer.trim();
                 this.submitAnswer(selectedAnswer);
             }
@@ -479,6 +491,18 @@
                     opt.classList.add('disabled', 'answered');
                 });
 
+                // URL auch bei Timeout aktualisieren
+                const currentQuestionNumber = this.getCurrentQuestionNumber();
+                try {
+                    const newUrl = `/show_question?q=${currentQuestionNumber}&timeout=true`;
+                    history.replaceState({ 
+                        question: currentQuestionNumber,
+                        timeout: true 
+                    }, '', newUrl);
+                } catch (e) {
+                    console.warn('URL update nach Timeout fehlgeschlagen:', e);
+                }
+
                 this.submitAnswer('');
             }
 
@@ -497,6 +521,18 @@
                 this.updateScore(data.current_score, data.points_earned);
                 
                 this.highlightAnswers(data);
+
+                // URL SOFORT nach der Antwort aktualisieren
+                const currentQuestionNumber = this.getCurrentQuestionNumber();
+                try {
+                    const newUrl = `/show_question?q=${currentQuestionNumber}&answered=true`;
+                    history.replaceState({ 
+                        question: currentQuestionNumber,
+                        answered: true 
+                    }, '', newUrl);
+                } catch (e) {
+                    console.warn('URL update nach Antwort fehlgeschlagen:', e);
+                }
                 
                 const isLastQuestion = data.is_last_question || 
                     (this.getCurrentQuestionNumber() >= this.getTotalQuestions());
