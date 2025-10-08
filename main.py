@@ -505,6 +505,19 @@ def check_csrf():
                 else:
                     return redirect(url_for('index'))
                 
+@app.after_request
+def add_cache_headers(response):
+    try:
+        content_type = response.headers.get('Content-Type', '') or ''
+        if 'text/html' in content_type:
+            # Strenge Cache-Header für HTML-Antworten
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, private, max-age=0'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = '0'
+    except Exception:
+        pass
+    return response
+ 
 @app.context_processor
 def inject_user():
     user = None
@@ -522,9 +535,15 @@ def inject_user():
 @app.route('/')
 @prevent_quiz_exit 
 def index():
-    # Wenn Benutzer bereits angemeldet ist, zur Homepage weiterleiten
+    # Wenn Benutzer angemeldet ist: serverseitig ausloggen
     if 'username' in session:
-        return redirect(url_for('playermenu'))
+        # Falls ein Quiz läuft: Timer stoppen
+        if 'quiz_data' in session:
+            room_id = session['quiz_data'].get('room_id')
+            if room_id:
+                stop_timer(room_id)
+        # Session komplett löschen
+        session.clear()
 
     # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
     saved_username = request.cookies.get('saved_username', '')

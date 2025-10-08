@@ -244,29 +244,39 @@
 
 		<!-- Quiz-Schutz-Script -->
 		<script>
-			/*
-			Wenn ein Quiz aktiv ist (clientseitiger Marker), dann
-			redirect zur Show-Question-Seite des Quiz und zeige das Exit-Modal.
-			Dieses Script wird z.B. beim Zurück-Navigieren ausgeführt (pageshow),
-			auch wenn die Seite aus dem bfcache wiederhergestellt wurde.
-			*/
-			window.addEventListener('pageshow', function(e) {
-				try {
-					const active = sessionStorage.getItem('quiz_active');
-					if (active === '1') {
-						// Wenn wir bereits auf der Quiz-Seite sind, nichts tun
-						if (location.pathname.startsWith('/show_question') || location.pathname.startsWith('/evaluate')) {
-							return;
-						}
-						// verweise zurück zur Quiz-Seite; der Server/quiz.html zeigt dann das Modal
-						// prevent_quiz_exit setzt serverseitig pending_navigation und show_exit_modal
-						window.location.href = '/show_question?show_exit_modal=true';
-					}
-				} catch (err) {
-					// sessionStorage evtl. nicht verfügbar — ignorieren
-					console.warn('pageshow: sessionStorage Fehler', err);
+		/*
+		Kombinierter pageshow-Handler:
+		- BFCache-Fall: wenn e.persisted und auf '/', dann serverseitig ausloggen (nutzt vorhandenen /logout endpoint).
+		- Quiz-Fall: wenn sessionStorage 'quiz_active' gesetzt ist, leiten wir zur Quizseite mit Exit-Modal.
+		*/
+		window.addEventListener('pageshow', function(e) {
+			try {
+				const path = location.pathname || '/';
+				const fromBFCache = !!e.persisted;
+				const quizActive = sessionStorage.getItem('quiz_active') === '1';
+
+				// 1) BFCache + Index => serverseitig ausloggen
+				if (fromBFCache && path === '/') {
+					// Nutze deine vorhandene Logout-Route (stopt Timer + session.clear())
+					// Alternativ: "/automatic_logout" falls du die andere Route bevorzugst.
+					window.location.href = "{{ url_for('logout') }}";
+					return; // stoppe weitere Verarbeitung (kein Doppel-Redirect)
 				}
-			});
+
+				// 2) Aktives Quiz: weiterleiten zur Quiz-Seite (zeigt Exit-Modal)
+				if (quizActive) {
+					// Falls wir bereits auf der Quiz-/Auswertungsseite sind, nichts tun
+					if (path.startsWith('/show_question') || path.startsWith('/evaluate')) {
+						return;
+					}
+					// Sonst zur Quiz-Seite weiterleiten und das Exit-Modal per Query param antriggern
+					window.location.href = '/show_question?show_exit_modal=true';
+					return;
+				}
+			} catch (err) {
+				console.warn('pageshow combined handler failed', err);
+			}
+		});
 		</script>
 	</body>
 </html>
