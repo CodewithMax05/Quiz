@@ -152,31 +152,32 @@ h1.headline {
 .avatar-settings-container {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Weniger Abstand zwischen den Elementen */
+    gap: 10px;
 }
 
-/* Avatar Auswahl Container - WENIGER HÖHE */
+/* Avatar Auswahl Container - ETWAS MEHR HÖHE */
 .avatar-selection-container {
-    margin: 10px 0; /* Weniger Außenabstand */
-    padding: 10px; /* Weniger Innenabstand */
+    margin: 10px 0;
+    padding: 12px; /* Etwas mehr Padding für mehr Höhe */
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     text-align: center;
+    min-height: 180px; /* Minimale Höhe damit nichts abgeschnitten wird */
 }
 
 /* Weniger Abstand über der Überschrift */
 .avatar-selection-container h4 {
-    margin: 0 0 10px 0; /* Oben: 0, unten: 10px */
-    font-size: 1rem; /* Etwas kleinere Schrift */
+    margin: 0 0 12px 0; /* Etwas mehr Abstand unten für bessere Trennung */
+    font-size: 1rem;
 }
 
-/* Karussell Container - WENIGER ABSTAND */
+/* Karussell Container */
 .carousel-container {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
-    margin: 10px 0; /* Weniger Abstand oben/unten */
+    margin: 12px 0; /* Etwas mehr Abstand für bessere Trennung */
     position: relative;
 }
 
@@ -201,7 +202,7 @@ h1.headline {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2px;
+    padding: 4px; /* Etwas mehr Padding für mehr Platz */
     box-sizing: border-box;
 }
 
@@ -245,12 +246,12 @@ h1.headline {
     box-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
 }
 
-/* Karussell Indicator - WENIGER ABSTAND */
+/* Karussell Indicator */
 .carousel-indicator {
     text-align: center;
     color: #fff;
     font-size: 0.9rem;
-    margin: 5px 0; /* Weniger Abstand */
+    margin: 8px 0; /* Etwas mehr Abstand */
 }
 
 /* Avatar Bilder */
@@ -269,17 +270,17 @@ h1.headline {
     border-color: #00aaff;
 }
 
-/* Ausgewählter Avatar */
+/* Ausgewählter Avatar - NUR GRÜNE UMRANDUNG, KEIN LICHTEFFEKT */
 .avatar-item.selected {
     border-color: #00ffcc;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
+    box-shadow: none; /* Lichteffekt entfernt */
     transform: scale(1.1);
 }
 
-/* Avatar Speichern Button - WENIGER ABSTAND */
+/* Avatar Speichern Button */
 .save-avatar-button {
     width: 100%;
-    padding: 10px 12px; /* Weniger Padding */
+    padding: 10px 12px;
     border-radius: 8px;
     border: none;
     background-color: #1f8ef1;
@@ -287,8 +288,8 @@ h1.headline {
     cursor: pointer;
     transition: background 0.3s;
     box-sizing: border-box;
-    font-size: 0.9rem; /* Etwas kleinere Schrift */
-    margin-top: 5px; /* Weniger Abstand oben */
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
 .save-avatar-button:hover {
@@ -316,7 +317,8 @@ h1.headline {
     
     .avatar-selection-container {
         margin: 8px 0;
-        padding: 8px;
+        padding: 10px;
+        min-height: 170px;
     }
 }
 
@@ -343,11 +345,12 @@ h1.headline {
     
     .avatar-selection-container {
         margin: 5px 0;
-        padding: 8px;
+        padding: 10px;
+        min-height: 160px;
     }
     
     .avatar-selection-container h4 {
         font-size: 0.9rem;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 }
