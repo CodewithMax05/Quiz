@@ -1505,7 +1505,6 @@ def imprint():
 @prevent_quiz_exit 
 def support():
     if request.method == 'POST':
-        # ... (deine Validierung + Speichern der Anfrage bleibt gleich)
         category = request.form.get('category')
         username = request.form.get('username')
         phone = request.form.get('phone')
@@ -1521,7 +1520,8 @@ def support():
                 phone=phone,
                 email=email,
                 message=message,
-                back_target=session.get("support_back_target", "index")  # Rücksprungziel merken
+                # Rücksprungziel merken
+                back_target=session.get("support_back_target", "homepage" if 'username' in session else "index")
             )
 
         try:
@@ -1550,12 +1550,11 @@ def support():
                 phone=phone,
                 email=email,
                 message=message,
-                back_target=session.get("support_back_target", "index")
+                back_target=session.get("support_back_target", "homepage" if 'username' in session else "index")
             )
 
-    # GET: Herkunft bestimmen
-    ref = request.referrer or ""
-    if "/homepage" in ref:
+    # GET: Bestimme die Rückkehrseite basierend auf Login-Status
+    if 'username' in session:
         session["support_back_target"] = "homepage"
     else:
         session["support_back_target"] = "index"
