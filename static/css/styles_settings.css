@@ -142,3 +142,210 @@ h1.headline {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
+
+
+/* SPEZIFISCHE CSS FÜR AVATAR EINGABEFELDER - OHNE ALLGEMEINE REGELN ZU ÜBERSCHREIBEN */
+
+/* Avatar Settings Container */
+.avatar-settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Avatar Eingabefelder - SPEZIFISCH */
+.avatar-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    margin-bottom: 12px;
+}
+
+.avatar-input::placeholder {
+    color: #ccc;
+}
+
+.avatar-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Avatar Auswahl Container */
+.avatar-selection-container {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Karussell Container */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Sehr kleine Abstände für mehr Platz */
+    margin: 15px 0;
+    position: relative;
+}
+
+/* Avatar Karussell - MEHR BREITE FÜR 3 AVATARE */
+.avatar-carousel {
+    width: 280px; /* Mehr Breite für 3 Avatare */
+    overflow: hidden;
+    position: relative;
+    flex: 1; /* Nimmt verfügbaren Platz ein */
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.3s ease;
+    width: 100%;
+    justify-content: space-between; /* Avatare gleichmäßig verteilen */
+    align-items: center;
+}
+
+.avatar-carousel-item {
+    flex: 0 0 33.333%; /* Immer 3 Avatare nebeneinander */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px; /* Sehr kleine Abstände */
+    box-sizing: border-box;
+}
+
+/* Seitliche Avatare etwas transparenter */
+.avatar-carousel-item.left,
+.avatar-carousel-item.right {
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+/* Mittlerer Avatar prominent */
+.avatar-carousel-item.center {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Kleinere Karussell Buttons - WENIGER BREITE */
+.carousel-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #8e2de2;
+    color: #8e2de2;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem; /* Kleinere Icons */
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(142, 45, 226, 0.5);
+    flex-shrink: 0;
+    min-width: 28px; /* Verhindert Größenschwankungen */
+    max-width: 28px;
+    padding: 0; /* Kein Padding für schmale Buttons */
+}
+
+.carousel-button:hover:not(:disabled) {
+    background: #8e2de2;
+    color: white;
+    box-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
+}
+
+/* Karussell Indicator */
+.carousel-indicator {
+    text-align: center;
+    color: #fff;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+/* Avatar Bilder - OPTIMIERTE GRÖSSE */
+.avatar-item {
+    width: 70px; /* Größere Avatare für bessere Sichtbarkeit */
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    object-fit: cover;
+}
+
+.avatar-item:hover {
+    transform: scale(1.1);
+    border-color: #00aaff;
+}
+
+/* Ausgewählter Avatar */
+.avatar-item.selected {
+    border-color: #00ffcc;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
+    transform: scale(1.1);
+}
+
+/* Avatar Speichern Button */
+.save-avatar-button {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    background-color: #1f8ef1;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.save-avatar-button:hover {
+    background-color: #0f6ac9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .avatar-carousel {
+        width: 260px;
+    }
+    
+    .avatar-item {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .carousel-button {
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+        min-width: 26px;
+        max-width: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .avatar-carousel {
+        width: 240px;
+    }
+    
+    .avatar-item {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .carousel-container {
+        gap: 3px;
+    }
+    
+    .carousel-button {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        max-width: 24px;
+    }
+}

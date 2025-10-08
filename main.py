@@ -758,7 +758,38 @@ def change_password():
 
 @app.route('/change_avatar', methods=['POST'])
 def change_avatar():
-    pass
+    avatar = request.form.get('avatar')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    # Validierung der Eingaben
+    if not avatar:
+        return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
+    
+    if not username or not password:
+        return jsonify({"success": False, "error": "Bitte fülle alle Felder aus!"})
+
+    # Benutzer über eingegebenen Username finden
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({"success": False, "error": "Benutzer nicht gefunden!"})
+
+    # Passwort prüfen
+    if not user.check_password(password):
+        return jsonify({"success": False, "error": "Falsches Passwort!"})
+
+    # Validieren, dass der Avatar existiert
+    valid_avatars = [f"avatar{i}.png" for i in range(26)]
+    if avatar not in valid_avatars:
+        return jsonify({"success": False, "error": "Ungültiger Avatar!"})
+
+    # Prüfen ob der Avatar gleich ist
+    if user.avatar == avatar:
+        return jsonify({"success": True, "unchanged": True})
+
+    user.avatar = avatar
+    db.session.commit()
+    return jsonify({"success": True})
 
 @app.route('/delete_account', methods=['POST'])
 def delete_account():

@@ -43,14 +43,44 @@
             </div>
 
             <!-- Avatar ändern -->
+            <!-- Avatar ändern -->
             <div class="setting-item">
                 <button class="setting-toggle">Avatar ändern <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
-                    <form id="username-form" method="POST" action="{{ url_for('change_avatar') }}">
+                    <form id="avatar-form">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <p style="color: wheat; font-weight: bold; margin-top: 10px;">
-                            Cooming Soon!
-                        </p>
+                        
+                        <!-- Eingabefelder für Benutzername und Passwort - MIT SPEZIFISCHEN KLASSEN -->
+                        <input type="text" id="avatar-username" name="username" placeholder="Benutzername" value="" required class="avatar-input">
+                        <input type="password" id="avatar-password" name="password" placeholder="Passwort" value="" required class="avatar-input">
+                        
+                        <!-- Avatar Auswahl Bereich -->
+                        <div class="avatar-selection-container">
+                            <h4 style="color: white; margin-bottom: 15px; text-align: center;">Wähle einen Avatar:</h4>
+                            
+                            <!-- Karussell Container - WIE IN PLAYERMENU -->
+                            <div class="carousel-container">
+                                <button type="button" class="carousel-button prev-button" id="settings-prev-avatar">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                
+                                <div class="avatar-carousel">
+                                    <div class="carousel-track" id="settings-carousel-track">
+                                        <!-- Avatare werden hier dynamisch geladen -->
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="carousel-button next-button" id="settings-next-avatar">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="carousel-indicator">
+                                <span id="settings-current-index">1</span> / <span id="settings-total-avatars">26</span>
+                            </div>
+                        </div>
+
+                        <button type="button" id="save-avatar-btn" class="save-avatar-button">Avatar speichern</button>
                     </form>
                 </div>
             </div>
@@ -102,46 +132,166 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const flashContainer = document.getElementById('flash-container');
+    // Avatar Karussell Funktionalität - WIE IN PLAYERMENU
+    document.addEventListener("DOMContentLoaded", () => {
+        // Avatar Karussell Elemente
+        const carouselTrack = document.getElementById("settings-carousel-track");
+        const prevButton = document.getElementById("settings-prev-avatar");
+        const nextButton = document.getElementById("settings-next-avatar");
+        const currentIndexSpan = document.getElementById("settings-current-index");
+        const totalAvatarsSpan = document.getElementById("settings-total-avatars");
+        const saveAvatarBtn = document.getElementById("save-avatar-btn");
+        const usernameInput = document.getElementById("avatar-username");
+        const passwordInput = document.getElementById("avatar-password");
 
-        // Funktion für neue Meldungen per JS
-        function createFlashMessage(text, type = 'info') {
-            if (!flashContainer) return;
+        let selectedAvatar = null;
+        let currentAvatarIndex = 0;
+        let avatars = [];
+        const totalAvatarCount = 26;
 
-            // Entferne nur vorherige clientseitige Nachrichten, nicht die vom Server
-            const messages = flashContainer.querySelectorAll('.error-message.from-client, .success-message.from-client, .info-message.from-client');
-            messages.forEach(msg => msg.remove());
+        // CSRF-Token aus Template
+        const csrfToken = "{{ csrf_token() }}";
 
-            // Neue Nachricht erstellen
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `${type === 'error' ? 'error-message' : type === 'success' ? 'success-message' : 'info-message'} from-client`;
-            messageDiv.textContent = text;
-
-            const progressBar = document.createElement('div');
-            progressBar.className = 'custom-progress-bar';
-            messageDiv.appendChild(progressBar);
-
-            flashContainer.appendChild(messageDiv);
-
-            // Nachricht nach 5 Sekunden entfernen
-            setTimeout(() => {
-                messageDiv.style.animation = 'fadeOut 0.5s forwards';
-                setTimeout(() => {
-                    if (flashContainer.contains(messageDiv)) {
-                        flashContainer.removeChild(messageDiv);
-                    }
-                }, 500);
-            }, 5000);
+        // Alle verfügbaren Avatare
+        function loadAllAvatars() {
+            return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
         }
 
-        // Expose global
-        window.createFlashMessage = createFlashMessage;
-    });
+        // Berechne die drei anzuzeigenden Avatare (links, mitte, rechts)
+        function getVisibleAvatars() {
+            // Immer drei Avatare anzeigen wie im Playermenu
+            const prevIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
+            const nextIndex = (currentAvatarIndex + 1) % totalAvatarCount;
+            return [
+                { index: prevIndex, filename: avatars[prevIndex], position: 'left' },
+                { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' },
+                { index: nextIndex, filename: avatars[nextIndex], position: 'right' }
+            ];
+        }
 
+        // Avatare im Karussell anzeigen (immer 3 gleichzeitig)
+        function displayAvatars() {
+            if (!carouselTrack) return;
+            
+            carouselTrack.innerHTML = '';
+            const visibleAvatars = getVisibleAvatars();
+            
+            visibleAvatars.forEach((avatarData) => {
+                const avatarContainer = document.createElement("div");
+                avatarContainer.className = `avatar-carousel-item ${avatarData.position}`;
+                
+                const img = document.createElement("img");
+                img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + avatarData.filename;
+                img.dataset.filename = avatarData.filename;
+                img.dataset.index = avatarData.index;
+                img.classList.add("avatar-item");
+                
+                // Markiere nur den ausgewählten Avatar
+                if (avatarData.filename === selectedAvatar) {
+                    img.classList.add("selected");
+                }
+                
+                img.addEventListener("click", () => {
+                    // Entferne Auswahl von allen Avataren
+                    document.querySelectorAll("#settings-carousel-track .avatar-item").forEach(i => i.classList.remove("selected"));
+                    
+                    // Setze den angeklickten Avatar als ausgewählt
+                    img.classList.add("selected");
+                    selectedAvatar = avatarData.filename;
+                    
+                    // KEIN SCROLLEN BEIM KLICKEN - nur Auswahl ändern
+                    // Der angeklickte Avatar wird nur ausgewählt, Karussell bleibt an Position
+                });
+                
+                avatarContainer.appendChild(img);
+                carouselTrack.appendChild(avatarContainer);
+            });
+            
+            updateCarousel();
+        }
 
+        // Karussell initialisieren
+        function initializeAvatarCarousel() {
+            avatars = loadAllAvatars();
+            selectedAvatar = avatars[0]; // Ersten Avatar vorauswählen
+            currentAvatarIndex = 0;
+            displayAvatars();
+        }
 
-    document.addEventListener('DOMContentLoaded', function() {
+        // Karussell-Position aktualisieren
+        function updateCarousel() {
+            if (currentIndexSpan) currentIndexSpan.textContent = currentAvatarIndex + 1;
+            if (totalAvatarsSpan) totalAvatarsSpan.textContent = totalAvatarCount;
+        }
+
+        // Vorherigen Avatar anzeigen (zirkulär) - NUR BEI BUTTON-KLICK
+        prevButton.addEventListener("click", () => {
+            currentAvatarIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
+            displayAvatars();
+        });
+
+        // Nächsten Avatar anzeigen (zirkulär) - NUR BEI BUTTON-KLICK
+        nextButton.addEventListener("click", () => {
+            currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
+            displayAvatars();
+        });
+
+        // Avatar speichern
+        saveAvatarBtn.addEventListener("click", () => {
+            // Validierung der Eingabefelder
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                createFlashMessage("Bitte fülle Benutzername und Passwort aus!", "error");
+                return;
+            }
+
+            if (!selectedAvatar) {
+                createFlashMessage("Bitte wähle einen Avatar aus!", "error");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('avatar', selectedAvatar);
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('csrf_token', csrfToken);
+
+            fetch("{{ url_for('change_avatar') }}", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    if (data.unchanged) {
+                        createFlashMessage("Der Avatar wurde nicht geändert!", "info");
+                    } else {
+                        createFlashMessage("Avatar erfolgreich geändert!", "success");
+                        // Felder zurücksetzen
+                        usernameInput.value = '';
+                        passwordInput.value = '';
+                    }
+                } else {
+                    createFlashMessage(data.error || "Fehler beim Ändern des Avatars!", "error");
+                }
+            })
+            .catch(err => {
+                console.error("Fetch error:", err);
+                createFlashMessage("Fehler beim Verbinden mit dem Server!", "error");
+            });
+        });
+
+        // Karussell beim Laden initialisieren
+        initializeAvatarCarousel();
+
+        // Toggle für Einstellungen
         const toggles = document.querySelectorAll('.setting-toggle');
         toggles.forEach(toggle => {
             toggle.addEventListener('click', function() {
@@ -153,11 +303,16 @@
                 } else {
                     content.style.maxHeight = content.scrollHeight + "px";
                     icon.style.transform = 'rotate(180deg)';
+                    
+                    // Wenn Avatar-Sektion geöffnet wird, Karussell neu initialisieren
+                    if (this.textContent.includes('Avatar')) {
+                        setTimeout(() => {
+                            initializeAvatarCarousel();
+                        }, 100);
+                    }
                 }
             });
         });
     });
-
-
 </script>
 {% endblock %}
