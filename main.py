@@ -90,6 +90,26 @@ class Question(db.Model):
     wrong2 = db.Column(db.String(150), nullable=False)
     wrong3 = db.Column(db.String(150), nullable=False)
 
+class SupportRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(150), nullable=False)
+    phone = db.Column(db.String(50))
+    email = db.Column(db.String(150))
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'category': self.category,
+            'username': self.username,
+            'phone': self.phone,
+            'email': self.email,
+            'message': self.message,
+            'created_at': self.created_at
+        }
+
 class QuizTimer:
     def __init__(self, socketio, room_id, duration=30):
         self.socketio = socketio
@@ -1481,9 +1501,6 @@ def search_player():
 def imprint():
     return render_template('imprint.html')
 
-# einfache Liste für Support-Anfragen
-support_requests = []
-
 @app.route('/support', methods=['GET', 'POST'])
 @prevent_quiz_exit 
 def support():
@@ -1507,17 +1524,34 @@ def support():
                 back_target=session.get("support_back_target", "index")  # Rücksprungziel merken
             )
 
-        support_requests.append({
-            "id": str(uuid.uuid4()),
-            "category": category,
-            "username": username,
-            "phone": phone,
-            "email": email,
-            "message": message
-        })
+        try:
+            # In Datenbank speichern
+            new_request = SupportRequest(
+                category=category,
+                username=username,
+                phone=phone,
+                email=email,
+                message=message
+            )
+            db.session.add(new_request)
+            db.session.commit()
 
-        flash("Deine Anfrage wurde verschickt!", "success")
-        return redirect(url_for('support'))
+            flash("Deine Anfrage wurde verschickt!", "success")
+            return redirect(url_for('support'))
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"Fehler beim Speichern der Support-Anfrage: {str(e)}")
+            flash("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.", "error")
+            return render_template(
+                'support.html',
+                category=category,
+                username=username,
+                phone=phone,
+                email=email,
+                message=message,
+                back_target=session.get("support_back_target", "index")
+            )
 
     # GET: Herkunft bestimmen
     ref = request.referrer or ""
@@ -1536,15 +1570,29 @@ def support():
 @login_required
 @admin_required
 def support_requests_page():
-    return render_template('support_requests.html', requests=support_requests)
+    try:
+        # Alle Support-Anfragen abrufen, neueste zuerst
+        requests = SupportRequest.query.order_by(SupportRequest.created_at.desc()).all()
+        return render_template('support_requests.html', requests=requests)
+    except Exception as e:
+        print(f"Fehler beim Abrufen der Support-Anfragen: {str(e)}")
+        flash("Fehler beim Laden der Support-Anfragen", "error")
+        return render_template('support_requests.html', requests=[])
 
 @app.route('/delete_request/<request_id>', methods=['POST'])
 @login_required
 @admin_required
 def delete_request(request_id):
-    global support_requests
-    support_requests = [r for r in support_requests if r["id"] != request_id]
-    flash("Anfrage erfolgreich gelöscht!", "success")
+    try:
+        request_to_delete = SupportRequest.query.get_or_404(request_id)
+        db.session.delete(request_to_delete)
+        db.session.commit()
+        flash("Anfrage erfolgreich gelöscht!", "success")
+    except Exception as e:
+        db.session.rollback()
+        print(f"Fehler beim Löschen der Support-Anfrage: {str(e)}")
+        flash("Fehler beim Löschen der Anfrage", "error")
+    
     return redirect(url_for('support_requests_page'))
 
 @app.route('/automatic_logout')
@@ -1574,7 +1622,7 @@ def admin_panel():
         # Statistiken für das Dashboard sammeln
         total_users = User.query.count()
         total_questions = Question.query.count()
-        total_support_requests = len(support_requests)
+        total_support_requests = SupportRequest.query.count()
         
         return render_template(
             'admin_panel.html',

@@ -1,92 +1,90 @@
-/* scrollen */
+/* Basis-Styling */
 html, body {
     overflow: auto !important;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 /* Titel */
 .container {
-    flex: 0 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .support-title {
     font-size: 2.5rem;
     color: #ffffff;
     text-shadow: 0 0 12px rgba(142, 45, 226, 0.7);
+    text-align: center;
+}
+
+/* Haupt-Container */
+.requests-content {
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto 2rem auto;
+    overflow: hidden;
 }
 
 /* Tabelle */
-.requests-content {
-    width: 90%;
-    margin: 2rem auto;
-
-    /* Scrollen */
-    overflow-x: auto;
-    overflow-y: auto;
-
-    /* Block, nicht Flex */
-    display: block;
-
-    /* Max Höhe für vertikales Scrollen */
-    max-height: 60vh;
-}
-
 .requests-table {
+    width: 100%;
     border-collapse: collapse;
     background: #ffffff;
     color: #000000;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-
-    /* Breite */
-    width: max-content;       /* natürliche Breite der Inhalte */
-    min-width: 1000px;         /* Mindestbreite */
-    max-width: 1400px;        /* maximale Breite */
-
-    /* Zentrieren */
-    margin: 0 auto;
+    table-layout: fixed; /* Gleichmäßige Spaltenverteilung */
 }
 
-.requests-table th, .requests-table td {
+.requests-table th, 
+.requests-table td {
     padding: 0.75rem 1rem;
     border: 1px solid #ddd;
     text-align: left;
     vertical-align: top;
-
-    white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-word;
+    height: auto; /* Dynamische Höhe */
 }
 
+/* Spaltenbreiten anpassen */
 .requests-table th:nth-child(1),
 .requests-table td:nth-child(1) {
-    min-width: 120px; /* Kategorie */
+    width: 15%; /* Datum */
 }
 
 .requests-table th:nth-child(2),
 .requests-table td:nth-child(2) {
-    min-width: 150px; /* Spielername */
+    width: 12%; /* Kategorie */
 }
 
 .requests-table th:nth-child(3),
 .requests-table td:nth-child(3) {
-    min-width: 150px; /* Telefon */
+    width: 15%; /* Spielername */
 }
 
 .requests-table th:nth-child(4),
 .requests-table td:nth-child(4) {
-    min-width: 200px; /* E-Mail */
+    width: 15%; /* Telefon */
 }
 
 .requests-table th:nth-child(5),
 .requests-table td:nth-child(5) {
-    min-width: 300px; /* Nachricht */
+    width: 18%; /* E-Mail */
 }
 
+.requests-table th:nth-child(6),
+.requests-table td:nth-child(6) {
+    width: 25%; /* Nachricht */
+}
+
+/* Tabellenkopf */
 .requests-table th {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -94,20 +92,42 @@ html, body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
+    position: sticky;
+    top: 0;
 }
 
+/* Zebra-Striping */
 .requests-table tr:nth-child(even) {
-    background: #f5f5f5;
+    background: #f8f9fa;
 }
 
-/* Scrollbar Styling optional */
-.requests-content::-webkit-scrollbar {
-    height: 8px;
+.requests-table tr:nth-child(odd) {
+    background: #ffffff;
 }
 
-.requests-content::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3);
-    border-radius: 4px;
+/* Hover-Effekte */
+.request-row:hover {
+    background-color: #e3f2fd !important;
+    transition: background-color 0.2s ease;
+}
+
+.request-row.highlight-delete:hover {
+    background-color: #ffebee !important;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .requests-content {
+        width: 98%;
+        margin: 0 auto 1rem auto;
+    }
+    
+    .requests-table th, 
+    .requests-table td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
 }
 
 /* Keine Anfragen */
@@ -116,14 +136,16 @@ html, body {
     font-size: 1.2rem;
     color: #ccc;
     margin-top: 2rem;
+    padding: 2rem;
 }
 
-/* Button */
+/* Button-Bereich */
 .link-content {
     display: flex;
     justify-content: center;
     margin: 2rem;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .requests-button {
@@ -138,6 +160,8 @@ html, body {
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
 }
 
 .requests-button:hover {
@@ -146,9 +170,30 @@ html, body {
 }
 
 .delete-button {
-    background: linear-gradient(135deg, #e53935, #b71c1c); /* Rot statt Lila */
+    background: linear-gradient(135deg, #e53935, #b71c1c);
 }
 
 .delete-button:hover {
     box-shadow: 0 6px 15px rgba(183, 28, 28, 0.5);
+}
+
+/* Scrollbar für sehr kleine Bildschirme */
+@media (max-width: 768px) {
+    .requests-content {
+        overflow-x: auto;
+    }
+    
+    .requests-table {
+        min-width: 800px;
+    }
+    
+    .link-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .requests-button {
+        width: 90%;
+        max-width: 300px;
+    }
 }

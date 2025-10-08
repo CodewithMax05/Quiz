@@ -18,6 +18,7 @@
         <table class="requests-table">
             <thead>
                 <tr>
+                    <th>Datum</th>
                     <th>Kategorie</th>
                     <th>Spielername</th>
                     <th>Telefon</th>
@@ -28,10 +29,11 @@
             <tbody>
                 {% for req in requests %}
                 <tr class="request-row" data-id="{{ req.id }}">
+                    <td>{{ req.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
                     <td>{{ req.category }}</td>
                     <td>{{ req.username }}</td>
-                    <td>{{ req.phone }}</td>
-                    <td>{{ req.email }}</td>
+                    <td>{{ req.phone or '-' }}</td>
+                    <td>{{ req.email or '-' }}</td>
                     <td>{{ req.message }}</td>
                 </tr>
                 {% endfor %}
@@ -49,7 +51,6 @@
     </div>
 </div>
 
-
 <!-- JavaScript für Löschmodus -->
 <script>
     let deleteMode = false;
@@ -63,23 +64,6 @@
         document.querySelectorAll('.request-row').forEach(row => {
             row.style.cursor = deleteMode ? 'pointer' : 'default';
             row.classList.toggle('highlight-delete', deleteMode);
-        });
-    });
-
-    document.querySelectorAll('.request-row').forEach(row => {
-        row.addEventListener('click', () => {
-            if (!deleteMode) return;
-
-            const requestId = row.dataset.id;
-
-            fetch(`/delete_request/${requestId}`, {
-                method: 'POST'
-            }).then(() => {
-                location.reload();
-            }).catch(err => {
-                alert('Fehler beim Löschen');
-                console.error(err);
-            });
         });
     });
 
