@@ -619,6 +619,14 @@
             }
 
             updateQuestion(data) {
+                // URL mit Frage-Nummer aktualisieren
+                try {
+                    const newUrl = `/show_question?q=${data.progress}`;
+                    history.replaceState({ question: data.progress }, '', newUrl);
+                } catch (e) {
+                    console.warn('URL update failed:', e);
+                }
+
                 const questionTextElement = document.querySelector('.question-text');
                 if (questionTextElement) {
                     questionTextElement.textContent = data.question;
