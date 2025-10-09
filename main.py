@@ -1508,6 +1508,7 @@ def search_player():
             'username': user.username,
             'id': user.id,
             'first_played': to_local_time(user.first_played) if user.first_played else "N/A",
+            'number_of_games': user.number_of_games if user.number_of_games else 0,
             'highscore': user.highscore,
             'highscore_time': to_local_time(user.highscore_time) if user.highscore_time else "N/A",
             'correct_high': user.correct_high

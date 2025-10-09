@@ -35,6 +35,7 @@
                                 data-score="{{ player.highscore }}"
                                 data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_local_time }}{% endif %}"
                                 data-correct="{{ player.correct_high }}"
+                                data-games="{{ player.number_of_games }}"
                                 onclick="updatePlayerInfo(this)">
                                 <div class="leaderboard-cell position">
                                     {% if loop.index == 1 %}🥇
@@ -71,6 +72,7 @@
                             data-score="{{ current_player.highscore }}"
                             data-highscore-date="{% if current_player.highscore_time %}{{ current_player.highscore_time|to_local_time }}{% endif %}"
                             data-correct="{{ current_player.correct_high }}"
+                            data-games="{{ current_player.number_of_games }}"
                             onclick="updatePlayerInfo(this)">
                             <div class="leaderboard-cell position">
                                 {% if player_rank %}#{{ player_rank }}
@@ -129,6 +131,11 @@
                                 <span id="info-registered" class="info-value">
                                     {% if current_player %}{{ current_player.first_played|to_local_time }}{% else %}N/A{% endif %}
                                 </span>
+                            </div>
+                            <!-- NEUE ZEILE: Anzahl Spiele -->
+                            <div class="info-row">
+                                <span class="info-label">Anzahl Spiele:</span>
+                                <span id="info-games" class="info-value">{{ current_player.number_of_games if current_player else "0" }}</span>
                             </div>
                             <div class="info-row highlight">
                                 <span class="info-label">Highscore:</span>
@@ -227,6 +234,7 @@
             document.getElementById('info-username').textContent = row.dataset.username || "N/A";
             document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
             document.getElementById('info-registered').textContent = row.dataset.registered || "N/A";
+            document.getElementById('info-games').textContent = row.dataset.games || "0";
             document.getElementById('info-highscore').textContent = row.dataset.score || "0";
             document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
             document.getElementById('info-correct').textContent = row.dataset.correct || "0";
@@ -266,6 +274,7 @@
                 document.getElementById('info-username').textContent = data.username || "N/A";
                 document.getElementById('info-id').textContent = data.id || "N/A";
                 document.getElementById('info-registered').textContent = data.first_played || "N/A";
+                document.getElementById('info-games').textContent = data.number_of_games || "0";
                 document.getElementById('info-highscore').textContent = data.highscore || "0";
                 document.getElementById('info-highscore-date').textContent = data.highscore_time || "N/A";
                 document.getElementById('info-correct').textContent = data.correct_high || "0";
