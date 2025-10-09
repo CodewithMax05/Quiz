@@ -6,64 +6,108 @@
 {% endblock %}
 
 {% block body %}    
-    <div class="result-container">
-        <h1>Glückwunsch {{ session.username }},<br>du hast das Quiz erfolgreich abgeschlossen!</h1>
-        
-        <div class="score-display">
-            <div class="correct-answers">
-                <span class="correct">{{ correct_answers }}</span> von 
-                <span class="total">{{ total }}</span> Fragen richtig
-            </div>
-            <div class="points-earned">
-                Punktzahl: <span class="points">{{ score }}</span>
+    <div class="evaluate-container">
+        <!-- Header mit Avatar und Benutzername -->
+        <div class="user-header">
+            <div class="avatar-section">
+                <img src="{{ url_for('static', filename='pictures/avatar/' + user_avatar) }}" 
+                     alt="Avatar" 
+                     class="user-avatar-large">
+                <div class="user-info">
+                    <h2 class="username">{{ session.username }}</h2>
+                    <div class="quiz-completion">Quiz abgeschlossen!</div>
+                </div>
             </div>
         </div>
-        
-        <div class="performance-rating">
-            {% if correct_answers == total %}
-                <div class="perfect">
-                    <span>🏆 Perfektes Ergebnis!</span>
-                    <p>Alle Fragen richtig beantwortet - herausragende Leistung!</p>
+
+        <!-- Haupt-Ergebnisbereich -->
+        <div class="results-main">
+            <div class="score-section">
+                <div class="score-circle">
+                    <div class="score-number">{{ score }}</div>
+                    <div class="score-label">Punkte</div>
                 </div>
-            {% elif correct_answers >= total * 0.8 %}
-                <div class="excellent">
-                    <span>⭐ Großartige Leistung!</span>
-                    <p>Du bist auf dem besten Weg zum Quiz-Meister!</p>
+                
+                <div class="correct-answers">
+                    <div class="correct-count">
+                        <span class="correct-number">{{ correct_answers }}</span>
+                        <span class="correct-text">richtig</span>
+                    </div>
+                    <div class="total-questions">
+                        von {{ total }} Fragen
+                    </div>
                 </div>
-            {% elif correct_answers >= total * 0.65 %}
-                <div class="good">
-                    <span>👍 Gute Arbeit!</span>
-                    <p>Solides Wissen - nur noch wenige Lücken!</p>
-                </div>
-            {% elif correct_answers >= total * 0.5 %}
-                <div class="average">
-                    <span>💪 Weiter so!</span>
-                    <p>Die Hälfte geschafft - mit etwas Übung schaffst du mehr!</p>
-                </div>
-            {% else %}
-                <div class="improve">
-                    <span>📚 Lernzeit!</span>
-                    <p>Nutze die Chance, dein Wissen zu erweitern!</p>
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="highscore-info">
-            <div class="current-highscore">
-                Dein aktueller Highscore: <span>{{ highscore }}</span> Punkte
             </div>
-            
-            {% if new_highscore %}
-                <div class="new-highscore">
-                    🎉 {{ score }} ist dein neuer Rekord! 🎉
+
+            <!-- Performance-Bewertung -->
+            <div class="performance-rating">
+                {% if correct_answers == total %}
+                    <div class="rating perfect">
+                        <i class="fas fa-trophy rating-icon"></i>
+                        <div class="rating-content">
+                            <h3>Perfektes Ergebnis!</h3>
+                            <p>Alle Fragen richtig beantwortet - herausragende Leistung!</p>
+                        </div>
+                    </div>
+                {% elif correct_answers >= total * 0.8 %}
+                    <div class="rating excellent">
+                        <i class="fas fa-star rating-icon"></i>
+                        <div class="rating-content">
+                            <h3>Großartige Leistung!</h3>
+                            <p>Du bist auf dem besten Weg zum Quiz-Meister!</p>
+                        </div>
+                    </div>
+                {% elif correct_answers >= total * 0.65 %}
+                    <div class="rating good">
+                        <i class="fas fa-thumbs-up rating-icon"></i>
+                        <div class="rating-content">
+                            <h3>Gute Arbeit!</h3>
+                            <p>Solides Wissen - nur noch wenige Lücken!</p>
+                        </div>
+                    </div>
+                {% elif correct_answers >= total * 0.5 %}
+                    <div class="rating average">
+                        <i class="fas fa-rocket rating-icon"></i>
+                        <div class="rating-content">
+                            <h3>Weiter so!</h3>
+                            <p>Die Hälfte geschafft - mit etwas Übung schaffst du mehr!</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="rating improve">
+                        <i class="fas fa-book rating-icon"></i>
+                        <div class="rating-content">
+                            <h3>Lernzeit!</h3>
+                            <p>Nutze die Chance, dein Wissen zu erweitern!</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Highscore-Information -->
+            <div class="highscore-section">
+                <div class="current-highscore">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dein Highscore: <strong>{{ highscore }}</strong> Punkte</span>
                 </div>
-            {% endif %}
+                
+                {% if new_highscore %}
+                    <div class="new-highscore-badge">
+                        <i class="fas fa-crown"></i>
+                        <span>Neuer Rekord: {{ score }} Punkte!</span>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-        <div class="action-buttons-evaluate">
-            <a href="{{ url_for('ranking') }}" class="ranking-button sound-button" aria-label="Ranking">
+
+        <!-- Aktions-Buttons -->
+        <div class="action-buttons">
+            <a href="{{ url_for('ranking') }}" class="btn ranking-btn sound-button">
                 <i class="fas fa-trophy"></i>
+                Ranking
             </a>
-            <a href="{{ url_for('homepage') }}" class="home-button sound-button">
+            <a href="{{ url_for('homepage') }}" class="btn home-btn sound-button">
+                <i class="fas fa-home"></i>
                 Zurück zur Startseite
             </a>
         </div>
@@ -76,5 +120,15 @@
         } catch (e) {
             console.warn('sessionStorage remove failed:', e);
         }
+
+        // Animation für Score-Circle
+        document.addEventListener('DOMContentLoaded', function() {
+            const scoreCircle = document.querySelector('.score-circle');
+            if (scoreCircle) {
+                setTimeout(() => {
+                    scoreCircle.classList.add('animate-score');
+                }, 500);
+            }
+        });
     </script>
 {% endblock %}

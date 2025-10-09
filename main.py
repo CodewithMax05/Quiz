@@ -1223,13 +1223,19 @@ def evaluate_quiz():
         # Prüfe ob Auswertungsdaten in der Session vorhanden sind (für Neuladen)
         if 'evaluation_data' in session:
             data = session['evaluation_data']
+            
+            # Benutzerdaten für Avatar holen
+            user = User.query.filter_by(username=session['username']).first()
+            user_avatar = user.avatar if user else "avatar0.png"
+            
             response = make_response(render_template(
                 'evaluate.html',
                 score=data['score'],
                 total=data['total'],
                 correct_answers=data['correct_answers'],
                 new_highscore=data['new_highscore'],
-                highscore=data['highscore']
+                highscore=data['highscore'],
+                user_avatar=user_avatar  # Avatar hinzugefügt
             ))
             # Cache-Header setzen
             response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
@@ -1281,8 +1287,8 @@ def evaluate_quiz():
 
             if correct_count > user.correct_high:
                 user.correct_high = correct_count
-            
-            # prüfen nochmal explizit auf vollständigen Abschluss (defensive Prüfung)
+
+	        # prüfen nochmal explizit auf vollständigen Abschluss (defensive Prüfung)
             try:
                 quiz_completed_flag = is_completed or all_questions_answered
                 if quiz_completed_flag:
@@ -1293,8 +1299,11 @@ def evaluate_quiz():
             except Exception as e:
                 # Fehler beim Erhöhen soll die Auswertung nicht abbrechen
                 print(f"Fehler beim Erhöhen von number_of_games: {e}")
-
+            
             db.session.commit()
+
+        # Benutzerdaten für Avatar holen
+        user_avatar = user.avatar if user else "avatar0.png"
 
         # Speichere Auswertungsdaten in separater Session-Variable für Neuladen
         evaluation_data = {
@@ -1319,7 +1328,8 @@ def evaluate_quiz():
             total=total,
             correct_answers=correct_count,
             new_highscore=new_highscore,
-            highscore=user.highscore if user else score
+            highscore=user.highscore if user else score,
+            user_avatar=user_avatar  # Avatar hinzugefügt
         ))
         
         # Verhindert, dass der Browser die Seite cached
