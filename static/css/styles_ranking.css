@@ -238,16 +238,55 @@ body.ranking-page {
     justify-content: space-between;
     padding: 0.3rem 0; /* Reduziertes Padding */
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    align-items: center;
+}
+
+/* Spezielle Stile für Avatar-Zeile */
+.info-row.avatar-row {
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.5rem 0; /* Etwas mehr Padding für Avatar */
 }
 
 .info-label {
     color: #8e2de2;
     font-weight: 500;
+    min-width: 100px; /* Gleiche Breite für alle Labels */
 }
 
 .info-value {
     text-align: right;
     color: #ffffff;
+}
+
+/* Avatar-Stile */
+.info-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.avatar-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #8e2de2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-placeholder {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 0.8rem;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
 }
 
 .highlight .info-value {
@@ -390,16 +429,41 @@ body.ranking-page {
     .info-row {
         flex-direction: column;
         gap: 0.2rem;
+        align-items: flex-start;
+    }
+    
+    .info-row.avatar-row {
+        align-items: center;
     }
     
     .info-value {
         text-align: left;
+    }
+    
+    .avatar-image {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .avatar-placeholder {
+        width: 35px;
+        height: 35px;
     }
 }
 
 @media (max-width: 480px) {
     .search-wrapper {
         margin-top: 90px;
+    }
+    
+    .avatar-image {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .avatar-placeholder {
+        width: 35px;
+        height: 35px;
     }
 }
 
@@ -435,6 +499,11 @@ body.ranking-page {
     
     .leaderboard-cell {
         padding: 0.2rem; /* Reduziertes Padding */
+    }
+    
+    .avatar-image {
+        width: 35px;
+        height: 35px;
     }
 }
 

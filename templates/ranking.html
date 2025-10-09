@@ -9,10 +9,10 @@
     <!-- Haupt-Container -->
     <body class="ranking-page">
         <div class="ranking-wrapper">
-            <!-- Zentrierte Überschrift -->
+            <!-- Zentrierte Überschrift mit reduziertem Abstand -->
             <h1 class="ranking-title">Top 10 Spieler</h1>
 
-            <!-- Inhalt unter der Überschrift -->
+            <!-- Inhalt direkt unter der Überschrift -->
             <div class="ranking-content">
                 <!-- Linke Spalte (Leaderboard) -->
                 <div class="ranking-column-left">
@@ -31,6 +31,7 @@
                                 data-rank="{{ player_rank_map[player.id] }}"     
                                 data-user-id="{{ player.id }}"
                                 data-username="{{ player.username }}"
+                                data-avatar="{{ player.avatar }}"
                                 data-registered="{{ player.first_played|to_local_time }}"
                                 data-score="{{ player.highscore }}"
                                 data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_local_time }}{% endif %}"
@@ -58,7 +59,7 @@
 
                         <!-- Eigene Platzierung -->
                         {% if current_player %}
-                        <div class="leaderboard-header platzierung-header" style="margin-top: 2rem;">
+                        <div class="leaderboard-header platzierung-header" style="margin-top: 1rem;">
                             <div class="header-item">Deine Platzierung</div>
                             <div class="header-item"></div>
                             <div class="header-item"></div>
@@ -68,6 +69,7 @@
                             data-rank="{{ player_rank }}"
                             data-user-id="{{ current_player.id }}"
                             data-username="{{ current_player.username }}"
+                            data-avatar="{{ current_player.avatar }}"
                             data-registered="{{ current_player.first_played|to_local_time }}"
                             data-score="{{ current_player.highscore }}"
                             data-highscore-date="{% if current_player.highscore_time %}{{ current_player.highscore_time|to_local_time }}{% endif %}"
@@ -121,6 +123,19 @@
                             <div class="info-row">
                                 <span class="info-label">Username:</span>
                                 <span id="info-username" class="info-value">{{ current_player.username if current_player else "N/A" }}</span>
+                            </div>
+                            <!-- NEUE ZEILE: Profilbild -->
+                            <div class="info-row avatar-row">
+                                <span class="info-label">Profilbild:</span>
+                                <div id="info-avatar" class="info-avatar">
+                                    {% if current_player %}
+                                        <img src="{{ url_for('static', filename='pictures/avatar/' + current_player.avatar) }}" 
+                                             alt="Avatar von {{ current_player.username }}"
+                                             class="avatar-image">
+                                    {% else %}
+                                        <div class="avatar-placeholder">N/A</div>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Spieler-ID:</span>
@@ -238,6 +253,17 @@
             document.getElementById('info-highscore').textContent = row.dataset.score || "0";
             document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
             document.getElementById('info-correct').textContent = row.dataset.correct || "0";
+            
+            // Avatar aktualisieren
+            const avatarContainer = document.getElementById('info-avatar');
+            const avatar = row.dataset.avatar;
+            if (avatar && avatar !== "None") {
+                avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${avatar}" 
+                                             alt="Avatar von ${row.dataset.username || 'Spieler'}" 
+                                             class="avatar-image">`;
+            } else {
+                avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
+            }
         }
 
         async function searchPlayer() {
@@ -278,6 +304,16 @@
                 document.getElementById('info-highscore').textContent = data.highscore || "0";
                 document.getElementById('info-highscore-date').textContent = data.highscore_time || "N/A";
                 document.getElementById('info-correct').textContent = data.correct_high || "0";
+                
+                // Avatar anzeigen
+                const avatarContainer = document.getElementById('info-avatar');
+                if (data.avatar) {
+                    avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${data.avatar}" 
+                                                     alt="Avatar von ${data.username || 'Spieler'}" 
+                                                     class="avatar-image">`;
+                } else {
+                    avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
+                }
                 
                 // Highlight entfernen
                 document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
