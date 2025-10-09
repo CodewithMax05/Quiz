@@ -6,6 +6,7 @@ body.ranking-page {
     overflow-x: hidden;
     height: auto;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Leaderboard, Player-Info etc. */
@@ -20,6 +21,7 @@ body.ranking-page {
     height: auto;
     padding-top: 0.5rem;
     overflow: visible;
+    box-sizing: border-box;
 }
 
 .ranking-page .back-button {
@@ -42,19 +44,20 @@ body.ranking-page {
     margin-top: 0.5rem;
     flex: 1;
     width: 100%;
-    padding: 0 1rem;
+    padding-left: 10px;
+    padding-right: 10px; /* Abstand links/rechts */
     height: auto;
     overflow: visible;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: flex-start;
+    box-sizing: border-box;
 }
 
 .ranking-column-left {
     flex: 2;
     display: flex;
     flex-direction: column;
-    margin-left: 1rem;
     align-self: flex-start;
     height: auto;
 }
@@ -64,19 +67,16 @@ body.ranking-page {
     display: flex;
     flex-direction: column;
     min-width: 300px;
-    width: calc(100% - 1rem);
-    margin-right: 0;
-    padding-right: 0;
+    width: 100%;
     gap: 0.8rem;
     position: relative;
     height: auto;
+    box-sizing: border-box;
 }
 
 /* 🔍 SUCHLEISTE */
 .search-wrapper {
     width: 100%;
-    padding-right: 1rem;
-    box-sizing: border-box;
     position: relative;
     z-index: 1;
 }
@@ -176,7 +176,6 @@ body.ranking-page {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
     padding: 0.8rem;
-    margin-right: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     flex: 1;
@@ -206,9 +205,17 @@ body.ranking-page {
 }
 
 .info-row.avatar-row {
-    justify-content: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
     padding: 0.5rem 0;
+}
+
+.info-row.avatar-row #info-avatar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .info-label {
@@ -261,8 +268,8 @@ body.ranking-page {
     text-decoration: none;
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin-right: 1rem;
 }
 
 .back-button:hover {
@@ -347,35 +354,18 @@ body.ranking-page {
 
 /* 📱 MOBIL <770px */
 @media (max-width: 770px) {
-    .ranking-wrapper {
-        padding: 0 10px; /* 10px Abstand links & rechts */
-        box-sizing: border-box;
-    }
-
     .ranking-content {
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
         width: 100%;
-        height: auto;
-        padding: 0; /* entfernt doppeltes Padding */
-    }
-
-    .ranking-title {
-        text-align: center;
-        font-size: 1.8rem;
-        margin-bottom: 0.5rem;
+        padding-left: 10px;
+        padding-right: 10px; /* Abstand links/rechts */
+        box-sizing: border-box;
     }
 
     .ranking-column-left,
     .ranking-column-right {
-        width: 100%;
-        margin: 0;
-        height: auto;
-    }
-
-    .leaderboard,
-    .player-info-card {
         width: 100%;
         max-width: 100%;
         height: auto;
@@ -383,13 +373,15 @@ body.ranking-page {
         box-sizing: border-box;
     }
 
-    .player-info-card,
-    .back-button {
-        margin-right: 0;
+    .leaderboard,
+    .player-info-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        box-sizing: border-box;
     }
 
     .info-row {
-        display: flex;
         flex-direction: column;
         align-items: flex-start;
         text-align: left;
@@ -403,13 +395,20 @@ body.ranking-page {
         white-space: normal;
     }
 
+    /* Avatar unter Label */
     .info-row.avatar-row {
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .info-row.avatar-row #info-avatar {
         justify-content: flex-start;
-        gap: 1rem;
     }
 }
+
+
+
 
 
 
