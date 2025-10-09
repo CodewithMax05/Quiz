@@ -2,8 +2,10 @@
 
 /* Body speziell für Ranking */
 body.ranking-page {
-    overflow-y: auto;    /* wichtig: Scrollen für mobile Ansicht */
-    overflow-x: hidden;  /* horizontales Scrollen verhindern */
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
 }
 
 /* Leaderboard, Player-Info etc. */
@@ -11,21 +13,23 @@ body.ranking-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Geändert von center zu flex-start */
-    gap: 10px; /* Reduzierter Abstand */
+    justify-content: flex-start;
+    gap: 10px;
     width: 100%;
-    min-height: 100vh;
-    padding-top: 0.5rem; /* Weniger Padding oben */
+    min-height: auto;
+    height: auto;
+    padding-top: 0.5rem;
+    overflow: visible;
 }
 
 .ranking-page .back-button {
-    margin-bottom: 130px; /* 👈 zusätzlicher Abstand nach unten */
+    margin-bottom: 130px;
 }
 
 /* 💠 RANKING-LAYOUT */
 .ranking-title {
     text-align: center;
-    margin: 0.5rem 0 0.5rem 0; /* Stark reduzierter Abstand */
+    margin: 0.5rem 0;
     color: #ffffff;
     font-size: 2.2rem;
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.7);
@@ -34,11 +38,16 @@ body.ranking-page {
 .ranking-content {
     display: flex;
     flex-direction: row;
-    gap: 1rem; /* Reduzierter Gap */
-    margin-top: 0.5rem; /* Stark reduzierter Abstand */
+    gap: 1rem;
+    margin-top: 0.5rem;
     flex: 1;
-    min-height: 0;
+    width: 100%;
     padding: 0 1rem;
+    height: auto;
+    overflow: visible;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .ranking-column-left {
@@ -46,6 +55,8 @@ body.ranking-page {
     display: flex;
     flex-direction: column;
     margin-left: 1rem;
+    align-self: flex-start;
+    height: auto;
 }
 
 .ranking-column-right {
@@ -56,11 +67,12 @@ body.ranking-page {
     width: calc(100% - 1rem);
     margin-right: 0;
     padding-right: 0;
-    gap: 0.8rem; /* Reduzierter Gap */
+    gap: 0.8rem;
     position: relative;
+    height: auto;
 }
 
-/* 🔍 SUCHLEISTE MIT FESTEM ABSTAND */
+/* 🔍 SUCHLEISTE */
 .search-wrapper {
     width: 100%;
     padding-right: 1rem;
@@ -69,32 +81,16 @@ body.ranking-page {
     z-index: 1;
 }
 
-/* Suchleiste: Autofill / Hintergrund anpassen */
-.search-wrapper input:-webkit-autofill,
-.search-wrapper input:-webkit-autofill:hover,
-.search-wrapper input:-webkit-autofill:focus,
-.search-wrapper input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px rgba(26, 26, 46, 0.8) inset !important; /* Gleicher Hintergrund wie normal */
-    -webkit-text-fill-color: white !important; /* Textfarbe behalten */
-    transition: background-color 5000s ease-in-out 0s; /* Flash vermeiden */
-}
-
-/* Firefox */
-.search-wrapper input:-moz-autofill {
-    box-shadow: 0 0 0px 1000px rgba(26, 26, 46, 0.8) inset !important;
-    -moz-text-fill-color: white !important;
-}
-
 .search-wrapper input {
     width: 100%;
-    padding: 0.7rem 2.25rem 0.7rem 1rem; /* top right bottom left */
+    padding: 0.7rem 2.25rem 0.7rem 1rem;
     border: none;
     border-radius: 8px;
     background: rgba(26, 26, 46, 0.8);
     color: white;
     font-family: inherit;
     font-size: 0.95rem;
-    box-shadow: 
+    box-shadow:
         0 0 0 1px rgba(255, 255, 255, 0.1),
         0 4px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
@@ -104,15 +100,14 @@ body.ranking-page {
 .search-wrapper input:focus {
     outline: none;
     background: rgba(26, 26, 46, 0.9);
-    box-shadow: 
+    box-shadow:
         0 0 0 2px rgba(142, 45, 226, 0.5),
         0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* Die Lupe absolut im Eingabefeld positionieren (rechts, vertikal zentriert) */
 .search-wrapper .search-button {
     position: absolute;
-    right: 1.5rem;            /* immer exakt 1rem vom rechten Rand entfernt */
+    right: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -126,18 +121,11 @@ body.ranking-page {
     place-items: center;
 }
 
-.search-wrapper .search-button:hover,
-.search-wrapper .search-button:focus-visible {
-    /* dezenter Hinweis ohne Farbschema zu ändern */
-    filter: brightness(1.1);
-    outline: none;
-}
-
-/* 📋 LEADERBOARD-STIL */
+/* 📋 LEADERBOARD */
 .leaderboard {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
-    padding: 0.6rem; /* Reduziertes Padding */
+    padding: 0.6rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     flex: 1;
     overflow: hidden;
@@ -148,7 +136,7 @@ body.ranking-page {
 .leaderboard-header {
     display: grid;
     grid-template-columns: 1fr 3fr 2fr 3fr;
-    padding: 0.4rem 0; /* Reduziertes Padding */
+    padding: 0.4rem 0;
     font-weight: 600;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -172,56 +160,32 @@ body.ranking-page {
     box-shadow: inset 0 0 0 1px rgba(0, 119, 255, 0.3);
 }
 
-/* 🥇 PODIUM-STIL */
-.leaderboard-row.podium {
-    font-weight: bold;
-}
+.leaderboard-row.podium { font-weight: bold; }
 .leaderboard-row:nth-child(1) { color: gold; }
 .leaderboard-row:nth-child(2) { color: silver; }
 .leaderboard-row:nth-child(3) { color: #cd7f32; }
 
-/* 📦 ZELLEN */
-.leaderboard-cell {
-    padding: 0.3rem; /* Reduziertes Padding */
-}
-.position {
-    font-size: 1.1rem;
-}
-.username {
-    text-align: left;
-    padding-left: 0.8rem;
-}
-.score {
-    font-family: 'Courier New', monospace;
-    font-size: 1rem;
-}
-.date {
-    color: #aaa;
-    font-size: 0.85rem;
-}
-
-/* 🌟 EIGENE PLATZIERUNG */
-.leaderboard-row.highlight {
-    background-color: rgba(255, 255, 255, 0.07);
-    color: #ffffff;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
+.leaderboard-cell { padding: 0.3rem; }
+.position { font-size: 1.1rem; }
+.username { text-align: left; padding-left: 0.8rem; }
+.score { font-family: 'Courier New', monospace; font-size: 1rem; }
+.date { color: #aaa; font-size: 0.85rem; }
 
 /* 🎮 SPIELERINFO-KARTE */
 .player-info-card {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
-    padding: 0.8rem; /* Reduziertes Padding */
+    padding: 0.8rem;
     margin-right: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     flex: 1;
+    height: auto;
 }
 
 .player-info-card h3 {
     color: #8e2de2;
-    margin: 0.3rem 0; /* Reduzierter Abstand */
+    margin: 0.3rem 0;
     text-align: center;
     font-size: 1.3rem;
 }
@@ -229,29 +193,28 @@ body.ranking-page {
 .player-info-content {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem; /* Reduzierter Gap */
-    margin-top: 0.6rem; /* Reduzierter Abstand */
+    gap: 0.5rem;
+    margin-top: 0.6rem;
 }
 
 .info-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.3rem 0; /* Reduziertes Padding */
+    padding: 0.3rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     align-items: center;
 }
 
-/* Spezielle Stile für Avatar-Zeile */
 .info-row.avatar-row {
     justify-content: flex-start;
     gap: 1rem;
-    padding: 0.5rem 0; /* Etwas mehr Padding für Avatar */
+    padding: 0.5rem 0;
 }
 
 .info-label {
     color: #8e2de2;
     font-weight: 500;
-    min-width: 100px; /* Gleiche Breite für alle Labels */
+    min-width: 100px;
 }
 
 .info-value {
@@ -259,27 +222,25 @@ body.ranking-page {
     color: #ffffff;
 }
 
-/* Avatar-Stile */
-.info-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex: 1;
+.highlight .info-value {
+    color: #ffd700;
+    font-weight: bold;
 }
 
-.avatar-image {
+/* 👤 AVATAR */
+.avatar-image, .avatar-placeholder {
     width: 35px;
     height: 35px;
     border-radius: 50%;
+}
+
+.avatar-image {
     object-fit: cover;
     border: 2px solid #8e2de2;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .avatar-placeholder {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
@@ -287,11 +248,6 @@ body.ranking-page {
     color: #aaa;
     font-size: 0.8rem;
     border: 1px dashed rgba(255, 255, 255, 0.3);
-}
-
-.highlight .info-value {
-    color: #ffd700;
-    font-weight: bold;
 }
 
 /* 🔙 ZURÜCK-BUTTON */
@@ -314,21 +270,15 @@ body.ranking-page {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* 🌠 ANIMATIONEN */
-@keyframes stars-animation {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(2000px); }
-}
-
-/* ===== INFOBUTTON MIT POPUP ===== */
+/* ===== INFOBUTTON MIT POPUP (wiederhergestellt) ===== */
 .player-info-title-row {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 0.8rem; /* Reduziertes Padding */
-    margin-bottom: 0.4rem; /* Reduzierter Abstand */
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
 }
 
 .player-info-title-row .ranking-info-button {
@@ -395,140 +345,61 @@ body.ranking-page {
     100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
 }
 
-/* 📱 RESPONSIVE DESIGN */
-@media (max-width: 768px) {
-    .ranking-title {
-        margin: 0.3rem 0 0.3rem 0; /* Reduzierter Abstand */
-    }
-    
+/* 📱 MOBIL <770px */
+@media (max-width: 770px) {
     .ranking-content {
-        margin-top: 0.3rem; /* Reduzierter Abstand */
         flex-direction: column;
-        gap: 0.8rem; /* Reduzierter Gap */
-        padding: 0 1rem;
-    }
-    
-    .ranking-column-left, 
-    .ranking-column-right {
-        margin-left: 0;
-        margin-right: 0;
+        align-items: stretch;
+        gap: 1rem;
         width: 100%;
+        height: auto;
     }
-    
-    .search-wrapper {
-        margin-top: 100px;
-        padding-right: 0;
+
+    .ranking-title {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
     }
-    
-    .player-info-card,
-    .back-button {
-        margin-right: 0;
-        padding-right: 0;
+
+    .ranking-column-left,
+    .ranking-column-right {
+        width: 100%;
+        margin: 0;
+        height: auto;
     }
-    
+
+    .leaderboard,
+    .player-info-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
     .info-row {
+        display: flex;
         flex-direction: column;
-        gap: 0.2rem;
         align-items: flex-start;
+        text-align: left;
+        gap: 0.2rem;
     }
-    
-    .info-row.avatar-row {
-        align-items: center;
-    }
-    
+
+    .info-label,
     .info-value {
         text-align: left;
+        word-break: break-word;
+        white-space: normal;
     }
-    
-    .avatar-image {
-        width: 35px;
-        height: 35px;
-    }
-    
-    .avatar-placeholder {
-        width: 35px;
-        height: 35px;
-    }
-}
 
-@media (max-width: 480px) {
-    .search-wrapper {
-        margin-top: 90px;
-    }
-    
-    .avatar-image {
-        width: 35px;
-        height: 35px;
-    }
-    
-    .avatar-placeholder {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-@media (min-width: 992px) {
-    .ranking-content {
+    .info-row.avatar-row {
         flex-direction: row;
-        align-items: flex-start;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
     }
-    
-    .ranking-column-left {
-        width: 60%;
-    }
-    
+
+    .ranking-column-left,
     .ranking-column-right {
-        width: calc(35% - 1rem);
-        margin-left: 1rem;
-    }
-}
-
-@media (max-height: 700px) {
-    .ranking-title {
-        margin: 0.3rem 0 0.2rem 0; /* Stark reduzierter Abstand */
-    }
-    
-    .ranking-content {
-        margin-top: 0.2rem; /* Stark reduzierter Abstand */
-    }
-    
-    .leaderboard-row {
-        padding: 0;
-        font-size: 0.85rem;
-    }
-    
-    .leaderboard-cell {
-        padding: 0.2rem; /* Reduziertes Padding */
-    }
-    
-    .avatar-image {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-@media (max-width: 600px) {
-    .leaderboard-header .header-item:nth-child(1)::after {
-        content: "Pl.";
-    }
-    .leaderboard-header .header-item:nth-child(2)::after {
-        content: "User";
-    }
-    .leaderboard-header .header-item:nth-child(3)::after {
-        content: "Pkt.";
-    }
-    .leaderboard-header .header-item:nth-child(4)::after {
-        content: "HS-Datum";
-    }
-
-    .leaderboard-header .header-item {
-        font-size: 0; /* Versteckt Originaltext */
-        position: relative;
-    }
-
-    .leaderboard-header .header-item::after {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #fff;
+        align-self: flex-start;
+        height: auto;
     }
 }
