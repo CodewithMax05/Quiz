@@ -25,37 +25,54 @@
                         </div>
                         
                         <!-- Top 10 Liste -->
-                        <div class="leaderboard-content">
-                            {% for player in top_players %}
-                            <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
-                                data-rank="{{ player_rank_map[player.id] }}"     
-                                data-user-id="{{ player.id }}"
-                                data-username="{{ player.username }}"
-                                data-avatar="{{ player.avatar }}"
-                                data-registered="{{ player.first_played|to_local_time }}"
-                                data-score="{{ player.highscore }}"
-                                data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_local_time }}{% endif %}"
-                                data-correct="{{ player.correct_high }}"
-                                data-games="{{ player.number_of_games }}"
-                                onclick="updatePlayerInfo(this)">
-                                <div class="leaderboard-cell position">
-                                    {% if loop.index == 1 %}🥇
-                                    {% elif loop.index == 2 %}🥈
-                                    {% elif loop.index == 3 %}🥉
-                                    {% else %}{{ loop.index }}{% endif %}
+                        <!-- Topliste mit Scrollcontainer -->
+                        <div id="leaderboard-scroll" class="leaderboard-scroll">
+                            <div class="leaderboard-content" id="leaderboard-content">
+                                {% for player in top_players %}
+                                <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
+                                    data-rank="{{ player_rank_map[player.id] }}"     
+                                    data-user-id="{{ player.id }}"
+                                    data-username="{{ player.username }}"
+                                    data-avatar="{{ player.avatar }}"
+                                    data-registered="{{ player.first_played|to_local_time }}"
+                                    data-score="{{ player.highscore }}"
+                                    data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_local_time }}{% endif %}"
+                                    data-correct="{{ player.correct_high }}"
+                                    data-games="{{ player.number_of_games }}"
+                                    onclick="updatePlayerInfo(this)">
+                                    <div class="leaderboard-cell position">
+                                        {% if loop.index == 1 %}🥇
+                                        {% elif loop.index == 2 %}🥈
+                                        {% elif loop.index == 3 %}🥉
+                                        {% else %}{{ loop.index }}{% endif %}
+                                    </div>
+                                    <div class="leaderboard-cell username">{{ player.username }}</div>
+                                    <div class="leaderboard-cell score">{{ player.highscore }}</div>
+                                    <div class="leaderboard-cell date">
+                                        {% if player.highscore_time %}
+                                            {{ player.highscore_time | to_local_time }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div class="leaderboard-cell username">{{ player.username }}</div>
-                                <div class="leaderboard-cell score">{{ player.highscore }}</div>
-                                <div class="leaderboard-cell date">
-                                    {% if player.highscore_time %}
-                                        {{ player.highscore_time | to_local_time }}
-                                    {% else %}
-                                        N/A
-                                    {% endif %}
-                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
                         </div>
+
+                        <!-- MEHR-Button -->
+                        <div class="mehr-button-container">
+                            <button id="load-more-button" class="mehr-button sound-button">
+                                MEHR
+                            </button>
+                        </div>
+
+
+
+
+
+
+
 
                         <!-- Eigene Platzierung -->
                         {% if current_player %}
@@ -323,5 +340,57 @@
                 createFlashMessage('JJJJJEin Fehler ist aufgetreten', 'error');
             }
         }
+
+
+
+
+
+
+
+        let currentPage = 1;
+        const leaderboardContent = document.getElementById("leaderboard-content");
+        const loadMoreButton = document.getElementById("load-more-button");
+
+        loadMoreButton.addEventListener("click", async () => {
+            currentPage++;
+            const response = await fetch(`/api/ranking_data?page=${currentPage}`);
+            if (!response.ok) return console.error("Fehler beim Laden weiterer Spieler");
+
+            const data = await response.json();
+
+            data.players.forEach(p => {
+                const row = document.createElement("div");
+                row.className = "leaderboard-row";
+                row.dataset.rank = p.rank;
+                row.dataset.userId = p.id;
+                row.dataset.username = p.username;
+                row.dataset.avatar = p.avatar;
+                row.dataset.score = p.highscore;
+                row.dataset.highscoreDate = p.highscore_time;
+
+                row.innerHTML = `
+                    <div class="leaderboard-cell position">${p.rank}</div>
+                    <div class="leaderboard-cell username">${p.username}</div>
+                    <div class="leaderboard-cell score">${p.highscore}</div>
+                    <div class="leaderboard-cell date">${p.highscore_time}</div>
+                `;
+                row.onclick = () => updatePlayerInfo(row);
+                leaderboardContent.appendChild(row);
+            });
+
+            if (!data.has_more) {
+                loadMoreButton.style.display = "none";
+            }
+        });
+
+
+        window.addEventListener("load", () => {
+            const firstRow = document.querySelector(".leaderboard-row");
+            const scrollContainer = document.getElementById("leaderboard-scroll");
+            if (firstRow && scrollContainer) {
+                const rowHeight = firstRow.offsetHeight;
+                scrollContainer.style.maxHeight = (rowHeight * 10) + "px";
+            }
+        });
     </script>
 {% endblock %}

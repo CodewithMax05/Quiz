@@ -1454,6 +1454,82 @@ def ranking():
         print(f"Datenbankfehler auf der Homepage: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
+    
+
+
+
+
+
+@app.route('/api/ranking_data')
+@login_required
+def api_ranking_data():
+    """Gibt paginierte Ranking-Daten als JSON zurück (10 Spieler pro Seite)."""
+    try:
+        # sichere Seitenzahl-Parsing
+        page_param = request.args.get('page', '1')
+        try:
+            page = max(1, int(page_param))
+        except ValueError:
+            page = 1
+
+        per_page = 10
+        offset = (page - 1) * per_page
+
+        # Basis-Query: Nur Spieler, die gespielt haben und einen Highscore besitzen
+        base_q = User.query.filter(User.first_played.isnot(None), User.highscore.isnot(None))
+
+        total_players = base_q.count()
+
+        players = base_q.order_by(
+            User.highscore.desc(),
+            User.highscore_time.asc(),
+            User.username.asc()
+        ).offset(offset).limit(per_page).all()
+
+        def format_local(utc_dt):
+            if not utc_dt:
+                return None
+            # gleiche Logik wie dein Template-Filter: UTC +2h
+            local = utc_dt + timedelta(hours=2)
+            return local.strftime('%d.%m.%Y %H:%M')
+
+        players_data = []
+        rank_start = offset + 1
+        for i, p in enumerate(players, start=rank_start):
+            players_data.append({
+                'rank': i,
+                'id': p.id,
+                'username': p.username,
+                'highscore': p.highscore,
+                'highscore_time': format_local(p.highscore_time) if p.highscore_time else None,
+                'avatar': p.avatar,
+                'number_of_games': p.number_of_games,
+                'correct_high': p.correct_high
+            })
+
+        has_more = (offset + len(players)) < total_players
+
+        return jsonify({
+            'players': players_data,
+            'has_more': has_more,
+            'total_players': total_players,
+            'page': page,
+            'per_page': per_page
+        })
+
+    except (SQLAlchemyError, OperationalError) as e:
+        app.logger.exception("Datenbankfehler in /api/ranking_data")
+        return jsonify({'error': 'Datenbankfehler. Bitte später erneut versuchen.'}), 500
+    except Exception as e:
+        app.logger.exception("Unerwarteter Fehler in /api/ranking_data")
+        return jsonify({'error': 'Unerwarteter Fehler.'}), 500
+
+
+
+
+
+
+
 
 @app.route('/api/search_player', methods=['POST'])
 @login_required

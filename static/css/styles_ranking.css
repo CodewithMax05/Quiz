@@ -441,3 +441,48 @@ body.ranking-page {
 .leaderboard-header.platzierung-header .header-item {
     white-space: nowrap;
 }
+
+
+
+
+
+/* 📜 Scrollbarer Bereich für Ranking */
+.leaderboard-scroll {
+    max-height: calc(10 * 2.1rem); /* 10 Zeilen sichtbar */
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Fixierter Tabellenkopf */
+.leaderboard-header.top-list-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(4px);
+}
+
+/* "MEHR"-Button */
+.mehr-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 0.8rem 0;
+}
+
+.mehr-button {
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.mehr-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
