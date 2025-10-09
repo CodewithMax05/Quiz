@@ -270,7 +270,7 @@ body.ranking-page {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* ===== INFOBUTTON MIT POPUP (wiederhergestellt) ===== */
+/* ===== INFOBUTTON MIT POPUP ===== */
 .player-info-title-row {
     display: flex;
     align-items: center;
@@ -347,12 +347,18 @@ body.ranking-page {
 
 /* 📱 MOBIL <770px */
 @media (max-width: 770px) {
+    .ranking-wrapper {
+        padding: 0 10px; /* 10px Abstand links & rechts */
+        box-sizing: border-box;
+    }
+
     .ranking-content {
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
         width: 100%;
         height: auto;
+        padding: 0; /* entfernt doppeltes Padding */
     }
 
     .ranking-title {
@@ -373,6 +379,13 @@ body.ranking-page {
         width: 100%;
         max-width: 100%;
         height: auto;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .player-info-card,
+    .back-button {
+        margin-right: 0;
     }
 
     .info-row {
@@ -396,10 +409,32 @@ body.ranking-page {
         justify-content: flex-start;
         gap: 1rem;
     }
+}
 
-    .ranking-column-left,
-    .ranking-column-right {
-        align-self: flex-start;
-        height: auto;
+
+
+@media (max-width: 600px) {
+    .leaderboard-header .header-item:nth-child(1)::after {
+        content: "Pl.";
+    }
+    .leaderboard-header .header-item:nth-child(2)::after {
+        content: "User";
+    }
+    .leaderboard-header .header-item:nth-child(3)::after {
+        content: "Pkt.";
+    }
+    .leaderboard-header .header-item:nth-child(4)::after {
+        content: "HS-Datum";
+    }
+
+    .leaderboard-header .header-item {
+        font-size: 0; /* Versteckt Originaltext */
+        position: relative;
+    }
+
+    .leaderboard-header .header-item::after {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #fff;
     }
 }
