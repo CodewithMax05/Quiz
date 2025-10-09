@@ -413,27 +413,31 @@ body.ranking-page {
 
 
 @media (max-width: 600px) {
-    .leaderboard-header .header-item:nth-child(1)::after {
+    .leaderboard-header.top-list-header .header-item:nth-child(1)::after {
         content: "Pl.";
     }
-    .leaderboard-header .header-item:nth-child(2)::after {
+    .leaderboard-header.top-list-header .header-item:nth-child(2)::after {
         content: "User";
     }
-    .leaderboard-header .header-item:nth-child(3)::after {
+    .leaderboard-header.top-list-header .header-item:nth-child(3)::after {
         content: "Pkt.";
     }
-    .leaderboard-header .header-item:nth-child(4)::after {
+    .leaderboard-header.top-list-header .header-item:nth-child(4)::after {
         content: "HS-Datum";
     }
 
-    .leaderboard-header .header-item {
+    .leaderboard-header.top-list-header .header-item {
         font-size: 0; /* Versteckt Originaltext */
         position: relative;
     }
 
-    .leaderboard-header .header-item::after {
+    .leaderboard-header.top-list-header .header-item::after {
         font-size: 0.9rem;
         font-weight: 600;
         color: #fff;
     }
+}
+
+.leaderboard-header.platzierung-header .header-item {
+    white-space: nowrap;
 }
