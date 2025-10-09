@@ -1,6 +1,5 @@
 /* 🌌 GLOBALSTIL & HINTERGRUND */
 
-
 /* Body speziell für Ranking */
 body.ranking-page {
     overflow-y: auto;    /* wichtig: Scrollen für mobile Ansicht */
@@ -12,20 +11,21 @@ body.ranking-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
+    justify-content: flex-start; /* Geändert von center zu flex-start */
+    gap: 10px; /* Reduzierter Abstand */
     width: 100%;
+    min-height: 100vh;
+    padding-top: 0.5rem; /* Weniger Padding oben */
 }
 
 .ranking-page .back-button {
     margin-bottom: 130px; /* 👈 zusätzlicher Abstand nach unten */
 }
 
-
 /* 💠 RANKING-LAYOUT */
 .ranking-title {
     text-align: center;
-    margin: 2rem 0 1.5rem 0;
+    margin: 0.5rem 0 0.5rem 0; /* Stark reduzierter Abstand */
     color: #ffffff;
     font-size: 2.2rem;
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.7);
@@ -34,8 +34,8 @@ body.ranking-page {
 .ranking-content {
     display: flex;
     flex-direction: row;
-    gap: 1.5rem;
-    margin-top: 2rem;
+    gap: 1rem; /* Reduzierter Gap */
+    margin-top: 0.5rem; /* Stark reduzierter Abstand */
     flex: 1;
     min-height: 0;
     padding: 0 1rem;
@@ -56,7 +56,7 @@ body.ranking-page {
     width: calc(100% - 1rem);
     margin-right: 0;
     padding-right: 0;
-    gap: 1rem;
+    gap: 0.8rem; /* Reduzierter Gap */
     position: relative;
 }
 
@@ -137,7 +137,7 @@ body.ranking-page {
 .leaderboard {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
-    padding: 0.8rem;
+    padding: 0.6rem; /* Reduziertes Padding */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     flex: 1;
     overflow: hidden;
@@ -148,7 +148,7 @@ body.ranking-page {
 .leaderboard-header {
     display: grid;
     grid-template-columns: 1fr 3fr 2fr 3fr;
-    padding: 0.5rem 0;
+    padding: 0.4rem 0; /* Reduziertes Padding */
     font-weight: 600;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -182,7 +182,7 @@ body.ranking-page {
 
 /* 📦 ZELLEN */
 .leaderboard-cell {
-    padding: 0.4rem;
+    padding: 0.3rem; /* Reduziertes Padding */
 }
 .position {
     font-size: 1.1rem;
@@ -212,7 +212,7 @@ body.ranking-page {
 .player-info-card {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
-    padding: 1rem;
+    padding: 0.8rem; /* Reduziertes Padding */
     margin-right: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -221,7 +221,7 @@ body.ranking-page {
 
 .player-info-card h3 {
     color: #8e2de2;
-    margin: 0.5rem 0;
+    margin: 0.3rem 0; /* Reduzierter Abstand */
     text-align: center;
     font-size: 1.3rem;
 }
@@ -229,14 +229,14 @@ body.ranking-page {
 .player-info-content {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    margin-top: 0.8rem;
+    gap: 0.5rem; /* Reduzierter Gap */
+    margin-top: 0.6rem; /* Reduzierter Abstand */
 }
 
 .info-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.4rem 0;
+    padding: 0.3rem 0; /* Reduziertes Padding */
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -288,8 +288,8 @@ body.ranking-page {
     justify-content: center;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 1rem;
-    margin-bottom: 0.6rem;
+    padding-bottom: 0.8rem; /* Reduziertes Padding */
+    margin-bottom: 0.4rem; /* Reduzierter Abstand */
 }
 
 .player-info-title-row .ranking-info-button {
@@ -359,13 +359,13 @@ body.ranking-page {
 /* 📱 RESPONSIVE DESIGN */
 @media (max-width: 768px) {
     .ranking-title {
-        margin: 1.8rem 0 1.2rem 0;
+        margin: 0.3rem 0 0.3rem 0; /* Reduzierter Abstand */
     }
     
     .ranking-content {
-        margin-top: 1.5rem;
+        margin-top: 0.3rem; /* Reduzierter Abstand */
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.8rem; /* Reduzierter Gap */
         padding: 0 1rem;
     }
     
@@ -421,11 +421,11 @@ body.ranking-page {
 
 @media (max-height: 700px) {
     .ranking-title {
-        margin: 1.5rem 0 1rem 0;
+        margin: 0.3rem 0 0.2rem 0; /* Stark reduzierter Abstand */
     }
     
     .ranking-content {
-        margin-top: 1.2rem;
+        margin-top: 0.2rem; /* Stark reduzierter Abstand */
     }
     
     .leaderboard-row {
@@ -434,7 +434,7 @@ body.ranking-page {
     }
     
     .leaderboard-cell {
-        padding: 0.3rem;
+        padding: 0.2rem; /* Reduziertes Padding */
     }
 }
 
