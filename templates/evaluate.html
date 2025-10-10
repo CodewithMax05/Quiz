@@ -23,9 +23,24 @@
         <!-- Haupt-Ergebnisbereich -->
         <div class="results-main">
             <div class="score-section">
-                <div class="score-circle">
-                    <div class="score-number">{{ score }}</div>
-                    <div class="score-label">Punkte</div>
+                <div class="score-circle" id="scoreCircle" data-score="{{ score }}" data-total="{{ total }}">
+                    <div class="circle-glass"></div>
+
+                    <!-- Wasser-Layer: Füllung, Wellen, Blasen -->
+                    <div class="water-layer" aria-hidden="true">
+                        <div class="waves">
+                            <div class="wave wave1"></div>
+                            <div class="wave wave2"></div>
+                        </div>
+
+                        <!-- bubble container: wird dynamisch mittels JS befüllt -->
+                        <div class="bubbles" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="score-content">
+                        <div class="score-number">{{ score }}</div>
+                        <div class="score-label">Punkte</div>
+                    </div>
                 </div>
                 
                 <div class="correct-answers">
@@ -86,15 +101,15 @@
 
             <!-- Highscore-Information -->
             <div class="highscore-section">
-                <div class="current-highscore">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Dein Highscore: <strong>{{ highscore }}</strong> Punkte</span>
-                </div>
-                
                 {% if new_highscore %}
                     <div class="new-highscore-badge">
                         <i class="fas fa-crown"></i>
                         <span>Neuer Rekord: {{ score }} Punkte!</span>
+                    </div>
+                {% else %}
+                    <div class="current-highscore">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dein Highscore: <strong>{{ highscore }}</strong> Punkte</span>
                     </div>
                 {% endif %}
             </div>
@@ -114,21 +129,93 @@
     </div>
 
     <script>
-        // Entferne das Quiz-Flag beim Beenden des Quiz
-        try { 
-            sessionStorage.removeItem('quiz_active'); 
-        } catch (e) {
-            console.warn('sessionStorage remove failed:', e);
-        }
+        try { sessionStorage.removeItem('quiz_active'); } catch (e) { console.warn(e); }
 
-        // Animation für Score-Circle
-        document.addEventListener('DOMContentLoaded', function() {
-            const scoreCircle = document.querySelector('.score-circle');
-            if (scoreCircle) {
-                setTimeout(() => {
-                    scoreCircle.classList.add('animate-score');
-                }, 500);
+        document.addEventListener('DOMContentLoaded', function () {
+        const scoreCircle = document.getElementById('scoreCircle');
+        if (!scoreCircle) return;
+
+        const score = parseInt(scoreCircle.dataset.score || '0', 10);
+        const total = parseInt(scoreCircle.dataset.total || '1', 10);
+        const maxScore = total * 100;
+        const fillPercentage = Math.max(0, Math.min((score / maxScore) * 100, 100));
+
+        // setze CSS-Variable für Füllhöhe falls benötigt
+        scoreCircle.style.setProperty('--fill-height', fillPercentage + '%');
+
+        // warte kurz, damit Layout gemessen werden kann
+        setTimeout(() => {
+            scoreCircle.classList.add('animate-fill');
+            if (fillPercentage > 5) scoreCircle.classList.add('has-waves');
+
+            const bubblesContainer = scoreCircle.querySelector('.bubbles');
+            bubblesContainer.innerHTML = '';
+
+            if (score >= 400) {
+            scoreCircle.classList.add('has-bubbles');
+
+            // Anzahl Blasen skalierend mit Score
+            const bubbleCount = Math.min(24, Math.max(6, Math.round(score / 200)));
+
+            // exakte Kreis-Höhe in px (Layout-sicher)
+            const circleRect = scoreCircle.getBoundingClientRect();
+            const circleHeightPx = circleRect.height || 200;
+
+            const globalMinPeak = 4; // in % of circle height, minimale Aufstiegsmöglichkeit
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const b = document.createElement('span');
+                b.className = 'bubble';
+
+                // zufällige Größe in px
+                const size = Math.round(6 + Math.random() * 12);
+                b.style.width = size + 'px';
+                b.style.height = size + 'px';
+
+                // horizontale Position
+                const left = (5 + Math.random() * 90).toFixed(2);
+                b.style.left = left + '%';
+
+                // Verzögerung und Dauer
+                const delay = (Math.random() * 6).toFixed(2) + 's';
+                const duration = (3.2 + Math.random() * 4.0).toFixed(2) + 's';
+
+                // Größe der Blase in Prozent der Kreis-Höhe
+                const sizePercent = (size / circleHeightPx) * 100;
+
+                //seitliche Bewegung
+                const wobblePx = ((Math.random() - 0.5) * 12).toFixed(2) + 'px'; // seitliche Verschiebung ±6px
+                const scale = (0.86 + Math.random() * 0.26).toFixed(2); // Skala 0.86 - 1.12
+
+                b.style.setProperty('--bubble-wobble', wobblePx);
+                b.style.setProperty('--bubble-scale', scale);
+
+                // berechne maxAllowed in % (fillPercentage minus Blasengröße minus Sicherheitsabstand)
+                let maxAllowed = fillPercentage - sizePercent - 1;
+                if (!isFinite(maxAllowed)) maxAllowed = globalMinPeak;
+                if (maxAllowed < globalMinPeak) maxAllowed = globalMinPeak;
+                if (maxAllowed > 92) maxAllowed = 92;
+
+                // zufälliger Peak in % zwischen globalMinPeak und maxAllowed
+                const peakPercent = (globalMinPeak + Math.random() * (maxAllowed - globalMinPeak));
+
+                // Wandle Peak% in px um und setze CSS-Variable in px
+                const peakPx = (peakPercent / 100) * circleHeightPx;
+                b.style.setProperty('--bubble-peak-px', Math.round(peakPx) + 'px');
+
+                // Setze sonstige Animations-Variablen
+                b.style.setProperty('--bubble-delay', delay);
+                b.style.setProperty('--bubble-duration', duration);
+                b.style.animationDelay = delay;
+                b.style.animationDuration = duration;
+
+                bubblesContainer.appendChild(b);
             }
+
+            } else {
+            scoreCircle.classList.remove('has-bubbles');
+            }
+        }, 80); // kurzer Timeout, damit Layoutgrößen verfügbar sind
         });
-    </script>
+        </script>
 {% endblock %}
