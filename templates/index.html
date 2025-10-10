@@ -12,7 +12,19 @@
         <form id="auth-form" method="post"> 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field" value="{{ saved_username }}">
-            <input type="password" name="password" placeholder="Password" class="input-field" required id="password-field" value="{{ saved_password }}">
+            <div class="input-wrap">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    class="input-field"
+                    required
+                    id="password-field"
+                    value="{{ saved_password }}">
+                <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
             <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
             <input type="button" value="Register" class="btn btn-register sound-button" onclick="submitForm('register')" id="register-btn">
         </form>
@@ -84,12 +96,38 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // --- existierender Cookie-Consent-Code bleibt unverändert ---
             const consent = getCookie('cookie_consent');
             const modal = document.getElementById('cookie-consent');
 
-            // Modal anzeigen, wenn Consent fehlt oder vorher abgelehnt wurde
             if (!consent || consent === 'false') {
                 if (modal) modal.style.display = 'flex';
+            }
+
+            // --- Passwort Toggle ---
+            const pwField = document.getElementById('password-field');
+            const pwToggle = document.querySelector('.pw-toggle');
+
+            if (pwField && pwToggle) {
+                pwToggle.addEventListener('click', function (e) {
+                    // optional: Sound abspielen, falls du das möchtest
+                    // playSound('clickSound');
+
+                    const isHidden = pwField.type === 'password';
+                    pwField.type = isHidden ? 'text' : 'password';
+                    pwToggle.setAttribute('aria-pressed', String(isHidden));
+
+                    const icon = pwToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-eye', !isHidden);      // wenn jetzt sichtbar -> eye
+                        icon.classList.toggle('fa-eye-slash', isHidden); // wenn jetzt verborgen -> eye-slash
+                        // Damit beim Start der Zustand konsistent ist:
+                        // wir erwarten initial <i class="fa-solid fa-eye"></i>, oben toggles passend.
+                    }
+                });
+
+                // Optional: verhindern, dass Doppelklick den Fokus stört
+                pwToggle.addEventListener('mousedown', function(e){ e.preventDefault(); });
             }
         });
     </script>
