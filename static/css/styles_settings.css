@@ -90,6 +90,8 @@ h1.headline {
     border: none;
     outline: none;
     box-sizing: border-box;
+    background: white !important;
+    color: black !important;
 }
 
 .setting-content button {
@@ -352,5 +354,90 @@ h1.headline {
     .avatar-selection-container h4 {
         font-size: 0.9rem;
         margin-bottom: 10px;
+    }
+}
+
+/* ==========================
+   Passwort Toggle Styling für Settings
+   ========================== */
+
+/* Wrapper für Input + Toggle */
+.input-wrap {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Input mit Platz für Toggle-Button */
+.input-wrap input[type="password"],
+.input-wrap input[type="text"] {
+    width: 100%;
+    padding-right: 50px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    /* klare, dunkle Textfarbe für sichtbaren Inhalt */
+    color: black !important;
+    background: white;
+}
+
+/* Toggle-Button - KEIN blauer Hintergrund */
+.pw-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px; /* Etwas näher am Rand */
+    transform: translateY(-50%);
+    border: none;
+    background: transparent !important; /* Wichtig: Kein Hintergrund */
+    color: black !important;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    outline: none;
+    padding: 0;
+}
+
+/* Hover-Effekt ohne blauen Hintergrund */
+.pw-toggle:hover,
+.pw-toggle:focus {
+    transform: translateY(-50%) scale(1.05);
+    color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pw-toggle i {
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+/* Stelle sicher, dass der Toggle-Button nicht die allgemeinen Button-Stile erbt */
+.setting-content .pw-toggle {
+    background: transparent !important;
+    width: auto;
+    position: absolute;
+}
+
+.setting-content .pw-toggle:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 480px) {
+    .input-wrap input[type="password"] {
+        padding-right: 45px;
+    }
+    
+    .pw-toggle {
+        width: 32px;
+        height: 32px;
+        right: 6px;
     }
 }

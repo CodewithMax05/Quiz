@@ -109,25 +109,31 @@
             const pwToggle = document.querySelector('.pw-toggle');
 
             if (pwField && pwToggle) {
-                pwToggle.addEventListener('click', function (e) {
-                    // optional: Sound abspielen, falls du das möchtest
-                    // playSound('clickSound');
+                // Verhindert, dass der Button-Klick den Fokus/den Cursor verschiebt
+                pwToggle.addEventListener('mousedown', function(e){ e.preventDefault(); });
 
+                pwToggle.addEventListener('click', function (e) {
                     const isHidden = pwField.type === 'password';
                     pwField.type = isHidden ? 'text' : 'password';
                     pwToggle.setAttribute('aria-pressed', String(isHidden));
 
                     const icon = pwToggle.querySelector('i');
                     if (icon) {
-                        icon.classList.toggle('fa-eye', !isHidden);      // wenn jetzt sichtbar -> eye
-                        icon.classList.toggle('fa-eye-slash', isHidden); // wenn jetzt verborgen -> eye-slash
-                        // Damit beim Start der Zustand konsistent ist:
-                        // wir erwarten initial <i class="fa-solid fa-eye"></i>, oben toggles passend.
+                        icon.classList.remove('fa-eye', 'fa-eye-slash');
+                        icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
                     }
-                });
 
-                // Optional: verhindern, dass Doppelklick den Fokus stört
-                pwToggle.addEventListener('mousedown', function(e){ e.preventDefault(); });
+                    // Fokussieren und Cursor immer ans Ende setzen (setTimeout um Browser-Quirks zu umgehen)
+                    pwField.focus();
+                    setTimeout(() => {
+                        try {
+                            const pos = pwField.value ? pwField.value.length : 0;
+                            pwField.setSelectionRange(pos, pos);
+                        } catch (err) {
+                            // Falls setSelectionRange fehlschlägt, nichts weiter tun
+                        }
+                    }, 0);
+                });
             }
         });
     </script>

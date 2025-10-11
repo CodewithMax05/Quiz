@@ -19,7 +19,12 @@
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <input type="text" name="current_username" placeholder="Aktueller Benutzername" value="" required>
                         <input type="text" name="new_username" placeholder="Neuer Benutzername" value="" required>
-                        <input type="password" name="password" placeholder="Passwort" value="" required>
+                        <div class="input-wrap">
+                            <input type="password" name="password" placeholder="Passwort" value="" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                         <button type="submit">Speichern</button>
                     </form>
                 </div>
@@ -33,9 +38,27 @@
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         
                         <input type="text" name="username" placeholder="Aktueller Benutzername" value="" required>
-                        <input type="password" name="current_password" placeholder="Aktuelles Passwort" value="" required>
-                        <input type="password" name="new_password" placeholder="Neues Passwort" value="" required>
-                        <input type="password" name="confirm_password" placeholder="Neues Passwort bestätigen" value="" required>
+                        
+                        <div class="input-wrap">
+                            <input type="password" name="current_password" placeholder="Aktuelles Passwort" value="" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="input-wrap">
+                            <input type="password" name="new_password" placeholder="Neues Passwort" value="" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="input-wrap">
+                            <input type="password" name="confirm_password" placeholder="Neues Passwort bestätigen" value="" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                         
                         <button type="submit">Speichern</button>
                     </form>
@@ -43,16 +66,21 @@
             </div>
 
             <!-- Avatar ändern -->
-            <!-- Avatar ändern -->
             <div class="setting-item">
                 <button class="setting-toggle">Avatar ändern <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="avatar-form">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         
-                       <!-- Eingabefelder für Benutzername und Passwort - OHNE SPEZIFISCHE KLASSE -->
+                       <!-- Eingabefelder für Benutzername und Passwort - JETZT MIT TOGGLE -->
                         <input type="text" id="avatar-username" name="username" placeholder="Benutzername" value="" required>
-                        <input type="password" id="avatar-password" name="password" placeholder="Passwort" value="" required>
+                        
+                        <div class="input-wrap">
+                            <input type="password" id="avatar-password" name="password" placeholder="Passwort" value="" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                         
                         <!-- Avatar Auswahl Bereich -->
                         <div class="avatar-selection-container">
@@ -92,7 +120,13 @@
                     <form id="delete-account-form" method="POST" action="{{ url_for('delete_account') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <input type="text" name="username" placeholder="Benutzername" value="" required>
-                        <input type="password" name="password" placeholder="Passwort" required>
+                        
+                        <div class="input-wrap">
+                            <input type="password" name="password" placeholder="Passwort" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
 
                         <p style="color: red; font-weight: bold; margin-top: 10px;">
                             Zum Löschen es Accounts <u>LÖSCHEN</u> eingeben:
@@ -294,6 +328,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Karussell beim Laden initialisieren
     initializeAvatarCarousel();
+
+    // --- Passwort Toggle für alle Passwort-Felder (wie im Index) ---
+    const pwToggles = document.querySelectorAll('.pw-toggle');
+
+    pwToggles.forEach(toggle => {
+        // verhindert, dass der Button-Klick den Fokus/den Caret verschiebt
+        toggle.addEventListener('mousedown', function(e) { e.preventDefault(); });
+
+        toggle.addEventListener('click', function(e) {
+            const pwField = this.parentElement.querySelector('input');
+            if (!pwField) return;
+
+            const isHidden = pwField.type === 'password';
+            // Toggle type
+            pwField.type = isHidden ? 'text' : 'password';
+            this.setAttribute('aria-pressed', String(isHidden));
+
+            // Icon sauber wechseln
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-eye', 'fa-eye-slash');
+                icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
+            }
+
+            // Fokussieren und Caret immer ans Ende setzen (setTimeout für Browser-Quirks)
+            pwField.focus();
+            setTimeout(() => {
+                try {
+                    const pos = pwField.value.length;
+                    pwField.setSelectionRange(pos, pos);
+                } catch (err) {
+                    // setSelectionRange kann in einigen seltenen Fällen fehlschlagen — dann ignorieren
+                }
+            }, 0);
+        });
+    });
 
     // Toggle für Einstellungen
     const toggles = document.querySelectorAll('.setting-toggle');
