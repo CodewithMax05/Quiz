@@ -33,8 +33,9 @@ body.playermenu-page {
 .title-bar {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 /* Überschrift */
@@ -43,10 +44,13 @@ body.playermenu-page {
     color: #ffffff;
     text-shadow: 0 0 15px rgba(142, 45, 226, 0.8);
     margin: 0;
+    text-align: center;
 }
 
 /* Zurück-Button */
 .back-circle-button {
+    position: absolute;
+    right: 0;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -372,6 +376,13 @@ body.playermenu-page {
     }
 }
 
+/* Modal Überschrift */
+.modal-title {
+    text-align: center;
+    margin: 0 0 1rem 0;
+    color: #fff;
+}
+
 /* Modal Hintergrund */
 .modal {
     display: none;
@@ -436,6 +447,14 @@ body.playermenu-page {
 .modal-buttons {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Zentrierte Buttons im Modal */
+.centered-buttons {
+    display: flex;
+    justify-content: center;
     gap: 10px;
     margin-top: 15px;
 }
