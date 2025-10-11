@@ -249,6 +249,33 @@
 					});
 				}
 			});
+
+			// zeit konvertieren
+			function formatIsoToLocal(iso) {
+				if (!iso) return null;
+				const d = new Date(iso);
+				if (isNaN(d)) return null;
+				const day = String(d.getDate()).padStart(2, '0');
+				const month = String(d.getMonth() + 1).padStart(2, '0');
+				const year = d.getFullYear();
+				const hours = String(d.getHours()).padStart(2, '0');
+				const mins = String(d.getMinutes()).padStart(2, '0');
+				return `${day}.${month}.${year} ${hours}:${mins}`;
+			}
+			function convertUtcTimeElements(root = document) {
+				root.querySelectorAll && root.querySelectorAll('time.utc-time').forEach(el => {
+					const iso = el.dataset.iso || el.getAttribute('datetime') || el.textContent.trim();
+					const formatted = formatIsoToLocal(iso);
+					if (formatted) {
+						el.textContent = formatted;
+						el.setAttribute('datetime', iso);
+						el.classList.remove('utc-time');
+						el.classList.add('utc-time-done');
+					}
+				});
+			}
+			document.addEventListener('DOMContentLoaded', () => convertUtcTimeElements());
+			// Kleine MutationObserver nur bei Bedarf (siehe ranking.html Beispiel)
 		</script>
 
 		<!-- Quiz-Schutz-Script -->

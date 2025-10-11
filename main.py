@@ -223,12 +223,16 @@ def get_or_create_timer(room_id):
         return active_timers[room_id]
 
 # Template-Filter für lokale Zeit
-@app.template_filter('to_local_time')
-def to_local_time(utc_time):
-    if utc_time is None:
-        return "Noch nicht gespielt"
-    local_time = utc_time + timedelta(hours=2)
-    return local_time.strftime('%d.%m.%Y %H:%M')
+@app.template_filter('to_iso')
+def to_iso(utc_dt):
+    if not utc_dt:
+        return ''  # leer, damit Template entscheiden kann (z.B. "Noch nicht gespielt")
+    # Sicherstellen, dass dt timezone-aware ist (UTC)
+    if utc_dt.tzinfo is None:
+        utc_dt = utc_dt.replace(tzinfo=timezone.utc)
+    else:
+        utc_dt = utc_dt.astimezone(timezone.utc)
+    return utc_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 # Automatische Datenbankinitialisierung beim App-Start
 def initialize_database():
@@ -1486,12 +1490,14 @@ def api_ranking_data():
             User.username.asc()
         ).offset(offset).limit(per_page).all()
 
-        def format_local(utc_dt):
+        def format_iso(utc_dt):
             if not utc_dt:
                 return None
-            # gleiche Logik wie dein Template-Filter: UTC +2h
-            local = utc_dt + timedelta(hours=2)
-            return local.strftime('%d.%m.%Y %H:%M')
+            if utc_dt.tzinfo is None:
+                utc_dt = utc_dt.replace(tzinfo=timezone.utc)
+            else:
+                utc_dt = utc_dt.astimezone(timezone.utc)
+            return utc_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
 
         players_data = []
         rank_start = offset + 1
@@ -1501,7 +1507,7 @@ def api_ranking_data():
                 'id': p.id,
                 'username': p.username,
                 'highscore': p.highscore,
-                'highscore_time': format_local(p.highscore_time) if p.highscore_time else None,
+                'highscore_time': format_iso(p.highscore_time) if p.highscore_time else None,
                 'avatar': p.avatar,
                 'number_of_games': p.number_of_games,
                 'correct_high': p.correct_high
@@ -1573,20 +1579,23 @@ def search_player():
         rank = next((idx for idx, p in enumerate(sorted_players, start=1) if p.id == user.id), None)
 
         # Helper-Funktion für lokale Zeit-Konvertierung
-        def to_local_time(utc_time):
-            if utc_time is None:
-                return "N/A"
-            local_time = utc_time + timedelta(hours=2)
-            return local_time.strftime('%d.%m.%Y %H:%M')
+        def to_iso_str(utc_time):
+            if not utc_time:
+                return None
+            if utc_time.tzinfo is None:
+                utc_time = utc_time.replace(tzinfo=timezone.utc)
+            else:
+                utc_time = utc_time.astimezone(timezone.utc)
+            return utc_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         
         return jsonify({
             'rank': rank if rank else "N/A",
             'username': user.username,
             'id': user.id,
-            'first_played': to_local_time(user.first_played) if user.first_played else "N/A",
+            'first_played': to_iso_str(user.first_played) if user.first_played else None,
             'number_of_games': user.number_of_games if user.number_of_games else 0,
             'highscore': user.highscore,
-            'highscore_time': to_local_time(user.highscore_time) if user.highscore_time else "N/A",
+            'highscore_time': to_iso_str(user.highscore_time) if user.highscore_time else None,
             'correct_high': user.correct_high
         })
     

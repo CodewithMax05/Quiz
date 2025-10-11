@@ -34,9 +34,9 @@
                                     data-user-id="{{ player.id }}"
                                     data-username="{{ player.username }}"
                                     data-avatar="{{ player.avatar }}"
-                                    data-registered="{{ player.first_played|to_local_time }}"
+                                    data-registered="{{ player.first_played|to_iso }}"
                                     data-score="{{ player.highscore }}"
-                                    data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_local_time }}{% endif %}"
+                                    data-highscore-date="{% if player.highscore_time %}{{ player.highscore_time|to_iso }}{% endif %}"
                                     data-correct="{{ player.correct_high }}"
                                     data-games="{{ player.number_of_games }}"
                                     onclick="updatePlayerInfo(this)">
@@ -50,7 +50,7 @@
                                     <div class="leaderboard-cell score">{{ player.highscore }}</div>
                                     <div class="leaderboard-cell date">
                                         {% if player.highscore_time %}
-                                            {{ player.highscore_time | to_local_time }}
+                                            <time class="utc-time" data-iso="{{ player.highscore_time | to_iso }}">Lädt...</time>
                                         {% else %}
                                             N/A
                                         {% endif %}
@@ -66,14 +66,6 @@
                                 MEHR
                             </button>
                         </div>
-
-
-
-
-
-
-
-
                         <!-- Eigene Platzierung -->
                         {% if current_player %}
                         <div class="leaderboard-header platzierung-header" style="margin-top: 1rem;">
@@ -87,9 +79,9 @@
                             data-user-id="{{ current_player.id }}"
                             data-username="{{ current_player.username }}"
                             data-avatar="{{ current_player.avatar }}"
-                            data-registered="{{ current_player.first_played|to_local_time }}"
+                            data-registered="{{ current_player.first_played|to_iso }}"
                             data-score="{{ current_player.highscore }}"
-                            data-highscore-date="{% if current_player.highscore_time %}{{ current_player.highscore_time|to_local_time }}{% endif %}"
+                            data-highscore-date="{% if current_player.highscore_time %}{{ current_player.highscore_time|to_iso }}{% endif %}"
                             data-correct="{{ current_player.correct_high }}"
                             data-games="{{ current_player.number_of_games }}"
                             onclick="updatePlayerInfo(this)">
@@ -101,7 +93,7 @@
                             <div class="leaderboard-cell score">{{ current_player.highscore }}</div>
                             <div class="leaderboard-cell date">
                                 {% if current_player and current_player.highscore_time %}
-                                    {{ current_player.highscore_time | to_local_time }}
+                                    <time class="utc-time" data-iso="{{ current_player.highscore_time | to_iso }}">Lädt...</time>
                                 {% else %}
                                     N/A
                                 {% endif %}
@@ -161,7 +153,11 @@
                             <div class="info-row">
                                 <span class="info-label">Registriert am:</span>
                                 <span id="info-registered" class="info-value">
-                                    {% if current_player %}{{ current_player.first_played|to_local_time }}{% else %}N/A{% endif %}
+                                    {% if current_player and current_player.first_played %}
+                                        <time class="utc-time" data-iso="{{ current_player.first_played|to_iso }}">Lädt...</time>
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
                                 </span>
                             </div>
                             <!-- NEUE ZEILE: Anzahl Spiele -->
@@ -177,7 +173,7 @@
                                 <span class="info-label">Highscoredatum:</span>
                                 <span id="info-highscore-date" class="info-value">
                                     {% if current_player and current_player.highscore_time %}
-                                        {{ current_player.highscore_time|to_local_time }}
+                                        <time class="utc-time" data-iso="{{ current_player.highscore_time|to_iso }}">Lädt...</time>
                                     {% else %}
                                         N/A
                                     {% endif %}
@@ -255,6 +251,54 @@
             window.createFlashMessage = createFlashMessage;
         });
 
+        /* --------------------------
+        Zeit-Konverter: ISO -> TT.MM.JJJJ HH:MM
+        -------------------------- */
+        function formatIsoToLocal(iso) {
+            if (!iso) return null;
+            // new Date parses the "YYYY-MM-DDTHH:MM:SSZ" as UTC and returns local Date object
+            const d = new Date(iso);
+            if (isNaN(d)) return null;
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            const hours = String(d.getHours()).padStart(2, '0');
+            const mins = String(d.getMinutes()).padStart(2, '0');
+            return `${day}.${month}.${year} ${hours}:${mins}`;
+        }
+
+        function convertUtcTimeElements(root = document) {
+            // konvertiert alle <time class="utc-time" data-iso="..."> unter root
+            root.querySelectorAll && root.querySelectorAll('time.utc-time').forEach(el => {
+                const iso = el.dataset.iso || el.getAttribute('datetime') || el.textContent.trim();
+                const formatted = formatIsoToLocal(iso);
+                if (formatted) {
+                    el.textContent = formatted;
+                    el.setAttribute('datetime', iso);
+                    el.classList.remove('utc-time');   // schützt vor doppelter Umwandlung
+                    el.classList.add('utc-time-done');
+                }
+            });
+        }
+
+        // Beim Laden einmal alle konvertieren
+        document.addEventListener('DOMContentLoaded', () => {
+            convertUtcTimeElements();
+
+            // Beobachte neue DOM-Knoten (z. B. nach "Load more" oder Suche)
+            const obs = new MutationObserver((mutations) => {
+                for (const m of mutations) {
+                    if (!m.addedNodes) continue;
+                    m.addedNodes.forEach(node => {
+                        if (node.nodeType !== Node.ELEMENT_NODE) return;
+                        if (node.matches && node.matches('time.utc-time')) convertUtcTimeElements(node);
+                        if (node.querySelectorAll && node.querySelectorAll('time.utc-time').length) convertUtcTimeElements(node);
+                    });
+                }
+            });
+            obs.observe(document.body, { childList: true, subtree: true });
+        });
+
         function updatePlayerInfo(row) {
             // Highlight aktive Zeile
             document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
@@ -265,10 +309,10 @@
             document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
             document.getElementById('info-username').textContent = row.dataset.username || "N/A";
             document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
-            document.getElementById('info-registered').textContent = row.dataset.registered || "N/A";
+            document.getElementById('info-registered').textContent = formatIsoToLocal(row.dataset.registered) || "N/A";
             document.getElementById('info-games').textContent = row.dataset.games || "0";
             document.getElementById('info-highscore').textContent = row.dataset.score || "0";
-            document.getElementById('info-highscore-date').textContent = row.dataset.highscoreDate || "N/A";
+            document.getElementById('info-highscore-date').textContent = formatIsoToLocal(row.dataset.highscoreDate) || "N/A";
             document.getElementById('info-correct').textContent = row.dataset.correct || "0";
             
             // Avatar aktualisieren
@@ -316,10 +360,10 @@
                 document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
                 document.getElementById('info-username').textContent = data.username || "N/A";
                 document.getElementById('info-id').textContent = data.id || "N/A";
-                document.getElementById('info-registered').textContent = data.first_played || "N/A";
+                document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
                 document.getElementById('info-games').textContent = data.number_of_games || "0";
                 document.getElementById('info-highscore').textContent = data.highscore || "0";
-                document.getElementById('info-highscore-date').textContent = data.highscore_time || "N/A";
+                document.getElementById('info-highscore-date').textContent = formatIsoToLocal(data.highscore_time) || "N/A";
                 document.getElementById('info-correct').textContent = data.correct_high || "0";
                 
                 // Avatar anzeigen
@@ -372,7 +416,7 @@
                     <div class="leaderboard-cell position">${p.rank}</div>
                     <div class="leaderboard-cell username">${p.username}</div>
                     <div class="leaderboard-cell score">${p.highscore}</div>
-                    <div class="leaderboard-cell date">${p.highscore_time}</div>
+                    <div class="leaderboard-cell date">${p.highscore_time ? `<time class="utc-time" data-iso="${p.highscore_time}">Lädt...</time>` : 'N/A'}</div>
                 `;
                 row.onclick = () => updatePlayerInfo(row);
                 leaderboardContent.appendChild(row);

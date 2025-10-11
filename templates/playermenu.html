@@ -32,7 +32,12 @@
                 <div class="username-box">
                     <h2 class="player-username">{{ username }}</h2>
                     <p class="player-info">
-                        Registriert am: {{ first_played.strftime('%d.%m.%Y %H:%M') if first_played else "Unbekannt" }}
+                        Registriert am:
+                        {% if first_played %}
+                            <time class="utc-time" data-iso="{{ first_played|to_iso }}">Lädt...</time>
+                        {% else %}
+                            Unbekannt
+                        {% endif %}
                     </p>
                     <p class="player-info">Anzahl Spiele: {{ number_of_games }}</p>
                     <p class="player-info">Highscore: {{ highscore }}</p>
