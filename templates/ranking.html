@@ -60,12 +60,6 @@
                             </div>
                         </div>
 
-                        <!-- MEHR-Button -->
-                        <div class="mehr-button-container">
-                            <button id="load-more-button" class="mehr-button sound-button">
-                                MEHR
-                            </button>
-                        </div>
                         <!-- Eigene Platzierung -->
                         {% if current_player %}
                         <div class="leaderboard-header platzierung-header" style="margin-top: 1rem;">
@@ -387,53 +381,12 @@
 
 
 
-
-
-
-
-        let currentPage = 1;
-        const leaderboardContent = document.getElementById("leaderboard-content");
-        const loadMoreButton = document.getElementById("load-more-button");
-
-        loadMoreButton.addEventListener("click", async () => {
-            currentPage++;
-            const response = await fetch(`/api/ranking_data?page=${currentPage}`);
-            if (!response.ok) return console.error("Fehler beim Laden weiterer Spieler");
-
-            const data = await response.json();
-
-            data.players.forEach(p => {
-                const row = document.createElement("div");
-                row.className = "leaderboard-row";
-                row.dataset.rank = p.rank;
-                row.dataset.userId = p.id;
-                row.dataset.username = p.username;
-                row.dataset.avatar = p.avatar;
-                row.dataset.score = p.highscore;
-                row.dataset.highscoreDate = p.highscore_time;
-
-                row.innerHTML = `
-                    <div class="leaderboard-cell position">${p.rank}</div>
-                    <div class="leaderboard-cell username">${p.username}</div>
-                    <div class="leaderboard-cell score">${p.highscore}</div>
-                    <div class="leaderboard-cell date">${p.highscore_time ? `<time class="utc-time" data-iso="${p.highscore_time}">Lädt...</time>` : 'N/A'}</div>
-                `;
-                row.onclick = () => updatePlayerInfo(row);
-                leaderboardContent.appendChild(row);
-            });
-
-            if (!data.has_more) {
-                loadMoreButton.style.display = "none";
-            }
-        });
-
-
         window.addEventListener("load", () => {
             const firstRow = document.querySelector(".leaderboard-row");
             const scrollContainer = document.getElementById("leaderboard-scroll");
             if (firstRow && scrollContainer) {
                 const rowHeight = firstRow.offsetHeight;
-                scrollContainer.style.maxHeight = (rowHeight * 10) + "px";
+                scrollContainer.style.maxHeight = (rowHeight * 12) + "px";
             }
         });
     </script>
