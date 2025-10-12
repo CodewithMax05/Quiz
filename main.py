@@ -834,8 +834,8 @@ def delete_account():
         return redirect(url_for('settings'))
 
     # 3. Bestätigung prüfen
-    if confirm_delete != "LÖSCHEN":
-        flash("Bitte schreibe exakt 'LÖSCHEN', um den Account zu löschen.", "error")
+    if confirm_delete != "Delete":
+        flash("Bitte schreibe exakt 'Delete', um den Account zu löschen.", "error")
         return redirect(url_for('settings'))
 
     # 4. Benutzer löschen
@@ -851,8 +851,8 @@ def delete_account():
 def clear_cookies():
     confirm_delete = request.form.get('confirm_delete', '').strip()
 
-    if confirm_delete != "LÖSCHEN":
-        flash("Bitte schreibe exakt 'LÖSCHEN', um die Cookies zu löschen.", "error")
+    if confirm_delete != "Delete":
+        flash("Bitte schreibe exakt 'Delete', um die Cookies zu löschen.", "error")
         return redirect(url_for('settings'))
 
     resp = redirect(url_for('settings'))
