@@ -1,3 +1,10 @@
+html, body {
+    display: block !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+}
+
 /* Wrapper nur für horizontale Zentrierung */
 .page-wrapper {
     min-height: 100vh;         /* mindestens Bildschirmhöhe */
@@ -6,6 +13,7 @@
     align-items: center;       /* vertikal zentrieren */
     padding: 10px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 /* Container-Box */
