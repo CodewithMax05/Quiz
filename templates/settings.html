@@ -365,19 +365,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Toggle für Einstellungen
+    // --- Toggle-Logik: Nur eine Box darf geöffnet sein ---
     const toggles = document.querySelectorAll('.setting-toggle');
+
     toggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector('i');
-            if(content.style.maxHeight){
+        toggle.addEventListener('click', function () {
+            const thisContent = this.nextElementSibling;
+            const thisIcon = this.querySelector('i');
+            const isOpen = thisContent.style.maxHeight; // aktuell offen?
+
+            // 🔹 Zuerst ALLE schließen (auch Icons zurückdrehen)
+            toggles.forEach(other => {
+                const content = other.nextElementSibling;
+                const icon = other.querySelector('i');
                 content.style.maxHeight = null;
                 icon.style.transform = 'rotate(0deg)';
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.style.transform = 'rotate(180deg)';
-                
+            });
+
+            // 🔹 Dann ggf. das angeklickte Element öffnen
+            if (!isOpen) {
+                thisContent.style.maxHeight = thisContent.scrollHeight + "px";
+                thisIcon.style.transform = 'rotate(180deg)';
+
                 // Wenn Avatar-Sektion geöffnet wird, Karussell neu initialisieren
                 if (this.textContent.includes('Avatar')) {
                     setTimeout(() => {
