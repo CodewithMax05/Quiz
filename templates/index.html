@@ -11,7 +11,7 @@
 
         <form id="auth-form" method="post"> 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field" value="{{ remembered_username }}">
+            <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field" value="{{ saved_username }}">
             <div class="input-wrap">
                 <input
                     type="password"
@@ -19,18 +19,12 @@
                     placeholder="Password"
                     class="input-field"
                     required
-                    id="password-field">
+                    id="password-field"
+                    value="{{ saved_password }}">
                 <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
-            
-            <!-- Remember Me Checkbox -->
-            <div class="remember-me">
-                <input type="checkbox" id="remember_me" name="remember_me" {{ 'checked' if remembered_username }}>
-                <label for="remember_me">Remember me</label>
-            </div>
-            
             <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
             <input type="button" value="Register" class="btn btn-register sound-button" onclick="submitForm('register')" id="register-btn">
         </form>
@@ -49,6 +43,19 @@
         </div>
     </div>
 
+    <!-- Cookie Consent Modal -->
+    <div id="cookie-consent" class="cookie-modal" style="display:none;">
+        <div class="cookie-content">
+            <h2>Cookie-Einstellungen</h2>
+            <p>Wir speichern keine persistenten Cookies ohne deine Zustimmung. 
+               Mit Zustimmung bleiben deine Login-Daten 30 Tage gespeichert.</p>
+            <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;">
+                <button type="button" class="btn-cookie-accept" onclick="acceptCookies()">Akzeptieren</button>
+                <button type="button" class="btn-cookie-decline" onclick="declineCookies()">Ablehnen</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function submitForm(action) {
             playSound('clickSound');
@@ -62,12 +69,47 @@
             }, 150);
         }
 
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days*24*60*60*1000));
+            document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/;SameSite=Lax";
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        function acceptCookies() {
+            playSound('clickSound');
+            setCookie('cookie_consent', 'true', 30);
+            document.getElementById('cookie-consent').style.display = 'none';
+            location.reload();
+        }
+
+        function declineCookies() {
+            playSound('clickSound');
+            setCookie('cookie_consent', 'false', 7); // Ablehnung: 7 Tage gültig
+            document.getElementById('cookie-consent').style.display = 'none';
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Passwort Toggle
+            // --- existierender Cookie-Consent-Code bleibt unverändert ---
+            const consent = getCookie('cookie_consent');
+            const modal = document.getElementById('cookie-consent');
+
+            if (!consent || consent === 'false') {
+                if (modal) modal.style.display = 'flex';
+            }
+
+            // --- Passwort Toggle ---
             const pwField = document.getElementById('password-field');
             const pwToggle = document.querySelector('.pw-toggle');
 
             if (pwField && pwToggle) {
+                // Verhindert, dass der Button-Klick den Fokus/den Cursor verschiebt
                 pwToggle.addEventListener('mousedown', function(e){ e.preventDefault(); });
 
                 pwToggle.addEventListener('click', function (e) {
@@ -81,12 +123,15 @@
                         icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
                     }
 
+                    // Fokussieren und Cursor immer ans Ende setzen (setTimeout um Browser-Quirks zu umgehen)
                     pwField.focus();
                     setTimeout(() => {
                         try {
                             const pos = pwField.value ? pwField.value.length : 0;
                             pwField.setSelectionRange(pos, pos);
-                        } catch (err) {}
+                        } catch (err) {
+                            // Falls setSelectionRange fehlschlägt, nichts weiter tun
+                        }
                     }, 0);
                 });
             }
