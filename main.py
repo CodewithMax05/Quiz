@@ -55,7 +55,6 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
     SESSION_REFRESH_EACH_REQUEST=True,  # Session-Cookie wird bei jeder Anfrage erneuert
-    PERMANENT_SESSION_LIFETIME=timedelta(days=30),
     SESSION_USE_SIGNER=True,
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
     SESSION_COOKIE_DOMAIN=None,
@@ -567,17 +566,14 @@ def index():
             room_id = session['quiz_data'].get('room_id')
             if room_id:
                 stop_timer(room_id)
-        # Session komplett löschen
         session.clear()
 
     # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
-    saved_username = request.cookies.get('saved_username', '')
-    saved_password = request.cookies.get('saved_password', '')
+    remembered_username = request.cookies.get('remembered_username', '')
 
     return render_template(
         'index.html',
-        saved_username=saved_username,
-        saved_password=saved_password
+        remembered_username=remembered_username
     )
 
 @app.route('/login', methods=['POST'])
@@ -597,22 +593,16 @@ def login():
 
         # Authentifiziert
         session['username'] = username
-
-        # Session permanent nur wenn Consent gesetzt
-        if request.cookies.get('cookie_consent') == 'true':
-            session.permanent = True
-        else:
-            session.permanent = False
+        session.permanent = False
 
         # Weiterleitung
         target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
         resp = redirect(url_for(target_endpoint))
 
         # Gespeicherte Login-Cookies nur wenn Consent vorhanden
-        if request.cookies.get('cookie_consent') == 'true':
+        if 'remember_me' in request.form and request.form['remember_me'] == 'on':
             max_age = 60 * 60 * 24 * 30  # 30 Tage
-            resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
-            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
+            resp.set_cookie('remembered_username', username, max_age=max_age, samesite='Lax')
 
         return resp
 
@@ -659,21 +649,15 @@ def register():
 
         # Direkt einloggen
         session['username'] = username
-
-        if request.cookies.get('cookie_consent') == 'true':
-            session.permanent = True
-        else:
-            session.permanent = False
+        session.permanent = False
 
         target_endpoint = 'admin_panel' if new_user.is_admin else 'playermenu'
         resp = redirect(url_for(target_endpoint))
 
-        # Login-Daten speichern nur bei Consent
-        if request.cookies.get('cookie_consent') == 'true':
+        if 'remember_me' in request.form and request.form['remember_me'] == 'on':
             max_age = 60 * 60 * 24 * 30  # 30 Tage
-            resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
-            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
-
+            resp.set_cookie('remembered_username', username, max_age=max_age, samesite='Lax')
+       
         return resp
 
     except (SQLAlchemyError, OperationalError) as e:
@@ -845,26 +829,6 @@ def delete_account():
 
     flash("Dein Account wurde dauerhaft gelöscht.", "success")
     return redirect(url_for('settings'))
-
-
-@app.route('/clear_cookies', methods=['POST'])
-def clear_cookies():
-    confirm_delete = request.form.get('confirm_delete', '').strip()
-
-    if confirm_delete != "Delete":
-        flash("Bitte schreibe exakt 'Delete', um die Cookies zu löschen.", "error")
-        return redirect(url_for('settings'))
-
-    resp = redirect(url_for('settings'))
-
-    # Alle relevanten Cookies löschen
-    cookies_to_delete = ['session', 'saved_username', 'saved_password', 'cookie_consent']
-    for cookie_name in cookies_to_delete:
-        resp.delete_cookie(cookie_name, path='/')
-
-    session.clear()
-    flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
-    return resp
 
 @app.route('/playermenu')
 @login_required

@@ -163,6 +163,26 @@ input.input-field:-moz-autofill {
     font-size: 1.05rem;
 }
 
+/* Remember Me Checkbox */
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0 20px;
+    color: white;
+    font-size: 0.95rem;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+}
+
+.remember-me label {
+    cursor: pointer;
+    user-select: none;
+}
+
 /* ==========================
    5. Buttons
    ========================== */
@@ -398,6 +418,11 @@ input.input-field:-moz-autofill {
         width: 36px;
         height: 36px;
         right: 10px;
+    }
+
+    .remember-me {
+        font-size: 0.9rem;
+        margin: 8px 0 16px;
     }
     
     h1 {
