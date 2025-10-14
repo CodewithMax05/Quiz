@@ -27,8 +27,6 @@ load_dotenv()
 app = Flask(__name__)
 csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren
 
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
-
 # WebSocket-Konfiguration für Render
 socketio = SocketIO(app, 
                    async_mode='gevent',
