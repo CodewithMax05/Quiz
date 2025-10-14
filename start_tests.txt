@@ -1,0 +1,5 @@
+# Alle Tests ausführen
+python -m pytest -v
+
+# Nur eine bestimmte Testdatei
+python -m pytest tests/test_index.py -v
