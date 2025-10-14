@@ -597,24 +597,11 @@ def login():
 
         # Authentifiziert
         session['username'] = username
-
-        # Session permanent nur wenn Consent gesetzt
-        if request.cookies.get('cookie_consent') == 'true':
-            session.permanent = True
-        else:
-            session.permanent = False
+        session.permanent = False
 
         # Weiterleitung
         target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
-        resp = redirect(url_for(target_endpoint))
-
-        # Gespeicherte Login-Cookies nur wenn Consent vorhanden
-        if request.cookies.get('cookie_consent') == 'true':
-            max_age = 60 * 60 * 24 * 30  # 30 Tage
-            resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
-            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
-
-        return resp
+        return redirect(url_for(target_endpoint))
 
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler beim Login: {str(e)}")
@@ -659,22 +646,10 @@ def register():
 
         # Direkt einloggen
         session['username'] = username
-
-        if request.cookies.get('cookie_consent') == 'true':
-            session.permanent = True
-        else:
-            session.permanent = False
+        session.permanent = False
 
         target_endpoint = 'admin_panel' if new_user.is_admin else 'playermenu'
-        resp = redirect(url_for(target_endpoint))
-
-        # Login-Daten speichern nur bei Consent
-        if request.cookies.get('cookie_consent') == 'true':
-            max_age = 60 * 60 * 24 * 30  # 30 Tage
-            resp.set_cookie('saved_username', username, max_age=max_age, samesite='Lax')
-            resp.set_cookie('saved_password', password, max_age=max_age, httponly=True, samesite='Lax')
-
-        return resp
+        return redirect(url_for(target_endpoint))
 
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()
@@ -845,26 +820,6 @@ def delete_account():
 
     flash("Dein Account wurde dauerhaft gelöscht.", "success")
     return redirect(url_for('settings'))
-
-
-@app.route('/clear_cookies', methods=['POST'])
-def clear_cookies():
-    confirm_delete = request.form.get('confirm_delete', '').strip()
-
-    if confirm_delete != "Delete":
-        flash("Bitte schreibe exakt 'Delete', um die Cookies zu löschen.", "error")
-        return redirect(url_for('settings'))
-
-    resp = redirect(url_for('settings'))
-
-    # Alle relevanten Cookies löschen
-    cookies_to_delete = ['session', 'saved_username', 'saved_password', 'cookie_consent']
-    for cookie_name in cookies_to_delete:
-        resp.delete_cookie(cookie_name, path='/')
-
-    session.clear()
-    flash("Alle Cookies wurden erfolgreich gelöscht. Du bist nun ausgeloggt.", "success")
-    return resp
 
 @app.route('/playermenu')
 @login_required
