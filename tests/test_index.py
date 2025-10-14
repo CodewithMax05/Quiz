@@ -94,7 +94,7 @@ class TestLoginMenu:
         # Überprüfe auf die exakte Flash-Nachricht aus Ihrer App
         assert b'Ung\xc3\xbcltige Anmeldedaten' in response.data
 
-    '''def test_login_fail_short_password(self, client):
+    def test_login_fail_short_password(self, client):
         """❌ Test: Fehlschlag beim Registrieren - Passwort zu kurz"""
         response = client.post('/register', data={
             'username': 'ShortPassUser',
@@ -103,9 +103,9 @@ class TestLoginMenu:
         
         assert response.status_code == 200
         # Genauer String-Vergleich mit der bekannten Fehlermeldung
-        assert b'Passwort muss mindestens 5 Zeichen haben' in response.data'''
+        assert b'Passwort muss mindestens 5 Zeichen haben' in response.data
     
-    '''def test_login_fail_short_password(self, client):
+    def test_login_fail_short_password(self, client):
         """❌ Test: Fehlschlag beim Registrieren - Passwort zu kurz"""
         client.post('/register', data={
             'username': 'ShortPassUser',
@@ -113,7 +113,7 @@ class TestLoginMenu:
         }, follow_redirects=True)
         
         messages = [msg for msg in get_flashed_messages()]
-        assert any("Passwort muss mindestens 5 Zeichen haben" in msg for msg in messages)'''
+        assert any("Passwort muss mindestens 5 Zeichen haben" in msg for msg in messages)
 
     def test_login_fail_long_username(self, client):
         """❌ Test: Fehlschlag beim Registrieren - Username zu lang"""
@@ -136,7 +136,7 @@ class TestLoginMenu:
         messages = [msg for msg in get_flashed_messages()]
         assert any("Bitte fülle alle Felder aus" in msg for msg in messages)
 
-    '''def test_empty_password_with_flash(self, client):
+    def test_empty_password_with_flash(self, client):
         """❌ Test: Fehlendes Passwort (Flash Message)"""
         client.post('/register', data={
             'username': 'TestUser',
@@ -155,4 +155,4 @@ class TestLoginMenu:
         
         messages = [msg for msg in get_flashed_messages()]
         assert any("Bitte fülle alle Felder aus" in msg for msg in messages)
-        assert len(messages) == 1  # Nur eine Fehlermeldung'''
+        assert len(messages) == 1  # Nur eine Fehlermeldung
