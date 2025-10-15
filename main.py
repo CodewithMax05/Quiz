@@ -467,8 +467,8 @@ def logout_required(f):
         if 'username' in session:
             # Benutzer ist angemeldet - Zugriff verweigern
             route_name = request.endpoint
-            if route_name == 'imprint':
-                flash('Impressum nur über Startseite erreichbar.', 'error')
+            if route_name == 'legal':
+                flash('Rechtliches nur über Startseite erreichbar.', 'error')
             elif route_name == 'settings':
                 flash('Einstellungen nur über Startseite erreichbar.', 'error')
             else:
@@ -1477,10 +1477,10 @@ def search_player():
         print(f"Unerwarteter Fehler in search_player: {str(e)}")
         return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
 
-@app.route('/imprint')
+@app.route('/legal')
 @logout_required 
-def imprint():
-    return render_template('imprint.html')
+def legal():
+    return render_template('legal.html')
 
 @app.route('/support', methods=['GET', 'POST'])
 @prevent_quiz_exit 

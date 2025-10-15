@@ -1,8 +1,0 @@
-# Alle Tests ausführen
-python -m pytest -v
-
-# Nur eine bestimmte Testdatei
-python -m pytest tests/test_index.py -v
-
-pytest==8.3.3
-Flask-Testing==0.9.3
