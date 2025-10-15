@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_index.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_popup.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<body data-show-popup="{{ 'true' if show_popup else 'false' }}" 
+      data-pending-registration="{{ 'true' if pending_registration_exists else 'false' }}" 
+      data-pending-login="{{ 'true' if pending_login_exists else 'false' }}">
+
+<div class="container"> 
+    <h1>Willkommen</h1>
+
+    <form id="auth-form" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="accepted" id="accepted-field" value="false">
+
+        <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field">
+
+        <div class="input-wrap">
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                class="input-field"
+                required
+                id="password-field">
+            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                <i class="fa-solid fa-eye"></i>
+            </button>
+        </div>
+
+        <input type="button" value="Login" class="btn btn-login sound-button" id="login-btn">
+        <input type="button" value="Register" class="btn btn-register sound-button" id="register-btn">
+    </form>
+
+    <div class="extra-buttons">
+        <a href="{{ url_for('settings') }}" class="round-button sound-button" aria-label="Einstellungen">
+            <i class="fas fa-cog"></i>
+        </a>
+        <a href="{{ url_for('legal') }}" class="round-button sound-button" aria-label="Rechtliches">
+            <i class="fas fa-scale-balanced"></i>
+        </a>
+        <a href="{{ url_for('support') }}" class="round-button sound-button" aria-label="Support">
+            <i class="fas fa-headset"></i>
+        </a>
+    </div>
+</div>
+
+<!-- ================= POPUP ================= -->
+<div class="popup-overlay" id="popup-overlay" style="display:none;">
+    <div class="popup-container">
+        <h2 class="popup-title">AGB & Datenschutz</h2>
+
+        <div class="settings-list">
+            <div class="setting-item">
+                <button class="setting-toggle">🧾 AGB <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    {% include 'agb_content.html' %}
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <button class="setting-toggle">🔒 Datenschutzerklärung <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    {% include 'privacy_content.html' %}
+                </div>
+            </div>
+        </div>
+
+        <div class="acceptance-section">
+            <label class="checkbox-container">
+                <input type="checkbox" id="accept-checkbox"> Ich akzeptiere die AGB und Datenschutzerklärung
+            </label>
+        </div>
+
+        <div class="popup-buttons">
+            <button id="accept-btn" class="btn btn-accept" disabled>Akzeptieren</button>
+            <button id="reject-btn" class="btn btn-reject">Ablehnen</button>
+        </div>
+    </div>
+</div>
+<!-- ========================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Elemente
+    const popup = document.getElementById("popup-overlay");
+    const acceptBtn = document.getElementById("accept-btn");
+    const rejectBtn = document.getElementById("reject-btn");
+    const checkbox = document.getElementById("accept-checkbox");
+    const form = document.getElementById("auth-form");
+    const acceptedField = document.getElementById("accepted-field");
+    const loginBtn = document.getElementById("login-btn");
+    const registerBtn = document.getElementById("register-btn");
+    const pwField = document.getElementById("password-field");
+    const pwToggle = document.querySelector(".pw-toggle");
+
+    const csrfInput = document.querySelector('input[name="csrf_token"]');
+    const csrfToken = csrfInput ? csrfInput.value : '';
+
+    // Flags vom server
+    const showPopup = document.body.dataset.showPopup === "true";
+    const hasPendingRegistration = document.body.dataset.pendingRegistration === "true";
+    const hasPendingLogin = document.body.dataset.pendingLogin === "true";
+
+    console.log("Popup-Flags:", { showPopup, hasPendingRegistration, hasPendingLogin });
+
+    // Passwort Toggle
+    if (pwField && pwToggle) {
+        pwToggle.addEventListener("mousedown", e => e.preventDefault());
+        pwToggle.addEventListener("click", () => {
+            const isHidden = pwField.type === "password";
+            pwField.type = isHidden ? "text" : "password";
+            pwToggle.setAttribute("aria-pressed", String(isHidden));
+            const icon = pwToggle.querySelector("i");
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
+            pwField.focus();
+        });
+    }
+
+    // Popup initial anzeigen/verstecken
+    if (showPopup) {
+        popup.style.display = "flex";
+    }
+
+    // Checkbox -> Accept aktivieren
+    checkbox.addEventListener("change", () => {
+        acceptBtn.disabled = !checkbox.checked;
+    });
+
+    // Ablehnen -> informiere Server (löscht pending_registration/pending_login)
+    rejectBtn.addEventListener("click", async () => {
+        try {
+            const resp = await fetch("/reject_acceptance", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({ csrf_token: csrfToken })
+            });
+            const data = await resp.json();
+            if (data && data.success) {
+                popup.style.display = "none";
+                alert("Du musst die AGB und Datenschutz akzeptieren, um fortzufahren!");
+                // Formular zurücksetzen
+                form.reset();
+            } else {
+                alert(data.error || "Fehler beim Ablehnen.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Netzwerkfehler beim Ablehnen.");
+        }
+    });
+
+    // Akzeptieren
+    acceptBtn.addEventListener("click", async () => {
+        if (!checkbox.checked) return;
+        
+        try {
+            let endpoint;
+            let requestData = { csrf_token: csrfToken };
+            
+            // Bestimme den richtigen Endpoint basierend auf dem Kontext
+            if (hasPendingRegistration) {
+                endpoint = "/finalize_registration";
+            } else if (hasPendingLogin) {
+                endpoint = "/accept_terms";
+            } else {
+                // Fallback
+                endpoint = "/accept_terms";
+            }
+            
+            console.log("Sende Anfrage an:", endpoint);
+            
+            const resp = await fetch(endpoint, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            const data = await resp.json();
+            console.log("Server-Antwort:", data);
+            
+            if (data && data.success) {
+                popup.style.display = "none";
+                window.location.href = data.redirect;
+            } else {
+                alert(data.error || "Fehler beim Akzeptieren.");
+            }
+        } catch (err) {
+            console.error("Netzwerkfehler:", err);
+            alert("Netzwerkfehler beim Akzeptieren.");
+        }
+    });
+
+    // Accordion für AGB/Datenschutz
+    const toggles = popup.querySelectorAll(".setting-toggle");
+    toggles.forEach(toggle => {
+        toggle.addEventListener("click", function() {
+            const content = this.nextElementSibling;
+            const icon = this.querySelector("i");
+            const isOpen = content.style.maxHeight;
+            
+            // Schließe alle anderen
+            toggles.forEach(other => {
+                if (other !== this) {
+                    other.nextElementSibling.style.maxHeight = null;
+                    other.querySelector("i").style.transform = "rotate(0deg)";
+                }
+            });
+            
+            // Öffne/Schließe aktuelles
+            if (!isOpen) {
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = "rotate(180deg)";
+            } else {
+                content.style.maxHeight = null;
+                icon.style.transform = "rotate(0deg)";
+            }
+        });
+    });
+
+    // Login Button - direktes Absenden
+    loginBtn.addEventListener("click", e => {
+        e.preventDefault();
+        if (!hasPendingRegistration && !hasPendingLogin) {
+            // Normales Login ohne Popup
+            form.action = "/login";
+            form.method = "post";
+            acceptedField.value = "false"; // Wird erst bei Akzeptieren auf true gesetzt
+            form.submit();
+        }
+    });
+
+    // Register Button - direktes Absenden (löst Popup aus)
+    registerBtn.addEventListener("click", e => {
+        e.preventDefault();
+        if (!hasPendingRegistration && !hasPendingLogin) {
+            // Normale Registrierung (löst Popup aus)
+            form.action = "/register";
+            form.method = "post";
+            acceptedField.value = "false"; // Wird erst bei Akzeptieren auf true gesetzt
+            form.submit();
+        }
+    });
+});
+</script>
+</body>
+{% endblock %}
