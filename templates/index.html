@@ -6,12 +6,20 @@
 {% endblock %}
 
 {% block body %}    
-    <div class="container"> 
+    <div class="container"
+     data-show-agb-modal="{{ 'true' if show_agb_modal else 'false' }}"
+     data-agb-action="{{ agb_action or '' }}">
         <h1>Willkommen</h1>
 
         <form id="auth-form" method="post"> 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="text" name="username" placeholder="Username" class="input-field" required id="username-field">
+            <input type="text" 
+                   name="username" 
+                   placeholder="Username" 
+                   class="input-field" 
+                   required 
+                   id="username-field" 
+                   value="{{ pending_registration.username if pending_registration else '' }}">
             <div class="input-wrap">
                 <input
                     type="password"
@@ -19,7 +27,8 @@
                     placeholder="Password"
                     class="input-field"
                     required
-                    id="password-field">
+                    id="password-field"
+                    value="{{ pending_registration.password if pending_registration else '' }}">
                 <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
                     <i class="fa-solid fa-eye"></i>
                 </button>
@@ -42,17 +51,107 @@
         </div>
     </div>
 
+    <!-- ================= POPUP ================= -->
+    <div class="popup-overlay" id="popup-overlay" style="display:none;">
+        <div class="popup-container">
+            <h2 class="popup-title">AGB & Datenschutz</h2>
+
+            <div class="settings-list">
+                <div class="setting-item">
+                    <button class="setting-toggle">🧾 AGB <i class="fa fa-chevron-down"></i></button>
+                    <div class="setting-content">
+                        {% include 'agb_content.html' %}
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <button class="setting-toggle">🔒 Datenschutzerklärung <i class="fa fa-chevron-down"></i></button>
+                    <div class="setting-content">
+                        {% include 'privacy_content.html' %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-section">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="accept-checkbox"> Ich akzeptiere die AGB und Datenschutzerklärung
+                </label>
+            </div>
+
+            <div class="popup-buttons">
+                <button id="accept-btn" class="popbtn btn-accept" disabled>Akzeptieren</button>
+                <button id="reject-btn" class="popbtn btn-reject">Ablehnen</button>
+            </div>
+        </div>
+    </div>
+    <!-- ========================================== -->
+
     <script>
         function submitForm(action) {
             playSound('clickSound');
-            setTimeout(() => {
+            
+            if (action === 'register') {
                 const form = document.getElementById('auth-form');
-                form.action = action === 'login' 
-                    ? "{{ url_for('login') }}" 
-                    : "{{ url_for('register') }}";
+                form.action = "{{ url_for('register') }}";
                 form.method = "post";
                 form.submit();
-            }, 150);
+            } else if (action === 'login') {
+                // Für Login das Formular direkt abschicken
+                // Das Backend entscheidet ob Modal nötig ist
+                const form = document.getElementById('auth-form');
+                form.action = "{{ url_for('login') }}";
+                form.method = "post";
+                form.submit();
+            }
+        }
+
+        function showAgbModal(action) {
+            document.getElementById('popup-overlay').style.display = 'flex';
+            // Speichere die Aktion für später
+            document.getElementById('popup-overlay').dataset.action = action;
+        }
+
+        function handleAgbResponse(accepted) {
+            const action = document.getElementById('popup-overlay').dataset.action;
+            
+            if (accepted) {
+                if (action === 'register') {
+                    // Für Registrierung: Formular mit AGB-Flag abschicken
+                    const form = document.getElementById('auth-form');
+                    let agbInput = document.createElement('input');
+                    agbInput.type = 'hidden';
+                    agbInput.name = 'agb_accepted';
+                    agbInput.value = 'true';
+                    form.appendChild(agbInput);
+                    form.action = "{{ url_for('register') }}";
+                    form.method = "post";
+                    form.submit();
+                } else if (action === 'login') {
+                    // Für Login: Spezielle Route für AGB-Akzeptierung aufrufen
+                    const form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = "{{ url_for('accept_agb') }}";
+                    
+                    // CSRF Token hinzufügen
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = 'csrf_token';
+                    csrfToken.value = "{{ csrf_token() }}";
+                    form.appendChild(csrfToken);
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            } else {
+                // Wenn abgelehnt, Flash-Nachricht anzeigen und Modal schließen
+                document.getElementById('popup-overlay').style.display = 'none';
+                
+                if (action === 'register') {
+                    createFlashMessage('Um sich zu registrieren, müssen Sie den AGB und der Datenschutzerklärung zustimmen.', 'error');
+                } else {
+                    createFlashMessage('Um sich anzumelden, müssen Sie den AGB und der Datenschutzerklärung zustimmen.', 'error');
+                }
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -61,32 +160,95 @@
             const pwToggle = document.querySelector('.pw-toggle');
 
             if (pwField && pwToggle) {
-                // Verhindert, dass der Button-Klick den Fokus/den Cursor verschiebt
                 pwToggle.addEventListener('mousedown', function(e){ e.preventDefault(); });
-
                 pwToggle.addEventListener('click', function (e) {
                     const isHidden = pwField.type === 'password';
                     pwField.type = isHidden ? 'text' : 'password';
                     pwToggle.setAttribute('aria-pressed', String(isHidden));
-
                     const icon = pwToggle.querySelector('i');
                     if (icon) {
                         icon.classList.remove('fa-eye', 'fa-eye-slash');
                         icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
                     }
-
-                    // Fokussieren und Cursor immer ans Ende setzen (setTimeout um Browser-Quirks zu umgehen)
                     pwField.focus();
                     setTimeout(() => {
                         try {
                             const pos = pwField.value ? pwField.value.length : 0;
                             pwField.setSelectionRange(pos, pos);
-                        } catch (err) {
-                            // Falls setSelectionRange fehlschlägt, nichts weiter tun
-                        }
+                        } catch (err) {}
                     }, 0);
                 });
             }
+
+            // --- AGB Modal Logik ---
+            const acceptCheckbox = document.getElementById('accept-checkbox');
+            const acceptBtn = document.getElementById('accept-btn');
+            const rejectBtn = document.getElementById('reject-btn');
+            const popupOverlay = document.getElementById('popup-overlay');
+
+            // Prüfe ob Modal beim Laden angezeigt werden soll (für Login-Fälle)
+            const container = document.querySelector('.container');
+            const shouldShowAgbModal = container && container.getAttribute('data-show-agb-modal') === 'true';
+            const agbAction = container && container.getAttribute('data-agb-action');
+            
+            if (shouldShowAgbModal) {
+                showAgbModal(agbAction ? agbAction : 'login');
+            }
+
+            if (acceptCheckbox && acceptBtn) {
+                acceptCheckbox.addEventListener('change', function() {
+                    acceptBtn.disabled = !this.checked;
+                });
+
+                acceptBtn.addEventListener('click', function() {
+                    if (acceptCheckbox.checked) {
+                        handleAgbResponse(true);
+                    }
+                });
+
+                rejectBtn.addEventListener('click', function() {
+                    handleAgbResponse(false);
+                });
+            }
+
+            // --- Accordion Logik für AGB Inhalte ---
+            const accordionToggles = document.querySelectorAll('.setting-toggle');
+            accordionToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+                    
+                    // Schließe alle anderen
+                    document.querySelectorAll('.setting-content').forEach(item => {
+                        if (item !== content) {
+                            item.style.maxHeight = '0px';
+                            const otherIcon = item.previousElementSibling.querySelector('i');
+                            if (otherIcon) {
+                                otherIcon.style.transform = 'rotate(0deg)';
+                            }
+                        }
+                    });
+
+                    // Öffne/Schließe aktuelles
+                    if (isOpen) {
+                        content.style.maxHeight = '0px';
+                        if (icon) {
+                            icon.style.transform = 'rotate(0deg)';
+                        }
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        if (icon) {
+                            icon.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                });
+            });
+
+            // Initialisiere Accordions als geschlossen
+            document.querySelectorAll('.setting-content').forEach(content => {
+                content.style.maxHeight = '0px';
+            });
         });
     </script>
 {% endblock %}

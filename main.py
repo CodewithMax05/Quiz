@@ -73,8 +73,9 @@ class User(db.Model):
     correct_high = db.Column(db.Integer, default=0)
     first_played = db.Column(db.DateTime)  
     is_admin = db.Column(db.Boolean, default=False)
-    avatar = db.Column(db.String(200), default="avatar0.png")  # <-- Avatar-Bild
+    avatar = db.Column(db.String(200), default="avatar0.png")
     number_of_games = db.Column(db.Integer, default=0)
+    agb_accepted = db.Column(db.Boolean, default=False)
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -570,8 +571,25 @@ def index():
         # Session komplett löschen
         session.clear()
 
+    # Prüfe ob AGB Modal gezeigt werden soll
+    show_agb_modal = request.args.get('show_agb_modal') == 'true'
+
+    # Ermittle, ob es ein pending für registration oder login gibt
+    pending_registration = session.get('pending_registration')
+    pending_login = session.get('pending_login')
+
+    agb_action = None
+    if show_agb_modal:
+        if pending_registration:
+            agb_action = 'register'
+        elif pending_login:
+            agb_action = 'login'
+
     return render_template(
-        'index.html'
+        'index.html',
+        show_agb_modal=show_agb_modal,
+        agb_action=agb_action,
+        pending_registration=pending_registration
     )
 
 @app.route('/login', methods=['POST'])
@@ -579,6 +597,7 @@ def login():
     try:
         username = request.form['username'].strip()
         password = request.form['password'].strip()
+        agb_accepted = request.form.get('agb_accepted', 'false') == 'true'
 
         if not username or not password:
             flash('Bitte fülle alle Felder aus', 'error')
@@ -588,14 +607,31 @@ def login():
         if not user or not user.check_password(password):
             flash('Ungültige Anmeldedaten', 'error')
             return redirect(url_for('index'))
-
-        # Authentifiziert
-        session['username'] = username
-        session.permanent = False
-
-        # Weiterleitung
-        target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
-        return redirect(url_for(target_endpoint))
+        
+        # Prüfe ob AGBs bereits akzeptiert wurden
+        if user.agb_accepted:
+            # AGBs bereits akzeptiert - normaler Login
+            session['username'] = username
+            session.permanent = False
+            target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
+            return redirect(url_for(target_endpoint))
+        else:
+            # AGBs noch nicht akzeptiert - prüfe ob in diesem Login akzeptiert
+            if agb_accepted:
+                # AGBs wurden in diesem Login akzeptiert
+                user.agb_accepted = True
+                db.session.commit()
+                session['username'] = username
+                session.permanent = False
+                target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
+                return redirect(url_for(target_endpoint))
+            else:
+                # AGBs noch nicht akzeptiert - zeige Modal
+                session['pending_login'] = {
+                    'username': username,
+                    'password': password
+                }
+                return redirect(url_for('index', show_agb_modal='true'))
 
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler beim Login: {str(e)}")
@@ -611,6 +647,7 @@ def register():
     try:
         username = request.form['username'].strip()
         password = request.form['password'].strip()
+        agb_accepted = request.form.get('agb_accepted') == 'true' 
 
         # Validierungen
         if not username or not password:
@@ -628,11 +665,21 @@ def register():
         if len(password) < 5:
             flash('Passwort muss mindestens 5 Zeichen haben!', 'error')
             return redirect(url_for('index'))
+        
+        # Prüfe AGB-Akzeptierung
+        if not agb_accepted:
+            # Speichere die bereits validierten Daten für das Modal
+            session['pending_registration'] = {
+                'username': username,
+                'password': password
+            }
+            return redirect(url_for('index', show_agb_modal='true'))
 
         # Benutzer anlegen
         new_user = User(
             username=username,
-            first_played=datetime.now(timezone.utc)
+            first_played=datetime.now(timezone.utc),
+            agb_accepted=True 
         )
         new_user.set_password(password)
         db.session.add(new_user)
@@ -666,6 +713,38 @@ def register():
         db.session.rollback()
         print(f"Unerwarteter Fehler bei der Registrierung: {str(e)}")
         flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
+        return redirect(url_for('index'))
+    
+@app.route('/accept_agb', methods=['POST'])
+def accept_agb():
+    try:
+        if 'pending_login' not in session:
+            flash('Sitzung abgelaufen. Bitte melden Sie sich erneut an.', 'error')
+            return redirect(url_for('index'))
+        
+        login_data = session['pending_login']
+        user = User.query.filter_by(username=login_data['username']).first()
+        
+        if not user or not user.check_password(login_data['password']):
+            flash('Ungültige Anmeldedaten', 'error')
+            session.pop('pending_login', None)
+            return redirect(url_for('index'))
+        
+        # Aktualisiere AGB-Status
+        user.agb_accepted = True
+        db.session.commit()
+        
+        # Logge den Benutzer ein
+        session['username'] = user.username
+        session.pop('pending_login', None)
+        session.permanent = False
+
+        target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
+        return redirect(url_for(target_endpoint))
+        
+    except Exception as e:
+        print(f"Fehler bei AGB-Akzeptierung: {str(e)}")
+        flash('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.', 'error')
         return redirect(url_for('index'))
 
 @app.route("/settings")
