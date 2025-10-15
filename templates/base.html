@@ -28,11 +28,12 @@
 			<source src="{{ url_for('static', filename='sounds/button_klick_1.mp3') }}" type="audio/mpeg">
 		</audio>
 
+		<!-- Titel ändern -->
+		<title>Clash under Minds</title>
+
 		{%block head%}
 
 		{% endblock %}
-		<!--Titel ändern?-->
-		<title>Clash of Minds</title>
 	</head>
 	<body data-was-correct="{{ 'true' if was_correct else 'false' }}" 
 		  data-is-logged-in="{{ 'true' if is_logged_in else 'false' }}"

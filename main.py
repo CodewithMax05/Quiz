@@ -570,14 +570,8 @@ def index():
         # Session komplett löschen
         session.clear()
 
-    # Gespeicherte Login-Daten (falls vorhanden und Consent gegeben wurde)
-    saved_username = request.cookies.get('saved_username', '')
-    saved_password = request.cookies.get('saved_password', '')
-
     return render_template(
-        'index.html',
-        saved_username=saved_username,
-        saved_password=saved_password
+        'index.html'
     )
 
 @app.route('/login', methods=['POST'])
