@@ -27,14 +27,13 @@
                     placeholder="Password"
                     class="input-field"
                     required
-                    id="password-field"
-                    value="{{ pending_registration.password if pending_registration else '' }}">
+                    id="password-field">
                 <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
             <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
-            <input type="button" value="Register" class="btn btn-register sound-button" onclick="submitForm('register')" id="register-btn">
+            <input type="button" value="Register" class="btn btn-register sound-button" onclick="prepareRegister()" id="register-btn">
         </form>
 
         <!-- Neue Button-Gruppe -->
@@ -152,6 +151,78 @@
                     createFlashMessage('Um sich anzumelden, müssen Sie den AGB und der Datenschutzerklärung zustimmen.', 'error');
                 }
             }
+        }
+
+        async function isUsernameAvailable(username) {
+            // ruft serverseitigen Endpoint ab, der JSON {available: true/false, message?: "..."} liefert
+            const url = "{{ url_for('check_username') }}?username=" + encodeURIComponent(username);
+            try {
+                const resp = await fetch(url, { method: 'GET', credentials: 'same-origin' });
+                if (!resp.ok) {
+                    // Bei Netzwerk-/Serverfehlern lieber den Nutzer informieren
+                    return { available: false, message: 'Serverfehler beim Prüfen des Benutzernamens.' };
+                }
+                return await resp.json();
+            } catch (err) {
+                return { available: false, message: 'Netzwerkfehler beim Prüfen des Benutzernamens.' };
+            }
+        }
+
+        async function prepareRegister() {
+            playSound && playSound('clickSound');
+
+            const usernameField = document.getElementById('username-field');
+            const passwordField = document.getElementById('password-field');
+
+            const username = usernameField ? usernameField.value.trim() : '';
+            const password = passwordField ? passwordField.value : '';
+
+            // Clientseitige Grundvalidierung
+            if (!username || !password) {
+                (typeof createFlashMessage === 'function') ?
+                    createFlashMessage('Bitte fülle alle Felder aus', 'error') :
+                    alert('Bitte fülle alle Felder aus');
+                return;
+            }
+            if (username.length > 12) {
+                (typeof createFlashMessage === 'function') ?
+                    createFlashMessage('Benutzername darf maximal 12 Zeichen haben', 'error') :
+                    alert('Benutzername darf maximal 12 Zeichen haben');
+                return;
+            }
+            if (password.length < 5) {
+                (typeof createFlashMessage === 'function') ?
+                    createFlashMessage('Passwort muss mindestens 5 Zeichen haben!', 'error') :
+                    alert('Passwort muss mindestens 5 Zeichen haben!');
+                return;
+            }
+
+            // Disable Button während Prüfung (UX)
+            const registerBtn = document.getElementById('register-btn');
+            if (registerBtn) registerBtn.disabled = true;
+
+            const result = await isUsernameAvailable(username);
+
+            if (registerBtn) registerBtn.disabled = false;
+
+            if (!result.available) {
+                // Benutzername belegt — Modal nicht öffnen
+                if (result.message) {
+                    (typeof createFlashMessage === 'function') ?
+                        createFlashMessage(result.message, 'error') :
+                        alert(result.message);
+                } else {
+                    (typeof createFlashMessage === 'function') ?
+                        createFlashMessage('Benutzername bereits vergeben.', 'error') :
+                        alert('Benutzername bereits vergeben.');
+                }
+                // optional: fokus auf username feld
+                if (usernameField) usernameField.focus();
+                return;
+            }
+
+            // alles ok -> Modal öffnen wie gehabt
+            showAgbModal('register');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

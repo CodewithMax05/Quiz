@@ -31,8 +31,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # WebSocket-Konfiguration für Render
 socketio = SocketIO(app, 
-                   async_mode='gevent',
-                   cors_allowed_origins="*", 
+                   async_mode='gevent', 
                    manage_session=False,
                    logger=True,  # Für Debugging aktivieren
                    engineio_logger=True,  # Für Debugging aktivieren
@@ -628,8 +627,8 @@ def login():
             else:
                 # AGBs noch nicht akzeptiert - zeige Modal
                 session['pending_login'] = {
-                    'username': username,
-                    'password': password
+                    'user_id': user.id,
+                    'username': user.username
                 }
                 return redirect(url_for('index', show_agb_modal='true'))
 
@@ -669,10 +668,7 @@ def register():
         # Prüfe AGB-Akzeptierung
         if not agb_accepted:
             # Speichere die bereits validierten Daten für das Modal
-            session['pending_registration'] = {
-                'username': username,
-                'password': password
-            }
+            session['pending_registration'] = { 'username': username }
             return redirect(url_for('index', show_agb_modal='true'))
 
         # Benutzer anlegen
@@ -688,6 +684,8 @@ def register():
         # Direkt einloggen
         session['username'] = username
         session.permanent = False
+
+        #session.pop('pending_registration', None)
 
         target_endpoint = 'admin_panel' if new_user.is_admin else 'playermenu'
         return redirect(url_for(target_endpoint))
@@ -715,19 +713,41 @@ def register():
         flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
         return redirect(url_for('index'))
     
+@app.route('/check_username', methods=['GET'])
+def check_username():
+    username = (request.args.get('username') or '').strip()
+    if not username:
+        return jsonify({'available': False, 'message': 'Bitte gib einen Benutzernamen an.'}), 400
+    if len(username) > 12:
+        return jsonify({'available': False, 'message': 'Benutzername darf maximal 12 Zeichen haben.'}), 200
+
+    # Normale Prüfung in DB
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return jsonify({'available': False, 'message': 'Benutzername bereits vergeben.'}), 200
+
+    return jsonify({'available': True}), 200
+
+    
 @app.route('/accept_agb', methods=['POST'])
 def accept_agb():
     try:
-        if 'pending_login' not in session:
+        pending = session.get('pending_login')
+        if not pending:
             flash('Sitzung abgelaufen. Bitte melden Sie sich erneut an.', 'error')
             return redirect(url_for('index'))
         
-        login_data = session['pending_login']
-        user = User.query.filter_by(username=login_data['username']).first()
-        
-        if not user or not user.check_password(login_data['password']):
-            flash('Ungültige Anmeldedaten', 'error')
+        # Benutzer per ID holen (sichere Methode)
+        user = None
+        user_id = pending.get('user_id')
+        if user_id:
+            user = User.query.get(user_id)
+        else:
+            user = User.query.filter_by(username=pending.get('username')).first()
+
+        if not user:
             session.pop('pending_login', None)
+            flash('Ungültige Anmeldedaten', 'error')
             return redirect(url_for('index'))
         
         # Aktualisiere AGB-Status
