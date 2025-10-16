@@ -1,15 +1,19 @@
-/* styles_playermenu.css - überarbeitet für bessere Responsivität und sichtbaren Hintergrund */
-
-/* Seite
-   Hinweis: base.css enthält das Hintergrundgradienten und setzt html,body.
-   Wir vermeiden hier, den Hintergrund zu überschreiben. */
 body.playermenu-page {
+    /* benutze dynamische viewport-Unit wenn unterstützt */
+    min-height: 100dvh;           /* best effort für moderne Browser */
+
+    /* Fallback: nutze die JS-Variable --vh (wird weiter unten per JS gesetzt) */
+    min-height: calc(var(--vh, 1vh) * 100);
+
+    /* Safe area für Notch / iOS */
+    padding-top: env(safe-area-inset-top, 1.5rem);
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+
+    /* Zentrieren der Player-Card vertikal + horizontal */
     display: flex;
-    flex-direction: column;   /* mobile-first: Inhalte von oben nach unten */
-    justify-content: flex-start; /* wichtig: verhindert erzwungenes vertikales Zentrieren auf kleinen Bildschirmen */
+    flex-direction: column;
+    justify-content: center; /* WICHTIG: sorgt dafür, dass .player-card mittig steht */
     align-items: center;
-    min-height: 100vh;
-    padding-top: 1.5rem; /* sorgt für Abstand nach oben (sichtbar für Flash-Messages / Logout) */
     box-sizing: border-box;
 }
 
@@ -56,6 +60,9 @@ body.playermenu-page {
         padding: 1rem;
         max-width: 420px;     /* Hochformat-Eindruck auf Handys */
         margin: 0.75rem 0;
+    }
+    body.playermenu-page {
+        padding-top: calc(env(safe-area-inset-top, 1.5rem) + 6px);
     }
 }
 
