@@ -330,6 +330,9 @@ body.playermenu-page {
     .player-card { max-width: 600px; }
     .player-username { font-size: 1.7rem; }
     .playermenu-title { font-size: 1.9rem; }
+    body.playermenu-page {
+        justify-content: center;
+    }
 }
 
 /* Bis 768px (Tablets / größere Handys) */
@@ -358,14 +361,26 @@ body.playermenu-page {
 
     /* Buttons untereinander (besser für Touch) */
     .menu-buttons {
-        flex-direction: column;
-        gap: 1rem;
-    }
+            flex-direction: row;       /* wieder nebeneinander */
+            flex-wrap: wrap;           /* falls der Platz sehr knapp ist, umbrechen */
+            gap: 1rem;                 /* etwas Platz dazwischen */
+            justify-content: center;   /* schön mittig */
+        }
     .circle-button {
         width: 100px;
         height: 100px;
     }
-    .circle-button span { font-size: 1.6rem; }
+    .circle-button span {
+        font-size: 1.4rem; /* vorher 1.6rem */
+    }
+    .circle-button p {
+        font-size: 0.8rem; /* leicht kleiner */
+    }
+    .back-circle-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
 }
 
 /* Bis 480px (kleine Handys) */
@@ -380,7 +395,12 @@ body.playermenu-page {
         width: 84px;
         height: 84px;
     }
-    .circle-button span { font-size: 1.4rem; }
+    .circle-button span {
+        font-size: 1.2rem; /* vorher 1.4rem */
+    }
+    .circle-button p {
+        font-size: 0.6rem;
+    }
     .carousel-button { width: 32px; height: 32px; font-size: 0.9rem; }
     .back-circle-button { right: 6px; }
 }
