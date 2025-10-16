@@ -1,32 +1,62 @@
-/* Seite */
+/* styles_playermenu.css - überarbeitet für bessere Responsivität und sichtbaren Hintergrund */
+
+/* Seite
+   Hinweis: base.css enthält das Hintergrundgradienten und setzt html,body.
+   Wir vermeiden hier, den Hintergrund zu überschreiben. */
 body.playermenu-page {
     display: flex;
-    justify-content: center;
+    flex-direction: column;   /* mobile-first: Inhalte von oben nach unten */
+    justify-content: flex-start; /* wichtig: verhindert erzwungenes vertikales Zentrieren auf kleinen Bildschirmen */
     align-items: center;
     min-height: 100vh;
+    padding-top: 1.5rem; /* sorgt für Abstand nach oben (sichtbar für Flash-Messages / Logout) */
+    box-sizing: border-box;
 }
 
-/* Wrapper */
+/* Auf großen Bildschirmen zentrieren wir vertikal */
+@media (min-width: 1025px) {
+    body.playermenu-page {
+        justify-content: center;
+        padding-top: 0;
+    }
+}
+
+/* Wrapper: Abstand zum Browser-Rand, begrenzte Breite */
 .playermenu-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    padding: 0 1rem;         /* immer Abstand zum Rand */
+    box-sizing: border-box;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Profilkarte */
 .player-card {
-    background: rgba(26, 26, 46, 0.8);
-    border-radius: 20px;
-    padding: 2rem;
+    background: rgba(26, 26, 46, 0.6); /* leicht transparenter, damit base-bg sichtbar bleibt */
+    border-radius: 18px;
+    padding: 1.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    gap: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
     max-width: 650px;
-    width: 90%;
+    width: 100%;
+    margin: 1rem 0;           /* Abstand zum oberen/unteren Rand */
     text-align: center;
+    box-sizing: border-box;
+}
+
+/* Für sehr kleine Bildschirme weniger Padding, Karte schmaler (Hochformat) */
+@media (max-width: 480px) {
+    .player-card {
+        padding: 1rem;
+        max-width: 420px;     /* Hochformat-Eindruck auf Handys */
+        margin: 0.75rem 0;
+    }
 }
 
 /* Titelzeile */
@@ -36,23 +66,26 @@ body.playermenu-page {
     justify-content: center;
     align-items: center;
     position: relative;
+    padding: 0.2rem 0;
 }
 
 /* Überschrift */
 .playermenu-title {
-    font-size: 2.2rem;
+    font-size: 2.0rem;
     color: #ffffff;
-    text-shadow: 0 0 15px rgba(142, 45, 226, 0.8);
+    text-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
     margin: 0;
     text-align: center;
 }
 
-/* Zurück-Button */
+/* Zurück- / Logout-Button: rechts positioniert, aber vertikal mittig zur Title-Bar */
 .back-circle-button {
     position: absolute;
     right: 0;
-    width: 60px;
-    height: 60px;
+    top: 50%;
+    transform: translateY(-50%); /* genau mittig in der Title-Bar */
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     display: flex;
@@ -60,14 +93,15 @@ body.playermenu-page {
     align-items: center;
     color: #fff;
     text-decoration: none;
-    font-size: 1.5rem;
-    box-shadow: 0 0 20px rgba(255, 65, 108, 0.7);
-    transition: transform 0.25s, box-shadow 0.25s;
+    font-size: 1.35rem;
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+    transition: transform 0.22s, box-shadow 0.22s;
+    z-index: 5;
 }
 
-.back-circle-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 35px rgba(255, 65, 108, 1);
+/* Etwas kleiner auf kleinen Bildschirmen */
+@media (max-width: 480px) {
+    .back-circle-button { width: 46px; height: 46px; font-size: 1rem; }
 }
 
 /* Karussell Container */
@@ -76,7 +110,7 @@ body.playermenu-page {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 20px 0;
+    margin: 16px 0;
     position: relative;
 }
 
@@ -86,29 +120,27 @@ body.playermenu-page {
     overflow: hidden;
     position: relative;
 }
-
 .carousel-track {
     display: flex;
     transition: transform 0.3s ease;
     width: 100%;
 }
 
+/* Desktop: drei Avatare sichtbar */
 .avatar-carousel-item {
     flex: 0 0 calc(100% / 3);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 6px;
     box-sizing: border-box;
-    transition: all 0.3s ease;
+    transition: all 0.28s ease;
 }
-
 .avatar-carousel-item.left,
 .avatar-carousel-item.right {
-    opacity: 0.5;
-    transform: scale(0.8);
+    opacity: 0.45;
+    transform: scale(0.86);
 }
-
 .avatar-carousel-item.center {
     opacity: 1;
     transform: scale(1);
@@ -116,7 +148,7 @@ body.playermenu-page {
 
 /* Karussell Buttons */
 .carousel-button {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
     border: 2px solid #8e2de2;
     color: #8e2de2;
     width: 40px;
@@ -126,19 +158,17 @@ body.playermenu-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(142, 45, 226, 0.5);
+    font-size: 1.15rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(142, 45, 226, 0.35);
 }
-
 .carousel-button:hover:not(:disabled) {
     background: #8e2de2;
     color: white;
-    box-shadow: 0 0 20px rgba(142, 45, 226, 0.8);
+    box-shadow: 0 8px 28px rgba(142, 45, 226, 0.55);
 }
-
 .carousel-button:disabled {
-    opacity: 0.3;
+    opacity: 0.28;
     cursor: not-allowed;
     border-color: #666;
     color: #666;
@@ -148,22 +178,23 @@ body.playermenu-page {
 .carousel-indicator {
     text-align: center;
     color: #fff;
-    font-size: 1rem;
-    margin-bottom: 15px;
+    font-size: 0.98rem;
+    margin-bottom: 8px;
 }
 
 /* Äußere Box für Avatar + Username */
 .player-info-box {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     width: 100%;
-    max-width: 500px;
-    background: rgba(40, 40, 70, 0.6);
-    padding: 1rem 1.5rem;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(142,45,226,0.5);
+    max-width: 520px;
+    background: rgba(40, 40, 70, 0.55);
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(142,45,226,0.25);
     justify-content: flex-start;
     align-items: center;
+    box-sizing: border-box;
 }
 
 /* Linke Box: Avatar + Button */
@@ -172,7 +203,6 @@ body.playermenu-page {
     align-items: center;
     justify-content: center;
     background: transparent;
-    box-shadow: none;
     padding: 0;
 }
 
@@ -182,13 +212,13 @@ body.playermenu-page {
     display: inline-block;
 }
 
-/* Avatar */
+/* Avatar (Profilbild) */
 .player-avatar {
-    width: 100px;
-    height: 100px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     border: 3px solid #8e2de2;
-    box-shadow: 0 0 20px rgba(142, 45, 226, 0.6);
+    box-shadow: 0 8px 24px rgba(142, 45, 226, 0.45);
     object-fit: cover;
 }
 
@@ -197,22 +227,21 @@ body.playermenu-page {
     position: absolute;
     bottom: 0;
     right: 0;
-    transform: translate(25%, 25%);
-    width: 35px;
-    height: 35px;
+    transform: translate(28%, 28%);
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: none;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
-    box-shadow: 0 0 10px rgb(169, 188, 211);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 14px rgba(169, 188, 211, 0.08);
+    transition: transform 0.18s, box-shadow 0.18s;
 }
-
 .small-circle-button:hover {
-    transform: translate(25%, 25%) scale(1.2);
-    box-shadow: 0 0 15px rgb(169, 188, 211);
+    transform: translate(28%, 28%) scale(1.12);
+    box-shadow: 0 8px 20px rgba(169, 188, 211, 0.12);
 }
 
 /* Rechte Box: Username + Infos */
@@ -222,37 +251,37 @@ body.playermenu-page {
     justify-content: flex-start;
     align-items: flex-start;
     background: transparent;
-    box-shadow: none;
     padding: 0;
     gap: 0;
     text-align: left;
 }
 
+/* Spielername */
 .player-username {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 1.9rem;
+    font-weight: 700;
     color: #fff;
-    text-shadow: 0 0 10px rgba(142, 45, 226, 0.8);
+    text-shadow: 0 0 10px rgba(142, 45, 226, 0.75);
     margin: 0 0 0.2rem 0;
 }
 
-/* Player Infos (Datum, Highscore) */
+/* Spielerinfo (Datum, Highscore) */
 .player-info {
-    font-size: 1rem;
-    color: #ccc;
-    text-shadow: 0 0 5px rgba(142,45,226,0.5);
+    font-size: 0.98rem;
+    color: #dcdfe6;
+    text-shadow: 0 0 4px rgba(142,45,226,0.35);
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.25;
 }
 
 /* Buttons unten */
 .menu-buttons {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     justify-content: center;
 }
 
-/* Runde Buttons */
+/* Runde Haupt-Buttons */
 .circle-button {
     width: 120px;
     height: 120px;
@@ -264,116 +293,96 @@ body.playermenu-page {
     align-items: center;
     color: white;
     text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(142,45,226,0.7);
-    transition: transform 0.25s, box-shadow 0.25s;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(142,45,226,0.5);
+    transition: transform 0.22s, box-shadow 0.22s;
     text-align: center;
-    padding: 1rem;
+    padding: 0.9rem;
+    box-sizing: border-box;
 }
-
 .circle-button span {
     font-size: 2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
 }
-
 .circle-button p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.92rem;
 }
-
-/* Hover */
 .circle-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 35px rgba(142,45,226,1);
+    transform: scale(1.06);
+    box-shadow: 0 12px 36px rgba(142,45,226,0.65);
 }
 
-/* Farbvarianten */
+/* Farbvarianten der Buttons */
 .singleplayer {
     background: linear-gradient(135deg, #00c6ff, #0072ff);
-    box-shadow: 0 0 20px rgba(0, 114, 255, 0.7);
+    box-shadow: 0 8px 26px rgba(0, 114, 255, 0.45);
 }
-
-.singleplayer:hover {
-    box-shadow: 0 0 35px rgba(0, 114, 255, 1);
-}
-
 .multiplayer {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
-    box-shadow: 0 0 20px rgba(255, 65, 108, 0.7);
+    box-shadow: 0 8px 26px rgba(255, 65, 108, 0.45);
 }
 
-.multiplayer:hover {
-    box-shadow: 0 0 35px rgba(255, 65, 108, 1);
+/* MOBILE / TABLET Anpassungen (Breakpoints: 1024, 768, 480) */
+
+/* Bis 1024px (Tablets, kleine Laptops) */
+@media (max-width: 1024px) {
+    .player-card { max-width: 600px; }
+    .player-username { font-size: 1.7rem; }
+    .playermenu-title { font-size: 1.9rem; }
 }
 
-/* Responsive */
+/* Bis 768px (Tablets / größere Handys) */
 @media (max-width: 768px) {
+    /* Avatar + Username: Vertikal anordnen */
     .player-info-box {
         flex-direction: column;
         align-items: center;
+        gap: 0.8rem;
     }
-
-    .avatar-button-box {
-        flex-direction: row;
-        gap: 1rem;
-    }
-
-    .avatar-item {
-        width: 120px;
-        height: 120px;
-    }
-
     .username-box {
         width: 100%;
         justify-content: center;
         align-items: center;
-        text-align: left;
+        text-align: center;
     }
 
+    .avatar-carousel { width: 220px; }
+
+    /* Auf Tablets / Mobilgeräten nur 1 Avatar pro Slide (JS already chooses 1) */
+    .avatar-carousel-item { flex: 0 0 100%; }
+    .carousel-button { width: 36px; height: 36px; font-size: 1rem; }
+
+    .playermenu-title { font-size: 1.7rem; }
+    .player-username { font-size: 1.5rem; }
+
+    /* Buttons untereinander (besser für Touch) */
     .menu-buttons {
         flex-direction: column;
+        gap: 1rem;
     }
-
-    .avatar-carousel {
-        width: 200px;
-    }
-    
-    /* WICHTIG: Auf Tablets und Handys immer nur 1 Avatar anzeigen */
-    .avatar-carousel-item {
-        flex: 0 0 100%;
-    }
-    
-    .carousel-button {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-
-    /* Stelle sicher, dass nur der mittlere Avatar voll sichtbar ist */
-    .avatar-carousel-item:not(.center) {
-        opacity: 0.3;
-        transform: scale(0.8);
-    }
-    
-    .avatar-carousel-item.center {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@media (max-width: 480px) {
-    .avatar-carousel {
-        width: 180px;
-    }
-    
-    .avatar-item {
+    .circle-button {
         width: 100px;
         height: 100px;
     }
+    .circle-button span { font-size: 1.6rem; }
+}
 
-    .carousel-container {
-        gap: 5px;
+/* Bis 480px (kleine Handys) */
+@media (max-width: 480px) {
+    .avatar-carousel { width: 180px; }
+    .player-card { padding: 0.9rem; margin: 0.6rem 0; }
+    .player-avatar { width: 88px; height: 88px; }
+    .player-username { font-size: 1.35rem; }
+    .playermenu-title { font-size: 1.4rem; }
+
+    .circle-button {
+        width: 84px;
+        height: 84px;
     }
+    .circle-button span { font-size: 1.4rem; }
+    .carousel-button { width: 32px; height: 32px; font-size: 0.9rem; }
+    .back-circle-button { right: 6px; }
 }
 
 /* Modal Überschrift */
@@ -396,18 +405,20 @@ body.playermenu-page {
     background-color: rgba(0,0,0,0.6);
     justify-content: center;
     align-items: center;
-    animation: fadeIn 0.3s;
+    animation: fadeIn 0.25s;
 }
 
-/* Modal Inhalt */
+/* Modal Inhalt: maximaler Platz und Scroll wenn nötig */
 .modal-content {
-    background-color: #1e1e1e;
-    margin: auto;
-    padding: 20px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    background-color: #161616;
+    margin: 1.2rem;
+    padding: 16px;
+    border-radius: 12px;
+    width: 92%;
+    max-width: 520px;
+    max-height: calc(100vh - 3rem); /* damit das Modal bei kleinen Bildschirmen scrollt */
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     color: #fff;
     position: relative;
 }
@@ -415,30 +426,29 @@ body.playermenu-page {
 /* Close Button */
 .close-button {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
+    top: 8px;
+    right: 12px;
+    font-size: 22px;
     font-weight: bold;
     cursor: pointer;
+    z-index: 6;
 }
 
 /* Einzelner Avatar */
 .avatar-item {
-    width: 80px;
-    height: 80px;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: all 0.3s ease;
+    transition: all 0.22s ease;
     object-fit: cover;
+    margin: 0 6px;
 }
-
 .avatar-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
     border-color: #00aaff;
 }
-
-/* Ausgewählter Avatar */
 .avatar-item.selected {
     border-color: #00ffcc;
 }
@@ -448,47 +458,27 @@ body.playermenu-page {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 14px;
 }
-
-/* Zentrierte Buttons im Modal */
 .centered-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 14px;
 }
-
 .modal-action-button,
 .modal-cancel-button {
-    padding: 10px 20px;
+    padding: 10px 18px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background 0.2s;
+    font-size: 15px;
+    transition: background 0.18s;
 }
-
-.modal-action-button {
-    background-color: #00aaff;
-    color: #fff;
-}
-
-.modal-action-button:hover {
-    background-color: #0088cc;
-}
-
-.modal-cancel-button {
-    background-color: #555;
-    color: #fff;
-}
-
-.modal-cancel-button:hover {
-    background-color: #333;
-}
+.modal-action-button { background-color: #00aaff; color: #fff; }
+.modal-action-button:hover { background-color: #0088cc; }
+.modal-cancel-button { background-color: #555; color: #fff; }
+.modal-cancel-button:hover { background-color: #333; }
 
 /* Animation */
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
