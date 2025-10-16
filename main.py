@@ -1771,10 +1771,10 @@ def add_question():
 @socketio.on('connect')
 def handle_connect():
     print(f"Client connected: {request.sid}")
-    if 'username' in session:
-        emit('connection_success', {'message': 'Verbunden'})
-    else:
-        emit('connection_error', {'error': 'Nicht angemeldet'})
+    if 'username' not in session:
+        print(f"Socket connect denied for sid={request.sid} (not authenticated)")
+        return False  # trennt Verbindung sofort
+    emit('connection_success', {'message': 'Verbunden'})
 
 @socketio.on('disconnect')
 def handle_disconnect():
