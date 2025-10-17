@@ -381,7 +381,7 @@ input.input-field:-moz-autofill {
 }
 
 .setting-toggle:hover {
-    background: rgba(30, 144, 255, 0.2);
+    background: rgba(30, 83, 136, 0.2);
 }
 
 .setting-toggle i {
@@ -410,6 +410,21 @@ input.input-field:-moz-autofill {
 .setting-content::-webkit-scrollbar { width: 8px; }
 .setting-content::-webkit-scrollbar-thumb { background: #1e90ff; border-radius:4px; }
 .setting-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+/* Wenn eine Box geöffnet ist, erhalten alle Toggle-Buttons eine Mindesthöhe */
+.setting-content.open ~ .setting-item .setting-toggle,
+.setting-content.open + .setting-toggle {
+    min-height: 44px; /* Mindesthöhe nur wenn eine Box offen ist */
+}
+
+/* Stellt sicher, dass der Toggle-Button des geöffneten Items ebenfalls die Mindesthöhe hat */
+.setting-item:has(.setting-content.open) .setting-toggle {
+    min-height: 44px;
+}
+
+body.agb-modal-open .setting-toggle {
+    min-height: 44px;
+}
 
 /* Acceptance + Buttons bleiben im Footer sichtbar */
 .acceptance-section {

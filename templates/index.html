@@ -293,6 +293,12 @@
                 const content = this.nextElementSibling;
                 const isOpen = content.classList.contains('open');
 
+                if (isOpen) {
+                    document.body.classList.remove('agb-modal-open');
+                } else {
+                    document.body.classList.add('agb-modal-open');
+                }
+
                 // close all others
                 document.querySelectorAll('.setting-content.open').forEach(c => {
                     if (c !== content) {
