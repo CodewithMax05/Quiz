@@ -900,7 +900,7 @@ def reject_agb():
         return redirect(url_for('settings'))
 
     if not confirm_reject:
-        flash("Bitte bestätige die Ablehnung der AGBs!", "error")
+        flash("Bitte bestätige die Ablehnung der AGBs und Datenschutzverordnung!", "error")
         return redirect(url_for('settings'))
 
     # Benutzer finden und Passwort prüfen
@@ -923,7 +923,7 @@ def reject_agb():
         flash("AGBs abgelehnt. Du wurdest abgemeldet.", "success")
         return redirect(url_for('index'))
 
-    flash("AGBs erfolgreich abgelehnt!", "success")
+    flash("AGBs und Datenschutzverordnung erfolgreich abgelehnt!", "success")
     return redirect(url_for('settings'))
 
 
