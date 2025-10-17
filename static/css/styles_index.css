@@ -336,11 +336,18 @@ input.input-field:-moz-autofill {
 }
 
 /* Titel - bleibt oben sichtbar */
+/* Titel zentrieren - erweiterte Version */
 .popup-title {
     font-size: 1.9rem;
     color: #61a8ff;
     margin: 0 0 15px 0;
     flex: 0 0 auto;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px; /* Etwas Padding für kleine Bildschirme */
 }
 
 /* Settings list nimmt den flexiblen verbleibenden Raum ein */
@@ -547,6 +554,7 @@ body.agb-modal-open .setting-toggle {
 
     .popup-title {
         font-size: 1.6rem;
+        text-align: center; /* Auch auf mobil zentrieren */
     }
 
     .setting-toggle {
