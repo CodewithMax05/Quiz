@@ -113,6 +113,57 @@
                 </div>
             </div>
 
+
+
+
+
+
+
+
+
+                        <!-- AGBs ablehnen -->
+                        <!-- AGBs ablehnen -->
+            <div class="setting-item">
+                <button class="setting-toggle">AGBs ablehnen <i class="fa fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    <form id="reject-agb-form" method="POST" action="{{ url_for('reject_agb') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <input type="text" name="username" placeholder="Benutzername" value="" required>
+                        
+                        <div class="input-wrap">
+                            <input type="password" name="password" placeholder="Passwort" required>
+                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+
+                        <div style="margin: 15px 0; text-align: left;">
+                            <label style="color: white; display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" name="confirm_reject" value="true" style="width: auto;">
+                                <span>Ich lehne die AGB ab</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" style="background-color: #ff6b6b; color: white;">
+                            AGB ablehnen
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- Account löschen -->
             <div class="setting-item">
                 <button class="setting-toggle">Account löschen <i class="fa fa-chevron-down"></i></button>

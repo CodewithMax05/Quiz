@@ -882,6 +882,58 @@ def change_avatar():
     db.session.commit()
     return jsonify({"success": True})
 
+
+
+
+
+
+
+@app.route('/reject_agb', methods=['POST'])
+def reject_agb():
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '')
+    confirm_reject = request.form.get('confirm_reject', 'false') == 'true'
+
+    # Validierung
+    if not username or not password:
+        flash("Bitte fülle alle Felder aus!", "error")
+        return redirect(url_for('settings'))
+
+    if not confirm_reject:
+        flash("Bitte bestätige die Ablehnung der AGBs!", "error")
+        return redirect(url_for('settings'))
+
+    # Benutzer finden und Passwort prüfen
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash("Benutzer nicht gefunden!", "error")
+        return redirect(url_for('settings'))
+
+    if not user.check_password(password):
+        flash("Falsches Passwort!", "error")
+        return redirect(url_for('settings'))
+
+    # AGBs ablehnen (auf False setzen)
+    user.agb_accepted = False
+    db.session.commit()
+
+    # Falls der Benutzer aktuell eingeloggt ist, ausloggen
+    if 'username' in session and session['username'] == username:
+        session.clear()
+        flash("AGBs abgelehnt. Du wurdest abgemeldet.", "success")
+        return redirect(url_for('index'))
+
+    flash("AGBs erfolgreich abgelehnt!", "success")
+    return redirect(url_for('settings'))
+
+
+
+
+
+
+
+
+
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
     username = request.form.get('username', '').strip()
