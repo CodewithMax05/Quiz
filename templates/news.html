@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_news.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="container">
+        <h1 class="headline">News</h1>
+
+        {% if not news_entries %}
+        <div class="no-news-message">
+            <p>Derzeit sind keine News verfügbar.</p>
+        </div>
+        {% endif %}
+
+        <div class="news-list">
+            {% for entry in news_entries %}
+            <div class="news-item">
+                <button class="news-toggle">
+                    <span class="news-title">{{ entry.title }}</span>
+                    <span class="news-date">{{ entry.created_at.strftime('%d.%m.%Y') }}</span>
+                    <i class="fa fa-chevron-down"></i>
+                </button>
+                <div class="news-content">
+                    <div class="news-text">
+                        {{ entry.content|safe }}
+                    </div>
+                    <div class="news-footer">
+                        Erstellt am: {{ entry.created_at.strftime('%d.%m.%Y um %H:%M') }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="link-content">
+            <a href="{{ url_for('homepage') }}" class="back-button1 sound-button">Zurück zur Homepage</a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const newsToggles = document.querySelectorAll('.news-toggle');
+
+    newsToggles.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const thisContent = this.nextElementSibling;
+            const thisIcon = this.querySelector('i');
+            const isOpen = thisContent.style.maxHeight;
+
+            // Schließe alle anderen News
+            newsToggles.forEach(other => {
+                if (other !== this) {
+                    const content = other.nextElementSibling;
+                    const icon = other.querySelector('i');
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                    other.classList.remove('active');
+                }
+            });
+
+            // Öffne/Schließe diese News
+            if (!isOpen) {
+                thisContent.style.maxHeight = thisContent.scrollHeight + "px";
+                thisIcon.style.transform = 'rotate(180deg)';
+                this.classList.add('active');
+            } else {
+                thisContent.style.maxHeight = null;
+                thisIcon.style.transform = 'rotate(0deg)';
+                this.classList.remove('active');
+            }
+        });
+    });
+
+    // Öffne erste News automatisch
+    const firstToggle = document.querySelector('.news-toggle');
+    if (firstToggle) {
+        firstToggle.click();
+    }
+});
+</script>
+{% endblock %}

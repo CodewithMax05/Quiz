@@ -1,0 +1,218 @@
+/* Grundlegendes Layout wie Settings */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.container {
+    background: rgba(15, 32, 39, 0.45);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    width: 900px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+h1.headline {
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+    color: white;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+}
+
+/* Admin News Liste */
+.admin-news-list {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.admin-news-item {
+    margin-bottom: 15px;
+}
+
+.admin-news-toggle {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.admin-news-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.admin-news-toggle.active {
+    background: rgba(0, 170, 255, 0.3);
+}
+
+.news-admin-title {
+    font-weight: bold;
+    flex: 1;
+    text-align: left;
+}
+
+.news-admin-date {
+    margin: 0 15px;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.admin-news-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.admin-news-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+
+.admin-news-content input,
+.admin-news-content textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    background: white !important;
+    color: black !important;
+    font-family: inherit;
+}
+
+.admin-news-content textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Admin Actions */
+.admin-news-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-create,
+.btn-edit,
+.btn-delete {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-create {
+    background-color: #28a745;
+    color: white;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-create:hover {
+    background-color: #218838;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Back Button */
+.link-content {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.back-button1 {
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    text-align: center;
+    padding: 12px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: inline-block;
+}
+
+.back-button1:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .admin-news-toggle {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .news-admin-date {
+        margin: 0 10px;
+        font-size: 0.8rem;
+    }
+    
+    .admin-news-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-news-toggle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .news-admin-date {
+        margin: 5px 0 0 0;
+        align-self: flex-end;
+    }
+}

@@ -1,0 +1,163 @@
+/* Grundlegendes Layout wie Settings */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.container {
+    background: rgba(15, 32, 39, 0.45);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    width: 800px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+h1.headline {
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+    color: white;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+}
+
+/* News Liste */
+.news-list {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.news-item {
+    margin-bottom: 15px;
+}
+
+.news-toggle {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.news-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.news-toggle.active {
+    background: rgba(0, 170, 255, 0.3);
+}
+
+.news-title {
+    font-weight: bold;
+    flex: 1;
+    text-align: left;
+}
+
+.news-date {
+    margin: 0 15px;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.news-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.news-text {
+    padding: 20px;
+    text-align: left;
+    color: #eee;
+    line-height: 1.6;
+}
+
+.news-footer {
+    padding: 10px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #ccc;
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+/* Keine News Nachricht */
+.no-news-message {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 10px;
+    color: #ccc;
+    margin: 20px 0;
+}
+
+/* Back Button */
+.link-content {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.back-button1 {
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    text-align: center;
+    padding: 12px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: inline-block;
+}
+
+.back-button1:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .news-toggle {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .news-date {
+        margin: 0 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .news-toggle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .news-date {
+        margin: 5px 0 0 0;
+        align-self: flex-end;
+    }
+}

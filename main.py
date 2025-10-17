@@ -100,6 +100,42 @@ class SupportRequest(db.Model):
     message = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
+
+
+
+
+
+
+
+
+
+
+
+
+from datetime import datetime
+
+# News-Modell
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<News {self.title}>"
+
+
+
+
+
+
+
+
+
+
+
+
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -1816,6 +1852,99 @@ def add_question():
         flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
     
     return redirect(url_for('admin_panel'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from flask import render_template, redirect, url_for, request, flash
+
+# In main.py - News-Routes ersetzen
+
+# Spieler-Seite - News anzeigen
+@app.route("/news")
+@login_required
+@prevent_quiz_exit
+def news():
+    try:
+        news_entries = News.query.order_by(News.created_at.desc()).all()
+        return render_template("news.html", news_entries=news_entries)
+    except Exception as e:
+        print(f"Fehler beim Laden der News: {str(e)}")
+        flash('Fehler beim Laden der News', 'error')
+        return render_template("news.html", news_entries=[])
+
+# Admin-Seite - News verwalten
+@app.route("/admin/news", methods=["GET", "POST"])
+@login_required
+@admin_required
+def news_admin():
+    try:
+        if request.method == "POST":
+            action = request.form.get("action")
+            
+            if action == "create":
+                title = request.form.get("title", "").strip()
+                content = request.form.get("content", "").strip()
+                
+                if not title or not content:
+                    flash("Bitte fülle alle Felder aus!", "error")
+                else:
+                    new_entry = News(title=title, content=content)
+                    db.session.add(new_entry)
+                    db.session.commit()
+                    flash("News erfolgreich erstellt!", "success")
+                    
+            elif action == "edit":
+                news_id = request.form.get("news_id")
+                if news_id:
+                    entry = News.query.get(int(news_id))
+                    if entry:
+                        entry.title = request.form.get("title", "").strip()
+                        entry.content = request.form.get("content", "").strip()
+                        db.session.commit()
+                        flash("News erfolgreich aktualisiert!", "success")
+                        
+            elif action == "delete":
+                news_id = request.form.get("news_id")
+                if news_id:
+                    entry = News.query.get(int(news_id))
+                    if entry:
+                        db.session.delete(entry)
+                        db.session.commit()
+                        flash("News erfolgreich gelöscht!", "success")
+        
+        news_entries = News.query.order_by(News.created_at.desc()).all()
+        return render_template("news_admin.html", news_entries=news_entries)
+        
+    except Exception as e:
+        print(f"Fehler in News-Admin: {str(e)}")
+        flash('Ein Fehler ist aufgetreten', 'error')
+        return redirect(url_for('news_admin'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # WebSocket Event Handlers
 @socketio.on('connect')
