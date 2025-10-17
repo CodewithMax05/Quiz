@@ -813,8 +813,6 @@ def change_username():
     flash("Benutzername erfolgreich geändert!", "success")
     return redirect(url_for('settings'))
 
-
-
 @app.route('/change_password', methods=['POST'])
 def change_password():
     username = request.form.get('username', '').strip()

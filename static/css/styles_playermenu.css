@@ -242,7 +242,7 @@ body.playermenu-page {
     justify-content: flex-start;
     align-items: flex-start;
     background: transparent;
-    padding: 0;
+    padding: 0 20px;
     gap: 0;
     text-align: left;
 }
