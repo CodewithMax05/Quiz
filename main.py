@@ -468,7 +468,7 @@ def logout_required(f):
             # Benutzer ist angemeldet - Zugriff verweigern
             route_name = request.endpoint
             if route_name == 'legal':
-                flash('Rechtliches nur über Startseite erreichbar.', 'error')
+                flash('Rechtliche Informationen nur über Startseite erreichbar.', 'error')
             elif route_name == 'settings':
                 flash('Einstellungen nur über Startseite erreichbar.', 'error')
             else:
