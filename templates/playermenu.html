@@ -46,14 +46,23 @@
 
             <!-- Buttons unten -->
             <div class="menu-buttons">
-                <a href="{{ url_for('homepage') }}" class="circle-button singleplayer sound-button">
-                    <span>🎮</span>
-                    <p>Singleplayer</p>
+                <a href="{{ url_for('homepage') }}" class="game-button singleplayer sound-button">
+                    <div class="button-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="button-text">
+                        <p class="button-title">Singleplayer</p>
+                        <p class="button-subtitle">Alleine spielen</p>
+                    </div>
                 </a>
-                <a href="{{ url_for('playermenu') }}" class="circle-button multiplayer sound-button">
-                    <span>⚔️</span>
-                    <p>Multiplayer</p>
-                    <p>Coming Soon</p>
+                <a href="{{ url_for('playermenu') }}" class="game-button multiplayer sound-button">
+                    <div class="button-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="button-text">
+                        <p class="button-title">Multiplayer</p>
+                        <p class="button-subtitle">Coming Soon</p>
+                    </div>
                 </a>
             </div>
         </div>
