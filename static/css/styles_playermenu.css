@@ -219,6 +219,15 @@ body.playermenu-page {
     display: inline-block;
 }
 
+/* Avatar Auswahl Hinweis */
+.avatar-hint {
+    text-align: center;
+    color: #a0a0c0;
+    font-size: 0.9rem;
+    margin: -0.5rem 0 1.5rem 0;
+    font-style: italic;
+}
+
 /* Avatar (Profilbild) */
 .player-avatar {
     width: 96px;
