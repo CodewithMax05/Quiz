@@ -73,253 +73,268 @@
 
             <div class="acceptance-section">
                 <label class="checkbox-container">
-                    <input type="checkbox" id="accept-checkbox"> Ich akzeptiere die AGB und Datenschutzerklärung
+                    <input type="checkbox" id="accept-checkbox"> Ich akzeptiere die AGB & Datenschutzerklärung
                 </label>
             </div>
+            
 
             <div class="popup-buttons">
                 <button id="accept-btn" class="popbtn btn-accept" disabled>Akzeptieren</button>
                 <button id="reject-btn" class="popbtn btn-reject">Ablehnen</button>
             </div>
+            <div class="agb-hint">
+                <p>AGB und Datenschutz jederzeit unter <strong>"Rechtliche Informationen"</strong> nachlesbar.</p>
+            </div>
         </div>
     </div>
     <!-- ========================================== -->
 
-    <script>
-        function submitForm(action) {
-            playSound('clickSound');
-            
+
+
+<script>
+    function submitForm(action) {
+        try { playSound('clickSound'); } catch(e){}
+        const form = document.getElementById('auth-form');
+        if (!form) return;
+        form.method = 'post';
+        if (action === 'register') form.action = "{{ url_for('register') }}";
+        else form.action = "{{ url_for('login') }}";
+        form.submit();
+    }
+
+    function showAgbModal(action) {
+        const overlay = document.getElementById('popup-overlay');
+        if (!overlay) return;
+        overlay.style.display = 'flex';
+        overlay.dataset.action = action || '';
+        
+        // Höhe sofort beim Öffnen berechnen
+        requestAnimationFrame(() => {
+            adjustAllOpenContents();
+        });
+    }
+
+    function hideAgbModal() {
+        const overlay = document.getElementById('popup-overlay');
+        if (!overlay) return;
+        overlay.style.display = 'none';
+    }
+
+    function handleAgbResponse(accepted) {
+        const overlay = document.getElementById('popup-overlay');
+        const action = overlay?.dataset.action || '';
+        if (accepted) {
             if (action === 'register') {
                 const form = document.getElementById('auth-form');
+                if (!form) return;
+                const agbInput = document.createElement('input');
+                agbInput.type = 'hidden'; agbInput.name = 'agb_accepted'; agbInput.value = 'true';
+                form.appendChild(agbInput);
                 form.action = "{{ url_for('register') }}";
-                form.method = "post";
+                form.method = 'post';
                 form.submit();
-            } else if (action === 'login') {
-                // Für Login das Formular direkt abschicken
-                // Das Backend entscheidet ob Modal nötig ist
-                const form = document.getElementById('auth-form');
-                form.action = "{{ url_for('login') }}";
-                form.method = "post";
-                form.submit();
-            }
-        }
-
-        function showAgbModal(action) {
-            document.getElementById('popup-overlay').style.display = 'flex';
-            // Speichere die Aktion für später
-            document.getElementById('popup-overlay').dataset.action = action;
-        }
-
-        function handleAgbResponse(accepted) {
-            const action = document.getElementById('popup-overlay').dataset.action;
-            
-            if (accepted) {
-                if (action === 'register') {
-                    // Für Registrierung: Formular mit AGB-Flag abschicken
-                    const form = document.getElementById('auth-form');
-                    let agbInput = document.createElement('input');
-                    agbInput.type = 'hidden';
-                    agbInput.name = 'agb_accepted';
-                    agbInput.value = 'true';
-                    form.appendChild(agbInput);
-                    form.action = "{{ url_for('register') }}";
-                    form.method = "post";
-                    form.submit();
-                } else if (action === 'login') {
-                    // Für Login: Spezielle Route für AGB-Akzeptierung aufrufen
-                    const form = document.createElement('form');
-                    form.method = 'post';
-                    form.action = "{{ url_for('accept_agb') }}";
-                    
-                    // CSRF Token hinzufügen
-                    const csrfToken = document.createElement('input');
-                    csrfToken.type = 'hidden';
-                    csrfToken.name = 'csrf_token';
-                    csrfToken.value = "{{ csrf_token() }}";
-                    form.appendChild(csrfToken);
-                    
-                    document.body.appendChild(form);
-                    form.submit();
-                }
             } else {
-                // Wenn abgelehnt, Flash-Nachricht anzeigen und Modal schließen
-                document.getElementById('popup-overlay').style.display = 'none';
-                
-                if (action === 'register') {
-                    createFlashMessage('Um sich zu registrieren, müssen Sie den AGB und der Datenschutzerklärung zustimmen.', 'error');
-                } else {
-                    createFlashMessage('Um sich anzumelden, müssen Sie den AGB und der Datenschutzerklärung zustimmen.', 'error');
-                }
+                const f = document.createElement('form');
+                f.method = 'post'; f.action = "{{ url_for('accept_agb') }}";
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden'; csrfToken.name = 'csrf_token'; csrfToken.value = "{{ csrf_token() }}";
+                f.appendChild(csrfToken);
+                document.body.appendChild(f);
+                f.submit();
             }
+        } else {
+            hideAgbModal();
+            const msg = (action === 'register')
+                ? 'Um sich zu registrieren, müssen Sie den AGB und der Datenschutzerklärung zustimmen.'
+                : 'Um sich anzumelden, müssen Sie den AGB und der Datenschutzerklärung zustimmen.';
+            (typeof createFlashMessage === 'function') ? createFlashMessage(msg, 'error') : alert(msg);
+        }
+    }
+
+    async function isUsernameAvailable(username) {
+        const url = "{{ url_for('check_username') }}?username=" + encodeURIComponent(username);
+        try {
+            const resp = await fetch(url, { method: 'GET', credentials: 'same-origin' });
+            if (!resp.ok) return { available: false, message: 'Serverfehler beim Prüfen des Benutzernamens.' };
+            return await resp.json();
+        } catch (e) {
+            return { available: false, message: 'Netzwerkfehler beim Prüfen des Benutzernamens.' };
+        }
+    }
+
+    async function prepareRegister() {
+        try { playSound('clickSound'); } catch(e){}
+        const usernameField = document.getElementById('username-field');
+        const passwordField = document.getElementById('password-field');
+        const username = usernameField?.value.trim() || '';
+        const password = passwordField?.value || '';
+
+        if (!username || !password) {
+            (typeof createFlashMessage === 'function') ? createFlashMessage('Bitte fülle alle Felder aus', 'error') : alert('Bitte fülle alle Felder aus');
+            return;
+        }
+        if (username.length > 12) {
+            (typeof createFlashMessage === 'function') ? createFlashMessage('Benutzername darf maximal 12 Zeichen haben', 'error') : alert('Benutzername darf maximal 12 Zeichen haben');
+            return;
+        }
+        if (password.length < 5) {
+            (typeof createFlashMessage === 'function') ? createFlashMessage('Passwort muss mindestens 5 Zeichen haben!', 'error') : alert('Passwort muss mindestens 5 Zeichen haben!');
+            return;
         }
 
-        async function isUsernameAvailable(username) {
-            // ruft serverseitigen Endpoint ab, der JSON {available: true/false, message?: "..."} liefert
-            const url = "{{ url_for('check_username') }}?username=" + encodeURIComponent(username);
-            try {
-                const resp = await fetch(url, { method: 'GET', credentials: 'same-origin' });
-                if (!resp.ok) {
-                    // Bei Netzwerk-/Serverfehlern lieber den Nutzer informieren
-                    return { available: false, message: 'Serverfehler beim Prüfen des Benutzernamens.' };
-                }
-                return await resp.json();
-            } catch (err) {
-                return { available: false, message: 'Netzwerkfehler beim Prüfen des Benutzernamens.' };
-            }
+        const registerBtn = document.getElementById('register-btn');
+        if (registerBtn) registerBtn.disabled = true;
+        const result = await isUsernameAvailable(username);
+        if (registerBtn) registerBtn.disabled = false;
+
+        if (!result.available) {
+            const msg = result.message || 'Benutzername bereits vergeben.';
+            (typeof createFlashMessage === 'function') ? createFlashMessage(msg, 'error') : alert(msg);
+            usernameField?.focus();
+            return;
+        }
+        showAgbModal('register');
+    }
+
+    // Adjusts ONE .setting-content height so it fits between title and footer
+    function adjustSpecificContentHeight(contentEl) {
+        if (!contentEl) return;
+        const popup = document.querySelector('.popup-container');
+        if (!popup) {
+            // fallback: make it scroll the element itself up to viewport
+            contentEl.style.maxHeight = Math.min(contentEl.scrollHeight, window.innerHeight * 0.6) + 'px';
+            contentEl.style.overflowY = (contentEl.scrollHeight > parseFloat(contentEl.style.maxHeight)) ? 'auto' : 'hidden';
+            return;
         }
 
-        async function prepareRegister() {
-            playSound && playSound('clickSound');
+        // compute available height inside popup
+        // total popup inner height:
+        const popupStyle = getComputedStyle(popup);
+        const popupPaddingTop = parseFloat(popupStyle.paddingTop || 0);
+        const popupPaddingBottom = parseFloat(popupStyle.paddingBottom || 0);
+        const popupInnerHeight = popup.clientHeight - popupPaddingTop - popupPaddingBottom;
 
-            const usernameField = document.getElementById('username-field');
-            const passwordField = document.getElementById('password-field');
+        // heights of elements that must remain visible (title + acceptance + buttons + gaps)
+        const title = popup.querySelector('.popup-title');
+        const acceptance = popup.querySelector('.acceptance-section');
+        const buttons = popup.querySelector('.popup-buttons');
 
-            const username = usernameField ? usernameField.value.trim() : '';
-            const password = passwordField ? passwordField.value : '';
+        const titleH = title ? title.offsetHeight : 0;
+        const acceptanceH = acceptance ? acceptance.offsetHeight : 0;
+        const buttonsH = buttons ? buttons.offsetHeight : 0;
 
-            // Clientseitige Grundvalidierung
-            if (!username || !password) {
-                (typeof createFlashMessage === 'function') ?
-                    createFlashMessage('Bitte fülle alle Felder aus', 'error') :
-                    alert('Bitte fülle alle Felder aus');
-                return;
-            }
-            if (username.length > 12) {
-                (typeof createFlashMessage === 'function') ?
-                    createFlashMessage('Benutzername darf maximal 12 Zeichen haben', 'error') :
-                    alert('Benutzername darf maximal 12 Zeichen haben');
-                return;
-            }
-            if (password.length < 5) {
-                (typeof createFlashMessage === 'function') ?
-                    createFlashMessage('Passwort muss mindestens 5 Zeichen haben!', 'error') :
-                    alert('Passwort muss mindestens 5 Zeichen haben!');
-                return;
-            }
-
-            // Disable Button während Prüfung (UX)
-            const registerBtn = document.getElementById('register-btn');
-            if (registerBtn) registerBtn.disabled = true;
-
-            const result = await isUsernameAvailable(username);
-
-            if (registerBtn) registerBtn.disabled = false;
-
-            if (!result.available) {
-                // Benutzername belegt — Modal nicht öffnen
-                if (result.message) {
-                    (typeof createFlashMessage === 'function') ?
-                        createFlashMessage(result.message, 'error') :
-                        alert(result.message);
-                } else {
-                    (typeof createFlashMessage === 'function') ?
-                        createFlashMessage('Benutzername bereits vergeben.', 'error') :
-                        alert('Benutzername bereits vergeben.');
-                }
-                // optional: fokus auf username feld
-                if (usernameField) usernameField.focus();
-                return;
-            }
-
-            // alles ok -> Modal öffnen wie gehabt
-            showAgbModal('register');
+        // calculate space available for settings-list (and thus for individual content)
+        // include a small safety-gap (16px)
+        const safety = 16;
+        const hintH = document.querySelector('.agb-hint') ? document.querySelector('.agb-hint').offsetHeight : 0;
+        const availableForList = popupInnerHeight - titleH - acceptanceH - buttonsH - hintH - safety;
+        // find the top offset of the content within the settings-list to compute per-item available
+        const settingsList = popup.querySelector('.settings-list');
+        let availableForThisContent = availableForList;
+        if (settingsList) {
+            // subtract space taken by other open sibling headers/spacing above this content
+            // simpler: we allow the opened content to use up to availableForList (safe)
+            // but ensure it's at least 80px
+            availableForThisContent = Math.max(80, availableForList);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- Passwort Toggle ---
-            const pwField = document.getElementById('password-field');
-            const pwToggle = document.querySelector('.pw-toggle');
+        const desired = Math.min(contentEl.scrollHeight, availableForThisContent);
+        contentEl.style.maxHeight = desired + 'px';
+        contentEl.style.overflowY = (contentEl.scrollHeight > desired) ? 'auto' : 'hidden';
+    }
 
-            if (pwField && pwToggle) {
-                pwToggle.addEventListener('mousedown', function(e){ e.preventDefault(); });
-                pwToggle.addEventListener('click', function (e) {
-                    const isHidden = pwField.type === 'password';
-                    pwField.type = isHidden ? 'text' : 'password';
-                    pwToggle.setAttribute('aria-pressed', String(isHidden));
-                    const icon = pwToggle.querySelector('i');
-                    if (icon) {
-                        icon.classList.remove('fa-eye', 'fa-eye-slash');
-                        icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
-                    }
-                    pwField.focus();
-                    setTimeout(() => {
-                        try {
-                            const pos = pwField.value ? pwField.value.length : 0;
-                            pwField.setSelectionRange(pos, pos);
-                        } catch (err) {}
-                    }, 0);
-                });
-            }
+    // Adjust all currently open contents (used on resize or show)
+    function adjustAllOpenContents() {
+        document.querySelectorAll('.setting-content.open').forEach(c => adjustSpecificContentHeight(c));
+    }
 
-            // --- AGB Modal Logik ---
-            const acceptCheckbox = document.getElementById('accept-checkbox');
-            const acceptBtn = document.getElementById('accept-btn');
-            const rejectBtn = document.getElementById('reject-btn');
-            const popupOverlay = document.getElementById('popup-overlay');
-
-            // Prüfe ob Modal beim Laden angezeigt werden soll (für Login-Fälle)
-            const container = document.querySelector('.container');
-            const shouldShowAgbModal = container && container.getAttribute('data-show-agb-modal') === 'true';
-            const agbAction = container && container.getAttribute('data-agb-action');
-            
-            if (shouldShowAgbModal) {
-                showAgbModal(agbAction ? agbAction : 'login');
-            }
-
-            if (acceptCheckbox && acceptBtn) {
-                acceptCheckbox.addEventListener('change', function() {
-                    acceptBtn.disabled = !this.checked;
-                });
-
-                acceptBtn.addEventListener('click', function() {
-                    if (acceptCheckbox.checked) {
-                        handleAgbResponse(true);
-                    }
-                });
-
-                rejectBtn.addEventListener('click', function() {
-                    handleAgbResponse(false);
-                });
-            }
-
-            // --- Accordion Logik für AGB Inhalte ---
-            const accordionToggles = document.querySelectorAll('.setting-toggle');
-            accordionToggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    const content = this.nextElementSibling;
-                    const icon = this.querySelector('i');
-                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
-                    
-                    // Schließe alle anderen
-                    document.querySelectorAll('.setting-content').forEach(item => {
-                        if (item !== content) {
-                            item.style.maxHeight = '0px';
-                            const otherIcon = item.previousElementSibling.querySelector('i');
-                            if (otherIcon) {
-                                otherIcon.style.transform = 'rotate(0deg)';
-                            }
-                        }
-                    });
-
-                    // Öffne/Schließe aktuelles
-                    if (isOpen) {
-                        content.style.maxHeight = '0px';
-                        if (icon) {
-                            icon.style.transform = 'rotate(0deg)';
-                        }
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                        if (icon) {
-                            icon.style.transform = 'rotate(180deg)';
-                        }
-                    }
-                });
+    document.addEventListener('DOMContentLoaded', function() {
+        // password toggle (wie gehabt)
+        const pwField = document.getElementById('password-field');
+        const pwToggle = document.querySelector('.pw-toggle');
+        if (pwField && pwToggle) {
+            pwToggle.addEventListener('mousedown', e => e.preventDefault());
+            pwToggle.addEventListener('click', () => {
+                const isHidden = pwField.type === 'password';
+                pwField.type = isHidden ? 'text' : 'password';
+                pwToggle.setAttribute('aria-pressed', String(isHidden));
+                const icon = pwToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-eye', 'fa-eye-slash');
+                    icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
+                }
+                pwField.focus();
+                setTimeout(() => {
+                    try { const pos = pwField.value.length; pwField.setSelectionRange(pos,pos); } catch(e){}
+                }, 0);
             });
+        }
 
-            // Initialisiere Accordions als geschlossen
-            document.querySelectorAll('.setting-content').forEach(content => {
-                content.style.maxHeight = '0px';
+        // AGB modal initial show
+        const container = document.querySelector('.container');
+        const shouldShowAgbModal = container?.getAttribute('data-show-agb-modal') === 'true';
+        const agbAction = container?.getAttribute('data-agb-action');
+        if (shouldShowAgbModal) showAgbModal(agbAction || 'login');
+
+        // hooks for accept/reject buttons
+        const acceptCheckbox = document.getElementById('accept-checkbox');
+        const acceptBtn = document.getElementById('accept-btn');
+        const rejectBtn = document.getElementById('reject-btn');
+        if (acceptCheckbox && acceptBtn && rejectBtn) {
+            acceptCheckbox.addEventListener('change', function() { acceptBtn.disabled = !this.checked; });
+            acceptBtn.addEventListener('click', () => { if (acceptCheckbox.checked) handleAgbResponse(true); });
+            rejectBtn.addEventListener('click', () => handleAgbResponse(false));
+        }
+
+        // Accordion logic: only one open; compute available height so footer remains visible
+        const toggles = document.querySelectorAll('.setting-toggle');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const isOpen = content.classList.contains('open');
+
+                // close all others
+                document.querySelectorAll('.setting-content.open').forEach(c => {
+                    if (c !== content) {
+                        c.classList.remove('open');
+                        c.style.maxHeight = '0px';
+                        c.style.overflowY = 'hidden';
+                        const otherIcon = c.previousElementSibling.querySelector('i');
+                        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                if (isOpen) {
+                    // close this
+                    content.classList.remove('open');
+                    content.style.maxHeight = '0px';
+                    content.style.overflowY = 'hidden';
+                    const icon = this.querySelector('i');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                    // open this
+                    content.classList.add('open');
+                    const icon = this.querySelector('i');
+                    if (icon) icon.style.transform = 'rotate(180deg)';
+                    // calculate available height for content so footer stays visible
+                    adjustSpecificContentHeight(content);
+                }
             });
         });
-    </script>
+
+        // ensure all closed initially
+        document.querySelectorAll('.setting-content').forEach(c => {
+            c.classList.remove('open');
+            c.style.maxHeight = '0px';
+            c.style.overflowY = 'hidden';
+        });
+
+        // Re-calc when window resized or overlay changes (keeps buttons visible)
+        window.addEventListener('resize', adjustAllOpenContents);
+        // Optional: when scroll inside overlay/page could change layout, recalc on transitionend as well
+        document.getElementById('popup-overlay')?.addEventListener('transitionend', adjustAllOpenContents);
+    });
+</script>
+
+
 {% endblock %}
