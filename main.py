@@ -407,6 +407,69 @@ def initialize_database():
                 print(f"✅ {added_users} Testbenutzer hinzugefügt/aktualisiert")
             else:
                 print("ℹ️ Keine neuen Testbenutzer benötigt")
+
+
+
+
+
+
+
+            # Test-News erstellen
+            print("Prüfe Test-News...")
+            test_news = [
+                {
+                    'title': 'Willkommen beim QuizMaster!',
+                    'content': 'Wir freuen uns, dich in unserer Quiz-Community begrüßen zu dürfen. Tauche ein in die Welt des Wissens und teste dein Können in verschiedenen Kategorien. Viel Spaß und viel Erfolg!',
+                    'created_at': datetime(2024, 1, 10, 14, 30, tzinfo=timezone.utc)
+                },
+                {
+                    'title': 'Neue Kategorien verfügbar',
+                    'content': 'Ab sofort stehen dir <strong>5 neue spannende Kategorien</strong> zur Verfügung:<br>• Weltraum & Astronomie<br>• Künstliche Intelligenz<br>• Ozeane & Meeresbewohner<br>• Mittelalter & Ritter<br>• Moderne Erfindungen<br>Erweitere dein Wissen und sammle Punkte!',
+                    'created_at': datetime(2024, 1, 15, 9, 15, tzinfo=timezone.utc)
+                },
+                {
+                    'title': 'Highscore-Update',
+                    'content': 'Große Neuigkeiten in der Bestenliste! Unser Top-Spieler "Michael" hat einen neuen Rekord aufgestellt: <span style="color: #ffcc00;">1.250 Punkte</span> in einem einzigen Quiz! Kannst du ihn herausfordern?',
+                    'created_at': datetime(2024, 1, 20, 16, 45, tzinfo=timezone.utc)
+                },
+                {
+                    'title': 'Community-Event: Quiz-Nacht',
+                    'content': '📅 <strong>Datum:</strong> 15. Februar 2024<br>🕘 <strong>Uhrzeit:</strong> 20:00 - 22:00 Uhr<br>🎯 <strong>Thema:</strong> Allgemeinwissen<br><br>Nimm teil an unserer ersten Quiz-Nacht und gewinne exklusive Avatare!',
+                    'created_at': datetime(2024, 1, 25, 11, 0, tzinfo=timezone.utc)
+                },
+                {
+                    'title': 'Technische Wartungsarbeiten',
+                    'content': 'Am <u>30. Januar 2024 zwischen 02:00 und 04:00 Uhr</u> finden wichtige Wartungsarbeiten am System statt. Während dieser Zeit kann es zu kurzen Ausfällen kommen. Wir bitten um Verständnis!',
+                    'created_at': datetime(2024, 1, 28, 18, 20, tzinfo=timezone.utc)
+                }
+            ]
+
+            added_news = 0
+            for news_data in test_news:
+                # Prüfen ob News bereits existiert (anhand des Titels)
+                existing = News.query.filter_by(title=news_data['title']).first()
+                if not existing:
+                    new_news = News(
+                        title=news_data['title'],
+                        content=news_data['content'],
+                        created_at=news_data['created_at']
+                    )
+                    db.session.add(new_news)
+                    added_news += 1
+
+            if added_news > 0:
+                db.session.commit()
+                print(f"✅ {added_news} Test-News hinzugefügt")
+            else:
+                print("ℹ️ Keine neuen Test-News benötigt")
+
+
+
+
+                
+
+
+            
             
             admin_username = os.environ.get('ADMIN_USERNAME', 'AdminZugang')
             admin_password = os.environ.get('ADMIN_PASSWORD', 'adminzugang')
