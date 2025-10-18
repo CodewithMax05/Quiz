@@ -170,7 +170,7 @@ body.playermenu-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 6px;
+    padding: 2px;
     box-sizing: border-box;
     transition: all 0.28s ease;
 }
