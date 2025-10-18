@@ -414,34 +414,35 @@ def initialize_database():
 
 
 
-            # Test-News erstellen
             print("Prüfe Test-News...")
             test_news = [
+                # 1. News: Zufallsmodus (Heute, 18.10.2025)
                 {
-                    'title': 'Willkommen beim QuizMaster!',
-                    'content': 'Wir freuen uns, dich in unserer Quiz-Community begrüßen zu dürfen. Tauche ein in die Welt des Wissens und teste dein Können in verschiedenen Kategorien. Viel Spaß und viel Erfolg!',
-                    'created_at': datetime(2024, 1, 10, 14, 30, tzinfo=timezone.utc)
+                    'title': 'Neuer Modus in Planung: Zufällige Themen!',
+                    'content': 'Um das Quiz-Erlebnis abwechslungsreicher zu gestalten, planen wir die Einführung eines <strong>Zufallsmodus</strong>.<br><br>Dabei werden die Fragen nicht mehr aus einem einzigen, sondern aus <strong>allen verfügbaren Themenbereichen</strong> zufällig gezogen. Seid gespannt auf die ultimative Wissensherausforderung!',
+                    'created_at': datetime(2025, 10, 18, 10, 0, tzinfo=timezone.utc)
                 },
+
+                # 2. News: Einführung AGB & Datenschutz (15.10.2025)
                 {
-                    'title': 'Neue Kategorien verfügbar',
-                    'content': 'Ab sofort stehen dir <strong>5 neue spannende Kategorien</strong> zur Verfügung:<br>• Weltraum & Astronomie<br>• Künstliche Intelligenz<br>• Ozeane & Meeresbewohner<br>• Mittelalter & Ritter<br>• Moderne Erfindungen<br>Erweitere dein Wissen und sammle Punkte!',
-                    'created_at': datetime(2024, 1, 15, 9, 15, tzinfo=timezone.utc)
+                    'title': 'Wichtige Einführung: AGB und Datenschutz',
+                    'content': 'Wir haben unsere <strong>Allgemeinen Geschäftsbedingungen (AGB)</strong> und die <strong>Datenschutzerklärung</strong> eingeführt, um Transparenz und Rechtssicherheit zu gewährleisten.<br><br>Du findest die vollständigen Dokumente jederzeit unter "Rechtliche Informationen" im Menü. Wir behalten uns Änderungen vor; wesentliche Anpassungen werden immer rechtzeitig angekündigt.',
+                    'created_at': datetime(2025, 10, 15, 12, 0, tzinfo=timezone.utc)
                 },
+
+                # 3. News: Multiplayer-Ankündigung (ca. 1 Monat her)
                 {
-                    'title': 'Highscore-Update',
-                    'content': 'Große Neuigkeiten in der Bestenliste! Unser Top-Spieler "Michael" hat einen neuen Rekord aufgestellt: <span style="color: #ffcc00;">1.250 Punkte</span> in einem einzigen Quiz! Kannst du ihn herausfordern?',
-                    'created_at': datetime(2024, 1, 20, 16, 45, tzinfo=timezone.utc)
+                    'title': '💥 Ankündigung: Der Multiplayer kommt!',
+                    'content': 'Wir freuen uns, den Start des mit Spannung erwarteten <strong>Multiplayer-Modus</strong> bekanntzugeben – geplant für <strong>Januar 2026</strong>!<br><br>Spieler können in eigenen Räumen gegeneinander antreten. Die Räume werden mit Einstellungen wie <strong>"privat"</strong> oder <strong>"öffentlich"</strong> anpassbar sein. Weitere Details zum Beta-Start folgen in Kürze!',
+                    'created_at': datetime(2025, 9, 25, 18, 30, tzinfo=timezone.utc)
                 },
+                
+                # 4. News: Große Fragen-Erweiterung (ca. 1,5 Monate her)
                 {
-                    'title': 'Community-Event: Quiz-Nacht',
-                    'content': '📅 <strong>Datum:</strong> 15. Februar 2024<br>🕘 <strong>Uhrzeit:</strong> 20:00 - 22:00 Uhr<br>🎯 <strong>Thema:</strong> Allgemeinwissen<br><br>Nimm teil an unserer ersten Quiz-Nacht und gewinne exklusive Avatare!',
-                    'created_at': datetime(2024, 1, 25, 11, 0, tzinfo=timezone.utc)
+                    'title': 'QuizMaster wächst: Über 3.000 Fragen verfügbar!',
+                    'content': 'Dank unserer Community und fleißiger KI-Generierung konnten wir unseren Fragenkatalog massiv erweitern. Ab sofort stehen euch <strong>über 3.000 einzigartige Fragen</strong> in allen Kategorien zur Verfügung.<br><br>Das heißt: Mehr Abwechslung, mehr Herausforderung und mehr Punkte für euch!<br>Ihr habt noch gute Ideen für neue Fragen - dann meldet euch über unseren Support!',
+                    'created_at': datetime(2025, 9, 5, 9, 0, tzinfo=timezone.utc)
                 },
-                {
-                    'title': 'Technische Wartungsarbeiten',
-                    'content': 'Am <u>30. Januar 2024 zwischen 02:00 und 04:00 Uhr</u> finden wichtige Wartungsarbeiten am System statt. Während dieser Zeit kann es zu kurzen Ausfällen kommen. Wir bitten um Verständnis!',
-                    'created_at': datetime(2024, 1, 28, 18, 20, tzinfo=timezone.utc)
-                }
             ]
 
             added_news = 0
@@ -466,7 +467,7 @@ def initialize_database():
 
 
 
-                
+
 
 
             

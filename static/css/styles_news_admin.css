@@ -29,6 +29,48 @@ h1.headline {
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
 }
 
+/* Neue Formatierungs-Info-Box Styles */
+.formatting-info-box {
+    background: rgba(0, 170, 255, 0.15); /* Helles Blau, um es abzuheben */
+    border: 1px solid rgba(0, 170, 255, 0.4);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 0 0 25px 0;
+    text-align: left;
+    color: white;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.formatting-info-box p {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+}
+
+.formatting-info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+
+.formatting-info-box li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+.formatting-info-box code {
+    background: none;
+    color: #ffc107; /* Gelb für die Code-Snippets */
+    font-weight: bold;
+}
+/* Ende Formatierungs-Info-Box Styles */
+
+
 /* Admin News Liste */
 .admin-news-list {
     text-align: left;
@@ -202,6 +244,11 @@ h1.headline {
     
     .admin-news-actions {
         flex-direction: column;
+    }
+    
+    .formatting-info-box ul {
+        flex-direction: column;
+        gap: 8px;
     }
 }
 

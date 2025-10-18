@@ -9,9 +9,18 @@
 <div class="page-wrapper">
     <div class="container">
         <h1 class="headline">News Verwaltung</h1>
-
+        
+        <div class="formatting-info-box">
+            <p><strong>Formatierungs-Hinweis:</strong> Der Inhalt der News kann HTML enthalten.</p>
+            <ul>
+                <li>Zeilenumbruch: <code>&lt;br&gt;</code></li>
+                <li>Fettgedruckt: <code>&lt;strong&gt;Text&lt;/strong&gt;</code></li>
+                <li>Unterstrichen: <code>&lt;u&gt;Text&lt;/u&gt;</code></li>
+                <li>Textfarbe/Styling: <code>&lt;span style="color:..."&gt;Text&lt;/span&gt;</code></li>
+                <li>Kursiv: <code>&lt;em&gt;Text&lt;/em&gt;</code></li>
+            </ul>
+        </div>
         <div class="admin-news-list">
-            <!-- Neue News erstellen -->
             <div class="admin-news-item">
                 <button class="admin-news-toggle">Neue News erstellen <i class="fa fa-chevron-down"></i></button>
                 <div class="admin-news-content">
@@ -27,7 +36,6 @@
                 </div>
             </div>
 
-            <!-- Bestehende News bearbeiten/löschen -->
             {% for entry in news_entries %}
             <div class="admin-news-item">
                 <button class="admin-news-toggle">
