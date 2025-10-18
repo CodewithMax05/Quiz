@@ -2,11 +2,11 @@
 .page-wrapper {
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: center; /* Horizontale Zentrierung */
+    align-items: center; /* NEU: Vertikale Zentrierung */
     padding: 20px 10px;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow-y: auto; /* Beibehalten, damit bei zu viel Inhalt gescrollt werden kann */
 }
 
 .container {
@@ -106,6 +106,13 @@ h1.headline {
     border-radius: 10px;
     color: #ccc;
     margin: 20px 0;
+    
+    /* NEU: Flexbox für die Zentrierung des Icon/Text-Blocks */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 /* Back Button */
