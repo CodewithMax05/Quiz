@@ -12,15 +12,20 @@
         <div class="player-card">
             <!-- Überschrift + news + Zurück-Button -->
             <div class="title-bar">
-                <h1 class="playermenu-title">Spielermenü</h1>
-                
-                <div class="header-actions">
+                <!-- Linke Seite: News Button -->
+                <div class="left-actions">
                     <a href="{{ url_for('news') }}" class="news-circle-button sound-button">
                         <i class="fas fa-newspaper"></i> {% if news_notification_count and news_notification_count > 0 %}
                             <span class="notification-badge">{{ news_notification_count }}</span>
                         {% endif %}
                     </a>
-                    
+                </div>
+
+                <!-- Zentrierte Überschrift -->
+                <h1 class="playermenu-title">Spielermenü</h1>
+
+                <!-- Rechte Seite: Zurück-Button -->
+                <div class="right-actions">
                     <a href="{{ url_for('logout') }}" class="back-circle-button sound-button">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>

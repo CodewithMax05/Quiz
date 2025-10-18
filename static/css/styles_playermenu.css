@@ -46,21 +46,31 @@ body.playermenu-page {
     box-sizing: border-box;
 }
 
-/* Titelzeile - GEÄNDERT */
 .title-bar {
     width: 100%;
     display: flex;
-    justify-content: space-between; /* NEU: Platziert Titel links und Buttons rechts */
+    justify-content: space-between;
     align-items: center;
     position: relative;
     padding: 0.2rem 0;
 }
 
-/* Container für die Aktions-Buttons rechts */
-.header-actions {
+/* Linke und rechte Container für Buttons */
+.left-actions,
+.right-actions {
     display: flex;
-    gap: 10px; /* Hält den gewünschten 10px Abstand zwischen News und Logout Button */
     align-items: center;
+    flex: 1;
+}
+
+/* Rechte Buttons rechts ausrichten */
+.right-actions {
+    justify-content: flex-end;
+}
+
+/* Linke Buttons links ausrichten */
+.left-actions {
+    justify-content: flex-start;
 }
 
 /* 1. News Button (links vom Zurück-Button) - GRÖSSE ANGEPASST */
@@ -112,16 +122,11 @@ body.playermenu-page {
     font-size: 2.0rem;
     color: #ffffff;
     text-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
-    margin: 0;
-    text-align: left; /* Text-Alignment auf Left setzen, da title-bar jetzt linksbündig ist */
+    text-align: center;
+    flex: 2;
 }
 
-/* Zurück- / Logout-Button: Wichtige Änderungen hier! */
 .back-circle-button {
-    /* position: absolute; entfernt, da es jetzt im .header-actions Container ist */
-    /* right: 0; entfernt */
-    /* top: 50%; entfernt */
-    /* transform: translateY(-50%); entfernt */
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -444,9 +449,11 @@ body.playermenu-page {
     }
     .player-card {
         padding: 1rem;
-        max-width: 500px;     /* Hochformat-Eindruck auf Handys */
+        max-width: 600px;     /* Hochformat-Eindruck auf Handys */
         margin: 0.75rem 0;
     }
+
+    .player-avatar { width: 88px; height: 88px; }
     
     /* Avatar + Username: Vertikal anordnen */
     .player-info-box {
@@ -467,8 +474,8 @@ body.playermenu-page {
     .avatar-carousel-item { flex: 0 0 100%; }
     .carousel-button { width: 36px; height: 36px; font-size: 1rem; }
 
-    .playermenu-title { font-size: 1.7rem; }
-    .player-username { font-size: 1.5rem; }
+    .player-username { font-size: 1.35rem; }
+    .playermenu-title { font-size: 1.4rem; }
 
     /* Buttons untereinander (besser für Touch) */
     .menu-buttons {
@@ -533,7 +540,6 @@ body.playermenu-page {
         width: 35px; 
         height: 35px; 
         font-size: 1rem; 
-        /* right: 6px; entfernt, da nicht mehr absolut positioniert */
     }
     .news-circle-button { 
         width: 35px; 
