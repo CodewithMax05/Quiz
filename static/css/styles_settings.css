@@ -175,6 +175,13 @@ h1.headline {
     min-height: 180px; /* Minimale Höhe damit nichts abgeschnitten wird */
 }
 
+/* Avatar Titel Styling */
+.avatar-selection-title {
+    color: white;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 /* Weniger Abstand über der Überschrift */
 .avatar-selection-container h4 {
     margin: 0 0 12px 0; /* Etwas mehr Abstand unten für bessere Trennung */
@@ -306,63 +313,40 @@ h1.headline {
     background-color: #0f6ac9;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .avatar-carousel {
-        width: 260px;
-    }
-    
-    .avatar-item {
-        width: 65px;
-        height: 65px;
-    }
-    
-    .carousel-button {
-        width: 26px;
-        height: 26px;
-        font-size: 0.8rem;
-        min-width: 26px;
-        max-width: 26px;
-    }
-    
-    .avatar-selection-container {
-        margin: 8px 0;
-        padding: 10px;
-        min-height: 170px;
-    }
+/* AGB Checkbox Container */
+.agb-checkbox-container {
+    margin: 15px 0;
+    text-align: left;
 }
 
-@media (max-width: 480px) {
-    .avatar-carousel {
-        width: 240px;
-    }
-    
-    .avatar-item {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .carousel-container {
-        gap: 3px;
-    }
-    
-    .carousel-button {
-        width: 24px;
-        height: 24px;
-        min-width: 24px;
-        max-width: 24px;
-    }
-    
-    .avatar-selection-container {
-        margin: 5px 0;
-        padding: 10px;
-        min-height: 160px;
-    }
-    
-    .avatar-selection-container h4 {
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-    }
+.agb-checkbox-label {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.agb-checkbox {
+    width: auto;
+}
+
+/* Delete Warning Text */
+.delete-warning {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Danger Buttons (Ablehnen/Löschen) */
+.danger-button {
+    background-color: #ff6b6b !important;
+    color: white !important;
+    margin-top: 10px;
+}
+
+.danger-button:hover {
+    background-color: #e05555 !important;
 }
 
 /* ==========================
@@ -438,7 +422,63 @@ h1.headline {
 }
 
 /* Responsive Anpassungen */
+@media (max-width: 768px) {
+    .avatar-carousel {
+        width: 260px;
+    }
+    
+    .avatar-item {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .carousel-button {
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+        min-width: 26px;
+        max-width: 26px;
+    }
+    
+    .avatar-selection-container {
+        margin: 8px 0;
+        padding: 10px;
+        min-height: 170px;
+    }
+}
+
 @media (max-width: 480px) {
+    .avatar-carousel {
+        width: 240px;
+    }
+    
+    .avatar-item {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .carousel-container {
+        gap: 3px;
+    }
+    
+    .carousel-button {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        max-width: 24px;
+    }
+    
+    .avatar-selection-container {
+        margin: 5px 0;
+        padding: 10px;
+        min-height: 160px;
+    }
+    
+    .avatar-selection-container h4 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+    
     .input-wrap input[type="password"] {
         padding-right: 45px;
     }

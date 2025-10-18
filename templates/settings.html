@@ -84,7 +84,7 @@
                         
                         <!-- Avatar Auswahl Bereich -->
                         <div class="avatar-selection-container">
-                            <h4 style="color: white; margin-bottom: 15px; text-align: center;">Wähle einen Avatar:</h4>
+                            <h4 class="avatar-selection-title">Wähle einen Avatar:</h4>
                             
                             <!-- Karussell Container - WIE IN PLAYERMENU -->
                             <div class="carousel-container">
@@ -129,14 +129,14 @@
                             </button>
                         </div>
 
-                        <div style="margin: 15px 0; text-align: left;">
-                            <label style="color: white; display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" name="confirm_reject" value="true" style="width: auto;">
+                        <div class="agb-checkbox-container">
+                            <label class="agb-checkbox-label">
+                                <input type="checkbox" name="confirm_reject" value="true" class="agb-checkbox">
                                 <span>Ich lehne die AGBs und Datenschutzverordnung nachträglich ab</span>
                             </label>
                         </div>
 
-                        <button type="submit" style="background-color: #ff6b6b; color: white;">
+                        <button type="submit" class="danger-button">
                             Ablehnen
                         </button>
                     </form>
@@ -158,12 +158,12 @@
                             </button>
                         </div>
 
-                        <p style="color: red; font-weight: bold; margin-top: 10px;">
-                            Zum Löschen es Accounts <u>Delete</u> eingeben:
+                        <p class="delete-warning">
+                            Zum Löschen des Accounts <u>DELETE</u> eingeben:
                         </p>
-                        <input type="text" name="confirm_delete" placeholder="Delete" value="" required>
+                        <input type="text" name="confirm_delete" placeholder="DELETE" value="" required>
 
-                        <button type="submit" style="background-color: #ff6b6b; color: white; margin-top: 10px;">
+                        <button type="submit" class="danger-button">
                             Account löschen
                         </button>
                     </form>

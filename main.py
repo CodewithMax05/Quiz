@@ -1059,8 +1059,8 @@ def delete_account():
         return redirect(url_for('settings'))
 
     # 3. Bestätigung prüfen
-    if confirm_delete != "Delete":
-        flash("Bitte schreibe exakt 'Delete', um den Account zu löschen.", "error")
+    if confirm_delete != "DELETE":
+        flash("Bitte schreibe exakt 'DELETE', um den Account zu löschen.", "error")
         return redirect(url_for('settings'))
 
     # 4. Benutzer löschen
