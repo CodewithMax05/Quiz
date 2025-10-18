@@ -46,15 +46,66 @@ body.playermenu-page {
     box-sizing: border-box;
 }
 
-/* Titelzeile */
+/* Titelzeile - GEÄNDERT */
 .title-bar {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* NEU: Platziert Titel links und Buttons rechts */
     align-items: center;
     position: relative;
     padding: 0.2rem 0;
 }
+
+/* Container für die Aktions-Buttons rechts */
+.header-actions {
+    display: flex;
+    gap: 10px; /* Hält den gewünschten 10px Abstand zwischen News und Logout Button */
+    align-items: center;
+}
+
+/* 1. News Button (links vom Zurück-Button) - GRÖSSE ANGEPASST */
+.news-circle-button {
+    /* Kopiert den Stil des back-circle-button, damit die Größe passt */
+    width: 50px; /* Angepasst */
+    height: 50px; /* Angepasst */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.35rem; /* Angepasst */
+    transition: all 0.2s ease;
+    
+    /* Farb- und Schattenstil des News-Buttons */
+    background: linear-gradient(135deg, #00aaff, #0077cc); /* Blau */
+    color: white;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    position: relative; /* Wichtig für das Badge */
+}
+
+.news-circle-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* 2. Benachrichtigungs-Badge */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff4757; /* Knalliges Rot */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 15px; /* Mindestbreite für das Ausrufezeichen/kleine Zahlen */
+    text-align: center;
+    line-height: 1;
+    border: 2px solid rgba(26, 26, 46, 0.8); /* Kontrast-Rand zur Spielermenü-Karte */
+}
+
+
 
 /* Überschrift */
 .playermenu-title {
@@ -62,15 +113,15 @@ body.playermenu-page {
     color: #ffffff;
     text-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
     margin: 0;
-    text-align: center;
+    text-align: left; /* Text-Alignment auf Left setzen, da title-bar jetzt linksbündig ist */
 }
 
-/* Zurück- / Logout-Button: rechts positioniert, aber vertikal mittig zur Title-Bar */
+/* Zurück- / Logout-Button: Wichtige Änderungen hier! */
 .back-circle-button {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%); /* genau mittig in der Title-Bar */
+    /* position: absolute; entfernt, da es jetzt im .header-actions Container ist */
+    /* right: 0; entfernt */
+    /* top: 50%; entfernt */
+    /* transform: translateY(-50%); entfernt */
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -443,7 +494,12 @@ body.playermenu-page {
     .button-subtitle {
         font-size: 0.8rem;
     }
-    .back-circle-button {
+    .back-circle-button { /* Größe hier auch angepasst */
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    .news-circle-button { /* Größe hier auch angepasst */
         width: 45px;
         height: 45px;
         font-size: 1.1rem;
@@ -477,7 +533,13 @@ body.playermenu-page {
         width: 35px; 
         height: 35px; 
         font-size: 1rem; 
-        right: 6px; }
+        /* right: 6px; entfernt, da nicht mehr absolut positioniert */
+    }
+    .news-circle-button { 
+        width: 35px; 
+        height: 35px; 
+        font-size: 1rem; 
+    }
 }
 
 /* Modal Überschrift */
