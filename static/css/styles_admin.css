@@ -120,8 +120,8 @@ body {
 
 /* GLEICHE BREITE FÜR ALLE BUTTONS */
 .admin-card .card-body .btn {
-    min-width: 200px !important;
-    width: auto !important;
+    width: 80% !important; /* NEU: Setzt die Button-Breite auf 80% des Containers */
+    max-width: 300px; /* NEU: Eine Obergrenze, damit sie nicht zu groß werden */
     flex: 0 0 auto !important;
 }
 
