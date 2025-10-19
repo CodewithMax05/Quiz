@@ -64,6 +64,8 @@
     flex: 1; /* Nimmt verfügbaren Platz ein */
     min-height: 0; /* Wichtig für flexbox scrolling */
     overflow-y: auto; /* Scrollen falls nötig */
+    scrollbar-gutter: stable; /* Verhindert Layout-Verschiebung bei Scrollbar */
+    padding-inline-end: 12px; /* Abstand zwischen Inhalt und (möglicher) Scrollbar */
 }
 
 /* Scrollbar-Stil für Webkit-Browser */
@@ -72,17 +74,26 @@
 }
 
 .category-grid::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    margin: 4px 0; /* kleine Lücke oben/unten für gerundetes Track-Ende */
 }
 
 .category-grid::-webkit-scrollbar-thumb {
-    background: rgba(66, 153, 225, 0.5);
-    border-radius: 3px;
+    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
+    border-radius: 8px;
+    min-height: 10px; /* verhindert zu kleine Thumbs */
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
 }
 
 .category-grid::-webkit-scrollbar-thumb:hover {
-    background: rgba(66, 153, 225, 0.7);
+    background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
+}
+
+/* Optional: Ecke am unteren/rechten Rand (falls sichtbar) - macht es sauberer */
+.category-grid::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 8px;
 }
 
 /* Kategorie-Karten */
@@ -93,7 +104,7 @@
     transition: all 0.3s ease;
     cursor: pointer;
     display: flex;
-    height: 110px;
+    height: 90px;
     position: relative;
     overflow: hidden;
     border: 2px solid rgb(27, 158, 214);
@@ -508,13 +519,9 @@
         overflow-y: auto;
         padding: 10px;
         width: 100%;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+        padding-inline-end: 10px; /* Abstand zur (möglichen) Scrollbar */
+        -ms-overflow-style: auto; /* IE/Edge: scrollbar nur bei Bedarf */
         align-self: center;
-    }
-    
-    .category-grid::-webkit-scrollbar {
-        display: none;
     }
     
     .category-card {
@@ -611,12 +618,8 @@
         min-height: 0;
         overflow-y: auto;
         padding: 5px;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    .category-grid::-webkit-scrollbar {
-        display: none;
+        padding-inline-end: 8px; /* Abstand zur (möglichen) Scrollbar */
+        -ms-overflow-style: auto; /* IE/Edge: scrollbar nur bei Bedarf */
     }
     
     .category-card {
