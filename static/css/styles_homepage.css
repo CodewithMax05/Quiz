@@ -9,6 +9,7 @@
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    min-height: 100dvh; /* Dynamische Viewport-Höhe für Browser-Leisten */
 }
 
 /* Header-Bar ausblenden */
@@ -26,7 +27,8 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    min-height: calc(100vh - 120px);
+    min-height: calc(100dvh - 120px); /* Dynamische Höhe berücksichtigt Browser-Leisten */
+    box-sizing: border-box;
 }
 
 .headline {
@@ -34,6 +36,7 @@
     font-size: 2rem;
     color: white;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    flex-shrink: 0; /* Verhindert Schrumpfen der Überschrift */
 }
 
 /* Kategorien-Formular */
@@ -45,6 +48,8 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    flex: 1; /* Nimmt verfügbaren Platz ein */
+    min-height: 0; /* Wichtig für flexbox scrolling */
 }
 
 /* 4x4 GRID FÜR 16 KATEGORIEN */
@@ -52,10 +57,32 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
+    flex: 1; /* Nimmt verfügbaren Platz ein */
+    min-height: 0; /* Wichtig für flexbox scrolling */
+    overflow-y: auto; /* Scrollen falls nötig */
+}
+
+/* Scrollbar-Stil für Webkit-Browser */
+.category-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.category-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.category-grid::-webkit-scrollbar-thumb {
+    background: rgba(66, 153, 225, 0.5);
+    border-radius: 3px;
+}
+
+.category-grid::-webkit-scrollbar-thumb:hover {
+    background: rgba(66, 153, 225, 0.7);
 }
 
 /* Kategorie-Karten */
@@ -220,6 +247,7 @@
     margin: 0 auto;
     margin-top: 20px;
     gap: 15px;
+    flex-shrink: 0; /* Verhindert Schrumpfen der Button-Zeile */
 }
 
 /* Support-Button */
@@ -454,10 +482,16 @@
 
 /* Tablet (768px - 1024px) */
 @media (max-width: 1024px) {
+    .page-wrapper {
+        padding: 15px;
+        min-height: 100dvh;
+    }
+    
     .container {
         padding: 70px 15px 25px;
         max-width: 95%;
         justify-content: flex-start;
+        min-height: calc(100dvh - 100px);
     }
     
     .headline {
@@ -468,8 +502,9 @@
     .category-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 12px;
-        margin-bottom: 30px;
-        max-height: 60vh;
+        margin-bottom: 20px;
+        flex: 1;
+        min-height: 0;
         overflow-y: auto;
         padding: 10px;
         width: 100%;
@@ -527,7 +562,7 @@
     
     .button-row {
         max-width: 95%;
-        margin-top: 20px;
+        margin-top: 15px;
     }
     
     .support-button,
@@ -553,12 +588,14 @@
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
     .page-wrapper {
-        padding: 15px;
+        padding: 10px;
+        min-height: 100dvh;
     }
     
     .container {
         padding: 60px 10px 20px;
-        min-height: calc(100vh - 80px);
+        min-height: calc(100dvh - 80px);
+        justify-content: flex-start;
     }
     
     .headline {
@@ -569,8 +606,9 @@
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
-        margin-bottom: 25px;
-        max-height: 60vh;
+        margin-bottom: 15px;
+        flex: 1;
+        min-height: 0;
         overflow-y: auto;
         padding: 5px;
         -ms-overflow-style: none;
@@ -662,11 +700,13 @@
 /* Kleine Mobile (max-width: 480px) */
 @media (max-width: 480px) {
     .page-wrapper {
-        padding: 10px;
+        padding: 8px;
+        min-height: 100dvh;
     }
     
     .container {
         padding: 55px 5px 15px;
+        min-height: calc(100dvh - 60px);
     }
     
     .headline {
@@ -676,7 +716,7 @@
     
     .category-grid {
         gap: 8px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     
     .category-card {
@@ -745,16 +785,18 @@
     }
 }
 
-/* Anpassungen für kleine Höhen */
+/* Höhen-basierte Media Queries für kleine Bildschirme */
 @media (max-height: 700px) and (min-width: 769px) {
     .page-wrapper {
         padding: 10px 15px;
         justify-content: flex-start;
+        min-height: 100dvh;
     }
     
     .container {
         padding-top: 60px;
         padding-bottom: 15px;
+        min-height: calc(100dvh - 70px);
     }
     
     .headline {
@@ -763,8 +805,11 @@
     }
     
     .category-grid {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         gap: 10px;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
     }
     
     .category-card {
@@ -773,5 +818,45 @@
     
     .start-button {
         margin-top: 10px;
+    }
+}
+
+/* Sehr kleine Höhe */
+@media (max-height: 600px) {
+    .container {
+        padding-top: 50px;
+        padding-bottom: 10px;
+        min-height: calc(100dvh - 60px);
+    }
+    
+    .headline {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    .category-card {
+        height: 80px;
+    }
+    
+    .category-card i {
+        font-size: 1.4rem;
+    }
+    
+    .category-card span {
+        font-size: 0.75rem;
+    }
+    
+    .playermenu-button,
+    .info-button,
+    .ranking-button {
+        width: 45px;
+        height: 45px;
+        top: 8px;
+    }
+    
+    .playermenu-button i,
+    .info-button i,
+    .ranking-button i {
+        font-size: 1.4rem;
     }
 }
