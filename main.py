@@ -107,17 +107,11 @@ class News(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __repr__(self):
-        return f"<News {self.title}>"
-
     def to_dict(self):
         return {
             'id': self.id,
-            'category': self.category,
-            'username': self.username,
-            'phone': self.phone,
-            'email': self.email,
-            'message': self.message,
+            'title': self.title,
+            'content': self.content,
             'created_at': self.created_at
         }
 
@@ -796,20 +790,27 @@ def register():
     
 @app.route('/check_username', methods=['GET'])
 def check_username():
-    username = (request.args.get('username') or '').strip()
-    if not username:
-        return jsonify({'available': False, 'message': 'Bitte gib einen Benutzernamen an.'}), 400
-    if len(username) > 12:
-        return jsonify({'available': False, 'message': 'Benutzername darf maximal 12 Zeichen haben.'}), 200
+    try:
+        username = (request.args.get('username') or '').strip()
+        if not username:
+            return jsonify({'available': False, 'message': 'Bitte gib einen Benutzernamen an.'}), 400
+        if len(username) > 12:
+            return jsonify({'available': False, 'message': 'Benutzername darf maximal 12 Zeichen haben.'}), 200
 
-    # Normale Prüfung in DB
-    user = User.query.filter_by(username=username).first()
-    if user:
-        return jsonify({'available': False, 'message': 'Benutzername bereits vergeben.'}), 200
+        # Normale Prüfung in DB
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return jsonify({'available': False, 'message': 'Benutzername bereits vergeben.'}), 200
 
-    return jsonify({'available': True}), 200
+        return jsonify({'available': True}), 200
 
-    
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler in check_username: {str(e)}")
+        return jsonify({'available': False, 'message': 'Datenbankfehler. Bitte versuche es später erneut.'}), 500
+    except Exception as e:
+        print(f"Unerwarteter Fehler in check_username: {str(e)}")
+        return jsonify({'available': False, 'message': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
+
 @app.route('/accept_agb', methods=['POST'])
 def accept_agb():
     try:
@@ -843,8 +844,14 @@ def accept_agb():
         target_endpoint = 'admin_panel' if user.is_admin else 'playermenu'
         return redirect(url_for(target_endpoint))
         
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler bei AGB-Akzeptierung: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuchen Sie es später erneut.', 'error')
+        return redirect(url_for('index'))
     except Exception as e:
-        print(f"Fehler bei AGB-Akzeptierung: {str(e)}")
+        db.session.rollback()
+        print(f"Unerwarteter Fehler bei AGB-Akzeptierung: {str(e)}")
         flash('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.', 'error')
         return redirect(url_for('index'))
 
@@ -855,230 +862,310 @@ def settings():
 
 @app.route('/change_username', methods=['POST'])
 def change_username():
-    current_username = request.form.get('current_username', '').strip()
-    new_username = request.form.get('new_username', '').strip()
-    password = request.form.get('password', '')
+    try:
+        current_username = request.form.get('current_username', '').strip()
+        new_username = request.form.get('new_username', '').strip()
+        password = request.form.get('password', '')
 
-    # Benutzer anhand des eingegebenen aktuellen Benutzernamens suchen
-    user = User.query.filter_by(username=current_username).first()
-    if not user:
-        flash("Benutzer nicht gefunden!", "error")
+        # Validierung der Eingaben
+        if not current_username or not new_username or not password:
+            flash("Bitte fülle alle Felder aus!", "error")
+            return redirect(url_for('settings'))
+
+        # Benutzer anhand des eingegebenen aktuellen Benutzernamens suchen
+        user = User.query.filter_by(username=current_username).first()
+        if not user:
+            flash("Benutzer nicht gefunden!", "error")
+            return redirect(url_for('settings'))
+
+        # Passwort prüfen
+        if not user.check_password(password):
+            flash("Falsches Passwort!", "error")
+            return redirect(url_for('settings'))
+
+        # Neuer Benutzername darf nicht zu lang sein
+        if len(new_username) > 12:
+            flash("Benutzername darf maximal 12 Zeichen haben!", "error")
+            return redirect(url_for('settings'))
+
+        # Prüfen, ob Benutzername schon existiert
+        if User.query.filter_by(username=new_username).first():
+            flash("Benutzername bereits vergeben!", "error")
+            return redirect(url_for('settings'))
+
+        # Benutzernamen ändern
+        user.username = new_username
+        db.session.commit()
+
+        # Session aktualisieren, falls der User gerade eingeloggt war
+        if 'username' in session and session['username'] == current_username:
+            session['username'] = new_username
+
+        flash("Benutzername erfolgreich geändert!", "success")
         return redirect(url_for('settings'))
 
-    # Passwort prüfen
-    if not user.check_password(password):
-        flash("Falsches Passwort!", "error")
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Ändern des Benutzernamens: {str(e)}")
+        flash("Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.", "error")
         return redirect(url_for('settings'))
-
-    # Neuer Benutzername darf nicht leer sein oder zu lang
-    if not new_username:
-        flash("Neuer Benutzername darf nicht leer sein!", "error")
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler beim Ändern des Benutzernamens: {str(e)}")
+        flash("Ein unerwarteter Fehler ist aufgetreten.", "error")
         return redirect(url_for('settings'))
-    if len(new_username) > 12:
-        flash("Benutzername darf maximal 12 Zeichen haben!", "error")
-        return redirect(url_for('settings'))
-
-    # Prüfen, ob Benutzername schon existiert
-    if User.query.filter_by(username=new_username).first():
-        flash("Benutzername bereits vergeben!", "error")
-        return redirect(url_for('settings'))
-
-    # Benutzernamen ändern
-    user.username = new_username
-    db.session.commit()
-
-    # Session aktualisieren, falls der User gerade eingeloggt war
-    if 'username' in session and session['username'] == current_username:
-        session['username'] = new_username
-
-    flash("Benutzername erfolgreich geändert!", "success")
-    return redirect(url_for('settings'))
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
-    username = request.form.get('username', '').strip()
-    current_password = request.form.get('current_password', '')
-    new_password = request.form.get('new_password', '')
-    confirm_password = request.form.get('confirm_password', '')
+    try:
+        username = request.form.get('username', '').strip()
+        current_password = request.form.get('current_password', '')
+        new_password = request.form.get('new_password', '')
+        confirm_password = request.form.get('confirm_password', '')
 
-    # 1. Benutzer anhand des Usernames finden
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        flash("Benutzer nicht gefunden!", "error")
+        # Validierung der Eingaben
+        if not username or not current_password or not new_password or not confirm_password:
+            flash("Bitte fülle alle Felder aus!", "error")
+            return redirect(url_for('settings'))
+
+        # Benutzer anhand des Usernames finden
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            flash("Benutzer nicht gefunden!", "error")
+            return redirect(url_for('settings'))
+
+        # Aktuelles Passwort prüfen
+        if not user.check_password(current_password):
+            flash("Aktuelles Passwort ist falsch!", "error")
+            return redirect(url_for('settings'))
+
+        # Prüfen, ob neues Passwort korrekt eingegeben wurde
+        if new_password != confirm_password:
+            flash("Neue Passwörter stimmen nicht überein!", "error")
+            return redirect(url_for('settings'))
+
+        if len(new_password) < 5:
+            flash("Neues Passwort muss mindestens 5 Zeichen haben!", "error")
+            return redirect(url_for('settings'))
+
+        # Neues Passwort setzen
+        user.set_password(new_password)
+        db.session.commit()
+
+        flash("Passwort erfolgreich geändert!", "success")
         return redirect(url_for('settings'))
 
-    # 2. Aktuelles Passwort prüfen
-    if not user.check_password(current_password):
-        flash("Aktuelles Passwort ist falsch!", "error")
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Ändern des Passworts: {str(e)}")
+        flash("Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.", "error")
         return redirect(url_for('settings'))
-
-    # 3. Prüfen, ob neues Passwort korrekt eingegeben wurde
-    if new_password != confirm_password:
-        flash("Neue Passwörter stimmen nicht überein!", "error")
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler beim Ändern des Passworts: {str(e)}")
+        flash("Ein unerwarteter Fehler ist aufgetreten.", "error")
         return redirect(url_for('settings'))
-
-    if len(new_password) < 5:
-        flash("Neues Passwort muss mindestens 5 Zeichen haben!", "error")
-        return redirect(url_for('settings'))
-
-    # 4. Neues Passwort setzen
-    user.set_password(new_password)
-    db.session.commit()
-
-    flash("Passwort erfolgreich geändert!", "success")
-    return redirect(url_for('settings'))
 
 @app.route('/change_avatar', methods=['POST'])
 def change_avatar():
-    avatar = request.form.get('avatar')
-    username = request.form.get('username')
-    password = request.form.get('password')
+    try:
+        avatar = request.form.get('avatar')
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-    # Validierung der Eingaben
-    if not avatar:
-        return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
-    
-    if not username or not password:
-        return jsonify({"success": False, "error": "Bitte fülle alle Felder aus!"})
+        # Validierung der Eingaben
+        if not avatar:
+            return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
+        
+        if not username or not password:
+            return jsonify({"success": False, "error": "Bitte fülle alle Felder aus!"})
 
-    # Benutzer über eingegebenen Username finden
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({"success": False, "error": "Benutzer nicht gefunden!"})
+        # Benutzer über eingegebenen Username finden
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            return jsonify({"success": False, "error": "Benutzer nicht gefunden!"})
 
-    # Passwort prüfen
-    if not user.check_password(password):
-        return jsonify({"success": False, "error": "Falsches Passwort!"})
+        # Passwort prüfen
+        if not user.check_password(password):
+            return jsonify({"success": False, "error": "Falsches Passwort!"})
 
-    # Validieren, dass der Avatar existiert
-    valid_avatars = [f"avatar{i}.png" for i in range(26)]
-    if avatar not in valid_avatars:
-        return jsonify({"success": False, "error": "Ungültiger Avatar!"})
+        # Validieren, dass der Avatar existiert
+        valid_avatars = [f"avatar{i}.png" for i in range(26)]
+        if avatar not in valid_avatars:
+            return jsonify({"success": False, "error": "Ungültiger Avatar!"})
 
-    # Prüfen ob der Avatar gleich ist
-    if user.avatar == avatar:
-        return jsonify({"success": True, "unchanged": True})
+        # Prüfen ob der Avatar gleich ist
+        if user.avatar == avatar:
+            return jsonify({"success": True, "unchanged": True})
 
-    user.avatar = avatar
-    db.session.commit()
-    return jsonify({"success": True})
+        user.avatar = avatar
+        db.session.commit()
+        return jsonify({"success": True})
 
-
-
-
-
-
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Ändern des Avatars: {str(e)}")
+        return jsonify({"success": False, "error": "Verbindungsproblem zur Datenbank. Bitte versuche es später erneut."})
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler beim Ändern des Avatars: {str(e)}")
+        return jsonify({"success": False, "error": "Ein unerwarteter Fehler ist aufgetreten."})
 
 @app.route('/reject_agb', methods=['POST'])
 def reject_agb():
-    username = request.form.get('username', '').strip()
-    password = request.form.get('password', '')
-    confirm_reject = request.form.get('confirm_reject', 'false') == 'true'
+    try:
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        confirm_reject = request.form.get('confirm_reject', 'false') == 'true'
 
-    # Validierung
-    if not username or not password:
-        flash("Bitte fülle alle Felder aus!", "error")
+        # Validierung
+        if not username or not password:
+            flash("Bitte fülle alle Felder aus!", "error")
+            return redirect(url_for('settings'))
+
+        if not confirm_reject:
+            flash("Bitte bestätige die Ablehnung der AGBs und Datenschutzverordnung!", "error")
+            return redirect(url_for('settings'))
+
+        # Benutzer finden und Passwort prüfen
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            flash("Benutzer nicht gefunden!", "error")
+            return redirect(url_for('settings'))
+
+        if not user.check_password(password):
+            flash("Falsches Passwort!", "error")
+            return redirect(url_for('settings'))
+
+        # AGBs ablehnen (auf False setzen)
+        user.agb_accepted = False
+        db.session.commit()
+
+        # Falls der Benutzer aktuell eingeloggt ist, ausloggen
+        if 'username' in session and session['username'] == username:
+            session.clear()
+            flash("AGBs abgelehnt. Du wurdest abgemeldet.", "success")
+            return redirect(url_for('index'))
+
+        flash("AGBs und Datenschutzverordnung erfolgreich abgelehnt!", "success")
         return redirect(url_for('settings'))
 
-    if not confirm_reject:
-        flash("Bitte bestätige die Ablehnung der AGBs und Datenschutzverordnung!", "error")
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Ablehnen der AGBs: {str(e)}")
+        flash("Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.", "error")
         return redirect(url_for('settings'))
-
-    # Benutzer finden und Passwort prüfen
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        flash("Benutzer nicht gefunden!", "error")
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler beim Ablehnen der AGBs: {str(e)}")
+        flash("Ein unerwarteter Fehler ist aufgetreten.", "error")
         return redirect(url_for('settings'))
-
-    if not user.check_password(password):
-        flash("Falsches Passwort!", "error")
-        return redirect(url_for('settings'))
-
-    # AGBs ablehnen (auf False setzen)
-    user.agb_accepted = False
-    db.session.commit()
-
-    # Falls der Benutzer aktuell eingeloggt ist, ausloggen
-    if 'username' in session and session['username'] == username:
-        session.clear()
-        flash("AGBs abgelehnt. Du wurdest abgemeldet.", "success")
-        return redirect(url_for('index'))
-
-    flash("AGBs und Datenschutzverordnung erfolgreich abgelehnt!", "success")
-    return redirect(url_for('settings'))
-
-
-
-
-
-
-
-
 
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
-    username = request.form.get('username', '').strip()
-    password = request.form.get('password', '')
-    confirm_delete = request.form.get('confirm_delete', '').strip()
+    try:
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        confirm_delete = request.form.get('confirm_delete', '').strip()
 
-    # 1. Benutzer finden
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        flash("Benutzer nicht gefunden!", "error")
+        # Validierung
+        if not username or not password or not confirm_delete:
+            flash("Bitte fülle alle Felder aus!", "error")
+            return redirect(url_for('settings'))
+
+        # Benutzer finden
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            flash("Benutzer nicht gefunden!", "error")
+            return redirect(url_for('settings'))
+
+        # Passwort prüfen
+        if not user.check_password(password):
+            flash("Passwort ist falsch!", "error")
+            return redirect(url_for('settings'))
+
+        # Bestätigung prüfen
+        if confirm_delete != "DELETE":
+            flash("Bitte schreibe exakt 'DELETE', um den Account zu löschen.", "error")
+            return redirect(url_for('settings'))
+
+        # Benutzer löschen
+        db.session.delete(user)
+        db.session.commit()
+        session.clear()
+
+        flash("Dein Account wurde dauerhaft gelöscht.", "success")
         return redirect(url_for('settings'))
 
-    # 2. Passwort prüfen
-    if not user.check_password(password):
-        flash("Passwort ist falsch!", "error")
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Löschen des Accounts: {str(e)}")
+        flash("Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.", "error")
         return redirect(url_for('settings'))
-
-    # 3. Bestätigung prüfen
-    if confirm_delete != "DELETE":
-        flash("Bitte schreibe exakt 'DELETE', um den Account zu löschen.", "error")
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler beim Löschen des Accounts: {str(e)}")
+        flash("Ein unerwarteter Fehler ist aufgetreten.", "error")
         return redirect(url_for('settings'))
-
-    # 4. Benutzer löschen
-    db.session.delete(user)
-    db.session.commit()
-    session.clear()
-
-    flash("Dein Account wurde dauerhaft gelöscht.", "success")
-    return redirect(url_for('settings'))
 
 @app.route('/playermenu')
 @login_required
 @prevent_quiz_exit 
 def playermenu():
-    user = User.query.filter_by(username=session['username']).first()
-    return render_template(
-        'playermenu.html',
-        username=user.username,
-        avatar=user.avatar,
-        first_played=user.first_played,
-        highscore=user.highscore,
-        number_of_games=user.number_of_games
-    )
+    try:
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            session.clear()
+            flash('Benutzer nicht gefunden. Bitte melden Sie sich erneut an.', 'error')
+            return redirect(url_for('index'))
+            
+        return render_template(
+            'playermenu.html',
+            username=user.username,
+            avatar=user.avatar,
+            first_played=user.first_played,
+            highscore=user.highscore,
+            number_of_games=user.number_of_games
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler im Playermenu: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
+    except Exception as e:
+        print(f"Unerwarteter Fehler im Playermenu: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
+        return redirect(url_for('index'))
 
 @app.route('/update_avatar', methods=['POST'])
 @login_required
 def update_avatar():
-    avatar = request.form.get('avatar')
-    if not avatar:
-        return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
+    try:
+        avatar = request.form.get('avatar')
+        if not avatar:
+            return jsonify({"success": False, "error": "Kein Avatar ausgewählt!"})
 
-    # Validieren, dass der Avatar existiert
-    valid_avatars = [f"avatar{i}.png" for i in range(26)]
-    if avatar not in valid_avatars:
-        return jsonify({"success": False, "error": "Ungültiger Avatar!"})
+        # Validieren, dass der Avatar existiert
+        valid_avatars = [f"avatar{i}.png" for i in range(26)]
+        if avatar not in valid_avatars:
+            return jsonify({"success": False, "error": "Ungültiger Avatar!"})
 
-    # Benutzer über Session-Username holen
-    user = User.query.filter_by(username=session.get('username')).first()
-    if not user:
-        return jsonify({"success": False, "error": "Benutzer nicht gefunden!"})
+        # Benutzer über Session-Username holen
+        user = User.query.filter_by(username=session.get('username')).first()
+        if not user:
+            return jsonify({"success": False, "error": "Benutzer nicht gefunden!"})
 
-    user.avatar = avatar
-    db.session.commit()
-    return jsonify({"success": True})
+        user.avatar = avatar
+        db.session.commit()
+        return jsonify({"success": True})
+
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler beim Aktualisieren des Avatars: {str(e)}")
+        return jsonify({"success": False, "error": "Verbindungsproblem zur Datenbank. Bitte versuche es später erneut."})
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler beim Aktualisieren des Avatars: {str(e)}")
+        return jsonify({"success": False, "error": "Ein unerwarteter Fehler ist aufgetreten."})
 
 @app.route('/homepage')
 @login_required
@@ -1125,94 +1212,104 @@ def logout():
 @app.route('/start_custom_quiz', methods=['POST'])
 @login_required
 def start_custom_quiz():
-    # Alte Auswertungsdaten löschen, wenn ein neues Quiz startet
-    if 'evaluation_data' in session:
-        session.pop('evaluation_data', None)
+    try:
+        # Alte Auswertungsdaten löschen, wenn ein neues Quiz startet
+        if 'evaluation_data' in session:
+            session.pop('evaluation_data', None)
 
-    # Alte pending_navigation löschen
-    if 'pending_navigation' in session:
-        session.pop('pending_navigation', None)
+        # Alte pending_navigation löschen
+        if 'pending_navigation' in session:
+            session.pop('pending_navigation', None)
 
-    if request.method != 'POST':
-        abort(405)
+        if request.method != 'POST':
+            abort(405)
 
-    if 'username' not in session:
-        return redirect(url_for('index'))
-    
-    # Alten Timer stoppen, falls vorhanden
-    if 'quiz_data' in session:
-        old_room_id = session['quiz_data'].get('room_id')
-        if old_room_id:
-            stop_timer(old_room_id)
-    
-    selected_topics = request.form.getlist('topics')
-    random_mode = request.form.get('random_mode') == 'true'
-    
-    # Zufallsmodus: Wähle zufällig zwischen 1-15 Themen aus
-    if random_mode:
-        # Alle verfügbaren Themen aus der Datenbank holen
-        all_topics = db.session.query(Question.subject.distinct()).all()
-        all_topics = [topic[0] for topic in all_topics]
+        # Alten Timer stoppen, falls vorhanden
+        if 'quiz_data' in session:
+            old_room_id = session['quiz_data'].get('room_id')
+            if old_room_id:
+                stop_timer(old_room_id)
+
+        if 'username' not in session:
+            return redirect(url_for('index'))
         
-        # Zufällige Anzahl von Themen auswählen (zwischen 1 und 15)
-        num_random_topics = random.randint(1, min(15, len(all_topics)))
-        selected_topics = random.sample(all_topics, num_random_topics)
+        selected_topics = request.form.getlist('topics')
+        random_mode = request.form.get('random_mode') == 'true'
+        
+        # Zufallsmodus: Wähle zufällig zwischen 1-15 Themen aus
+        if random_mode:
+            # Alle verfügbaren Themen aus der Datenbank holen
+            all_topics = db.session.query(Question.subject.distinct()).all()
+            all_topics = [topic[0] for topic in all_topics]
+            
+            # Zufällige Anzahl von Themen auswählen (zwischen 1 und 15)
+            num_random_topics = random.randint(1, min(15, len(all_topics)))
+            selected_topics = random.sample(all_topics, num_random_topics)
 
-    if not selected_topics and not random_mode:
-        flash('Bitte wähle mindestens ein Thema aus oder aktiviere den Zufallsmodus', 'error')
+        if not selected_topics and not random_mode:
+            flash('Bitte wähle mindestens ein Thema aus oder aktiviere den Zufallsmodus', 'error')
+            return redirect(url_for('homepage'))
+
+        conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
+        all_questions = Question.query.filter(or_(*conditions)).all()
+
+        if not all_questions:
+            flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
+            return redirect(url_for('homepage'))
+
+        # Für Zufallsmodus: Themenname anpassen
+        if random_mode:
+            subject_display = f"Zufällige Themen ({len(selected_topics)} Kategorien)"
+        else:
+            subject_display = ', '.join(selected_topics)
+
+        # Fragen auswählen basierend auf den ausgewählten Themen
+        questions_by_topic = defaultdict(list)
+        for q in all_questions:
+            questions_by_topic[q.subject.lower()].append(q)
+        
+        selected_questions = []
+        target_per_topic = max(1, 30 // len(selected_topics))
+        
+        for topic in selected_topics:
+            topic_questions = questions_by_topic.get(topic.lower(), [])
+            random.shuffle(topic_questions)
+            selected_questions.extend(topic_questions[:target_per_topic])
+        
+        remaining = 30 - len(selected_questions)
+        if remaining > 0:
+            extra_questions = [q for q in all_questions if q not in selected_questions]
+            random.shuffle(extra_questions)
+            selected_questions.extend(extra_questions[:remaining])
+        
+        random.shuffle(selected_questions)
+        num_questions = min(30, len(selected_questions))
+
+        # Room-ID für WebSocket erstellen
+        room_id = str(uuid.uuid4())
+        
+        session['quiz_data'] = {
+            'subject': subject_display,
+            'questions': [q.id for q in selected_questions],
+            'current_index': 0,
+            'total_questions': num_questions,
+            'score': 0,
+            'correct_count': 0,
+            'room_id': room_id,
+            'random_mode': random_mode,
+            'random_topics_count': len(selected_topics) if random_mode else None
+        }
+        
+        return redirect(url_for('show_question'))
+
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler in start_custom_quiz: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('homepage'))
-
-    conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
-    all_questions = Question.query.filter(or_(*conditions)).all()
-
-    if not all_questions:
-        flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
+    except Exception as e:
+        print(f"Unerwarteter Fehler in start_custom_quiz: {str(e)}")
+        flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
         return redirect(url_for('homepage'))
-
-    # Für Zufallsmodus: Themenname anpassen
-    if random_mode:
-        subject_display = f"Zufällige Themen ({len(selected_topics)} Kategorien)"
-    else:
-        subject_display = ', '.join(selected_topics)
-
-    # Fragen auswählen basierend auf den ausgewählten Themen
-    questions_by_topic = defaultdict(list)
-    for q in all_questions:
-        questions_by_topic[q.subject.lower()].append(q)
-    
-    selected_questions = []
-    target_per_topic = max(1, 30 // len(selected_topics))
-    
-    for topic in selected_topics:
-        topic_questions = questions_by_topic.get(topic.lower(), [])
-        random.shuffle(topic_questions)
-        selected_questions.extend(topic_questions[:target_per_topic])
-    
-    remaining = 30 - len(selected_questions)
-    if remaining > 0:
-        extra_questions = [q for q in all_questions if q not in selected_questions]
-        random.shuffle(extra_questions)
-        selected_questions.extend(extra_questions[:remaining])
-    
-    random.shuffle(selected_questions)
-    num_questions = min(30, len(selected_questions))
-
-    # Room-ID für WebSocket erstellen
-    room_id = str(uuid.uuid4())
-    
-    session['quiz_data'] = {
-        'subject': subject_display,
-        'questions': [q.id for q in selected_questions],
-        'current_index': 0,
-        'total_questions': num_questions,
-        'score': 0,
-        'correct_count': 0,
-        'room_id': room_id,
-        'random_mode': random_mode,
-        'random_topics_count': len(selected_topics) if random_mode else None
-    }
-    
-    return redirect(url_for('show_question'))
 
 @app.route('/show_question')
 @login_required
@@ -1551,29 +1648,34 @@ def evaluate_quiz():
 @login_required
 @quiz_required 
 def cancel_quiz():
-    if request.method != 'POST':
-        abort(405)
-    
-    if 'quiz_data' in session:
-        # Timer stoppen, falls vorhanden
-        room_id = session['quiz_data'].get('room_id')
-        if room_id:
-            stop_timer(room_id)
+    try:
+        if request.method != 'POST':
+            abort(405)
         
-        session.pop('quiz_data', None)
+        if 'quiz_data' in session:
+            # Timer stoppen, falls vorhanden
+            room_id = session['quiz_data'].get('room_id')
+            if room_id:
+                stop_timer(room_id)
+            
+            session.pop('quiz_data', None)
 
-    # Prüfe ob eine ausstehende Navigation existiert
-    target = session.pop('pending_navigation', None)
-    
-    # WICHTIG: Flag setzen, dass Quiz absichtlich abgebrochen wurde
-    session['quiz_cancelled'] = True
-    session.modified = True  # Sicherstellen, dass Session gespeichert wird
+        # Prüfe ob eine ausstehende Navigation existiert
+        target = session.pop('pending_navigation', None)
+        
+        # WICHTIG: Flag setzen, dass Quiz absichtlich abgebrochen wurde
+        session['quiz_cancelled'] = True
+        session.modified = True  # Sicherstellen, dass Session gespeichert wird
 
-    if target:
-        return jsonify({'redirect': url_for(target)})
-    
-    # WICHTIG: Immer JSON zurückgeben, auch wenn kein Target
-    return jsonify({'redirect': url_for('homepage')})
+        if target:
+            return jsonify({'redirect': url_for(target)})
+        
+        # WICHTIG: Immer JSON zurückgeben, auch wenn kein Target
+        return jsonify({'redirect': url_for('homepage')})
+
+    except Exception as e:
+        print(f"Fehler beim Abbrechen des Quiz: {str(e)}")
+        return jsonify({'error': 'Ein Fehler ist aufgetreten.'}), 500
 
 @app.route('/quiz_session_status')
 @login_required
@@ -1928,23 +2030,6 @@ def add_question():
     
     return redirect(url_for('admin_panel'))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-from flask import render_template, redirect, url_for, request, flash
-
-# In main.py - News-Routes ersetzen
-
 # Spieler-Seite - News anzeigen
 @app.route("/news")
 @login_required
@@ -2005,21 +2090,6 @@ def news_admin():
         print(f"Fehler in News-Admin: {str(e)}")
         flash('Ein Fehler ist aufgetreten', 'error')
         return redirect(url_for('news_admin'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # WebSocket Event Handlers
 @socketio.on('connect')
