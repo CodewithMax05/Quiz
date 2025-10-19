@@ -423,12 +423,30 @@
 /* Tooltips für Buttons */
 .playermenu-button::after,
 .info-button::after,
-.ranking-button::after,
+.ranking-button::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 100;
+}
+
 .support-button::after,
 .admin-button::after {
     content: attr(aria-label);
     position: absolute;
-    bottom: -45px;
+    top: -45px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.8);
