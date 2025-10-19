@@ -115,7 +115,35 @@ body.playermenu-page {
     border: 2px solid rgba(26, 26, 46, 0.8); /* Kontrast-Rand zur Spielermenü-Karte */
 }
 
+.news-circle-button,
+.back-circle-button {
+    position: relative;
+}
 
+.news-circle-button::after,
+.back-circle-button::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.news-circle-button:hover::after,
+.back-circle-button:hover::after {
+    opacity: 1;
+}
 
 /* Überschrift */
 .playermenu-title {
@@ -511,6 +539,13 @@ body.playermenu-page {
         height: 45px;
         font-size: 1.1rem;
     }
+
+    .news-circle-button::after,
+    .back-circle-button::after {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        bottom: -40px;
+    }
 }
 
 /* Bis 480px (kleine Handys) */
@@ -545,6 +580,12 @@ body.playermenu-page {
         width: 35px; 
         height: 35px; 
         font-size: 1rem; 
+    }
+    .news-circle-button::after,
+    .back-circle-button::after {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+        bottom: -35px;
     }
 }
 
