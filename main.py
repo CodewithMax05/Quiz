@@ -100,20 +100,6 @@ class SupportRequest(db.Model):
     message = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
-
-
-
-
-
-
-
-
-
-
-
-
-from datetime import datetime
-
 # News-Modell
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -123,18 +109,6 @@ class News(db.Model):
 
     def __repr__(self):
         return f"<News {self.title}>"
-
-
-
-
-
-
-
-
-
-
-
-
 
     def to_dict(self):
         return {
@@ -1640,7 +1614,10 @@ def db_stats():
 def ranking():
     try:
         # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
-        players_with_highscore = User.query.filter(User.first_played.isnot(None)).order_by(
+        players_with_highscore = User.query.filter(
+            User.first_played.isnot(None),
+            User.is_admin == False  # Nur Nicht-Admins
+        ).order_by(
             User.highscore.desc(),
             User.highscore_time.asc(), # Wer zuerst den Score erreicht hat, kommt höher
             User.username.asc()
@@ -1656,7 +1633,10 @@ def ranking():
         
         if current_user:
             # Finde den aktuellen Benutzer in der Datenbank
-            current_player = User.query.filter_by(username=current_user).first()
+            current_player = User.query.filter_by(
+                username=current_user, 
+                is_admin=False  # Nur Nicht-Admins
+            ).first()
 
             # Bestimme den Rang des Benutzers
             for idx, player in enumerate(players_with_highscore, start=1):
@@ -1700,7 +1680,10 @@ def search_player():
             return jsonify({'error': 'Bitte gib einen Benutzernamen ein'}), 400
 
         # Case-sensitive Suche mit exaktem Match
-        user = User.query.filter(User.username == username).first()
+        user = User.query.filter(
+            User.username == username,
+            User.is_admin == False  # Nur Nicht-Admins
+        ).first()
         if not user:
             return jsonify({'error': 'Spieler nicht gefunden'}), 404
         
@@ -1708,7 +1691,8 @@ def search_player():
         # Zuerst alle Highscores abrufen und dann lokal sortieren
         all_players = User.query.filter(
             User.first_played.isnot(None),
-            User.highscore.isnot(None)
+            User.highscore.isnot(None),
+            User.is_admin == False  # Nur Nicht-Admins
         ).with_entities(
             User.id, 
             User.highscore, 
