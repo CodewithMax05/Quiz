@@ -23,7 +23,9 @@
             <div class="news-item">
                 <button class="news-toggle">
                     <span class="news-title">{{ entry.title }}</span>
-                    <span class="news-date">{{ entry.created_at.strftime('%d.%m.%Y') }}</span>
+                    <span class="news-date">
+                        <time class="utc-time" data-iso="{{ entry.created_at|to_iso }}">Lädt...</time>
+                    </span>
                     <i class="fa fa-chevron-down"></i>
                 </button>
                 <div class="news-content">
@@ -31,7 +33,7 @@
                         {{ entry.content|safe }}
                     </div>
                     <div class="news-footer">
-                        Erstellt am: {{ entry.created_at.strftime('%d.%m.%Y um %H:%M') }}
+                        Erstellt am: <time class="utc-time" data-iso="{{ entry.created_at|to_iso }}">Lädt...</time>
                     </div>
                 </div>
             </div>
