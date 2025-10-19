@@ -22,9 +22,20 @@
         
         <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
         
-        <form action="/start_custom_quiz" method="POST" class="categories-form">
+        <form action="/start_custom_quiz" method="POST" class="categories-form" id="quiz-form">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="random_mode" id="random-mode" value="false">
+            
             <div class="category-grid">
+                <!-- ZUFALLS-MODUS -->
+                <label class="category-card random-mode-card">
+                    <input type="checkbox" name="topics" value="random" id="random-mode-checkbox">
+                    <div class="card-content">
+                        <i class="fas fa-dice"></i>
+                        <span>Zufällig</span>
+                    </div>
+                </label>
+                
                 <!-- Musik -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Musik">
@@ -133,15 +144,6 @@
                     </div>
                 </label>
                 
-                <!-- Astrologie -->
-                <label class="category-card">
-                    <input type="checkbox" name="topics" value="Astrologie">
-                    <div class="card-content">
-                        <i class="fas fa-moon"></i>
-                        <span>Astrologie</span>
-                    </div>
-                </label>
-                
                 <!-- Wirtschaft -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Wirtschaft">
@@ -193,38 +195,87 @@
     document.addEventListener('DOMContentLoaded', function() {
         const infoButton = document.getElementById('info-button');
         const flashContainer = document.getElementById('flash-container');
+        const randomModeCheckbox = document.getElementById('random-mode-checkbox');
+        const randomModeInput = document.getElementById('random-mode');
+        const categoryCards = document.querySelectorAll('.category-card:not(.random-mode-card)');
+        const allCheckboxes = document.querySelectorAll('input[name="topics"]');
         
-        infoButton.addEventListener('click', function() {
-            createFlashMessage('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info');
+        // Zufallsmodus Logik
+        randomModeCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                // Zufallsmodus aktivieren
+                randomModeInput.value = 'true';
+                categoryCards.forEach(card => {
+                    card.classList.add('disabled');
+                    const checkbox = card.querySelector('input[type="checkbox"]');
+                    checkbox.checked = false;
+                    checkbox.disabled = true;
+                    
+                    // Icons zu Fragezeichen ändern
+                    const icon = card.querySelector('i');
+                    icon.className = 'fas fa-question';
+                });
+                
+                createFlashMessage('Es werden 30 zufällige Fragen aus einer zufälligen Anzahl von Kategorien ausgewählt.', 'info');
+            } else {
+                // Zufallsmodus deaktivieren
+                randomModeInput.value = 'false';
+                categoryCards.forEach(card => {
+                    card.classList.remove('disabled');
+                    const checkbox = card.querySelector('input[type="checkbox"]');
+                    checkbox.disabled = false;
+                    
+                    // Icons zurückändern
+                    const originalIcons = {
+                        'Musik': 'fas fa-music',
+                        'Geschichte': 'fas fa-landmark',
+                        'Sport': 'fas fa-football-ball',
+                        'Technologie': 'fas fa-laptop-code',
+                        'Filme': 'fas fa-film',
+                        'Geographie': 'fas fa-globe-europe',
+                        'Sprache': 'fas fa-language',
+                        'Kunst': 'fas fa-palette',
+                        'Essen': 'fas fa-utensils',
+                        'Promis': 'fas fa-star',
+                        'Glauben': 'fas fa-dragon',
+                        'Natur': 'fas fa-leaf',
+                        'Wirtschaft': 'fas fa-chart-line',
+                        'Automobil': 'fas fa-car',
+                        'Gaming': 'fas fa-gamepad'
+                    };
+                    
+                    const value = checkbox.value;
+                    if (originalIcons[value]) {
+                        const icon = card.querySelector('i');
+                        icon.className = originalIcons[value];
+                    }
+                });
+            }
         });
 
-        function createFlashMessage(text, type) {
-            // Lösche alle vorhandenen Nachrichten
-            flashContainer.innerHTML = '';
+        // Formular-Submit validieren
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            const randomMode = randomModeInput.value === 'true';
+            const selectedTopics = Array.from(allCheckboxes).filter(cb => cb.checked && cb.value !== 'random');
             
-            // Neue Nachricht erstellen
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
-            messageDiv.textContent = text;
-            
-            // Fortschrittsbalken hinzufügen
-            const progressBar = document.createElement('div');
-            progressBar.className = 'custom-progress-bar';
-            messageDiv.appendChild(progressBar);
-            
-            // Nachricht in den Container einfügen
-            flashContainer.appendChild(messageDiv);
-            
-            // Nachricht nach 5 Sekunden entfernen
-            setTimeout(() => {
-                messageDiv.style.animation = 'fadeOut 0.5s forwards';
-                setTimeout(() => {
-                    if (flashContainer.contains(messageDiv)) {
-                        flashContainer.removeChild(messageDiv);
-                    }
-                }, 500);
-            }, 5000);
-        }
+            if (!randomMode && selectedTopics.length === 0) {
+                e.preventDefault();
+                createFlashMessage('Bitte wähle mindestens ein Thema aus oder aktiviere den Zufallsmodus!', 'error');
+                return false;
+            }
+
+            if (randomMode) {
+                categoryCards.forEach(card => {
+                    const checkbox = card.querySelector('input[type="checkbox"]');
+                    checkbox.disabled = true;
+                    checkbox.checked = false; // Sicherstellen, dass keine Checkbox checked ist
+                });
+            }
+        });
+        
+        infoButton.addEventListener('click', function() {
+            createFlashMessage('Du kannst bis zu 15 Themen gleichzeitig auswählen oder den Zufallsmodus aktivieren!', 'info');
+        });
     });
 </script>
 {% endblock %}

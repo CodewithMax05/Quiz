@@ -1172,9 +1172,20 @@ def start_custom_quiz():
             stop_timer(old_room_id)
     
     selected_topics = request.form.getlist('topics')
+    random_mode = request.form.get('random_mode') == 'true'
     
-    if not selected_topics:
-        flash('Bitte wähle mindestens ein Thema aus', 'error')
+    # Zufallsmodus: Wähle zufällig zwischen 1-15 Themen aus
+    if random_mode:
+        # Alle verfügbaren Themen aus der Datenbank holen
+        all_topics = db.session.query(Question.subject.distinct()).all()
+        all_topics = [topic[0] for topic in all_topics]
+        
+        # Zufällige Anzahl von Themen auswählen (zwischen 1 und 15)
+        num_random_topics = random.randint(1, min(15, len(all_topics)))
+        selected_topics = random.sample(all_topics, num_random_topics)
+
+    if not selected_topics and not random_mode:
+        flash('Bitte wähle mindestens ein Thema aus oder aktiviere den Zufallsmodus', 'error')
         return redirect(url_for('homepage'))
 
     conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
@@ -1184,6 +1195,13 @@ def start_custom_quiz():
         flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
         return redirect(url_for('homepage'))
 
+    # Für Zufallsmodus: Themenname anpassen
+    if random_mode:
+        subject_display = f"Zufällige Themen ({len(selected_topics)} Kategorien)"
+    else:
+        subject_display = ', '.join(selected_topics)
+
+    # Fragen auswählen basierend auf den ausgewählten Themen
     questions_by_topic = defaultdict(list)
     for q in all_questions:
         questions_by_topic[q.subject.lower()].append(q)
@@ -1209,13 +1227,15 @@ def start_custom_quiz():
     room_id = str(uuid.uuid4())
     
     session['quiz_data'] = {
-        'subject': ', '.join(selected_topics),
+        'subject': subject_display,
         'questions': [q.id for q in selected_questions],
         'current_index': 0,
         'total_questions': num_questions,
         'score': 0,
         'correct_count': 0,
-        'room_id': room_id
+        'room_id': room_id,
+        'random_mode': random_mode,
+        'random_topics_count': len(selected_topics) if random_mode else None
     }
     
     return redirect(url_for('show_question'))

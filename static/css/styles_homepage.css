@@ -1,5 +1,4 @@
 /* Basis-Styles */
-
 .page-wrapper {
     flex: 1;
     display: flex;
@@ -20,7 +19,7 @@
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 60px 15px 30px;
+    padding: 80px 20px 30px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -31,8 +30,8 @@
 }
 
 .headline {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-size: 2rem;
     color: white;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
@@ -52,10 +51,10 @@
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 30px;
+    gap: 15px;
+    margin-bottom: 40px;
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     box-sizing: border-box;
 }
 
@@ -67,10 +66,30 @@
     transition: all 0.3s ease;
     cursor: pointer;
     display: flex;
-    height: 100px;
+    height: 110px;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(0, 180, 255, 0.3);
+    border: 2px solid rgb(27, 158, 214);
+}
+
+.category-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: none !important;
+}
+
+.category-card.disabled:hover {
+    transform: none !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.category-card.disabled .card-content i,
+.category-card.disabled .card-content span {
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .category-card:hover {
@@ -85,7 +104,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 12px 10px;
+    padding: 15px 10px;
     flex-grow: 1;
     width: 100%;
     z-index: 2;
@@ -105,13 +124,13 @@
 }
 
 .category-card input[type="checkbox"]:checked + .card-content span {
-    color: #4299e1;
+    color: #85c4f8;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(66, 153, 225, 0.5);
 }
 
 .category-card input[type="checkbox"]:checked + .card-content i {
-    color: #4299e1;
+    color: #85c4f8;
     transform: scale(1.2);
     filter: drop-shadow(0 0 10px rgba(66, 153, 225, 0.8));
 }
@@ -121,7 +140,6 @@
     border-color: #3182ce;
 }
 
-/* Häkchen für ausgewählte Karten */
 .category-card input[type="checkbox"]:checked + .card-content::after {
     content: "✓";
     position: absolute;
@@ -140,54 +158,68 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.category-card::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 14px;
-    background: linear-gradient(
-        45deg,
-        rgba(0, 180, 255, 0),
-        rgba(0, 180, 255, 0.3),
-        rgba(0, 180, 255, 0),
-        rgba(0, 180, 255, 0.3)
-    );
-    background-size: 300% 300%;
-    z-index: 1;
-    opacity: 0;
-    animation: border-flow 4s linear infinite;
-}
-
-.category-card:hover::before {
-    opacity: 0.7;
-}
-
 .category-card span {
-    margin-top: 6px;
+    margin-top: 8px;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-align: center;
     color: white;
 }
 
 .category-card i {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
 }
 
-/* Button-Row (Support + Start nebeneinander) */
+/* Spezielle Stile für Zufallsmodus-Karte */
+.random-mode-card {
+    border: 2px solid rgba(155, 89, 182, 0.5);
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.3));
+}
+
+.random-mode-card:hover {
+    border-color: rgba(155, 89, 182, 0.8);
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(142, 68, 173, 0.4));
+}
+
+.random-mode-card input[type="checkbox"]:checked + .card-content {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.3));
+    border: 2px solid #9b59b6;
+    box-shadow: 0 0 20px rgba(155, 89, 182, 0.6);
+    animation: selected-pulse-purple 2s infinite;
+}
+
+.random-mode-card input[type="checkbox"]:checked + .card-content span {
+    color: #d385f1;
+    text-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+}
+
+.random-mode-card input[type="checkbox"]:checked + .card-content i {
+    color: #d385f1;
+    filter: drop-shadow(0 0 10px rgba(155, 89, 182, 0.8));
+}
+
+.random-mode-card input[type="checkbox"]:checked:hover + .card-content {
+    background: linear-gradient(135deg, rgba(108, 45, 133, 0.3), rgba(123, 38, 159, 0.4));
+    border-color: #9b59b6;
+    transform: scale(1.05);
+}
+
+.random-mode-card input[type="checkbox"]:checked + .card-content::after {
+    background: #9b59b6;
+}
+
+/* Button-Row */
 .button-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 Spalten gleich breit */
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     width: 100%;
-    max-width: 900px; /* wie bei dir */
+    max-width: 900px;
     margin: 0 auto;
     margin-top: 20px;
+    gap: 15px;
 }
 
 /* Support-Button */
@@ -196,8 +228,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: linear-gradient(135deg, #6c757d, #5a6268);
     color: white;
@@ -207,7 +239,7 @@
 }
 
 .support-button i {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: white;
 }
 
@@ -217,36 +249,14 @@
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
 
-.support-button::after {
-    content: "Support";
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
-
-.support-button:hover::after {
-    opacity: 1;
-}
-
 /* Admin-Button */
 .admin-button {
     justify-self: end;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: linear-gradient(135deg, #28a745, #218838);
     color: white;
@@ -256,7 +266,7 @@
 }
 
 .admin-button i {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: white;
 }
 
@@ -266,37 +276,15 @@
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5);
 }
 
-.admin-button::after {
-    content: "Admin Übersicht";
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
-
-.admin-button:hover::after {
-    opacity: 1;
-}
-
 /* Start-Button */
 .start-button {
     justify-self: center;
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 14px 35px;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -304,7 +292,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     animation: pulse-purple 2s infinite;
     white-space: nowrap;
     overflow: hidden;
@@ -318,7 +306,7 @@
 }
 
 .start-button i {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
 }
 
 /* Buttons (Playermenu, Info, Ranking) */
@@ -328,15 +316,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     color: #fff;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
     position: absolute;
-    top: 15px;
+    top: 20px;
     z-index: 20;
     border: none;
     outline: none;
@@ -347,7 +335,7 @@
 .playermenu-button i,
 .info-button i,
 .ranking-button i {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     color: white;
 }
 
@@ -379,11 +367,6 @@
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
 }
 
-.info-button:active {
-    background: linear-gradient(135deg, #3182ce, #2b6cb0) !important;
-    transform: scale(1.1) !important;
-}
-
 /* Ranking-Button */
 .ranking-button {
     background: linear-gradient(135deg, #f6d365, #fda085);
@@ -399,67 +382,48 @@
 }
 
 /* Tooltips für Buttons */
-.playermenu-button::after {
-    content: "Playermenu";
+.playermenu-button::after,
+.info-button::after,
+.ranking-button::after,
+.support-button::after,
+.admin-button::after {
+    content: attr(aria-label);
     position: absolute;
-    bottom: -40px;
+    bottom: -45px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
-}
-
-.info-button::after {
-    content: "Hilfe";
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
-
-.ranking-button::after {
-    content: "Ranking";
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
+    z-index: 100;
 }
 
 .playermenu-button:hover::after,
 .info-button:hover::after,
-.ranking-button:hover::after {
+.ranking-button:hover::after,
+.support-button:hover::after,
+.admin-button:hover::after {
     opacity: 1;
 }
 
+/* Animationen */
 @keyframes pulse-purple {
     0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
     70% { box-shadow: 0 0 0 10px rgba(116, 0, 224, 0); }
     100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0); }
+}
+
+@keyframes selected-pulse-purple {
+    0% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(155, 89, 182, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0); }
 }
 
 @keyframes pulse-red {
@@ -480,113 +444,137 @@
     100% { box-shadow: 0 0 0 0 rgba(245, 176, 65, 0); }
 }
 
-@keyframes border-flow {
-   0% { background-position: 0% 50%; }
-   100% { background-position: 300% 50%; }
-}
-
 @keyframes selected-pulse {
     0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.7); }
     70% { box-shadow: 0 0 0 10px rgba(66, 153, 225, 0); }
     100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
 }
 
-/* Responsive Anpassungen */
-@media (max-width: 1200px) {
-    .headline {
-        font-size: 1.6rem;
-    }
-    
-    .playermenu-button, .info-button, .ranking-button {
-        width: 50px;
-        height: 50px;
-        top: 12px;
-    }
-    
-    .playermenu-button {
-        right: 25px;
-    }
-    
-    .info-button {
-        left: 25px;
-    }
-    
-    .ranking-button {
-        right: 95px;
-    }
-    
-    .playermenu-button i, .info-button i, .ranking-button i {
-        font-size: 1.7rem;
-    }
-}
+/* ==================== MEDIA QUERIES ==================== */
 
+/* Tablet (768px - 1024px) */
 @media (max-width: 1024px) {
     .container {
-        min-height: calc(100vh - 100px);
-        padding-bottom: 20px;
+        padding: 70px 15px 25px;
+        max-width: 95%;
+        justify-content: flex-start;
+    }
+    
+    .headline {
+        font-size: 1.7rem;
+        margin-bottom: 25px;
     }
     
     .category-grid {
-        margin-bottom: 25px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 30px;
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 10px;
+        width: 100%;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        align-self: center;
+    }
+    
+    .category-grid::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .category-card {
+        height: 100px;
+    }
+    
+    .card-content {
+        padding: 12px 8px;
+    }
+    
+    .category-card i {
+        font-size: 1.6rem;
+    }
+    
+    .category-card span {
+        font-size: 0.85rem;
+        margin-top: 6px;
+    }
+    
+    .playermenu-button,
+    .info-button,
+    .ranking-button {
+        width: 55px;
+        height: 55px;
+        top: 15px;
+    }
+    
+    .playermenu-button {
+        right: 20px;
+    }
+    
+    .info-button {
+        left: 20px;
     }
     
     .ranking-button {
         right: 90px;
     }
     
+    .playermenu-button i,
+    .info-button i,
+    .ranking-button i {
+        font-size: 1.7rem;
+    }
+    
+    .button-row {
+        max-width: 95%;
+        margin-top: 20px;
+    }
+    
+    .support-button,
+    .admin-button {
+        width: 50px;
+        height: 50px;
+    }
+    
     .start-button {
-        position: static;
-        opacity: 1 !important;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+    }
+    
+    .category-card input[type="checkbox"]:checked + .card-content::after {
+        top: 6px;
+        right: 6px;
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
     }
 }
 
-@media (max-width: 900px) {
-    .category-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
+/* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
+    .page-wrapper {
+        padding: 15px;
+    }
+    
     .container {
-        padding-top: 50px;
-        padding-bottom: 15px;
+        padding: 60px 10px 20px;
+        min-height: calc(100vh - 80px);
     }
     
     .headline {
         font-size: 1.5rem;
-        margin-bottom: 15px;
-    }
-    
-    .playermenu-button, .info-button, .ranking-button {
-        width: 46px;
-        height: 46px;
-        top: 10px;
-    }
-    
-    .playermenu-button {
-        right: 15px;
-    }
-    
-    .info-button {
-        left: 15px;
-    }
-    
-    .ranking-button {
-        right: 75px;
-    }
-    
-    .playermenu-button i, .info-button i, .ranking-button i {
-        font-size: 1.5rem;
+        margin-bottom: 20px;
     }
     
     .category-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+        margin-bottom: 25px;
         max-height: 60vh;
         overflow-y: auto;
+        padding: 5px;
         -ms-overflow-style: none;
         scrollbar-width: none;
-        padding: 3px;
     }
     
     .category-grid::-webkit-scrollbar {
@@ -597,175 +585,25 @@
         height: 90px;
     }
     
-    .category-card i {
-        font-size: 1.5rem;
-    }
-    
-    .category-card span {
-        font-size: 0.78rem;
-    }
-    
-    .start-button {
-        padding: 10px 20px;
-        font-size: 0.95rem;
-        margin-top: 15px;
-    }
-    
-    .category-card input[type="checkbox"]:checked + .card-content::after {
-        top: 5px;
-        right: 5px;
-        width: 18px;
-        height: 18px;
-        font-size: 0.7rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .ranking-button {
-        right: 65px;
-    }
-}
-
-@media (max-width: 480px) {
-    .page-wrapper {
-        padding: 10px;
-    }
-    
-    .container {
-        padding-top: 45px;
-        padding-bottom: 10px;
-    }
-    
-    .headline {
-        font-size: 1.3rem;
-        margin-bottom: 10px;
-    }
-    
-    .playermenu-button, .info-button, .ranking-button {
-        width: 44px;
-        height: 44px;
-        top: 8px;
-    }
-    
-    .playermenu-button {
-        right: 5px;
-    }
-    
-    .info-button {
-        left: 10px;
-    }
-    
-    .ranking-button {
-        right: 60px;
-    }
-    
-    .playermenu-button i, .info-button i, .ranking-button i {
-        font-size: 1.4rem;
-    }
-    
-    .playermenü-button::after, 
-    .info-button::after, 
-    .ranking-button::after {
-        font-size: 0.8rem;
-        bottom: -32px;
-    }
-    
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        max-height: 55vh;
-        margin-bottom: 15px;
-    }
-    
-    .category-card {
-        height: 85px;
-    }
-    
-    .category-card i {
-        font-size: 1.4rem;
-    }
-    
-    .category-card span {
-        font-size: 0.72rem;
-    }
-    
     .card-content {
-        padding: 10px 8px;
-    }
-    
-    .start-button {
-        padding: 10px 18px;
-        font-size: 0.9rem;
-        gap: 8px;
-    }
-    
-    .start-button i {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 380px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-    }
-    
-    .category-card {
-        height: 80px;
+        padding: 12px 8px;
     }
     
     .category-card i {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
     }
     
     .category-card span {
-        font-size: 0.68rem;
+        font-size: 0.8rem;
+        margin-top: 6px;
     }
     
-    .headline {
-        font-size: 1.2rem;
-    }
-    
-    .playermenu-button {
-        right: 3px;
-    }
-    
+    .playermenu-button,
+    .info-button,
     .ranking-button {
-        right: 55px;
-        width: 42px;
-        height: 42px;
-    }
-    
-    .ranking-button i {
-        font-size: 1.3rem;
-    }
-}
-
-/* Anpassungen für kleine Höhen */
-@media (max-height: 700px) {
-    .page-wrapper {
-        padding: 10px 15px;
-        justify-content: flex-start;
-    }
-    
-    .container {
-        padding-top: 40px;
-        padding-bottom: 10px;
-    }
-    
-    .headline {
-        margin-bottom: 8px;
-        font-size: 1.4rem;
-    }
-    
-    .playermenu-button, .info-button, .ranking-button {
-        width: 42px;
-        height: 42px;
-        top: 6px;
+        width: 50px;
+        height: 50px;
+        top: 10px;
     }
     
     .playermenu-button {
@@ -777,34 +615,163 @@
     }
     
     .ranking-button {
-        right: 70px; 
+        right: 70px;
     }
     
-    .playermenu-button i, .info-button i, .ranking-button i {
-        font-size: 1.4rem;
+    .playermenu-button i,
+    .info-button i,
+    .ranking-button i {
+        font-size: 1.5rem;
+    }
+    
+    .button-row {
+        margin-top: 15px;
+        gap: 10px;
+    }
+    
+    .support-button,
+    .admin-button {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .support-button i,
+    .admin-button i {
+        font-size: 1.2rem;
+    }
+    
+    .start-button {
+        padding: 10px 25px;
+        font-size: 1rem;
+        gap: 8px;
+    }
+    
+    .start-button i {
+        font-size: 1.2rem;
+    }
+    
+    .category-card input[type="checkbox"]:checked + .card-content::after {
+        top: 6px;
+        right: 6px;
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Kleine Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .page-wrapper {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 55px 5px 15px;
+    }
+    
+    .headline {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
     }
     
     .category-grid {
-        margin-bottom: 10px;
         gap: 8px;
-        max-height: 50vh;
+        margin-bottom: 20px;
     }
     
     .category-card {
-        height: 80px;
-    }
-    
-    .category-card span {
-        font-size: 0.75rem;
+        height: 85px;
     }
     
     .category-card i {
         font-size: 1.4rem;
     }
     
+    .category-card span {
+        font-size: 0.75rem;
+    }
+    
+    .playermenu-button,
+    .info-button,
+    .ranking-button {
+        width: 45px;
+        height: 45px;
+        top: 8px;
+    }
+    
+    .playermenu-button {
+        right: 5px;
+    }
+    
+    .info-button {
+        left: 5px;
+    }
+    
+    .ranking-button {
+        right: 60px;
+    }
+    
+    .playermenu-button i,
+    .info-button i,
+    .ranking-button i {
+        font-size: 1.4rem;
+    }
+    
+    .button-row {
+        margin-top: 10px;
+        gap: 8px;
+    }
+    
+    .support-button,
+    .admin-button {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .start-button {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Sehr kleine Mobile (max-width: 360px) */
+@media (max-width: 360px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-card {
+        height: 80px;
+    }
+}
+
+/* Anpassungen für kleine Höhen */
+@media (max-height: 700px) and (min-width: 769px) {
+    .page-wrapper {
+        padding: 10px 15px;
+        justify-content: flex-start;
+    }
+    
+    .container {
+        padding-top: 60px;
+        padding-bottom: 15px;
+    }
+    
+    .headline {
+        margin-bottom: 15px;
+        font-size: 1.6rem;
+    }
+    
+    .category-grid {
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    
+    .category-card {
+        height: 95px;
+    }
+    
     .start-button {
         margin-top: 10px;
-        padding: 8px 18px;
-        font-size: 0.9rem;
     }
 }
