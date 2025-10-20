@@ -1715,56 +1715,87 @@ def db_stats():
 @prevent_quiz_exit           
 def ranking():
     try:
-        # Sortierung: highscore (absteigend) -> highscore_time (aufsteigend)
-        players_with_highscore = User.query.filter(
+        # Lade nur die erste Seite für initiales Rendering
+        per_page = 20
+        
+        players_first_page = User.query.filter(
             User.first_played.isnot(None),
-            User.is_admin == False  # Nur Nicht-Admins
+            User.is_admin == False
         ).order_by(
             User.highscore.desc(),
-            User.highscore_time.asc(), # Wer zuerst den Score erreicht hat, kommt höher
+            User.highscore_time.asc(),
             User.username.asc()
-        ).all()
-
-        # Alle Spieler anzeigen
-        top_players = players_with_highscore
-
+        ).limit(per_page).all()
+        
+        # Berechne Ränge für die erste Seite
+        top_players = players_first_page
+        
         # Aktuellen Benutzer finden
         current_user = session.get('username')
         current_player = None
         player_rank = None
         
         if current_user:
-            # Finde den aktuellen Benutzer in der Datenbank
-            current_player = User.query.filter_by(
-                username=current_user, 
-                is_admin=False  # Nur Nicht-Admins
-            ).first()
-
-            # Bestimme den Rang des Benutzers
-            for idx, player in enumerate(players_with_highscore, start=1):
-                if player.username == current_user:
-                    current_player = player
-                    player_rank = idx
-                    break
-
-        # Flash-Nachricht beim ersten Besuch
-        if not session.get('ranking_info_shown'):
-            flash("Weitere Informationen zum Spieler durch Klick oder Suche", "info")
-            session['ranking_info_shown'] = True
-
-        player_rank_map = {player.id: idx for idx, player in enumerate(players_with_highscore, start=1)}
+            current_player = User.query.filter_by(username=current_user).first()
+            if current_player:
+                # Rang des aktuellen Benutzers berechnen
+                player_rank = db.session.query(
+                    func.count(User.id)
+                ).filter(
+                    User.highscore > current_player.highscore,
+                    User.first_played.isnot(None),
+                    User.is_admin == False
+                ).scalar() + 1
 
         return render_template(
             'ranking.html',
             top_players=top_players,
             current_player=current_player,
-            player_rank=player_rank,
-            player_rank_map=player_rank_map
+            player_rank=player_rank
         )
-    except (SQLAlchemyError, OperationalError) as e:
-        print(f"Datenbankfehler auf der Homepage: {str(e)}")
-        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
-        return redirect(url_for('index'))
+    except Exception as e:
+        flash('Fehler beim Laden der Rangliste', 'error')
+        return redirect(url_for('homepage'))
+
+@app.route('/api/ranking_players')
+@login_required
+def api_ranking_players():
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = 20
+        
+        players = User.query.filter(
+            User.first_played.isnot(None),
+            User.is_admin == False
+        ).order_by(
+            User.highscore.desc(),
+            User.highscore_time.asc()
+        ).paginate(page=page, per_page=per_page, error_out=False)
+        
+        players_data = []
+        offset = (page - 1) * per_page
+        
+        for idx, player in enumerate(players.items):
+            players_data.append({
+                'id': player.id,
+                'username': player.username,
+                'highscore': player.highscore,
+                'highscore_time': player.highscore_time.isoformat() if player.highscore_time else None,
+                'avatar': player.avatar,
+                'rank': offset + idx + 1,
+                'correct_high': player.correct_high,
+                'number_of_games': player.number_of_games,
+                'first_played': player.first_played.isoformat() if player.first_played else None
+            })
+        
+        return jsonify({
+            'players': players_data,
+            'has_next': players.has_next,
+            'total_pages': players.pages
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
 @app.route('/api/search_player', methods=['POST'])
 @login_required

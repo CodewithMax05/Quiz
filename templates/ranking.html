@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Haupt-Container -->
     <body class="ranking-page">
         <div class="ranking-wrapper">
             <!-- Zentrierte Überschrift mit reduziertem Abstand -->
@@ -24,13 +23,13 @@
                             <div class="header-item">Highscrore-Datum</div>
                         </div>
                         
-                        <!-- Top 10 Liste -->
-                        <!-- Topliste mit Scrollcontainer -->
+                        <!-- Topliste mit Scrollcontainer für Infinite Scrolling -->
                         <div id="leaderboard-scroll" class="leaderboard-scroll">
                             <div class="leaderboard-content" id="leaderboard-content">
                                 {% for player in top_players %}
+                                {% set rank = loop.index %}
                                 <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
-                                    data-rank="{{ player_rank_map[player.id] }}"     
+                                    data-rank="{{ rank }}"     
                                     data-user-id="{{ player.id }}"
                                     data-username="{{ player.username }}"
                                     data-avatar="{{ player.avatar }}"
@@ -41,10 +40,10 @@
                                     data-games="{{ player.number_of_games }}"
                                     onclick="updatePlayerInfo(this)">
                                     <div class="leaderboard-cell position">
-                                        {% if loop.index == 1 %}🥇
-                                        {% elif loop.index == 2 %}🥈
-                                        {% elif loop.index == 3 %}🥉
-                                        {% else %}{{ loop.index }}{% endif %}
+                                        {% if rank == 1 %}🥇
+                                        {% elif rank == 2 %}🥈
+                                        {% elif rank == 3 %}🥉
+                                        {% else %}{{ rank }}{% endif %}
                                     </div>
                                     <div class="leaderboard-cell username">{{ player.username }}</div>
                                     <div class="leaderboard-cell score">{{ player.highscore }}</div>
@@ -187,207 +186,289 @@
                 </div>
             </div>
         </div>
-    </body>
 
-    <!-- JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Session-Flag setzen dass wir auf der Ranking-Seite sind
-            fetch('/api/set_ranking_flag', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }).catch(e => console.log('Flag setzen fehlgeschlagen:', e));
-            
-            const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
-            if (defaultPlayer) {
-                defaultPlayer.classList.add('active');
-            }
+        <!-- JavaScript für Infinite Scrolling -->
+        <script>
+            // Variablen für Infinite Scrolling
+            let currentPage = 1;
+            let isLoading = false;
+            let hasMorePages = true;
 
-            // Info-Button Funktion
-            const infoButton = document.getElementById('ranking-info-button');
-            const flashContainer = document.getElementById('flash-container');
-            
-            infoButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
-            });
-
-            function createFlashMessage(text, type = 'info') {
-                // Lösche alle vorhandenen Nachrichten
-                flashContainer.innerHTML = '';
-                
-                // Neue Nachricht erstellen
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `${type === 'error' ? 'error-message' : 'info-message'}`;
-                messageDiv.textContent = text;
-                
-                // Fortschrittsbalken hinzufügen
-                const progressBar = document.createElement('div');
-                progressBar.className = 'custom-progress-bar';
-                messageDiv.appendChild(progressBar);
-                
-                // Nachricht in den Container einfügen
-                flashContainer.appendChild(messageDiv);
-                
-                // Nachricht nach 5 Sekunden entfernen
-                setTimeout(() => {
-                    messageDiv.style.animation = 'fadeOut 0.5s forwards';
-                    setTimeout(() => {
-                        if (flashContainer.contains(messageDiv)) {
-                            flashContainer.removeChild(messageDiv);
-                        }
-                    }, 500);
-                }, 5000);
-            }
-
-            window.createFlashMessage = createFlashMessage;
-        });
-
-        /* --------------------------
-        Zeit-Konverter: ISO -> TT.MM.JJJJ HH:MM
-        -------------------------- */
-        function formatIsoToLocal(iso) {
-            if (!iso) return null;
-            // new Date parses the "YYYY-MM-DDTHH:MM:SSZ" as UTC and returns local Date object
-            const d = new Date(iso);
-            if (isNaN(d)) return null;
-            const day = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year = d.getFullYear();
-            const hours = String(d.getHours()).padStart(2, '0');
-            const mins = String(d.getMinutes()).padStart(2, '0');
-            return `${day}.${month}.${year} ${hours}:${mins}`;
-        }
-
-        function convertUtcTimeElements(root = document) {
-            // konvertiert alle <time class="utc-time" data-iso="..."> unter root
-            root.querySelectorAll && root.querySelectorAll('time.utc-time').forEach(el => {
-                const iso = el.dataset.iso || el.getAttribute('datetime') || el.textContent.trim();
-                const formatted = formatIsoToLocal(iso);
-                if (formatted) {
-                    el.textContent = formatted;
-                    el.setAttribute('datetime', iso);
-                    el.classList.remove('utc-time');   // schützt vor doppelter Umwandlung
-                    el.classList.add('utc-time-done');
-                }
-            });
-        }
-
-        // Beim Laden einmal alle konvertieren
-        document.addEventListener('DOMContentLoaded', () => {
-            convertUtcTimeElements();
-
-            // Beobachte neue DOM-Knoten (z. B. nach "Load more" oder Suche)
-            const obs = new MutationObserver((mutations) => {
-                for (const m of mutations) {
-                    if (!m.addedNodes) continue;
-                    m.addedNodes.forEach(node => {
-                        if (node.nodeType !== Node.ELEMENT_NODE) return;
-                        if (node.matches && node.matches('time.utc-time')) convertUtcTimeElements(node);
-                        if (node.querySelectorAll && node.querySelectorAll('time.utc-time').length) convertUtcTimeElements(node);
-                    });
-                }
-            });
-            obs.observe(document.body, { childList: true, subtree: true });
-        });
-
-        function updatePlayerInfo(row) {
-            // Highlight aktive Zeile
-            document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
-            row.classList.add('active');
-
-            // Alle Daten aktualisieren
-            const rank = row.dataset.rank;
-            document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
-            document.getElementById('info-username').textContent = row.dataset.username || "N/A";
-            document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
-            document.getElementById('info-registered').textContent = formatIsoToLocal(row.dataset.registered) || "N/A";
-            document.getElementById('info-games').textContent = row.dataset.games || "0";
-            document.getElementById('info-highscore').textContent = row.dataset.score || "0";
-            document.getElementById('info-highscore-date').textContent = formatIsoToLocal(row.dataset.highscoreDate) || "N/A";
-            document.getElementById('info-correct').textContent = row.dataset.correct || "0";
-            
-            // Avatar aktualisieren
-            const avatarContainer = document.getElementById('info-avatar');
-            const avatar = row.dataset.avatar;
-            if (avatar && avatar !== "None") {
-                avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${avatar}" 
-                                             alt="Avatar von ${row.dataset.username || 'Spieler'}" 
-                                             class="avatar-image">`;
-            } else {
-                avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
-            }
-        }
-
-        async function searchPlayer() {
-            const searchInput = document.getElementById('player-search');
-            const username = searchInput.value.trim();
-            
-            if (!username) {
-                createFlashMessage('Bitte gib einen Benutzernamen ein', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/search_player', {
+            // Initialisierung beim Laden der Seite
+            document.addEventListener('DOMContentLoaded', () => {
+                // Session-Flag setzen dass wir auf der Ranking-Seite sind
+                fetch('/api/set_ranking_flag', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: username
-                    })
-                });
+                        'Content-Type': 'application/json',
+                    }
+                }).catch(e => console.log('Flag setzen fehlgeschlagen:', e));
                 
-                if (!response.ok) {
-                    // Fehler vom Server als JSON parsen
-                    const errorData = await response.json();
-                    createFlashMessage(errorData.error || 'Ein Fehler ist aufgetreten', 'error');
-                    return;
+                // Standard-Spieler auswählen
+                const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
+                if (defaultPlayer) {
+                    defaultPlayer.classList.add('active');
                 }
 
-                const data = await response.json();
-
-                // Spielerdaten anzeigen
-                document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
-                document.getElementById('info-username').textContent = data.username || "N/A";
-                document.getElementById('info-id').textContent = data.id || "N/A";
-                document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
-                document.getElementById('info-games').textContent = data.number_of_games || "0";
-                document.getElementById('info-highscore').textContent = data.highscore || "0";
-                document.getElementById('info-highscore-date').textContent = formatIsoToLocal(data.highscore_time) || "N/A";
-                document.getElementById('info-correct').textContent = data.correct_high || "0";
+                // Info-Button Funktion
+                const infoButton = document.getElementById('ranking-info-button');
                 
-                // Avatar anzeigen
+                infoButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
+                });
+
+                // Infinite Scrolling einrichten
+                setupInfiniteScroll();
+            });
+
+            // Infinite Scrolling Setup
+            function setupInfiniteScroll() {
+                const leaderboardContent = document.getElementById('leaderboard-scroll');
+                if (!leaderboardContent) return;
+                
+                leaderboardContent.addEventListener('scroll', function() {
+                    if (isLoading || !hasMorePages) return;
+                    
+                    const scrollTop = leaderboardContent.scrollTop;
+                    const scrollHeight = leaderboardContent.scrollHeight;
+                    const clientHeight = leaderboardContent.clientHeight;
+                    
+                    // Wenn 90% des Inhalts gescrollt wurde, lade mehr
+                    if (scrollTop + clientHeight >= scrollHeight * 0.9) {
+                        loadMorePlayers();
+                    }
+                });
+            }
+
+            // Weitere Spieler laden
+            async function loadMorePlayers() {
+                if (isLoading || !hasMorePages) return;
+                
+                isLoading = true;
+                
+                const leaderboardContent = document.getElementById('leaderboard-content');
+                
+                // Entferne bestehende Loading-Indikatoren
+                const existingLoader = document.querySelector('.loading-indicator');
+                if (existingLoader) {
+                    existingLoader.remove();
+                }
+                
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.className = 'loading-indicator';
+                loadingIndicator.textContent = 'Lade weitere Spieler...';
+                leaderboardContent.appendChild(loadingIndicator);
+                
+                try {
+                    const nextPage = currentPage + 1;
+                    const response = await fetch(`/api/ranking_players?page=${nextPage}`);
+                    
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    
+                    const data = await response.json();
+                    
+                    // Entferne Loading-Indicator
+                    const currentLoader = document.querySelector('.loading-indicator');
+                    if (currentLoader) {
+                        currentLoader.remove();
+                    }
+                    
+                    if (data.players && data.players.length > 0) {
+                        appendPlayersToLeaderboard(data.players);
+                        currentPage = nextPage;
+                        hasMorePages = data.has_next;
+                        
+                        // Wenn keine weiteren Seiten, zeige End-of-List Indicator
+                        if (!hasMorePages) {
+                            showEndOfListIndicator();
+                        }
+                    } else {
+                        hasMorePages = false;
+                        showEndOfListIndicator();
+                    }
+                } catch (error) {
+                    console.error('Fehler beim Laden weiterer Spieler:', error);
+                    const currentLoader = document.querySelector('.loading-indicator');
+                    if (currentLoader) {
+                        currentLoader.remove();
+                    }
+                    createFlashMessage('Fehler beim Laden weiterer Spieler', 'error');
+                } finally {
+                    isLoading = false;
+                }
+            }
+
+            // End-of-List Indicator anzeigen
+            function showEndOfListIndicator() {
+                const leaderboardContent = document.getElementById('leaderboard-content');
+                const existingEndIndicator = document.querySelector('.end-of-list');
+                
+                if (!existingEndIndicator) {
+                    const endIndicator = document.createElement('div');
+                    endIndicator.className = 'end-of-list';
+                    endIndicator.textContent = 'Alle Spieler geladen';
+                    leaderboardContent.appendChild(endIndicator);
+                }
+            }
+
+            // Spieler zur Leaderboard-Liste hinzufügen
+            function appendPlayersToLeaderboard(players) {
+                const leaderboardContent = document.getElementById('leaderboard-content');
+                if (!leaderboardContent) return;
+
+                players.forEach((player) => {
+                    const row = document.createElement('div');
+                    row.className = `leaderboard-row ${player.rank <= 3 ? 'podium' : ''}`;
+                    row.setAttribute('data-rank', player.rank);
+                    row.setAttribute('data-user-id', player.id);
+                    row.setAttribute('data-username', player.username);
+                    row.setAttribute('data-avatar', player.avatar);
+                    row.setAttribute('data-registered', player.first_played);
+                    row.setAttribute('data-score', player.highscore);
+                    row.setAttribute('data-highscore-date', player.highscore_time);
+                    row.setAttribute('data-correct', player.correct_high);
+                    row.setAttribute('data-games', player.number_of_games);
+                    row.onclick = () => updatePlayerInfo(row);
+
+                    const positionCell = document.createElement('div');
+                    positionCell.className = 'leaderboard-cell position';
+                    if (player.rank === 1) positionCell.innerHTML = '🥇';
+                    else if (player.rank === 2) positionCell.innerHTML = '🥈';
+                    else if (player.rank === 3) positionCell.innerHTML = '🥉';
+                    else positionCell.textContent = player.rank;
+
+                    const usernameCell = document.createElement('div');
+                    usernameCell.className = 'leaderboard-cell username';
+                    usernameCell.textContent = player.username;
+
+                    const scoreCell = document.createElement('div');
+                    scoreCell.className = 'leaderboard-cell score';
+                    scoreCell.textContent = player.highscore;
+
+                    const dateCell = document.createElement('div');
+                    dateCell.className = 'leaderboard-cell date';
+                    if (player.highscore_time) {
+                        const timeElement = document.createElement('time');
+                        timeElement.className = 'utc-time';
+                        timeElement.setAttribute('data-iso', player.highscore_time);
+                        timeElement.textContent = 'Lädt...';
+                        dateCell.appendChild(timeElement);
+                    } else {
+                        dateCell.textContent = 'N/A';
+                    }
+
+                    row.appendChild(positionCell);
+                    row.appendChild(usernameCell);
+                    row.appendChild(scoreCell);
+                    row.appendChild(dateCell);
+
+                    leaderboardContent.appendChild(row);
+                });
+
+                // Zeit-Konvertierung für neue Elemente
+                convertUtcTimeElements(leaderboardContent);
+            }
+
+            // Spielerinformationen aktualisieren
+            function updatePlayerInfo(row) {
+                // Highlight aktive Zeile
+                document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
+                row.classList.add('active');
+
+                // Alle Daten aktualisieren
+                const rank = row.dataset.rank;
+                document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
+                document.getElementById('info-username').textContent = row.dataset.username || "N/A";
+                document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
+                document.getElementById('info-registered').textContent = formatIsoToLocal(row.dataset.registered) || "N/A";
+                document.getElementById('info-games').textContent = row.dataset.games || "0";
+                document.getElementById('info-highscore').textContent = row.dataset.score || "0";
+                document.getElementById('info-highscore-date').textContent = formatIsoToLocal(row.dataset.highscoreDate) || "N/A";
+                document.getElementById('info-correct').textContent = row.dataset.correct || "0";
+                
+                // Avatar aktualisieren
                 const avatarContainer = document.getElementById('info-avatar');
-                if (data.avatar) {
-                    avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${data.avatar}" 
-                                                     alt="Avatar von ${data.username || 'Spieler'}" 
-                                                     class="avatar-image">`;
+                const avatar = row.dataset.avatar;
+                if (avatar && avatar !== "None") {
+                    avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${avatar}" 
+                                             alt="Avatar von ${row.dataset.username || 'Spieler'}" 
+                                             class="avatar-image">`;
                 } else {
                     avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
                 }
-                
-                // Highlight entfernen
-                document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
-                
-            } catch (error) {
-                console.error('Fehler bei der Suche:', error);
-                createFlashMessage('JJJJJEin Fehler ist aufgetreten', 'error');
             }
-        }
 
+            // Spieler suchen
+            async function searchPlayer() {
+                const searchInput = document.getElementById('player-search');
+                const username = searchInput.value.trim();
+                
+                if (!username) {
+                    createFlashMessage('Bitte gib einen Benutzernamen ein', 'error');
+                    return;
+                }
 
+                try {
+                    const response = await fetch('/api/search_player', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: username
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        // Fehler vom Server als JSON parsen
+                        const errorData = await response.json();
+                        createFlashMessage(errorData.error || 'Ein Fehler ist aufgetreten', 'error');
+                        return;
+                    }
 
-        window.addEventListener("load", () => {
-            const firstRow = document.querySelector(".leaderboard-row");
-            const scrollContainer = document.getElementById("leaderboard-scroll");
-            if (firstRow && scrollContainer) {
-                const rowHeight = firstRow.offsetHeight;
-                scrollContainer.style.maxHeight = (rowHeight * 12) + "px";
+                    const data = await response.json();
+
+                    // Spielerdaten anzeigen
+                    document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
+                    document.getElementById('info-username').textContent = data.username || "N/A";
+                    document.getElementById('info-id').textContent = data.id || "N/A";
+                    document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
+                    document.getElementById('info-games').textContent = data.number_of_games || "0";
+                    document.getElementById('info-highscore').textContent = data.highscore || "0";
+                    document.getElementById('info-highscore-date').textContent = formatIsoToLocal(data.highscore_time) || "N/A";
+                    document.getElementById('info-correct').textContent = data.correct_high || "0";
+                    
+                    // Avatar anzeigen
+                    const avatarContainer = document.getElementById('info-avatar');
+                    if (data.avatar) {
+                        avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${data.avatar}" 
+                                                     alt="Avatar von ${data.username || 'Spieler'}" 
+                                                     class="avatar-image">`;
+                    } else {
+                        avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
+                    }
+                    
+                    // Highlight entfernen
+                    document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
+                    
+                } catch (error) {
+                    console.error('Fehler bei der Suche:', error);
+                    createFlashMessage('Ein Fehler ist aufgetreten', 'error');
+                }
             }
-        });
-    </script>
+
+            // Scroll-Container Höhe anpassen
+            function adjustScrollContainer() {
+                const firstRow = document.querySelector(".leaderboard-row");
+                const scrollContainer = document.getElementById("leaderboard-scroll");
+                if (firstRow && scrollContainer) {
+                    const rowHeight = firstRow.offsetHeight;
+                    scrollContainer.style.maxHeight = (rowHeight * 12) + "px";
+                }
+            }
+
+            window.addEventListener("load", adjustScrollContainer);
+        </script>
+    </body>
 {% endblock %}

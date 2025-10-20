@@ -74,6 +74,36 @@ body.ranking-page {
     box-sizing: border-box;
 }
 
+/* Passe den Scroll-Container für Infinite Scrolling an */
+.leaderboard-scroll {
+    max-height: 60vh; /* Etwas mehr Platz für mehr Einträge */
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Loading Indicator für Infinite Scrolling */
+.loading-indicator {
+    text-align: center;
+    padding: 1.5rem;
+    color: #8e2de2;
+    font-style: italic;
+    background: rgba(26, 26, 46, 0.5);
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+/* End-of-list Indicator */
+.end-of-list {
+    text-align: center;
+    padding: 1rem;
+    color: #aaa;
+    font-style: italic;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0.5rem;
+}
+
 /* 🔍 SUCHLEISTE */
 .search-wrapper {
     width: 100%;
@@ -407,11 +437,6 @@ body.ranking-page {
     }
 }
 
-
-
-
-
-
 @media (max-width: 600px) {
     .leaderboard-header.top-list-header .header-item:nth-child(1)::after {
         content: "Pl.";
@@ -440,18 +465,6 @@ body.ranking-page {
 
 .leaderboard-header.platzierung-header .header-item {
     white-space: nowrap;
-}
-
-
-
-
-
-/* 📜 Scrollbarer Bereich für Ranking */
-.leaderboard-scroll {
-    max-height: calc(10 * 2.1rem); /* 10 Zeilen sichtbar */
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Fixierter Tabellenkopf */
