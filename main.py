@@ -264,7 +264,7 @@ def initialize_database():
                 'wirtschaft', 'technologie', 'sprache', 'promis', 
                 'sport', 'natur', 'musik', 'glauben', 'kunst', 
                 'geschichte', 'geographie', 'essen', 'filme', 
-                'automobil', 'astrologie', 'gaming'
+                'automobil', 'gaming'
             ]
             
             # Pfad zum CSV-Ordner
