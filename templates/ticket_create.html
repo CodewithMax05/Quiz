@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Neues Ticket erstellen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_tickets.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    
+    <div class="back-button-container">
+        <a href="{{ url_for('tickets_user') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Übersicht</a>
+    </div>
+
+    <div class="container">
+        <h1 class="support-title">Neues Support Ticket</h1>
+    </div>
+    
+    <div class="support-content">
+        <div class="support-box">
+            <form class="support-form" method="POST" action="{{ url_for('ticket_create') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="info-row">
+                    <span class="info-label">Kategorie: *</span>
+                    <span class="info-value">
+                        <select id="category" name="category" class="dropup-select" required>
+                            <option value="" disabled selected>Bitte auswählen</option>
+                            <option value="Feedback">Feedback</option>
+                            <option value="Einreichung - Fragen">Einreichung - Fragen</option>
+                            <option value="Fehlermeldung - Fragen">Fehlermeldung - Fragen</option>
+                            <option value="Allgemeine Frage">Allgemeine Frage</option>
+                        </select>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Betreff: *</span>
+                    <span class="info-value">
+                        <input type="text" id="subject" name="subject" value="" required placeholder="Kurze Zusammenfassung des Problems">
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Spielername: *</span>
+                    <span class="info-value">
+                        <input type="text" id="username" name="username" value="{{ current_user.username if current_user else '' }}" required>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">E-Mail:</span>
+                    <span class="info-value">
+                        <input type="email" id="email" name="email" value="{{ current_user.email if current_user else '' }}" placeholder="Optional - für Rückfragen">
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Telefon:</span>
+                    <span class="info-value">
+                        <input type="tel" id="phone" name="phone" value="" placeholder="Optional">
+                    </span>
+                </div>
+
+                <div class="info-row message-row">
+                    <span class="info-label">Ihre Nachricht: *</span>
+                    <textarea id="message" name="message" rows="6" required placeholder="Beschreiben Sie Ihr Anliegen so genau wie möglich."></textarea>
+                </div>
+                
+                <p class="required-note">* Pflichtfelder</p>
+
+                <div class="button-content">
+                    <button type="submit" class="support-button sound-button">Ticket erstellen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

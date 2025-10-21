@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Ticket - {{ ticket.subject }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_tickets.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+
+    <div class="back-button-container">
+        {% if is_admin %}
+            <a href="{{ url_for('tickets_admin') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Admin-Übersicht</a>
+        {% else %}
+            <a href="{{ url_for('tickets_user') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zu Meine Tickets</a>
+        {% endif %}
+    </div>
+
+    <div class="chat-box">
+        <div class="chat-header">
+            <h2>Ticket: {{ ticket.subject }}</h2>
+            <div class="chat-header-actions">
+                <span class="status-badge status-{{ ticket.status }}">{{ ticket.status.upper() }}</span>
+                
+                {% if is_admin %}
+                    {% if ticket.status == 'open' %}
+                    <form method="POST" action="{{ url_for('admin_toggle_ticket_status', ticket_id=ticket.id) }}" class="status-toggle-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="ticket-button status-toggle-button">
+                            <i class="fas fa-lock"></i> Ticket schließen
+                        </button>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" class="delete-ticket-form" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="ticket-button delete-button">
+                            <i class="fas fa-trash"></i> Ticket löschen
+                        </button>
+                    </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        
+        <p class="ticket-meta">Kategorie: {{ ticket.category }} | Spieler: {{ ticket.username }} | Erstellt: {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
+                    <span class="message-sender">{{ message.sender_name }}</span>
+                    <p class="message-content">{{ message.content }}</p>
+                    <span class="message-timestamp">{{ message.created_at.strftime('%H:%M') }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if ticket.status == 'open' %}
+            <form class="chat-input-area" method="POST" action="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <textarea name="message_content" placeholder="Ihre Nachricht..." required></textarea>
+                <button type="submit" class="chat-send-button sound-button"><i class="fas fa-paper-plane"></i> Senden</button>
+            </form>
+        {% else %}
+            <div class="closed-message">
+                <p>Dieses Ticket ist geschlossen. Es können keine weiteren Nachrichten gesendet werden.</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

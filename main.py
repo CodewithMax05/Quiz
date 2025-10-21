@@ -115,6 +115,106 @@ class News(db.Model):
             'created_at': self.created_at
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# =========================================================================
+# NEUE MODELLE FÜR DAS TICKETS-SYSTEM
+# DIES MUSS IM BEREICH IHRER DB-MODELLE EINGEFÜGT WERDEN
+# =========================================================================
+
+from datetime import datetime, timezone, timedelta # <- Stellen Sie sicher, dass dies importiert ist
+
+class Ticket(db.Model):
+    """
+    Hauptmodell für ein Ticket.
+    """
+    __tablename__ = 'tickets'
+    id = db.Column(db.Integer, primary_key=True)
+    
+    # User-Informationen
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), nullable=True)
+    phone = db.Column(db.String(50), nullable=True)
+
+    # Ticket-Details
+    subject = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(20), default='open', nullable=False)
+
+    # Zeitstempel
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_updated = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Beziehung zu den Nachrichten
+    messages = db.relationship('TicketMessage', backref='ticket', lazy='dynamic')
+    
+    # Initialnachricht
+    initial_message_content = db.Column(db.Text, nullable=False)
+
+
+class TicketMessage(db.Model):
+    """
+    Modell für jede Nachricht innerhalb eines Tickets.
+    """
+    __tablename__ = 'ticket_messages'
+    id = db.Column(db.Integer, primary_key=True)
+    
+    ticket_id = db.Column(db.Integer, db.ForeignKey('tickets.id'), nullable=False)
+    
+    # Autor der Nachricht: 'user' oder 'admin'
+    sender_type = db.Column(db.String(10), nullable=False)
+    sender_name = db.Column(db.String(80), nullable=False)
+
+    content = db.Column(db.Text, nullable=False)
+    
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class QuizTimer:
     def __init__(self, socketio, room_id, duration=30):
         self.socketio = socketio
@@ -2107,6 +2207,317 @@ def news_admin():
         print(f"Fehler in News-Admin: {str(e)}")
         flash('Ein Fehler ist aufgetreten', 'error')
         return redirect(url_for('news_admin'))
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# =========================================================================
+# TICKETS-SYSTEM ROUTEN
+# =========================================================================
+
+# --- USER-BEREICH ---
+
+@app.route('/my_tickets', methods=['GET'])
+@login_required
+def tickets_user():
+    """Zeigt alle Tickets des eingeloggten Users an."""
+    try:
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            flash("Benutzer nicht gefunden", "error")
+            return redirect(url_for('homepage'))
+        
+        user_tickets = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.last_updated.desc()).all()
+        return render_template('tickets_user.html', tickets=user_tickets)
+    except Exception as e:
+        print(f"Fehler beim Laden der Tickets: {str(e)}")
+        flash("Fehler beim Laden der Tickets", "error")
+        return redirect(url_for('homepage'))
+
+
+@app.route('/create_ticket', methods=['GET', 'POST'])
+@login_required
+def ticket_create():
+    """Formular zum Erstellen eines neuen Tickets und Logik zum Speichern."""
+    try:
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            flash("Benutzer nicht gefunden", "error")
+            return redirect(url_for('homepage'))
+
+        if request.method == 'POST':
+            # CSRF-Validierung
+            try:
+                validate_csrf(request.form.get('csrf_token'))
+            except ValidationError:
+                flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
+                return render_template('ticket_create.html', current_user=user)
+
+            # 1. Daten aus dem Formular holen
+            category = request.form.get('category')
+            subject = request.form.get('subject')
+            message = request.form.get('message')
+            username = request.form.get('username')
+            email = request.form.get('email')  # Jetzt optional
+            phone = request.form.get('phone')
+
+            # 2. Validierung (E-Mail ist jetzt nicht mehr required)
+            if not all([category, subject, message, username]):
+                flash('Bitte füllen Sie alle Pflichtfelder aus.', 'error')
+                return render_template('ticket_create.html', current_user=user)
+
+            # 3. Neues Ticket in der DB speichern
+            new_ticket = Ticket(
+                user_id=user.id,
+                username=username,
+                email=email,  # Kann None sein
+                phone=phone,
+                subject=subject,
+                category=category,
+                status='open',
+                initial_message_content=message
+            )
+            db.session.add(new_ticket)
+            db.session.flush()
+
+            # 4. Erste Nachricht des Users speichern
+            initial_msg = TicketMessage(
+                ticket_id=new_ticket.id,
+                sender_type='user',
+                sender_name=username,
+                content=message
+            )
+            db.session.add(initial_msg)
+            db.session.commit()
+
+            flash('Ihr Ticket wurde erfolgreich erstellt.', 'success')
+            return redirect(url_for('tickets_user'))
+                                    
+        # GET-Anfrage: Formular rendern
+        return render_template('ticket_create.html', current_user=user)
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Fehler beim Erstellen des Tickets: {e}")
+        flash('Ein Fehler ist beim Speichern aufgetreten.', 'error')
+        return redirect(url_for('tickets_user'))
+
+
+@app.route('/ticket/<int:ticket_id>', methods=['GET', 'POST'])
+@login_required
+def ticket_detail(ticket_id):
+    """Zeigt das Detail eines Tickets (Chat) an und verarbeitet neue Nachrichten."""
+    try:
+        ticket = Ticket.query.get_or_404(ticket_id)
+        
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            flash("Benutzer nicht gefunden", "error")
+            return redirect(url_for('homepage'))
+        
+        is_admin = user.is_admin if user else False
+
+        # Sicherheitsprüfung: Nur der Ersteller oder Admin darf das Ticket sehen
+        if ticket.user_id != user.id and not is_admin:
+            abort(403)
+
+        messages = ticket.messages.order_by(TicketMessage.created_at.asc()).all()
+
+        if request.method == 'POST':
+            # CSRF-Validierung
+            try:
+                validate_csrf(request.form.get('csrf_token'))
+            except ValidationError:
+                flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
+                return redirect(url_for('ticket_detail', ticket_id=ticket.id))
+
+            new_message_content = request.form.get('message_content')
+            
+            if not new_message_content:
+                flash('Nachricht darf nicht leer sein.', 'warning')
+                return redirect(url_for('ticket_detail', ticket_id=ticket.id))
+
+            # Prüfe Status: Wenn geschlossen, kann niemand mehr schreiben
+            if ticket.status == 'closed':
+                flash('Dieses Ticket ist geschlossen. Es können keine neuen Nachrichten gesendet werden.', 'error')
+                return redirect(url_for('ticket_detail', ticket_id=ticket.id))
+            
+            # Nachricht speichern
+            if is_admin:
+                sender_type = 'admin'
+                sender_name = user.username
+            else:
+                sender_type = 'user'
+                sender_name = user.username
+                
+            new_msg = TicketMessage(
+                ticket_id=ticket.id,
+                sender_type=sender_type,
+                sender_name=sender_name,
+                content=new_message_content
+            )
+            db.session.add(new_msg)
+            
+            # last_updated-Feld aktualisieren
+            ticket.last_updated = datetime.utcnow()
+            
+            db.session.commit()
+            flash('Nachricht gesendet.', 'success')
+            return redirect(url_for('ticket_detail', ticket_id=ticket.id))
+
+        # GET-Anfrage
+        return render_template('ticket_detail.html', ticket=ticket, messages=messages, is_admin=is_admin)
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Fehler in ticket_detail: {e}")
+        flash('Ein Fehler ist aufgetreten.', 'error')
+        return redirect(url_for('tickets_user'))
+
+
+# --- ADMIN-BEREICH ---
+
+@app.route('/admin/tickets', methods=['GET'])
+@admin_required 
+def tickets_admin():
+    """Zeigt alle Tickets für den Admin an."""
+    try:
+        all_tickets = Ticket.query.order_by(Ticket.last_updated.desc()).all()
+        return render_template('tickets_admin.html', all_tickets=all_tickets)
+    except Exception as e:
+        print(f"Fehler beim Laden der Admin-Tickets: {e}")
+        flash('Fehler beim Laden der Tickets', 'error')
+        return redirect(url_for('admin_panel'))
+
+
+@app.route('/admin/ticket/toggle_status/<int:ticket_id>', methods=['POST'])
+@admin_required
+def admin_toggle_ticket_status(ticket_id):
+    """Schließt ein Ticket (kann nicht mehr geöffnet werden)."""
+    try:
+        # CSRF-Validierung
+        try:
+            validate_csrf(request.form.get('csrf_token'))
+        except ValidationError:
+            flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
+            return redirect(url_for('ticket_detail', ticket_id=ticket_id))
+
+        # Zusätzliche Sicherheitsprüfung
+        user = User.query.filter_by(username=session['username']).first()
+        if not user or not user.is_admin:
+            flash('Zugriff verweigert: Admin-Bereich', 'error')
+            return redirect(url_for('homepage'))
+
+        ticket = Ticket.query.get_or_404(ticket_id)
+        
+        # Nur offene Tickets können geschlossen werden
+        if ticket.status == 'open':
+            ticket.status = 'closed'
+            flash('Ticket wurde geschlossen.', 'success')
+            db.session.commit()
+        else:
+            flash('Dieses Ticket ist bereits geschlossen und kann nicht mehr geöffnet werden.', 'error')
+        
+    except Exception as e:
+        db.session.rollback()
+        flash('Fehler beim Ändern des Ticket-Status.', 'error')
+        print(f"Fehler beim Status-Toggle: {e}")
+        
+    return redirect(url_for('ticket_detail', ticket_id=ticket_id))
+
+
+@app.route('/admin/ticket/delete/<int:ticket_id>', methods=['POST'])
+@admin_required
+def admin_delete_ticket(ticket_id):
+    """Löscht ein geschlossenes Ticket komplett."""
+    try:
+        # CSRF-Validierung
+        try:
+            validate_csrf(request.form.get('csrf_token'))
+        except ValidationError:
+            flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
+            return redirect(url_for('ticket_detail', ticket_id=ticket_id))
+
+        # Zusätzliche Sicherheitsprüfung
+        user = User.query.filter_by(username=session['username']).first()
+        if not user or not user.is_admin:
+            flash('Zugriff verweigert: Admin-Bereich', 'error')
+            return redirect(url_for('homepage'))
+
+        ticket = Ticket.query.get_or_404(ticket_id)
+        
+        # Nur geschlossene Tickets können gelöscht werden
+        if ticket.status != 'closed':
+            flash('Nur geschlossene Tickets können gelöscht werden.', 'error')
+            return redirect(url_for('ticket_detail', ticket_id=ticket.id))
+        
+        # Ticket und alle zugehörigen Nachrichten löschen
+        ticket_messages = TicketMessage.query.filter_by(ticket_id=ticket.id).all()
+        
+        for message in ticket_messages:
+            db.session.delete(message)
+        
+        db.session.delete(ticket)
+        db.session.commit()
+        
+        flash('Ticket wurde erfolgreich gelöscht.', 'success')
+        return redirect(url_for('tickets_admin'))
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Fehler beim Löschen des Tickets: {e}")
+        flash('Fehler beim Löschen des Tickets.', 'error')
+        return redirect(url_for('ticket_detail', ticket_id=ticket_id))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # WebSocket Event Handlers
 @socketio.on('connect')
