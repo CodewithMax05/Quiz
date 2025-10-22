@@ -91,15 +91,6 @@ class Question(db.Model):
     wrong2 = db.Column(db.String(150), nullable=False)
     wrong3 = db.Column(db.String(150), nullable=False)
 
-class SupportRequest(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    category = db.Column(db.String(100), nullable=False)
-    username = db.Column(db.String(150), nullable=False)
-    phone = db.Column(db.String(50))
-    email = db.Column(db.String(150))
-    message = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-
 # News-Modell
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -1911,99 +1902,6 @@ def search_player():
 @logout_required 
 def legal():
     return render_template('legal.html')
-
-@app.route('/support', methods=['GET', 'POST'])
-@prevent_quiz_exit 
-def support():
-    if request.method == 'POST':
-        category = request.form.get('category')
-        username = request.form.get('username')
-        phone = request.form.get('phone')
-        email = request.form.get('email')
-        message = request.form.get('message')
-
-        if not category or not username or not message:
-            flash("Bitte alle Pflichtfelder ausfüllen!", "error")
-            return render_template(
-                'support.html',
-                category=category,
-                username=username,
-                phone=phone,
-                email=email,
-                message=message,
-                # Rücksprungziel merken
-                back_target=session.get("support_back_target", "homepage" if 'username' in session else "index")
-            )
-
-        try:
-            # In Datenbank speichern
-            new_request = SupportRequest(
-                category=category,
-                username=username,
-                phone=phone,
-                email=email,
-                message=message
-            )
-            db.session.add(new_request)
-            db.session.commit()
-
-            flash("Deine Anfrage wurde verschickt!", "success")
-            return redirect(url_for('support'))
-
-        except Exception as e:
-            db.session.rollback()
-            print(f"Fehler beim Speichern der Support-Anfrage: {str(e)}")
-            flash("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.", "error")
-            return render_template(
-                'support.html',
-                category=category,
-                username=username,
-                phone=phone,
-                email=email,
-                message=message,
-                back_target=session.get("support_back_target", "homepage" if 'username' in session else "index")
-            )
-
-    # GET: Bestimme die Rückkehrseite basierend auf Login-Status
-    if 'username' in session:
-        session["support_back_target"] = "homepage"
-    else:
-        session["support_back_target"] = "index"
-
-    return render_template(
-        'support.html',
-        back_target=session["support_back_target"]
-    )
-
-
-@app.route('/support_requests')
-@login_required
-@admin_required
-def support_requests_page():
-    try:
-        # Alle Support-Anfragen abrufen, neueste zuerst
-        requests = SupportRequest.query.order_by(SupportRequest.created_at.desc()).all()
-        return render_template('support_requests.html', requests=requests)
-    except Exception as e:
-        print(f"Fehler beim Abrufen der Support-Anfragen: {str(e)}")
-        flash("Fehler beim Laden der Support-Anfragen", "error")
-        return render_template('support_requests.html', requests=[])
-
-@app.route('/delete_request/<request_id>', methods=['POST'])
-@login_required
-@admin_required
-def delete_request(request_id):
-    try:
-        request_to_delete = SupportRequest.query.get_or_404(request_id)
-        db.session.delete(request_to_delete)
-        db.session.commit()
-        flash("Anfrage erfolgreich gelöscht!", "success")
-    except Exception as e:
-        db.session.rollback()
-        print(f"Fehler beim Löschen der Support-Anfrage: {str(e)}")
-        flash("Fehler beim Löschen der Anfrage", "error")
-    
-    return redirect(url_for('support_requests_page'))
 
 @app.route('/automatic_logout')
 @login_required
