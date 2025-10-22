@@ -250,15 +250,20 @@ input.input-field:-moz-autofill {
     position: relative;
     margin-top: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Änderung: Platz gleichmäßig verteilen */
     gap: 15px;
+    width: 85%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .round-button {
     position: relative;
-    width: 50px;
+    flex: 1; /* Änderung: Buttons nehmen verfügbaren Platz gleichmäßig ein */
+    min-width: 60px; /* Mindestbreite für bessere Darstellung */
     height: 50px;
-    border-radius: 50%;
+    border-radius: 14px; /* Änderung: Ecken abgerundet wie die anderen Buttons */
     background: linear-gradient(135deg, #888, #aaa);
     color: #f5f5f5;
     display: flex;
@@ -318,10 +323,6 @@ input.input-field:-moz-autofill {
 
 .round-button[aria-label="Rechtliche Informationen"]::after {
     content: "Rechtliche Informationen";
-}
-
-.round-button[aria-label="Support"]::after {
-    content: "Support";
 }
 
 .round-button:hover {
