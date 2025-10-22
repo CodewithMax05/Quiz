@@ -2081,13 +2081,13 @@ def admin_panel():
         # Statistiken für das Dashboard sammeln
         total_users = User.query.count()
         total_questions = Question.query.count()
-        total_support_requests = SupportRequest.query.count()
+        total_tickets = Ticket.query.count()
         
         return render_template(
             'admin_panel.html',
             total_users=total_users,
             total_questions=total_questions,
-            total_support_requests=total_support_requests
+            total_tickets=total_tickets
         )
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler auf der Homepage: {str(e)}")
