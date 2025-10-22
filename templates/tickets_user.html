@@ -10,10 +10,10 @@
 <div class="page-wrapper">
 
     <div class="back-button-container">
-        {% if is_logged_in %}
-            <a href="{{ url_for('homepage') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Startseite</a>
+        {% if return_to == 'playermenu' %}
+            <a href="{{ url_for('playermenu') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zum Spielermenü</a>
         {% else %}
-            <a href="{{ url_for('index') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Startseite</a>
+            <a href="{{ url_for('homepage') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Startseite</a>
         {% endif %}
     </div>
 
@@ -24,7 +24,11 @@
     <div class="ticket-list-container">
         <div class="ticket-list-header">
             <h2>Aktive und vergangene Anfragen</h2>
-            <a href="{{ url_for('ticket_create') }}" class="ticket-button"><i class="fas fa-plus"></i> Neues Ticket erstellen</a>
+            {% if return_to == 'playermenu' %}
+                <a href="{{ url_for('ticket_create', return_to='playermenu') }}" class="ticket-button"><i class="fas fa-plus"></i> Neues Ticket erstellen</a>
+            {% else %}
+                <a href="{{ url_for('ticket_create', return_to='homepage') }}" class="ticket-button"><i class="fas fa-plus"></i> Neues Ticket erstellen</a>
+            {% endif %}
         </div>
 
         {% if tickets %}
@@ -67,7 +71,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.ticket-row').forEach(function(row) {
         row.addEventListener('click', function() {
             const ticketId = this.getAttribute('data-ticket-id');
-            window.location.href = '/ticket/' + ticketId;
+            const returnTo = "{{ return_to }}";
+            if (returnTo) {
+                window.location.href = '/ticket/' + ticketId + '?return_to=' + returnTo;
+            } else {
+                window.location.href = '/ticket/' + ticketId;
+            }
         });
     });
 });

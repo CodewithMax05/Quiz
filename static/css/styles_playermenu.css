@@ -71,6 +71,7 @@ body.playermenu-page {
 /* Linke Buttons links ausrichten */
 .left-actions {
     justify-content: flex-start;
+    gap: 10px; /* Abstand zwischen News und Tickets Button */
 }
 
 /* 1. News Button (links vom Zurück-Button) - GRÖSSE ANGEPASST */
@@ -98,6 +99,31 @@ body.playermenu-page {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
+/* NEUER TICKETS BUTTON - gleiches Design wie Support-Button aus Homepage */
+.tickets-circle-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.35rem;
+    transition: all 0.2s ease;
+    
+    /* Gleiches Design wie Support-Button aus Homepage */
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    box-shadow: 0 3px 8px rgba(108, 117, 125, 0.3);
+    position: relative;
+}
+
+.tickets-circle-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #495057, #6c757d);
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.5);
+}
+
 /* 2. Benachrichtigungs-Badge */
 .notification-badge {
     position: absolute;
@@ -116,11 +142,13 @@ body.playermenu-page {
 }
 
 .news-circle-button,
+.tickets-circle-button,
 .back-circle-button {
     position: relative;
 }
 
 .news-circle-button::after,
+.tickets-circle-button::after,
 .back-circle-button::after {
     content: attr(aria-label);
     position: absolute;
@@ -141,6 +169,7 @@ body.playermenu-page {
 }
 
 .news-circle-button:hover::after,
+.tickets-circle-button:hover::after,
 .back-circle-button:hover::after {
     opacity: 1;
 }
@@ -539,8 +568,14 @@ body.playermenu-page {
         height: 45px;
         font-size: 1.1rem;
     }
+    .tickets-circle-button { /* Größe hier auch angepasst */
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
 
     .news-circle-button::after,
+    .tickets-circle-button::after,
     .back-circle-button::after {
         font-size: 0.8rem;
         padding: 6px 10px;
@@ -581,11 +616,21 @@ body.playermenu-page {
         height: 35px; 
         font-size: 1rem; 
     }
+    .tickets-circle-button { 
+        width: 35px; 
+        height: 35px; 
+        font-size: 1rem; 
+    }
     .news-circle-button::after,
+    .tickets-circle-button::after,
     .back-circle-button::after {
         font-size: 0.75rem;
         padding: 5px 8px;
         bottom: -35px;
+    }
+    
+    .left-actions {
+        gap: 8px; /* Weniger Abstand auf kleinen Handys */
     }
 }
 

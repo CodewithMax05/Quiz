@@ -10,14 +10,19 @@
     <div class="playermenu-wrapper">
         <!-- Profilkarte -->
         <div class="player-card">
-            <!-- Überschrift + news + Zurück-Button -->
+            <!-- Überschrift + news + tickets + Zurück-Button -->
             <div class="title-bar">
-                <!-- Linke Seite: News Button -->
+                <!-- Linke Seite: News Button und Tickets Button -->
                 <div class="left-actions">
                     <a href="{{ url_for('news') }}" class="news-circle-button sound-button" aria-label="News">
                         <i class="fas fa-newspaper"></i> {% if news_notification_count and news_notification_count > 0 %}
                             <span class="notification-badge">{{ news_notification_count }}</span>
                         {% endif %}
+                    </a>
+                    
+                    <!-- NEUER TICKETS BUTTON -->
+                    <a href="{{ url_for('tickets_user', return_to='playermenu') }}" class="tickets-circle-button sound-button" aria-label="Support Tickets">
+                        <i class="fas fa-headset"></i>
                     </a>
                 </div>
 

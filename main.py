@@ -2255,11 +2255,16 @@ def tickets_user():
             return redirect(url_for('homepage'))
         
         user_tickets = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.last_updated.desc()).all()
-        return render_template('tickets_user.html', tickets=user_tickets)
+        
+        # Rückkehr-Ziel aus URL-Parameter holen oder Standard auf homepage setzen
+        return_to = request.args.get('return_to', 'homepage')
+        
+        return render_template('tickets_user.html', tickets=user_tickets, return_to=return_to)
     except Exception as e:
         print(f"Fehler beim Laden der Tickets: {str(e)}")
         flash("Fehler beim Laden der Tickets", "error")
         return redirect(url_for('homepage'))
+
 
 
 @app.route('/create_ticket', methods=['GET', 'POST'])
