@@ -115,32 +115,10 @@ class News(db.Model):
             'created_at': self.created_at
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # =========================================================================
 # NEUE MODELLE FÜR DAS TICKETS-SYSTEM
 # DIES MUSS IM BEREICH IHRER DB-MODELLE EINGEFÜGT WERDEN
 # =========================================================================
-
-from datetime import datetime, timezone, timedelta # <- Stellen Sie sicher, dass dies importiert ist
 
 class Ticket(db.Model):
     """
@@ -187,33 +165,6 @@ class TicketMessage(db.Model):
     content = db.Column(db.Text, nullable=False)
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class QuizTimer:
     def __init__(self, socketio, room_id, duration=30):
@@ -2208,36 +2159,6 @@ def news_admin():
         flash('Ein Fehler ist aufgetreten', 'error')
         return redirect(url_for('news_admin'))
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # =========================================================================
 # TICKETS-SYSTEM ROUTEN
 # =========================================================================
@@ -2500,29 +2421,6 @@ def admin_delete_ticket(ticket_id):
         print(f"Fehler beim Löschen des Tickets: {e}")
         flash('Fehler beim Löschen des Tickets.', 'error')
         return redirect(url_for('ticket_detail', ticket_id=ticket_id))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # WebSocket Event Handlers
 @socketio.on('connect')
