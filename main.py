@@ -753,7 +753,7 @@ def register():
 
         # Validierungen
         if not username or not password:
-            flash('Bitte fülle alle Felder aus', 'error')
+            flash('Um einen Account anzulegen bitte Usernamen und Passwort wählen!', 'error')
             return redirect(url_for('index'))
 
         if len(username) > 12:

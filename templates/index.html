@@ -32,8 +32,8 @@
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
-            <input type="button" value="Login" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
-            <input type="button" value="Register" class="btn btn-register sound-button" onclick="prepareRegister()" id="register-btn">
+            <input type="button" value="Einloggen" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
+            <input type="button" value="Account erstellen" class="btn btn-register sound-button" onclick="prepareRegister()" id="register-btn">
         </form>
 
         <!-- Neue Button-Gruppe -->
@@ -167,7 +167,7 @@
         const password = passwordField?.value || '';
 
         if (!username || !password) {
-            (typeof createFlashMessage === 'function') ? createFlashMessage('Bitte fülle alle Felder aus', 'error') : alert('Bitte fülle alle Felder aus');
+            (typeof createFlashMessage === 'function') ? createFlashMessage('Um einen Account anzulegen bitte Usernamen und Passwort wählen!', 'error') : alert('Um einen Account anzulegen bitte Usernamen und Passwort wählen!');
             return;
         }
         if (username.length > 12) {
