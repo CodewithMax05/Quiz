@@ -375,10 +375,10 @@ def initialize_database():
             print("Prüfe Testbenutzer...")
             test_users = [
                 {'username': 'Timo', 'password': 'test', 'highscore': 1524, 'highscore_time': datetime(2025, 9, 15, tzinfo=timezone.utc), 'correct_high': 18},
-                {'username': 'Felix1234', 'password': 'test', 'highscore': 1247, 'highscore_time': datetime(2025, 10, 12, tzinfo=timezone.utc), 'correct_high': 15},
+                {'username': 'Felixone', 'password': 'test', 'highscore': 1247, 'highscore_time': datetime(2025, 10, 12, tzinfo=timezone.utc), 'correct_high': 15},
                 {'username': 'Tobi', 'password': 'test', 'highscore': 1068, 'highscore_time': datetime(2025, 10, 11, tzinfo=timezone.utc), 'correct_high': 12},
                 {'username': 'Sofia', 'password': 'test', 'highscore': 957, 'highscore_time': datetime(2025, 9, 18, tzinfo=timezone.utc), 'correct_high': 10},
-                {'username': 'König2000', 'password': 'test', 'highscore': 895, 'highscore_time': datetime(2025, 7, 11, tzinfo=timezone.utc), 'correct_high': 9},
+                {'username': 'König', 'password': 'test', 'highscore': 895, 'highscore_time': datetime(2025, 7, 11, tzinfo=timezone.utc), 'correct_high': 9},
                 {'username': 'Anna', 'password': 'test', 'highscore': 801, 'highscore_time': datetime(2025, 9, 20, tzinfo=timezone.utc), 'correct_high': 10},
                 {'username': 'Felix', 'password': 'test', 'highscore': 725, 'highscore_time': datetime(2025, 9, 6, tzinfo=timezone.utc), 'correct_high': 9},
                 {'username': '2468', 'password': 'test', 'highscore': 715, 'highscore_time': datetime(2025, 9, 13, tzinfo=timezone.utc), 'correct_high': 8},
@@ -386,7 +386,7 @@ def initialize_database():
                 {'username': 'Felix', 'password': 'test', 'highscore': 624, 'highscore_time': datetime(2025, 10, 8, tzinfo=timezone.utc), 'correct_high': 7},
                 {'username': 'Laura', 'password': 'test', 'highscore': 605, 'highscore_time': datetime(2025, 10, 17, tzinfo=timezone.utc), 'correct_high': 8},
                 {'username': 'Emily', 'password': 'test', 'highscore': 576, 'highscore_time': datetime(2025, 9, 21, tzinfo=timezone.utc), 'correct_high': 6},
-                {'username': 'Christian', 'password': 'test', 'highscore': 535, 'highscore_time': datetime(2025, 19, 10, tzinfo=timezone.utc), 'correct_high': 7},
+                {'username': 'Christian', 'password': 'test', 'highscore': 535, 'highscore_time': datetime(2025, 9, 10, tzinfo=timezone.utc), 'correct_high': 7},
                 {'username': 'Lena', 'password': 'test', 'highscore': 517, 'highscore_time': datetime(2025, 10, 28, tzinfo=timezone.utc), 'correct_high': 6},
                 {'username': 'MaxS', 'password': 'test', 'highscore': 445, 'highscore_time': datetime(2025, 10, 4, tzinfo=timezone.utc), 'correct_high': 5}
             ]
