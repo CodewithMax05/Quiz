@@ -111,11 +111,28 @@ body {
     overflow: hidden;
     height: 100%;
     cursor: pointer;
+    /* NEUE REGELN FÜR FESTE GRÖSSE */
+    width: 135px !important;
+    height: 135px !important;
+    min-width: 135px;
+    min-height: 135px;
+    display: flex; /* Stellt sicher, dass der Inhalt zentriert werden kann */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .stat-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Anpassung des stat-card col-containers, um Zentrierung auf Desktop zu ermöglichen */
+.stats-row .col-md-4,
+.stats-row .col-sm-6,
+.stats-row .col-12 {
+    display: flex;
+    justify-content: center; /* Zentriert die Karte innerhalb der Spalte */
 }
 
 /* GLEICHE BREITE FÜR ALLE BUTTONS */
@@ -343,6 +360,18 @@ body {
     
     .stats-row .col-md-4 {
         margin-bottom: 20px;
+        /* Die Bootstrap-Spalteneinstellungen für 992px werden beibehalten, aber die stat-card selbst behält die feste Größe */
+        min-height: auto;
+        min-width: auto;
+        width: auto;
+        display: flex; /* Wichtig, um die Zentrierung zu gewährleisten */
+        justify-content: center; /* Zentriert die Karte */
+    }
+
+    /* Entfernt die Anweisungen, die die stat-card auf 100% Breite setzen, um die feste Größe zu erzwingen */
+    .stats-row .col-md-4 .stat-card {
+        width: 135px !important;
+        height: 135px !important;
     }
 }
 
@@ -368,6 +397,15 @@ body {
         padding: 0.4rem 0.6rem !important;
     }
     
+    .stat-card .card-body {
+        /* Anpassung für kleinere Karten, da sie jetzt flexibler sind */
+        padding: 1rem;
+    }
+    
+    .stat-card .card-body .card-title {
+        font-size: 1rem;
+    }
+    
     .stat-card .display-6 {
         font-size: 2rem;
     }
@@ -380,9 +418,18 @@ body {
     }
     
     .stats-row .col-md-4 {
+        /* Die ursprünglichen Einstellungen für 768px beibehalten, um volle Breite zu nutzen */
         flex: 0 0 100%;
         max-width: 100%;
         margin-bottom: 15px;
+        justify-content: center; /* Zentriert die nun volle-breite Karte */
+        width: 100%; /* Wichtig, da col-md-4 standardmäßig 33% ist */
+    }
+
+    .stats-row .col-md-4 .stat-card {
+        width: 100% !important; /* Volle Breite in der 100% Spalte */
+        height: auto !important;
+        min-height: 110px; /* Eine Mindesthöhe für bessere Optik */
     }
     
     .admin-nav .nav-link-text {
@@ -459,6 +506,15 @@ body {
     
     .stats-row .col-md-4 {
         margin-bottom: 12px;
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .stats-row .col-sm-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
     }
     
     .admin-card-btn {
