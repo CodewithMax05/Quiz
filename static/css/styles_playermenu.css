@@ -61,6 +61,7 @@ body.playermenu-page {
     display: flex;
     align-items: center;
     flex: 1;
+    gap: 10px;
 }
 
 /* Rechte Buttons rechts ausrichten */
@@ -71,36 +72,9 @@ body.playermenu-page {
 /* Linke Buttons links ausrichten */
 .left-actions {
     justify-content: flex-start;
-    gap: 10px; /* Abstand zwischen News und Tickets Button */
 }
 
-/* 1. News Button (links vom Zurück-Button) - GRÖSSE ANGEPASST */
-.news-circle-button {
-    /* Kopiert den Stil des back-circle-button, damit die Größe passt */
-    width: 50px; /* Angepasst */
-    height: 50px; /* Angepasst */
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    font-size: 1.35rem; /* Angepasst */
-    transition: all 0.2s ease;
-    
-    /* Farb- und Schattenstil des News-Buttons */
-    background: linear-gradient(135deg, #00aaff, #0077cc); /* Blau */
-    color: white;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-    position: relative; /* Wichtig für das Badge */
-}
-
-.news-circle-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-/* NEUER TICKETS BUTTON - gleiches Design wie Support-Button aus Homepage */
-.tickets-circle-button {
+.circle-button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -110,18 +84,59 @@ body.playermenu-page {
     text-decoration: none;
     font-size: 1.35rem;
     transition: all 0.2s ease;
-    
-    /* Gleiches Design wie Support-Button aus Homepage */
-    background: linear-gradient(135deg, #6c757d, #5a6268);
-    color: white;
-    box-shadow: 0 3px 8px rgba(108, 117, 125, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     position: relative;
 }
 
-.tickets-circle-button:hover {
+.circle-button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, #495057, #6c757d);
-    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Tooltip für alle Kreis-Buttons */
+.circle-button::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.circle-button:hover::after {
+    opacity: 1;
+}
+
+/* Circle-Buttons */
+.news-button {
+    background: linear-gradient(135deg, #00aaff, #0077cc);
+    color: white;
+}
+
+.tickets-button {
+    background: linear-gradient(135deg, #fd7e14, #e8590c);
+    color: white;
+}
+
+.settings-button {
+    background: linear-gradient(135deg, #888, #aaa);
+    color: white;
+}
+
+.back-button {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
 }
 
 /* 2. Benachrichtigungs-Badge */
@@ -141,39 +156,6 @@ body.playermenu-page {
     border: 2px solid rgba(26, 26, 46, 0.8); /* Kontrast-Rand zur Spielermenü-Karte */
 }
 
-.news-circle-button,
-.tickets-circle-button,
-.back-circle-button {
-    position: relative;
-}
-
-.news-circle-button::after,
-.tickets-circle-button::after,
-.back-circle-button::after {
-    content: attr(aria-label);
-    position: absolute;
-    bottom: -45px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    z-index: 100;
-}
-
-.news-circle-button:hover::after,
-.tickets-circle-button:hover::after,
-.back-circle-button:hover::after {
-    opacity: 1;
-}
-
 /* Überschrift */
 .playermenu-title {
     font-size: 2.0rem;
@@ -181,22 +163,6 @@ body.playermenu-page {
     text-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
     text-align: center;
     flex: 2;
-}
-
-.back-circle-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.35rem;
-    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
-    transition: transform 0.22s, box-shadow 0.22s;
-    z-index: 5;
 }
 
 /* Karussell Container */
@@ -558,25 +524,14 @@ body.playermenu-page {
     .button-subtitle {
         font-size: 0.8rem;
     }
-    .back-circle-button { /* Größe hier auch angepasst */
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
-    .news-circle-button { /* Größe hier auch angepasst */
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
-    .tickets-circle-button { /* Größe hier auch angepasst */
+
+    .circle-button {
         width: 45px;
         height: 45px;
         font-size: 1.1rem;
     }
 
-    .news-circle-button::after,
-    .tickets-circle-button::after,
-    .back-circle-button::after {
+    .circle-button::after {
         font-size: 0.8rem;
         padding: 6px 10px;
         bottom: -40px;
@@ -605,31 +560,22 @@ body.playermenu-page {
         height: 45px;
         font-size: 1.4rem;
     }
+
     .carousel-button { width: 32px; height: 32px; font-size: 0.9rem; }
-    .back-circle-button { 
-        width: 35px; 
-        height: 35px; 
-        font-size: 1rem; 
+
+    .circle-button {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
     }
-    .news-circle-button { 
-        width: 35px; 
-        height: 35px; 
-        font-size: 1rem; 
-    }
-    .tickets-circle-button { 
-        width: 35px; 
-        height: 35px; 
-        font-size: 1rem; 
-    }
-    .news-circle-button::after,
-    .tickets-circle-button::after,
-    .back-circle-button::after {
+
+    .circle-button::after {
         font-size: 0.75rem;
         padding: 5px 8px;
         bottom: -35px;
     }
     
-    .left-actions {
+    .left-actions, .right-actions {
         gap: 8px; /* Weniger Abstand auf kleinen Handys */
     }
 }

@@ -853,9 +853,10 @@ def accept_agb():
         return redirect(url_for('index'))
 
 @app.route("/settings")
-@logout_required 
+@login_required
+@prevent_quiz_exit
 def settings():
-    return render_template("settings.html", is_logged_in=('user_id' in session))
+    return render_template("settings.html", is_logged_in=True)
 
 @app.route('/change_username', methods=['POST'])
 def change_username():

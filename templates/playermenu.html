@@ -14,14 +14,13 @@
             <div class="title-bar">
                 <!-- Linke Seite: News Button und Tickets Button -->
                 <div class="left-actions">
-                    <a href="{{ url_for('news') }}" class="news-circle-button sound-button" aria-label="News">
+                    <a href="{{ url_for('news') }}" class="circle-button news-button sound-button" aria-label="News">
                         <i class="fas fa-newspaper"></i> {% if news_notification_count and news_notification_count > 0 %}
                             <span class="notification-badge">{{ news_notification_count }}</span>
                         {% endif %}
                     </a>
                     
-                    <!-- NEUER TICKETS BUTTON -->
-                    <a href="{{ url_for('tickets_user', return_to='playermenu') }}" class="tickets-circle-button sound-button" aria-label="Support Tickets">
+                    <a href="{{ url_for('tickets_user', return_to='playermenu') }}" class="circle-button tickets-button sound-button" aria-label="Support Tickets">
                         <i class="fas fa-headset"></i>
                     </a>
                 </div>
@@ -29,9 +28,13 @@
                 <!-- Zentrierte Überschrift -->
                 <h1 class="playermenu-title">Spielermenü</h1>
 
-                <!-- Rechte Seite: Zurück-Button -->
+                <!-- Rechte Seite: Zurück-Button und Settings-Button -->
                 <div class="right-actions">
-                    <a href="{{ url_for('logout') }}" class="back-circle-button sound-button" aria-label="Logout">
+                    <a href="{{ url_for('settings') }}" class="circle-button settings-button sound-button" aria-label="Einstellungen">
+                        <i class="fas fa-cog"></i>
+                    </a>
+
+                    <a href="{{ url_for('logout') }}" class="circle-button back-button sound-button" aria-label="Logout">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </div>

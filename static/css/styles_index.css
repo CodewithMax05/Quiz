@@ -317,10 +317,6 @@ input.input-field:-moz-autofill {
     transform: translateX(-50%) scale(1);
 }
 
-.round-button[aria-label="Einstellungen"]::after {
-    content: "Einstellungen";
-}
-
 .round-button[aria-label="Rechtliche Informationen"]::after {
     content: "Rechtliche Informationen";
 }
