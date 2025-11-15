@@ -25,7 +25,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren
+csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren (automatische before Funktion)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
@@ -601,32 +601,6 @@ def prevent_quiz_exit(f):
 @app.context_processor
 def inject_csrf_token():
     return dict(csrf_token=generate_csrf)
-
-# führt die eigentliche Sicherheitsprüfung durch
-@app.before_request
-def check_csrf():
-    # CSRF für API-Routes deaktivieren, die JSON verwenden
-    if request.path.startswith('/api/'):
-        return  # Keine CSRF-Validierung für API-Endpoints
-    
-    if request.method in ['POST', 'PUT', 'DELETE', 'PATCH']:
-        try:
-            # Für Form-Daten
-            if request.content_type and 'application/x-www-form-urlencoded' in request.content_type:
-                validate_csrf(request.form.get('csrf_token'))
-            # Für JSON-Daten
-            elif request.content_type and 'application/json' in request.content_type:
-                if request.json:
-                    validate_csrf(request.json.get('csrf_token'))
-        except ValidationError:
-            if request.path.startswith('/api/'):
-                return jsonify({'error': 'CSRF-Validierung fehlgeschlagen'}), 400
-            else:
-                flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
-                if 'username' in session:
-                    return redirect(url_for('homepage'))
-                else:
-                    return redirect(url_for('index'))
                 
 @app.after_request
 def add_cache_headers(response):
@@ -1822,7 +1796,6 @@ def api_ranking_players():
     
 @app.route('/api/search_player', methods=['POST'])
 @login_required
-@csrf.exempt
 def search_player():
     try:
         # Bessere JSON/Form-Daten Handhabung

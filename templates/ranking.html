@@ -409,11 +409,15 @@
                     return;
                 }
 
+                // 1. Token aus dem <meta>-Tag holen (aus base.html)
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
                 try {
                     const response = await fetch('/api/search_player', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken // 2. Token als Header hinzufügen
                         },
                         body: JSON.stringify({
                             username: username
