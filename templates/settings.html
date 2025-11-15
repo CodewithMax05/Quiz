@@ -17,7 +17,6 @@
                 <div class="setting-content">
                     <form id="username-form" method="POST" action="{{ url_for('change_username') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <input type="text" name="current_username" placeholder="Aktueller Benutzername" value="" required>
                         <input type="text" name="new_username" placeholder="Neuer Benutzername" value="" required>
                         <div class="input-wrap">
                             <input type="password" name="password" placeholder="Passwort" value="" required>
@@ -36,8 +35,6 @@
                 <div class="setting-content">
                     <form id="password-form" method="POST" action="{{ url_for('change_password') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        
-                        <input type="text" name="username" placeholder="Aktueller Benutzername" value="" required>
                         
                         <div class="input-wrap">
                             <input type="password" name="current_password" placeholder="Aktuelles Passwort" value="" required>
@@ -65,69 +62,12 @@
                 </div>
             </div>
 
-            <!-- Avatar ändern -->
-            <div class="setting-item">
-                <button class="setting-toggle">Avatar ändern <i class="fa fa-chevron-down"></i></button>
-                <div class="setting-content">
-                    <form id="avatar-form">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        
-                       <!-- Eingabefelder für Benutzername und Passwort - JETZT MIT TOGGLE -->
-                        <input type="text" id="avatar-username" name="username" placeholder="Benutzername" value="" required>
-                        
-                        <div class="input-wrap">
-                            <input type="password" id="avatar-password" name="password" placeholder="Passwort" value="" required>
-                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Avatar Auswahl Bereich -->
-                        <div class="avatar-selection-container">
-                            <h4 class="avatar-selection-title">Wähle einen Avatar:</h4>
-                            
-                            <!-- Karussell Container - WIE IN PLAYERMENU -->
-                            <div class="carousel-container">
-                                <button type="button" class="carousel-button prev-button" id="settings-prev-avatar">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                
-                                <div class="avatar-carousel">
-                                    <div class="carousel-track" id="settings-carousel-track">
-                                        <!-- Avatare werden hier dynamisch geladen -->
-                                    </div>
-                                </div>
-                                
-                                <button type="button" class="carousel-button next-button" id="settings-next-avatar">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="carousel-indicator">
-                                <span id="settings-current-index">1</span> / <span id="settings-total-avatars">26</span>
-                            </div>
-                        </div>
-
-                        <button type="button" id="save-avatar-btn" class="save-avatar-button">Avatar speichern</button>
-                    </form>
-                </div>
-            </div>
-
             <!-- AGBs ablehnen -->
             <div class="setting-item">
                 <button class="setting-toggle">AGBs ablehnen <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="reject-agb-form" method="POST" action="{{ url_for('reject_agb') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        
-                        <input type="text" name="username" placeholder="Benutzername" value="" required>
-                        
-                        <div class="input-wrap">
-                            <input type="password" name="password" placeholder="Passwort" required>
-                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                        </div>
 
                         <div class="agb-checkbox-container">
                             <label class="agb-checkbox-label">
@@ -149,14 +89,6 @@
                 <div class="setting-content">
                     <form id="delete-account-form" method="POST" action="{{ url_for('delete_account') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <input type="text" name="username" placeholder="Benutzername" value="" required>
-                        
-                        <div class="input-wrap">
-                            <input type="password" name="password" placeholder="Passwort" required>
-                            <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                        </div>
 
                         <p class="delete-warning">
                             Zum Löschen des Accounts <u>DELETE</u> eingeben:
@@ -177,174 +109,11 @@
 </div>
 
 <script>
-// Avatar Karussell Funktionalität - WIE IN PLAYERMENU
 document.addEventListener("DOMContentLoaded", () => {
-    // Avatar Karussell Elemente
-    const carouselTrack = document.getElementById("settings-carousel-track");
-    const prevButton = document.getElementById("settings-prev-avatar");
-    const nextButton = document.getElementById("settings-next-avatar");
-    const currentIndexSpan = document.getElementById("settings-current-index");
-    const totalAvatarsSpan = document.getElementById("settings-total-avatars");
-    const saveAvatarBtn = document.getElementById("save-avatar-btn");
-    const usernameInput = document.getElementById("avatar-username");
-    const passwordInput = document.getElementById("avatar-password");
-
-    let selectedAvatar = null;
-    let currentAvatarIndex = 0;
-    let avatars = [];
-    const totalAvatarCount = 26;
-
-    // CSRF-Token aus Template
-    const csrfToken = "{{ csrf_token() }}";
-
-    // Alle verfügbaren Avatare
-    function loadAllAvatars() {
-        return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
-    }
-
-    // Berechne die drei anzuzeigenden Avatare (links, mitte, rechts)
-    function getVisibleAvatars() {
-        const prevIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
-        const nextIndex = (currentAvatarIndex + 1) % totalAvatarCount;
-        return [
-            { index: prevIndex, filename: avatars[prevIndex], position: 'left' },
-            { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' },
-            { index: nextIndex, filename: avatars[nextIndex], position: 'right' }
-        ];
-    }
-
-    // Avatare im Karussell anzeigen (immer 3 gleichzeitig)
-    function displayAvatars() {
-        if (!carouselTrack) return;
-        
-        carouselTrack.innerHTML = '';
-        const visibleAvatars = getVisibleAvatars();
-        
-        visibleAvatars.forEach((avatarData) => {
-            const avatarContainer = document.createElement("div");
-            avatarContainer.className = `avatar-carousel-item ${avatarData.position}`;
-            
-            const img = document.createElement("img");
-            img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + avatarData.filename;
-            img.dataset.filename = avatarData.filename;
-            img.dataset.index = avatarData.index;
-            img.classList.add("avatar-item");
-            
-            // Markiere nur den ausgewählten Avatar
-            if (avatarData.filename === selectedAvatar) {
-                img.classList.add("selected");
-            }
-            
-            img.addEventListener("click", () => {
-                // Entferne Auswahl von allen Avataren
-                document.querySelectorAll("#settings-carousel-track .avatar-item").forEach(i => i.classList.remove("selected"));
-                
-                // Setze den angeklickten Avatar als ausgewählt
-                img.classList.add("selected");
-                selectedAvatar = avatarData.filename;
-                
-                // WENN AUF SEITLICHEN AVATAR GEKLICKT WIRD: ZENTRIEREN
-                if (avatarData.position !== 'center') {
-                    currentAvatarIndex = avatarData.index;
-                    displayAvatars();
-                }
-            });
-            
-            avatarContainer.appendChild(img);
-            carouselTrack.appendChild(avatarContainer);
-        });
-        
-        updateCarousel();
-    }
-
-    // Karussell initialisieren
-    function initializeAvatarCarousel() {
-        avatars = loadAllAvatars();
-        selectedAvatar = avatars[0]; // Ersten Avatar vorauswählen
-        currentAvatarIndex = 0;
-        displayAvatars();
-    }
-
-    // Karussell-Position aktualisieren
-    function updateCarousel() {
-        if (currentIndexSpan) currentIndexSpan.textContent = currentAvatarIndex + 1;
-        if (totalAvatarsSpan) totalAvatarsSpan.textContent = totalAvatarCount;
-    }
-
-    // Vorherigen Avatar anzeigen (zirkulär)
-    prevButton.addEventListener("click", () => {
-        currentAvatarIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
-        selectedAvatar = avatars[currentAvatarIndex]; // Avatar automatisch auswählen
-        displayAvatars();
-    });
-
-    // Nächsten Avatar anzeigen (zirkulär)
-    nextButton.addEventListener("click", () => {
-        currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
-        selectedAvatar = avatars[currentAvatarIndex]; // Avatar automatisch auswählen
-        displayAvatars();
-    });
-
-    // Avatar speichern
-    saveAvatarBtn.addEventListener("click", () => {
-        // Validierung der Eingabefelder
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-
-        if (!username || !password) {
-            createFlashMessage("Bitte fülle Benutzername und Passwort aus!", "error");
-            return;
-        }
-
-        if (!selectedAvatar) {
-            createFlashMessage("Bitte wähle einen Avatar aus!", "error");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('avatar', selectedAvatar);
-        formData.append('username', username);
-        formData.append('password', password);
-        formData.append('csrf_token', csrfToken);
-
-        fetch("{{ url_for('change_avatar') }}", {
-            method: "POST",
-            body: formData
-        })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then(data => {
-            if (data.success) {
-                if (data.unchanged) {
-                    createFlashMessage("Der Avatar wurde nicht geändert!", "info");
-                } else {
-                    createFlashMessage("Avatar erfolgreich geändert!", "success");
-                    // Felder zurücksetzen
-                    usernameInput.value = '';
-                    passwordInput.value = '';
-                }
-            } else {
-                createFlashMessage(data.error || "Fehler beim Ändern des Avatars!", "error");
-            }
-        })
-        .catch(err => {
-            console.error("Fetch error:", err);
-            createFlashMessage("Fehler beim Verbinden mit dem Server!", "error");
-        });
-    });
-
-    // Karussell beim Laden initialisieren
-    initializeAvatarCarousel();
-
-    // --- Passwort Toggle für alle Passwort-Felder (wie im Index) ---
+    // --- Passwort Toggle für alle Passwort-Felder ---
     const pwToggles = document.querySelectorAll('.pw-toggle');
 
     pwToggles.forEach(toggle => {
-        // verhindert, dass der Button-Klick den Fokus/den Caret verschiebt
         toggle.addEventListener('mousedown', function(e) { e.preventDefault(); });
 
         toggle.addEventListener('click', function(e) {
@@ -352,26 +121,21 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!pwField) return;
 
             const isHidden = pwField.type === 'password';
-            // Toggle type
             pwField.type = isHidden ? 'text' : 'password';
             this.setAttribute('aria-pressed', String(isHidden));
 
-            // Icon sauber wechseln
             const icon = this.querySelector('i');
             if (icon) {
                 icon.classList.remove('fa-eye', 'fa-eye-slash');
                 icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
             }
 
-            // Fokussieren und Caret immer ans Ende setzen (setTimeout für Browser-Quirks)
             pwField.focus();
             setTimeout(() => {
                 try {
                     const pos = pwField.value.length;
                     pwField.setSelectionRange(pos, pos);
-                } catch (err) {
-                    // setSelectionRange kann in einigen seltenen Fällen fehlschlagen — dann ignorieren
-                }
+                } catch (err) {}
             }, 0);
         });
     });
@@ -383,9 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
         toggle.addEventListener('click', function () {
             const thisContent = this.nextElementSibling;
             const thisIcon = this.querySelector('i');
-            const isOpen = thisContent.style.maxHeight; // aktuell offen?
+            const isOpen = thisContent.style.maxHeight;
 
-            // 🔹 Zuerst ALLE schließen (auch Icons zurückdrehen)
             toggles.forEach(other => {
                 const content = other.nextElementSibling;
                 const icon = other.querySelector('i');
@@ -393,17 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 icon.style.transform = 'rotate(0deg)';
             });
 
-            // 🔹 Dann ggf. das angeklickte Element öffnen
             if (!isOpen) {
                 thisContent.style.maxHeight = thisContent.scrollHeight + "px";
                 thisIcon.style.transform = 'rotate(180deg)';
-
-                // Wenn Avatar-Sektion geöffnet wird, Karussell neu initialisieren
-                if (this.textContent.includes('Avatar')) {
-                    setTimeout(() => {
-                        initializeAvatarCarousel();
-                    }, 100);
-                }
             }
         });
     });

@@ -861,17 +861,20 @@ def settings():
 @app.route('/change_username', methods=['POST'])
 def change_username():
     try:
-        current_username = request.form.get('current_username', '').strip()
         new_username = request.form.get('new_username', '').strip()
         password = request.form.get('password', '')
 
         # Validierung der Eingaben
-        if not current_username or not new_username or not password:
+        if not new_username or not password:
             flash("Bitte fülle alle Felder aus!", "error")
             return redirect(url_for('settings'))
 
-        # Benutzer anhand des eingegebenen aktuellen Benutzernamens suchen
-        user = User.query.filter_by(username=current_username).first()
+        # Benutzer aus Session verwenden
+        if 'username' not in session:
+            flash("Nicht angemeldet!", "error")
+            return redirect(url_for('settings'))
+
+        user = User.query.filter_by(username=session['username']).first()
         if not user:
             flash("Benutzer nicht gefunden!", "error")
             return redirect(url_for('settings'))
@@ -895,9 +898,8 @@ def change_username():
         user.username = new_username
         db.session.commit()
 
-        # Session aktualisieren, falls der User gerade eingeloggt war
-        if 'username' in session and session['username'] == current_username:
-            session['username'] = new_username
+        # Session aktualisieren
+        session['username'] = new_username
 
         flash("Benutzername erfolgreich geändert!", "success")
         return redirect(url_for('settings'))
@@ -916,18 +918,21 @@ def change_username():
 @app.route('/change_password', methods=['POST'])
 def change_password():
     try:
-        username = request.form.get('username', '').strip()
         current_password = request.form.get('current_password', '')
         new_password = request.form.get('new_password', '')
         confirm_password = request.form.get('confirm_password', '')
 
         # Validierung der Eingaben
-        if not username or not current_password or not new_password or not confirm_password:
+        if not current_password or not new_password or not confirm_password:
             flash("Bitte fülle alle Felder aus!", "error")
             return redirect(url_for('settings'))
 
-        # Benutzer anhand des Usernames finden
-        user = User.query.filter_by(username=username).first()
+        # Benutzer aus Session verwenden
+        if 'username' not in session:
+            flash("Nicht angemeldet!", "error")
+            return redirect(url_for('settings'))
+
+        user = User.query.filter_by(username=session['username']).first()
         if not user:
             flash("Benutzer nicht gefunden!", "error")
             return redirect(url_for('settings'))
@@ -1012,41 +1017,31 @@ def change_avatar():
 @app.route('/reject_agb', methods=['POST'])
 def reject_agb():
     try:
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '')
         confirm_reject = request.form.get('confirm_reject', 'false') == 'true'
 
         # Validierung
-        if not username or not password:
-            flash("Bitte fülle alle Felder aus!", "error")
-            return redirect(url_for('settings'))
-
         if not confirm_reject:
             flash("Bitte bestätige die Ablehnung der AGBs und Datenschutzverordnung!", "error")
             return redirect(url_for('settings'))
 
-        # Benutzer finden und Passwort prüfen
-        user = User.query.filter_by(username=username).first()
-        if not user:
-            flash("Benutzer nicht gefunden!", "error")
+        # Benutzer aus Session verwenden
+        if 'username' not in session:
+            flash("Nicht angemeldet!", "error")
             return redirect(url_for('settings'))
 
-        if not user.check_password(password):
-            flash("Falsches Passwort!", "error")
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            flash("Benutzer nicht gefunden!", "error")
             return redirect(url_for('settings'))
 
         # AGBs ablehnen (auf False setzen)
         user.agb_accepted = False
         db.session.commit()
 
-        # Falls der Benutzer aktuell eingeloggt ist, ausloggen
-        if 'username' in session and session['username'] == username:
-            session.clear()
-            flash("AGBs abgelehnt. Du wurdest abgemeldet.", "success")
-            return redirect(url_for('index'))
-
-        flash("AGBs und Datenschutzverordnung erfolgreich abgelehnt!", "success")
-        return redirect(url_for('settings'))
+        # Benutzer abmelden
+        session.clear()
+        flash("AGBs abgelehnt. Du wurdest abgemeldet.", "success")
+        return redirect(url_for('index'))
 
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()
@@ -1062,24 +1057,21 @@ def reject_agb():
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
     try:
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '')
         confirm_delete = request.form.get('confirm_delete', '').strip()
 
         # Validierung
-        if not username or not password or not confirm_delete:
+        if not confirm_delete:
             flash("Bitte fülle alle Felder aus!", "error")
             return redirect(url_for('settings'))
 
-        # Benutzer finden
-        user = User.query.filter_by(username=username).first()
-        if not user:
-            flash("Benutzer nicht gefunden!", "error")
+        # Benutzer aus Session verwenden
+        if 'username' not in session:
+            flash("Nicht angemeldet!", "error")
             return redirect(url_for('settings'))
 
-        # Passwort prüfen
-        if not user.check_password(password):
-            flash("Passwort ist falsch!", "error")
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            flash("Benutzer nicht gefunden!", "error")
             return redirect(url_for('settings'))
 
         # Bestätigung prüfen
@@ -1093,7 +1085,7 @@ def delete_account():
         session.clear()
 
         flash("Dein Account wurde dauerhaft gelöscht.", "success")
-        return redirect(url_for('settings'))
+        return redirect(url_for('index'))
 
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()
