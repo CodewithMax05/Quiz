@@ -1108,11 +1108,14 @@ def playermenu():
             session.clear()
             flash('Benutzer nicht gefunden. Bitte melden Sie sich erneut an.', 'error')
             return redirect(url_for('index'))
+        
+        # Stelle sicher, dass avatar immer einen Wert hat
+        avatar = user.avatar if user.avatar else "avatar0.png"
             
         return render_template(
             'playermenu.html',
             username=user.username,
-            avatar=user.avatar,
+            avatar=avatar,
             first_played=user.first_played,
             highscore=user.highscore,
             number_of_games=user.number_of_games
