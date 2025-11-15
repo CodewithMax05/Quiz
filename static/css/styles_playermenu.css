@@ -548,7 +548,7 @@ body.playermenu-page {
     }
     .player-avatar { width: 88px; height: 88px; }
     .player-username { font-size: 1.35rem; }
-    .playermenu-title { font-size: 1.4rem; }
+    .playermenu-title { font-size: 1.2rem; }
 
     .game-button {
         padding: 0.5rem 1.5rem;
