@@ -358,7 +358,7 @@ body.playermenu-page {
 
 /* Spielername */
 .player-username {
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.75);
@@ -589,7 +589,7 @@ body.playermenu-page {
         max-width: 100%;
     }
     .player-avatar { width: 88px; height: 88px; }
-    .player-username { font-size: 1.35rem; }
+    .player-username { font-size: 1.2rem; }
     .playermenu-title { font-size: 1.2rem; }
     .playermenu-wrapper { padding: 8px; }
     
