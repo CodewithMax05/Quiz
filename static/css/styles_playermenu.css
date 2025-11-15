@@ -281,7 +281,7 @@ body.playermenu-page {
     background: rgba(40, 40, 70, 0.55);
     padding: 0.9rem 1rem;
     border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(142,45,226,0.25);
+    box-shadow: 0 0 20px rgba(149, 33, 250, 0.25);
     justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
@@ -316,31 +316,32 @@ body.playermenu-page {
     width: 96px;
     height: 96px;
     border-radius: 50%;
-    border: 3px solid #8e2de2;
-    box-shadow: 0 8px 24px rgba(142, 45, 226, 0.45);
+    border: 3px solid #00ffcc;
+    box-shadow: 0 8px 24px rgba(0, 255, 204, 0.45);
     object-fit: cover;
+    cursor: pointer; /* Pointer-Cursor für Avatar */
+    transition: transform 0.2s ease;
 }
 
 /* Kleiner runder Button unten rechts am Avatar */
 .small-circle-button {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate(28%, 28%);
-    width: 34px;
-    height: 34px;
+    bottom: 4px;
+    right: 4px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    border: none;
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    background: rgba(0, 255, 204, 0.9);
     color: white;
-    font-size: 0.95rem;
+    font-size: 0.7rem;
     cursor: pointer;
-    box-shadow: 0 6px 14px rgba(169, 188, 211, 0.08);
-    transition: transform 0.18s, box-shadow 0.18s;
-}
-.small-circle-button:hover {
-    transform: translate(28%, 28%) scale(1.12);
-    box-shadow: 0 8px 20px rgba(169, 188, 211, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    padding: 0;
 }
 
 /* Rechte Box: Username + Infos */
@@ -684,7 +685,7 @@ body.playermenu-page {
     margin: 0 6px;
 }
 .avatar-item:hover {
-    transform: scale(1.08);
+    transform: scale(1.05);
     border-color: #00aaff;
 }
 .avatar-item.selected {

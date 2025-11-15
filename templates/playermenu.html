@@ -126,7 +126,7 @@
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementById("avatar-modal");
         const openBtn = document.getElementById("open-avatar-modal");
         const closeBtn = modal.querySelector(".close-button");
@@ -137,6 +137,9 @@
         const nextButton = document.getElementById("next-avatar");
         const currentIndexSpan = document.getElementById("current-index");
         const totalAvatarsSpan = document.getElementById("total-avatars");
+        
+        // NEU: Avatar-Bild Element selektieren
+        const playerAvatar = document.querySelector(".player-avatar");
 
         let selectedAvatar = null;
         let currentAvatarIndex = 0;
@@ -146,6 +149,19 @@
         // CSRF-Token aus Template
         const csrfToken = "{{ csrf_token() }}";
 
+        // Funktion zum Öffnen des Modals
+        function openAvatarModal() {
+            initializeAvatarSelection();
+            modal.style.display = "flex";
+        }
+
+        // NEU: Event Listener für Klick auf Avatar-Bild
+        playerAvatar.addEventListener("click", openAvatarModal);
+
+        // Vorhandener Event Listener für Button
+        openBtn.addEventListener("click", openAvatarModal);
+
+        // Der restliche Code bleibt unverändert...
         // Alle verfügbaren Avatare
         function loadAllAvatars() {
             return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
@@ -171,7 +187,6 @@
                 ];
             }
         }
-
 
         // Avatare im Karussell anzeigen (immer 3 gleichzeitig)
         function displayAvatars() {
@@ -253,12 +268,6 @@
         nextButton.addEventListener("click", () => {
             currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
             displayAvatars();
-        });
-
-        // Modal öffnen
-        openBtn.addEventListener("click", () => {
-            initializeAvatarSelection();
-            modal.style.display = "flex";
         });
 
         // Modal schließen
