@@ -366,7 +366,7 @@ body.playermenu-page {
 
 /* Spielerinfo (Datum, Highscore) */
 .player-info {
-    font-size: 0.98rem;
+    font-size: 0.9rem;
     color: #dcdfe6;
     text-shadow: 0 0 4px rgba(142,45,226,0.35);
     margin: 0;
