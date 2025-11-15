@@ -1,20 +1,20 @@
 body.playermenu-page {
-    /* benutze dynamische viewport-Unit wenn unterstützt */
-    min-height: 100dvh;           /* best effort für moderne Browser */
-
-    /* Fallback: nutze die JS-Variable --vh (wird weiter unten per JS gesetzt) */
-    min-height: calc(var(--vh, 1vh) * 100);
-
+    /* Dynamische Viewport-Höhe für Browser-Leisten */
+    min-height: 100dvh;
+    
     /* Safe area für Notch / iOS */
     padding-top: env(safe-area-inset-top, 1.5rem);
     padding-bottom: env(safe-area-inset-bottom, 1rem);
-
+    
     /* Zentrieren der Player-Card vertikal + horizontal */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* WICHTIG: sorgt dafür, dass .player-card mittig steht */
+    justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    
+    /* Verhindert Scrollen außerhalb des Containers */
+    overflow: hidden;
 }
 
 /* Wrapper: Abstand zum Browser-Rand, begrenzte Breite */
@@ -23,15 +23,39 @@ body.playermenu-page {
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 0 1rem;         /* immer Abstand zum Rand */
-    box-sizing: border-box;
     max-width: 1200px;
-    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    
+    /* Nimmt verfügbaren Platz ein und ermöglicht Scrollen falls nötig */
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    
+    /* Scrollbar-Stil (optional) */
+    scrollbar-gutter: stable;
+}
+
+.playermenu-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.playermenu-wrapper::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+.playermenu-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
+    border-radius: 8px;
+    min-height: 10px;
 }
 
 /* Profilkarte */
 .player-card {
-    background: rgba(26, 26, 46, 0.6); /* leicht transparenter, damit base-bg sichtbar bleibt */
+    background: rgba(26, 26, 46, 0.6);
     border-radius: 18px;
     padding: 1.6rem;
     display: flex;
@@ -41,9 +65,14 @@ body.playermenu-page {
     box-shadow: 0 10px 30px rgba(0,0,0,0.45);
     max-width: 650px;
     width: 100%;
-    margin: 1rem 0;           /* Abstand zum oberen/unteren Rand */
+    
+    /* Zentriert den Inhalt der Card */
+    margin: 0 auto;
     text-align: center;
     box-sizing: border-box;
+    
+    /* Maximale Höhe begrenzen für sehr kleine Screens */
+    max-height: 95vh;
 }
 
 .title-bar {
@@ -453,7 +482,16 @@ body.playermenu-page {
 
 /* Bis 1024px (Tablets, kleine Laptops) */
 @media (max-width: 1024px) {
-    .player-card { max-width: 600px; }
+    .playermenu-wrapper {
+        padding: 15px;
+        max-width: 95%;
+    }
+    
+    .player-card {
+        padding: 1.4rem;
+        max-width: 600px;
+    }
+
     .player-username { font-size: 1.7rem; }
     .playermenu-title { font-size: 1.9rem; }
     body.playermenu-page {
@@ -466,14 +504,19 @@ body.playermenu-page {
 /* Bis 768px (Tablets / größere Handys) */
 @media (max-width: 768px) {
     body.playermenu-page {
-        justify-content: center;
-        padding-top: 3rem;
-        padding-bottom: 3rem;
+        padding-top: env(safe-area-inset-top, 1rem);
+        padding-bottom: env(safe-area-inset-bottom, 0.5rem);
     }
+    
+    .playermenu-wrapper {
+        padding: 10px;
+        max-width: 98%;
+    }
+    
     .player-card {
-        padding: 1rem;
-        max-width: 600px;     /* Hochformat-Eindruck auf Handys */
-        margin: 0.75rem 0;
+        padding: 1.2rem;
+        max-width: 95%;
+        gap: 1rem;
     }
 
     .player-avatar { width: 88px; height: 88px; }
@@ -484,9 +527,8 @@ body.playermenu-page {
         align-items: center;
         gap: 0.8rem;
     }
+
     .username-box {
-        width: 100%;
-        justify-content: center;
         align-items: center;
         text-align: center;
     }
@@ -542,13 +584,14 @@ body.playermenu-page {
 @media (max-width: 480px) {
     .avatar-carousel { width: 180px; }
     .player-card {
-        padding: 0.9rem;
-        max-width: 420px;     /* Hochformat-Eindruck auf Handys */
-        margin: 0.75rem 0;
+        padding: 1rem;
+        max-width: 100%;
     }
     .player-avatar { width: 88px; height: 88px; }
     .player-username { font-size: 1.35rem; }
     .playermenu-title { font-size: 1.2rem; }
+    .playermenu-wrapper { padding: 8px; }
+    
 
     .game-button {
         padding: 0.5rem 1.5rem;
