@@ -18,7 +18,7 @@ import uuid
 from threading import Timer, Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from functools import wraps
-from flask_wtf.csrf import CSRFProtect, generate_csrf, validate_csrf
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 from wtforms import ValidationError
 from dotenv import load_dotenv
 
@@ -1852,6 +1852,7 @@ def search_player():
             'rank': rank if rank else "N/A",
             'username': user.username,
             'id': user.id,
+            'avatar': user.avatar,
             'first_played': to_iso_str(user.first_played) if user.first_played else None,
             'number_of_games': user.number_of_games if user.number_of_games else 0,
             'highscore': user.highscore,
@@ -2065,13 +2066,6 @@ def ticket_create():
             return redirect(url_for('homepage'))
 
         if request.method == 'POST':
-            # CSRF-Validierung
-            try:
-                validate_csrf(request.form.get('csrf_token'))
-            except ValidationError:
-                flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
-                return render_template('ticket_create.html', current_user=user)
-
             # 1. Daten aus dem Formular holen
             category = request.form.get('category')
             subject = request.form.get('subject')
@@ -2143,13 +2137,6 @@ def ticket_detail(ticket_id):
         messages = ticket.messages.order_by(TicketMessage.created_at.asc()).all()
 
         if request.method == 'POST':
-            # CSRF-Validierung
-            try:
-                validate_csrf(request.form.get('csrf_token'))
-            except ValidationError:
-                flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
-                return redirect(url_for('ticket_detail', ticket_id=ticket.id))
-
             new_message_content = request.form.get('message_content')
             
             if not new_message_content:
@@ -2214,13 +2201,6 @@ def tickets_admin():
 def admin_toggle_ticket_status(ticket_id):
     """Schließt ein Ticket (kann nicht mehr geöffnet werden)."""
     try:
-        # CSRF-Validierung
-        try:
-            validate_csrf(request.form.get('csrf_token'))
-        except ValidationError:
-            flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
-            return redirect(url_for('ticket_detail', ticket_id=ticket_id))
-
         # Zusätzliche Sicherheitsprüfung
         user = User.query.filter_by(username=session['username']).first()
         if not user or not user.is_admin:
@@ -2250,13 +2230,6 @@ def admin_toggle_ticket_status(ticket_id):
 def admin_delete_ticket(ticket_id):
     """Löscht ein geschlossenes Ticket komplett."""
     try:
-        # CSRF-Validierung
-        try:
-            validate_csrf(request.form.get('csrf_token'))
-        except ValidationError:
-            flash('CSRF-Validierung fehlgeschlagen. Bitte versuche es erneut.', 'error')
-            return redirect(url_for('ticket_detail', ticket_id=ticket_id))
-
         # Zusätzliche Sicherheitsprüfung
         user = User.query.filter_by(username=session['username']).first()
         if not user or not user.is_admin:
