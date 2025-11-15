@@ -106,11 +106,6 @@ class News(db.Model):
             'created_at': self.created_at
         }
 
-# =========================================================================
-# NEUE MODELLE FÜR DAS TICKETS-SYSTEM
-# DIES MUSS IM BEREICH IHRER DB-MODELLE EINGEFÜGT WERDEN
-# =========================================================================
-
 class Ticket(db.Model):
     """
     Hauptmodell für ein Ticket.
