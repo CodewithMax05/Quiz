@@ -1,18 +1,37 @@
-/* styles_quiz.css */
+/* styles_quiz.css - Überarbeitete Version mit Base-Layout Integration */
 
-/* === HEADER-CONTROLS (Timer, Score, Cancel) === */
+/* === SAFE AREAS & GLOBAL STYLES === */
+body {
+    /* Nutze das Basis-Layout aber mit Safe Areas */
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
+    box-sizing: border-box;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+/* === HEADER-CONTROLS === */
 .header-controls {
-    position: fixed;
-    top: 10px;
-    left: 0;
-    right: 0;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    margin-bottom: 20px;
+    margin-top: 10px; /* Kleiner Abstand nach oben */
+}
+
+.header-content {
+    width: 880px;
+    max-width: 95%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 15px;
-    z-index: 1000;
-    pointer-events: none;
-    height: 60px;
 }
 
 .timer-container {
@@ -66,10 +85,8 @@
     font-weight: bold;
     color: white;
     text-align: center;
-    flex-grow: 1;
     font-family: 'Arial Black', sans-serif;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 0, 0, 0.4);
-    padding: 0 15px;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -108,12 +125,12 @@
     max-width: 95%;
     height: auto;
     min-height: 580px;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100dvh - 200px);
     text-align: center;
     position: relative;
     z-index: 1;
     padding: 25px;
-    margin: 70px auto 30px;
+    margin: 0 auto;
     border-radius: 16px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
@@ -122,6 +139,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    flex: 1;
 }
 
 .question-box {
@@ -223,7 +241,6 @@
     transform: none !important;
 }
 
-/* Ausgewählte Option (vor Ergebnis) */
 .option.selected {
     background-color: rgba(255, 255, 255, 0.25) !important;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
@@ -255,7 +272,7 @@
     margin-top: 15px;
 }
 
-/* Animationen */
+/* === ANIMATIONEN === */
 .score-positive-update {
     animation: scorePulse 0.8s ease;
 }
@@ -273,12 +290,6 @@
     }
 }
 
-@keyframes progressBar {
-    0% { width: 100%; }
-    100% { width: 0%; }
-}
-
-/* Timer-Puls-Animation */
 .timer-container.pulse {
     animation: timerPulse 1s infinite;
 }
@@ -289,7 +300,6 @@
     100% { transform: scale(1); }
 }
 
-/* Punkte-Anzeige-Animation */
 @keyframes floatUp {
     0% {
         opacity: 1;
@@ -301,7 +311,6 @@
     }
 }
 
-/* Neue Animation für korrekte Antwort */
 @keyframes pulseCorrect {
     0% {
         box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
@@ -331,250 +340,201 @@
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
 
-/* Shake-Animation für falsche Antworten */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
     75% { transform: translateX(5px); }
 }
 
-/* ================= RESPONSIVE ANPASSUNGEN ================= */
-@media (max-width: 1200px) {
+/* === MEDIA QUERIES === */
+
+/* Tablet (1024px) */
+@media (max-width: 1024px) {
+    .header-content,
     .quiz-container-wide {
         width: 850px;
+        max-width: 92%;
+    }
+    
+    .quiz-container-wide {
         min-height: 550px;
     }
+    
     .question-box {
         height: 200px;
     }
+    
     .option {
         height: 65px;
     }
+    
+    .question-text {
+        font-size: 1.6rem;
+    }
 }
 
-@media (max-width: 920px) {
+/* Small Tablet (768px) */
+@media (max-width: 768px) {
+    .header-content,
     .quiz-container-wide {
         width: 92%;
+        max-width: 92%;
+    }
+    
+    .quiz-container-wide {
         min-height: 500px;
         padding: 20px;
-        margin: 65px auto 20px;
+        max-height: calc(100dvh - 180px);
     }
+    
     .question-box {
         height: 180px;
     }
+    
     .question-text {
         font-size: 1.5rem;
     }
+    
     .option {
         height: 60px;
         font-size: 1.05rem;
     }
-    .points-indicator {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .header-controls {
-        top: 8px;
-        padding: 0 12px;
-        height: 55px;
-    }
+    
     .timer-container {
         width: 55px;
         height: 55px;
     }
+    
     .timer-text {
         font-size: 1.4rem;
     }
+    
     .score-display {
         font-size: 1.4rem;
     }
+    
+    .points-indicator {
+        font-size: 1.5rem;
+    }
+    
+    .progress-bar {
+        font-size: 1.0rem;
+    }
+}
+
+/* Mobile (480px) */
+@media (max-width: 480px) {
+    body {
+        padding: env(safe-area-inset-top, 0.5rem) env(safe-area-inset-right, 0.5rem) env(safe-area-inset-bottom, 0.5rem) env(safe-area-inset-left, 0.5rem);
+    }
+    
+    .header-controls {
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .header-content,
+    .quiz-container-wide {
+        width: 96%;
+        max-width: 96%;
+    }
+    
     .quiz-container-wide {
         min-height: 450px;
-        padding: 18px;
-        margin: 60px auto 15px;
+        padding: 15px;
+        max-height: calc(100dvh - 150px);
     }
+    
     .question-box {
         height: 150px;
     }
+    
     .question-text {
         font-size: 1.4rem;
+        width: 95%;
     }
+    
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
     .option {
+        width: 90%;
         height: 55px;
         font-size: 1.0rem;
     }
-    .progress-bar {
-        font-size: 1.0rem;
+    
+    .timer-container {
+        width: 50px;
+        height: 50px;
     }
-    .points-indicator {
+    
+    .timer-text {
         font-size: 1.3rem;
     }
-}
-
-@media (max-width: 600px) {
-    .options-grid {
-        grid-template-columns: 1fr;
-    }
-    .option {
-        width: 85%;
-        height: 50px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        align-items: flex-start;
-        padding-top: 10px;
-    }
-    .header-controls {
-        top: 6px;
-        padding: 0 10px;
-        height: 50px;
-    }
-    .timer-container {
-        width: 45px;
-        height: 45px;
-    }
-    .timer-text {
-        font-size: 1.0rem;
-    }
+    
     .score-display {
-        font-size: 1.2rem; 
+        font-size: 1.3rem;
     }
-    .quiz-container-wide {
-        width: 96%;
-        padding: 15px;
-        margin: 55px auto 10px;
-        min-height: 400px;
-        max-height: calc(100vh - 90px);
-    }
-    .question-box {
-        height: 120px;
-    }
-    .question-text {
-        font-size: 1.2rem;
-        width: 95%;
-    }
-    .option {
-        height: 40px;
-        font-size: 0.95rem;
-    }
-    .progress-bar {
-        font-size: 0.95rem;
-        padding: 6px 10px;
-    }
-    .points-indicator {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 360px) {
-    .header-controls {
-        top: 5px;
-        padding: 0 8px;
-        height: 45px;
-    }
-    .timer-container {
+    
+    .cancel-btn {
         width: 40px;
         height: 40px;
     }
-    .timer-text {
-        font-size: 0.9rem;
+    
+    .cancel-btn svg {
+        width: 18px;
+        height: 18px;
     }
-    .score-display {
-        font-size: 1.0rem;
-    }
-    .quiz-container-wide {
-        margin: 50px auto 10px;
-        min-height: 380px;
-        padding: 12px;
-    }
-    .question-box {
-        height: 100px;
-    }
-    .question-text {
-        font-size: 1.15rem;
-    }
-    .option {
-        height: 35px;
-        font-size: 0.9rem;
-    }
-    .progress-bar {
-        font-size: 0.9rem;
-    }
+    
     .points-indicator {
-        font-size: 1.0rem;
+        font-size: 1.3rem;
+    }
+    
+    .progress-bar {
+        font-size: 0.95rem;
+        padding: 6px 10px;
+        margin-top: 12px;
     }
 }
 
-@media (max-height: 700px) and (min-width: 768px) {
+/* Landscape Mode */
+@media (max-height: 600px) and (orientation: landscape) {
     .quiz-container-wide {
-        min-height: 500px;
+        min-height: 400px;
+        max-height: calc(100dvh - 120px);
+        margin: 10px auto;
     }
+    
     .question-box {
-        height: 180px;
-    }
-    .option {
-        height: 60px;
-    }
-}
-
-@media (max-height: 600px) and (min-width: 768px) {
-    .quiz-container-wide {
-        min-height: 450px;
-    }
-    .question-box {
-        height: 150px;
-    }
-    .option {
-        height: 55px;
-    }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-    body {
-        align-items: flex-start;
-        padding-top: 5px;
-    }
-    .header-controls {
-        top: 5px;
-        height: 45px;
-    }
-    .quiz-container-wide {
-        margin: 50px auto 10px;
-        min-height: 250px; 
-        max-height: calc(100vh - 70px);
+        height: 120px;
         padding: 10px;
     }
-    .question-box {
-        height: 60px;
-        padding: 8px;
-    }
+    
     .question-text {
-        font-size: 1.1rem;
-        line-height: 1.2;
+        font-size: 1.3rem;
+        line-height: 1.3;
     }
+    
     .options-grid {
-        gap: 8px;
-        margin-top: 8px;
+        gap: 10px;
+        margin-top: 10px;
     }
+    
     .option {
-        height: 35px;
-        padding: 4px 2px;
-        font-size: 0.85rem;
+        height: 50px;
+        padding: 8px;
+        font-size: 1rem;
     }
+    
     .progress-bar {
-        font-size: 0.9rem;
-        margin-top: 8px;
-    }
-    .points-indicator {
+        margin-top: 10px;
         font-size: 0.9rem;
     }
 }
 
-/* Stile für das Bestätigungs-Modal */
+/* === MODAL STYLES (unverändert) === */
 .confirmation-modal {
     display: none;
     position: fixed;
@@ -649,22 +609,20 @@
     transform: translateY(0);
 }
 
-/* Weiterspielen-Button (links) - BLAU */
 .modal-cancel {
     background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
-    order: 1; /* Links positionieren */
+    order: 1;
 }
 
 .modal-cancel:hover {
     background: linear-gradient(135deg, #2980b9, #21618c);
 }
 
-/* Beenden-Button (rechts) - ROT */
 .modal-confirm {
     background: linear-gradient(135deg, #e74c3c, #c0392b);
     color: white;
-    order: 2; /* Rechts positionieren */
+    order: 2;
 }
 
 .modal-confirm:hover {
@@ -692,6 +650,6 @@
     .modal-btn {
         width: 100%;
         min-width: auto;
-        order: 0; /* Reset order for mobile */
+        order: 0;
     }
 }
