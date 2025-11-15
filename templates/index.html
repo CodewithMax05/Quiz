@@ -15,7 +15,7 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="text" 
                    name="username" 
-                   placeholder="Username" 
+                   placeholder="Name" 
                    class="input-field" 
                    required 
                    id="username-field" 
@@ -24,7 +24,7 @@
                 <input
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder="Passwort"
                     class="input-field"
                     required
                     id="password-field">
@@ -32,13 +32,13 @@
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
-            <input type="button" value="Einloggen" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
+            <input type="button" value="Anmelden" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
             <input type="button" value="Account erstellen" class="btn btn-register sound-button" onclick="prepareRegister()" id="register-btn">
         </form>
 
-        <div class="extra-buttons">
-            <a href="{{ url_for('legal') }}" class="round-button sound-button" aria-label="Rechtliche Informationen">
-                <i class="fas fa-scale-balanced"></i>
+        <div class="legal-button-container">
+            <a href="{{ url_for('legal') }}" class="legal-button sound-button" aria-label="Rechtliche Informationen">
+                <i class="fa-solid fa-section"></i>
             </a>
         </div>
     </div>
@@ -163,7 +163,7 @@
         const password = passwordField?.value || '';
 
         if (!username || !password) {
-            (typeof createFlashMessage === 'function') ? createFlashMessage('Um einen Account anzulegen bitte Usernamen und Passwort wählen!', 'error') : alert('Um einen Account anzulegen bitte Usernamen und Passwort wählen!');
+            (typeof createFlashMessage === 'function') ? createFlashMessage('Um einen Account anzulegen bitte Name und Passwort wählen!', 'error') : alert('Um einen Account anzulegen bitte Name und Passwort wählen!');
             return;
         }
         if (username.length > 12) {
