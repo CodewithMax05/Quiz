@@ -141,6 +141,38 @@ body {
     gap: 20px;
 }
 
+.quiz-container-wide::-webkit-scrollbar {
+    width: 6px;
+}
+
+.quiz-container-wide::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+.quiz-container-wide::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
+    border-radius: 8px;
+    min-height: 10px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.quiz-container-wide::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
+}
+
+.quiz-container-wide::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 8px;
+}
+
+/* Für Firefox */
+.quiz-container-wide {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
+}
+
 .question-box {
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 14px;
