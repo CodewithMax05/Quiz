@@ -153,7 +153,7 @@ body {
 }
 
 .question-text {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: bold;
     text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     line-height: 1.4;
@@ -361,7 +361,7 @@ body {
     }
     
     .question-text {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 }
 
@@ -382,7 +382,7 @@ body {
     }
     
     .question-text {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     .options-grid {
@@ -444,7 +444,7 @@ body {
     }
     
     .question-text {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         width: 95%;
     }
     
