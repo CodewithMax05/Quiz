@@ -1,3 +1,4 @@
+/* === SAFE AREAS & GLOBAL STYLES === */
 body {
     min-height: 100dvh;
     display: flex;
@@ -18,7 +19,7 @@ body {
     justify-content: center;
     z-index: 1000;
     margin-bottom: 20px;
-    margin-top: 10px; /* Kleiner Abstand nach oben */
+    margin-top: 10px;
 }
 
 .header-content {
@@ -119,14 +120,13 @@ body {
 .quiz-container-wide {
     width: 880px;
     max-width: 95%;
-    height: auto;
     min-height: 0; 
     text-align: center;
     position: relative;
     z-index: 1;
     padding: 25px;
     margin: 0 auto;
-    margin-bottom: 20px; /* NEU: Abstand nach unten, passend zum header */
+    margin-bottom: 20px; 
     border-radius: 16px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
@@ -134,26 +134,33 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: auto; 
     flex: 1;
+    
+    gap: 20px;
 }
 
 .question-box {
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 14px;
     padding: 15px;
-    margin-bottom: 8px;
     width: 100%;
     box-sizing: border-box;
-    height: 225px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    
+    flex: 0 0 auto; 
+    
+    min-height: 200px;
+    
+    max-height: 40vh; 
+    overflow-y: auto; 
 }
 
 .question-text {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 3.5vh, 1.7rem);
     font-weight: bold;
     text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     line-height: 1.4;
@@ -162,10 +169,6 @@ body {
     width: 90%;
     padding: 0;
     margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
     overflow-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
@@ -174,21 +177,28 @@ body {
 .options-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    
     gap: 15px;
-    margin-top: 15px;
+    
     width: 100%;
     box-sizing: border-box;
-    flex: 1;
-    place-items: center;
-    align-content: center;
+    
+    flex: 1 1 auto; 
+    min-height: 0;
+    
+    /* Stellt die vertikale Zentrierung zwischen Frage und Bar sicher */
+    align-content: center; 
 }
 
 .option {
-    width: 95%;
-    height: 70px;
+    width: 95%; 
+    margin: 0 auto; 
+    
+    min-height: 65px;
+    
     padding: 10px;
     border-radius: 12px;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2.5vh, 1.1rem);
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
@@ -265,7 +275,8 @@ body {
     width: auto;
     text-align: center;
     white-space: nowrap;
-    margin-top: 15px;
+    
+    flex: 0 0 auto; 
 }
 
 /* === ANIMATIONEN === */
@@ -353,15 +364,16 @@ body {
     }
     
     .question-box {
-        height: 200px;
+        min-height: 140px; 
     }
     
     .option {
-        height: 65px;
+        min-height: 60px;
+        font-size: clamp(0.9rem, 2.4vh, 1.0rem);
     }
     
     .question-text {
-        font-size: 1.5rem;
+        font-size: clamp(1.2rem, 3.8vh, 1.6rem);
     }
 }
 
@@ -378,11 +390,11 @@ body {
     }
     
     .question-box {
-        height: 180px;
+        min-height: 120px;
     }
     
     .question-text {
-        font-size: 1.3rem;
+        font-size: clamp(1.1rem, 3.5vh, 1.5rem);
     }
     
     .options-grid {
@@ -390,9 +402,10 @@ body {
     }
     
     .option {
-        height: 60px;
-        font-size: 1.05rem;
-        width: 90%;
+        min-height: 55px;
+        font-size: clamp(0.9rem, 2.2vh, 1.05rem); 
+        width: 95%; 
+        margin: 0 auto;
     }
     
     .timer-container {
@@ -437,14 +450,15 @@ body {
     .quiz-container-wide {
         padding: 15px;
         margin-bottom: 15px;
+        gap: 15px; 
     }
     
     .question-box {
-        height: 150px;
+        min-height: 100px;
     }
     
     .question-text {
-        font-size: 1.2rem;
+        font-size: clamp(1.0rem, 3.2vh, 1.4rem);
         width: 95%;
     }
     
@@ -453,9 +467,10 @@ body {
     }
     
     .option {
-        width: 90%;
-        height: 55px;
-        font-size: 1.0rem;
+        width: 95%;
+        margin: 0 auto;
+        min-height: 50px;
+        font-size: clamp(0.8rem, 2vh, 0.95rem);
     }
     
     .timer-container {
@@ -488,11 +503,10 @@ body {
     .progress-bar {
         font-size: 0.95rem;
         padding: 6px 10px;
-        margin-top: 12px;
     }
 }
 
-/* === MODAL STYLES === */
+/* === MODAL STYLES (unverändert) === */
 .confirmation-modal {
     display: none;
     position: fixed;
