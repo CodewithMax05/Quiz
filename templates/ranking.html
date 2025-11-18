@@ -30,7 +30,6 @@
                                 {% set rank = loop.index %}
                                 <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
                                     data-rank="{{ rank }}"     
-                                    data-user-id="{{ player.id }}"
                                     data-username="{{ player.username }}"
                                     data-avatar="{{ player.avatar }}"
                                     data-registered="{{ player.first_played|to_iso }}"
@@ -45,7 +44,7 @@
                                         {% elif rank == 3 %}🥉
                                         {% else %}{{ rank }}{% endif %}
                                     </div>
-                                    <div class="leaderboard-cell username">{{ player.username }}</div>
+                                    <div class="leaderboard-cell username" title="{{ player.username }}">{{ player.username }}</div>
                                     <div class="leaderboard-cell score">{{ player.highscore }}</div>
                                     <div class="leaderboard-cell date">
                                         {% if player.highscore_time %}
@@ -69,7 +68,6 @@
                         </div>
                         <div class="leaderboard-row highlight" 
                             data-rank="{{ player_rank }}"
-                            data-user-id="{{ current_player.id }}"
                             data-username="{{ current_player.username }}"
                             data-avatar="{{ current_player.avatar }}"
                             data-registered="{{ current_player.first_played|to_iso }}"
@@ -82,7 +80,7 @@
                                 {% if player_rank %}#{{ player_rank }}
                                 {% else %}N/A{% endif %}
                             </div>
-                            <div class="leaderboard-cell username">{{ current_player.username }}</div>
+                            <div class="leaderboard-cell username" title="{{ current_player.username }}">{{ current_player.username }}</div>
                             <div class="leaderboard-cell score">{{ current_player.highscore }}</div>
                             <div class="leaderboard-cell date">
                                 {% if current_player and current_player.highscore_time %}
@@ -138,10 +136,6 @@
                                         <div class="avatar-placeholder">N/A</div>
                                     {% endif %}
                                 </div>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Spieler-ID:</span>
-                                <span id="info-id" class="info-value">{{ current_player.id if current_player else "N/A" }}</span>
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Registriert am:</span>
@@ -321,7 +315,6 @@
                     const row = document.createElement('div');
                     row.className = `leaderboard-row ${player.rank <= 3 ? 'podium' : ''}`;
                     row.setAttribute('data-rank', player.rank);
-                    row.setAttribute('data-user-id', player.id);
                     row.setAttribute('data-username', player.username);
                     row.setAttribute('data-avatar', player.avatar);
                     row.setAttribute('data-registered', player.first_played);
@@ -340,7 +333,8 @@
 
                     const usernameCell = document.createElement('div');
                     usernameCell.className = 'leaderboard-cell username';
-                    usernameCell.textContent = player.username;
+                    usernameCell.setAttribute('title', player.username); // Tooltip bleibt
+                    usernameCell.textContent = player.username; // Voller Name
 
                     const scoreCell = document.createElement('div');
                     scoreCell.className = 'leaderboard-cell score';
@@ -461,18 +455,6 @@
                     createFlashMessage('Ein Fehler ist aufgetreten', 'error');
                 }
             }
-
-            // Scroll-Container Höhe anpassen
-            function adjustScrollContainer() {
-                const firstRow = document.querySelector(".leaderboard-row");
-                const scrollContainer = document.getElementById("leaderboard-scroll");
-                if (firstRow && scrollContainer) {
-                    const rowHeight = firstRow.offsetHeight;
-                    scrollContainer.style.maxHeight = (rowHeight * 12) + "px";
-                }
-            }
-
-            window.addEventListener("load", adjustScrollContainer);
         </script>
     </body>
 {% endblock %}

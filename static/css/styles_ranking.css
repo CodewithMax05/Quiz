@@ -1,31 +1,39 @@
-/* 🌌 GLOBALSTIL & HINTERGRUND */
-
-/* Body speziell für Ranking */
-body.ranking-page {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: auto;
-    min-height: 100vh;
+body {
     box-sizing: border-box;
+    min-height: 100dvh; /* Ersetzt height: 100% für besseres Safe-Area-Handling */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+body.ranking-page {
+    overflow-y: auto; /* Erlaube Scrollen, falls Inhalt größer als Viewport */
+    overflow-x: hidden;
+    /* min-height wird jetzt von base.css übernommen (100dvh) */
+    box-sizing: border-box;
+
+    justify-content: center; /* Vertikal zentrieren */
+    align-items: center;     /* Horizontal zentrieren */
+
+    padding: 2rem 0; 
 }
 
 /* Leaderboard, Player-Info etc. */
 .ranking-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Zentriert H1 und .ranking-content horizontal */
     justify-content: flex-start;
     gap: 10px;
     width: 100%;
+    max-width: 1200px; /* Maximale Breite für Zentrierung */
+    /* margin: 0 auto; /* ENTFERNT: Wird jetzt von body.ranking-page (align-items) übernommen */
     min-height: auto;
     height: auto;
-    padding-top: 0.5rem;
+    padding: 0.5rem 2rem; /* Mehr seitlicher Abstand */
     overflow: visible;
     box-sizing: border-box;
-}
-
-.ranking-page .back-button {
-    margin-bottom: 130px;
 }
 
 /* 💠 RANKING-LAYOUT */
@@ -44,13 +52,12 @@ body.ranking-page {
     margin-top: 0.5rem;
     flex: 1;
     width: 100%;
-    padding-left: 10px;
-    padding-right: 10px; /* Abstand links/rechts */
+    /* padding-left/right entfernt, da im Wrapper */
     height: auto;
     overflow: visible;
     flex-wrap: nowrap;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; /* Geändert von stretch */
     box-sizing: border-box;
 }
 
@@ -76,7 +83,7 @@ body.ranking-page {
 
 /* Passe den Scroll-Container für Infinite Scrolling an */
 .leaderboard-scroll {
-    max-height: 60vh; /* Etwas mehr Platz für mehr Einträge */
+    max-height: 22.5rem; /* ANGEPASST: Feste Höhe für ca. 8 Einträge (war 28rem) */
     overflow-y: auto;
     overflow-x: hidden;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -191,13 +198,21 @@ body.ranking-page {
 }
 
 .leaderboard-row.podium { font-weight: bold; }
-.leaderboard-row:nth-child(1) { color: gold; }
-.leaderboard-row:nth-child(2) { color: silver; }
-.leaderboard-row:nth-child(3) { color: #cd7f32; }
+/* Farben für Podiumsplätze - :nth-child(x) bezieht sich auf die Reihenfolge im DOM, nicht auf den Rang */
+.leaderboard-content .leaderboard-row:nth-child(1) { color: gold; }
+.leaderboard-content .leaderboard-row:nth-child(2) { color: silver; }
+.leaderboard-content .leaderboard-row:nth-child(3) { color: #cd7f32; }
+
 
 .leaderboard-cell { padding: 0.3rem; }
 .position { font-size: 1.1rem; }
-.username { text-align: left; padding-left: 0.8rem; }
+.username { 
+    text-align: left; 
+    padding-left: 0.8rem; 
+    white-space: nowrap;      /* Verhindert, dass der Name umbricht */
+    overflow: hidden;         /* Versteckt alles, was über die Zelle hinausragt */
+    text-overflow: ellipsis;  /* Fügt die "..." am Ende hinzu */
+}
 .score { font-family: 'Courier New', monospace; font-size: 1rem; }
 .date { color: #aaa; font-size: 0.85rem; }
 
@@ -208,7 +223,7 @@ body.ranking-page {
     padding: 0.8rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    flex: 1;
+    flex-grow: 1; /* wächst, um Platz zu füllen */
     height: auto;
 }
 
@@ -382,15 +397,39 @@ body.ranking-page {
     100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
 }
 
-/* 📱 MOBIL <770px */
-@media (max-width: 770px) {
+/* 📱 NEUE MEDIA QUERIES */
+
+/* Tablet (1024px) */
+@media (max-width: 1024px) {
+    .ranking-wrapper {
+        padding: 0.5rem 1.5rem; /* Etwas weniger seitlicher Abstand */
+    }
+    .ranking-title {
+        font-size: 2rem;
+    }
+    .ranking-content {
+        gap: 1.5rem;
+    }
+}
+
+
+/* Kleines Tablet / Großes Handy (768px) */
+@media (max-width: 768px) {
+    /* WICHTIG: Wenn der Inhalt größer als der Bildschirm ist, 
+       soll er oben beginnen, nicht in der Mitte (Standard-Verhalten). */
+    body.ranking-page {
+        justify-content: flex-start;
+    }
+
+    .ranking-wrapper {
+        padding: 0.5rem 1rem; /* Weniger seitlicher Abstand */
+    }
+    
     .ranking-content {
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
         width: 100%;
-        padding-left: 10px;
-        padding-right: 10px; /* Abstand links/rechts */
         box-sizing: border-box;
     }
 
@@ -401,6 +440,7 @@ body.ranking-page {
         height: auto;
         margin: 0;
         box-sizing: border-box;
+        min-width: unset; /* Überschreibt min-width */
     }
 
     .leaderboard,
@@ -409,6 +449,11 @@ body.ranking-page {
         max-width: 100%;
         height: auto;
         box-sizing: border-box;
+    }
+
+    /* ANGEPASST: Höhe für ca. 5 Einträge */
+    .leaderboard-scroll {
+        max-height: 14rem; /* War 20rem */
     }
 
     .info-row {
@@ -437,7 +482,13 @@ body.ranking-page {
     }
 }
 
-@media (max-width: 600px) {
+/* Kleines Handy (480px) */
+@media (max-width: 480px) {
+    .ranking-wrapper {
+        padding: 0.5rem 0.5rem; /* Minimaler seitlicher Abstand */
+    }
+
+    /* Header-Abkürzungen (aus alter 600px-Query) */
     .leaderboard-header.top-list-header .header-item:nth-child(1)::after {
         content: "Pl.";
     }
@@ -461,11 +512,12 @@ body.ranking-page {
         font-weight: 600;
         color: #fff;
     }
+
+    .leaderboard-header.platzierung-header .header-item {
+        white-space: nowrap;
+    }
 }
 
-.leaderboard-header.platzierung-header .header-item {
-    white-space: nowrap;
-}
 
 /* Fixierter Tabellenkopf */
 .leaderboard-header.top-list-header {
