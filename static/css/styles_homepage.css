@@ -17,29 +17,41 @@
     display: none;
 }
 
+/* === ANGEPASST (Jetzt der Haupt-Wrapper) === */
 .container {
     width: 100%;
     max-width: 900px;
-    padding: 80px 20px 30px;
+    padding: 20px; /* Kompakteres Padding */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    min-height: calc(100dvh - 120px); /* Dynamische Höhe berücksichtigt Browser-Leisten */
     box-sizing: border-box;
+    max-height: calc(100dvh - 40px); /* 20px top + 20px bottom page-wrapper-padding */
+    flex-shrink: 0;
 }
 
+/* === NEU (inspiriert von quiz.css) === */
+.header-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Kompakter Abstand als im Quiz */
+    align-items: center;
+    width: 100%;
+    max-width: 800px; /* Passt zur Form-Breite */
+    flex-shrink: 0; /* Verhindert Schrumpfen */
+}
+
+/* === ANGEPASST === */
 .headline {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; ENTFERNT (wird durch gap ersetzt) */
     font-size: 2rem;
     color: white;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     flex-shrink: 0; /* Verhindert Schrumpfen der Überschrift */
 }
 
-/* Kategorien-Formular */
+/* Kategorien-Formular === ANGEPASST === */
 .categories-form {
     width: 100%;
     max-width: 800px;
@@ -47,50 +59,46 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    flex: 1; /* Nimmt verfügbaren Platz ein */
+    flex: 1 1 auto; /* Darf wachsen und schrumpfen */
     min-height: 0; /* Wichtig für flexbox scrolling */
+    gap: 20px; /* Abstand zw. Headline, Grid und Button-Row */
+    overflow: hidden; /* Verhindert, dass die Form selbst scrollt */
 }
 
-/* 4x4 GRID FÜR 16 KATEGORIEN */
+/* 4x4 GRID FÜR 16 KATEGORIEN === ANGEPASST === */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
-    margin-bottom: 20px;
     width: 100%;
-    padding: 10px;
+    padding: 0 10px;
     box-sizing: border-box;
     flex: 1; /* Nimmt verfügbaren Platz ein */
     min-height: 0; /* Wichtig für flexbox scrolling */
     overflow-y: auto; /* Scrollen falls nötig */
-    scrollbar-gutter: stable; /* Verhindert Layout-Verschiebung bei Scrollbar */
-    padding-inline-end: 12px; /* Abstand zwischen Inhalt und (möglicher) Scrollbar */
+    
+    scrollbar-gutter: stable; 
+    padding-inline-end: 12px; 
 }
 
 /* Scrollbar-Stil für Webkit-Browser */
 .category-grid::-webkit-scrollbar {
     width: 6px;
 }
-
 .category-grid::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.06);
     border-radius: 8px;
     margin: 4px 0; /* kleine Lücke oben/unten für gerundetes Track-Ende */
 }
-
 .category-grid::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
     border-radius: 8px;
     min-height: 10px; /* verhindert zu kleine Thumbs */
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
 }
-
 .category-grid::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
 }
-
-/* Optional: Ecke am unteren/rechten Rand (falls sichtbar) - macht es sauberer */
 .category-grid::-webkit-scrollbar-corner {
     background: transparent;
     border-radius: 8px;
@@ -104,7 +112,7 @@
     transition: all 0.3s ease;
     cursor: pointer;
     display: flex;
-    height: 90px;
+    height: 100px;
     position: relative;
     overflow: hidden;
     border: 2px solid rgb(27, 158, 214);
@@ -248,15 +256,15 @@
     background: #9b59b6;
 }
 
-/* Button-Row */
+/* Button-Row === ANGEPASST === */
 .button-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     width: 100%;
-    max-width: 900px;
+    /* max-width: 900px; ENTFERNT */
     margin: 0 auto;
-    margin-top: 20px;
+    /* margin-top: 20px; ENTFERNT (wird durch gap ersetzt) */
     gap: 15px;
     flex-shrink: 0; /* Verhindert Schrumpfen der Button-Zeile */
 }
@@ -348,7 +356,7 @@
     font-size: 1.4rem;
 }
 
-/* Buttons (Playermenu, Info, Ranking) */
+/* Buttons (Playermenu, Info, Ranking) === ANGEPASST === */
 .playermenu-button,
 .info-button,
 .ranking-button {
@@ -362,13 +370,19 @@
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
-    position: absolute;
-    top: 20px;
-    z-index: 20;
+    
+    /* position: absolute; ENTFERNT */
+    /* top: 20px; ENTFERNT */
+    /* z-index: 20; ENTFERNT */
+    
     border: none;
     outline: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+
+    /* === HINZUGEFÜGT === */
+    position: relative; /* Für Tooltips */
+    flex-shrink: 0; /* Verhindert Schrumpfen */
 }
 
 .playermenu-button i,
@@ -378,12 +392,12 @@
     color: white;
 }
 
-/* Playermenu-Button */
+/* Playermenu-Button === ANGEPASST === */
 .playermenu-button {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     box-shadow: 0 3px 8px rgba(255, 65, 108, 0.4);
     animation: pulse-red 2s infinite;
-    right: 30px;
+    /* right: 30px; ENTFERNT */
 }
 
 .playermenu-button:hover {
@@ -392,12 +406,12 @@
     box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
 }
 
-/* Info-Button */
+/* Info-Button === ANGEPASST === */
 .info-button {
     background: linear-gradient(135deg, #4299e1, #3182ce);
     box-shadow: 0 3px 8px rgba(66, 153, 225, 0.4);
     animation: pulse-blue 2s infinite;
-    left: 30px;
+    /* left: 30px; ENTFERNT */
 }
 
 .info-button:hover {
@@ -406,12 +420,12 @@
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
 }
 
-/* Ranking-Button */
+/* Ranking-Button === ANGEPASST === */
 .ranking-button {
     background: linear-gradient(135deg, #f6d365, #fda085);
     box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     animation: pulse-orange 2s infinite;
-    right: 110px;
+    /* right: 110px; ENTFERNT */
 }
 
 .ranking-button:hover {
@@ -508,38 +522,37 @@
 }
 
 /* ==================== MEDIA QUERIES ==================== */
+/* (Unverändert, aber angepasst an die neue Struktur) */
 
 /* Tablet (768px - 1024px) */
 @media (max-width: 1024px) {
     .page-wrapper {
         padding: 15px;
-        min-height: 100dvh;
     }
     
     .container {
-        padding: 70px 15px 25px;
+        padding: 15px;
         max-width: 95%;
-        justify-content: flex-start;
-        min-height: calc(100dvh - 100px);
+        max-height: calc(100dvh - 30px);
+    }
+
+    .header-controls {
+        gap: 15px;
     }
     
     .headline {
         font-size: 1.7rem;
-        margin-bottom: 25px;
+    }
+
+    .categories-form {
+        gap: 15px;
     }
     
     .category-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 12px;
-        margin-bottom: 20px;
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
         padding: 10px;
-        width: 100%;
-        padding-inline-end: 10px; /* Abstand zur (möglichen) Scrollbar */
-        -ms-overflow-style: auto; /* IE/Edge: scrollbar nur bei Bedarf */
-        align-self: center;
+        padding-inline-end: 10px;
     }
     
     .category-card {
@@ -564,19 +577,6 @@
     .ranking-button {
         width: 55px;
         height: 55px;
-        top: 15px;
-    }
-    
-    .playermenu-button {
-        right: 20px;
-    }
-    
-    .info-button {
-        left: 20px;
-    }
-    
-    .ranking-button {
-        right: 90px;
     }
     
     .playermenu-button i,
@@ -587,7 +587,6 @@
     
     .button-row {
         max-width: 95%;
-        margin-top: 15px;
     }
     
     .support-button,
@@ -614,30 +613,31 @@
 @media (max-width: 768px) {
     .page-wrapper {
         padding: 10px;
-        min-height: 100dvh;
     }
     
     .container {
-        padding: 60px 10px 20px;
-        min-height: calc(100dvh - 80px);
-        justify-content: flex-start;
+        padding: 10px;
+        max-height: calc(100dvh - 20px);
+        gap: 15px;
+    }
+
+    .header-controls {
+        gap: 10px;
     }
     
     .headline {
         font-size: 1.5rem;
-        margin-bottom: 20px;
+    }
+
+    .categories-form {
+        gap: 15px;
     }
     
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
-        margin-bottom: 15px;
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
         padding: 5px;
-        padding-inline-end: 8px; /* Abstand zur (möglichen) Scrollbar */
-        -ms-overflow-style: auto; /* IE/Edge: scrollbar nur bei Bedarf */
+        padding-inline-end: 8px;
     }
     
     .category-card {
@@ -662,19 +662,6 @@
     .ranking-button {
         width: 50px;
         height: 50px;
-        top: 10px;
-    }
-    
-    .playermenu-button {
-        right: 10px;
-    }
-    
-    .info-button {
-        left: 10px;
-    }
-    
-    .ranking-button {
-        right: 70px;
     }
     
     .playermenu-button i,
@@ -684,7 +671,6 @@
     }
     
     .button-row {
-        margin-top: 15px;
         gap: 10px;
     }
     
@@ -722,22 +708,24 @@
 @media (max-width: 480px) {
     .page-wrapper {
         padding: 8px;
-        min-height: 100dvh;
     }
     
     .container {
-        padding: 55px 5px 15px;
-        min-height: calc(100dvh - 60px);
+        padding: 8px;
+        max-height: calc(100dvh - 16px);
+        gap: 10px;
     }
     
     .headline {
         font-size: 1.3rem;
-        margin-bottom: 15px;
+    }
+
+    .categories-form {
+        gap: 10px;
     }
     
     .category-grid {
         gap: 8px;
-        margin-bottom: 10px;
     }
     
     .category-card {
@@ -757,19 +745,6 @@
     .ranking-button {
         width: 45px;
         height: 45px;
-        top: 8px;
-    }
-    
-    .playermenu-button {
-        right: 5px;
-    }
-    
-    .info-button {
-        left: 5px;
-    }
-    
-    .ranking-button {
-        right: 60px;
     }
     
     .playermenu-button i,
@@ -779,7 +754,6 @@
     }
     
     .button-row {
-        margin-top: 10px;
         gap: 8px;
     }
     
@@ -792,92 +766,5 @@
     .start-button {
         padding: 8px 20px;
         font-size: 0.9rem;
-    }
-}
-
-/* Sehr kleine Mobile (max-width: 360px) */
-@media (max-width: 360px) {
-    .category-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .category-card {
-        height: 80px;
-    }
-}
-
-/* Höhen-basierte Media Queries für kleine Bildschirme */
-@media (max-height: 700px) and (min-width: 769px) {
-    .page-wrapper {
-        padding: 10px 15px;
-        justify-content: flex-start;
-        min-height: 100dvh;
-    }
-    
-    .container {
-        padding-top: 60px;
-        padding-bottom: 15px;
-        min-height: calc(100dvh - 70px);
-    }
-    
-    .headline {
-        margin-bottom: 15px;
-        font-size: 1.6rem;
-    }
-    
-    .category-grid {
-        margin-bottom: 15px;
-        gap: 10px;
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-    }
-    
-    .category-card {
-        height: 95px;
-    }
-    
-    .start-button {
-        margin-top: 10px;
-    }
-}
-
-/* Sehr kleine Höhe */
-@media (max-height: 600px) {
-    .container {
-        padding-top: 50px;
-        padding-bottom: 10px;
-        min-height: calc(100dvh - 60px);
-    }
-    
-    .headline {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-    }
-    
-    .category-card {
-        height: 80px;
-    }
-    
-    .category-card i {
-        font-size: 1.4rem;
-    }
-    
-    .category-card span {
-        font-size: 0.75rem;
-    }
-    
-    .playermenu-button,
-    .info-button,
-    .ranking-button {
-        width: 45px;
-        height: 45px;
-        top: 8px;
-    }
-    
-    .playermenu-button i,
-    .info-button i,
-    .ranking-button i {
-        font-size: 1.4rem;
     }
 }

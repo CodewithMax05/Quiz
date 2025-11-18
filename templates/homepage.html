@@ -9,25 +9,27 @@
 <div class="page-wrapper">
     
     <div class="container">
-        <a href="{{ url_for('ranking') }}" class="ranking-button sound-button" aria-label="Ranking">
-            <i class="fas fa-trophy"></i>
-        </a>
-        <a href="{{ url_for('playermenu') }}" class="playermenu-button sound-button" aria-label="Playermenü">
-            <i class="fas fa-address-card"></i>
-        </a>
 
-        <button class="info-button sound-button" id="info-button" aria-label="Information">
-            <i class="fas fa-question-circle"></i>
-        </button>
-        
-        <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
-        
+        <div class="header-controls">
+            <button class="info-button sound-button" id="info-button" aria-label="Information">
+                <i class="fas fa-question-circle"></i>
+            </button>
+            <a href="{{ url_for('ranking') }}" class="ranking-button sound-button" aria-label="Ranking">
+                <i class="fas fa-trophy"></i>
+            </a>
+            <a href="{{ url_for('playermenu') }}" class="playermenu-button sound-button" aria-label="Playermenü">
+                <i class="fas fa-address-card"></i>
+            </a>
+        </div>
+
         <form action="/start_custom_quiz" method="POST" class="categories-form" id="quiz-form">
+            
+            <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
+
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="random_mode" id="random-mode" value="false">
             
             <div class="category-grid">
-                <!-- ZUFALLS-MODUS -->
                 <label class="category-card random-mode-card">
                     <input type="checkbox" name="topics" value="random" id="random-mode-checkbox">
                     <div class="card-content">
@@ -36,7 +38,6 @@
                     </div>
                 </label>
                 
-                <!-- Musik -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Musik">
                     <div class="card-content">
@@ -45,7 +46,6 @@
                     </div>
                 </label>
                 
-                <!-- Geschichte -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Geschichte">
                     <div class="card-content">
@@ -54,7 +54,6 @@
                     </div>
                 </label>
                 
-                <!-- Sport -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Sport">
                     <div class="card-content">
@@ -63,7 +62,6 @@
                     </div>
                 </label>
                 
-                <!-- Technologie -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Technologie">
                     <div class="card-content">
@@ -72,7 +70,6 @@
                     </div>
                 </label>
                 
-                <!-- Filme -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Filme">
                     <div class="card-content">
@@ -81,7 +78,6 @@
                     </div>
                 </label>
                 
-                <!-- Geographie -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Geographie">
                     <div class="card-content">
@@ -90,7 +86,6 @@
                     </div>
                 </label>
                 
-                <!-- Sprache -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Sprache">
                     <div class="card-content">
@@ -99,7 +94,6 @@
                     </div>
                 </label>
                 
-                <!-- Kunst -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Kunst">
                     <div class="card-content">
@@ -108,7 +102,6 @@
                     </div>
                 </label>
                 
-                <!-- Essen -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Essen">
                     <div class="card-content">
@@ -117,7 +110,6 @@
                     </div>
                 </label>
                 
-                <!-- Promis -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Promis">
                     <div class="card-content">
@@ -126,7 +118,6 @@
                     </div>
                 </label>
                 
-                <!-- Mythologie -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Glauben">
                     <div class="card-content">
@@ -135,7 +126,6 @@
                     </div>
                 </label>
                 
-                <!-- Natur -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Natur">
                     <div class="card-content">
@@ -144,7 +134,6 @@
                     </div>
                 </label>
                 
-                <!-- Wirtschaft -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Wirtschaft">
                     <div class="card-content">
@@ -153,7 +142,6 @@
                     </div>
                 </label>
                 
-                <!-- Automobil -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Automobil">
                     <div class="card-content">
@@ -162,7 +150,6 @@
                     </div>
                 </label>
                 
-                <!-- Gaming -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Gaming">
                     <div class="card-content">
