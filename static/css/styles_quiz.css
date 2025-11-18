@@ -3,12 +3,31 @@ body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
     box-sizing: border-box;
     overflow-x: hidden;
     margin: 0;
+}
+
+.main-quiz-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* Der gewünschte Abstand zwischen Header und Quiz-Box */
+    gap: 20px; 
+
+    /* Breiten-Logik von .quiz-container-wide hierher verschoben */
+    width: 880px;
+    max-width: 95%;
+    
+    /* Wichtig: Verhindert, dass der Wrapper bei kleinem Viewport gequetscht wird */
+    flex-shrink: 0;
+
+    /* Der gesamte Block darf maximal die Höhe des Viewports (abzgl. Body-Padding) einnehmen */
+    max-height: calc(100dvh - 2rem); /* 1rem top + 1rem bottom padding */
 }
 
 /* === HEADER-CONTROLS === */
@@ -18,12 +37,11 @@ body {
     display: flex;
     justify-content: center;
     z-index: 1000;
-    margin-top: 10px;
+    flex-shrink: 0;
 }
 
 .header-content {
-    width: 880px;
-    max-width: 95%;
+    width: 100%;
     display: flex;
     justify-content: center;
     gap: 80px;
@@ -118,15 +136,12 @@ body {
 
 /* === QUIZ-CONTAINER & FRAGEN === */
 .quiz-container-wide {
-    width: 880px;
-    max-width: 95%;
-    min-height: 0; 
+    width: 100%; /* Füllt den neuen Wrapper */
+    
     text-align: center;
     position: relative;
     z-index: 1;
     padding: 25px;
-    
-    margin: auto;
     
     border-radius: 16px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
@@ -136,16 +151,9 @@ body {
     display: flex;
     flex-direction: column;
     
-    /* 1. Min-Höhe (so kompakt wie möglich) */
-    flex: 0 0 auto; 
-    
-    /* 2. Maximale Höhe (Viewport begrenzt) & 3. Interne Scrollbar */
-    /* calc(100dvh - [Höhe des gesamten Header-Blocks inkl. Margins] - [Body Paddings unten/oben]) */
-    /* Schätzung: ca. 140px für Header-Block + Margins + Body Paddings */
-    max-height: calc(100dvh - 110px);
-    
-    /* Scrollbar im Container, wenn max-height erreicht */
-    overflow-y: auto; 
+    flex: 1 1 auto;      /* Darf wachsen und schrumpfen */
+    min-height: 0;       /* Wichtig für Flexbox-Scrolling */
+    overflow-y: auto;    /* Scrollbar im Container, wenn Inhalt zu groß */
     
     gap: 20px;
 }
@@ -195,7 +203,7 @@ body {
     
     flex: 0 0 auto; 
     
-    min-height: 200px;
+    min-height: 150px;
     
     max-height: 40vh; 
     overflow-y: auto; 
@@ -401,8 +409,7 @@ body {
 
 /* Tablet (1024px) */
 @media (max-width: 1024px) {
-    .header-content,
-    .quiz-container-wide {
+    .main-quiz-wrapper {
         width: 850px;
         max-width: 92%;
     }
@@ -424,14 +431,13 @@ body {
 
 /* Small Tablet (768px) */
 @media (max-width: 768px) {
-    .header-content {
+    .main-quiz-wrapper {
         width: 92%;
         max-width: 92%;
-        gap: 60px;
     }
-    .quiz-container-wide {
-        width: 92%;
-        max-width: 92%;
+
+    .header-content {
+        gap: 60px;
     }
     
     .quiz-container-wide {
@@ -484,16 +490,16 @@ body {
     body {
         padding: env(safe-area-inset-top, 0.5rem) env(safe-area-inset-right, 0.5rem) env(safe-area-inset-bottom, 0.5rem) env(safe-area-inset-left, 0.5rem);
     }
+
+    .main-quiz-wrapper {
+        width: 96%;
+        max-width: 96%;
+        max-height: calc(100dvh - 1rem); /* 0.5rem top + 0.5rem bottom */
+    }
     
     .header-controls {
         margin-top: 5px;
         margin-bottom: 15px;
-    }
-    
-    .header-content,
-    .quiz-container-wide {
-        width: 96%;
-        max-width: 96%;
     }
     
     .quiz-container-wide {

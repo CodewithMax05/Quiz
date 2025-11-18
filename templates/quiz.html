@@ -19,57 +19,59 @@
         </div>
     </div>
 
-    <div class="header-controls">
-        <div class="header-content">
-            <div class="timer-container">
-                <svg class="timer-circle" viewBox="0 0 100 100">
-                    <circle class="timer-background" cx="50" cy="50" r="45"></circle>
-                    <circle class="timer-progress" cx="50" cy="50" r="45"
-                            stroke-dasharray="283"
-                            stroke-dashoffset="0"></circle>
-                </svg>
-                <div class="timer-text">30</div>
-            </div>
-            
-            <div class="score-display" id="score-display">
-                Score: {{ score }}
-            </div>
-            
-            <button class="cancel-btn" id="cancelQuizBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <line x1="18" y1="6"  x2="6" y2="18" stroke="white" stroke-width="2"/>
-                    <line x1="6"  y1="6"  x2="18" y2="18" stroke="white" stroke-width="2"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <div class="quiz-container-wide" 
-         data-was-correct="{{ 'true' if was_correct else 'false' }}"
-         data-room-id="{{ room_id }}"
-         data-initial-time-left="{{ time_left }}">
-        <div class="question-box">
-            <div class="question-text">
-                {{ question.question }}
+    <div class="main-quiz-wrapper">
+        <div class="header-controls">
+            <div class="header-content">
+                <div class="timer-container">
+                    <svg class="timer-circle" viewBox="0 0 100 100">
+                        <circle class="timer-background" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-progress" cx="50" cy="50" r="45"
+                                stroke-dasharray="283"
+                                stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-text">30</div>
+                </div>
+                
+                <div class="score-display" id="score-display">
+                    Score: {{ score }}
+                </div>
+                
+                <button class="cancel-btn" id="cancelQuizBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <line x1="18" y1="6"  x2="6" y2="18" stroke="white" stroke-width="2"/>
+                        <line x1="6"  y1="6"  x2="18" y2="18" stroke="white" stroke-width="2"/>
+                    </svg>
+                </button>
             </div>
         </div>
 
-        <div class="options-grid" id="options-grid">
-            {% for option in options %}
-            <div class="option" data-answer="{{ option }}">
-                {{ option }}
+        <div class="quiz-container-wide" 
+            data-was-correct="{{ 'true' if was_correct else 'false' }}"
+            data-room-id="{{ room_id }}"
+            data-initial-time-left="{{ time_left }}">
+            <div class="question-box">
+                <div class="question-text">
+                    {{ question.question }}
+                </div>
             </div>
-            {% endfor %}
-        </div>
 
-        <div class="progress-bar">
-            Frage {{ progress }} von {{ total_questions }}
-        </div>
+            <div class="options-grid" id="options-grid">
+                {% for option in options %}
+                <div class="option" data-answer="{{ option }}">
+                    {{ option }}
+                </div>
+                {% endfor %}
+            </div>
 
-        <form id="next-form" action="/next_question" method="POST" style="display: none;">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" id="selected-answer" name="answer">
-        </form>
+            <div class="progress-bar">
+                Frage {{ progress }} von {{ total_questions }}
+            </div>
+
+            <form id="next-form" action="/next_question" method="POST" style="display: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" id="selected-answer" name="answer">
+            </form>
+        </div>
     </div>
     
     <script>
