@@ -1,3 +1,35 @@
+/* 🔵 Für Firefox */
+html {
+    scrollbar-width: thin;
+    /* (Farben von homepage.css übernommen) */
+    scrollbar-color: #4299e1 rgba(255, 255, 255, 0.06); 
+}
+
+/* 🔵 Für Webkit-Browser (Chrome, Safari, Edge) */
+html::-webkit-scrollbar {
+    width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.06); 
+    border-radius: 8px;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); 
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
+}
+
+html::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 8px;
+}
+
 body {
     box-sizing: border-box;
     min-height: 100dvh; /* Ersetzt height: 100% für besseres Safe-Area-Handling */
