@@ -15,8 +15,6 @@ body.ranking-page {
 
     justify-content: center; /* Vertikal zentrieren */
     align-items: center;     /* Horizontal zentrieren */
-
-    padding: 2rem 0; 
 }
 
 /* Leaderboard, Player-Info etc. */
@@ -28,7 +26,6 @@ body.ranking-page {
     gap: 10px;
     width: 100%;
     max-width: 1200px; /* Maximale Breite für Zentrierung */
-    /* margin: 0 auto; /* ENTFERNT: Wird jetzt von body.ranking-page (align-items) übernommen */
     min-height: auto;
     height: auto;
     padding: 0.5rem 2rem; /* Mehr seitlicher Abstand */
@@ -174,7 +171,8 @@ body.ranking-page {
     display: grid;
     grid-template-columns: 1fr 3fr 2fr 3fr;
     padding: 0.4rem 0;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -342,7 +340,7 @@ body.ranking-page {
     flex: 0;
     margin: 0;
     color: #8e2de2;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .ranking-info-button {

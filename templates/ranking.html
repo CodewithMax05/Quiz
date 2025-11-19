@@ -374,7 +374,6 @@
                 const rank = row.dataset.rank;
                 document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
                 document.getElementById('info-username').textContent = row.dataset.username || "N/A";
-                document.getElementById('info-id').textContent = row.dataset.userId || "N/A";
                 document.getElementById('info-registered').textContent = formatIsoToLocal(row.dataset.registered) || "N/A";
                 document.getElementById('info-games').textContent = row.dataset.games || "0";
                 document.getElementById('info-highscore').textContent = row.dataset.score || "0";
@@ -430,7 +429,6 @@
                     // Spielerdaten anzeigen
                     document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
                     document.getElementById('info-username').textContent = data.username || "N/A";
-                    document.getElementById('info-id').textContent = data.id || "N/A";
                     document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
                     document.getElementById('info-games').textContent = data.number_of_games || "0";
                     document.getElementById('info-highscore').textContent = data.highscore || "0";
