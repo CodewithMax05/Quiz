@@ -1,19 +1,47 @@
-html, body {
-    display: block !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: auto !important;
+/* =======================================
+   Safe-Areas & Basis-Layout
+   ======================================= */
+
+/* Definiere CSS-Variablen für Safe-Areas, hauptsächlich für iOS-Geräte.
+   Fallback: 10px, falls die Umgebungsvariablen nicht definiert sind. */
+:root {
+    --safe-area-top: env(safe-area-inset-top, 10px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 10px);
+    --safe-area-left: env(safe-area-inset-left, 10px);
+    --safe-area-right: env(safe-area-inset-right, 10px);
 }
 
-/* Wrapper nur für horizontale Zentrierung */
+html, body {
+    /* Verwende 100% der Viewport-Höhe */
+    height: 100% !important;
+    min-height: 100vh !important;
+    display: block !important;
+    /* overflow-y: auto !important;  <- Entfernt, da der Wrapper das Scrollen übernimmt */
+    overflow: hidden; /* Verhindere, dass body selbst scrollt */
+}
+
+/* Wrapper nur für horizontale und vertikale Zentrierung */
 .page-wrapper {
-    min-height: 100vh;         /* mindestens Bildschirmhöhe */
+    /* Nimmt die gesamte Höhe des Viewports ein */
+    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;   /* horizontal zentrieren */
     align-items: center;       /* vertikal zentrieren */
-    padding: 10px;
+    
+    /* Berücksichtige Safe-Areas für den äußeren Rand */
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+
+    /* Füge einen zusätzlichen Rand/Abstand um den Container hinzu */
+    padding: calc(var(--safe-area-top) + 20px) calc(var(--safe-area-left) + 20px) calc(var(--safe-area-bottom) + 20px) calc(var(--safe-area-right) + 20px);
+
     box-sizing: border-box;
-    overflow-y: auto;
+    /* Der Wrapper muss scrollen können, falls der Container + Safe-Areas + 10px größer ist als der Viewport */
+    overflow-y: auto; 
+    overflow-x: hidden;
 }
 
 /* Container-Box */
@@ -30,10 +58,26 @@ html, body {
     max-width: 100%;
     box-sizing: border-box;
 
+    /* NEU: Flexbox für die interne Struktur */
+    display: flex;
+    flex-direction: column;
+    
+    /* NEU: Maximale Höhe definieren, basierend auf dem Wrapper-Inhalt */
+    /* calc(100vh - (safe-area-top + 10px) - (safe-area-bottom + 10px)) ist jetzt die Höhe des .page-wrapper Inhaltsbereichs */
+    /* Setze die max-height auf 100% der verfügbaren Höhe innerhalb des .page-wrapper (abzüglich der inneren 15px Paddings) */
+    max-height: 100%; 
+    
+    /* Wichtig: Füge dem Container min-height: fit-content hinzu, damit er mindestens so hoch ist wie sein Inhalt */
+    min-height: fit-content;
+
     /* Damit lange Inhalte innerhalb umbrechen */
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    
+    /* Erlaube dem Container, falls nötig, seinen Inhalt zu scrollen (aber nur, wenn die Liste nicht scrollt) */
+    /* Da wir die Liste scrollen lassen, setzen wir dies auf hidden */
+    overflow-y: hidden;
 }
 
 h1.headline {
@@ -42,11 +86,22 @@ h1.headline {
     margin-bottom: 20px;
     color: white;
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+    /* NEU: Verhindere Schrumpfen des Headers */
+    flex-shrink: 0;
 }
 
 .settings-list {
     text-align: left;
     margin-top: 20px;
+    
+    /* NEU: Macht die Liste scrollbar, wenn sie den verbleibenden Platz ausfüllen muss */
+    flex-grow: 1; /* Nimmt den verbleibenden Platz ein */
+    overflow-y: auto; /* Scrollen nur, wenn der Inhalt die max-height überschreitet */
+    /* Damit die Liste ihre Höhe richtig berechnet: */
+    min-height: 0; 
+    
+    /* Optional: Füge etwas Padding unten hinzu, damit das letzte Item nicht am Rand klebt, wenn gescrollt wird */
+    padding-bottom: 5px; 
 }
 
 .setting-item {
@@ -77,11 +132,18 @@ h1.headline {
 .setting-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    /* Wichtig: Nutze max-height für die transition, damit es auch mit variablen Inhalten funktioniert. 
+       Achten Sie darauf, dass der Wert in Ihrem JS-Code groß genug ist. */
+    transition: max-height 0.4s ease, padding 0.4s ease;
     background: rgba(255, 255, 255, 0.05);
     margin-top: 5px;
     padding: 0 10px;
     border-radius: 10px;
+}
+
+.setting-content.active {
+    /* NEU: Füge ein kleines Padding hinzu, wenn der Content sichtbar ist */
+    padding: 10px; 
 }
 
 .setting-content form {
@@ -128,6 +190,8 @@ h1.headline {
     width: 100%;
     padding: 0;
     box-sizing: border-box;
+    /* NEU: Verhindere Schrumpfen der Buttons */
+    flex-shrink: 0;
 }
 
 /* Button */
@@ -157,6 +221,7 @@ h1.headline {
 .agb-checkbox-container {
     margin: 10px 0;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .agb-checkbox-label {
