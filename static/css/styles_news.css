@@ -1,41 +1,152 @@
-/* Grundlegendes Layout wie Settings */
-.page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center; /* Horizontale Zentrierung */
-    align-items: center; /* NEU: Vertikale Zentrierung */
-    padding: 20px 10px;
-    box-sizing: border-box;
-    overflow-y: auto; /* Beibehalten, damit bei zu viel Inhalt gescrollt werden kann */
+/* =======================================
+   WICHTIG: Safe-Areas & Dynamische Höhe (dvh)
+   (ANGEPASST VON styles_settings.css)
+   ======================================= */
+
+/* Definiere die Haupt-Viewport-Elemente */
+html, body {
+    /* Erzwinge die dynamische Viewport-Höhe (löst das 100vh-Problem auf mobilen Geräten) */
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    /* Verhindere, dass body scrollt, der Wrapper übernimmt das bei Bedarf */
+    overflow: hidden !important; 
+    /* Basis-Anzeige bleibt erhalten */
+    display: block !important; 
 }
 
+/* Definiere die Abstände */
+:root {
+    --extra-gap: 20px; /* Zusätzlicher Abstand zum Container-Rand (20px seitlich und vertikal) */
+
+    /* Definiere Safe-Area-Variablen mit einem Fallback (z.B. 15px) */
+    --safe-area-top: env(safe-area-inset-top, 15px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 15px);
+    --safe-area-left: env(safe-area-inset-left, 15px);
+    --safe-area-right: env(safe-area-inset-right, 15px);
+}
+
+/* Wrapper für horizontale & vertikale Zentrierung des Containers */
+.page-wrapper {
+    /* WICHTIG: Verwende dvh und nicht vh */
+    height: 100dvh;
+    min-height: 100dvh; 
+    
+    display: flex;
+    justify-content: center;   /* Horizontal zentrieren */
+    align-items: center;       /* Vertikal zentrieren */
+
+    /* Paddings: Safe-Area + Extra-Abstand */
+    padding-top: calc(var(--safe-area-top) + var(--extra-gap));
+    padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
+    padding-left: calc(var(--safe-area-left) + var(--extra-gap));
+    padding-right: calc(var(--safe-area-right) + var(--extra-gap));
+
+    box-sizing: border-box;
+    /* Wrapper scrollt, wenn der Container + Paddings den Platz überschreiten */
+    overflow-y: auto; 
+    overflow-x: hidden;
+}
+
+/* Container-Box */
 .container {
     background: rgba(15, 32, 39, 0.45);
     backdrop-filter: blur(15px);
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px; /* Etwas weniger Padding für mehr Platz */
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    width: 800px;
+
+    /* Standardbreite + Responsivität */
+    width: 800px; /* Behalte die größere Breite der News-Seite bei */
     max-width: 100%;
     box-sizing: border-box;
+
+    /* Flexbox für die interne Struktur (wichtig für die Höhe) */
+    display: flex;
+    flex-direction: column;
+    
+    /* HÖHENKONTROLLE: */
+    max-height: 100%; 
+    min-height: 0; /* Erlaubt dem Container, sich korrekt an die max-height anzupassen */
+    
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    
+    /* Der Container selbst scrollt nicht (die Liste scrollt) */
+    overflow-y: hidden;
 }
 
 h1.headline {
     font-size: 2.2rem;
     font-weight: 400;
-    margin-bottom: 25px;
+    margin-bottom: 20px; /* Reduziert von 25px */
     color: white;
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+    /* Verhindere Schrumpfen des Headers */
+    flex-shrink: 0;
 }
 
 /* News Liste */
 .news-list {
     text-align: left;
-    margin: 20px 0;
+    margin: 0; /* Entferne den vertikalen margin, da der Container padding hat */
+    
+    /* SCROLLBARE LISTE: */
+    flex-grow: 1; 
+    overflow-y: auto; 
+    min-height: 0; /* Wichtig für scrollende Flex-Items */
+    
+    padding-bottom: 5px; 
+
+    display: flex;
+    flex-direction: column; /* Items untereinander anordnen */
+    align-items: center;    /* Items horizontal zentrieren */
 }
 
+/* =======================================
+   Scrollbar Styling für .news-list (übernommen von settings)
+   ======================================= */
+
+/* Für Webkit-Browser (Chrome, Safari, Edge) */
+.news-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.news-list::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+.news-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
+    border-radius: 8px;
+    min-height: 10px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.news-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
+}
+
+.news-list::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 8px;
+}
+
+/* Für Firefox */
+.news-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
+}
+
+/* =======================================
+   Spezifische News-Styles (ANGESPASST/BEIBEHALTEN)
+   ======================================= */
+
 .news-item {
+    width: 90%; 
     margin-bottom: 15px;
 }
 
@@ -53,6 +164,10 @@ h1.headline {
     justify-content: space-between;
     align-items: center;
     transition: background 0.3s;
+}
+
+.news-toggle i {
+    transition: transform 0.4s ease; /* Füge Transition für die Drehung hinzu */
 }
 
 .news-toggle:hover {
@@ -73,12 +188,14 @@ h1.headline {
     margin: 0 15px;
     color: #ccc;
     font-size: 0.9rem;
+    flex-shrink: 0;
 }
 
 .news-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    /* Entferne das Padding für die Transition, das wird jetzt durch ScrollHeight berechnet */
+    transition: max-height 0.4s ease; 
     background: rgba(255, 255, 255, 0.05);
     margin-top: 5px;
     border-radius: 10px;
@@ -107,19 +224,23 @@ h1.headline {
     color: #ccc;
     margin: 20px 0;
     
-    /* NEU: Flexbox für die Zentrierung des Icon/Text-Blocks */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    
+    /* NEU: Verhindere, dass es schrumpft */
+    flex-shrink: 0; 
 }
 
 /* Back Button */
 .link-content {
     display: flex;
     justify-content: center;
-    margin-top: 25px;
+    margin-top: 15px;
+    /* Verhindere Schrumpfen */
+    flex-shrink: 0;
 }
 
 .back-button1 {
