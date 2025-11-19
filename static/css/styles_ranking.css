@@ -40,29 +40,34 @@ body {
 }
 
 body.ranking-page {
-    overflow-y: auto; /* Erlaube Scrollen, falls Inhalt größer als Viewport */
+    overflow-y: auto; 
     overflow-x: hidden;
-    /* min-height wird jetzt von base.css übernommen (100dvh) */
-    box-sizing: border-box;
-
-    justify-content: center; /* Vertikal zentrieren */
-    align-items: center;     /* Horizontal zentrieren */
+    min-height: 100dvh; 
+    /* ❌ Entfernt: justify-content: center; */
+    justify-content: flex-start; /* Stellt sicher, dass Inhalte oben beginnen */
+    align-items: center;     /* Behält horizontale Zentrierung des Wrappers bei */
 }
 
 /* Leaderboard, Player-Info etc. */
 .ranking-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Zentriert H1 und .ranking-content horizontal */
+    align-items: center; 
     justify-content: flex-start;
     gap: 10px;
     width: 100%;
-    max-width: 1200px; /* Maximale Breite für Zentrierung */
+    max-width: 1200px;
     min-height: auto;
     height: auto;
-    padding: 0.5rem 2rem; /* Mehr seitlicher Abstand */
+    padding: 0.5rem 2rem;
     overflow: visible;
     box-sizing: border-box;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    /* * WICHTIGE ÄNDERUNG: Verhindert, dass der Wrapper im zentrierten Body 
+    * unnötig schrumpft und die Überschrift nach oben drückt, wenn der Inhalt überläuft. */
+    flex-shrink: 0; 
 }
 
 /* 💠 RANKING-LAYOUT */
