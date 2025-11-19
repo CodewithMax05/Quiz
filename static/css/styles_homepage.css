@@ -52,7 +52,7 @@
     flex: 1 1 auto; /* Darf wachsen und schrumpfen */
     min-height: 0; /* Wichtig für flexbox scrolling */
     gap: 20px;
-    overflow: hidden; /* Verhindert, dass die Form selbst scrollt */
+    overflow: visible; /* Verhindert, dass die Form selbst scrollt */
 }
 
 /* 4x4 Grid FÜR 16 Kategorien */
@@ -61,7 +61,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
     width: 100%;
-    padding: 0 10px;
+    padding: 3px 10px;
     box-sizing: border-box;
     flex: 1; /* Nimmt verfügbaren Platz ein */
     min-height: 0; /* Wichtig für flexbox scrolling */
