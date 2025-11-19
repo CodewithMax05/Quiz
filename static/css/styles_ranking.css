@@ -381,8 +381,8 @@ body.ranking-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: linear-gradient(135deg, #4299e1, #3182ce);
     color: white;
@@ -393,7 +393,7 @@ body.ranking-page {
 }
 
 .ranking-info-button i {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .ranking-info-button:hover {
