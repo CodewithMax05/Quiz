@@ -241,6 +241,24 @@
 
 					// Timer starten
 					resetInactivityTimer();
+
+					const serverMessages = document.querySelectorAll(
+						'#flash-container .info-message, ' +
+						'#flash-container .success-message, ' +
+						'#flash-container .error-message'
+					);
+
+					serverMessages.forEach(message => {
+						message.addEventListener('animationend', (e) => {
+							// Wir lauschen nur auf das Ende der "fadeOut"-Animation,
+							// nicht auf "fadeIn".
+							if (e.animationName === 'fadeOut') {
+								if (message.parentNode) {
+									message.parentNode.removeChild(message);
+								}
+							}
+						});
+					});
 					
 					// Event-Listener für Aktivität
 					const events = ['mousemove', 'keypress', 'touchstart', 'click', 'scroll'];
