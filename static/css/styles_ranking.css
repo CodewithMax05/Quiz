@@ -54,7 +54,7 @@ body.ranking-page {
     overflow: visible;
     flex-wrap: nowrap;
     justify-content: center;
-    align-items: flex-start; /* Geändert von stretch */
+    align-items: flex-start; /* Beibehalten */
     box-sizing: border-box;
 }
 
@@ -70,8 +70,10 @@ body.ranking-page {
     flex: 1;
     display: flex;
     flex-direction: column;
+    
     min-width: 300px;
-    width: 100%;
+    max-width: 400px;
+    
     gap: 0.8rem;
     position: relative;
     height: auto;
@@ -80,7 +82,7 @@ body.ranking-page {
 
 /* Passe den Scroll-Container für Infinite Scrolling an */
 .leaderboard-scroll {
-    max-height: 22.5rem; /* ANGEPASST: Feste Höhe für ca. 8 Einträge (war 28rem) */
+    max-height: 22.8rem;
     overflow-y: auto;
     overflow-x: hidden;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -420,12 +422,16 @@ body.ranking-page {
     }
 
     .ranking-wrapper {
-        padding: 0.5rem 1rem; /* Weniger seitlicher Abstand */
+        padding: 0.5rem 2rem; /* Weniger seitlicher Abstand */
     }
     
     .ranking-content {
         flex-direction: column;
-        align-items: stretch;
+        
+        /* === ÄNDERUNG 2 === */
+        /* align-items: stretch; <- ALT */
+        align-items: center; /* <- NEU: Zentriert die Spalten horizontal */
+        
         gap: 1rem;
         width: 100%;
         box-sizing: border-box;
@@ -433,12 +439,15 @@ body.ranking-page {
 
     .ranking-column-left,
     .ranking-column-right {
-        width: 100%;
-        max-width: 100%;
+        width: 100%; 
         height: auto;
         margin: 0;
         box-sizing: border-box;
         min-width: unset; /* Überschreibt min-width */
+    }
+
+    .ranking-column-left {
+        max-width: 100%;
     }
 
     .leaderboard,
@@ -483,7 +492,7 @@ body.ranking-page {
 /* Kleines Handy (480px) */
 @media (max-width: 480px) {
     .ranking-wrapper {
-        padding: 0.5rem 0.5rem; /* Minimaler seitlicher Abstand */
+        padding: 0.5rem 2rem;
     }
 
     /* Header-Abkürzungen (aus alter 600px-Query) */
