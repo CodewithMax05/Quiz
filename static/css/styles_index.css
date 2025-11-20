@@ -457,6 +457,7 @@ input.input-field:-moz-autofill {
     display: flex;
     flex-direction: column;
     min-height: 0;
+    flex-shrink: 0;
 }
 
 /* Toggle-Button/ Header */
@@ -487,7 +488,7 @@ input.input-field:-moz-autofill {
 .setting-content {
     max-height: 0;
     overflow: hidden; /* wenn geschlossen: nichts zeigen */
-    transition: max-height 0.28s ease;
+    transition: max-height 0.28s ease-in-out;;
     background: rgba(0,0,40,0.4);
     padding: 0 14px;
     box-sizing: border-box;
@@ -499,6 +500,8 @@ input.input-field:-moz-autofill {
     overflow-y: auto;
     padding: 10px 14px;
     flex: 1 1 auto;
+    min-height: 0;
+    max-height: 80vh;
 }
 
 /* Scrollbar Styling (optional) */
@@ -515,6 +518,10 @@ input.input-field:-moz-autofill {
 /* Stellt sicher, dass der Toggle-Button des geöffneten Items ebenfalls die Mindesthöhe hat */
 .setting-item:has(.setting-content.open) .setting-toggle {
     min-height: 44px;
+}
+
+.setting-item:has(.setting-content.open) {
+    flex: 1 1 auto; /* Das Eltern-Item soll wachsen */
 }
 
 body.agb-modal-open .setting-toggle {
