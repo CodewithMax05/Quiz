@@ -21,7 +21,6 @@ body.playermenu-page {
 .playermenu-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
     max-width: 1200px;
     padding: 20px;
@@ -67,12 +66,9 @@ body.playermenu-page {
     width: 100%;
     
     /* Zentriert den Inhalt der Card */
-    margin: 0 auto;
+    margin: auto;
     text-align: center;
     box-sizing: border-box;
-    
-    /* Maximale Höhe begrenzen für sehr kleine Screens */
-    max-height: 95vh;
 }
 
 .title-bar {
