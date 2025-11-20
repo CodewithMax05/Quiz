@@ -423,7 +423,7 @@ input.input-field:-moz-autofill {
     flex-direction: column;
     box-sizing: border-box;
     padding: 20px;
-    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - var(--safe-area-top) - var(--safe-area-bottom) - (2 * var(--extra-gap)));
     overflow: hidden;
 }
 
@@ -458,6 +458,7 @@ input.input-field:-moz-autofill {
     flex-direction: column;
     min-height: 0;
     flex-shrink: 0;
+    max-height: 350px;
 }
 
 /* Toggle-Button/ Header */
@@ -501,7 +502,7 @@ input.input-field:-moz-autofill {
     padding: 10px 14px;
     flex: 1 1 auto;
     min-height: 0;
-    max-height: 80vh;
+    max-height: 80dvh;
 }
 
 /* Scrollbar Styling (optional) */

@@ -104,11 +104,6 @@
         if (!overlay) return;
         overlay.style.display = 'flex';
         overlay.dataset.action = action || '';
-        
-        // Höhe sofort beim Öffnen berechnen
-        requestAnimationFrame(() => {
-            adjustAllOpenContents();
-        });
     }
 
     function hideAgbModal() {
