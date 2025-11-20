@@ -6,84 +6,84 @@
 {% endblock %}
 
 {% block body %}
-<div class="legal-container">
+<div class="page-wrapper">
+
     <div class="legal-box">
         <h1 class="legal-title">Rechtliche Informationen</h1>
 
-        <img src="{{ url_for('static', filename='pictures/Icon.png') }}"
-             alt="legal Logo"
-             class="legal-image">
+        <div class="legal-header-content">
 
-        <div class="legal-info">
-            <div class="info-row">
-                <span class="info-label">Name:</span>
-                <span class="info-value">Clash under Minds</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Version:</span>
-                <span class="info-value">1.12.05</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Entwickler:</span>
-                <span class="info-value">Justin Burian<br>Max Schieck</span>
-            </div>
-        </div>
-
-        <!-- Aufklappbare Boxen für AGB und Datenschutz -->
-        <div class="legal-accordion">
-
-            <!-- AGB Box -->
-            <div class="accordion-item">
-                <button class="accordion-toggle">🧾 AGB <i class="fas fa-chevron-down"></i></button>
-                <div class="accordion-content">
-                    {% include 'agb_content.html' %}
+            <div class="legal-info">
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">Clash under Minds</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Version:</span>
+                    <span class="info-value">1.12.05</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Entwickler:</span>
+                    <span class="info-value">Justin Burian<br>Max Schieck</span>
                 </div>
             </div>
 
-            <!-- Datenschutz Box -->
-            <div class="accordion-item">
-                <button class="accordion-toggle">🔒 Datenschutzerklärung <i class="fas fa-chevron-down"></i></button>
-                <div class="accordion-content">
-                    {% include 'privacy_content.html' %}
+            <img src="{{ url_for('static', filename='pictures/Icon.png') }}"
+                 alt="legal Logo"
+                 class="legal-image">
+
+        </div>
+
+        <div class="settings-list"> <div class="setting-item"> <button class="setting-toggle">🧾 AGB <i class="fas fa-chevron-down"></i></button> <div class="setting-content"> {% include 'agb_content.html' %}
+                </div>
+            </div>
+
+            <div class="setting-item"> <button class="setting-toggle">🔒 Datenschutzerklärung <i class="fas fa-chevron-down"></i></button> <div class="setting-content"> {% include 'privacy_content.html' %}
                 </div>
             </div>
 
         </div>
 
-        <!-- Buttons -->
         <div class="link-content">
             <a href="{{ url_for('index') }}" class="back-button sound-button">Zurück zum Login</a>
         </div>
     </div>
 </div>
 
-<!-- Script für das Aufklappen -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const toggles = document.querySelectorAll(".accordion-toggle");
+    const toggles = document.querySelectorAll(".setting-toggle");
     toggles.forEach(toggle => {
         toggle.addEventListener("click", function () {
             const content = this.nextElementSibling;
             const icon = this.querySelector("i");
-            const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+            const isOpen = content.classList.contains("open"); // Prüft CSS-Klasse
 
             // Alles schließen
-            document.querySelectorAll(".accordion-content").forEach(c => {
-                c.style.maxHeight = null;
-            });
-            document.querySelectorAll(".accordion-toggle i").forEach(i => {
-                i.style.transform = "rotate(0deg)";
+            document.querySelectorAll(".setting-content.open").forEach(c => {
+                if (c !== content) {
+                    c.classList.remove("open"); // Entfernt Klasse
+                    const otherIcon = c.previousElementSibling.querySelector("i");
+                    if (otherIcon) otherIcon.style.transform = "rotate(0deg)";
+                }
             });
 
-            // Ggf. öffnen
-            if (!isOpen) {
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.style.transform = "rotate(180deg)";
+            // Ggf. öffnen oder schließen
+            if (isOpen) {
+                content.classList.remove("open");
+                if (icon) icon.style.transform = "rotate(0deg)";
+            } else {
+                content.classList.add("open"); // Setzt Klasse (CSS macht den Rest)
+                if (icon) icon.style.transform = "rotate(180deg)";
             }
         });
+    });
+
+    // Sicherstellen, dass beim Laden alles zu ist
+    document.querySelectorAll('.setting-content').forEach(c => {
+        c.classList.remove('open');
     });
 });
 </script>
 
 {% endblock %}
-
