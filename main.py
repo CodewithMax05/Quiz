@@ -209,7 +209,7 @@ class QuizTimer:
                     break # Loop beenden
             
             # Exakt 1 Sekunde warten
-            next_update = start_time + (30 - self.time_left + 1)
+            next_update = start_time + (self.duration - self.time_left + 1)
             sleep_time = max(0, next_update - time.time())
             sleep(sleep_time)
 
@@ -1352,23 +1352,6 @@ def show_question():
                         # Timer läuft normal, hole verbleibende Zeit
                         time_left = timer.get_time_left()
         
-        # Wenn Frage bereits beantwortet wurde, leite direkt zur nächsten Frage weiter
-        if quiz_data.get('answered', False):
-            current_index = quiz_data['current_index']
-            if current_index >= quiz_data['total_questions'] - 1:
-                # Letzte Frage - zur Auswertung
-                quiz_data['completed'] = True # Sicherstellen, dass es gesetzt ist
-                session['quiz_data'] = quiz_data
-                return redirect(url_for('evaluate_quiz'))
-            else:
-                # Nächste Frage laden
-                quiz_data['current_index'] += 1
-                if 'options_order' in quiz_data:
-                    del quiz_data['options_order']
-                quiz_data['answered'] = False
-                session['quiz_data'] = quiz_data
-                return redirect(url_for('show_question'))
-        
         current_index = quiz_data['current_index']
         question = db.session.get(Question, quiz_data['questions'][current_index])
 
@@ -1525,9 +1508,19 @@ def next_question():
             del quiz_data['options_order']
         
         session['quiz_data'] = quiz_data
+
+        room_id = quiz_data.get('room_id')
+        if room_id:
+            print(f"Setze Timer für nächste Frage in Raum {room_id} zurück")
+
+            # 1. Stoppt den alten Timer UND löscht ihn aus dem 'active_timers'-Dict
+            stop_timer(room_id)
+            
+            # 2. Erstellt eine brandneue Timer-Instanz, da die alte gelöscht wurde
+            get_or_create_timer(room_id)
         
         # Frage als JSON zurückgeben
-        question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
+        question = db.session.get(Question, quiz_data['questions'][quiz_data['current_index']])
         options = [question.true, question.wrong1, question.wrong2, question.wrong3]
         random.shuffle(options)
         
@@ -2312,13 +2305,18 @@ def handle_disconnect():
         leave_room(room_id)
         del socket_rooms[request.sid]
 
-@socketio.on('reset_timer')
 def handle_reset_timer(data):
     room_id = data.get('room_id')
-    if room_id in active_timers:
-        active_timers[room_id].stop()
-        active_timers[room_id].start()
-        print(f"Timer für Raum {room_id} zurückgesetzt")
+    if not room_id:
+        return
+
+    # 1. Stoppt den alten Timer UND löscht ihn aus dem 'active_timers'-Dict
+    stop_timer(room_id)
+    
+    # 2. Erstellt eine brandneue Timer-Instanz, da die alte gelöscht wurde
+    get_or_create_timer(room_id)
+    
+    print(f"Timer für Raum {room_id} robust zurückgesetzt (via stop/create)")
 
 @socketio.on('join_quiz_session')
 def handle_join_quiz_session(data):

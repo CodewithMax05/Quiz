@@ -414,18 +414,6 @@
                     opt.classList.add('answered');
                 });
 
-                // URL bei manueller Antwort aktualisieren
-                const currentQuestionNumber = this.getCurrentQuestionNumber();
-                try {
-                    const newUrl = `/show_question?q=${currentQuestionNumber}&answered=true`;
-                    history.replaceState({ 
-                        question: currentQuestionNumber,
-                        answered: true 
-                    }, '', newUrl);
-                } catch (e) {
-                    console.warn('URL update nach manueller Antwort fehlgeschlagen:', e);
-                }
-
                 const selectedAnswer = element.dataset.answer.trim();
                 this.submitAnswer(selectedAnswer);
             }
@@ -494,18 +482,6 @@
                     opt.classList.add('disabled', 'answered');
                 });
 
-                // URL auch bei Timeout aktualisieren
-                const currentQuestionNumber = this.getCurrentQuestionNumber();
-                try {
-                    const newUrl = `/show_question?q=${currentQuestionNumber}&timeout=true`;
-                    history.replaceState({ 
-                        question: currentQuestionNumber,
-                        timeout: true 
-                    }, '', newUrl);
-                } catch (e) {
-                    console.warn('URL update nach Timeout fehlgeschlagen:', e);
-                }
-
                 this.submitAnswer('');
             }
 
@@ -524,18 +500,6 @@
                 this.updateScore(data.current_score, data.points_earned);
                 
                 this.highlightAnswers(data);
-
-                // URL SOFORT nach der Antwort aktualisieren
-                const currentQuestionNumber = this.getCurrentQuestionNumber();
-                try {
-                    const newUrl = `/show_question?q=${currentQuestionNumber}&answered=true`;
-                    history.replaceState({ 
-                        question: currentQuestionNumber,
-                        answered: true 
-                    }, '', newUrl);
-                } catch (e) {
-                    console.warn('URL update nach Antwort fehlgeschlagen:', e);
-                }
                 
                 const isLastQuestion = data.is_last_question || 
                     (this.getCurrentQuestionNumber() >= this.getTotalQuestions());
@@ -658,14 +622,6 @@
             }
 
             updateQuestion(data) {
-                // URL mit Frage-Nummer aktualisieren
-                try {
-                    const newUrl = `/show_question?q=${data.progress}`;
-                    history.replaceState({ question: data.progress }, '', newUrl);
-                } catch (e) {
-                    console.warn('URL update failed:', e);
-                }
-
                 const questionTextElement = document.querySelector('.question-text');
                 if (questionTextElement) {
                     questionTextElement.textContent = data.question;
@@ -698,16 +654,6 @@
 
                 this.hasAnswered = false;
                 this.selectedOption = null;
-                
-                const timerText = document.querySelector('.timer-text');
-                if (timerText) {
-                    timerText.textContent = '30';
-                }
-                const timerProgress = document.querySelector('.timer-progress');
-                if (timerProgress) {
-                    timerProgress.style.strokeDashoffset = '0';
-                    timerProgress.style.stroke = `rgb(0, 255, 0)`;
-                }
             }
 
             goToNextQuestion() {
@@ -719,7 +665,6 @@
                 const totalQuestions = parseInt(match[2]);
                 
                 if (currentQuestion < totalQuestions) {
-                    this.resetTimer();
                     this.loadNextQuestion();
                 } else {
                     console.log('Letzte Frage beantwortet - weiter zur Auswertung');
