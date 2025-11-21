@@ -51,26 +51,29 @@ document.addEventListener("DOMContentLoaded", () => {
         toggle.addEventListener('click', function () {
             const thisContent = this.nextElementSibling;
             const thisIcon = this.querySelector('i');
-            const isOpen = thisContent.style.maxHeight;
+            
+            // Prüfen, ob das angeklickte Element bereits offen ist
+            const isOpen = this.classList.contains('active');
 
-            // Schließe alle anderen News
+            // 1. Schließe alle anderen News
             newsToggles.forEach(other => {
                 if (other !== this) {
                     const content = other.nextElementSibling;
                     const icon = other.querySelector('i');
-                    content.style.maxHeight = null;
+                    
+                    content.classList.remove('open');
                     icon.style.transform = 'rotate(0deg)';
                     other.classList.remove('active');
                 }
             });
 
-            // Öffne/Schließe diese News
+            // 2. Öffne/Schließe diese News
             if (!isOpen) {
-                thisContent.style.maxHeight = thisContent.scrollHeight + "px";
+                thisContent.classList.add('open');
                 thisIcon.style.transform = 'rotate(180deg)';
                 this.classList.add('active');
             } else {
-                thisContent.style.maxHeight = null;
+                thisContent.classList.remove('open');
                 thisIcon.style.transform = 'rotate(0deg)';
                 this.classList.remove('active');
             }

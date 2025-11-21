@@ -101,7 +101,6 @@ h1.headline {
 
     display: flex;
     flex-direction: column; /* Items untereinander anordnen */
-    align-items: center;    /* Items horizontal zentrieren */
 }
 
 /* =======================================
@@ -148,6 +147,8 @@ h1.headline {
 .news-item {
     width: 90%; 
     margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .news-toggle {
@@ -194,11 +195,15 @@ h1.headline {
 .news-content {
     max-height: 0;
     overflow: hidden;
-    /* Entferne das Padding für die Transition, das wird jetzt durch ScrollHeight berechnet */
     transition: max-height 0.4s ease; 
     background: rgba(255, 255, 255, 0.05);
     margin-top: 5px;
     border-radius: 10px;
+}
+
+.news-content.open {
+    max-height: 300px; /* Genug Platz für die meisten Inhalte */
+    overflow-y: auto; /* Scrollbar, falls der Inhalt doch länger ist */
 }
 
 .news-text {
