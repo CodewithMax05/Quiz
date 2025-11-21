@@ -283,12 +283,7 @@ h1.headline {
     }
 }
 
-@media (max-width: 480px) {
-    .news-toggle {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
+@media (max-width: 480px) {    
     .news-date {
         margin: 5px 0 0 0;
         align-self: flex-end;
