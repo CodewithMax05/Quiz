@@ -193,16 +193,6 @@
                         } catch (e) {}
                     }
                 });
-
-                // Prüfe URL-Parameter für Modal
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('show_exit_modal') === 'true') {
-                    setTimeout(() => {
-                        this.showConfirmationModal();
-                        // URL bereinigen ohne Reload
-                        window.history.replaceState({ quiz: true }, '', window.location.pathname);
-                    }, 100);
-                }
             }
 
             beforeUnload(e) {
