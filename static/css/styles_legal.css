@@ -71,10 +71,7 @@ html, body {
     max-width: 700px;
     width: 100%;
     background: rgba(0, 0, 0, 0.3);
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding: 4rem 4rem;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     box-sizing: border-box;
@@ -269,6 +266,11 @@ html, body {
 @media (max-width: 768px) {
     .legal-box {
         max-width: 500px;
+        padding: 2rem 4rem;
+    }
+
+    .legal-title {
+        font-size: 2rem;
     }
 
     .info-row {
@@ -297,6 +299,14 @@ html, body {
 }
 
 @media (max-width: 480px) {
+    .legal-box {
+        padding: 2rem 2rem;
+    }
+
+    .legal-title {
+        font-size: 2rem;
+    }
+
     /* Stapelt Header-Inhalt (Bild über Text) nur auf kleinen Bildschirmen */
     .legal-header-content {
         flex-direction: column;
