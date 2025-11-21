@@ -162,6 +162,7 @@ class QuizTimer:
         self.lock = Lock()
         self.start_time = None
         self.greenlet = None
+        self.timed_out = False
 
     def start(self):
         with self.lock:
@@ -170,6 +171,7 @@ class QuizTimer:
             self.is_running = True
             self.start_time = time.time()
             self.time_left = self.duration
+            self.timed_out = False
             # Starte den Timer in einem Greenlet
             self.greenlet = spawn(self._run_timer)
 
@@ -196,11 +198,15 @@ class QuizTimer:
                 # Zeit abgelaufen?
                 if self.time_left <= 0:
                     try:
+                        # NUR das Socket-Event senden
                         self.socketio.emit('time_out', room=self.room_id)
                     except Exception as e:
                         print(f"Fehler beim Timeout: {e}")
+                    
+                    # Flags setzen
                     self.is_running = False
-                    break
+                    self.timed_out = True  # <-- WICHTIG!
+                    break # Loop beenden
             
             # Exakt 1 Sekunde warten
             next_update = start_time + (30 - self.time_left + 1)
@@ -820,7 +826,7 @@ def accept_agb():
         user = None
         user_id = pending.get('user_id')
         if user_id:
-            user = User.query.get(user_id)
+            user = db.session.get(User, user_id)
         else:
             user = User.query.filter_by(username=pending.get('username')).first()
 
@@ -1320,12 +1326,39 @@ def show_question():
         # Prüfe ob das Quiz bereits beendet wurde
         if quiz_data.get('completed', False):
             return redirect(url_for('evaluate_quiz'))
+
+        # Stattdessen holen wir nur noch die time_left (falls vorhanden)
+        room_id = quiz_data.get('room_id')
+        time_left = 30
+        
+        if room_id:
+            with timer_lock:
+                timer = active_timers.get(room_id)
+                if timer:
+                    # PRÜFUNG: Ist der Timer abgelaufen UND hat die Session es noch nicht mitbekommen?
+                    if timer.timed_out and not quiz_data.get('answered', False):
+                        print(f"Sitzung desynchronisiert für Raum {room_id}. Korrigiere serverseitig...")
+                        
+                        result = _process_answer(room_id, '', 0) 
+                        
+                        if 'error' in result:
+                            print(f"Fehler bei Sitzungs-Heilung: {result['error']}")
+                        else:
+                            quiz_data = session['quiz_data'] 
+                        
+                        timer.timed_out = False 
+
+                    elif timer.is_running:
+                        # Timer läuft normal, hole verbleibende Zeit
+                        time_left = timer.get_time_left()
         
         # Wenn Frage bereits beantwortet wurde, leite direkt zur nächsten Frage weiter
         if quiz_data.get('answered', False):
             current_index = quiz_data['current_index']
             if current_index >= quiz_data['total_questions'] - 1:
                 # Letzte Frage - zur Auswertung
+                quiz_data['completed'] = True # Sicherstellen, dass es gesetzt ist
+                session['quiz_data'] = quiz_data
                 return redirect(url_for('evaluate_quiz'))
             else:
                 # Nächste Frage laden
@@ -1337,7 +1370,7 @@ def show_question():
                 return redirect(url_for('show_question'))
         
         current_index = quiz_data['current_index']
-        question = Question.query.get(quiz_data['questions'][current_index])
+        question = db.session.get(Question, quiz_data['questions'][current_index])
 
         if not question:
             flash('Frage nicht gefunden.', 'error')
@@ -1352,16 +1385,6 @@ def show_question():
             options = quiz_data['options_order']
         
         was_correct = session.pop('last_answer_correct', False)
-        
-        # Berechne die verbleibende Zeit vom Server-Timer
-        room_id = quiz_data.get('room_id')
-        time_left = 30
-        
-        if room_id:
-            with timer_lock:
-                timer = active_timers.get(room_id)
-                if timer and timer.is_running:
-                    time_left = timer.get_time_left()
 
         # Prüfe ob Modal angezeigt werden soll (bei versuchtem Seitenwechsel)
         show_exit_modal = request.args.get('show_exit_modal') == 'true'
@@ -1416,7 +1439,7 @@ def check_answer():
         quiz_data = session['quiz_data']
         current_index = quiz_data['current_index']
         question_id = quiz_data['questions'][current_index]
-        question = Question.query.get(question_id)
+        question = db.session.get(Question, question_id)
         
         if not question:
             return jsonify({'error': 'Question not found'}), 404
@@ -1467,6 +1490,20 @@ def next_question():
             return jsonify({'redirect': url_for('homepage')})
         
         quiz_data = session['quiz_data']
+
+        if 'answered' not in quiz_data or not quiz_data['answered']:
+            print(f"WARNUNG: next_question ohne 'answered'-Flag aufgerufen. User: {session['username']}")
+            # Sende die aktuellen Daten einfach nochmal, ohne den Index zu erhöhen
+            question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
+            options = quiz_data.get('options_order', [question.true, question.wrong1, question.wrong2, question.wrong3])
+            
+            return jsonify({
+                'question': question.question,
+                'options': options,
+                'progress': quiz_data['current_index'] + 1,
+                'total_questions': quiz_data['total_questions'],
+                'score': quiz_data['score']
+            })
         
         # Entferne "answered" Flag
         if 'answered' in quiz_data:
@@ -2300,33 +2337,41 @@ def handle_join_quiz_session(data):
     # Aktuellen Timer-Stand senden
     print(f"Client {request.sid} hat Raum {room_id} betreten, Timer läuft")
 
-@socketio.on('submit_answer')
-def handle_submit_answer(data):
+def _process_answer(room_id, user_answer, time_left):
+    """
+    Zentrale Logik zur Verarbeitung einer Antwort (ob per Socket oder Timeout).
+    Aktualisiert die Session und gibt ein Ergebnis-Wörterbuch zurück.
+    
+    WICHTIG: Diese Funktion MUSS innerhalb eines app.app_context() 
+    oder einer aktiven Anfrage aufgerufen werden, um Zugriff auf 'session' zu haben.
+    """
     try:
-        room_id = data.get('room_id')
-        user_answer = data.get('answer', '')
-        
-        if not room_id or 'quiz_data' not in session:
-            emit('answer_result', {'error': 'Session expired'})
-            return
+        if 'quiz_data' not in session:
+            print(f"Fehler in _process_answer: Keine quiz_data in Session für Raum {room_id}")
+            return {'error': 'Session expired'}
             
         quiz_data = session['quiz_data']
+        
+        # Verhindere doppelte Verarbeitung
+        if quiz_data.get('answered', False):
+            print(f"WARNUNG: _process_answer für Raum {room_id} aufgerufen, aber 'answered' ist bereits True.")
+            # Gib die Daten der bereits verarbeiteten Antwort zurück (defensiv)
+            return {
+                'is_correct': session.get('last_answer_correct', False),
+                'correct_answer': session.get('last_correct_answer', ''),
+                'points_earned': session.get('last_points_earned', 0),
+                'current_score': quiz_data['score'],
+                'time_left': time_left,
+                'user_answer': user_answer,
+                'is_last_question': (quiz_data['current_index'] >= quiz_data['total_questions'] - 1) 
+            }
+
         current_index = quiz_data['current_index']
         question_id = quiz_data['questions'][current_index]
-        question = Question.query.get(question_id)
+        question = db.session.get(Question, question_id)
         
         if not question:
-            emit('answer_result', {'error': 'Question not found'})
-            return
-        
-        # Timer stoppen für diesen Raum
-        with timer_lock:
-            timer = active_timers.get(room_id)
-            if timer:
-                time_left = timer.get_time_left()
-                timer.stop()
-            else:
-                time_left = 0
+            return {'error': 'Question not found'}
         
         # Antwort prüfen
         is_correct = user_answer == question.true
@@ -2343,15 +2388,20 @@ def handle_submit_answer(data):
 
         new_score = quiz_data['score'] + points_earned
         quiz_data['score'] = new_score
-        quiz_data['answered'] = True
+        quiz_data['answered'] = True # <--- WICHTIG!
 
         if current_index >= quiz_data['total_questions'] - 1:
             quiz_data['completed'] = True
 
-        session['quiz_data'] = quiz_data
+        # Für defensive Prüfung in Schritt 2
+        session['last_answer_correct'] = is_correct
+        session['last_correct_answer'] = question.true
+        session['last_points_earned'] = points_earned
         
-        # Ergebnis an Client senden
-        emit('answer_result', {
+        session['quiz_data'] = quiz_data
+        session.modified = True # Explizit speichern
+        
+        return {
             'is_correct': is_correct,
             'correct_answer': question.true,
             'points_earned': points_earned,
@@ -2359,13 +2409,50 @@ def handle_submit_answer(data):
             'time_left': time_left,
             'user_answer': user_answer,
             'is_last_question': (current_index >= quiz_data['total_questions'] - 1) 
-        })
+        }
     except (SQLAlchemyError, OperationalError) as e:
-        print(f"Datenbankfehler in submit_answer: {str(e)}")
-        emit('answer_result', {'error': 'Datenbankfehler aufgetreten'})
+        db.session.rollback()
+        print(f"Datenbankfehler in _process_answer: {str(e)}")
+        return {'error': 'Datenbankfehler aufgetreten'}
     except Exception as e:
-        print(f"Unerwarteter Fehler in submit_answer: {str(e)}")
-        emit('answer_result', {'error': 'Ein unerwarteter Fehler ist aufgetreten'})
+        db.session.rollback()
+        print(f"Unerwarteter Fehler in _process_answer: {str(e)}")
+        return {'error': 'Ein unerwarteter Fehler ist aufgetreten'}
+
+@socketio.on('submit_answer')
+def handle_submit_answer(data):
+    try:
+        room_id = data.get('room_id')
+        user_answer = data.get('answer', '')
+        
+        if not room_id or 'quiz_data' not in session:
+            emit('answer_result', {'error': 'Session expired'})
+            return
+            
+        # Timer stoppen für diesen Raum
+        with timer_lock:
+            timer = active_timers.get(room_id)
+            if timer:
+                time_left = timer.get_time_left()
+                timer.stop()
+                timer.timed_out = False # <-- WICHTIG: Flag hier zurücksetzen
+            else:
+                time_left = 0
+        
+        # Antwort in der Session verarbeiten (greift auf 'session' zu)
+        result = _process_answer(room_id, user_answer, time_left)
+        
+        # Ergebnis an Client senden
+        emit('answer_result', result)
+
+    except (SQLAlchemyError, OperationalError) as e:
+        db.session.rollback()
+        print(f"Datenbankfehler in _process_answer: {str(e)}")
+        return {'error': 'Datenbankfehler aufgetreten'}
+    except Exception as e:
+        db.session.rollback()
+        print(f"Unerwarteter Fehler in _process_answer: {str(e)}")
+        return {'error': 'Ein unerwarteter Fehler ist aufgetreten'}
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
