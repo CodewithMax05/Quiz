@@ -1477,7 +1477,7 @@ def next_question():
         if 'answered' not in quiz_data or not quiz_data['answered']:
             print(f"WARNUNG: next_question ohne 'answered'-Flag aufgerufen. User: {session['username']}")
             # Sende die aktuellen Daten einfach nochmal, ohne den Index zu erhöhen
-            question = Question.query.get(quiz_data['questions'][quiz_data['current_index']])
+            question = db.session.get(Question, quiz_data['questions'][quiz_data['current_index']])
             options = quiz_data.get('options_order', [question.true, question.wrong1, question.wrong2, question.wrong3])
             
             return jsonify({
@@ -2028,7 +2028,7 @@ def news_admin():
             elif action == "edit":
                 news_id = request.form.get("news_id")
                 if news_id:
-                    entry = News.query.get(int(news_id))
+                    entry = db.session.get(News, int(news_id))
                     if entry:
                         entry.title = request.form.get("title", "").strip()
                         entry.content = request.form.get("content", "").strip()
@@ -2038,7 +2038,7 @@ def news_admin():
             elif action == "delete":
                 news_id = request.form.get("news_id")
                 if news_id:
-                    entry = News.query.get(int(news_id))
+                    entry = db.session.get(News, int(news_id))
                     if entry:
                         db.session.delete(entry)
                         db.session.commit()
@@ -2147,7 +2147,9 @@ def ticket_create():
 def ticket_detail(ticket_id):
     """Zeigt das Detail eines Tickets (Chat) an und verarbeitet neue Nachrichten."""
     try:
-        ticket = Ticket.query.get_or_404(ticket_id)
+        ticket = db.session.get(Ticket, ticket_id)
+        if ticket is None:
+            abort(404)
         
         user = User.query.filter_by(username=session['username']).first()
         if not user:
@@ -2233,7 +2235,9 @@ def admin_toggle_ticket_status(ticket_id):
             flash('Zugriff verweigert: Admin-Bereich', 'error')
             return redirect(url_for('homepage'))
 
-        ticket = Ticket.query.get_or_404(ticket_id)
+        ticket = db.session.get(Ticket, ticket_id)
+        if ticket is None:
+            abort(404)
         
         # Nur offene Tickets können geschlossen werden
         if ticket.status == 'open':
@@ -2262,7 +2266,9 @@ def admin_delete_ticket(ticket_id):
             flash('Zugriff verweigert: Admin-Bereich', 'error')
             return redirect(url_for('homepage'))
 
-        ticket = Ticket.query.get_or_404(ticket_id)
+        ticket = db.session.get(Ticket, ticket_id)
+        if ticket is None:
+            abort(404)
         
         # Nur geschlossene Tickets können gelöscht werden
         if ticket.status != 'closed':
