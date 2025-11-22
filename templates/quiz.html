@@ -127,61 +127,29 @@
                 }
 
                 window.addEventListener('popstate', (event) => {
+                    if (this.allowNavigation) return;
+
+                    const state = event.state || {};
+                    // Wenn Modal bereits offen ist, abbrechen:
+                    if (this.isModalOpen) {
+                        // Zweiter Back-Klick bei offenem Modal: Quiz abbrechen
+                        this.confirmCancel(true);
+                        return;
+                    }
+
+                    // Modal nicht offen: Modal anzeigen und neuen Blocker-State anlegen
+                    this.modalOpenedByPopstate = true;
+                    this.showConfirmationModal();
                     try {
-                        if (this.allowNavigation) {
-                            // Wenn Navigation erlaubt ist, nichts blocken.
-                            return;
-                        }
-
-                        const state = event.state || {};
-
-                        // Wenn state.blocker === true => wir sind in einem unserer "geschützten" States.
-                        // Sonst ggf. normale Navigation (nicht blocken).
-                        const isBlockerState = !!state.blocker;
-
-                        // 1) Modal offen:
-                        if (this.isModalOpen) {
-                            // Wenn wir im Blocker-State sind UND das Modal durch Popstate geöffnet wurde,
-                            // interpretieren wir das als "zweiter Back" => confirmCancel.
-                            if (isBlockerState && this.modalOpenedByPopstate) {
-                                this.confirmCancel(true);
-                                return;
-                            }
-                            // Andernfalls (Modal ist offen, aber nicht per Popstate geöffnet),
-                            // behandeln wir Back ebenfalls als Abbruch (sicherer Default).
-                            this.confirmCancel(true);
-                            return;
-                        }
-
-                        // 2) Modal nicht offen:
-                        if (isBlockerState) {
-                            // Popstate kam in einen Blocker-State: öffne Modal **als Folge** dieses popstate
-                            // und markiere, dass das Modal durch Popstate geöffnet wurde.
-                            this.modalOpenedByPopstate = true;
-                            this.showConfirmationModal();
-
-                            // Wenn State enthält 'q', stelle sicher, dass URL die canonical q enthält
-                            try {
-                                const curBase = this.getCurrentBaseUrl();
-                                history.replaceState({ quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, document.title, curBase);
-                            } catch (e) {
-                                console.warn('replaceState after showConfirmationModal failed:', e);
-                            }
-                            return;
-                        }
-
-                        // 3) Kein blocker state -> normale Navigation (oder wir schützen trotzdem)
-                        // Als Fallback: zeige Modal und push blocker (ähnlich wie oben)
-                        this.modalOpenedByPopstate = true;
-                        this.showConfirmationModal();
-                        try {
-                            const curBase = this.getCurrentBaseUrl();
-                            history.pushState({ quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, document.title, curBase);
-                        } catch (e) {
-                            console.warn('pushState fallback failed:', e);
-                        }
+                        const curBase = this.getCurrentBaseUrl();
+                        // Neuen History-Eintrag setzen (blocker: true)
+                        history.pushState(
+                            { quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, 
+                            document.title, 
+                            curBase
+                        );
                     } catch (e) {
-                        console.error('popstate handler error:', e);
+                        console.warn('history.pushState fehlgeschlagen:', e);
                     }
                 });
             }
