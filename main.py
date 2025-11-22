@@ -1323,6 +1323,23 @@ def show_question():
         
         quiz_data = session['quiz_data']
 
+        # URL-Parameter q handling: 1-basierter Index
+        q_param = request.args.get('q')
+        if q_param is not None:
+            try:
+                q_index = int(q_param) - 1
+            except ValueError:
+                flash('Ungültiger Frage-Parameter.', 'error')
+                return redirect(url_for('homepage'))
+
+            # Bereichsprüfung
+            if q_index < 0 or q_index >= quiz_data.get('total_questions', 0):
+                flash('Frage nicht gefunden.', 'error')
+                return redirect(url_for('homepage'))
+
+            if q_index != quiz_data.get('current_index', 0):
+                return redirect(url_for('show_question', q=quiz_data['current_index'] + 1))
+
         # Prüfe ob das Quiz bereits beendet wurde
         if quiz_data.get('completed', False):
             return redirect(url_for('evaluate_quiz'))
