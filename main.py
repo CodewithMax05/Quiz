@@ -595,11 +595,25 @@ def prevent_quiz_exit(f):
         
         # Prüfe ob ein aktives Quiz läuft und ob es nicht abgeschlossen ist
         if 'quiz_data' in session and not session['quiz_data'].get('completed', False):
-            # Speichere das gewünschte Ziel in der Session
-            target_route = request.endpoint
-            session['pending_navigation'] = target_route
-            # Redirect zurück zur Quiz-Seite mit Modal-Trigger
-            return redirect(url_for('show_question', show_exit_modal='true'))
+            # WICHTIG: Nur für GET-Requests redirecten
+            # POST-Requests (wie cancel_quiz) sollten durchgelassen werden
+            if request.method == 'GET':
+                # Prüfe ob wir bereits auf show_question sind
+                if request.endpoint == 'show_question':
+                    # Bereits auf Quiz-Seite, erlaube Zugriff
+                    return f(*args, **kwargs)
+                
+                # User versucht Quiz zu verlassen
+                print(f"prevent_quiz_exit: User versucht von {request.endpoint} wegzunavigieren")
+                
+                # Hole aktuelle Frage
+                quiz_data = session.get('quiz_data', {})
+                current_q = quiz_data.get('current_index', 0) + 1
+                
+                # Redirect zur aktuellen Quiz-Frage MIT Modal-Parameter
+                # WICHTIG: Keine Flash-Nachricht, da das Modal die Kommunikation übernimmt
+                return redirect(url_for('show_question', q=current_q, show_exit_modal='true'))
+        
         return f(*args, **kwargs)
     return decorated_function
 
@@ -1344,7 +1358,7 @@ def show_question():
         if quiz_data.get('completed', False):
             return redirect(url_for('evaluate_quiz'))
 
-        # Stattdessen holen wir nur noch die time_left (falls vorhanden)
+        # Timer-Zeit holen
         room_id = quiz_data.get('room_id')
         time_left = 30
         
@@ -1352,21 +1366,15 @@ def show_question():
             with timer_lock:
                 timer = active_timers.get(room_id)
                 if timer:
-                    # PRÜFUNG: Ist der Timer abgelaufen UND hat die Session es noch nicht mitbekommen?
                     if timer.timed_out and not quiz_data.get('answered', False):
                         print(f"Sitzung desynchronisiert für Raum {room_id}. Korrigiere serverseitig...")
-                        
                         result = _process_answer(room_id, '', 0) 
-                        
                         if 'error' in result:
                             print(f"Fehler bei Sitzungs-Heilung: {result['error']}")
                         else:
                             quiz_data = session['quiz_data'] 
-                        
                         timer.timed_out = False 
-
                     elif timer.is_running:
-                        # Timer läuft normal, hole verbleibende Zeit
                         time_left = timer.get_time_left()
         
         current_index = quiz_data['current_index']
@@ -1386,13 +1394,11 @@ def show_question():
         
         was_correct = session.pop('last_answer_correct', False)
 
-        # Prüfe ob Modal angezeigt werden soll (bei versuchtem Seitenwechsel)
+        # WICHTIG: Prüfe auf show_exit_modal Parameter
+        # Dieser Parameter signalisiert, dass das Modal geöffnet werden soll
         show_exit_modal = request.args.get('show_exit_modal') == 'true'
-        pending_navigation = session.get('pending_navigation', '')
-
-        # Wenn show_exit_modal gesetzt ist, entferne pending_navigation aus der Session
-        if show_exit_modal:
-            session.pop('pending_navigation', None)
+        
+        print(f"show_question: show_exit_modal={show_exit_modal}, current_index={current_index}")
         
         response = make_response(render_template(
             'quiz.html',
@@ -1405,11 +1411,9 @@ def show_question():
             was_correct=was_correct,
             room_id=room_id,
             time_left=time_left,
-            show_exit_modal=show_exit_modal,
-            pending_navigation=pending_navigation
+            show_exit_modal=show_exit_modal  # An Template übergeben
         ))
         
-        # Cache-Header für Quiz-Seite
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'

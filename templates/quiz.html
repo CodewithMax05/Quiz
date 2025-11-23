@@ -48,7 +48,8 @@
         <div class="quiz-container-wide" 
             data-was-correct="{{ 'true' if was_correct else 'false' }}"
             data-room-id="{{ room_id }}"
-            data-initial-time-left="{{ time_left }}">
+            data-initial-time-left="{{ time_left }}"
+            data-show-exit-modal="{{ 'true' if show_exit_modal else 'false' }}">
             <div class="question-box">
                 <div class="question-text">
                     {{ question.question }}
@@ -88,12 +89,8 @@
                 this.confirmationModal = null;
                 this.isModalOpen = false;
                 this.pendingVisibilityChange = false;
-                this.allowNavigation = false; 
-                this.beforeUnloadHandler = this.beforeUnload.bind(this);
+                this.allowNavigation = false;
                 
-                // NEU: Wichtig, um die "Weiterspielen"-Logik zu steuern
-                this.modalOpenedByPopstate = false; 
-
                 console.log('Quiz Manager initialisiert für Raum:', this.roomId);
 
                 try {
@@ -117,63 +114,60 @@
             }
 
             setupBrowserNavigation() {
-                // 1) Initial canonical replace
-                const baseUrl = this.getCurrentBaseUrl();
+                // Bereinige URL von show_exit_modal Parameter
+                const cleanUrl = this.getCurrentBaseUrl();
                 try {
-                    history.replaceState({ quiz: true, q: this.getCurrentQuestionNumber(), blocker: false }, document.title, baseUrl);
-                    // 2) Push einen separaten Blocker-State
-                    history.pushState({ quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, document.title, baseUrl);
+                    history.replaceState(
+                        { quiz: true, q: this.getCurrentQuestionNumber() }, 
+                        document.title, 
+                        cleanUrl
+                    );
+                    console.log('Initial state replaced:', cleanUrl);
                 } catch (e) {
                     console.warn('History initialisation failed:', e);
                 }
 
+                // Popstate Handler - EINZIGER Mechanismus für Back-Button
                 window.addEventListener('popstate', (event) => {
-                    if (this.allowNavigation) return;
-
-                    if (this.isModalOpen) {
-                        // Szenario: Modal ist offen, User klickt "Back" #2.
-                        console.log('Popstate: Modal offen. Blockiere "Back" und starte Abbruch.');
-
-                        // 1. SOFORT "forward" aufrufen, um die "Back"-Navigation
-                        //    zu kontern und auf dem [blocker: true] state zu bleiben.
-                        //    Das stoppt die Neuladung der Seite.
-                        try {
-                            history.forward();
-                        } catch (e) {
-                            console.warn('history.forward() in popstate failed:', e);
-                        }
-                        
-                        // 2. Jetzt, da die Seite nicht neu lädt,
-                        //    rufe confirmCancel() auf, das den fetch()
-                        //    ausführt und DANN per JS weiterleitet.
-                        this.confirmCancel(); 
+                    console.log('=== POPSTATE EVENT ===');
+                    console.log('Modal open:', this.isModalOpen);
+                    console.log('Allow navigation:', this.allowNavigation);
+                    
+                    // Wenn Navigation bereits erlaubt ist, nichts tun
+                    if (this.allowNavigation) {
+                        console.log('Navigation allowed, doing nothing');
                         return;
                     }
 
-                    // Szenario: Modal ist nicht offen, User klickt "Back" #1.
-                    // (Dieser Teil wird jetzt vom Server-Redirect gehandhabt,
-                    // aber wir lassen ihn als Fallback drin)
-                    console.log('Popstate: Modal geschlossen, zeige Modal.');
-                    this.modalOpenedByPopstate = true;
+                    // WICHTIG: Wenn Modal offen ist, BEENDE das Quiz
+                    if (this.isModalOpen) {
+                        console.log('*** Modal ist offen - BEENDE QUIZ ***');
+                        this.confirmCancel();
+                        return;
+                    }
+
+                    // Modal ist geschlossen - zeige es an
+                    console.log('*** Modal ist geschlossen - ZEIGE MODAL ***');
                     this.showConfirmationModal();
                     
+                    // Erstelle einen neuen State, damit der nächste Back das Modal nicht schließt
                     try {
-                        const curBase = this.getCurrentBaseUrl();
-                        // Blocker-State wieder anlegen
+                        const trapUrl = this.getCurrentBaseUrl();
                         history.pushState(
-                            { quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, 
+                            { quiz: true, q: this.getCurrentQuestionNumber() }, 
                             document.title, 
-                            curBase
+                            trapUrl
                         );
+                        console.log('Pushed trap state');
                     } catch (e) {
-                        console.error('FEHLER beim pushState (popstate, modal closed):', e);
+                        console.error('Failed to push trap state:', e);
                     }
                 });
             }
 
             setupGlobalEventListeners() {
-                window.addEventListener('beforeunload', this.beforeUnloadHandler);
-
+                // KEIN beforeunload mehr - das verursacht den Browser-Dialog!
+                
                 document.addEventListener('visibilitychange', () => {
                     if (document.visibilityState === 'hidden' && !this.hasAnswered && !this.isModalOpen && !this.allowNavigation) {
                         this.pendingVisibilityChange = true;
@@ -193,90 +187,107 @@
                 const cancelBtn = document.getElementById('cancelQuizBtn');
                 
                 cancelBtn.addEventListener('click', () => {
-                    // Markiere, dass das Modal manuell geöffnet wurde
-                    this.modalOpenedByPopstate = false;
+                    console.log('Cancel button clicked');
                     this.showConfirmationModal();
+                    // Pushe einen State, damit Back das Quiz beendet
+                    try {
+                        const trapUrl = this.getCurrentBaseUrl();
+                        history.pushState(
+                            { quiz: true, q: this.getCurrentQuestionNumber() }, 
+                            document.title, 
+                            trapUrl
+                        );
+                        console.log('Pushed trap state after cancel button');
+                    } catch (e) {
+                        console.warn('Failed to push trap state:', e);
+                    }
                 });
                 
                 document.getElementById('confirmCancelBtn').addEventListener('click', () => {
-                    // Der Parameter `fromPopstate` wurde entfernt, er wurde nicht benötigt.
+                    console.log('Confirm cancel clicked');
                     this.confirmCancel();
                 });
                 
                 document.getElementById('dismissCancelBtn').addEventListener('click', () => {
-                    // KORRIGIERTE LOGIK:
+                    console.log('Dismiss clicked');
                     this.hideConfirmationModal();
-                    if (this.modalOpenedByPopstate) {
-                        // Wenn "Back" das Modal geöffnet hat, müssen wir
-                        // `history.forward()` nutzen, um zum Blocker-State zurückzukehren.
-                        try {
-                            history.forward();
-                        } catch (e) { console.warn('history.forward failed', e); }
+                    
+                    // Pushe einen neuen Trap-State
+                    try {
+                        const trapUrl = this.getCurrentBaseUrl();
+                        history.pushState(
+                            { quiz: true, q: this.getCurrentQuestionNumber() }, 
+                            document.title, 
+                            trapUrl
+                        );
+                        console.log('Pushed new trap state after dismiss');
+                    } catch (e) {
+                        console.warn('Failed to push trap state after dismiss:', e);
                     }
-                    // Wichtig: Flag immer zurücksetzen
-                    this.modalOpenedByPopstate = false;
                 });
                 
                 this.confirmationModal.addEventListener('click', (e) => {
                     if (e.target === this.confirmationModal) {
-                        // DIESELBE KORRIGIERTE LOGIK wie bei dismissCancelBtn
+                        console.log('Modal background clicked');
                         this.hideConfirmationModal();
-                        if (this.modalOpenedByPopstate) {
-                            try {
-                                history.forward();
-                            } catch (e) { console.warn('history.forward failed', e); }
+                        
+                        try {
+                            const trapUrl = this.getCurrentBaseUrl();
+                            history.pushState(
+                                { quiz: true, q: this.getCurrentQuestionNumber() }, 
+                                document.title, 
+                                trapUrl
+                            );
+                            console.log('Pushed new trap state after background click');
+                        } catch (e) {
+                            console.warn('Failed to push trap state:', e);
                         }
-                        this.modalOpenedByPopstate = false;
                     }
                 });
                 
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && this.isModalOpen) {
-                        // DIESELBE KORRIGIERTE LOGIK wie bei dismissCancelBtn
+                        console.log('ESC pressed');
                         this.hideConfirmationModal();
-                        if (this.modalOpenedByPopstate) {
-                            try {
-                                history.forward();
-                            } catch (e) { console.warn('history.forward failed', e); }
+                        
+                        try {
+                            const trapUrl = this.getCurrentBaseUrl();
+                            history.pushState(
+                                { quiz: true, q: this.getCurrentQuestionNumber() }, 
+                                document.title, 
+                                trapUrl
+                            );
+                            console.log('Pushed new trap state after ESC');
+                        } catch (e) {
+                            console.warn('Failed to push trap state:', e);
                         }
-                        this.modalOpenedByPopstate = false;
                     }
                 });
             }
 
-            beforeUnload(e) {
-                if (!this.allowNavigation && !this.hasAnswered && !this.isModalOpen) {
-                    e.preventDefault();
-                    e.returnValue = '';
-                    this.showConfirmationModal();
-                    return '';
-                }
-            }
-
-            removeBeforeUnloadHandler() {
-                window.removeEventListener('beforeunload', this.beforeUnloadHandler);
-                window.onbeforeunload = null;
-            }
-
             showConfirmationModal() {
+                console.log('=== SHOWING MODAL ===');
                 if (this.confirmationModal) {
                     this.confirmationModal.style.display = 'flex';
                     this.isModalOpen = true;
                     document.body.style.overflow = 'hidden';
+                    console.log('Modal is now open, isModalOpen =', this.isModalOpen);
                 }
             }
 
             hideConfirmationModal() {
+                console.log('=== HIDING MODAL ===');
                 if (this.confirmationModal) {
                     this.confirmationModal.style.display = 'none';
                     this.isModalOpen = false;
                     document.body.style.overflow = '';
+                    console.log('Modal is now closed, isModalOpen =', this.isModalOpen);
                 }
             }
 
-            confirmCancel() { // Parameter entfernt
+            confirmCancel() {
+                console.log('=== CONFIRMING CANCEL ===');
                 this.allowNavigation = true;
-                this.removeBeforeUnloadHandler();
 
                 try {
                     sessionStorage.setItem('quiz_cancelled_intentionally', '1');
@@ -286,42 +297,30 @@
                 }
 
                 this.hideConfirmationModal();
-                this.modalOpenedByPopstate = false;
 
                 if (this.socket) {
                     this.socket.disconnect();
                 }
 
-                // Sende Abbruch-Request an den Server.
-                try {
-                    const csrfEl = document.querySelector('input[name="csrf_token"]');
-                    const csrfToken = csrfEl ? csrfEl.value : '';
-                    // Sicherstellen, dass CSRF-Token als Form-Daten gesendet wird
-                    const body = new URLSearchParams();
-                    body.append('csrf_token', csrfToken);
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const body = new URLSearchParams();
+                body.append('csrf_token', csrfToken);
 
-
-                    fetch("{{ url_for('cancel_quiz') }}", {
-                        method: 'POST',
-                        headers: {
-                            // X-CSRFToken ist nicht nötig, wenn es im Body ist
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: body.toString() // Korrekt als String senden
-                    }).then(response => {
-                        return response.json().catch(() => ({}));
-                    }).then(data => {
-                        // ERST JETZT, nachdem der Server geantwortet hat,
-                        // leiten wir zur Homepage weiter.
-                        window.location.href = data.redirect || "{{ url_for('homepage') }}";
-                    }).catch(error => {
-                        console.error('Fehler beim Abbrechen des Quiz:', error);
-                        window.location.href = "{{ url_for('homepage') }}";
-                    });
-                } catch (e) {
-                    console.error('confirmCancel: unexpected error', e);
+                fetch("{{ url_for('cancel_quiz') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: body.toString()
+                }).then(response => {
+                    return response.json().catch(() => ({}));
+                }).then(data => {
+                    console.log('Quiz cancelled, redirecting to:', data.redirect);
+                    window.location.href = data.redirect || "{{ url_for('homepage') }}";
+                }).catch(error => {
+                    console.error('Fehler beim Abbrechen des Quiz:', error);
                     window.location.href = "{{ url_for('homepage') }}";
-                }
+                });
             }
 
             keepSessionAlive() {
@@ -330,7 +329,7 @@
                         fetch('/quiz_session_status')
                             .catch(error => console.log('Session keep-alive fehlgeschlagen:', error));
                     }
-                }, 60000); 
+                }, 60000);
             }
 
             initializeSocket() {
@@ -555,7 +554,6 @@
                         console.warn('sessionStorage remove failed:', e);
                     }
                     this.allowNavigation = true;
-                    this.removeBeforeUnloadHandler();
                     setTimeout(() => {
                         window.location.href = "{{ url_for('evaluate_quiz') }}";
                     }, 1500);
@@ -622,16 +620,7 @@
                 });
             }
 
-            resetTimer() {
-                if (this.isConnected) {
-                    this.socket.emit('reset_timer', {
-                        room_id: this.roomId
-                    });
-                }
-            }
-
             loadNextQuestion() {
-                // HINWEIS: CSRF-Token wird jetzt aus dem Meta-Tag geholt
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
                 fetch('/next_question', {
@@ -640,11 +629,10 @@
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrfToken
                     },
-                    body: JSON.stringify({}) // Leerer Body ist ok
+                    body: JSON.stringify({})
                 })
                 .then(response => {
                     if (!response.ok) {
-                        // Bei 405 oder 400 Fehler (z.B. Session abgelaufen)
                         if (response.status === 400 || response.status === 405) {
                             window.location.href = "{{ url_for('homepage') }}";
                         }
@@ -656,19 +644,15 @@
                     if (data.redirect) {
                         window.location.href = data.redirect;
                     } else if (data.error) {
-                        // Falls der Server einen JSON-Fehler schickt
                         console.error('Fehler vom Server:', data.error);
                         window.location.href = "{{ url_for('homepage') }}";
                     }
                     else {
                         this.updateQuestion(data);
-                        // Timer muss serverseitig zurückgesetzt werden (passiert in next_question Route)
-                        // Wir müssen hier nichts mehr resetten.
                     }
                 })
                 .catch(error => {
                     console.error('Fehler beim Laden der nächsten Frage:', error);
-                    // Fallback
                     window.location.href = "{{ url_for('homepage') }}";
                 });
             }
@@ -691,7 +675,6 @@
                         optionsGrid.appendChild(optionElement);
                     });
 
-                    // Wichtig: Event-Listener für die *neuen* Optionen setzen
                     this.setupEventListeners();
                 }
 
@@ -708,14 +691,12 @@
                 this.hasAnswered = false;
                 this.selectedOption = null;
 
-                // update browser URL to current question (1-based)
                 try {
                     const newUrl = `/show_question?q=${data.progress}`;
-                    // WICHTIG: Wir müssen den *Blocker* neu aufbauen
-                    history.replaceState({ quiz: true, q: data.progress, blocker: false }, document.title, newUrl);
-                    history.pushState({ quiz: true, q: data.progress, blocker: true }, document.title, newUrl);
+                    history.replaceState({ quiz: true, q: data.progress }, document.title, newUrl);
+                    console.log('Updated URL to:', newUrl);
                 } catch (e) {
-                    console.warn('history.pushState für nächste Frage fehlgeschlagen:', e);
+                    console.warn('history.replaceState für nächste Frage fehlgeschlagen:', e);
                 }
             }
 
@@ -737,17 +718,8 @@
                         console.warn('sessionStorage remove failed:', e);
                     }
                     this.allowNavigation = true;
-                    this.removeBeforeUnloadHandler();
 
                     setTimeout(() => {
-                        // Der Server leitet uns nach `next_question`
-                        // (wenn es die letzte war) automatisch weiter.
-                        // Dieser Block wird durch die neue `loadNextQuestion`
-                        // Logik eigentlich nicht mehr erreicht.
-                        // Stattdessen ruft `loadNextQuestion` -> `updateQuestion` auf
-                        // oder leitet weiter.
-                        
-                        // Doppelte Sicherheit:
                         this.loadNextQuestion();
                     }, 500);
                 }
@@ -758,37 +730,44 @@
                     console.log('Socket wird getrennt');
                     this.socket.disconnect();
                 }
-                this.removeBeforeUnloadHandler();
             }
-        } // Ende QuizManager
+        }
 
         let quizManager;
 
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM geladen - initialisiere Quiz');
+            console.log('=== DOM LOADED ===');
             quizManager = new QuizManager();
 
+            // Prüfe ob Modal durch data-Attribut geöffnet werden soll
             try {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('show_exit_modal') === 'true') {
-                    console.log('Modal-Trigger durch URL-Parameter erkannt.');
-                    quizManager.modalOpenedByPopstate = true; 
-                    quizManager.showConfirmationModal();
+                const container = document.querySelector('.quiz-container-wide');
+                const shouldShowModal = container && container.dataset.showExitModal === 'true';
+                
+                if (shouldShowModal) {
+                    console.log('!!! show_exit_modal data-Attribut gefunden !!!');
+                    console.log('Öffne Modal sofort');
                     
-                    // KORREKTUR: Benutze die *aktuelle* URL aus dem Browser,
-                    // nicht die "Basis"-URL.
-                    const currentUrl = window.location.href;
-                    const questionNum = quizManager.getCurrentQuestionNumber();
-
-                    // 1. Ersetze den aktuellen History-Eintrag (der vom Server-Redirect kommt)
-                    //    mit unserem `blocker: false` state.
-                    history.replaceState({ quiz: true, q: questionNum, blocker: false }, document.title, currentUrl);
-                    
-                    // 2. Pushe den `blocker: true` state, um den "Zurück"-Button abzufangen.
-                    history.pushState({ quiz: true, q: questionNum, blocker: true }, document.title, currentUrl);
+                    // Zeige Modal
+                    setTimeout(() => {
+                        quizManager.showConfirmationModal();
+                        
+                        // Pushe einen Trap-State
+                        try {
+                            const trapUrl = quizManager.getCurrentBaseUrl();
+                            history.pushState(
+                                { quiz: true, q: quizManager.getCurrentQuestionNumber() }, 
+                                document.title, 
+                                trapUrl
+                            );
+                            console.log('Pushed trap state from DOMContentLoaded');
+                        } catch (e) {
+                            console.warn('Failed to push trap state:', e);
+                        }
+                    }, 100); // Kurzer Delay um sicherzustellen, dass alles geladen ist
                 }
             } catch(e) {
-                console.warn('Fehler beim Prüfen der URL-Parameter:', e);
+                console.warn('Fehler beim Prüfen des show_exit_modal Attributs:', e);
             }
         });
 

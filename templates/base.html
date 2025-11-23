@@ -299,36 +299,32 @@
 		<!-- Quiz-Schutz-Script -->
 		<script>
 		/*
-		Kombinierter pageshow-Handler:
-		- BFCache-Fall: wenn e.persisted und auf '/', dann serverseitig ausloggen (nutzt vorhandenen /logout endpoint).
-		- Prüft, ob ein Quiz absichtlich verlassen wurde.
+		Vereinfachter pageshow-Handler:
+		- BFCache-Fall: wenn e.persisted und auf '/', dann serverseitig ausloggen
+		- Keine quiz_active Prüfung mehr - das macht quiz.html
 		*/
 		window.addEventListener('pageshow', function(e) {
 			try {
-                // Prüfe, ob wir das Quiz gerade absichtlich verlassen haben
-                // (Diese Logik von letzter Nachricht bleibt drin, sie ist wichtig!)
-                const cancelledIntentionally = sessionStorage.getItem('quiz_cancelled_intentionally') === '1';
-                if (cancelledIntentionally) {
-                    // Flag sofort löschen und nichts tun (Navigation erlauben)
-                    sessionStorage.removeItem('quiz_cancelled_intentionally');
-                    return; 
-                }
+				// PrÃ¼fe, ob wir das Quiz gerade absichtlich verlassen haben
+				const cancelledIntentionally = sessionStorage.getItem('quiz_cancelled_intentionally') === '1';
+				if (cancelledIntentionally) {
+					// Flag sofort löschen und nichts tun (Navigation erlauben)
+					sessionStorage.removeItem('quiz_cancelled_intentionally');
+					return; 
+				}
 
 				const path = location.pathname || '/';
 				const fromBFCache = !!e.persisted;
-				// const quizActive = sessionStorage.getItem('quiz_active') === '1'; // -> Entfernt!
 
-				// 1) BFCache + Index => serverseitig ausloggen
+				// BFCache + Index => serverseitig ausloggen
 				if (fromBFCache && path === '/') {
-					// Nutze deine vorhandene Logout-Route (stopt Timer + session.clear())
+					// Nutze deine vorhandene Logout-Route (stoppt Timer + session.clear())
 					window.location.href = "{{ url_for('logout') }}";
-					return; // stoppe weitere Verarbeitung (kein Doppel-Redirect)
+					return;
 				}
 
-				// 2) Der "quizActive"-Block wurde entfernt.
-
 			} catch (err) {
-				console.warn('pageshow combined handler failed', err);
+				console.warn('pageshow handler failed', err);
 			}
 		});
 		</script>
