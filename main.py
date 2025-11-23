@@ -1337,24 +1337,77 @@ def show_question():
         
         quiz_data = session['quiz_data']
 
+        # =================================================================
+        # HIER IST DIE NEUE LOGIK
+        # =================================================================
+
+        # 1. Zuerst prüfen, ob das Quiz als GANZES beendet ist.
+        if quiz_data.get('completed', False):
+            print("show_question: Quiz ist 'completed', redirecting to evaluate.")
+            return redirect(url_for('evaluate_quiz'))
+
+        # 2. Prüfen, ob die AKTUELLE Frage bereits beantwortet wurde
+        #    (d.h. User hat neu geladen, BEVOR der Client /next_question aufrufen konnte)
+        if quiz_data.get('answered', False):
+            print(f"show_question: Frage {quiz_data['current_index']+1} war bereits beantwortet. Forciere nächste Frage.")
+            
+            # 'answered'-Flag entfernen
+            quiz_data.pop('answered', None)
+            
+            current_index = quiz_data['current_index']
+            total_questions = quiz_data['total_questions']
+            
+            if current_index >= total_questions - 1:
+                # Das WAR die letzte Frage
+                print("show_question: Letzte Frage war's. Setze 'completed' und redirect to evaluate.")
+                quiz_data['completed'] = True
+                session['quiz_data'] = quiz_data
+                return redirect(url_for('evaluate_quiz'))
+            
+            # Es war NICHT die letzte Frage -> Index serverseitig vorrücken
+            quiz_data['current_index'] += 1
+            
+            # Optionen für die (jetzt neue) nächste Frage zurücksetzen
+            quiz_data.pop('options_order', None)
+            
+            # Timer für die neue Frage zurücksetzen
+            room_id = quiz_data.get('room_id')
+            if room_id:
+                stop_timer(room_id)
+                get_or_create_timer(room_id) # Startet einen neuen Timer
+                
+            # Session speichern
+            session['quiz_data'] = quiz_data
+            session.modified = True
+            
+            # WICHTIG: Redirect zur URL der NEUEN Frage
+            new_question_number = quiz_data['current_index'] + 1
+            print(f"show_question: Redirecting to new question q={new_question_number}")
+            return redirect(url_for('show_question', q=new_question_number))
+
+        # =================================================================
+        # ENDE DER NEUEN LOGIK
+        # =================================================================
+
         # URL-Parameter q handling: 1-basierter Index
         q_param = request.args.get('q')
         if q_param is not None:
+            # ... (Rest deines q_param Handlings bleibt gleich) ...
             try:
                 q_index = int(q_param) - 1
             except ValueError:
                 flash('Ungültiger Frage-Parameter.', 'error')
                 return redirect(url_for('homepage'))
 
-            # Bereichsprüfung
             if q_index < 0 or q_index >= quiz_data.get('total_questions', 0):
                 flash('Frage nicht gefunden.', 'error')
                 return redirect(url_for('homepage'))
 
             if q_index != quiz_data.get('current_index', 0):
                 return redirect(url_for('show_question', q=quiz_data['current_index'] + 1))
-
-        # Prüfe ob das Quiz bereits beendet wurde
+        
+        # HINWEIS: Dieser Check ist jetzt redundant, da oben schon geprüft,
+        # aber zur Sicherheit kannst du ihn lassen:
         if quiz_data.get('completed', False):
             return redirect(url_for('evaluate_quiz'))
 
@@ -1363,6 +1416,7 @@ def show_question():
         time_left = 30
         
         if room_id:
+            # ... (Rest deiner Timer-Logik bleibt gleich) ...
             with timer_lock:
                 timer = active_timers.get(room_id)
                 if timer:
@@ -1380,6 +1434,8 @@ def show_question():
         current_index = quiz_data['current_index']
         question = db.session.get(Question, quiz_data['questions'][current_index])
 
+        # ... (Rest der Funktion bis zum render_template bleibt gleich) ...
+        
         if not question:
             flash('Frage nicht gefunden.', 'error')
             return redirect(url_for('homepage'))
@@ -1393,9 +1449,6 @@ def show_question():
             options = quiz_data['options_order']
         
         was_correct = session.pop('last_answer_correct', False)
-
-        # WICHTIG: Prüfe auf show_exit_modal Parameter
-        # Dieser Parameter signalisiert, dass das Modal geöffnet werden soll
         show_exit_modal = request.args.get('show_exit_modal') == 'true'
         
         print(f"show_question: show_exit_modal={show_exit_modal}, current_index={current_index}")
@@ -1411,7 +1464,7 @@ def show_question():
             was_correct=was_correct,
             room_id=room_id,
             time_left=time_left,
-            show_exit_modal=show_exit_modal  # An Template übergeben
+            show_exit_modal=show_exit_modal
         ))
         
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
