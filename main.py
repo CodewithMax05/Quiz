@@ -1686,7 +1686,6 @@ def evaluate_quiz():
 
 @app.route('/cancel_quiz', methods=['POST'])
 @login_required
-@quiz_required 
 def cancel_quiz():
     try:
         if request.method != 'POST':

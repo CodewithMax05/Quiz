@@ -130,26 +130,53 @@
                     if (this.allowNavigation) return;
 
                     const state = event.state || {};
-                    // Wenn Modal bereits offen ist, abbrechen:
+                    
                     if (this.isModalOpen) {
-                        // Zweiter Back-Klick bei offenem Modal: Quiz abbrechen
-                        this.confirmCancel(true);
+                        // Szenario: Modal ist offen, User klickt "Back" #2.
+                        console.log('Popstate: Modal offen, breche ab.');
+
+                        // 1. "Cancle" die "Back"-Aktion des Browsers, indem wir
+                        //    den aktuellen State sofort wieder auf den Stack pushen.
+                        //    Das stoppt die Navigation zu /homepage.
+                        try {
+                            const curBase = this.getCurrentBaseUrl();
+                            history.pushState(
+                                { quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, 
+                                document.title, 
+                                curBase
+                            );
+                        } catch (e) {
+                            console.warn('history.pushState (in popstate) failed:', e);
+                        }
+                        
+                        // 2. Jetzt, da die Browser-Aktion gestoppt ist, 
+                        //    starten WIR die kontrollierte Navigation.
+                        //    confirmCancel() (Version ohne history.back())
+                        //    wird den fetch() auslösen, der die Session
+                        //    auf dem Server beendet und DANN zur Homepage weiterleitet.
+                        this.confirmCancel(false); 
+
                         return;
                     }
 
-                    // Modal nicht offen: Modal anzeigen und neuen Blocker-State anlegen
+                    // Szenario: Modal ist nicht offen, User klickt "Back" #1.
+                    // (Wird durch den Server-Redirect und DOMContentLoaded gehandhabt)
+                    // Dieser Block fängt nur manuelle "Back"-Klicks ab,
+                    // *nachdem* das Modal (z.B. per ESC) geschlossen wurde.
+                    
+                    console.log('Popstate: Modal geschlossen, zeige Modal.');
                     this.modalOpenedByPopstate = true;
                     this.showConfirmationModal();
                     try {
                         const curBase = this.getCurrentBaseUrl();
-                        // Neuen History-Eintrag setzen (blocker: true)
+                        // Blocker-State wieder anlegen
                         history.pushState(
                             { quiz: true, q: this.getCurrentQuestionNumber(), blocker: true }, 
                             document.title, 
                             curBase
                         );
                     } catch (e) {
-                        console.warn('history.pushState fehlgeschlagen:', e);
+                        console.warn('history.pushState (popstate, modal closed) failed:', e);
                     }
                 });
             }
@@ -273,56 +300,32 @@
             }
 
             confirmCancel(fromPopstate = false) {
-                // 1) Erlaube Navigation und entferne beforeunload-Handler
+                // 1) Navigation erlauben, Handler entfernen
                 this.allowNavigation = true;
-                try {
-                    this.removeBeforeUnloadHandler();
-                } catch (e) {
-                    console.warn('removeBeforeUnloadHandler failed:', e);
-                }
+                this.removeBeforeUnloadHandler();
 
-                // 2) Entferne quiz-flag aus sessionStorage (sicherheitsmäßig)
+                // 2) Flags für base.html setzen (falls es doch feuert)
                 try {
+                    sessionStorage.setItem('quiz_cancelled_intentionally', '1');
                     sessionStorage.removeItem('quiz_active');
                 } catch (e) {
                     console.warn('sessionStorage remove failed:', e);
                 }
 
-                // 3) Modal-Flags/State aufräumen
-                try {
-                    // Modal schließen (sichtbar entfernen)
-                    this.hideConfirmationModal();
-                } catch (e) {
-                    console.warn('hideConfirmationModal failed:', e);
-                }
-                // Falls das Modal per Popstate geöffnet wurde, zurücksetzen
+                // 3) Modal aufräumen
+                this.hideConfirmationModal();
                 this.modalOpenedByPopstate = false;
 
-                // 4) Socket sofort trennen (damit Server nichts mehr an diesen Client sendet)
-                try {
-                    if (this.socket) {
-                        this.socket.disconnect();
-                    }
-                } catch (e) {
-                    console.warn('Socket disconnect failed:', e);
+                // 4) Socket trennen
+                if (this.socket) {
+                    this.socket.disconnect();
                 }
 
-                // 5) Wenn confirmCancel NICHT von einem popstate kommt, 
-                //    führen wir (wie vorher) ein history.back() aus, damit die History sauber bleibt.
-                //    Wenn fromPopstate === true, wurde die Navigation bereits vom Browser angestoßen,
-                //    daher dürfen wir hier kein zusätzliches history.back() ausführen.
-                if (!fromPopstate) {
-                    try {
-                        if (history.state) {
-                            history.back();
-                        }
-                    } catch (e) {
-                        console.warn('history.back failed in confirmCancel:', e);
-                    }
-                }
-
-                // 6) Sende Abbruch-Request an den Server (Cancel-Endpoint) und leite weiter.
-                //    Wir versuchen das CSRF-Token zu lesen — falls nicht vorhanden, senden wir trotzdem.
+                // 5) KEIN history.back() MEHR!
+                //    Wir verlassen uns NUR auf den Fetch, um die Session
+                //    zu beenden UND DANN zur Homepage zu navigieren.
+                
+                // 6) Sende Abbruch-Request an den Server.
                 try {
                     const csrfEl = document.querySelector('input[name="csrf_token"]');
                     const csrfToken = csrfEl ? csrfEl.value : '';
@@ -336,32 +339,19 @@
                         },
                         body: body
                     }).then(response => {
-                        // Versuche JSON zu lesen (dein Server liefert redirect)
                         return response.json().catch(() => ({}));
                     }).then(data => {
-                        // Server-seitiger Redirect falls vorhanden, sonst Homepage
-                        try {
-                            window.location.href = data.redirect || "{{ url_for('homepage') }}";
-                        } catch (e) {
-                            // Fallback: setLocation
-                            location.assign(data.redirect || "{{ url_for('homepage') }}");
-                        }
+                        // ERST JETZT, nachdem der Server geantwortet hat,
+                        // leiten wir zur Homepage weiter.
+                        window.location.href = data.redirect || "{{ url_for('homepage') }}";
                     }).catch(error => {
+                        // Fallback
                         console.error('Fehler beim Abbrechen des Quiz:', error);
-                        // Fallback-Weiterleitung
-                        try {
-                            window.location.href = "{{ url_for('homepage') }}";
-                        } catch (e) {
-                            location.assign("{{ url_for('homepage') }}");
-                        }
+                        window.location.href = "{{ url_for('homepage') }}";
                     });
                 } catch (e) {
                     console.error('confirmCancel: unexpected error', e);
-                    try {
-                        window.location.href = "{{ url_for('homepage') }}";
-                    } catch (err) {
-                        location.assign("{{ url_for('homepage') }}");
-                    }
+                    window.location.href = "{{ url_for('homepage') }}";
                 }
             }
 
@@ -788,7 +778,7 @@
             console.log('DOM geladen - initialisiere Quiz');
             quizManager = new QuizManager();
 
-            // initiale URL synchronisieren (serverseitig gerenderte Seite hat bereits progress)
+            // (Dein bisheriger try/catch-Block für history.replaceState bleibt hier)
             try {
                 const progressText = document.querySelector('.progress-bar')?.textContent || '';
                 const match = progressText.match(/Frage\s+(\d+)\s+von\s+(\d+)/);
@@ -799,6 +789,20 @@
                 }
             } catch (e) {
                 console.warn('Initiale URL-Synchronisation fehlgeschlagen:', e);
+            }
+
+            // Prüfe, ob die Seite durch den Server-Decorator (prevent_quiz_exit)
+            // mit dem Modal-Trigger geladen wurde.
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('show_exit_modal') === 'true') {
+                    console.log('Modal-Trigger durch URL-Parameter erkannt.');
+                    // Behandle dies, als ob der User "Back" geklickt hätte
+                    quizManager.modalOpenedByPopstate = true; 
+                    quizManager.showConfirmationModal();
+                }
+            } catch(e) {
+                console.warn('Fehler beim Prüfen der URL-Parameter:', e);
             }
         });
 
