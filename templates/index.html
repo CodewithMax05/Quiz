@@ -189,9 +189,37 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        const pwField = document.getElementById('password-field');
+        // --- START: Hinzugefügter Code ---
+        const usernameField = document.getElementById('username-field');
+        const pwField = document.getElementById('password-field'); // Definition hierher verschoben
+
+        if (usernameField && pwField) {
+            usernameField.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Standard-Formularabsendung verhindern
+                    pwField.focus();
+                    
+                    // Setzt den Cursor an das Ende des Passwort-Textes
+                    setTimeout(() => {
+                        try { 
+                            const pos = pwField.value.length; 
+                            pwField.setSelectionRange(pos, pos); 
+                        } catch(err) {}
+                    }, 0);
+                }
+            });
+
+            pwField.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Standard-Formularabsendung verhindern
+                    submitForm('login'); // Anmeldefunktion aufrufen
+                }
+            });
+        }
+        // --- ENDE: Hinzugefügter Code ---
+
         const pwToggle = document.querySelector('.pw-toggle');
-        if (pwField && pwToggle) {
+        if (pwField && pwToggle) { // pwField ist jetzt hier bereits definiert
             pwToggle.addEventListener('mousedown', e => e.preventDefault());
             pwToggle.addEventListener('click', () => {
                 const isHidden = pwField.type === 'password';
