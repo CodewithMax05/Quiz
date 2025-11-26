@@ -9,6 +9,10 @@ Folge diesen Schritten, um das Projekt lokal auf deinem Computer zu starten.
 
 1. Projekt klonen
 Klone das Repository auf deinen lokalen Rechner. Wähle eine der beiden Methoden (HTTPS oder SSH).
+### WICHTIG: Es wird Python Version 3.12 benötigt!!! ###
+
+# Navigiere zuerst in das Verzeichnis, in das du klonen willst
+Zum Beispiel: cd "C:\Users\<NAME>\Downloads>"
 
 # HTTPS
 git clone https://git-stu.ba-glauchau.de/game-quiz/game-quiz.git
@@ -16,13 +20,16 @@ git clone https://git-stu.ba-glauchau.de/game-quiz/game-quiz.git
 # ODER über SSH (benötigt einen konfigurierten SSH-Key)
 git clone git@git-stu.ba-glauchau.de:game-quiz/game-quiz.git
 
+--> Ordner "quiz-game" wird im Verzeichnis erstellt
+
 cd <PROJEKT_ORDNER>
+Zum Beispiel: cd "C:\Users\<NAME>\Downloads\quiz-game>"
 
 2. (Empfohlen) Virtuelle Umgebung erstellen
 Es ist empfehlenswert eine virtuelle Umgebung zu verwenden, um Abhängigkeiten zu isolieren.
 
 # Erstelle eine venv
-python -m venv venv
+python3.12 -m venv venv
 
 # Aktiviere die Umgebung
 # Windows:
@@ -47,6 +54,8 @@ SECRET_KEY=<SICHERER_KEY>
 SESSION_COOKIE_SECURE=false
 
 # Du solltest die Werte hinter dem "=" für den Namen, das Passwort und den Key anpassen! 
+# Der Name darf maximal 12 Zeichen lang sein und das Passwort muss mindestens 5 Zeichen lang sein.
+# Der Admin hat zusätzlich ein Admin Panel zur Verfügung. 
 # Für einen sicheren SECRET_KEY kannst du folgenden Befehl ausführen: python -c "import secrets; print(secrets.token_hex(24))"
 
 5. Anwendung starten
