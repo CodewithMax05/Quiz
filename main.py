@@ -1226,18 +1226,16 @@ def logout():
 @login_required
 def start_custom_quiz():
     try:
-        # Alte Auswertungsdaten löschen, wenn ein neues Quiz startet
+        # Alte Auswertungsdaten löschen
         if 'evaluation_data' in session:
             session.pop('evaluation_data', None)
-
-        # Alte pending_navigation löschen
         if 'pending_navigation' in session:
             session.pop('pending_navigation', None)
 
         if request.method != 'POST':
             abort(405)
 
-        # Alten Timer stoppen, falls vorhanden
+        # Alten Timer stoppen
         if 'quiz_data' in session:
             old_room_id = session['quiz_data'].get('room_id')
             if old_room_id:
@@ -1249,63 +1247,102 @@ def start_custom_quiz():
         selected_topics = request.form.getlist('topics')
         random_mode = request.form.get('random_mode') == 'true'
         
-        # Zufallsmodus: Wähle zufällig zwischen 1-15 Themen aus
+        all_questions = []
+        selected_questions = []
+        subject_display = ""
+        
+        # --- START ANPASSUNG ---
+
         if random_mode:
-            # Alle verfügbaren Themen aus der Datenbank holen
+            # ==================================================
+            # NEUE LOGIK FÜR ZUFALLSMODUS
+            # ==================================================
+            
+            # 1. Alle verfügbaren Themen holen
             all_topics = db.session.query(Question.subject.distinct()).all()
             all_topics = [topic[0] for topic in all_topics]
             
-            # Zufällige Anzahl von Themen auswählen (zwischen 1 und 15)
+            # 2. Zufällige Anzahl von Themen auswählen (zwischen 1 und 15)
             num_random_topics = random.randint(1, min(15, len(all_topics)))
             selected_topics = random.sample(all_topics, num_random_topics)
-
-        if not selected_topics and not random_mode:
-            flash('Bitte wähle mindestens ein Thema aus oder aktiviere den Zufallsmodus', 'error')
-            return redirect(url_for('homepage'))
-
-        conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
-        all_questions = Question.query.filter(or_(*conditions)).all()
-
-        if not all_questions:
-            flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
-            return redirect(url_for('homepage'))
-
-        # Für Zufallsmodus: Themenname anpassen
-        if random_mode:
+            
             subject_display = f"Zufällige Themen ({len(selected_topics)} Kategorien)"
+
+            # 3. Hole ALLE Fragen aus dem Pool der gewählten Themen
+            conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
+            all_questions = Question.query.filter(or_(*conditions)).all()
+
+            if not all_questions:
+                flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
+                return redirect(url_for('homepage'))
+            
+            # 4. Mische den gesamten Pool und nimm die ersten 30
+            random.shuffle(all_questions)
+            selected_questions = all_questions[:30]
+        
         else:
+            # ==================================================
+            # DEINE ALTE LOGIK FÜR MANUELLEN MODUS (MIT BUGFIX)
+            # ==================================================
+            if not selected_topics:
+                flash('Bitte wähle mindestens ein Thema aus', 'error')
+                return redirect(url_for('homepage'))
+
             subject_display = ', '.join(selected_topics)
 
-        # Fragen auswählen basierend auf den ausgewählten Themen
-        questions_by_topic = defaultdict(list)
-        for q in all_questions:
-            questions_by_topic[q.subject.lower()].append(q)
+            conditions = [func.lower(Question.subject) == func.lower(topic) for topic in selected_topics]
+            all_questions = Question.query.filter(or_(*conditions)).all()
+
+            if not all_questions:
+                flash('Keine Fragen für die ausgewählten Themen gefunden', 'error')
+                return redirect(url_for('homepage'))
+
+            # Fragen auswählen basierend auf den ausgewählten Themen
+            questions_by_topic = defaultdict(list)
+            for q in all_questions:
+                questions_by_topic[q.subject.lower()].append(q)
+            
+            target_per_topic = max(1, 30 // len(selected_topics))
+            
+            for topic in selected_topics:
+                topic_questions = questions_by_topic.get(topic.lower(), [])
+                random.shuffle(topic_questions)
+                selected_questions.extend(topic_questions[:target_per_topic])
+            
+            remaining = 30 - len(selected_questions)
+            if remaining > 0:
+                extra_questions = [q for q in all_questions if q not in selected_questions]
+                random.shuffle(extra_questions)
+                selected_questions.extend(extra_questions[:remaining])
+            
+            # Mischen der finalen Liste
+            random.shuffle(selected_questions)
+            
+            # --- BUGFIX: Stelle sicher, dass *maximal* 30 Fragen genommen werden ---
+            # (Falls 30 // len(topics) * len(topics) > 30 war, z.B. bei 8 Themen -> 8 * 4 = 32)
+            selected_questions = selected_questions[:30]
+
+        # --- ENDE ANPASSUNG ---
+
+        # ==================================================
+        # GEMEINSAME LOGIK
+        # ==================================================
         
-        selected_questions = []
-        target_per_topic = max(1, 30 // len(selected_topics))
-        
-        for topic in selected_topics:
-            topic_questions = questions_by_topic.get(topic.lower(), [])
-            random.shuffle(topic_questions)
-            selected_questions.extend(topic_questions[:target_per_topic])
-        
-        remaining = 30 - len(selected_questions)
-        if remaining > 0:
-            extra_questions = [q for q in all_questions if q not in selected_questions]
-            random.shuffle(extra_questions)
-            selected_questions.extend(extra_questions[:remaining])
-        
-        random.shuffle(selected_questions)
-        num_questions = min(30, len(selected_questions))
+        # Finale Anzahl der Fragen (ist jetzt immer korrekt)
+        num_questions = len(selected_questions)
+
+        if num_questions == 0:
+             flash('Konnte keine Fragen für die Auswahl finden', 'error')
+             return redirect(url_for('homepage'))
 
         # Room-ID für WebSocket erstellen
         room_id = str(uuid.uuid4())
         
         session['quiz_data'] = {
             'subject': subject_display,
-            'questions': [q.id for q in selected_questions],
+            'questions': [q.id for q in selected_questions], # Basiert auf der finalen, ggf. gekürzten Liste
             'current_index': 0,
-            'total_questions': num_questions,
+            'total_questions': num_questions, # Stimmt jetzt immer mit der Listenlänge überein
             'score': 0,
             'correct_count': 0,
             'room_id': room_id,
@@ -1597,6 +1634,10 @@ def next_question():
         question = db.session.get(Question, quiz_data['questions'][quiz_data['current_index']])
         options = [question.true, question.wrong1, question.wrong2, question.wrong3]
         random.shuffle(options)
+
+        quiz_data['options_order'] = options
+        session['quiz_data'] = quiz_data
+        session.modified = True
         
         return jsonify({
             'question': question.question,
