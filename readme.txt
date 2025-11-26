@@ -12,7 +12,7 @@ Klone das Repository auf deinen lokalen Rechner. Wähle eine der beiden Methoden
 ### WICHTIG: Es wird Python Version 3.12 benötigt!!! ###
 
 # Navigiere zuerst in das Verzeichnis, in das du klonen willst
-Zum Beispiel: cd "C:\Users\<NAME>\Downloads>"
+Zum Beispiel: cd "C:\Users\<NAME>\Downloads"
 
 # HTTPS
 git clone https://git-stu.ba-glauchau.de/game-quiz/game-quiz.git
@@ -23,7 +23,7 @@ git clone git@git-stu.ba-glauchau.de:game-quiz/game-quiz.git
 --> Ordner "quiz-game" wird im Verzeichnis erstellt
 
 cd <PROJEKT_ORDNER>
-Zum Beispiel: cd "C:\Users\<NAME>\Downloads\quiz-game>"
+Zum Beispiel: cd "C:\Users\<NAME>\Downloads\quiz-game"
 
 2. (Empfohlen) Virtuelle Umgebung erstellen
 Es ist empfehlenswert eine virtuelle Umgebung zu verwenden, um Abhängigkeiten zu isolieren.
@@ -43,7 +43,7 @@ Alle notwendigen Pakete sind in der requirements.txt aufgelistet.
 pip install -r requirements.txt
 
 4. Umgebungsvariablen
-Erstelle eine Datei namens .env im Hauptverzeichnis des Projekts. Dort werden die Umgebungsvariablen gespeichert.
+Erstelle eine Datei namens ".env" im Hauptverzeichnis des Projekts. Dort werden die Umgebungsvariablen gespeichert.
 
 # Füge folgende Zeilen ein:
 ADMIN_PASSWORD=<PASSWORT>
