@@ -95,7 +95,7 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2 class="modal-title">Avatar ändern</h2>
-            <p class="avatar-hint">Klicke auf einen Avatar, um ihn auszuwählen</p>
+            <p class="avatar-hint">Klicke auf "Speichern", um deine Auswahl zu bestätigen</p>
             
             <!-- Karussell Container -->
             <div class="carousel-container">
@@ -155,13 +155,12 @@
             modal.style.display = "flex";
         }
 
-        // NEU: Event Listener für Klick auf Avatar-Bild
+        // Event Listener für Klick auf Avatar-Bild (für Konsistenz beibehalten)
         playerAvatar.addEventListener("click", openAvatarModal);
 
         // Vorhandener Event Listener für Button
         openBtn.addEventListener("click", openAvatarModal);
 
-        // Der restliche Code bleibt unverändert...
         // Alle verfügbaren Avatare
         function loadAllAvatars() {
             return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
@@ -203,26 +202,25 @@
                 img.dataset.index = avatarData.index;
                 img.classList.add("avatar-item");
                 
-                // Markiere nur den ausgewählten Avatar
-                if (avatarData.filename === selectedAvatar) {
+                // NEU: Setze 'selected' Klasse automatisch für den zentrierten Avatar
+                if (avatarData.position === 'center') {
                     img.classList.add("selected");
+                    selectedAvatar = avatarData.filename; // Setze den aktuell zentrierten als ausgewählt
                 }
                 
+                // NEU: Klick-Logik, die auch bei einem Klick auf einen seitlichen Avatar navigiert
                 img.addEventListener("click", () => {
-                        // Entferne Auswahl von allen Avataren
-                        document.querySelectorAll(".avatar-item").forEach(i => i.classList.remove("selected"));
-                        
-                        // Setze den angeklickten Avatar als ausgewählt
-                        img.classList.add("selected");
-                        selectedAvatar = avatarData.filename;
-                        
-                        // Auf Desktop: Wenn auf einen seitlichen Avatar geklickt wird, navigiere dorthin
-                        const isMobile = window.innerWidth <= 768;
-                        if (!isMobile && avatarData.position !== 'center') {
-                            currentAvatarIndex = avatarData.index;
-                            displayAvatars();
-                        }
-                    });
+                    // Auf Desktop: Wenn auf einen seitlichen Avatar geklickt wird, navigiere dorthin
+                    const isMobile = window.innerWidth <= 768;
+                    if (!isMobile && avatarData.position !== 'center') {
+                        currentAvatarIndex = avatarData.index;
+                        displayAvatars(); // Erneutes Rendern, um ihn zu zentrieren und auszuwählen
+                    } else if (isMobile) {
+                        // Auf Mobile: Nur das Anklicken ist relevant, da er bereits ausgewählt ist.
+                        // Keine Aktion nötig, da 'selectedAvatar' bereits gesetzt ist
+                        // Wir können hier aber einen kleinen visuellen Effekt einfügen, falls gewünscht
+                    }
+                });
                     
                     avatarContainer.appendChild(img);
                     carouselTrack.appendChild(avatarContainer);
@@ -242,11 +240,10 @@
             const currentIndex = avatars.findIndex(av => av === currentAvatar);
             if (currentIndex !== -1) {
                 currentAvatarIndex = currentIndex;
-                selectedAvatar = currentAvatar;
+                // selectedAvatar wird in displayAvatars() gesetzt
             } else {
                 // Fallback: avatar0 als Standard
                 currentAvatarIndex = 0;
-                selectedAvatar = avatars[0];
             }
             
             displayAvatars();
@@ -277,7 +274,8 @@
         // Avatar speichern
         saveBtn.addEventListener("click", () => {
             if (!selectedAvatar) {
-                createFlashMessage("Bitte wähle einen Avatar aus!", "error");
+                // Sollte nicht passieren mit der neuen Logik, ist aber eine gute Sicherheitsmaßnahme
+                createFlashMessage("Fehler: Kein Avatar ausgewählt!", "error"); 
                 return;
             }
 

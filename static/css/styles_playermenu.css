@@ -680,11 +680,20 @@ body.playermenu-page {
     object-fit: cover;
     margin: 0 6px;
 }
+
+.avatar-item.selected {
+    border-color: #00ffcc;
+    /* Der ausgewählte Avatar soll keinen Hover-Skalierungseffekt mehr haben */
+    transform: none !important; 
+}
+
 .avatar-item:hover {
     transform: scale(1.05);
     border-color: #00aaff;
 }
-.avatar-item.selected {
+
+/* Der bereits ausgewählte Avatar soll beim Hover nicht die Farbe ändern, sondern seinen grünen Rand behalten */
+.avatar-item.selected:hover {
     border-color: #00ffcc;
 }
 
