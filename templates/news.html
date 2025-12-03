@@ -20,11 +20,19 @@
 
         <div class="news-list">
             {% for entry in news_entries %}
-            <div class="news-item">
+            <div class="news-item" data-id="{{ entry.id }}">
+
+                {% if entry.id not in seen_ids %}
+                    <span class="new-badge-indicator">!</span>
+                {% endif %}
+
                 <button class="news-toggle">
-                    <span class="news-title">{{ entry.title }}</span>
+                    <span class="news-title">
+                        {{ entry.title }}
+                    </span>
                     <i class="fa fa-chevron-down"></i>
                 </button>
+
                 <div class="news-content">
                     <div class="news-text">
                         {{ entry.content|safe }}
@@ -33,6 +41,7 @@
                         Erstellt am: <time class="utc-time" data-iso="{{ entry.created_at|to_iso }}">Lädt...</time>
                     </div>
                 </div>
+                
             </div>
             {% endfor %}
         </div>
@@ -44,47 +53,65 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const newsToggles = document.querySelectorAll('.news-toggle');
+    document.addEventListener("DOMContentLoaded", () => {
+        const newsToggles = document.querySelectorAll('.news-toggle');
+        const csrfToken = "{{ csrf_token() }}"; // Token holen
 
-    newsToggles.forEach(toggle => {
-        toggle.addEventListener('click', function () {
-            const thisContent = this.nextElementSibling;
-            const thisIcon = this.querySelector('i');
-            
-            // Prüfen, ob das angeklickte Element bereits offen ist
-            const isOpen = this.classList.contains('active');
+        newsToggles.forEach(toggle => {
+            toggle.addEventListener('click', function () {
+                const thisContent = this.nextElementSibling;
+                const thisIcon = this.querySelector('i');
+                
+                // Prüfen, ob das angeklickte Element bereits offen ist
+                const isOpen = this.classList.contains('active');
 
-            // 1. Schließe alle anderen News
-            newsToggles.forEach(other => {
-                if (other !== this) {
-                    const content = other.nextElementSibling;
-                    const icon = other.querySelector('i');
-                    
-                    content.classList.remove('open');
-                    icon.style.transform = 'rotate(0deg)';
-                    other.classList.remove('active');
+                // 1. Schließe alle anderen News
+                newsToggles.forEach(other => {
+                    if (other !== this) {
+                        const content = other.nextElementSibling;
+                        const icon = other.querySelector('i');
+                        
+                        content.classList.remove('open');
+                        icon.style.transform = 'rotate(0deg)';
+                        other.classList.remove('active');
+                    }
+                });
+
+                // 2. Öffne/Schließe diese News
+                if (!isOpen) {
+                    thisContent.classList.add('open');
+                    thisIcon.style.transform = 'rotate(180deg)';
+                    this.classList.add('active');
+                } else {
+                    thisContent.classList.remove('open');
+                    thisIcon.style.transform = 'rotate(0deg)';
+                    this.classList.remove('active');
+                }
+
+                const newsItem = this.closest('.news-item');
+                const badge = newsItem.querySelector('.new-badge-indicator');
+                const newsId = newsItem.dataset.id;
+
+                // Wenn ein Badge da ist, ist die News ungelesen -> Als gelesen markieren
+                if (badge) {
+                    // 1. Badge sofort visuell entfernen
+                    badge.remove();
+
+                    // 2. Server informieren
+                    fetch('/api/mark_news_read', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({ news_id: newsId })
+                    }).then(response => {
+                        if (!response.ok) console.error("Konnte News nicht als gelesen markieren");
+                    });
                 }
             });
-
-            // 2. Öffne/Schließe diese News
-            if (!isOpen) {
-                thisContent.classList.add('open');
-                thisIcon.style.transform = 'rotate(180deg)';
-                this.classList.add('active');
-            } else {
-                thisContent.classList.remove('open');
-                thisIcon.style.transform = 'rotate(0deg)';
-                this.classList.remove('active');
-            }
         });
-    });
 
-    // Öffne erste News automatisch
-    const firstToggle = document.querySelector('.news-toggle');
-    if (firstToggle) {
-        firstToggle.click();
-    }
-});
-</script>
+    });
+    </script>
 {% endblock %}

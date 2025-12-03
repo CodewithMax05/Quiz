@@ -63,6 +63,12 @@ app.config.update(
 
 db = SQLAlchemy(app)
 
+# Verbindungstabelle für Gelesen-Status
+news_views = db.Table('news_views',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('news_id', db.Integer, db.ForeignKey('news.id'), primary_key=True)
+)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False, index=True)
@@ -75,6 +81,12 @@ class User(db.Model):
     avatar = db.Column(db.String(200), default="avatar0.png")
     number_of_games = db.Column(db.Integer, default=0)
     agb_accepted = db.Column(db.Boolean, default=False)
+    # Neue Beziehung: Welche News hat der User gesehen?
+    seen_news = db.relationship('News', secondary=news_views, backref=db.backref('viewers', lazy='dynamic'))
+    
+    # Hilfsmethode
+    def has_seen_news(self, news_entry):
+        return self.seen_news.append(news_entry) if news_entry not in self.seen_news else None
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -1131,6 +1143,9 @@ def playermenu():
         
         # Stelle sicher, dass avatar immer einen Wert hat
         avatar = user.avatar if user.avatar else "avatar0.png"
+
+        # Hole alle ungelesenen News-IDs
+        unseen_count = News.query.filter(~News.viewers.any(id=user.id)).count()
             
         return render_template(
             'playermenu.html',
@@ -1138,7 +1153,8 @@ def playermenu():
             avatar=avatar,
             first_played=user.first_played,
             highscore=user.highscore,
-            number_of_games=user.number_of_games
+            number_of_games=user.number_of_games,
+            news_notification_count=unseen_count
         )
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler im Playermenu: {str(e)}")
@@ -2111,12 +2127,38 @@ def add_question():
 @prevent_quiz_exit
 def news():
     try:
+        user = User.query.filter_by(username=session['username']).first()
         news_entries = News.query.order_by(News.created_at.desc()).all()
-        return render_template("news.html", news_entries=news_entries)
+        
+        # Wir erstellen eine Liste von IDs, die der User schon kennt.
+        seen_ids = [n.id for n in user.seen_news]
+
+        return render_template("news.html", news_entries=news_entries, seen_ids=seen_ids)
     except Exception as e:
         print(f"Fehler beim Laden der News: {str(e)}")
         flash('Fehler beim Laden der News', 'error')
         return render_template("news.html", news_entries=[])
+    
+@app.route('/api/mark_news_read', methods=['POST'])
+@login_required
+def mark_news_read():
+    try:
+        data = request.get_json()
+        news_id = data.get('news_id')
+        
+        user = User.query.filter_by(username=session['username']).first()
+        news_item = db.session.get(News, news_id)
+        
+        if user and news_item:
+            if news_item not in user.seen_news:
+                user.seen_news.append(news_item)
+                db.session.commit()
+                return jsonify({'success': True})
+            
+        return jsonify({'success': True}) # Auch success, wenn schon gesehen
+    except Exception as e:
+        print(f"Error marking news read: {e}")
+        return jsonify({'success': False}), 500
 
 # Admin-Seite - News verwalten
 @app.route("/admin/news", methods=["GET", "POST"])
@@ -2455,7 +2497,7 @@ def handle_join_quiz_session(data):
     # Damit der Client nicht erst auf den nächsten Tick warten muss
     current_time = timer.get_time_left()
     emit('time_update', {'time_left': current_time})
-    
+
     # Aktuellen Timer-Stand senden
     print(f"Client {request.sid} hat Raum {room_id} betreten, Timer läuft")
 

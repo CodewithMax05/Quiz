@@ -98,6 +98,7 @@ h1.headline {
     min-height: 0; /* Wichtig für scrollende Flex-Items */
     
     padding-bottom: 5px; 
+    padding-top: 10px; 
 
     display: flex;
     flex-direction: column; /* Items untereinander anordnen */
@@ -141,10 +142,11 @@ h1.headline {
 }
 
 /* =======================================
-   Spezifische News-Styles (ANGESPASST/BEIBEHALTEN)
+   Spezifische News-Styles
    ======================================= */
 
 .news-item {
+    position: relative;
     width: 90%; 
     margin-bottom: 15px;
     margin-left: auto;
@@ -219,6 +221,46 @@ h1.headline {
     color: #ccc;
     font-size: 0.8rem;
     text-align: right;
+}
+
+.new-badge-indicator {
+    /* Positionierung in der oberen rechten Ecke der news-item Kachel */
+    position: absolute;
+    top: -5px; /* Etwas außerhalb des oberen Rands */
+    right: -5px; /* Etwas außerhalb des rechten Rands */
+    
+    background-color: #ff4757;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%; /* Rundes Badge */
+    padding-top: 2px;
+
+    /* Feine Ränder für bessere Sichtbarkeit auf dunklem Hintergrund */
+    border: 2px solid rgb(255, 255, 255); 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    
+    /* Layer-Order */
+    z-index: 10;
+    
+    /* Optional: Animation */
+    animation: pulse-light 2s infinite;
+}
+
+/* Definition der Animation: Pulsieren und leichte Transparenz */
+@keyframes pulse-light {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05); /* Sehr leichte Vergrößerung */
+        opacity: 0.9; 
+    }
 }
 
 /* Keine News Nachricht */
