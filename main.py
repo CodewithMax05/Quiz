@@ -2452,6 +2452,10 @@ def handle_join_quiz_session(data):
     # Timer für diesen Raum erstellen/abrufen und starten
     timer = get_or_create_timer(room_id)
     
+    # Damit der Client nicht erst auf den nächsten Tick warten muss
+    current_time = timer.get_time_left()
+    emit('time_update', {'time_left': current_time})
+    
     # Aktuellen Timer-Stand senden
     print(f"Client {request.sid} hat Raum {room_id} betreten, Timer läuft")
 

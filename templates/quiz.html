@@ -338,8 +338,8 @@
                 const socketUrl = window.location.origin;
                 
                 this.socket = io(socketUrl, {
-                    transports: ['websocket', 'polling'],
-                    upgrade: true,
+                    transports: ['websocket'],
+                    upgrade: false,
                     reconnection: true,
                     reconnectionAttempts: this.maxReconnectAttempts,
                     reconnectionDelay: 1000,
