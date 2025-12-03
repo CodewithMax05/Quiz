@@ -239,6 +239,8 @@ h1.headline {
     height: 18px;
     border-radius: 50%; /* Rundes Badge */
     padding-top: 2px;
+    padding-left: 1px;
+    padding-right: 1px;
 
     /* Feine Ränder für bessere Sichtbarkeit auf dunklem Hintergrund */
     border: 2px solid rgb(255, 255, 255); 
@@ -322,6 +324,14 @@ h1.headline {
     .news-date {
         margin: 0 10px;
         font-size: 0.8rem;
+    }
+
+    .new-badge-indicator {
+        top: -8px; /* Etwas außerhalb des oberen Rands */
+        right: -8px; /* Etwas außerhalb des rechten Rands */
+        font-size: 12px;
+        width: 15px;
+        height: 15px;
     }
 }
 
