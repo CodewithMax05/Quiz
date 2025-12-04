@@ -35,8 +35,9 @@
 		{% endblock %}
 	</head>
 	<body data-was-correct="{{ 'true' if was_correct else 'false' }}" 
-		  data-is-logged-in="{{ 'true' if is_logged_in else 'false' }}"
-		  data-automatic-logout-url="{{ url_for('automatic_logout') }}">
+      data-is-logged-in="{{ 'true' if is_logged_in else 'false' }}"
+      data-is-admin="{{ 'true' if is_admin else 'false' }}" 
+      data-automatic-logout-url="{{ url_for('automatic_logout') }}">
 
 		<!-- ZENTRALER FLASH-MESSAGE CONTAINER -->
 		<div id="flash-container">
@@ -170,101 +171,95 @@
 
 			// Inaktivitäts-Timer (nur für eingeloggte Benutzer)
 			document.addEventListener('DOMContentLoaded', function() {
-				// Werte aus den Datenattributen des Body-Elements lesen
 				const body = document.body;
 				const isLoggedIn = body.getAttribute('data-is-logged-in') === 'true';
+				const isAdmin = body.getAttribute('data-is-admin') === 'true'; // Neue Prüfung
 				const automaticLogoutUrl = body.getAttribute('data-automatic-logout-url');
 				
-				if (isLoggedIn) {
-					let inactivityTimer;
+				// Logik nur starten, wenn eingeloggt UND KEIN Admin
+				if (isLoggedIn && !isAdmin) {
 					let warningTimer;
-					const warningTime = 30 * 60 * 1000; // 30 Minuten
-					const logoutTime = 35 * 60 * 1000; // 5 (35) Minute nach Warnung (35 Minuten total)
+					let logoutTimer;
+					
+					// Konfiguration in Millisekunden
+					const timeTotal = 30 * 60 * 1000;    // 30 Minuten bis Logout
+					const timeWarning = 25 * 60 * 1000;  // 25 Minuten bis Warnung
+					
 					let warningMessageElement = null;
 
+					function startTimers() {
+						// Warnung nach 25 Min
+						warningTimer = setTimeout(showInactivityWarning, timeWarning);
+						// Logout nach 30 Min
+						logoutTimer = setTimeout(logoutDueToInactivity, timeTotal);
+					}
+
 					function resetInactivityTimer() {
-						clearTimeout(inactivityTimer);
 						clearTimeout(warningTimer);
+						clearTimeout(logoutTimer);
 						
-						// Entferne Warnmeldung, falls vorhanden
+						// Wenn eine Warnung angezeigt wird, diese entfernen, da User wieder aktiv
 						if (warningMessageElement) {
-							warningMessageElement.remove();
-							warningMessageElement = null;
+							// Animation für sanftes Ausblenden (optional)
+							warningMessageElement.style.opacity = '0';
+							setTimeout(() => {
+								if (warningMessageElement && warningMessageElement.parentNode) {
+									warningMessageElement.parentNode.removeChild(warningMessageElement);
+								}
+								warningMessageElement = null;
+							}, 300);
 						}
 						
-						inactivityTimer = setTimeout(showInactivityWarning, warningTime);
+						startTimers();
 					}
 
 					function showInactivityWarning() {
-						// Erstelle Warnmeldung
-						warningMessageElement = createFlashMessage('Sie waren 30 Minuten inaktiv. Sie werden in 5 Minuten automatisch abgemeldet.', 'warning');
+						// Berechne die Dauer in Sekunden (5 min * 60 = 300s)
+						const durationSeconds = (timeTotal - timeWarning) / 1000;
+						const minutesLeft = Math.round(durationSeconds / 60);
 						
-						// Setze Timer für automatischen Logout
-						warningTimer = setTimeout(logoutDueToInactivity, logoutTime - warningTime);
+						warningMessageElement = document.createElement('div');
+						warningMessageElement.className = 'warning-message'; 
+						warningMessageElement.style.zIndex = '10000';
+						
+						warningMessageElement.innerHTML = `
+							Inaktivitätswarnung: Sie werden in ${minutesLeft} Minuten automatisch abgemeldet.
+							<div class="custom-progress-bar" style="animation: progressBar ${durationSeconds}s linear forwards;"></div>
+						`;
+						
+						const container = document.getElementById('flash-container');
+						if (container) {
+							container.appendChild(warningMessageElement);
+						}
 					}
 
 					function logoutDueToInactivity() {
-						// Sofortige Weiterleitung zur Logout-URL
+						// Sende User zum Logout-Endpunkt
 						window.location.href = automaticLogoutUrl;
 					}
 
-					function createFlashMessage(text, type) {
-						const flashContainer = document.getElementById('flash-container');
-						if (!flashContainer) return null;
-						
-						// Lösche vorhandene Warnungen
-						const existingWarnings = flashContainer.querySelectorAll('.warning-message, .info-message');
-						existingWarnings.forEach(warning => warning.remove());
-						
-						const messageDiv = document.createElement('div');
-						messageDiv.className = `${type}-message`;
-						messageDiv.textContent = text;
-						messageDiv.style.zIndex = '9999'; // Sehr hoher z-index
-						
-						// Fortschrittsbalken für die Warnung (5 Minute)
-						const progressBar = document.createElement('div');
-						progressBar.className = 'custom-progress-bar';
-						progressBar.style.animation = 'progressBar 300s linear forwards'; // 300 Sekunden
-						messageDiv.appendChild(progressBar);
-						
-						// Nachricht nach 1 Minute entfernen
-						setTimeout(() => {
-							if (flashContainer.contains(messageDiv)) {
-								flashContainer.removeChild(messageDiv);
-								warningMessageElement = null;
-							}
-						}, logoutTime - warningTime);
-						
-						flashContainer.appendChild(messageDiv);
-						return messageDiv;
-					}
+					// Timer initial starten
+					startTimers();
 
-					// Timer starten
-					resetInactivityTimer();
-
-					const serverMessages = document.querySelectorAll(
-						'#flash-container .info-message, ' +
-						'#flash-container .success-message, ' +
-						'#flash-container .error-message'
-					);
-
-					serverMessages.forEach(message => {
-						message.addEventListener('animationend', (e) => {
-							// Wir lauschen nur auf das Ende der "fadeOut"-Animation,
-							// nicht auf "fadeIn".
-							if (e.animationName === 'fadeOut') {
-								if (message.parentNode) {
-									message.parentNode.removeChild(message);
-								}
-							}
-						});
-					});
+					// Event-Listener für Aktivität ("Maus & Tastatur")
+					const events = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
 					
-					// Event-Listener für Aktivität
-					const events = ['mousemove', 'keypress', 'touchstart', 'click', 'scroll'];
+					// Debouncing: Nicht bei jedem Pixel Mausbewegung feuern, sondern maximal alle 500ms
+					let eventTimeout;
+					const eventHandler = () => {
+						if (!eventTimeout) {
+							eventTimeout = setTimeout(() => {
+								resetInactivityTimer();
+								eventTimeout = null;
+							}, 500);
+						}
+					};
+
 					events.forEach(event => {
-						document.addEventListener(event, resetInactivityTimer);
+						document.addEventListener(event, eventHandler);
 					});
+				} else if (isAdmin) {
+					console.log("Admin erkannt: Automatischer Logout deaktiviert.");
 				}
 			});
 
@@ -301,11 +296,10 @@
 		/*
 		Vereinfachter pageshow-Handler:
 		- BFCache-Fall: wenn e.persisted und auf '/', dann serverseitig ausloggen
-		- Keine quiz_active Prüfung mehr - das macht quiz.html
 		*/
 		window.addEventListener('pageshow', function(e) {
 			try {
-				// PrÃ¼fe, ob wir das Quiz gerade absichtlich verlassen haben
+				// Prüfe, ob wir das Quiz gerade absichtlich verlassen haben
 				const cancelledIntentionally = sessionStorage.getItem('quiz_cancelled_intentionally') === '1';
 				if (cancelledIntentionally) {
 					// Flag sofort löschen und nichts tun (Navigation erlauben)
