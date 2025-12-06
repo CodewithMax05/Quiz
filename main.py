@@ -2416,29 +2416,34 @@ def ticket_detail(ticket_id):
         flash('Ein Fehler ist aufgetreten.', 'error')
         return redirect(url_for('tickets_overview'))
 
-@app.route('/admin/ticket/toggle_status/<int:ticket_id>', methods=['POST'])
-@admin_required
-def admin_toggle_ticket_status(ticket_id):
-    """Schließt ein Ticket (kann nicht mehr geöffnet werden)."""
+@app.route('/ticket/toggle_status/<int:ticket_id>', methods=['POST'])
+@login_required
+def toggle_ticket_status(ticket_id):
+    """Schließt oder öffnet ein Ticket"""
     try:
-        # Zusätzliche Sicherheitsprüfung
         user = User.query.filter_by(username=session['username']).first()
-        if not user or not user.is_admin:
-            flash('Zugriff verweigert: Admin-Bereich', 'error')
-            return redirect(url_for('homepage'))
+        if not user:
+            flash('Benutzer nicht gefunden', 'error')
+            return redirect(url_for('ticket_detail', ticket_id=ticket_id))
 
         ticket = db.session.get(Ticket, ticket_id)
         if ticket is None:
             abort(404)
         
-        # Nur offene Tickets können geschlossen werden
+        # Berechtigung prüfen: Nur Admin oder der Ersteller des Tickets
+        if not (user.is_admin or ticket.user_id == user.id):
+            abort(403)
+
+        # Status umschalten
         if ticket.status == 'open':
             ticket.status = 'closed'
             flash('Ticket wurde geschlossen.', 'success')
-            db.session.commit()
         else:
-            flash('Dieses Ticket ist bereits geschlossen und kann nicht mehr geöffnet werden.', 'error')
+            ticket.status = 'open'
+            flash('Ticket wurde wieder geöffnet.', 'success')
         
+        db.session.commit()
+
     except Exception as e:
         db.session.rollback()
         flash('Fehler beim Ändern des Ticket-Status.', 'error')
@@ -2447,17 +2452,12 @@ def admin_toggle_ticket_status(ticket_id):
     return redirect(url_for('ticket_detail', ticket_id=ticket_id))
 
 
+# ÄNDERE DIE ADMIN-ROUTE ZUM LÖSCHEN - Nur für Admins
 @app.route('/admin/ticket/delete/<int:ticket_id>', methods=['POST'])
 @admin_required
 def admin_delete_ticket(ticket_id):
-    """Löscht ein geschlossenes Ticket komplett."""
+    """Löscht ein geschlossenes Ticket komplett (nur für Admins)."""
     try:
-        # Zusätzliche Sicherheitsprüfung
-        user = User.query.filter_by(username=session['username']).first()
-        if not user or not user.is_admin:
-            flash('Zugriff verweigert: Admin-Bereich', 'error')
-            return redirect(url_for('homepage'))
-
         ticket = db.session.get(Ticket, ticket_id)
         if ticket is None:
             abort(404)

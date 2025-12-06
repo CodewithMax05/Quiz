@@ -23,22 +23,28 @@
             <div class="chat-header-actions">
                 <span class="status-badge status-{{ ticket.status }}">{{ ticket.status.upper() }}</span>
                 
-                {% if is_admin %}
+                <!-- Status-Toggle-Button für Admin UND User -->
+                <form method="POST" action="{{ url_for('toggle_ticket_status', ticket_id=ticket.id) }}" class="status-toggle-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     {% if ticket.status == 'open' %}
-                    <form method="POST" action="{{ url_for('admin_toggle_ticket_status', ticket_id=ticket.id) }}" class="status-toggle-form">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="ticket-button status-toggle-button">
-                            <i class="fas fa-lock"></i> Ticket schließen
-                        </button>
-                    </form>
+                    <button type="submit" class="ticket-button status-toggle-button">
+                        <i class="fas fa-lock"></i> Ticket schließen
+                    </button>
                     {% else %}
-                    <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" class="delete-ticket-form" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="ticket-button delete-button">
-                            <i class="fas fa-trash"></i> Ticket löschen
-                        </button>
-                    </form>
+                    <button type="submit" class="ticket-button status-toggle-button">
+                        <i class="fas fa-unlock"></i> Ticket wieder öffnen
+                    </button>
                     {% endif %}
+                </form>
+                
+                <!-- Lösch-Button NUR für Admin und NUR wenn geschlossen -->
+                {% if is_admin and ticket.status == 'closed' %}
+                <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" class="delete-ticket-form" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="ticket-button delete-button">
+                        <i class="fas fa-trash"></i> Ticket löschen
+                    </button>
+                </form>
                 {% endif %}
             </div>
         </div>
