@@ -28,7 +28,7 @@
                     <th class="ticket-action">Aktion</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tickets-tbody">
                 {% for ticket in tickets %}
                 <tr class="ticket-row" data-ticket-id="{{ ticket.id }}">
                     <td>
@@ -55,6 +55,17 @@
                 {% endfor %}
             </tbody>
         </table>
+        
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">
+            <i class="fas fa-spinner fa-spin"></i> Lade weitere Tickets...
+        </div>
+        
+        <!-- End of List Indicator -->
+        <div id="end-of-tickets" style="display: none; text-align: center; padding: 20px; color: #666;">
+            Alle Tickets geladen
+        </div>
+        
         {% else %}
         <p class="no-tickets">📭 Es sind keine Tickets vorhanden.</p>
         {% endif %}
@@ -102,12 +113,164 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Klick auf Ticket-Zeilen
         document.querySelectorAll('.ticket-row').forEach(function(row) {
             row.addEventListener('click', function() {
                 const ticketId = this.getAttribute('data-ticket-id');
                 window.location.href = '/ticket/' + ticketId;
             });
         });
+        
+        // Infinite Scrolling für Tickets
+        setupTicketsInfiniteScroll();
     });
+    
+    // Infinite Scrolling Variablen
+    let currentTicketPage = 1;
+    let isLoadingTickets = false;
+    let hasMoreTicketPages = true;
+    
+    function setupTicketsInfiniteScroll() {
+        const ticketsContent = document.querySelector('.tickets-content');
+        if (!ticketsContent) return;
+        
+        ticketsContent.addEventListener('scroll', function() {
+            if (isLoadingTickets || !hasMoreTicketPages) return;
+            
+            const scrollTop = ticketsContent.scrollTop;
+            const scrollHeight = ticketsContent.scrollHeight;
+            const clientHeight = ticketsContent.clientHeight;
+            
+            // Wenn 90% des Inhalts gescrollt wurde, lade mehr Tickets
+            if (scrollTop + clientHeight >= scrollHeight * 0.9) {
+                loadMoreTickets();
+            }
+        });
+        
+        // Initial prüfen, ob mehr Tickets geladen werden müssen
+        setTimeout(() => {
+            if (ticketsContent.scrollHeight <= ticketsContent.clientHeight && hasMoreTicketPages) {
+                loadMoreTickets();
+            }
+        }, 500);
+    }
+    
+    async function loadMoreTickets() {
+        if (isLoadingTickets || !hasMoreTicketPages) return;
+        
+        isLoadingTickets = true;
+        
+        // Loading Indicator anzeigen
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const endIndicator = document.getElementById('end-of-tickets');
+        if (loadingIndicator) loadingIndicator.style.display = 'block';
+        if (endIndicator) endIndicator.style.display = 'none';
+        
+        try {
+            const nextPage = currentTicketPage + 1;
+            const response = await fetch(`/api/tickets?page=${nextPage}`);
+            
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const data = await response.json();
+            
+            // Loading Indicator ausblenden
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            
+            if (data.tickets && data.tickets.length > 0) {
+                appendTicketsToTable(data.tickets);
+                currentTicketPage = nextPage;
+                hasMoreTicketPages = data.has_next;
+                
+                // Wenn keine weiteren Seiten, zeige End-of-List Indicator
+                if (!hasMoreTicketPages) {
+                    showEndOfTicketsIndicator();
+                }
+            } else {
+                hasMoreTicketPages = false;
+                showEndOfTicketsIndicator();
+            }
+        } catch (error) {
+            console.error('Fehler beim Laden weiterer Tickets:', error);
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            createFlashMessage('Fehler beim Laden weiterer Tickets', 'error');
+        } finally {
+            isLoadingTickets = false;
+        }
+    }
+    
+    function appendTicketsToTable(tickets) {
+        const tbody = document.getElementById('tickets-tbody');
+        if (!tbody) return;
+        
+        const isAdmin = document.body.dataset.isAdmin === 'true' || 
+                       document.querySelector('.page-wrapper').dataset.isAdmin === 'true';
+        
+        tickets.forEach((ticket) => {
+            const row = document.createElement('tr');
+            row.className = 'ticket-row';
+            row.setAttribute('data-ticket-id', ticket.id);
+            row.onclick = () => window.location.href = '/ticket/' + ticket.id;
+            
+            // Datum Zelle
+            const dateCell = document.createElement('td');
+            const timeElement = document.createElement('time');
+            timeElement.className = 'utc-time';
+            timeElement.setAttribute('data-iso', ticket.created_at);
+            timeElement.textContent = 'Lädt...';
+            dateCell.appendChild(timeElement);
+            
+            row.appendChild(dateCell);
+            
+            // Spieler Zelle (nur für Admin)
+            if (isAdmin) {
+                const playerCell = document.createElement('td');
+                playerCell.textContent = ticket.user || 'Unbekannt';
+                row.appendChild(playerCell);
+            }
+            
+            // Betreff Zelle
+            const subjectCell = document.createElement('td');
+            subjectCell.textContent = ticket.subject;
+            row.appendChild(subjectCell);
+            
+            // Kategorie Zelle
+            const categoryCell = document.createElement('td');
+            categoryCell.textContent = ticket.category;
+            row.appendChild(categoryCell);
+            
+            // Status Zelle
+            const statusCell = document.createElement('td');
+            const statusBadge = document.createElement('span');
+            statusBadge.className = ticket.status === 'open' ? 
+                'status-badge status-open' : 'status-badge status-closed';
+            statusBadge.textContent = ticket.status === 'open' ? 'OFFEN' : 'GESCHLOSSEN';
+            statusCell.appendChild(statusBadge);
+            row.appendChild(statusCell);
+            
+            // Aktion Zelle
+            const actionCell = document.createElement('td');
+            const actionLink = document.createElement('a');
+            actionLink.href = `/ticket/${ticket.id}`;
+            actionLink.className = 'action-link';
+            actionLink.textContent = 'Ansehen';
+            actionCell.appendChild(actionLink);
+            row.appendChild(actionCell);
+            
+            tbody.appendChild(row);
+        });
+        
+        // Zeit-Konvertierung für neue Elemente
+        if (typeof convertUtcTimeElements === 'function') {
+            convertUtcTimeElements(tbody);
+        }
+    }
+    
+    function showEndOfTicketsIndicator() {
+        const endIndicator = document.getElementById('end-of-tickets');
+        if (endIndicator) {
+            endIndicator.style.display = 'block';
+        }
+    }
 </script>
 {% endblock %}

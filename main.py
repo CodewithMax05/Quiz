@@ -2208,18 +2208,22 @@ def news_admin():
 @app.route('/tickets', methods=['GET'])
 @login_required
 def tickets_overview():
-    """Kombinierte Ticket-Übersicht für Admin und User"""
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
             flash("Benutzer nicht gefunden", "error")
             return redirect(url_for('homepage'))
         
+        per_page = 10
+
         # Tickets basierend auf Benutzerrolle laden
         if user.is_admin:
-            tickets = Ticket.query.order_by(Ticket.last_updated.desc()).all()
+            tickets_query = Ticket.query.order_by(Ticket.created_at.desc())
         else:
-            tickets = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.last_updated.desc()).all()
+            tickets_query = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.created_at.desc())
+        
+        # Nur die erste Seite laden für initiales Rendering
+        tickets = tickets_query.limit(per_page).all()
         
         # Rückkehr-Ziel aus URL-Parameter holen
         return_to = request.args.get('return_to', 'homepage')
@@ -2234,6 +2238,51 @@ def tickets_overview():
         print(f"Fehler beim Laden der Tickets: {str(e)}")
         flash("Fehler beim Laden der Tickets", "error")
         return redirect(url_for('homepage'))
+    
+@app.route('/api/tickets')
+@login_required
+def api_tickets():
+    """API für das Nachladen von Tickets mit Paging"""
+    try:
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            return jsonify({'error': 'Benutzer nicht gefunden'}), 401
+        
+        page = request.args.get('page', 1, type=int)
+        per_page = 10
+        
+        # Tickets basierend auf Benutzerrolle laden
+        if user.is_admin:
+            tickets_query = Ticket.query.order_by(Ticket.created_at.desc())
+        else:
+            tickets_query = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.created_at.desc())
+        
+        # Paginierung
+        tickets_paginated = tickets_query.paginate(page=page, per_page=per_page, error_out=False)
+        
+        tickets_data = []
+        for ticket in tickets_paginated.items:
+            ticket_dict = {
+                'id': ticket.id,
+                'created_at': ticket.created_at.isoformat() if ticket.created_at else None,
+                'subject': ticket.subject,
+                'category': ticket.category,
+                'status': ticket.status,
+                'user': ticket.user.username if ticket.user else None,
+                'user_id': ticket.user_id
+            }
+            tickets_data.append(ticket_dict)
+        
+        return jsonify({
+            'tickets': tickets_data,
+            'has_next': tickets_paginated.has_next,
+            'total_pages': tickets_paginated.pages,
+            'current_page': page
+        })
+        
+    except Exception as e:
+        print(f"Fehler in api_tickets: {str(e)}")
+        return jsonify({'error': 'Ein Fehler ist aufgetreten'}), 500
 
 TICKET_CATEGORIES = [
     "Feedback", 
