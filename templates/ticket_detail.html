@@ -68,8 +68,17 @@
         {% if ticket.status == 'open' %}
             <form class="chat-input-area" method="POST" action="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <textarea name="message_content" placeholder="Ihre Nachricht..." required></textarea>
-                <button type="submit" class="chat-send-button sound-button"><i class="fas fa-paper-plane"></i> Senden</button>
+                
+                <div style="width: 100%; display: flex; flex-direction: column;">
+                    <textarea name="message_content" maxlength="500" placeholder="Ihre Nachricht..." required 
+                              style="width: 100%; margin-bottom: 5px;"
+                              oninput="updateCharCount(this, 'counter-chat')"></textarea>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span id="counter-chat" style="font-size: 0.8rem; color: #aaa;">0 / 500 Zeichen</span>
+                        <button type="submit" class="chat-send-button sound-button"><i class="fas fa-paper-plane"></i> Senden</button>
+                    </div>
+                </div>
             </form>
         {% else %}
             <div class="closed-message">
@@ -80,4 +89,19 @@
     </div>
 
 </div>
+
+<script>
+    function updateCharCount(textarea, counterId) {
+        const maxLength = 500;
+        const currentLength = textarea.value.length;
+        const counter = document.getElementById(counterId);
+        counter.textContent = `${currentLength} / ${maxLength} Zeichen`;
+        
+        if (currentLength >= maxLength) {
+            counter.style.color = '#ff4444';
+        } else {
+            counter.style.color = '#aaa';
+        }
+    }
+</script>
 {% endblock %}

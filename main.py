@@ -147,9 +147,6 @@ class Ticket(db.Model):
 
 
 class TicketMessage(db.Model):
-    """
-    Modell für jede Nachricht innerhalb eines Tickets.
-    """
     __tablename__ = 'ticket_messages'
     id = db.Column(db.Integer, primary_key=True)
     
@@ -2264,7 +2261,15 @@ def ticket_create():
             # 2. Validierung
             if not all([category, subject, message]):
                 flash('Bitte füllen Sie alle Pflichtfelder aus.', 'error')
-                return render_template('ticket_create.html', current_user=user)
+                return render_template('ticket_create.html', categories=TICKET_CATEGORIES, current_user=user)
+        
+            if subject and len(subject) > 80:
+                flash('Der Betreff ist zu lang (maximal 80 Zeichen).', 'error')
+                return render_template('ticket_create.html', categories=TICKET_CATEGORIES, current_user=user)
+            
+            if len(message) > 500:
+                flash('Die Nachricht ist zu lang (maximal 500 Zeichen).', 'error')
+                return render_template('ticket_create.html', categories=TICKET_CATEGORIES, current_user=user)
             
             # 3. User-Profil aktualisieren
             if email:
@@ -2272,7 +2277,7 @@ def ticket_create():
             if phone:
                 user.phone = phone
 
-            # 3. Neues Ticket in der DB speichern
+            # 4. Neues Ticket in der DB speichern
             new_ticket = Ticket(
                 user_id=user.id,
                 subject=subject,
@@ -2283,7 +2288,7 @@ def ticket_create():
             db.session.add(new_ticket)
             db.session.flush()
 
-            # 4. Erste Nachricht des Users speichern
+            # 5. Erste Nachricht des Users speichern
             initial_msg = TicketMessage(
                 ticket_id=new_ticket.id,
                 sender_type='user',
@@ -2309,7 +2314,7 @@ def ticket_create():
 @app.route('/ticket/<int:ticket_id>', methods=['GET', 'POST'])
 @login_required
 def ticket_detail(ticket_id):
-    """Zeigt das Detail eines Tickets (Chat) an und verarbeitet neue Nachrichten."""
+    # Tickets Chat
     try:
         ticket = db.session.get(Ticket, ticket_id)
         if ticket is None:
@@ -2333,6 +2338,10 @@ def ticket_detail(ticket_id):
             
             if not new_message_content:
                 flash('Nachricht darf nicht leer sein.', 'warning')
+                return redirect(url_for('ticket_detail', ticket_id=ticket.id))
+            
+            if len(new_message_content) > 500:
+                flash('Die Nachricht ist zu lang (maximal 500 Zeichen).', 'error')
                 return redirect(url_for('ticket_detail', ticket_id=ticket.id))
 
             # Prüfe Status: Wenn geschlossen, kann niemand mehr schreiben

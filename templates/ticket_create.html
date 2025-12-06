@@ -44,7 +44,13 @@
                 <div class="info-row">
                     <span class="info-label">Betreff: *</span>
                     <span class="info-value">
-                        <input type="text" id="subject" name="subject" value="" required placeholder="Kurze Zusammenfassung des Problems">
+                        <input type="text" id="subject" name="subject" value="" required 
+                               placeholder="Kurze Zusammenfassung des Problems"
+                               maxlength="80"
+                               oninput="updateCharCount(this, 'counter-subject')">
+                        <div id="counter-subject" style="text-align: right; font-size: 0.8rem; color: #aaa; margin-top: 2px;">
+                            0 / 80 Zeichen
+                        </div>
                     </span>
                 </div>
 
@@ -64,7 +70,12 @@
 
                 <div class="info-row message-row">
                     <span class="info-label">Ihre Nachricht: *</span>
-                    <textarea id="message" name="message" rows="6" required placeholder="Beschreiben Sie Ihr Anliegen so genau wie möglich."></textarea>
+                    <textarea id="message" name="message" rows="6" maxlength="500" required 
+                              placeholder="Beschreiben Sie Ihr Anliegen so genau wie möglich."
+                              oninput="updateCharCount(this, 'counter-create')"></textarea>
+                    <div id="counter-create" style="text-align: right; font-size: 0.85rem; color: #aaa; margin-top: 5px;">
+                        0 / 500 Zeichen
+                    </div>
                 </div>
                 
                 <p class="required-note">* Pflichtfelder</p>
@@ -77,4 +88,20 @@
     </div>
 
 </div>
+
+<script>
+    function updateCharCount(element, counterId) {
+        const maxLength = element.getAttribute('maxlength');
+        const currentLength = element.value.length;
+        const counter = document.getElementById(counterId);
+        
+        counter.textContent = `${currentLength} / ${maxLength} Zeichen`;
+        
+        if (currentLength >= maxLength) {
+            counter.style.color = '#ff4444'; // Rot bei Limit
+        } else {
+            counter.style.color = '#aaa'; // Normal
+        }
+    }
+</script>
 {% endblock %}
