@@ -51,14 +51,14 @@
                 <div class="info-row">
                     <span class="info-label">E-Mail:</span>
                     <span class="info-value">
-                        <input type="email" id="email" name="email" value="{{ current_user.email if current_user else '' }}" placeholder="Optional - für Rückfragen">
+                        <input type="email" id="email" name="email" value="{{ current_user.email if current_user.email else '' }}" placeholder="Optional - für Rückfragen">
                     </span>
                 </div>
 
                 <div class="info-row">
                     <span class="info-label">Telefon:</span>
                     <span class="info-value">
-                        <input type="tel" id="phone" name="phone" value="{{ current_user.phone if current_user else '' }}" placeholder="Optional - für Rückfragen">
+                        <input type="tel" id="phone" name="phone" value="{{ current_user.phone if current_user.phone else '' }}" placeholder="Optional - für Rückfragen">
                     </span>
                 </div>
 
