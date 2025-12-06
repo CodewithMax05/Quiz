@@ -131,7 +131,7 @@ class Ticket(db.Model):
     user = db.relationship('User', backref=db.backref('tickets', lazy=True))
 
     # Ticket-Details
-    subject = db.Column(db.String(255), nullable=False)
+    subject = db.Column(db.String(100), nullable=False)
     category = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(20), default='open', nullable=False)
 
@@ -392,7 +392,7 @@ def initialize_database():
                 {'username': 'Felix', 'password': 'test', 'highscore': 725, 'highscore_time': datetime(2025, 9, 6, tzinfo=timezone.utc), 'correct_high': 9},
                 {'username': '2468', 'password': 'test', 'highscore': 715, 'highscore_time': datetime(2025, 9, 13, tzinfo=timezone.utc), 'correct_high': 8},
                 {'username': 'Nino', 'password': 'test', 'highscore': 675, 'highscore_time': datetime(2025, 10, 7, tzinfo=timezone.utc), 'correct_high': 8},
-                {'username': 'Felix', 'password': 'test', 'highscore': 624, 'highscore_time': datetime(2025, 10, 8, tzinfo=timezone.utc), 'correct_high': 7},
+                {'username': 'Willi', 'password': 'test', 'highscore': 624, 'highscore_time': datetime(2025, 10, 8, tzinfo=timezone.utc), 'correct_high': 7},
                 {'username': 'Laura', 'password': 'test', 'highscore': 605, 'highscore_time': datetime(2025, 10, 17, tzinfo=timezone.utc), 'correct_high': 8},
                 {'username': 'Emily', 'password': 'test', 'highscore': 576, 'highscore_time': datetime(2025, 9, 21, tzinfo=timezone.utc), 'correct_high': 6},
                 {'username': 'Christian', 'password': 'test', 'highscore': 535, 'highscore_time': datetime(2025, 9, 10, tzinfo=timezone.utc), 'correct_high': 7},
@@ -492,7 +492,8 @@ def initialize_database():
                 admin_user = User(
                     username=admin_username,
                     is_admin=True,
-                    first_played=datetime.now(timezone.utc)
+                    first_played=datetime.now(timezone.utc),
+                    agb_accepted=True
                 )
                 admin_user.set_password(admin_password)
                 db.session.add(admin_user)
@@ -2204,28 +2205,31 @@ def news_admin():
         flash('Ein Fehler ist aufgetreten', 'error')
         return redirect(url_for('news_admin'))
     
-# =========================================================================
-# TICKETS-SYSTEM ROUTEN
-# =========================================================================
-
-# --- USER-BEREICH ---
-
-@app.route('/my_tickets', methods=['GET'])
+@app.route('/tickets', methods=['GET'])
 @login_required
-def tickets_user():
-    """Zeigt alle Tickets des eingeloggten Users an."""
+def tickets_overview():
+    """Kombinierte Ticket-Übersicht für Admin und User"""
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
             flash("Benutzer nicht gefunden", "error")
             return redirect(url_for('homepage'))
         
-        user_tickets = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.last_updated.desc()).all()
+        # Tickets basierend auf Benutzerrolle laden
+        if user.is_admin:
+            tickets = Ticket.query.order_by(Ticket.last_updated.desc()).all()
+        else:
+            tickets = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.last_updated.desc()).all()
         
-        # Rückkehr-Ziel aus URL-Parameter holen oder Standard auf homepage setzen
+        # Rückkehr-Ziel aus URL-Parameter holen
         return_to = request.args.get('return_to', 'homepage')
         
-        return render_template('tickets_user.html', tickets=user_tickets, return_to=return_to)
+        return render_template(
+            'tickets.html', 
+            tickets=tickets, 
+            is_admin=user.is_admin,
+            return_to=return_to
+        )
     except Exception as e:
         print(f"Fehler beim Laden der Tickets: {str(e)}")
         flash("Fehler beim Laden der Tickets", "error")
@@ -2299,7 +2303,7 @@ def ticket_create():
             db.session.commit()
 
             flash('Ihr Ticket wurde erfolgreich erstellt.', 'success')
-            return redirect(url_for('tickets_user'))
+            return redirect(url_for('tickets_overview'))
                                     
         # GET-Anfrage: Formular rendern
         return render_template('ticket_create.html', categories=TICKET_CATEGORIES, current_user=user)
@@ -2308,7 +2312,7 @@ def ticket_create():
         db.session.rollback()
         print(f"Fehler beim Erstellen des Tickets: {e}")
         flash('Ein Fehler ist beim Speichern aufgetreten.', 'error')
-        return redirect(url_for('tickets_user'))
+        return redirect(url_for('tickets_overview'))
 
 
 @app.route('/ticket/<int:ticket_id>', methods=['GET', 'POST'])
@@ -2379,23 +2383,7 @@ def ticket_detail(ticket_id):
         db.session.rollback()
         print(f"Fehler in ticket_detail: {e}")
         flash('Ein Fehler ist aufgetreten.', 'error')
-        return redirect(url_for('tickets_user'))
-
-
-# --- ADMIN-BEREICH ---
-
-@app.route('/admin/tickets', methods=['GET'])
-@admin_required 
-def tickets_admin():
-    """Zeigt alle Tickets für den Admin an."""
-    try:
-        all_tickets = Ticket.query.order_by(Ticket.last_updated.desc()).all()
-        return render_template('tickets_admin.html', all_tickets=all_tickets)
-    except Exception as e:
-        print(f"Fehler beim Laden der Admin-Tickets: {e}")
-        flash('Fehler beim Laden der Tickets', 'error')
-        return redirect(url_for('admin_panel'))
-
+        return redirect(url_for('tickets_overview'))
 
 @app.route('/admin/ticket/toggle_status/<int:ticket_id>', methods=['POST'])
 @admin_required
@@ -2458,7 +2446,7 @@ def admin_delete_ticket(ticket_id):
         db.session.commit()
         
         flash('Ticket wurde erfolgreich gelöscht.', 'success')
-        return redirect(url_for('tickets_admin'))
+        return redirect(url_for('tickets_overview'))
         
     except Exception as e:
         db.session.rollback()

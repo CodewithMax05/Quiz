@@ -1,6 +1,5 @@
-/* 🌌 TICKETSYSTEM STYLING - Eigenständige Version */
+/* 🌌 KOMBINIERTES TICKETSYSTEM STYLING */
 
-/* Basis-Styling */
 .page-wrapper {
     min-height: 100vh;
     padding: 20px;
@@ -21,30 +20,9 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Zurück-Button */
-.back-button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-}
-
-.back-link {
-    background: none;
-    color: #ccc;
-    text-decoration: none;
-    padding: 10px 20px;
-    transition: color 0.2s;
-    font-size: 1rem;
-}
-
-.back-link:hover {
-    color: #fff;
-}
-
-/* TICKET-ÜBERSICHT (USER) */
-.ticket-list-container {
-    max-width: 900px;
+/* Tickets-Übersicht */
+.tickets-content {
+    max-width: 1200px;
     width: 100%;
     margin: 2rem auto;
     padding: 2rem;
@@ -54,28 +32,13 @@
     box-sizing: border-box;
 }
 
-.ticket-list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.ticket-list-header h2 {
-    margin: 0;
-    font-size: 1.8rem;
-    color: #ffffff;
-}
-
-.ticket-table {
+.tickets-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 10px;
 }
 
-.ticket-table th {
+.tickets-table th {
     padding: 15px;
     text-align: left;
     background-color: rgba(255, 255, 255, 0.1);
@@ -84,10 +47,17 @@
     font-weight: bold;
 }
 
+/* Spaltenbreiten anpassbar je nach Admin/User */
 .ticket-date { width: 15%; }
-.ticket-subject { width: 45%; }
-.ticket-status { width: 20%; }
-.ticket-updated { width: 20%; }
+.ticket-player { width: 15%; }
+.ticket-subject { width: 30%; }
+.ticket-category { width: 15%; }
+.ticket-status { width: 10%; }
+.ticket-action { width: 15%; }
+
+/* Ohne Spieler-Spalte für User */
+.tickets-table:not(.with-player) .ticket-subject { width: 45%; }
+.tickets-table:not(.with-player) .ticket-category { width: 20%; }
 
 .ticket-row {
     background: rgba(255, 255, 255, 0.1);
@@ -102,7 +72,7 @@
     transform: translateY(-2px);
 }
 
-.ticket-table td {
+.tickets-table td {
     padding: 15px;
     color: #f0f4f8;
     border-top: none;
@@ -124,275 +94,7 @@
     text-align: center;
     color: #ccc;
     font-size: 1.1rem;
-    padding: 2rem;
-}
-
-/* TICKET-ERSTELLEN FORMULAR */
-.support-content {
-    max-width: 800px; /* Gleiche Breite wie Chat-Box */
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.support-box {
-    background: rgba(0, 0, 0, 0.4); /* Gleiche Farbe wie Chat-Box */
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-}
-
-.support-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.info-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.info-label {
-    width: 200px;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.info-value {
-    flex: 1;
-}
-
-/* Dropdown - geschlossen: grau mit weißer Schrift, geöffnet: weiß mit schwarzer Schrift */
-.dropup-select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1); /* Grau wie andere Felder */
-    color: #f0f4f8; /* Weiße Schrift */
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    cursor: pointer;
-    appearance: none; /* Entfernt Standard-Pfeil */
-    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 12px;
-}
-
-/* Wenn Dropdown geöffnet ist - Optionen mit schwarzem Text */
-.dropup-select:focus {
-    background-color: #ffffff; /* Weißer Hintergrund wenn fokussiert/geöffnet */
-    color: #000000; /* Schwarzer Text wenn fokussiert/geöffnet */
-}
-
-.dropup-select option {
-    color: #000000; /* Schwarzer Text für Optionen */
-    background-color: #ffffff; /* Weißer Hintergrund für Optionen */
-}
-
-/* Input-Felder mit gleicher Breite wie Textarea */
-.info-value input[type="text"],
-.info-value input[type="email"],
-.info-value input[type="tel"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f0f4f8;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1rem;
-}
-
-.info-value input:focus {
-    outline: none;
-    border-color: #8e2de2;
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.message-row {
-    align-items: flex-start;
-}
-
-.message-row textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f0f4f8;
-    border-radius: 6px;
-    resize: vertical;
-    font-size: 1rem;
-    font-family: inherit;
-    box-sizing: border-box; /* Wichtig für gleiche Breite */
-}
-
-.required-note {
-    color: #e53e3e;
-    font-size: 0.9rem;
-    text-align: right;
-    margin: 0;
-}
-
-.button-content {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.support-button {
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    font-size: 1.1rem;
-}
-
-.support-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* TICKET-DETAIL / CHAT-ANSICHT */
-.chat-box {
-    max-width: 800px;
-    width: 100%;
-    margin: 2rem auto;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.chat-header h2 {
-    font-size: 1.5rem;
-    color: #ffffff;
-    margin: 0;
-}
-
-.chat-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.ticket-meta {
-    color: #ccc;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.messages-container {
-    max-height: 400px;
-    overflow-y: auto;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.05);
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.message {
-    padding: 10px 15px;
-    border-radius: 15px;
-    max-width: 80%;
-    word-wrap: break-word;
-    position: relative;
-}
-
-.user-message {
-    align-self: flex-end;
-    background-color: #4a00e0;
-    color: white;
-    border-bottom-right-radius: 3px;
-}
-
-.admin-message {
-    align-self: flex-start;
-    background-color: #2f855a;
-    color: white;
-    border-bottom-left-radius: 3px;
-}
-
-.message-sender {
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 3px;
-    opacity: 0.7;
-    display: block;
-}
-
-.message-content {
-    margin: 0;
-    line-height: 1.4;
-    white-space: pre-line;
-    word-wrap: break-word;
-}
-
-.message-timestamp {
-    display: block;
-    font-size: 0.7rem;
-    margin-top: 5px;
-    text-align: right;
-    opacity: 0.5;
-}
-
-.chat-input-area {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-}
-
-.chat-input-area textarea {
-    flex: 1;
-    min-height: 50px;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f0f4f8;
-    resize: none;
-    font-size: 1rem;
-    font-family: inherit;
-    white-space: pre-wrap;
-    box-sizing: border-box; /* Wichtig für gleiche Breite */
-}
-
-.chat-send-button {
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    font-size: 1rem;
-}
-
-.chat-send-button:hover {
-    opacity: 0.9;
+    padding: 3rem;
 }
 
 /* Status-Badges */
@@ -403,6 +105,7 @@
     font-size: 0.85rem;
     display: inline-block;
     text-align: center;
+    min-width: 80px;
 }
 
 .status-open {
@@ -415,114 +118,159 @@
     color: #ffffff;
 }
 
-/* Admin-Buttons */
-.status-toggle-form {
-    display: inline-block;
-    margin: 0;
-}
-
-.status-toggle-button {
-    background: #e53e3e;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.status-toggle-button:hover {
-    background: #c53030;
-}
-
-.delete-ticket-form {
-    display: inline-block;
-    margin: 0;
-}
-
-.delete-button {
-    background: #2d3748 !important;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.delete-button:hover {
-    background: #4a5568 !important;
-}
-
-/* Geschlossene Ticket-Info */
-.closed-message {
-    text-align: center;
-    color: #e53e3e;
+/* Aktions-Links */
+.action-link {
+    color: #ffffff;
+    text-decoration: none;
     font-weight: bold;
-    padding: 15px;
-    border: 1px dashed #e53e3e;
-    border-radius: 8px;
-    background-color: rgba(229, 62, 62, 0.1);
+    transition: all 0.2s;
+    padding: 8px 15px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Allgemeine Buttons */
-.ticket-button {
+.action-link:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #7a1fd1, #3a00c7);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Buttons-Container */
+.buttons-container {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Back-Button */
+.back-button {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Create-Button */
+.create-button {
     display: inline-block;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
-    text-align: center;
-    padding: 10px 15px;
+    padding: 12px 25px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     border: none;
     cursor: pointer;
     font-size: 1rem;
 }
 
-.ticket-button:hover {
+.create-button:not(.disabled):hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
+.create-button.disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .tickets-content {
+        padding: 1.5rem;
+    }
+    
+    .tickets-table th,
+    .tickets-table td {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    
+    .ticket-date { width: 20%; }
+    .ticket-player { width: 15%; }
+    .ticket-subject { width: 25%; }
+    .ticket-category { width: 15%; }
+    .ticket-status { width: 15%; }
+    .ticket-action { width: 10%; }
+}
+
 @media (max-width: 768px) {
-    .ticket-list-header {
+    .buttons-container {
         flex-direction: column;
         gap: 1rem;
-        text-align: center;
+        padding: 0 1rem;
     }
     
-    .info-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .info-label {
+    .button-group {
         width: 100%;
+        justify-content: center;
     }
     
-    .chat-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .message {
-        max-width: 90%;
-    }
-    
-    .ticket-table {
+    .tickets-table {
         font-size: 0.8rem;
     }
     
-    .ticket-table th,
-    .ticket-table td {
-        padding: 10px;
+    .tickets-table th,
+    .tickets-table td {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+    
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        min-width: 60px;
+    }
+    
+    .action-link {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .support-title {
+        font-size: 2rem;
+    }
+    
+    .tickets-content {
+        padding: 1rem;
+    }
+    
+    .tickets-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .back-button,
+    .create-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 }
