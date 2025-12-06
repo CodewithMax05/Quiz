@@ -53,7 +53,15 @@
         <div class="messages-container">
             {% for message in messages %}
                 <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
-                    <span class="message-sender">{{ message.sender_name }}</span>
+                    
+                    <span class="message-sender">
+                        {% if message.sender_type == 'admin' %}
+                            Support
+                        {% else %}
+                            {{ message.sender_name }}
+                        {% endif %}
+                    </span>
+                    
                     <p class="message-content">{{ message.content }}</p>
                     
                     <span class="message-timestamp">
