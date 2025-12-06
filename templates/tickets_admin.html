@@ -30,7 +30,7 @@
                 {% for ticket in all_tickets %}
                 <tr class="request-row" data-id="{{ ticket.id }}">
                     <td>{{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
-                    <td>{{ ticket.username }}</td>
+                    <td>{{ ticket.user.username }}</td>
                     <td>{{ ticket.subject }}</td>
                     <td>
                         {% if ticket.status == 'open' %}

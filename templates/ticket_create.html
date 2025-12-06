@@ -23,14 +23,20 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                 <div class="info-row">
+                    <span class="info-label">Spielername:</span>
+                    <span class="info-value">
+                        <input type="text" value="{{ current_user.username if current_user else '' }}" disabled style="opacity: 0.7; cursor: not-allowed;">
+                    </span>
+                </div>
+
+                <div class="info-row">
                     <span class="info-label">Kategorie: *</span>
                     <span class="info-value">
                         <select id="category" name="category" class="dropup-select" required>
                             <option value="" disabled selected>Bitte auswählen</option>
-                            <option value="Feedback">Feedback</option>
-                            <option value="Einreichung - Fragen">Einreichung - Fragen</option>
-                            <option value="Fehlermeldung - Fragen">Fehlermeldung - Fragen</option>
-                            <option value="Allgemeine Frage">Allgemeine Frage</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat }}">{{ cat }}</option>
+                            {% endfor %}
                         </select>
                     </span>
                 </div>
@@ -39,13 +45,6 @@
                     <span class="info-label">Betreff: *</span>
                     <span class="info-value">
                         <input type="text" id="subject" name="subject" value="" required placeholder="Kurze Zusammenfassung des Problems">
-                    </span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Spielername: *</span>
-                    <span class="info-value">
-                        <input type="text" id="username" name="username" value="{{ current_user.username if current_user else '' }}" required>
                     </span>
                 </div>
 
@@ -59,7 +58,7 @@
                 <div class="info-row">
                     <span class="info-label">Telefon:</span>
                     <span class="info-value">
-                        <input type="tel" id="phone" name="phone" value="" placeholder="Optional - für Rückfragen">
+                        <input type="tel" id="phone" name="phone" value="{{ current_user.phone if current_user else '' }}" placeholder="Optional - für Rückfragen">
                     </span>
                 </div>
 

@@ -72,6 +72,8 @@ news_views = db.Table('news_views',
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False, index=True)
+    email = db.Column(db.String(120), nullable=True)
+    phone = db.Column(db.String(50), nullable=True)
     password_hash = db.Column(db.String(150), nullable=False)
     highscore = db.Column(db.Integer, default=0)
     highscore_time = db.Column(db.DateTime)
@@ -119,17 +121,14 @@ class News(db.Model):
         }
 
 class Ticket(db.Model):
-    """
-    Hauptmodell für ein Ticket.
-    """
     __tablename__ = 'tickets'
     id = db.Column(db.Integer, primary_key=True)
     
-    # User-Informationen
+    # User-Fremdschlüssel
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    username = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), nullable=True)
-    phone = db.Column(db.String(50), nullable=True)
+
+    # Das erlaubt Zugriff auf das User-Objekt via ticket.user
+    user = db.relationship('User', backref=db.backref('tickets', lazy=True))
 
     # Ticket-Details
     subject = db.Column(db.String(255), nullable=False)
@@ -2235,12 +2234,19 @@ def tickets_user():
         flash("Fehler beim Laden der Tickets", "error")
         return redirect(url_for('homepage'))
 
-
+TICKET_CATEGORIES = [
+    "Feedback", 
+    "Account", 
+    "Fehlermeldung", 
+    "Missbrauch",
+    "Quiz Frage",
+    "Sonstiges"
+]
 
 @app.route('/create_ticket', methods=['GET', 'POST'])
 @login_required
 def ticket_create():
-    """Formular zum Erstellen eines neuen Tickets und Logik zum Speichern."""
+    # Formular zum Erstellen eines neuen Tickets und Logik zum Speichern.
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
@@ -2252,21 +2258,23 @@ def ticket_create():
             category = request.form.get('category')
             subject = request.form.get('subject')
             message = request.form.get('message')
-            username = request.form.get('username')
-            email = request.form.get('email')  # Jetzt optional
+            email = request.form.get('email')
             phone = request.form.get('phone')
 
-            # 2. Validierung (E-Mail ist jetzt nicht mehr required)
-            if not all([category, subject, message, username]):
+            # 2. Validierung
+            if not all([category, subject, message]):
                 flash('Bitte füllen Sie alle Pflichtfelder aus.', 'error')
                 return render_template('ticket_create.html', current_user=user)
+            
+            # 3. User-Profil aktualisieren
+            if email:
+                user.email = email
+            if phone:
+                user.phone = phone
 
             # 3. Neues Ticket in der DB speichern
             new_ticket = Ticket(
                 user_id=user.id,
-                username=username,
-                email=email,  # Kann None sein
-                phone=phone,
                 subject=subject,
                 category=category,
                 status='open',
@@ -2279,7 +2287,7 @@ def ticket_create():
             initial_msg = TicketMessage(
                 ticket_id=new_ticket.id,
                 sender_type='user',
-                sender_name=username,
+                sender_name=user.username,
                 content=message
             )
             db.session.add(initial_msg)
@@ -2289,7 +2297,7 @@ def ticket_create():
             return redirect(url_for('tickets_user'))
                                     
         # GET-Anfrage: Formular rendern
-        return render_template('ticket_create.html', current_user=user)
+        return render_template('ticket_create.html', categories=TICKET_CATEGORIES, current_user=user)
         
     except Exception as e:
         db.session.rollback()

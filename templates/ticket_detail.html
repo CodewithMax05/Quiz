@@ -43,7 +43,7 @@
             </div>
         </div>
         
-        <p class="ticket-meta">Kategorie: {{ ticket.category }} | Spieler: {{ ticket.username }} | Erstellt: {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+        <p class="ticket-meta">Kategorie: {{ ticket.category }} | Spieler: {{ ticket.user.username }} | Erstellt: {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
 
         <div class="messages-container">
             {% for message in messages %}
