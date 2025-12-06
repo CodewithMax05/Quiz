@@ -43,14 +43,24 @@
             </div>
         </div>
         
-        <p class="ticket-meta">Kategorie: {{ ticket.category }} | Spieler: {{ ticket.user.username }} | Erstellt: {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+        <p class="ticket-meta">
+            Kategorie: {{ ticket.category }} | Spieler: {{ ticket.user.username }} | Erstellt: 
+            <time class="utc-time" data-iso="{{ ticket.created_at|to_iso }}">
+                {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}
+            </time>
+        </p>
 
         <div class="messages-container">
             {% for message in messages %}
                 <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
                     <span class="message-sender">{{ message.sender_name }}</span>
                     <p class="message-content">{{ message.content }}</p>
-                    <span class="message-timestamp">{{ message.created_at.strftime('%H:%M') }}</span>
+                    
+                    <span class="message-timestamp">
+                        <time class="utc-time" data-iso="{{ message.created_at|to_iso }}">
+                            {{ message.created_at.strftime('%H:%M') }}
+                        </time>
+                    </span>
                 </div>
             {% endfor %}
         </div>

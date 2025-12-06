@@ -29,7 +29,11 @@
             <tbody>
                 {% for ticket in all_tickets %}
                 <tr class="request-row" data-id="{{ ticket.id }}">
-                    <td>{{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td>
+                        <time class="utc-time" data-iso="{{ ticket.created_at|to_iso }}">
+                            {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}
+                        </time>
+                    </td>
                     <td>{{ ticket.user.username }}</td>
                     <td>{{ ticket.subject }}</td>
                     <td>
