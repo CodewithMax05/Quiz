@@ -785,8 +785,6 @@ def register():
         session['username'] = username
         session.permanent = False
 
-        #session.pop('pending_registration', None)
-
         target_endpoint = 'admin_panel' if new_user.is_admin else 'playermenu'
         return redirect(url_for(target_endpoint))
 
@@ -799,18 +797,6 @@ def register():
         db.session.rollback()
         print(f"Unerwarteter Fehler bei der Registrierung: {str(e)}")
         flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
-        return redirect(url_for('index'))
-
-
-    except (SQLAlchemyError, OperationalError) as e:
-        db.session.rollback()
-        print(f"Datenbankfehler bei der Registrierung: {str(e)}")
-        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
-        return redirect(url_for('index'))
-    except Exception as e:
-        db.session.rollback()
-        print(f"Unerwarteter Fehler bei der Registrierung: {str(e)}")
-        flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
         return redirect(url_for('index'))
     
 @app.route('/check_username', methods=['GET'])
