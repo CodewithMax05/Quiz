@@ -137,7 +137,6 @@ class Ticket(db.Model):
 
     # Zeitstempel
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    last_updated = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Beziehung zu den Nachrichten
     messages = db.relationship('TicketMessage', backref='ticket', lazy='dynamic')
@@ -2417,9 +2416,6 @@ def ticket_detail(ticket_id):
                 content=new_message_content
             )
             db.session.add(new_msg)
-            
-            # last_updated-Feld aktualisieren
-            ticket.last_updated = datetime.utcnow()
             
             db.session.commit()
             flash('Nachricht gesendet.', 'success')
