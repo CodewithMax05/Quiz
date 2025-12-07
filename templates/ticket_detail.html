@@ -10,11 +10,7 @@
 <div class="page-wrapper">
 
     <div class="back-button-container">
-        {% if is_admin %}
-            <a href="{{ url_for('tickets_overview') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Admin-Übersicht</a>
-        {% else %}
-            <a href="{{ url_for('tickets_overview') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zu Meine Tickets</a>
-        {% endif %}
+        <a href="{{ url_for('tickets_overview') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück</a>
     </div>
 
     <div class="chat-box">
@@ -23,7 +19,6 @@
             <div class="chat-header-actions">
                 <span class="status-badge status-{{ ticket.status }}">{{ ticket.status.upper() }}</span>
                 
-                <!-- Status-Toggle-Button für Admin UND User -->
                 <form method="POST" action="{{ url_for('toggle_ticket_status', ticket_id=ticket.id) }}" class="status-toggle-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     {% if ticket.status == 'open' %}
@@ -37,7 +32,6 @@
                     {% endif %}
                 </form>
                 
-                <!-- Lösch-Button NUR für Admin und NUR wenn geschlossen -->
                 {% if is_admin and ticket.status == 'closed' %}
                 <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" class="delete-ticket-form" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -56,7 +50,12 @@
             </time>
         </p>
 
-        <div class="messages-container">
+        <div class="messages-container" id="chat-container">
+            
+            <div id="chat-loading" style="display: none; text-align: center; padding: 10px; color: #ccc;">
+                <i class="fas fa-spinner fa-spin"></i> Lade ältere Nachrichten...
+            </div>
+
             {% for message in messages %}
                 <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
                     
@@ -117,5 +116,105 @@
             counter.style.color = '#aaa';
         }
     }
+
+    // --- CHAT LOGIK: Paging & Scrolling ---
+    document.addEventListener("DOMContentLoaded", function() {
+        const chatContainer = document.getElementById('chat-container');
+        const loadingIndicator = document.getElementById('chat-loading');
+        const ticketId = "{{ ticket.id }}";
+        
+        let currentOffset = 20; // Initial wurden bereits 20 geladen
+        let isLoading = false;
+        let hasMore = true; 
+
+        // 1. Initial ganz nach unten scrollen (zur neuesten Nachricht)
+        scrollToBottom();
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // 2. Event Listener für das Scrollen nach oben
+        chatContainer.addEventListener('scroll', function() {
+            // Wenn wir ganz oben sind (scrollTop == 0)
+            if (chatContainer.scrollTop === 0 && !isLoading && hasMore) {
+                loadOlderMessages();
+            }
+        });
+
+        async function loadOlderMessages() {
+            isLoading = true;
+            loadingIndicator.style.display = 'block';
+
+            // Alte Höhe speichern, um Sprung zu verhindern
+            const oldHeight = chatContainer.scrollHeight;
+
+            try {
+                const response = await fetch(`/api/ticket/${ticketId}/messages?offset=${currentOffset}`);
+                if (!response.ok) throw new Error('Netzwerkfehler');
+                
+                const data = await response.json();
+                
+                if (data.messages && data.messages.length > 0) {
+                    // Nachrichten rendern und oben einfügen
+                    prependMessages(data.messages);
+                    
+                    // Offset für den nächsten Aufruf erhöhen
+                    currentOffset += data.messages.length;
+                    
+                    // Prüfen ob es noch weitere Seiten gibt
+                    hasMore = data.has_more;
+
+                    // Scroll-Position korrigieren:
+                    // Der User soll visuell an der gleichen Stelle bleiben.
+                    // Die neue Position ist die Differenz aus neuer und alter Gesamthöhe.
+                    requestAnimationFrame(() => {
+                        const newHeight = chatContainer.scrollHeight;
+                        chatContainer.scrollTop = newHeight - oldHeight;
+                    });
+                } else {
+                    hasMore = false;
+                }
+
+            } catch (error) {
+                console.error("Fehler beim Laden:", error);
+            } finally {
+                isLoading = false;
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function prependMessages(messages) {
+            let html = '';
+            messages.forEach(msg => {
+                const isSupport = (msg.sender_type === 'admin');
+                const cssClass = isSupport ? 'admin-message' : 'user-message';
+                
+                html += `
+                <div class="message ${cssClass}">
+                    <span class="message-sender">${msg.sender_name}</span>
+                    <p class="message-content">${escapeHtml(msg.content)}</p>
+                    <span class="message-timestamp">
+                        <time class="utc-time-done">${msg.created_at_formatted}</time>
+                    </span>
+                </div>
+                `;
+            });
+            
+            // HTML direkt nach dem Loading-Spinner einfügen
+            loadingIndicator.insertAdjacentHTML('afterend', html);
+        }
+        
+        // Sicherheitsfunktion gegen XSS
+        function escapeHtml(text) {
+            if (!text) return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    });
 </script>
 {% endblock %}

@@ -2387,7 +2387,10 @@ def ticket_detail(ticket_id):
         if ticket.user_id != user.id and not is_admin:
             abort(403)
 
-        messages = ticket.messages.order_by(TicketMessage.created_at.asc()).all()
+        # Nur die neuesten 20 Nachrichten laden
+        initial_messages = ticket.messages.order_by(TicketMessage.created_at.desc()).limit(20).all()
+        # Liste umdrehen, damit sie chronologisch (alt -> neu) im Chat angezeigt werden
+        messages = list(reversed(initial_messages))
 
         if not is_admin: # Nur wenn der User draufschaut
             unread_messages = TicketMessage.query.filter_by(
@@ -2445,6 +2448,53 @@ def ticket_detail(ticket_id):
         print(f"Fehler in ticket_detail: {e}")
         flash('Ein Fehler ist aufgetreten.', 'error')
         return redirect(url_for('tickets_overview'))
+    
+# für das Nachladen älterer Nachrichten
+@app.route('/api/ticket/<int:ticket_id>/messages')
+@login_required
+def api_ticket_messages(ticket_id):
+    try:
+        ticket = db.session.get(Ticket, ticket_id)
+        if not ticket:
+            return jsonify({'error': 'Ticket not found'}), 404
+            
+        # Berechtigung prüfen (wie oben)
+        user = User.query.filter_by(username=session['username']).first()
+        if ticket.user_id != user.id and not user.is_admin:
+            return jsonify({'error': 'Unauthorized'}), 403
+            
+        # Pagination Parameter
+        offset = request.args.get('offset', 0, type=int)
+        limit = 20
+        
+        # Ältere Nachrichten holen (überspringe die ersten 'offset' Nachrichten)
+        older_messages = ticket.messages.order_by(TicketMessage.created_at.desc())\
+                                      .offset(offset).limit(limit).all()
+        
+        # Umdrehen für chronologische Reihenfolge
+        older_messages = list(reversed(older_messages))
+        
+        # JSON formatieren
+        messages_data = []
+        for msg in older_messages:
+            messages_data.append({
+                'id': msg.id,
+                'sender_type': msg.sender_type,
+                'sender_name': 'Support' if msg.sender_type == 'admin' else msg.sender_name,
+                'content': msg.content,
+                'created_at_iso': msg.created_at.isoformat() if msg.created_at else None,
+                # Für das Frontend formatieren wir das Datum hier oder nutzen JS
+                'created_at_formatted': msg.created_at.strftime('%H:%M') if msg.created_at else ''
+            })
+            
+        return jsonify({
+            'messages': messages_data,
+            'has_more': len(older_messages) == limit
+        })
+        
+    except Exception as e:
+        print(f"API Error: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/ticket/toggle_status/<int:ticket_id>', methods=['POST'])
 @login_required
