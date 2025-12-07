@@ -22,6 +22,9 @@
                     
                     <a href="{{ url_for('tickets_overview', return_to='playermenu') }}" class="circle-button tickets-button sound-button" aria-label="Support Tickets">
                         <i class="fas fa-headset"></i>
+                        {% if ticket_notification_count and ticket_notification_count > 0 %}
+                            <span class="notification-badge">{{ ticket_notification_count }}</span>
+                        {% endif %}
                     </a>
                 </div>
 

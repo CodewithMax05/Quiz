@@ -121,7 +121,6 @@ class News(db.Model):
         }
 
 class Ticket(db.Model):
-    __tablename__ = 'tickets'
     id = db.Column(db.Integer, primary_key=True)
     
     # User-Fremdschlüssel
@@ -146,18 +145,27 @@ class Ticket(db.Model):
 
 
 class TicketMessage(db.Model):
-    __tablename__ = 'ticket_messages'
     id = db.Column(db.Integer, primary_key=True)
     
-    ticket_id = db.Column(db.Integer, db.ForeignKey('tickets.id'), nullable=False)
+    ticket_id = db.Column(db.Integer, db.ForeignKey('ticket.id'), nullable=False)
     
     # Autor der Nachricht: 'user' oder 'admin'
     sender_type = db.Column(db.String(10), nullable=False)
     sender_name = db.Column(db.String(80), nullable=False)
 
     content = db.Column(db.Text, nullable=False)
-    
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    # Status, ob die Nachricht gelesen wurde
+    read = db.Column(db.Boolean, default=False)
+
+# Eine Hilfsfunktion erstellen, um ungelesene Nachrichten zu zählen
+def get_unread_ticket_messages_count(user_id):
+    """Zählt alle ungelesenen Nachrichten von Admins für den User"""
+    return TicketMessage.query.join(Ticket).filter(
+        Ticket.user_id == user_id,
+        TicketMessage.sender_type == 'admin', # Nur Admin-Antworten zählen als "neu" für den User
+        TicketMessage.read == False
+    ).count()
 
 class QuizTimer:
     def __init__(self, socketio, room_id, duration=30):
@@ -300,14 +308,6 @@ def initialize_database():
         try:
             # Tabellen erstellen
             db.create_all()
-
-            # Environment-Variable für erzwungenen Import prüfen
-            force_init = os.environ.get('FORCE_DB_INIT', 'false').lower() == 'true'
-            
-            if force_init:
-                print("Erzwinge Datenbank-Reset...")
-                Question.query.delete()
-                db.session.commit()
             
             print("Prüfe auf neue Fragen...")
             categories = [
@@ -1128,6 +1128,9 @@ def playermenu():
 
         # Hole alle ungelesenen News-IDs
         unseen_count = News.query.filter(~News.viewers.any(id=user.id)).count()
+
+        # Ticket-Count holen
+        ticket_count = get_unread_ticket_messages_count(user.id)
             
         return render_template(
             'playermenu.html',
@@ -1136,7 +1139,8 @@ def playermenu():
             first_played=user.first_played,
             highscore=user.highscore,
             number_of_games=user.number_of_games,
-            news_notification_count=unseen_count
+            news_notification_count=unseen_count,
+            ticket_notification_count=ticket_count
         )
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler im Playermenu: {str(e)}")
@@ -1189,6 +1193,11 @@ def homepage():
             
         if 'username' in session:
             user = User.query.filter_by(username=session['username']).first()
+
+            ticket_count = 0
+            if user:
+                ticket_count = get_unread_ticket_messages_count(user.id)
+
             # Zeige Info-Nachricht nur beim ersten Aufruf
             if not session.get('info_shown'):
                 flash('Du kannst bis zu 16 Themen gleichzeitig auswählen!', 'info')
@@ -1196,7 +1205,8 @@ def homepage():
             return render_template(
                 'homepage.html',
                 username=session['username'],
-                highscore=user.highscore if user else 0
+                highscore=user.highscore if user else 0,
+                ticket_notification_count=ticket_count
             )
         return redirect(url_for('index'))
     except (SQLAlchemyError, OperationalError) as e:
@@ -2370,6 +2380,18 @@ def ticket_detail(ticket_id):
             abort(403)
 
         messages = ticket.messages.order_by(TicketMessage.created_at.asc()).all()
+
+        if not is_admin: # Nur wenn der User draufschaut
+            unread_messages = TicketMessage.query.filter_by(
+                ticket_id=ticket.id, 
+                sender_type='admin', 
+                read=False
+            ).all()
+            
+            if unread_messages:
+                for msg in unread_messages:
+                    msg.read = True
+                db.session.commit()
 
         if request.method == 'POST':
             new_message_content = request.form.get('message_content')

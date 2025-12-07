@@ -283,6 +283,31 @@
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
 
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff4757; /* Knalliges Rot */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 15px;
+    text-align: center;
+    line-height: 1;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
 /* Admin-Button */
 .admin-button {
     justify-self: end;

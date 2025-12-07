@@ -175,10 +175,19 @@ body.playermenu-page {
     font-weight: bold;
     padding: 2px 6px;
     border-radius: 10px;
-    min-width: 15px; /* Mindestbreite für das Ausrufezeichen/kleine Zahlen */
+    min-width: 15px;
     text-align: center;
     line-height: 1;
-    border: 2px solid rgba(26, 26, 46, 0.8); /* Kontrast-Rand zur Spielermenü-Karte */
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 /* Überschrift */

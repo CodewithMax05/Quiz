@@ -162,6 +162,9 @@
             <div class="button-row">
                 <a href="{{ url_for('tickets_overview') }}" class="support-button sound-button" aria-label="Support">
                     <i class="fas fa-headset"></i>
+                    {% if ticket_notification_count and ticket_notification_count > 0 %}
+                        <span class="notification-badge">{{ ticket_notification_count }}</span>
+                    {% endif %}
                 </a>
                 
                 <button type="submit" class="start-button sound-button">
