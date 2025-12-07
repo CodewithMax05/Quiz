@@ -2257,6 +2257,13 @@ def api_tickets():
         
         tickets_data = []
         for ticket in tickets_paginated.items:
+
+            # Zähle ungelesene Nachrichten für den aktuellen User
+            if user.is_admin:
+                unread = ticket.messages.filter_by(sender_type='user', read=False).count()
+            else:
+                unread = ticket.messages.filter_by(sender_type='admin', read=False).count()
+
             ticket_dict = {
                 'id': ticket.id,
                 'created_at': ticket.created_at.isoformat() if ticket.created_at else None,
@@ -2264,7 +2271,8 @@ def api_tickets():
                 'category': ticket.category,
                 'status': ticket.status,
                 'user': ticket.user.username if ticket.user else None,
-                'user_id': ticket.user_id
+                'user_id': ticket.user_id,
+                'unread_count': unread
             }
             tickets_data.append(ticket_dict)
         

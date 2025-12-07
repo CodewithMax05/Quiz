@@ -58,14 +58,81 @@
 /* Spaltenbreiten anpassbar je nach Admin/User */
 .ticket-date { width: 15%; }
 .ticket-player { width: 15%; }
-.ticket-subject { width: 30%; }
+.ticket-subject { width: 35%; }
 .ticket-category { width: 15%; }
 .ticket-status { width: 10%; }
-.ticket-action { width: 15%; }
+.ticket-update { width: 10%; text-align: center; }
 
 /* Ohne Spieler-Spalte für User */
-.tickets-table:not(.with-player) .ticket-subject { width: 45%; }
+.tickets-table:not(.with-player) .ticket-subject { width: 50%; }
 .tickets-table:not(.with-player) .ticket-category { width: 20%; }
+
+.ticket-update-cell {
+    text-align: center;
+    position: relative;
+}
+
+.update-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.update-indicator.seen {
+    color: rgba(255, 255, 255, 0.3); /* Dezent ausgegraut */
+    background: transparent;
+}
+
+.update-indicator.seen i {
+    font-size: 1.1rem;
+}
+
+
+.update-indicator.new {
+    color: #fff;
+    background: linear-gradient(135deg, #00c6ff, #0072ff); /* Modernes Blau */
+    box-shadow: 0 0 10px rgba(0, 114, 255, 0.4);
+    animation: pulse-message 2s infinite;
+}
+
+.update-text {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.update-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #ff4757;
+    border-radius: 50%;
+    border: 2px solid #1a1a2e; /* Hintergrundfarbe simulieren für "Cutout" Effekt */
+    display: none; /* Erstmal ausblenden, da wir "Neu" schreiben */
+}
+
+@keyframes pulse-message {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 114, 255, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px rgba(0, 114, 255, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 114, 255, 0);
+    }
+}
 
 .ticket-row {
     background: rgba(255, 255, 255, 0.1);
@@ -226,6 +293,18 @@
     .ticket-category { width: 15%; }
     .ticket-status { width: 15%; }
     .ticket-action { width: 10%; }
+
+    .ticket-update { width: 12%; }
+    .update-text { display: none; } /* Text "Neu" ausblenden auf kleineren Screens */
+    
+    .update-indicator.new {
+        padding: 8px; /* Runder Button wenn kein Text */
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    
+    .update-indicator.new i { font-size: 1rem; }
 }
 
 @media (max-width: 768px) {
@@ -250,10 +329,12 @@
         font-size: 0.8rem;
     }
     
+    .ticket-update { width: 10%; }
+    
     .status-badge {
-        font-size: 0.7rem;
-        padding: 4px 8px;
-        min-width: 60px;
+        font-size: 0.65rem;
+        padding: 3px 6px;
+        min-width: auto;
     }
     
     .action-link {
