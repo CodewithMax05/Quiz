@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                     <th class="ticket-date">Datum</th>
+                    {# Die Klasse 'ticket-player' ist wichtig für die JS-Erkennung #}
                     {% if is_admin %}
                     <th class="ticket-player">Spieler</th>
                     {% endif %}
@@ -56,12 +57,10 @@
             </tbody>
         </table>
         
-        <!-- Loading Indicator -->
         <div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">
             <i class="fas fa-spinner fa-spin"></i> Lade weitere Tickets...
         </div>
         
-        <!-- End of List Indicator -->
         <div id="end-of-tickets" style="display: none; text-align: center; padding: 20px; color: #666;">
             Alle Tickets geladen
         </div>
@@ -75,7 +74,7 @@
         <div class="button-group">
             {% if is_admin %}
                 <a href="{{ url_for('admin_panel') }}" class="back-button sound-button">
-                    <i class="fas fa-chevron-left"></i> Zurück zur Admin-Panel
+                    <i class="fas fa-chevron-left"></i> Zurück zum Admin-Panel
                 </a>
             {% else %}
                 {% if return_to == 'playermenu' %}
@@ -112,16 +111,31 @@
 </div>
 
 <script>
+    // URL für die API dynamisch aus Flask generieren
+    const apiTicketsUrl = "{{ url_for('api_tickets') }}";
+
     document.addEventListener('DOMContentLoaded', function() {
-        // Klick auf Ticket-Zeilen
-        document.querySelectorAll('.ticket-row').forEach(function(row) {
-            row.addEventListener('click', function() {
-                const ticketId = this.getAttribute('data-ticket-id');
-                window.location.href = '/ticket/' + ticketId;
+        // --- OPTIMIERUNG: Event Delegation ---
+        // Statt Listener auf jede Zeile, ein Listener auf den Container (tbody)
+        const tbody = document.getElementById('tickets-tbody');
+        if (tbody) {
+            tbody.addEventListener('click', function(e) {
+                // Prüfen, ob eine Zeile (oder ein Kind davon) geklickt wurde
+                const row = e.target.closest('.ticket-row');
+                
+                // Wenn eine Zeile gefunden wurde UND sie eine ID hat
+                if (row && row.dataset.ticketId) {
+                    // Verhindern, dass der Klick feuert, wenn man explizit auf den "Ansehen" Link klickt
+                    // (Sonst würde das Event doppelt verarbeitet oder könnte zu Problemen führen)
+                    if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) return;
+                    
+                    // Weiterleitung
+                    window.location.href = '/ticket/' + row.dataset.ticketId;
+                }
             });
-        });
+        }
         
-        // Infinite Scrolling für Tickets
+        // Infinite Scrolling aktivieren
         setupTicketsInfiniteScroll();
     });
     
@@ -147,7 +161,7 @@
             }
         });
         
-        // Initial prüfen, ob mehr Tickets geladen werden müssen
+        // Initial prüfen, ob Content so klein ist, dass kein Scrollbalken da ist (dann sofort nachladen)
         setTimeout(() => {
             if (ticketsContent.scrollHeight <= ticketsContent.clientHeight && hasMoreTicketPages) {
                 loadMoreTickets();
@@ -168,7 +182,8 @@
         
         try {
             const nextPage = currentTicketPage + 1;
-            const response = await fetch(`/api/tickets?page=${nextPage}`);
+            // Verwendung der oben definierten Konstante
+            const response = await fetch(`${apiTicketsUrl}?page=${nextPage}`);
             
             if (!response.ok) throw new Error('Network response was not ok');
             
@@ -193,7 +208,10 @@
         } catch (error) {
             console.error('Fehler beim Laden weiterer Tickets:', error);
             if (loadingIndicator) loadingIndicator.style.display = 'none';
-            createFlashMessage('Fehler beim Laden weiterer Tickets', 'error');
+            // Fallback falls createFlashMessage nicht global verfügbar ist
+            if (typeof createFlashMessage === 'function') {
+                createFlashMessage('Fehler beim Laden weiterer Tickets', 'error');
+            }
         } finally {
             isLoadingTickets = false;
         }
@@ -203,52 +221,57 @@
         const tbody = document.getElementById('tickets-tbody');
         if (!tbody) return;
         
-        const isAdmin = document.body.dataset.isAdmin === 'true' || 
-                       document.querySelector('.page-wrapper').dataset.isAdmin === 'true';
+        // --- OPTIMIERUNG: Robuster Spalten-Check ---
+        // Wir prüfen das DOM, ob die Admin-Spalte (Spieler) existiert
+        const hasPlayerColumn = document.querySelector('.tickets-table th.ticket-player') !== null;
         
         tickets.forEach((ticket) => {
             const row = document.createElement('tr');
             row.className = 'ticket-row';
             row.setAttribute('data-ticket-id', ticket.id);
-            row.onclick = () => window.location.href = '/ticket/' + ticket.id;
+            // HINWEIS: row.onclick wurde entfernt wegen Event Delegation (siehe oben)
             
-            // Datum Zelle
+            // 1. Datum Zelle
             const dateCell = document.createElement('td');
             const timeElement = document.createElement('time');
             timeElement.className = 'utc-time';
+            // Falls das API ISO-Format sendet
             timeElement.setAttribute('data-iso', ticket.created_at);
             timeElement.textContent = 'Lädt...';
             dateCell.appendChild(timeElement);
-            
             row.appendChild(dateCell);
             
-            // Spieler Zelle (nur für Admin)
-            if (isAdmin) {
+            // 2. Spieler Zelle (nur wenn im Header vorhanden)
+            if (hasPlayerColumn) {
                 const playerCell = document.createElement('td');
                 playerCell.textContent = ticket.user || 'Unbekannt';
                 row.appendChild(playerCell);
             }
             
-            // Betreff Zelle
+            // 3. Betreff Zelle
             const subjectCell = document.createElement('td');
             subjectCell.textContent = ticket.subject;
             row.appendChild(subjectCell);
             
-            // Kategorie Zelle
+            // 4. Kategorie Zelle
             const categoryCell = document.createElement('td');
             categoryCell.textContent = ticket.category;
             row.appendChild(categoryCell);
             
-            // Status Zelle
+            // 5. Status Zelle
             const statusCell = document.createElement('td');
             const statusBadge = document.createElement('span');
-            statusBadge.className = ticket.status === 'open' ? 
-                'status-badge status-open' : 'status-badge status-closed';
-            statusBadge.textContent = ticket.status === 'open' ? 'OFFEN' : 'GESCHLOSSEN';
+            if (ticket.status === 'open') {
+                statusBadge.className = 'status-badge status-open';
+                statusBadge.textContent = 'OFFEN';
+            } else {
+                statusBadge.className = 'status-badge status-closed';
+                statusBadge.textContent = 'GESCHLOSSEN';
+            }
             statusCell.appendChild(statusBadge);
             row.appendChild(statusCell);
             
-            // Aktion Zelle
+            // 6. Aktion Zelle
             const actionCell = document.createElement('td');
             const actionLink = document.createElement('a');
             actionLink.href = `/ticket/${ticket.id}`;
@@ -260,7 +283,7 @@
             tbody.appendChild(row);
         });
         
-        // Zeit-Konvertierung für neue Elemente
+        // Zeit-Konvertierung für die neu eingefügten Elemente anstoßen
         if (typeof convertUtcTimeElements === 'function') {
             convertUtcTimeElements(tbody);
         }
