@@ -95,18 +95,50 @@
         <div class="button-group">
             {% if is_admin %}
                 <a href="{{ url_for('admin_panel') }}" class="back-button sound-button">
-                    <i class="fas fa-chevron-left"></i> Zurück zum Admin-Panel
+                    <i class="fas fa-chevron-left"></i> <span class="btn-text">Admin-Panel</span>
                 </a>
             {% else %}
                 {% if return_to == 'playermenu' %}
                     <a href="{{ url_for('playermenu') }}" class="back-button sound-button">
-                        <i class="fas fa-chevron-left"></i> Zurück zum Spielermenü
+                        <i class="fas fa-chevron-left"></i> <span class="btn-text">Menü</span>
                     </a>
                 {% else %}
                     <a href="{{ url_for('homepage') }}" class="back-button sound-button">
-                        <i class="fas fa-chevron-left"></i> Zurück zum Themenmenü
+                        <i class="fas fa-chevron-left"></i> <span class="btn-text">Menü</span>
                     </a>
                 {% endif %}
+            {% endif %}
+        </div>
+        
+        <div class="filter-container">
+            <select id="filter-sort" class="filter-select sound-button">
+                <option value="date_desc" selected>📅 Neueste zuerst</option>
+                <option value="date_asc">📅 Älteste zuerst</option>
+                <option value="subject_asc">🔤 Betreff (A-Z)</option>
+                <option value="subject_desc">🔤 Betreff (Z-A)</option>
+            </select>
+
+            <select id="filter-status" class="filter-select sound-button">
+                <option value="all" selected>S: Alle</option>
+                <option value="open">🔓 Offen</option>
+                <option value="closed">🔒 Geschlossen</option>
+            </select>
+
+            <select id="filter-category" class="filter-select sound-button">
+                <option value="all" selected>K: Alle</option>
+                <option value="Feedback">Feedback</option>
+                <option value="Account">Account</option>
+                <option value="Fehlermeldung">Fehlermeldung</option>
+                <option value="Missbrauch">Missbrauch</option>
+                <option value="Quiz Frage">Quiz Frage</option>
+                <option value="Sonstiges">Sonstiges</option>
+            </select>
+
+            {% if is_admin %}
+            <div class="search-wrapper">
+                <input type="text" id="filter-player" class="filter-input" placeholder="Spieler suchen...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
             {% endif %}
         </div>
         
@@ -114,16 +146,16 @@
             {% if not is_admin %}
                 {% if return_to == 'playermenu' %}
                     <a href="{{ url_for('ticket_create', return_to='playermenu') }}" class="create-button sound-button">
-                        <i class="fas fa-plus"></i> Neues Ticket erstellen
+                        <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
                     </a>
                 {% else %}
                     <a href="{{ url_for('ticket_create', return_to='homepage') }}" class="create-button sound-button">
-                        <i class="fas fa-plus"></i> Neues Ticket erstellen
+                        <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
                     </a>
                 {% endif %}
             {% else %}
                 <button class="create-button disabled" disabled>
-                    <i class="fas fa-plus"></i> Neues Ticket erstellen
+                    <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
                 </button>
             {% endif %}
         </div>
@@ -132,30 +164,43 @@
 </div>
 
 <script>
-    // URL für die API dynamisch aus Flask generieren
+    // URL für die API
     const apiTicketsUrl = "{{ url_for('api_tickets') }}";
+    
+    // Globale Filter-Variablen
+    let filterDebounceTimer;
 
     document.addEventListener('DOMContentLoaded', function() {
-        // --- OPTIMIERUNG: Event Delegation ---
-        // Statt Listener auf jede Zeile, ein Listener auf den Container (tbody)
+        // --- 1. Event Delegation für Klicks auf Tickets (bestehender Code) ---
         const tbody = document.getElementById('tickets-tbody');
         if (tbody) {
             tbody.addEventListener('click', function(e) {
-                // Prüfen, ob eine Zeile (oder ein Kind davon) geklickt wurde
                 const row = e.target.closest('.ticket-row');
-                
-                // Wenn eine Zeile gefunden wurde UND sie eine ID hat
                 if (row && row.dataset.ticketId) {
-                    // Verhindern, dass der Klick feuert, wenn man explizit auf den "Ansehen" Link klickt
-                    // (Sonst würde das Event doppelt verarbeitet oder könnte zu Problemen führen)
                     if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) return;
-                    
-                    // Weiterleitung
                     window.location.href = '/ticket/' + row.dataset.ticketId;
                 }
             });
         }
         
+        // --- 2. Filter Event Listeners (NEU) ---
+        const filterElements = ['filter-sort', 'filter-status', 'filter-category'];
+        filterElements.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                el.addEventListener('change', resetAndReloadTickets);
+            }
+        });
+
+        // Spezieller Listener für das Textfeld (mit Debounce, damit nicht bei jedem Tastendruck geladen wird)
+        const playerInput = document.getElementById('filter-player');
+        if (playerInput) {
+            playerInput.addEventListener('input', function() {
+                clearTimeout(filterDebounceTimer);
+                filterDebounceTimer = setTimeout(resetAndReloadTickets, 500); // Warte 500ms nach Tippen
+            });
+        }
+
         // Infinite Scrolling aktivieren
         setupTicketsInfiniteScroll();
     });
@@ -164,7 +209,29 @@
     let currentTicketPage = 1;
     let isLoadingTickets = false;
     let hasMoreTicketPages = true;
+
+    // --- NEU: Funktion zum Zurücksetzen und Neuladen bei Filteränderung ---
+    function resetAndReloadTickets() {
+        // 1. Reset Variablen
+        currentTicketPage = 0; // Wir setzen auf 0, loadMoreTickets macht +1 daraus
+        hasMoreTicketPages = true;
+        
+        // 2. Tabelle leeren
+        const tbody = document.getElementById('tickets-tbody');
+        if (tbody) tbody.innerHTML = '';
+        
+        // 3. UI Status zurücksetzen
+        const noTicketsMsg = document.querySelector('.no-tickets');
+        if (noTicketsMsg) noTicketsMsg.remove(); // Falls "Keine Tickets" angezeigt wurde, weg damit
+        
+        const endIndicator = document.getElementById('end-of-tickets');
+        if (endIndicator) endIndicator.style.display = 'none';
+
+        // 4. Neu laden
+        loadMoreTickets();
+    }
     
+    // Bestehende Scroll Funktion (unverändert)
     function setupTicketsInfiniteScroll() {
         const ticketsContent = document.querySelector('.tickets-content');
         if (!ticketsContent) return;
@@ -176,41 +243,57 @@
             const scrollHeight = ticketsContent.scrollHeight;
             const clientHeight = ticketsContent.clientHeight;
             
-            // Wenn 90% des Inhalts gescrollt wurde, lade mehr Tickets
             if (scrollTop + clientHeight >= scrollHeight * 0.9) {
                 loadMoreTickets();
             }
         });
         
-        // Initial prüfen, ob Content so klein ist, dass kein Scrollbalken da ist (dann sofort nachladen)
+        // Initial Check (Falls Filter sofort Ergebnisse leer lässt oder Screen groß ist)
         setTimeout(() => {
+             // Nur laden, wenn die Tabelle leer ist (z.B. durch Filter-Reset) oder scrollbar
             if (ticketsContent.scrollHeight <= ticketsContent.clientHeight && hasMoreTicketPages) {
                 loadMoreTickets();
             }
         }, 500);
     }
     
+    // --- MODIFIZIERT: API Aufruf mit Filter-Parametern ---
     async function loadMoreTickets() {
         if (isLoadingTickets || !hasMoreTicketPages) return;
         
         isLoadingTickets = true;
         
-        // Loading Indicator anzeigen
         const loadingIndicator = document.getElementById('loading-indicator');
         const endIndicator = document.getElementById('end-of-tickets');
+        const tbody = document.getElementById('tickets-tbody');
+
         if (loadingIndicator) loadingIndicator.style.display = 'block';
         if (endIndicator) endIndicator.style.display = 'none';
         
         try {
             const nextPage = currentTicketPage + 1;
-            // Verwendung der oben definierten Konstante
-            const response = await fetch(`${apiTicketsUrl}?page=${nextPage}`);
+            
+            // --- NEU: Parameter sammeln ---
+            const sort = document.getElementById('filter-sort')?.value || 'date_desc';
+            const status = document.getElementById('filter-status')?.value || 'all';
+            const category = document.getElementById('filter-category')?.value || 'all';
+            const player = document.getElementById('filter-player')?.value || '';
+
+            // URL mit Parametern bauen
+            const params = new URLSearchParams({
+                page: nextPage,
+                sort: sort,
+                status: status,
+                category: category,
+                player: player
+            });
+
+            const response = await fetch(`${apiTicketsUrl}?${params.toString()}`);
             
             if (!response.ok) throw new Error('Network response was not ok');
             
             const data = await response.json();
             
-            // Loading Indicator ausblenden
             if (loadingIndicator) loadingIndicator.style.display = 'none';
             
             if (data.tickets && data.tickets.length > 0) {
@@ -218,31 +301,35 @@
                 currentTicketPage = nextPage;
                 hasMoreTicketPages = data.has_next;
                 
-                // Wenn keine weiteren Seiten, zeige End-of-List Indicator
-                if (!hasMoreTicketPages) {
-                    showEndOfTicketsIndicator();
-                }
+                if (!hasMoreTicketPages) showEndOfTicketsIndicator();
             } else {
                 hasMoreTicketPages = false;
                 showEndOfTicketsIndicator();
+                
+                // Wenn es Seite 1 war und keine Tickets kamen: Leere Nachricht anzeigen
+                if (nextPage === 1 && tbody.children.length === 0) {
+                    const ticketsContent = document.querySelector('.tickets-content');
+                    if(!document.querySelector('.no-tickets')) {
+                        const p = document.createElement('p');
+                        p.className = 'no-tickets';
+                        p.innerHTML = '🔍 Keine Tickets gefunden für diese Filter.';
+                        ticketsContent.appendChild(p);
+                    }
+                }
             }
         } catch (error) {
-            console.error('Fehler beim Laden weiterer Tickets:', error);
+            console.error('Fehler:', error);
             if (loadingIndicator) loadingIndicator.style.display = 'none';
-            // Fallback falls createFlashMessage nicht global verfügbar ist
-            if (typeof createFlashMessage === 'function') {
-                createFlashMessage('Fehler beim Laden weiterer Tickets', 'error');
-            }
         } finally {
             isLoadingTickets = false;
         }
     }
     
+    // appendTicketsToTable bleibt identisch wie in deiner Datei...
     function appendTicketsToTable(tickets) {
         const tbody = document.getElementById('tickets-tbody');
         if (!tbody) return;
         
-        // Wir prüfen das DOM, ob die Admin-Spalte (Spieler) existiert
         const hasPlayerColumn = document.querySelector('.tickets-table th.ticket-player') !== null;
         
         tickets.forEach((ticket) => {
@@ -250,34 +337,33 @@
             row.className = 'ticket-row';
             row.setAttribute('data-ticket-id', ticket.id);
             
-            // 1. Datum Zelle
+            // 1. Datum
             const dateCell = document.createElement('td');
             const timeElement = document.createElement('time');
             timeElement.className = 'utc-time';
-            // Falls das API ISO-Format sendet
             timeElement.setAttribute('data-iso', ticket.created_at);
-            timeElement.textContent = 'Lädt...';
+            timeElement.textContent = '...';
             dateCell.appendChild(timeElement);
             row.appendChild(dateCell);
             
-            // 2. Spieler Zelle (nur wenn im Header vorhanden)
+            // 2. Spieler (optional)
             if (hasPlayerColumn) {
                 const playerCell = document.createElement('td');
                 playerCell.textContent = ticket.user || 'Unbekannt';
                 row.appendChild(playerCell);
             }
             
-            // 3. Betreff Zelle
+            // 3. Betreff
             const subjectCell = document.createElement('td');
             subjectCell.textContent = ticket.subject;
             row.appendChild(subjectCell);
             
-            // 4. Kategorie Zelle
+            // 4. Kategorie
             const categoryCell = document.createElement('td');
             categoryCell.textContent = ticket.category;
             row.appendChild(categoryCell);
             
-            // 5. Status Zelle
+            // 5. Status
             const statusCell = document.createElement('td');
             const statusBadge = document.createElement('span');
             if (ticket.status === 'open') {
@@ -290,28 +376,24 @@
             statusCell.appendChild(statusBadge);
             row.appendChild(statusCell);
             
-            // 6. Update Zelle
+            // 6. Update
             const updateCell = document.createElement('td');
             updateCell.className = 'ticket-update-cell';
-
+            const indicator = document.createElement('div');
+            
             if (ticket.unread_count && ticket.unread_count > 0) {
-                const indicator = document.createElement('div');
                 indicator.className = 'update-indicator new';
                 indicator.innerHTML = '<i class="fas fa-envelope"></i><span class="update-text">Neu</span>';
-                updateCell.appendChild(indicator);
             } else {
-                const indicator = document.createElement('div');
                 indicator.className = 'update-indicator seen';
                 indicator.innerHTML = '<i class="fas fa-check"></i>';
-                updateCell.appendChild(indicator);
             }
-            
+            updateCell.appendChild(indicator);
             row.appendChild(updateCell);
             
             tbody.appendChild(row);
         });
         
-        // Zeit-Konvertierung für die neu eingefügten Elemente anstoßen
         if (typeof convertUtcTimeElements === 'function') {
             convertUtcTimeElements(tbody);
         }
@@ -319,9 +401,7 @@
     
     function showEndOfTicketsIndicator() {
         const endIndicator = document.getElementById('end-of-tickets');
-        if (endIndicator) {
-            endIndicator.style.display = 'block';
-        }
+        if (endIndicator) endIndicator.style.display = 'block';
     }
 </script>
 {% endblock %}

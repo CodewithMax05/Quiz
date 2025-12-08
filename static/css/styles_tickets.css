@@ -219,14 +219,70 @@
     max-width: 1200px;
     margin: 2rem auto 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Links Button, Mitte Filter, Rechts Button */
     align-items: center;
     padding: 0 2rem;
+    flex-wrap: wrap; /* Wichtig für Mobile */
+    gap: 15px;
 }
 
 .button-group {
     display: flex;
     gap: 1rem;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-select, .filter-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #f0f4f8;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.filter-select:hover, .filter-input:hover, .filter-input:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.filter-select option {
+    background-color: #203a43; /* Hintergrund für Dropdown-Liste */
+    color: white;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filter-input {
+    padding-right: 30px; /* Platz für das Icon */
+    width: 140px;
+    cursor: text;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    font-size: 0.8rem;
 }
 
 /* Back-Button */
@@ -316,7 +372,20 @@
     
     .button-group {
         width: 100%;
+        display: flex;
         justify-content: center;
+        order: 2; /* Buttons unter den Filtern */
+    }
+
+    .filter-container {
+        order: 1; /* Filter oben */
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .filter-select, .search-wrapper, .filter-input {
+        flex: 1; /* Elemente dehnen sich auf Mobile */
+        min-width: 120px;
     }
     
     .tickets-table {
@@ -344,6 +413,10 @@
 }
 
 @media (max-width: 480px) {
+    .btn-text {
+        display: none; /* Text auf kleinen Handys ausblenden, nur Icons */
+    }
+    
     .support-title {
         font-size: 2rem;
     }

@@ -2237,44 +2237,79 @@ def tickets_overview():
 @app.route('/api/tickets')
 @login_required
 def api_tickets():
-    """API für das Nachladen von Tickets mit Paging"""
+    """API für das Nachladen von Tickets mit Paging und Filtern"""
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
             return jsonify({'error': 'Benutzer nicht gefunden'}), 401
         
+        # 1. Parameter aus URL holen
         page = request.args.get('page', 1, type=int)
         per_page = 10
         
-        # Tickets basierend auf Benutzerrolle laden
-        if user.is_admin:
-            tickets_query = Ticket.query.order_by(Ticket.created_at.desc())
-        else:
-            tickets_query = Ticket.query.filter_by(user_id=user.id).order_by(Ticket.created_at.desc())
+        sort_by = request.args.get('sort', 'date_desc')
+        filter_status = request.args.get('status', 'all')
+        filter_category = request.args.get('category', 'all')
+        filter_player = request.args.get('player', '').strip()
+
+        # 2. Basis-Query erstellen
+        query = Ticket.query
+
+        # Berechtigung: Admin sieht alle, User nur eigene
+        if not user.is_admin:
+            query = query.filter_by(user_id=user.id)
         
-        # Paginierung
-        tickets_paginated = tickets_query.paginate(page=page, per_page=per_page, error_out=False)
+        # 3. Filter anwenden
+        
+        # Status Filter
+        if filter_status != 'all':
+            query = query.filter(Ticket.status == filter_status)
+            
+        # Kategorie Filter
+        if filter_category != 'all':
+            query = query.filter(Ticket.category == filter_category)
+            
+        # Admin: Spieler-Suche
+        if user.is_admin and filter_player:
+            # Join mit User Tabelle, um nach Username zu suchen (case insensitive via ilike)
+            query = query.join(User).filter(User.username.ilike(f"%{filter_player}%"))
+            
+        # 4. Sortierung anwenden
+        if sort_by == 'date_asc':
+            query = query.order_by(Ticket.created_at.asc())
+        elif sort_by == 'subject_asc':
+            query = query.order_by(Ticket.subject.asc())
+        elif sort_by == 'subject_desc':
+            query = query.order_by(Ticket.subject.desc())
+        else:
+            # Default: date_desc
+            query = query.order_by(Ticket.created_at.desc())
+
+        # 5. Paginierung ausführen
+        tickets_paginated = query.paginate(page=page, per_page=per_page, error_out=False)
         
         tickets_data = []
         for ticket in tickets_paginated.items:
 
-            # Zähle ungelesene Nachrichten für den aktuellen User
+            # Zähle ungelesene Nachrichten
             if user.is_admin:
                 unread = ticket.messages.filter_by(sender_type='user', read=False).count()
             else:
                 unread = ticket.messages.filter_by(sender_type='admin', read=False).count()
 
-            ticket_dict = {
+            # Username holen (etwas robuster, falls User gelöscht wurde)
+            username = ticket.user.username if ticket.user else "Unbekannt"
+
+            tickets_data.append({
                 'id': ticket.id,
                 'created_at': ticket.created_at.isoformat() if ticket.created_at else None,
                 'subject': ticket.subject,
                 'category': ticket.category,
                 'status': ticket.status,
-                'user': ticket.user.username if ticket.user else None,
+                'user': username,
                 'user_id': ticket.user_id,
                 'unread_count': unread
-            }
-            tickets_data.append(ticket_dict)
+            })
         
         return jsonify({
             'tickets': tickets_data,
