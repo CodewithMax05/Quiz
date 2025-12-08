@@ -396,7 +396,7 @@ def initialize_database():
                 {'username': 'Emily', 'password': 'test', 'highscore': 576, 'highscore_time': datetime(2025, 9, 21, tzinfo=timezone.utc), 'correct_high': 6},
                 {'username': 'Christian', 'password': 'test', 'highscore': 535, 'highscore_time': datetime(2025, 9, 10, tzinfo=timezone.utc), 'correct_high': 7},
                 {'username': 'Lena', 'password': 'test', 'highscore': 517, 'highscore_time': datetime(2025, 10, 28, tzinfo=timezone.utc), 'correct_high': 6},
-                {'username': 'MaxS', 'password': 'test', 'highscore': 445, 'highscore_time': datetime(2025, 10, 4, tzinfo=timezone.utc), 'correct_high': 5}
+                {'username': 'Seelenlose', 'password': '#12345', 'highscore': 1000, 'highscore_time': datetime(2025, 10, 4, tzinfo=timezone.utc), 'correct_high': 12}
             ]
 
             added_users = 0
