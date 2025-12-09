@@ -483,6 +483,92 @@ def initialize_database():
             else:
                 print("ℹ️ Keine neuen Test-News benötigt")
 
+            # ========================================================
+            # NEU: User "admin" (Normaler User) & Tickets erstellen
+            # ========================================================
+            print("Prüfe User 'admin' für Tickets...")
+            
+            # 1. User erstellen oder holen
+            ticket_user = User.query.filter_by(username="admin").first()
+            if not ticket_user:
+                ticket_user = User(
+                    username="admin",
+                    is_admin=False, # WICHTIG: Wie gewünscht KEIN Admin-Recht
+                    first_played=datetime.now(timezone.utc),
+                    agb_accepted=True,
+                    email="admin@example.com"
+                )
+                # Passwort setzen
+                ticket_user.set_password("xxxxx")
+                db.session.add(ticket_user)
+                db.session.commit()
+                print("✅ User 'admin' (Normaler User) erstellt")
+            
+            # 2. Tickets erstellen, falls noch keine da sind
+            # Wir prüfen einfach, ob dieser User schon Tickets hat
+            current_ticket_count = Ticket.query.filter_by(user_id=ticket_user.id).count()
+            
+            if current_ticket_count < 10:
+                print("Erstelle 10 offene Tickets für User 'admin'...")
+                
+                categories = ['Feedback', 'Account', 'Fehlermeldung', 'Missbrauch', 'Quiz Frage', 'Sonstiges']
+                subjects = [
+                    "Login funktioniert manchmal nicht",
+                    "Frage zu Punktzahl in Runde 3",
+                    "Rechtschreibfehler gefunden",
+                    "Account löschen anfragen",
+                    "Vorschlag für neue Kategorie",
+                    "Badge wurde nicht vergeben",
+                    "Server scheint langsam zu sein",
+                    "Kann mein Passwort nicht ändern",
+                    "Melde einen Bug im Chat",
+                    "Allgemeines Feedback zum Design"
+                ]
+
+                # Aktuelle Zeit für Zeitstempel
+                base_time = datetime.now(timezone.utc)
+
+                for i in range(10):
+                    # Wir variieren die Zeit rückwirkend, damit die Liste sortiert aussieht
+                    # Jedes Ticket ist 2 Stunden älter als das vorherige
+                    fake_time = base_time - timedelta(hours=i*2, minutes=random.randint(1, 59))
+                    
+                    cat = categories[i % len(categories)]
+                    subj = subjects[i]
+                    msg_content = f"Dies ist eine automatisch erstellte Testnachricht für das Ticket '{subj}'. Bitte um Hilfe."
+
+                    # Ticket Objekt
+                    ticket = Ticket(
+                        user_id=ticket_user.id,
+                        subject=subj,
+                        category=cat,
+                        status="open",
+                        initial_message_content=msg_content,
+                        created_at=fake_time
+                    )
+                    db.session.add(ticket)
+                    db.session.flush() # Nötig, um ticket.id zu generieren
+
+                    # Erste Nachricht im Chat-Verlauf (TicketMessage)
+                    initial_msg = TicketMessage(
+                        ticket_id=ticket.id,
+                        sender_type='user',
+                        sender_name=ticket_user.username,
+                        content=msg_content,
+                        created_at=fake_time,
+                        read=False
+                    )
+                    db.session.add(initial_msg)
+
+                db.session.commit()
+                print("✅ 10 Test-Tickets erstellt.")
+            else:
+                print("ℹ️ Tickets für 'admin' existieren bereits.")
+
+            # ========================================================
+            # ENDE NEU
+            # ========================================================
+
             admin_username = os.environ.get('ADMIN_USERNAME', 'AdminZugang')
             admin_password = os.environ.get('ADMIN_PASSWORD', 'adminzugang')
 
