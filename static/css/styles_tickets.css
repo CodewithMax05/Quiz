@@ -202,7 +202,7 @@ html, body {
 
 /* Scrollbar Styling (wie in News) */
 .tickets-scroll-wrapper::-webkit-scrollbar { width: 6px; }
-.tickets-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); border-radius: 8px; margin: 40px 0 10px 0; /* Margin oben wegen sticky header */ }
+.tickets-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); border-radius: 8px; }
 .tickets-scroll-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); border-radius: 8px; }
 
 /* Tabelle */
