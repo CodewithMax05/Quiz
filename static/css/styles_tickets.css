@@ -1,255 +1,114 @@
-/* 🌌 KOMBINIERTES TICKETSYSTEM STYLING */
+/* =======================================
+   BASIS LAYOUT (Analog zu styles_news.css)
+   ======================================= */
+
+:root {
+    --extra-gap: 20px;
+    --safe-area-top: env(safe-area-inset-top, 15px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 15px);
+    --safe-area-left: env(safe-area-inset-left, 15px);
+    --safe-area-right: env(safe-area-inset-right, 15px);
+}
+
+html, body {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+    display: block !important;
+}
 
 .page-wrapper {
-    min-height: 100vh;
-    padding: 20px;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #f0f4f8;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100dvh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: calc(var(--safe-area-top) + var(--extra-gap));
+    padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
+    padding-left: calc(var(--safe-area-left) + var(--extra-gap));
+    padding-right: calc(var(--safe-area-right) + var(--extra-gap));
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Hintergrund ist bereits in base.css definiert, hier nur sicherstellen */
+    background: transparent; 
 }
 
+/* Der Haupt-Glas-Container */
 .container {
-    text-align: center;
-    margin-bottom: 2rem;
+    background: rgba(15, 32, 39, 0.65); /* Etwas dunkler für besseren Kontrast der Tabelle */
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    
+    /* Breite etwas größer für die Tabelle */
+    width: 1100px; 
+    max-width: 100%;
+    box-sizing: border-box;
+
+    /* Flexbox Layout für korrekte Höhe */
+    display: flex;
+    flex-direction: column;
+    
+    max-height: 100%;
+    min-height: 0;
 }
+
+/* =======================================
+   1. ÜBERSCHRIFT
+   ======================================= */
 
 .support-title {
-    font-size: 2.5rem;
-    color: #ffffff;
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* Tickets-Übersicht */
-.tickets-content {
-    max-width: 1200px;
-    width: 100%;
-    max-height: 600px;
-    overflow-y: auto;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    box-sizing: border-box;
-}
-
-.tickets-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0 10px;
-}
-
-.tickets-table thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.tickets-table th {
-    padding: 15px;
-    text-align: left;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-/* Spaltenbreiten anpassbar je nach Admin/User */
-.ticket-date { width: 15%; }
-.ticket-player { width: 15%; }
-.ticket-subject { width: 35%; }
-.ticket-category { width: 15%; }
-.ticket-status { width: 10%; }
-.ticket-update { width: 10%; text-align: center; }
-
-/* Ohne Spieler-Spalte für User */
-.tickets-table:not(.with-player) .ticket-subject { width: 50%; }
-.tickets-table:not(.with-player) .ticket-category { width: 20%; }
-
-.ticket-update-cell {
+    font-size: 2.2rem; /* Analog zu News */
+    font-weight: 400;
+    margin: 0 0 20px 0;
+    color: white;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.4);
     text-align: center;
-    position: relative;
+    flex-shrink: 0; /* Darf nicht schrumpfen */
 }
 
-.update-indicator {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
+/* =======================================
+   2. BUTTONS & FILTER (Jetzt oben)
+   ======================================= */
 
-.update-indicator.seen {
-    color: rgba(255, 255, 255, 0.3); /* Dezent ausgegraut */
-    background: transparent;
-}
-
-.update-indicator.seen i {
-    font-size: 1.1rem;
-}
-
-
-.update-indicator.new {
-    color: #fff;
-    background: linear-gradient(135deg, #00c6ff, #0072ff); /* Modernes Blau */
-    box-shadow: 0 0 10px rgba(0, 114, 255, 0.4);
-    animation: pulse-message 2s infinite;
-}
-
-.update-text {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.update-dot {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 8px;
-    height: 8px;
-    background-color: #ff4757;
-    border-radius: 50%;
-    border: 2px solid #1a1a2e; /* Hintergrundfarbe simulieren für "Cutout" Effekt */
-    display: none; /* Erstmal ausblenden, da wir "Neu" schreiben */
-}
-
-@keyframes pulse-message {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(0, 114, 255, 0.7);
-    }
-    70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 6px rgba(0, 114, 255, 0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(0, 114, 255, 0);
-    }
-}
-
-.ticket-row {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s, transform 0.1s;
-    cursor: pointer;
-}
-
-.ticket-row:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.tickets-table td {
-    padding: 15px;
-    color: #f0f4f8;
-    border-top: none;
-    border-bottom: none;
-    font-size: 0.95rem;
-}
-
-.ticket-row td:first-child {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.ticket-row td:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-
-.no-tickets {
-    text-align: center;
-    color: #ccc;
-    font-size: 1.1rem;
-    padding: 3rem;
-}
-
-/* Status-Badges */
-.status-badge {
-    padding: 5px 10px;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    display: inline-block;
-    text-align: center;
-    min-width: 80px;
-}
-
-.status-open {
-    background-color: #38a169;
-    color: #ffffff;
-}
-
-.status-closed {
-    background-color: #e53e3e;
-    color: #ffffff;
-}
-
-/* Aktions-Links */
-.action-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.2s;
-    padding: 8px 15px;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
-    display: inline-block;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.action-link:hover {
-    color: #ffffff;
-    background: linear-gradient(135deg, #7a1fd1, #3a00c7);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-/* Buttons-Container */
 .buttons-container {
-    max-width: 1200px;
-    margin: 2rem auto 0;
     display: flex;
-    justify-content: space-between; /* Links Button, Mitte Filter, Rechts Button */
+    justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
-    flex-wrap: wrap; /* Wichtig für Mobile */
+    flex-wrap: wrap;
     gap: 15px;
+    margin-bottom: 20px;
+    flex-shrink: 0; /* Darf nicht schrumpfen */
+    
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .button-group {
     display: flex;
-    gap: 1rem;
+    gap: 10px;
 }
 
+/* Filter Styles */
 .filter-container {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 8px 15px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1; /* Nimmt verfügbaren Platz in der Mitte */
 }
 
 .filter-select, .filter-input {
     background-color: rgba(255, 255, 255, 0.1);
     color: #f0f4f8;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 8px 12px;
     font-size: 0.9rem;
-    font-family: inherit;
     cursor: pointer;
     outline: none;
     transition: all 0.2s ease;
@@ -261,7 +120,7 @@
 }
 
 .filter-select option {
-    background-color: #203a43; /* Hintergrund für Dropdown-Liste */
+    background-color: #203a43;
     color: white;
 }
 
@@ -269,12 +128,6 @@
     position: relative;
     display: flex;
     align-items: center;
-}
-
-.filter-input {
-    padding-right: 30px; /* Platz für das Icon */
-    width: 140px;
-    cursor: text;
 }
 
 .search-icon {
@@ -285,43 +138,44 @@
     font-size: 0.8rem;
 }
 
-/* Back-Button */
-.back-button {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    padding: 12px 25px;
+/* Button Styles (Create / Back) */
+.back-button, .create-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.2s;
+    font-size: 0.9rem;
+    height: 38px; /* Einheitliche Höhe erzwingen */
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.back-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .back-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Create-Button */
 .create-button {
-    display: inline-block;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
-    padding: 12px 25px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: transform 0.2s, box-shadow 0.2s;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
 }
 
 .create-button:not(.disabled):hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
 }
 
 .create-button.disabled {
@@ -331,108 +185,218 @@
     opacity: 0.7;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .tickets-content {
-        padding: 1.5rem;
-    }
-    
-    .tickets-table th,
-    .tickets-table td {
-        padding: 12px;
-        font-size: 0.9rem;
-    }
-    
-    .ticket-date { width: 20%; }
-    .ticket-player { width: 15%; }
-    .ticket-subject { width: 25%; }
-    .ticket-category { width: 15%; }
-    .ticket-status { width: 15%; }
-    .ticket-action { width: 10%; }
+/* =======================================
+   3. TICKET LISTE (Scroll Area)
+   ======================================= */
 
-    .ticket-update { width: 12%; }
-    .update-text { display: none; } /* Text "Neu" ausblenden auf kleineren Screens */
+.tickets-scroll-wrapper {
+    /* Das ist der Bereich, der den restlichen Platz einnimmt und scrollt */
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0; /* Wichtig für Flex-Scrolling */
     
-    .update-indicator.new {
-        padding: 8px; /* Runder Button wenn kein Text */
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-    }
-    
-    .update-indicator.new i { font-size: 1rem; }
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2); /* Leichter Hintergrund für den Tabellenbereich */
+    position: relative;
 }
 
-@media (max-width: 768px) {
+/* Scrollbar Styling (wie in News) */
+.tickets-scroll-wrapper::-webkit-scrollbar { width: 6px; }
+.tickets-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); border-radius: 8px; margin: 40px 0 10px 0; /* Margin oben wegen sticky header */ }
+.tickets-scroll-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); border-radius: 8px; }
+
+/* Tabelle */
+.tickets-table {
+    width: 100%;
+    border-collapse: separate; /* Nötig für sticky header border radius tricks */
+    border-spacing: 0;
+}
+
+.tickets-table thead th {
+    /* STICKY HEADER LOGIK */
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    
+    /* Hintergrund muss deckend sein, damit gescrollte Tickets verschwinden */
+    background: #1c323d; /* Dunkler Ton passend zum Glas-Container */
+    color: rgba(255,255,255,0.9);
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.tickets-table tbody tr:first-child td {
+    padding-top: 20px; /* Abstand zum Header */
+}
+
+.tickets-table td {
+    padding: 15px;
+    color: #eee;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.ticket-row {
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.ticket-row:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Spaltenbreiten */
+.ticket-date { width: 15%; }
+.ticket-player { width: 15%; }
+.ticket-subject { width: 35%; }
+.ticket-category { width: 15%; }
+.ticket-status { width: 10%; }
+.ticket-update { width: 10%; text-align: center; }
+
+/* Ohne Player Spalte (User View) */
+.tickets-table:not(.with-player) .ticket-subject { width: 50%; }
+
+/* =======================================
+   4. UI ELEMENTE (Badges, Status etc.)
+   ======================================= */
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-open {
+    background-color: rgba(56, 161, 105, 0.2);
+    color: #68d391;
+    border: 1px solid rgba(56, 161, 105, 0.4);
+}
+
+.status-closed {
+    background-color: rgba(229, 62, 62, 0.2);
+    color: #fc8181;
+    border: 1px solid rgba(229, 62, 62, 0.4);
+}
+
+/* Update Indikator */
+.ticket-update-cell {
+    text-align: center;
+}
+
+.update-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.update-indicator.seen {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.update-indicator.new {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 114, 255, 0.4);
+    font-weight: bold;
+    animation: pulse-message 2s infinite;
+}
+
+@keyframes pulse-message {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 114, 255, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(0, 114, 255, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 114, 255, 0); }
+}
+
+.no-tickets {
+    padding: 40px;
+    text-align: center;
+    color: #aaa;
+    font-size: 1.1rem;
+}
+
+/* Loading Spinner */
+#loading-indicator, #end-of-tickets {
+    padding: 15px;
+    color: #888;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* =======================================
+   RESPONSIVE
+   ======================================= */
+
+@media (max-width: 900px) {
     .buttons-container {
         flex-direction: column;
-        gap: 1rem;
-        padding: 0 1rem;
+        align-items: stretch;
     }
     
-    .button-group {
+    .button-group, .filter-container {
         width: 100%;
-        display: flex;
-        justify-content: center;
-        order: 2; /* Buttons unter den Filtern */
+        justify-content: space-between;
     }
+    
+    .filter-container { order: 2; } /* Filter in die Mitte / Unten */
+    .button-group:first-child { order: 3; } /* Back Button unten */
+    .button-group:last-child { order: 1; } /* Create Button oben */
 
-    .filter-container {
-        order: 1; /* Filter oben */
+    .filter-select, .search-wrapper, .filter-input {
+        flex: 1;
+        min-width: 0; /* Verhindert overflow */
+    }
+    
+    .tickets-table thead { display: none; } /* Header ausblenden auf Mobile wenn zu eng */
+    
+    .tickets-table, .tickets-table tbody, .tickets-table tr, .tickets-table td {
+        display: block;
         width: 100%;
         box-sizing: border-box;
     }
     
-    .filter-select, .search-wrapper, .filter-input {
-        flex: 1; /* Elemente dehnen sich auf Mobile */
-        min-width: 120px;
+    .ticket-row {
+        margin-bottom: 15px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 10px;
+        padding: 10px;
+        border: 1px solid rgba(255,255,255,0.05);
     }
     
-    .tickets-table {
-        font-size: 0.8rem;
-    }
-    
-    .tickets-table th,
     .tickets-table td {
-        padding: 8px;
-        font-size: 0.8rem;
+        text-align: right;
+        padding: 8px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     
-    .ticket-update { width: 10%; }
-    
-    .status-badge {
-        font-size: 0.65rem;
-        padding: 3px 6px;
-        min-width: auto;
+    .tickets-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #aaa;
+        font-size: 0.85rem;
     }
-    
-    .action-link {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
+
+    .ticket-subject { width: auto; font-weight: bold; color: white; text-align: left !important; display: block !important; padding-top: 10px !important;}
+    .ticket-subject::before { display: none; }
 }
 
 @media (max-width: 480px) {
-    .btn-text {
-        display: none; /* Text auf kleinen Handys ausblenden, nur Icons */
-    }
-    
-    .support-title {
-        font-size: 2rem;
-    }
-    
-    .tickets-content {
-        padding: 1rem;
-    }
-    
-    .tickets-table {
-        display: block;
-        overflow-x: auto;
-    }
-    
-    .back-button,
-    .create-button {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-    }
+    .btn-text { display: none; }
+    .back-button, .create-button { padding: 10px; }
+    .container { padding: 10px; }
+    .support-title { font-size: 1.8rem; }
 }

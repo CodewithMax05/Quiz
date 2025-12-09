@@ -11,167 +11,158 @@
 
     <div class="container">
         <h1 class="support-title">Support Tickets</h1>
-    </div>
 
-    <div class="tickets-content">
-        {% if tickets %}
-        <table class="tickets-table {{ 'with-player' if is_admin else '' }}">
-            <thead>
-                <tr>
-                    <th class="ticket-date">Datum</th>
-                    {% if is_admin %}
-                    <th class="ticket-player">Spieler</th>
-                    {% endif %}
-                    <th class="ticket-subject">Betreff</th>
-                    <th class="ticket-category">Kategorie</th>
-                    <th class="ticket-status">Status</th>
-                    <th class="ticket-update">Updates</th>
-                </tr>
-            </thead>
-            <tbody id="tickets-tbody">
-                {% for ticket in tickets %}
-                
-                {# --- LOGIK FÜR UNGELESENE NACHRICHTEN --- #}
-                {% set unread_count = 0 %}
+        <div class="buttons-container">
+            <div class="button-group">
                 {% if is_admin %}
-                    {# Admin prüft auf ungelesene Nachrichten vom USER #}
-                    {% set unread_count = ticket.messages.filter_by(sender_type='user', read=False).count() %}
+                    <a href="{{ url_for('admin_panel') }}" class="back-button sound-button">
+                        <i class="fas fa-chevron-left"></i> <span class="btn-text">Admin-Panel</span>
+                    </a>
                 {% else %}
-                    {# User prüft auf ungelesene Nachrichten vom ADMIN #}
-                    {% set unread_count = ticket.messages.filter_by(sender_type='admin', read=False).count() %}
-                {% endif %}
-
-                <tr class="ticket-row" data-ticket-id="{{ ticket.id }}">
-                    <td>
-                        <time class="utc-time" data-iso="{{ ticket.created_at|to_iso }}">
-                            {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}
-                        </time>
-                    </td>
-                    {% if is_admin %}
-                    <td>{{ ticket.user.username }}</td>
+                    {% if return_to == 'playermenu' %}
+                        <a href="{{ url_for('playermenu') }}" class="back-button sound-button">
+                            <i class="fas fa-chevron-left"></i> <span class="btn-text">Menü</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('homepage') }}" class="back-button sound-button">
+                            <i class="fas fa-chevron-left"></i> <span class="btn-text">Menü</span>
+                        </a>
                     {% endif %}
-                    <td>{{ ticket.subject }}</td>
-                    <td>{{ ticket.category }}</td>
-                    <td>
-                        {% if ticket.status == 'open' %}
-                            <span class="status-badge status-open">OFFEN</span>
-                        {% else %}
-                            <span class="status-badge status-closed">GESCHLOSSEN</span>
-                        {% endif %}
-                    </td>
-                    
-                    <td class="ticket-update-cell">
-                        {% if unread_count > 0 %}
-                            <div class="update-indicator new">
-                                <i class="fas fa-envelope"></i>
-                                <span class="update-text">Neu</span>
-                                <span class="update-dot"></span>
-                            </div>
-                        {% else %}
-                            <div class="update-indicator seen">
-                                <i class="fas fa-check"></i>
-                            </div>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-        <div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">
-            <i class="fas fa-spinner fa-spin"></i> Lade weitere Tickets...
-        </div>
-        
-        <div id="end-of-tickets" style="display: none; text-align: center; padding: 20px; color: #666;">
-            Alle Tickets geladen
-        </div>
-        
-        {% else %}
-        <p class="no-tickets">📭 Es sind keine Tickets vorhanden.</p>
-        {% endif %}
-    </div>
-
-    <div class="buttons-container">
-        <div class="button-group">
-            {% if is_admin %}
-                <a href="{{ url_for('admin_panel') }}" class="back-button sound-button">
-                    <i class="fas fa-chevron-left"></i> <span class="btn-text">Admin-Panel</span>
-                </a>
-            {% else %}
-                {% if return_to == 'playermenu' %}
-                    <a href="{{ url_for('playermenu') }}" class="back-button sound-button">
-                        <i class="fas fa-chevron-left"></i> <span class="btn-text">Menü</span>
-                    </a>
-                {% else %}
-                    <a href="{{ url_for('homepage') }}" class="back-button sound-button">
-                        <i class="fas fa-chevron-left"></i> <span class="btn-text">Menü</span>
-                    </a>
                 {% endif %}
-            {% endif %}
-        </div>
-        
-        <div class="filter-container">
-            <select id="filter-sort" class="filter-select sound-button">
-                <option value="date_desc" selected>📅 Neueste zuerst</option>
-                <option value="date_asc">📅 Älteste zuerst</option>
-                <option value="subject_asc">🔤 Betreff (A-Z)</option>
-                <option value="subject_desc">🔤 Betreff (Z-A)</option>
-            </select>
-
-            <select id="filter-status" class="filter-select sound-button">
-                <option value="all" selected>S: Alle</option>
-                <option value="open">🔓 Offen</option>
-                <option value="closed">🔒 Geschlossen</option>
-            </select>
-
-            <select id="filter-category" class="filter-select sound-button">
-                <option value="all" selected>K: Alle</option>
-                <option value="Feedback">Feedback</option>
-                <option value="Account">Account</option>
-                <option value="Fehlermeldung">Fehlermeldung</option>
-                <option value="Missbrauch">Missbrauch</option>
-                <option value="Quiz Frage">Quiz Frage</option>
-                <option value="Sonstiges">Sonstiges</option>
-            </select>
-
-            {% if is_admin %}
-            <div class="search-wrapper">
-                <input type="text" id="filter-player" class="filter-input" placeholder="Spieler suchen...">
-                <i class="fas fa-search search-icon"></i>
             </div>
-            {% endif %}
-        </div>
-        
-        <div class="button-group">
-            {% if not is_admin %}
-                {% if return_to == 'playermenu' %}
-                    <a href="{{ url_for('ticket_create', return_to='playermenu') }}" class="create-button sound-button">
-                        <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
-                    </a>
-                {% else %}
-                    <a href="{{ url_for('ticket_create', return_to='homepage') }}" class="create-button sound-button">
-                        <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
-                    </a>
+            
+            <div class="filter-container">
+                <select id="filter-sort" class="filter-select sound-button">
+                    <option value="date_desc" selected>📅 Neueste</option>
+                    <option value="date_asc">📅 Älteste</option>
+                    <option value="subject_asc">🔤 Betreff (A-Z)</option>
+                </select>
+    
+                <select id="filter-status" class="filter-select sound-button">
+                    <option value="all" selected>S: Alle</option>
+                    <option value="open">🔓 Offen</option>
+                    <option value="closed">🔒 Geschlossen</option>
+                </select>
+    
+                <select id="filter-category" class="filter-select sound-button">
+                    <option value="all" selected>K: Alle</option>
+                    <option value="Feedback">Feedback</option>
+                    <option value="Account">Account</option>
+                    <option value="Fehlermeldung">Fehler</option>
+                    <option value="Missbrauch">Missbrauch</option>
+                    <option value="Sonstiges">Sonstiges</option>
+                </select>
+    
+                {% if is_admin %}
+                <div class="search-wrapper">
+                    <input type="text" id="filter-player" class="filter-input" placeholder="Spieler...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
                 {% endif %}
+            </div>
+            
+            <div class="button-group">
+                {% if not is_admin %}
+                    {% if return_to == 'playermenu' %}
+                        <a href="{{ url_for('ticket_create', return_to='playermenu') }}" class="create-button sound-button">
+                            <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('ticket_create', return_to='homepage') }}" class="create-button sound-button">
+                            <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <button class="create-button disabled" disabled>
+                        <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="tickets-scroll-wrapper">
+            {% if tickets %}
+            <table class="tickets-table {{ 'with-player' if is_admin else '' }}">
+                <thead>
+                    <tr>
+                        <th class="ticket-date">Datum</th>
+                        {% if is_admin %}
+                        <th class="ticket-player">Spieler</th>
+                        {% endif %}
+                        <th class="ticket-subject">Betreff</th>
+                        <th class="ticket-category">Kategorie</th>
+                        <th class="ticket-status">Status</th>
+                        <th class="ticket-update">Updates</th>
+                    </tr>
+                </thead>
+                <tbody id="tickets-tbody">
+                    {% for ticket in tickets %}
+                    
+                    {% set unread_count = 0 %}
+                    {% if is_admin %}
+                        {% set unread_count = ticket.messages.filter_by(sender_type='user', read=False).count() %}
+                    {% else %}
+                        {% set unread_count = ticket.messages.filter_by(sender_type='admin', read=False).count() %}
+                    {% endif %}
+
+                    <tr class="ticket-row" data-ticket-id="{{ ticket.id }}">
+                        <td data-label="Datum">
+                            <time class="utc-time" data-iso="{{ ticket.created_at|to_iso }}">
+                                {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}
+                            </time>
+                        </td>
+                        {% if is_admin %}
+                        <td data-label="Spieler">{{ ticket.user.username }}</td>
+                        {% endif %}
+                        <td data-label="Betreff" class="ticket-subject-cell">{{ ticket.subject }}</td>
+                        <td data-label="Kategorie">{{ ticket.category }}</td>
+                        <td data-label="Status">
+                            {% if ticket.status == 'open' %}
+                                <span class="status-badge status-open">OFFEN</span>
+                            {% else %}
+                                <span class="status-badge status-closed">GESCHLOSSEN</span>
+                            {% endif %}
+                        </td>
+                        
+                        <td class="ticket-update-cell" data-label="Update">
+                            {% if unread_count > 0 %}
+                                <div class="update-indicator new">
+                                    <i class="fas fa-envelope"></i>
+                                    <span class="update-text">Neu</span>
+                                </div>
+                            {% else %}
+                                <div class="update-indicator seen">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div id="loading-indicator" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Lade weitere Tickets...
+            </div>
+            
+            <div id="end-of-tickets" style="display: none;">
+                Alle Tickets geladen
+            </div>
+            
             {% else %}
-                <button class="create-button disabled" disabled>
-                    <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
-                </button>
+            <p class="no-tickets">📭 Aktuell sind keine Tickets vorhanden.</p>
             {% endif %}
         </div>
     </div>
-
 </div>
 
 <script>
     // URL für die API
     const apiTicketsUrl = "{{ url_for('api_tickets') }}";
-    
-    // Globale Filter-Variablen
     let filterDebounceTimer;
 
     document.addEventListener('DOMContentLoaded', function() {
-        // --- 1. Event Delegation für Klicks auf Tickets (bestehender Code) ---
+        // Event Delegation für Ticket Klicks
         const tbody = document.getElementById('tickets-tbody');
         if (tbody) {
             tbody.addEventListener('click', function(e) {
@@ -183,21 +174,18 @@
             });
         }
         
-        // --- 2. Filter Event Listeners (NEU) ---
+        // Filter Event Listeners
         const filterElements = ['filter-sort', 'filter-status', 'filter-category'];
         filterElements.forEach(id => {
             const el = document.getElementById(id);
-            if(el) {
-                el.addEventListener('change', resetAndReloadTickets);
-            }
+            if(el) el.addEventListener('change', resetAndReloadTickets);
         });
 
-        // Spezieller Listener für das Textfeld (mit Debounce, damit nicht bei jedem Tastendruck geladen wird)
         const playerInput = document.getElementById('filter-player');
         if (playerInput) {
             playerInput.addEventListener('input', function() {
                 clearTimeout(filterDebounceTimer);
-                filterDebounceTimer = setTimeout(resetAndReloadTickets, 500); // Warte 500ms nach Tippen
+                filterDebounceTimer = setTimeout(resetAndReloadTickets, 500);
             });
         }
 
@@ -210,30 +198,25 @@
     let isLoadingTickets = false;
     let hasMoreTicketPages = true;
 
-    // --- NEU: Funktion zum Zurücksetzen und Neuladen bei Filteränderung ---
     function resetAndReloadTickets() {
-        // 1. Reset Variablen
-        currentTicketPage = 0; // Wir setzen auf 0, loadMoreTickets macht +1 daraus
+        currentTicketPage = 0;
         hasMoreTicketPages = true;
         
-        // 2. Tabelle leeren
         const tbody = document.getElementById('tickets-tbody');
         if (tbody) tbody.innerHTML = '';
         
-        // 3. UI Status zurücksetzen
         const noTicketsMsg = document.querySelector('.no-tickets');
-        if (noTicketsMsg) noTicketsMsg.remove(); // Falls "Keine Tickets" angezeigt wurde, weg damit
+        if (noTicketsMsg) noTicketsMsg.remove();
         
         const endIndicator = document.getElementById('end-of-tickets');
         if (endIndicator) endIndicator.style.display = 'none';
 
-        // 4. Neu laden
         loadMoreTickets();
     }
     
-    // Bestehende Scroll Funktion (unverändert)
     function setupTicketsInfiniteScroll() {
-        const ticketsContent = document.querySelector('.tickets-content');
+        // WICHTIG: Jetzt auf den neuen Wrapper hören!
+        const ticketsContent = document.querySelector('.tickets-scroll-wrapper');
         if (!ticketsContent) return;
         
         ticketsContent.addEventListener('scroll', function() {
@@ -248,16 +231,13 @@
             }
         });
         
-        // Initial Check (Falls Filter sofort Ergebnisse leer lässt oder Screen groß ist)
         setTimeout(() => {
-             // Nur laden, wenn die Tabelle leer ist (z.B. durch Filter-Reset) oder scrollbar
             if (ticketsContent.scrollHeight <= ticketsContent.clientHeight && hasMoreTicketPages) {
                 loadMoreTickets();
             }
         }, 500);
     }
     
-    // --- MODIFIZIERT: API Aufruf mit Filter-Parametern ---
     async function loadMoreTickets() {
         if (isLoadingTickets || !hasMoreTicketPages) return;
         
@@ -266,6 +246,7 @@
         const loadingIndicator = document.getElementById('loading-indicator');
         const endIndicator = document.getElementById('end-of-tickets');
         const tbody = document.getElementById('tickets-tbody');
+        const scrollWrapper = document.querySelector('.tickets-scroll-wrapper');
 
         if (loadingIndicator) loadingIndicator.style.display = 'block';
         if (endIndicator) endIndicator.style.display = 'none';
@@ -273,13 +254,11 @@
         try {
             const nextPage = currentTicketPage + 1;
             
-            // --- NEU: Parameter sammeln ---
             const sort = document.getElementById('filter-sort')?.value || 'date_desc';
             const status = document.getElementById('filter-status')?.value || 'all';
             const category = document.getElementById('filter-category')?.value || 'all';
             const player = document.getElementById('filter-player')?.value || '';
 
-            // URL mit Parametern bauen
             const params = new URLSearchParams({
                 page: nextPage,
                 sort: sort,
@@ -289,7 +268,6 @@
             });
 
             const response = await fetch(`${apiTicketsUrl}?${params.toString()}`);
-            
             if (!response.ok) throw new Error('Network response was not ok');
             
             const data = await response.json();
@@ -300,20 +278,17 @@
                 appendTicketsToTable(data.tickets);
                 currentTicketPage = nextPage;
                 hasMoreTicketPages = data.has_next;
-                
                 if (!hasMoreTicketPages) showEndOfTicketsIndicator();
             } else {
                 hasMoreTicketPages = false;
                 showEndOfTicketsIndicator();
                 
-                // Wenn es Seite 1 war und keine Tickets kamen: Leere Nachricht anzeigen
-                if (nextPage === 1 && tbody.children.length === 0) {
-                    const ticketsContent = document.querySelector('.tickets-content');
+                if (nextPage === 1 && (!tbody || tbody.children.length === 0)) {
                     if(!document.querySelector('.no-tickets')) {
                         const p = document.createElement('p');
                         p.className = 'no-tickets';
-                        p.innerHTML = '🔍 Keine Tickets gefunden für diese Filter.';
-                        ticketsContent.appendChild(p);
+                        p.innerHTML = '🔍 Keine Tickets gefunden.';
+                        scrollWrapper.appendChild(p);
                     }
                 }
             }
@@ -325,10 +300,23 @@
         }
     }
     
-    // appendTicketsToTable bleibt identisch wie in deiner Datei...
     function appendTicketsToTable(tickets) {
-        const tbody = document.getElementById('tickets-tbody');
-        if (!tbody) return;
+        let tbody = document.getElementById('tickets-tbody');
+        
+        // Falls Tabelle durch "no-tickets" Nachricht ersetzt wurde, Struktur wiederherstellen
+        if (!tbody) {
+            const scrollWrapper = document.querySelector('.tickets-scroll-wrapper');
+            const noTickets = scrollWrapper.querySelector('.no-tickets');
+            if(noTickets) noTickets.remove();
+
+            const table = document.querySelector('.tickets-table');
+            if(table) {
+                tbody = document.createElement('tbody');
+                tbody.id = 'tickets-tbody';
+                table.appendChild(tbody);
+            }
+        }
+        if (!tbody) return; // Fallback
         
         const hasPlayerColumn = document.querySelector('.tickets-table th.ticket-player') !== null;
         
@@ -337,8 +325,18 @@
             row.className = 'ticket-row';
             row.setAttribute('data-ticket-id', ticket.id);
             
+            // Helper für Zellen
+            const createCell = (text, label, className = '') => {
+                const td = document.createElement('td');
+                if(className) td.className = className;
+                td.setAttribute('data-label', label);
+                td.textContent = text;
+                return td;
+            };
+
             // 1. Datum
             const dateCell = document.createElement('td');
+            dateCell.setAttribute('data-label', 'Datum');
             const timeElement = document.createElement('time');
             timeElement.className = 'utc-time';
             timeElement.setAttribute('data-iso', ticket.created_at);
@@ -346,25 +344,20 @@
             dateCell.appendChild(timeElement);
             row.appendChild(dateCell);
             
-            // 2. Spieler (optional)
+            // 2. Spieler
             if (hasPlayerColumn) {
-                const playerCell = document.createElement('td');
-                playerCell.textContent = ticket.user || 'Unbekannt';
-                row.appendChild(playerCell);
+                row.appendChild(createCell(ticket.user || 'Unbekannt', 'Spieler'));
             }
             
             // 3. Betreff
-            const subjectCell = document.createElement('td');
-            subjectCell.textContent = ticket.subject;
-            row.appendChild(subjectCell);
+            row.appendChild(createCell(ticket.subject, 'Betreff', 'ticket-subject-cell'));
             
             // 4. Kategorie
-            const categoryCell = document.createElement('td');
-            categoryCell.textContent = ticket.category;
-            row.appendChild(categoryCell);
+            row.appendChild(createCell(ticket.category, 'Kategorie'));
             
             // 5. Status
             const statusCell = document.createElement('td');
+            statusCell.setAttribute('data-label', 'Status');
             const statusBadge = document.createElement('span');
             if (ticket.status === 'open') {
                 statusBadge.className = 'status-badge status-open';
@@ -379,6 +372,7 @@
             // 6. Update
             const updateCell = document.createElement('td');
             updateCell.className = 'ticket-update-cell';
+            updateCell.setAttribute('data-label', 'Update');
             const indicator = document.createElement('div');
             
             if (ticket.unread_count && ticket.unread_count > 0) {
