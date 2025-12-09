@@ -8,85 +8,95 @@
 
 {% block body %}
 <div class="page-wrapper">
-    
-    <div class="back-button-container">
-        <a href="{{ url_for('tickets_overview') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück zur Übersicht</a>
-    </div>
 
     <div class="container">
-        <h1 class="support-title">Neues Support Ticket</h1>
-    </div>
-    
-    <div class="support-content">
-        <div class="support-box">
-            <form class="support-form" method="POST" action="{{ url_for('ticket_create') }}">
+        
+        <div class="form-header">
+            <h1 class="support-title">Ticket erstellen</h1>
+        </div>
+
+        <div class="form-scroll-wrapper">
+            <form id="createTicketForm" class="support-form" method="POST" action="{{ url_for('ticket_create') }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                <div class="info-row">
-                    <span class="info-label">Spielername:</span>
-                    <span class="info-value">
-                        <input type="text" value="{{ current_user.username if current_user else '' }}" disabled style="opacity: 0.7; cursor: not-allowed;">
-                    </span>
+                <div class="form-row">
+                    <label class="form-label">Spielername:</label>
+                    <div class="form-input-wrapper">
+                        <input type="text" class="form-input" 
+                               value="{{ current_user.username if current_user else '' }}" 
+                               disabled>
+                    </div>
                 </div>
 
-                <div class="info-row">
-                    <span class="info-label">Kategorie: *</span>
-                    <span class="info-value">
-                        <select id="category" name="category" class="dropup-select" required>
+                <div class="form-row">
+                    <label class="form-label" for="category">Kategorie <span class="required-mark">*</span></label>
+                    <div class="form-input-wrapper">
+                        <select id="category" name="category" class="form-select" required>
                             <option value="" disabled selected>Bitte auswählen</option>
                             {% for cat in categories %}
                                 <option value="{{ cat }}">{{ cat }}</option>
                             {% endfor %}
                         </select>
-                    </span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Betreff: *</span>
-                    <span class="info-value">
-                        <input type="text" id="subject" name="subject" value="" required 
-                               placeholder="Kurze Zusammenfassung des Problems"
-                               maxlength="80"
-                               oninput="updateCharCount(this, 'counter-subject')">
-                        <div id="counter-subject" style="text-align: right; font-size: 0.8rem; color: #aaa; margin-top: 2px;">
-                            0 / 80 Zeichen
-                        </div>
-                    </span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">E-Mail:</span>
-                    <span class="info-value">
-                        <input type="email" id="email" name="email" value="{{ current_user.email if current_user.email else '' }}" placeholder="Optional - für Rückfragen">
-                    </span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Telefon:</span>
-                    <span class="info-value">
-                        <input type="tel" id="phone" name="phone" value="{{ current_user.phone if current_user.phone else '' }}" placeholder="Optional - für Rückfragen">
-                    </span>
-                </div>
-
-                <div class="info-row message-row">
-                    <span class="info-label">Ihre Nachricht: *</span>
-                    <textarea id="message" name="message" rows="6" maxlength="500" required 
-                              placeholder="Beschreiben Sie Ihr Anliegen so genau wie möglich."
-                              oninput="updateCharCount(this, 'counter-create')"></textarea>
-                    <div id="counter-create" style="text-align: right; font-size: 0.85rem; color: #aaa; margin-top: 5px;">
-                        0 / 500 Zeichen
                     </div>
                 </div>
-                
-                <p class="required-note">* Pflichtfelder</p>
 
-                <div class="button-content">
-                    <button type="submit" class="support-button sound-button">Ticket erstellen</button>
+                <div class="form-row">
+                    <label class="form-label" for="subject">Betreff <span class="required-mark">*</span></label>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="subject" name="subject" class="form-input" 
+                               required 
+                               placeholder="Kurze Zusammenfassung"
+                               maxlength="80"
+                               oninput="updateCharCount(this, 'counter-subject')">
+                        <div id="counter-subject" class="char-counter">0 / 80</div>
+                    </div>
                 </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="email">E-Mail:</label>
+                    <div class="form-input-wrapper">
+                        <input type="email" id="email" name="email" class="form-input" 
+                               value="{{ current_user.email if current_user.email else '' }}" 
+                               placeholder="Für Rückfragen (optional)">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="phone">Telefon:</label>
+                    <div class="form-input-wrapper">
+                        <input type="tel" id="phone" name="phone" class="form-input" 
+                               value="{{ current_user.phone if current_user.phone else '' }}" 
+                               placeholder="Für Rückfragen (optional)">
+                    </div>
+                </div>
+
+                <div class="form-row top-aligned">
+                    <label class="form-label" for="message">Nachricht <span class="required-mark">*</span></label>
+                    <div class="form-input-wrapper">
+                        <textarea id="message" name="message" class="form-textarea" 
+                                  required 
+                                  maxlength="500"
+                                  placeholder="Beschreibe dein Anliegen so genau wie möglich."
+                                  oninput="updateCharCount(this, 'counter-message')"></textarea>
+                        <div id="counter-message" class="char-counter">0 / 500</div>
+                    </div>
+                </div>
+
+                <div class="required-note">* Pflichtfelder</div>
             </form>
         </div>
-    </div>
 
+        <div class="form-footer">
+            <a href="{{ url_for('tickets_overview') }}" class="btn-back sound-button">
+                <i class="fas fa-chevron-left"></i> Zurück
+            </a>
+            
+            <button type="submit" form="createTicketForm" class="btn-submit sound-button">
+                <i class="fas fa-paper-plane"></i> Erstellen
+            </button>
+        </div>
+
+    </div>
 </div>
 
 <script>
@@ -95,10 +105,10 @@
         const currentLength = element.value.length;
         const counter = document.getElementById(counterId);
         
-        counter.textContent = `${currentLength} / ${maxLength} Zeichen`;
+        counter.textContent = `${currentLength} / ${maxLength}`;
         
         if (currentLength >= maxLength) {
-            counter.style.color = '#ff4444'; // Rot bei Limit
+            counter.style.color = '#fc8181'; // Rot bei Limit
         } else {
             counter.style.color = '#aaa'; // Normal
         }

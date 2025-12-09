@@ -1,186 +1,243 @@
-/* 🌌 TICKET-ERSTELLEN STYLING */
+/* =======================================
+   BASIS LAYOUT (Analog zu styles_tickets.css)
+   ======================================= */
 
-.page-wrapper {
-    min-height: 100vh;
-    padding: 20px;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #f0f4f8;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+    --extra-gap: 20px;
+    --safe-area-top: env(safe-area-inset-top, 15px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 15px);
+    --safe-area-left: env(safe-area-inset-left, 15px);
+    --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
+html, body {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+    display: block !important;
+}
+
+.page-wrapper {
+    height: 100dvh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: calc(var(--safe-area-top) + var(--extra-gap));
+    padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
+    padding-left: calc(var(--safe-area-left) + var(--extra-gap));
+    padding-right: calc(var(--safe-area-right) + var(--extra-gap));
+    box-sizing: border-box;
+    background: transparent; 
+}
+
+/* Haupt-Container (Glas-Effekt) */
 .container {
+    background: rgba(15, 32, 39, 0.65);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 0; /* Padding innen regeln wir über Flex-Children */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    
+    width: 800px; /* Angenehme Breite für Formulare */
+    max-width: 100%;
+    
+    /* Wichtig für die Höhe */
+    max-height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Damit Ecken abgerundet bleiben */
+}
+
+/* =======================================
+   1. HEADER
+   ======================================= */
+
+.form-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
     text-align: center;
-    margin-bottom: 2rem;
 }
 
 .support-title {
-    font-size: 2.5rem;
-    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 600;
     margin: 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
-/* Zurück-Button */
-.back-button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+/* =======================================
+   2. SCROLLBEREICH (Formular)
+   ======================================= */
+
+.form-scroll-wrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 25px;
+    
+    /* Scrollbar Styling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.5) rgba(255,255,255,0.05);
 }
 
-.back-link {
-    background: none;
-    color: #ccc;
-    text-decoration: none;
-    padding: 10px 20px;
-    transition: color 0.2s;
-    font-size: 1rem;
-}
-
-.back-link:hover {
-    color: #fff;
-}
-
-/* TICKET-ERSTELLEN FORMULAR */
-.support-content {
-    max-width: 800px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.support-box {
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-}
+.form-scroll-wrapper::-webkit-scrollbar { width: 6px; }
+.form-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); }
+.form-scroll-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); border-radius: 8px; }
 
 .support-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 18px;
 }
 
-.info-row {
+/* Form Row Styling */
+.form-row {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    align-items: center; /* Vertikal zentrieren für einzeilige Felder */
+    gap: 20px;
 }
 
-.info-label {
-    width: 200px;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.info-value {
-    flex: 1;
-}
-
-/* Dropdown - geschlossen: grau mit weißer Schrift, geöffnet: weiß mit schwarzer Schrift */
-.dropup-select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f0f4f8;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 12px;
-}
-
-.dropup-select:focus {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.dropup-select option {
-    color: #000000;
-    background-color: #ffffff;
-}
-
-.info-value input[type="text"],
-.info-value input[type="email"],
-.info-value input[type="tel"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f0f4f8;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1rem;
-}
-
-.info-value input:focus {
-    outline: none;
-    border-color: #8e2de2;
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.message-row {
+/* Spezielle Ausrichtung für Textarea (Label oben bündig) */
+.form-row.top-aligned {
     align-items: flex-start;
 }
 
-.message-row textarea {
+.form-label {
+    width: 140px; /* Feste Breite für Labels damit alles untereinander steht */
+    flex-shrink: 0;
+    color: #ccc;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.required-mark {
+    color: #fc8181;
+    margin-left: 3px;
+}
+
+.form-input-wrapper {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Inputs & Textareas */
+.form-input, .form-select, .form-textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #5a5a5a;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #f0f4f8;
-    border-radius: 6px;
-    resize: vertical;
-    font-size: 1rem;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
     font-family: inherit;
+    transition: all 0.2s ease;
     box-sizing: border-box;
 }
 
-.required-note {
-    color: #e53e3e;
-    font-size: 0.9rem;
+.form-input:disabled {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #8e2de2; /* Lila Highlight passend zum Button */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.2);
+}
+
+/* Fehlervalidierung (wenn Browser :invalid setzt und User getippt hat) */
+.form-input:not(:placeholder-shown):invalid,
+.form-select:not(:placeholder-shown):invalid,
+.form-textarea:not(:placeholder-shown):invalid {
+    border-color: #fc8181;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-select option {
+    background-color: #203a43; /* Dunkler Hintergrund für Dropdown Options */
+    color: white;
+}
+
+/* Counter Text */
+.char-counter {
     text-align: right;
-    margin: 0;
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-top: 4px;
+    margin-right: 2px;
 }
 
-.button-content {
-    text-align: center;
-    margin-top: 1rem;
+.required-note {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-top: 10px;
+    text-align: right;
+    font-style: italic;
 }
 
-.support-button {
+/* =======================================
+   3. FOOTER (Buttons)
+   ======================================= */
+
+.form-footer {
+    padding: 20px 25px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    font-size: 0.9rem;
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    font-size: 1.1rem;
+    transition: all 0.2s;
 }
 
-.support-button:hover {
+.btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .info-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .info-label {
-        width: 100%;
-    }
+    box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
 }
