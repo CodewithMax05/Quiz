@@ -36,16 +36,17 @@
                     <option value="date_desc" selected>📅 Neueste</option>
                     <option value="date_asc">📅 Älteste</option>
                     <option value="subject_asc">🔤 Betreff (A-Z)</option>
+                    <option value="subject_desc">🔤 Betreff (Z-A)</option>
                 </select>
     
                 <select id="filter-status" class="filter-select sound-button">
-                    <option value="all" selected>S: Alle</option>
+                    <option value="all" selected>Alle</option>
                     <option value="open">🔓 Offen</option>
                     <option value="closed">🔒 Geschlossen</option>
                 </select>
     
                 <select id="filter-category" class="filter-select sound-button">
-                    <option value="all" selected>K: Alle</option>
+                    <option value="all" selected>Alle</option>
                     <option value="Feedback">Feedback</option>
                     <option value="Account">Account</option>
                     <option value="Fehlermeldung">Fehler</option>
@@ -132,7 +133,7 @@
                                 </div>
                             {% else %}
                                 <div class="update-indicator seen">
-                                    <i class="fas fa-check"></i>
+                                    <i class="fas fa-eye"></i>
                                 </div>
                             {% endif %}
                         </td>

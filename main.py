@@ -130,9 +130,9 @@ class Ticket(db.Model):
     user = db.relationship('User', backref=db.backref('tickets', lazy=True))
 
     # Ticket-Details
-    subject = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    status = db.Column(db.String(20), default='open', nullable=False)
+    subject = db.Column(db.String(100), nullable=False, index=True)
+    category = db.Column(db.String(50), nullable=False, index=True)
+    status = db.Column(db.String(20), default='open', nullable=False, index=True)
 
     # Zeitstempel
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
