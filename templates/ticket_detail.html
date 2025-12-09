@@ -1,106 +1,114 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>Ticket - {{ ticket.subject }}</title>
+    <title>Ticket #{{ ticket.id }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ticket_detail.css') }}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
 <div class="page-wrapper">
+    <div class="container">
+        
+        <h1 class="support-title">{{ ticket.subject }}</h1>
 
-    <div class="back-button-container">
-        <a href="{{ url_for('tickets_overview') }}" class="back-link"><i class="fas fa-chevron-left"></i> Zurück</a>
-    </div>
+        <div class="controls-row">
+            <div class="controls-left">
+                <a href="{{ url_for('tickets_overview') }}" class="back-button sound-button">
+                    <i class="fas fa-chevron-left"></i> <span class="btn-text">Zurück</span>
+                </a>
+            </div>
 
-    <div class="chat-box">
-        <div class="chat-header">
-            <h2>Ticket: {{ ticket.subject }}</h2>
-            <div class="chat-header-actions">
-                <span class="status-badge status-{{ ticket.status }}">{{ ticket.status.upper() }}</span>
-                
-                <form method="POST" action="{{ url_for('toggle_ticket_status', ticket_id=ticket.id) }}" class="status-toggle-form">
+            <div class="controls-center">
+                {% if ticket.status == 'open' %}
+                    <span class="status-badge status-open"><i class="fas fa-lock-open"></i> Offen</span>
+                {% else %}
+                    <span class="status-badge status-closed"><i class="fas fa-lock"></i> Geschlossen</span>
+                {% endif %}
+            </div>
+
+            <div class="controls-right">
+                <form method="POST" action="{{ url_for('toggle_ticket_status', ticket_id=ticket.id) }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     {% if ticket.status == 'open' %}
-                    <button type="submit" class="ticket-button status-toggle-button">
-                        <i class="fas fa-lock"></i> Ticket schließen
+                    <button type="submit" class="action-button btn-toggle sound-button" title="Ticket schließen">
+                        <i class="fas fa-check-circle"></i> <span class="btn-text">Schließen</span>
                     </button>
                     {% else %}
-                    <button type="submit" class="ticket-button status-toggle-button">
-                        <i class="fas fa-unlock"></i> Ticket wieder öffnen
+                    <button type="submit" class="action-button btn-toggle sound-button" title="Ticket wieder öffnen">
+                        <i class="fas fa-undo"></i> <span class="btn-text">Öffnen</span>
                     </button>
                     {% endif %}
                 </form>
-                
+
                 {% if is_admin and ticket.status == 'closed' %}
-                <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" class="delete-ticket-form" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
+                <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="ticket-button delete-button">
-                        <i class="fas fa-trash"></i> Ticket löschen
+                    <button type="submit" class="action-button btn-delete sound-button" title="Ticket löschen">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
                 {% endif %}
             </div>
         </div>
-        
-        <p class="ticket-meta">
-            Kategorie: {{ ticket.category }} | Spieler: {{ ticket.user.username }} | Erstellt: 
-            <time class="utc-time" data-iso="{{ ticket.created_at|to_iso }}">
-                {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}
-            </time>
-        </p>
 
-        <div class="messages-container" id="chat-container">
-            
-            <div id="chat-loading" style="display: none; text-align: center; padding: 10px; color: #ccc;">
+        <div class="ticket-meta-row">
+            <span class="meta-item"><i class="fas fa-tag"></i> {{ ticket.category }}</span>
+            <span class="meta-item"><i class="fas fa-user"></i> {{ ticket.user.username }}</span>
+            <span class="meta-item">
+                <i class="far fa-clock"></i>
+                <time class="utc-time" data-iso="{{ ticket.created_at|to_iso }}">
+                    {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}
+                </time>
+            </span>
+        </div>
+
+        <div class="chat-scroll-wrapper" id="chat-container">
+            <div id="chat-loading" style="display: none;">
                 <i class="fas fa-spinner fa-spin"></i> Lade ältere Nachrichten...
             </div>
 
             {% for message in messages %}
                 <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
-                    
-                    <span class="message-sender">
-                        {% if message.sender_type == 'admin' %}
-                            Support
-                        {% else %}
-                            {{ message.sender_name }}
-                        {% endif %}
-                    </span>
-                    
+                    <div class="message-header">
+                        <span class="sender-name">
+                            {% if message.sender_type == 'admin' %}Support{% else %}{{ message.sender_name }}{% endif %}
+                        </span>
+                        <span class="message-time">
+                            <time class="utc-time" data-iso="{{ message.created_at|to_iso }}">
+                                {{ message.created_at.strftime('%H:%M') }}
+                            </time>
+                        </span>
+                    </div>
                     <p class="message-content">{{ message.content }}</p>
-                    
-                    <span class="message-timestamp">
-                        <time class="utc-time" data-iso="{{ message.created_at|to_iso }}">
-                            {{ message.created_at.strftime('%H:%M') }}
-                        </time>
-                    </span>
                 </div>
             {% endfor %}
         </div>
 
-        {% if ticket.status == 'open' %}
-            <form class="chat-input-area" method="POST" action="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                
-                <div style="width: 100%; display: flex; flex-direction: column;">
-                    <textarea name="message_content" maxlength="500" placeholder="Ihre Nachricht..." required 
-                              style="width: 100%; margin-bottom: 5px;"
+        <div class="input-area-wrapper">
+            {% if ticket.status == 'open' %}
+                <form class="chat-form" method="POST" action="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <textarea name="message_content" class="chat-textarea" 
+                              maxlength="500" placeholder="Schreibe eine Nachricht..." required 
                               oninput="updateCharCount(this, 'counter-chat')"></textarea>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span id="counter-chat" style="font-size: 0.8rem; color: #aaa;">0 / 500 Zeichen</span>
-                        <button type="submit" class="chat-send-button sound-button"><i class="fas fa-paper-plane"></i> Senden</button>
+                    <div class="input-actions">
+                        <span id="counter-chat" class="char-counter">0 / 500</span>
+                        <button type="submit" class="send-button sound-button">
+                            <i class="fas fa-paper-plane"></i> Senden
+                        </button>
                     </div>
+                </form>
+            {% else %}
+                <div class="closed-notice">
+                    <i class="fas fa-lock"></i> Dieses Ticket ist geschlossen.
                 </div>
-            </form>
-        {% else %}
-            <div class="closed-message">
-                <p>Dieses Ticket ist geschlossen. Es können keine weiteren Nachrichten gesendet werden.</p>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
 
     </div>
-
 </div>
 
 <script>
@@ -108,10 +116,10 @@
         const maxLength = 500;
         const currentLength = textarea.value.length;
         const counter = document.getElementById(counterId);
-        counter.textContent = `${currentLength} / ${maxLength} Zeichen`;
+        counter.textContent = `${currentLength} / ${maxLength}`;
         
         if (currentLength >= maxLength) {
-            counter.style.color = '#ff4444';
+            counter.style.color = '#fc8181';
         } else {
             counter.style.color = '#aaa';
         }
@@ -123,11 +131,11 @@
         const loadingIndicator = document.getElementById('chat-loading');
         const ticketId = "{{ ticket.id }}";
         
-        let currentOffset = 20; // Initial wurden bereits 20 geladen
+        let currentOffset = 20; 
         let isLoading = false;
         let hasMore = true; 
 
-        // 1. Initial ganz nach unten scrollen (zur neuesten Nachricht)
+        // 1. Initial ganz nach unten scrollen
         scrollToBottom();
 
         function scrollToBottom() {
@@ -136,7 +144,6 @@
 
         // 2. Event Listener für das Scrollen nach oben
         chatContainer.addEventListener('scroll', function() {
-            // Wenn wir ganz oben sind (scrollTop == 0)
             if (chatContainer.scrollTop === 0 && !isLoading && hasMore) {
                 loadOlderMessages();
             }
@@ -146,7 +153,6 @@
             isLoading = true;
             loadingIndicator.style.display = 'block';
 
-            // Alte Höhe speichern, um Sprung zu verhindern
             const oldHeight = chatContainer.scrollHeight;
 
             try {
@@ -156,18 +162,10 @@
                 const data = await response.json();
                 
                 if (data.messages && data.messages.length > 0) {
-                    // Nachrichten rendern und oben einfügen
                     prependMessages(data.messages);
-                    
-                    // Offset für den nächsten Aufruf erhöhen
                     currentOffset += data.messages.length;
-                    
-                    // Prüfen ob es noch weitere Seiten gibt
                     hasMore = data.has_more;
 
-                    // Scroll-Position korrigieren:
-                    // Der User soll visuell an der gleichen Stelle bleiben.
-                    // Die neue Position ist die Differenz aus neuer und alter Gesamthöhe.
                     requestAnimationFrame(() => {
                         const newHeight = chatContainer.scrollHeight;
                         chatContainer.scrollTop = newHeight - oldHeight;
@@ -189,23 +187,24 @@
             messages.forEach(msg => {
                 const isSupport = (msg.sender_type === 'admin');
                 const cssClass = isSupport ? 'admin-message' : 'user-message';
+                const senderDisplay = isSupport ? 'Support' : msg.sender_name;
                 
                 html += `
                 <div class="message ${cssClass}">
-                    <span class="message-sender">${msg.sender_name}</span>
+                    <div class="message-header">
+                        <span class="sender-name">${escapeHtml(senderDisplay)}</span>
+                        <span class="message-time">
+                            <time class="utc-time-done">${msg.created_at_formatted}</time>
+                        </span>
+                    </div>
                     <p class="message-content">${escapeHtml(msg.content)}</p>
-                    <span class="message-timestamp">
-                        <time class="utc-time-done">${msg.created_at_formatted}</time>
-                    </span>
                 </div>
                 `;
             });
             
-            // HTML direkt nach dem Loading-Spinner einfügen
             loadingIndicator.insertAdjacentHTML('afterend', html);
         }
         
-        // Sicherheitsfunktion gegen XSS
         function escapeHtml(text) {
             if (!text) return text;
             return text
