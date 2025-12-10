@@ -435,7 +435,7 @@ def initialize_database():
                 # 1. News: Ticket-Feedback-Anfrage (11.12.2025)
                 {
                     'title': 'Dein Feedback ist gefragt!',
-                    'content': 'Liebe Community, da dieses Game für euch ist würden wir uns freuen über Ihre Unterstützung bei der Weiterentwicklung: Ideen, Anregungen und Vorschläge für neue Fragen freuen. Erreichen können Sie uns jederzeit über <a href="https://quiz-1ki1.onrender.com/tickets" target="_blank" style="color: #6cf; text-decoration: underline;">Ticketsystem</a>. Ihr Feedback ist uns wichtig, um das Quiz-Erlebnis kontinuierlich zu verbessern!',
+                    'content': 'Liebe Community, da dieses Game für euch ist würden wir uns freuen über Ihre Unterstützung bei der Weiterentwicklung: Ideen, Anregungen und Vorschläge für neue Fragen freuen. Erreichen können Sie uns jederzeit über <a href="/tickets" style="color: #6cf; text-decoration: underline;">Ticketsystem</a>. Ihr Feedback ist uns wichtig, um das Quiz-Erlebnis kontinuierlich zu verbessern!',
                     'created_at': datetime(2025, 12, 11, 5, 0, tzinfo=timezone.utc)
                 },
 
