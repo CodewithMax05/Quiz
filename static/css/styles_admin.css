@@ -116,7 +116,7 @@ body {
     height: 135px !important;
     min-width: 135px;
     min-height: 135px;
-    display: flex; /* Stellt sicher, dass der Inhalt zentriert werden kann */
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -132,7 +132,7 @@ body {
 .stats-row .col-sm-6,
 .stats-row .col-12 {
     display: flex;
-    justify-content: center; /* Zentriert die Karte innerhalb der Spalte */
+    justify-content: center; 
 }
 
 /* GLEICHE BREITE FÜR ALLE BUTTONS */
@@ -236,110 +236,7 @@ body {
     min-height: 50px;
 }
 
-/* Formulare */
-.admin-input {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
-    border-radius: 8px;
-}
-
-.admin-input:focus {
-    background-color: rgba(255, 255, 255, 0.15) !important;
-    border-color: rgba(0, 180, 255, 0.7) !important;
-    box-shadow: 0 0 0 0.2rem rgba(0, 180, 255, 0.25) !important;
-    color: white !important;
-}
-
-.form-label {
-    color: white;
-    font-weight: 600;
-}
-
-/* Dropdown-Menü für Themen */
-.admin-select {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
-    border-radius: 8px;
-    max-height: 150px;
-    overflow-y: auto;
-}
-
-.admin-select:focus {
-    background-color: rgba(255, 255, 255, 0.15) !important;
-    border-color: rgba(0, 180, 255, 0.7) !important;
-    box-shadow: 0 0 0 0.2rem rgba(0, 180, 255, 0.25) !important;
-    color: white !important;
-}
-
-.admin-select option {
-    background-color: #2c5364;
-    color: white;
-    padding: 8px 12px;
-}
-
-/* Theme Radio Container */
-.theme-radio-container {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 15px 20px;
-    max-height: 200px;
-    overflow-y: auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px 20px;
-    justify-items: center;
-    margin: 0 auto;
-    max-width: 800px;
-}
-
-/* Checkbox + Text nach rechts rücken */
-.theme-radio-container .form-check {
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    padding: 5px 0 5px 15px;
-    width: 100%;
-    justify-content: flex-start;
-    box-sizing: border-box;
-}
-
-.theme-radio-container .form-check-input {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    margin-left: 5px;
-    margin-top: 0;
-    flex-shrink: 0;
-}
-
-.theme-radio-container .form-check-input:checked {
-    background-color: #4299e1;
-    border-color: #4299e1;
-}
-
-.theme-radio-container .form-check-label {
-    color: white;
-    cursor: pointer;
-    font-weight: normal;
-    white-space: nowrap;
-}
-
-.theme-radio-container .form-check-input:focus {
-    box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
-}
-
-@keyframes pulse-purple {
-    0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
-   70% { box-shadow: 0 0 0 10px rgba(116, 0, 224, 0); }
-   100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0); }
-}
-
-/* Responsive Anpassungen */
+/* Responsive Anpassungen (Nur die Dashboard-relevanten behalten) */
 @media (max-width: 1200px) {
     .container {
         max-width: 1000px;
@@ -351,16 +248,9 @@ body {
         max-width: 800px;
     }
     
-    .theme-radio-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px 15px;
-        padding: 12px 15px;
-        max-width: 650px;
-    }
-    
     .stats-row .col-md-4 {
         margin-bottom: 20px;
-        /* Die Bootstrap-Spalteneinstellungen für 992px werden beibehalten, aber die stat-card selbst behält die feste Größe */
+	/* Die Bootstrap-Spalteneinstellungen für 992px werden beibehalten, aber die stat-card selbst behält die feste Größe */
         min-height: auto;
         min-width: auto;
         width: auto;
@@ -368,17 +258,10 @@ body {
         justify-content: center; /* Zentriert die Karte */
     }
 
-    /* Entfernt die Anweisungen, die die stat-card auf 100% Breite setzen, um die feste Größe zu erzwingen */
+/* Entfernt die Anweisungen, die die stat-card auf 100% Breite setzen, um die feste Größe zu erzwingen */
     .stats-row .col-md-4 .stat-card {
         width: 135px !important;
         height: 135px !important;
-    }
-}
-
-@media (max-width: 825px) and (min-width: 805px) {
-    .theme-radio-container {
-        max-width: 600px;
-        gap: 12px 12px;
     }
 }
 
@@ -398,7 +281,7 @@ body {
     }
     
     .stat-card .card-body {
-        /* Anpassung für kleinere Karten, da sie jetzt flexibler sind */
+/* Anpassung für kleinere Karten, da sie jetzt flexibler sind */
         padding: 1rem;
     }
     
@@ -410,15 +293,8 @@ body {
         font-size: 2rem;
     }
     
-    .theme-radio-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px 12px;
-        padding: 10px 12px;
-        max-width: 450px;
-    }
-    
     .stats-row .col-md-4 {
-        /* Die ursprünglichen Einstellungen für 768px beibehalten, um volle Breite zu nutzen */
+/* Die ursprünglichen Einstellungen für 768px beibehalten, um volle Breite zu nutzen */
         flex: 0 0 100%;
         max-width: 100%;
         margin-bottom: 15px;
@@ -434,20 +310,6 @@ body {
     
     .admin-nav .nav-link-text {
         display: none;
-    }
-}
-
-@media (max-width: 755px) and (min-width: 735px) {
-    .theme-radio-container {
-        max-width: 420px;
-        gap: 10px 8px;
-    }
-}
-
-@media (max-width: 630px) and (min-width: 603px) {
-    .theme-radio-container {
-        max-width: 380px;
-        gap: 8px 8px;
     }
 }
 
@@ -476,32 +338,6 @@ body {
     .btn {
         padding: 8px 16px;
         font-size: 0.9rem;
-    }
-    
-    .theme-radio-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 8px;
-        padding: 15px 20px;
-        max-width: 320px;
-        max-height: 150px;
-        overflow-y: auto;
-        margin: 0 auto;
-    }
-    
-    .theme-radio-container .form-check {
-        width: auto;
-        min-width: auto;
-        justify-content: flex-start;
-        margin-left: 0;
-        padding: 5px 0 5px 15px;
-    }
-    
-    .theme-radio-container .form-check-input {
-        margin-left: 5px;
-        margin-right: 10px;
     }
     
     .stats-row .col-md-4 {
@@ -540,13 +376,5 @@ body {
     
     .admin-title {
         font-size: 1.5rem;
-    }
-    
-    .theme-radio-container {
-        padding: 8px 12px;
-    }
-    
-    .theme-radio-container .form-check {
-        margin-left: 10%;
     }
 }

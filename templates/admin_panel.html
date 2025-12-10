@@ -98,116 +98,31 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-
-
-
-
-
-        <div class="card mt-4 admin-card">
-            <div class="card-header">Fragenverwaltung</div>
-            <div class="card-body">
-                <form method="post" action="{{ url_for('add_question') }}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <div class="mb-3">
-                        <label class="form-label">Thema</label>
-                        <div class="theme-radio-container">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-wirtschaft" value="wirtschaft" required>
-                                <label class="form-check-label" for="topic-wirtschaft">Wirtschaft</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-technologie" value="technologie">
-                                <label class="form-check-label" for="topic-technologie">Technologie</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-sprache" value="sprache">
-                                <label class="form-check-label" for="topic-sprache">Sprache</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-promis" value="promis">
-                                <label class="form-check-label" for="topic-promis">Promis</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-sport" value="sport">
-                                <label class="form-check-label" for="topic-sport">Sport</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-natur" value="natur">
-                                <label class="form-check-label" for="topic-natur">Natur</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-musik" value="musik">
-                                <label class="form-check-label" for="topic-musik">Musik</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-glauben" value="glauben">
-                                <label class="form-check-label" for="topic-glauben">Glauben</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-kunst" value="kunst">
-                                <label class="form-check-label" for="topic-kunst">Kunst</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-geschichte" value="geschichte">
-                                <label class="form-check-label" for="topic-geschichte">Geschichte</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-geographie" value="geographie">
-                                <label class="form-check-label" for="topic-geographie">Geographie</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-essen" value="essen">
-                                <label class="form-check-label" for="topic-essen">Essen</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-filme" value="filme">
-                                <label class="form-check-label" for="topic-filme">Filme</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-automobil" value="automobil">
-                                <label class="form-check-label" for="topic-automobil">Automobil</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-astrologie" value="astrologie">
-                                <label class="form-check-label" for="topic-astrologie">Astrologie</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="subject" id="topic-gaming" value="gaming">
-                                <label class="form-check-label" for="topic-gaming">Gaming</label>
-                            </div>
-                        </div>
+            
+            {# NEUE BOXEN HIER #}
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card admin-card w-100 h-100">
+                    <div class="card-header">Fragen</div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        {# Verweis auf die neue Seite zum Hinzufügen von Fragen #}
+                        <a href="{{ url_for('add_question_page') }}" class="btn btn-outline-primary w-100 admin-card-btn sound-button">
+                            <i class="fas fa-plus-circle me-1"></i> Frage hinzufügen
+                        </a>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Frage</label>
-                        <textarea class="form-control admin-input" name="question" rows="2" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Richtige Antwort</label>
-                        <input type="text" class="form-control admin-input" name="true" required>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Falsche Antwort 1</label>
-                            <input type="text" class="form-control admin-input" name="wrong1" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Falsche Antwort 2</label>
-                            <input type="text" class="form-control admin-input" name="wrong2" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Falsche Antwort 3</label>
-                            <input type="text" class="form-control admin-input" name="wrong3" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn admin-btn-success">
-                        <i class="fas fa-plus-circle me-1"></i> Frage hinzufügen
-                    </button>
-                </form>
+                </div>
             </div>
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card admin-card w-100 h-100">
+                    <div class="card-header">Einstellungen</div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        {# Platzhalter, verweist auf sich selbst #}
+                        <a href="{{ url_for('admin_panel') }}" class="btn btn-outline-secondary w-100 admin-card-btn sound-button">
+                            <i class="fas fa-cogs me-1"></i> App-Einstellungen
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

@@ -2164,12 +2164,26 @@ def admin_panel():
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
 
+@app.route('/admin/add_question_page', methods=['GET'])
+@login_required
+@admin_required
+def add_question_page():
+    """Rendert die separate Seite zum Hinzufügen einer neuen Frage (add_question.html)."""
+    # Wenn der Benutzer diese Seite aufruft, wird das Template gerendert
+    return render_template('add_question.html')
+    
+    
+    
 @app.route('/add_question', methods=['POST'])
 @login_required
 @admin_required
 def add_question():
     if request.method != 'POST':
         abort(405)
+
+    # Bestimmen der Rückleitungs-URL (sollte die Formularseite sein)
+    # WICHTIG: Ersetzen Sie 'admin_panel' durch 'add_question_page'
+    redirect_url = url_for('add_question_page') 
 
     try:
         subject = request.form['subject'].lower().strip()
@@ -2182,17 +2196,20 @@ def add_question():
         # Validierung der Eingaben
         if not all([subject, question_text, true_answer, wrong1, wrong2, wrong3]):
             flash('Bitte fülle alle Felder aus', 'error')
-            return redirect(url_for('admin_panel'))
+            # ÄNDERUNG: Leitet zur Formular-Seite
+            return redirect(redirect_url) 
             
         if len(question_text) > 500:
             flash('Frage darf maximal 500 Zeichen haben', 'error')
-            return redirect(url_for('admin_panel'))
+            # ÄNDERUNG: Leitet zur Formular-Seite
+            return redirect(redirect_url) 
             
         # Prüfen ob Frage bereits existiert
         existing = Question.query.filter_by(question=question_text).first()
         if existing:
             flash('Diese Frage existiert bereits', 'error')
-            return redirect(url_for('admin_panel'))
+            # ÄNDERUNG: Leitet zur Formular-Seite
+            return redirect(redirect_url) 
             
         new_question = Question(
             subject=subject,
@@ -2206,16 +2223,21 @@ def add_question():
         db.session.commit()
         flash('Frage erfolgreich hinzugefügt!', 'success')
         
+        # ÄNDERUNG: Leitet zur Formular-Seite
+        return redirect(redirect_url)
+
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()
         print(f"Datenbankfehler beim Hinzufügen der Frage: {str(e)}")
         flash('Datenbankfehler beim Hinzufügen der Frage', 'error')
+        # ÄNDERUNG: Leitet zur Formular-Seite
+        return redirect(redirect_url)
     except Exception as e:
         db.session.rollback()
         print(f"Unerwarteter Fehler beim Hinzufügen der Frage: {str(e)}")
         flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
-    
-    return redirect(url_for('admin_panel'))
+        # ÄNDERUNG: Leitet zur Formular-Seite
+        return redirect(redirect_url)
 
 # Spieler-Seite - News anzeigen
 @app.route("/news")
