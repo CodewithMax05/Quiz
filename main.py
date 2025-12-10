@@ -432,49 +432,56 @@ def initialize_database():
 
             print("Prüfe Test-News...")
             test_news = [
-                # 1. News: Fragen-Bugfix (10.12.2025)
+                # 1. News: Ticket-Feedback-Anfrage (11.12.2025)
+                {
+                    'title': 'Dein Feedback ist gefragt!',
+                    'content': 'Liebe Community, da dieses Game für euch ist würden wir uns freuen über Ihre Unterstützung bei der Weiterentwicklung: Ideen, Anregungen und Vorschläge für neue Fragen freuen. Erreichen können Sie uns jederzeit über <a href="https://quiz-1ki1.onrender.com/tickets" target="_blank" style="color: #6cf; text-decoration: underline;">Ticketsystem</a>. Ihr Feedback ist uns wichtig, um das Quiz-Erlebnis kontinuierlich zu verbessern!',
+                    'created_at': datetime(2025, 12, 11, 5, 0, tzinfo=timezone.utc)
+                },
+
+                # 2. News: Fragen-Bugfix (10.12.2025)
                 {
                     'title': 'Wichtige Meldung: Fragen-Update und Bugfixing',
                     'content': 'Liebe Community, aufgrund häufiger technischer Fehlermeldungen und inkorrekter Inhalte haben wir entschieden, <strong>alle alten Fragen</strong> aus dem System zu entfernen. Wir haben den gesamten Katalog für 15 Themen überarbeitet und durch <strong>1.500 brandneue, geprüfte Fragen</strong> ersetzt (100 pro Thema). Dieser Schritt sorgt für <strong>Stabilität und Korrektheit</strong> im Spiel. Wir arbeiten bereits mit Hochdruck daran, <strong> schnellstmöglich weitere neue Fragen</strong> nachzureichen.',
                     'created_at': datetime(2025, 12, 10, 5, 0, tzinfo=timezone.utc)
                 },
 
-                # 2. News: Multiplayer-Update (30.11.2025)
+                # 3. News: Multiplayer-Update (30.11.2025)
                 {
                     'title': 'Multiplayer-News: Kleine Verzögerung, große Features',
                     'content': 'Ein kurzes Update zum <strong>Multiplayer-Modus</strong>: Die Entwicklung läuft bereits, wird jedoch erst <strong>Anfang Februar 2026</strong> abgeschlossen sein. Wir bitten die Verzögerung zu entschuldigen.<br><br>Zusätzlich zu den Einstellungen <strong>„privat“</strong> und <strong>„öffentlich“</strong> wird es neue Optionen geben – darunter die Wahl, ob <strong>Themen gezielt ausgewählt</strong> oder <strong>zufällig</strong> erstellt werden. Außerdem lässt sich die <strong>Bestenliste</strong> künftig als <strong>PDF</strong> exportieren.<br><br>Weitere Infos folgen bald!',
                     'created_at': datetime(2025, 1, 30, 5, 0, tzinfo=timezone.utc)
                 },
 
-                # 3. News: Ticketsystem (18.10.2025)
+                # 4. News: Ticketsystem (18.10.2025)
                 {
                     'title': 'Du kannst jetzt mit uns schreiben!',
                     'content': 'Ende des Monats möchten wir ein neues Feature einführen in Support. <br> Dann könnt ihr nicht nur eine Anfrage schicken sondern direkt mit uns schreiben!',
                     'created_at': datetime(2025, 10, 18, 5, 0, tzinfo=timezone.utc)
                 },
 
-                # 4. News: Zufallsmodus (16.10.2025)
+                # 5. News: Zufallsmodus (16.10.2025)
                 {
                     'title': 'Neuer Modus in Planung: Zufällige Themen!',
                     'content': 'Um das Quiz-Erlebnis abwechslungsreicher zu gestalten, planen wir die Einführung eines <strong>Zufallsmodus</strong>.<br><br>Dabei werden die Fragen aus <strong>einer zufälligen Anzahl von Themenbereichen</strong> zufällig gezogen. Seid gespannt auf die ultimative Wissensherausforderung!',
                     'created_at': datetime(2025, 10, 16, 10, 0, tzinfo=timezone.utc)
                 },
 
-                # 5. News: Einführung AGB & Datenschutz (15.10.2025)
+                # 6. News: Einführung AGB & Datenschutz (15.10.2025)
                 {
                     'title': 'Wichtige Einführung: AGB und Datenschutz',
                     'content': 'Wir haben unsere <strong>Allgemeinen Geschäftsbedingungen (AGB)</strong> und die <strong>Datenschutzerklärung</strong> eingeführt, um Transparenz und Rechtssicherheit zu gewährleisten.<br><br>Du findest die vollständigen Dokumente jederzeit unter "Rechtliche Informationen" im Login-Menü. Wir behalten uns Änderungen vor. Wesentliche Anpassungen werden immer rechtzeitig angekündigt.',
                     'created_at': datetime(2025, 10, 15, 12, 0, tzinfo=timezone.utc)
                 },
 
-                # 6. News: Multiplayer-Ankündigung (25.09.2025)
+                # 7. News: Multiplayer-Ankündigung (25.09.2025)
                 {
                     'title': '💥 Ankündigung: Der Multiplayer kommt!',
                     'content': 'Wir freuen uns, den Start des mit Spannung erwarteten <strong>Multiplayer-Modus</strong> bekanntzugeben – geplant für <strong>Januar 2026</strong>!<br><br>Spieler können in eigenen Räumen gegeneinander antreten. Die Räume werden mit Einstellungen wie <strong>"privat"</strong> oder <strong>"öffentlich"</strong> anpassbar sein. Weitere Details zum Beta-Start folgen in Kürze!',
                     'created_at': datetime(2025, 9, 25, 18, 30, tzinfo=timezone.utc)
                 },
                 
-                # 7. News: Große Fragen-Erweiterung (05.09.2025)
+                # 8. News: Große Fragen-Erweiterung (05.09.2025)
                 {
                     'title': 'QuizMaster wächst: Über 3.000 Fragen verfügbar!',
                     'content': 'Dank unserer Community konnten wir unseren Fragenkatalog massiv erweitern. Ab sofort stehen euch <strong>über 3.000 einzigartige Fragen</strong> in allen Kategorien zur Verfügung.<br><br>Das heißt: Mehr Abwechslung, mehr Herausforderung und mehr Punkte für euch!<br>Ihr habt noch gute Ideen für neue Fragen - dann meldet euch über unseren Support!',
