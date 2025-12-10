@@ -1,314 +1,130 @@
-﻿subject;question;true;wrong1;wrong2;wrong3
-Technologie;Was ist der Unterschied zwischen SAS und SATA Festplatten?;SAS ist für Server (höhere Ausfallsicherheit);SATA ist schneller;SAS unterstützt keine SSDs;SATA hat keine Fehlerkorrektur
-Technologie;Welche Technologie nutzt ein Smartphone für drahtlose Kopfhörer?;Bluetooth Codecs (z.B. aptX);WiFi Direct;NFC;Infrarot
-Technologie;Was ist der Unterschied zwischen NTFS und FAT32?;NTFS unterstützt große Dateien + Berechtigungen;FAT32 ist neuer;NTFS funktioniert nicht unter Windows;FAT32 ist sicherer
-Technologie;Welche Funktion hat ein PoE-Switch?;Stromversorgung über Ethernet-Kabel;Schnellere Internetverbindung;Virenschutz;Automatische IP-Vergabe
-Technologie;Was ist der Unterschied zwischen UDP und QUIC?;QUIC ist moderner mit eingebauter Verschlüsselung;UDP ist nur für Video;QUIC benötigt spezielle Hardware;UDP ist Teil von HTTP/3
-Technologie;Welche Technologie nutzt ein Smartphone für schnelles Laden?;USB Power Delivery (USB-PD);Bluetooth 5.0;NFC;WiFi 6
-Technologie;Was ist der Unterschied zwischen Edge- und Cloud-Computing?;Edge verarbeitet Daten näher an der Quelle;Cloud ist immer schneller;Edge benötigt keine Server;Cloud funktioniert offline
-Technologie;Welche Funktion hat ein Smart Home Hub?;Zentrale Steuerung von IoT-Geräten;Erhöhte WiFi-Geschwindigkeit;Verschlüsselung aller Daten;3D-Druck-Steuerung
-Technologie;Was ist der Unterschied zwischen SIM- und RIM-Karten?;RIM ist ein veralteter Standard für Blackberry;SIM ist nur für Android;RIM unterstützt 5G;SIM benötigt keine Aktivierung
-Technologie;Welche Technologie nutzt ein Smartphone für Barometer-Funktionen?;Luftdrucksensor;GPS;NFC;Gyroskop
-Technologie;Was ist der Unterschied zwischen LPDDR4 und LPDDR5 RAM?;LPDDR5 ist effizienter und schneller;LPDDR4 ist nur für Desktop-PCs;LPDDR5 benötigt mehr Strom;LPDDR4 unterstützt kein Multitasking
-Technologie;Welche Funktion hat ein Smartphone für Always-On-Displays?;Zeigt Infos bei gesperrtem Bildschirm;Deaktiviert Touch-Eingabe;Erhöht Akkulaufzeit;Schaltet WiFi automatisch aus
-Technologie;Was ist der Unterschied zwischen H.264 und H.265 Video-Codecs?;H.265 bietet bessere Komprimierung;H.264 ist neuer;H.265 unterstützt kein 4K;H.264 benötigt weniger Rechenleistung
-Technologie;Welche Technologie nutzt ein Smartphone für Dual-SIM?;DSDS (Dual SIM Dual Standby);Zwei separate Funkmodule;NFC-basierte SIM;Cloud-SIM
-Technologie;Was ist der Unterschied zwischen WPA2 und WPA3 Verschlüsselung?;WPA3 bietet stärkere Sicherheit;WPA2 ist veraltet;WPA3 unterstützt kein WiFi;WPA2 ist schneller
-Technologie;Welche Funktion hat ein Smartphone für eSIM-Unterstützung?;Aktivierung ohne physische SIM-Karte;Schnelleres Internet;Geringerer Stromverbrauch;Automatische Backups
-Technologie;Was ist der Unterschied zwischen LCD und Mini-LED Displays?;Mini-LED verwendet tausende kleinere LEDs für besseres HDR;LCD ist immer heller;Mini-LED ist veraltet;LCD unterstützt keine Farben
-Technologie;Welche Technologie nutzt ein Smartphone für 5G mmWave?;Hochfrequente Wellen für extreme Geschwindigkeit;Nur für ländliche Gebiete;Ersetzt Bluetooth;Benötigt keine Antennen
-Technologie;Was ist der Hauptzweck eines QR-Codes?;Schnelle Datenerfassung durch Scannen;Videoübertragung;Stromversorgung;Spracherkennung
-Technologie;Welches Material wird für flexible Displays verwendet?;OLED;Aluminium;Glasfaser;Kork
-Technologie;Was misst die Einheit "mAh"?;Batteriekapazität;Prozessorgeschwindigkeit;Internetgeschwindigkeit;Bildschirmhelligkeit
-Technologie;Welches Unternehmen entwickelte den ersten Consumer-GPS-Empfänger?;Garmin;Apple;Sony;Nokia
-Technologie;Was ist der Hauptvorteil von LiDAR-Sensoren?;Präzise Abstandsmessung;Stromerzeugung;Datenkomprimierung;Sprachaufnahme
-Technologie;Welche Technologie nutzt kontaktlose Kreditkarten?;RFID;Bluetooth;Infrarot;USB-C
-Technologie;Was ist ein "Phablet"?;Smartphone-Tablet-Hybrid;Neuer Prozessortyp;Cloud-Speicherdienst;Verschlüsselungsstandard
-Technologie;Welches ist KEIN gängiger IoT-Protokoll?;HTML;MQTT;Zigbee;LoRaWAN
-Technologie;Was macht der Befehl "chmod" in Linux?;Ändert Dateiberechtigungen;Löscht Verzeichnisse;Installiert Software;Startet den Drucker
-Technologie;Welches Unternehmen entwickelte den ersten kommerziellen SSD?;SanDisk;Intel;Samsung;Seagate
-Technologie;Was ist "physische Sicherheit" in der IT?;Schutz vor Diebstahl/Zugriff auf Hardware;Firewall-Konfiguration;Passwortstärke;Verschlüsselungsalgorithmus
-Technologie;Welches ist KEIN Vorteil von Microservices?;Einfachere Monolith-Architektur;Bessere Skalierbarkeit;Unabhängige Deployment;Technologievielfalt
-Technologie;Was ist ein "Cold Wallet" in der Kryptowelt?;Offline-Speicherung von Krypto-Assets;Kühlschrank mit Internetanschluss;Cloud-Backup;CPU-Mining-Software
-Technologie;Welche Programmiersprache wurde für Android-Entwicklung vor Kotlin primär genutzt?;Java;Python;Swift;C#
-Technologie;Was ist der Hauptzweck von Kubernetes?;Container-Orchestrierung;Datenbankverwaltung;Netzwerksicherheit;Hardware-Diagnose
-Technologie;Welches ist KEIN NoSQL-Datenbanktyp?;SQLite;MongoDB;Cassandra;Redis
-Technologie;Was bedeutet "IaC" in der DevOps-Welt?;Infrastructure as Code;Internet as Cloud;Integrated as Controller;Intelligent as Computer
-Technologie;Welches Tool wird für kontinuierliche Integration genutzt?;Jenkins;Photoshop;Excel;PowerPoint
-Technologie;Was ist ein "Canary Release"?;Schrittweise Rollout-Strategie;Vogelkamera;Kryptowährung;Netzwerkkabeltyp
-Technologie;Welches ist KEIN gängiger API-Authentifizierungsstandard?;FTP;OAuth;JWT;API-Key
-Technologie;Was ist der Hauptzweck von GraphQL?;Flexible Datenabfragen;Video-Rendering;Passwort-Generierung;CPU-Übertaktung
-Technologie;Welches Unternehmen entwickelte den ersten 1-TB-SSD?;Samsung;Western Digital;Toshiba;Kingston
-Technologie;Was ist "Sharding" in Datenbanken?;Horizontale Partitionierung;Datenlöschung;Backup-Strategie;Verschlüsselungsmethode
-Technologie;Welches ist KEIN Vorteil von Serverless Computing?;Geringere Latenz;Automatische Skalierung;Kein Server-Management;Pay-per-Use
-Technologie;Was ist ein "Blue-Green Deployment"?;Parallele Produktions/Test-Umgebungen;Farbkalibrierung;Bluetooth-Update;Energiesparmodus
-Technologie;Welches Protokoll nutzt ein Smart Lock typischerweise?;Z-Wave;HTML;JPEG;MP3
-Technologie;Was ist der Hauptzweck von Prometheus?;Monitoring und Alerting;Datenbankverwaltung;Code-Kompilierung;Netzwerk-Verschlüsselung
-Technologie;Welches ist KEIN Feature von IPv6?;Rückwärtskompatibilität mit IPv4;Größerer Adressraum;Integrierte Sicherheit;Autokonfiguration
-Technologie;Was ist "FinTech"?;Technologie im Finanzsektor;Filmproduktionstool;Fitness-Tracker;Feinmechanik
-Technologie;Welches Unternehmen entwickelte den ersten 5G-Chip?;Qualcomm;Intel;AMD;NVIDIA
-Technologie;Was ist ein "Zero Trust"-Sicherheitsmodell?;Verifizierung jeder Zugriffsanfrage;Passwortloses Login;Offene Netzwerke;Deaktivierte Firewall
-Technologie;Welches ist KEIN Blockchain-Konsensmechanismus?;Proof of Internet;Proof of Work;Proof of Stake;Delegated Proof of Stake
-Technologie;Was ist "Edge AI"?;KI-Modelle auf Endgeräten;Cloud-basierte KI;KI für Bildbearbeitung;KI in der Raumfahrt
-Technologie;Welches Tool wird für Container-Isolierung genutzt?;gVisor;Excel;Photoshop;PowerShell
-Technologie;Was ist der Hauptzweck von WebAssembly?;Schnelle Ausführung im Browser;Datenbankabfragen;Netzwerkrouting;Betriebssystementwicklung
-Technologie;Welches ist KEIN Vorteil von Quantum Computing?;Schnelleres Video-Streaming;Optimierung komplexer Systeme;Kryptographie-Bruch;Molekülsimulation
-Technologie;Was ist "Digital Twin"?;Virtuelles Abbild physischer Systeme;3D-Drucker;VR-Brille;Blockchain-Wallet
-Technologie;Welches Unternehmen entwickelte den ersten 1-nm-Chip?;IBM;TSMC;Intel;Samsung
-Technologie;Was ist "Neuromorphic Computing"?;Chips nach Vorbild des Gehirns;Quantencomputer;Cloud-Server;KI-Training
-Technologie;Welches ist KEIN Merkmal von 6G?;Ersetzt Glasfaser;Terahertz-Frequenzen;1 Tbps Geschwindigkeit;Nanosekunden-Latenz
-Technologie;Was ist "Homomorphic Encryption"?;Verschlüsselung bei Datenverarbeitung;WLAN-Sicherheit;Blockchain-Protokoll;Passwort-Hashing
-Technologie;Welches Unternehmen entwickelte den ersten PCIe 5.0 SSD?;Micron;Seagate;Western Digital;Kingston
-Technologie;Was ist "Swarm Intelligence" in der Robotik?;Kollektives Verhalten einfacher Einheiten;Quantenalgorithmus;Cloud-Computing;3D-Rendering
-Technologie;Welches ist KEIN Anwendungsfall von AR?;Datenbankoptimierung;Medizinische Visualisierung;Spiele;Architekturplanung
-Technologie;Was ist "Memristor"?;Passiver Schaltkreis mit Gedächtnis;CPU-Cache;Grafikkern;Netzwerkadapter
-Technologie;Welches Unternehmen führte "Ray Tracing" in GPUs ein?;NVIDIA;AMD;Intel;Qualcomm
-Technologie;Was ist "Federated Learning"?;Dezentrales KI-Training;Blockchain-Mining;Cloud-Speicher;Robotik-Steuerung
-Technologie;Welches ist KEIN Vorteil von RISC-V?;Proprietäre Lizenzgebühren;Offene Architektur;Energieeffizienz;Skalierbarkeit
-Technologie;Was ist "Post-Quantum-Kryptografie"?;Verschlüsselung gegen Quantenangriffe;Blockchain-Update;KI-Sicherheit;5G-Verschlüsselung
-Technologie;Welches Unternehmen entwickelte den ersten 3D-NAND-Speicher?;Samsung;Micron;SK Hynix;Intel
-Technologie;Was ist "Ambient Computing"?;Nahtlose Integration von Technologie in Umgebung;Lautsprechertechnik;Monitorbeleuchtung;Datenbank-Indizierung
-Technologie;Was ist der Hauptzweck eines CAPTCHA?;Mensch von Bot unterscheiden;Passwort verschlüsseln;Daten komprimieren;Hardware beschleunigen
-Technologie;Welche Einheit misst die Bildschirmaktualisierungsrate?;Hertz (Hz);Bit;Byte;Lumen
-Technologie;Was ist der Hauptvorteil von DDR5 gegenüber DDR4 RAM?;Höhere Bandbreite;Geringere Latenz;Niedrigerer Preis;Kleinere Bauform
-Technologie;Welches Unternehmen entwickelte den ersten 1-TB-SSD?;Samsung;Intel;Western Digital;Seagate
-Technologie;Was ist der Hauptzweck von NFC?;Kurze Reichweite Datenübertragung;Lange Distanz Kommunikation;Stromversorgung;Grafikberechnung
-Technologie;Welche Technologie ermöglicht "Always-On-Displays"?;OLED;LCD;LED;Plasma
-Technologie;Was ist der Hauptvorteil von Wi-Fi 6?;Höhere Effizienz in dichten Umgebungen;Längere Reichweite;Geringerer Stromverbrauch;Keine Passwörter nötig
-Technologie;Welches ist KEIN Vorteil von USB-C?;Höhere Spannung als USB-A;Reversible Stecker;Hohe Datenrate;Stromlieferung
-Technologie;Was ist der Hauptzweck eines Heatpipes in Laptops?;Wärmeableitung;Stromversorgung;Datenübertragung;Akku-Ladung
-Technologie;Welches Unternehmen führte den ersten 64-Bit Smartphone-Chip ein?;Apple;Samsung;Qualcomm;Huawei
-Technologie;Was ist der Hauptvorteil von eSIM?;Kein physischer SIM-Slot nötig;Schnelleres Internet;Geringerer Preis;Bessere Netzabdeckung
-Technologie;Welche Technologie nutzt ein Smartphone für Schrittzählung?;Beschleunigungssensor;GPS;Mikrofon;Barometer
-Technologie;Was ist der Hauptzweck von DLSS?;Bessere Grafikperformance mit KI;Akku sparen;Daten verschlüsseln;Lautsprecher optimieren
-Technologie;Welches ist KEIN Merkmal von 5G?;Geringere Latenz als 6G;Höhere Bandbreite;Mehr Geräte pro Zelle;Energieeffizienz
-Technologie;Was ist der Hauptvorteil von LPDDR5 RAM?;Geringerer Stromverbrauch;Höhere Kapazität;Geringere Kosten;Bessere Kompatibilität
-Technologie;Welches Unternehmen entwickelte den ersten 3D-NAND-Speicher?;Samsung;Micron;SK Hynix;Intel
-Technologie;Was ist der Hauptzweck von Thunderbolt?;Hohe Geschwindigkeit Daten/Video/Strom;Nur Videoübertragung;Nur Stromversorgung;Nur Audio
-Technologie;Welche Technologie ermöglicht kabellose Ohrhörer?;Bluetooth;NFC;Wi-Fi;Infrarot
-Technologie;Was ist der Hauptvorteil von Mini-LED?;Bessere HDR-Darstellung;Geringerer Preis;Dünnere Bauform;Geringerer Stromverbrauch
-Technologie;Welches ist KEIN Vorteil von Cloud-Gaming?;Keine Internetverbindung nötig;Keine teure Hardware;Sofortiger Zugriff;Plattformunabhängigkeit
-Technologie;Was ist der Hauptzweck eines VPN?;Sichere Verbindung über öffentliche Netze;Internet beschleunigen;Daten komprimieren;Hardware überwachen
-Technologie;Welches Unternehmen entwickelte den ersten PCIe 4.0 SSD?;Corsair;Samsung;WD;Seagate
-Technologie;Was ist der Hauptvorteil von MEMS-Lautsprechern?;Kleinere Bauform;Höhere Lautstärke;Geringerer Preis;Bessere Basswiedergabe
-Technologie;Welche Technologie nutzt ein Smartphone für Augmented Reality?;Beschleunigungssensor + Gyroskop;Nur Kamera;NFC;Fingerabdrucksensor
-Technologie;Was ist der Hauptzweck von RISC-V?;Offene Prozessorarchitektur;Grafikberechnung;Datenverschlüsselung;Netzwerkkommunikation
-Technologie;Welches ist KEIN Vorteil von Folding-Displays?;Geringerer Preis;Größere Bildschirmfläche;Tragbarkeit;Innovatives Design
-Technologie;Was ist der Hauptvorteil von UFS-Speicher?;Höhere Geschwindigkeit als eMMC;Geringerer Preis;Größere Kapazität;Bessere Kompatibilität
-Technologie;Welches Unternehmen führte Raytracing in GPUs ein?;NVIDIA;AMD;Intel;Qualcomm
-Technologie;Was ist der Hauptzweck von LiDAR in Smartphones?;Präzise Tiefenmessung;Bessere Fotos;Lautsprecher optimieren;Akku sparen
-Technologie;Welche Technologie ermöglicht kontaktloses Bezahlen?;NFC;Bluetooth;Wi-Fi;USB
-Technologie;Was ist der Hauptvorteil von Graphen-Akkus?;Schnellere Ladung;Geringere Kapazität;Höhere Kosten;Größere Bauform
-Technologie;Welches ist KEIN Merkmal von Edge Computing?;Zentrale Datenverarbeitung;Geringere Latenz;Lokale Verarbeitung;Bandbreitenersparnis
-Technologie;Was ist der Hauptzweck von TPM-Chips?;Hardware-basierte Sicherheit;Grafikbeschleunigung;Netzwerkgeschwindigkeit;Akku-Kapazität
-Technologie;Welches Unternehmen entwickelte den ersten 7nm Prozessor?;TSMC;Intel;Samsung;GlobalFoundries
-Technologie;Was ist der Hauptvorteil von Wi-Fi 6E?;Zusätzliches 6GHz Band;Längere Reichweite;Geringerer Stromverbrauch;Keine Router nötig
-Technologie;Welche Technologie nutzt ein Smartphone für Spracherkennung?;Neuronale Engine;NFC;Bluetooth;Fingerabdrucksensor
-Technologie;Was ist der Hauptzweck von Smart-Home-Hubs?;Geräte zentral steuern;Internet beschleunigen;Daten speichern;Akku sparen
-Technologie;Welches ist KEIN Vorteil von MicroLED?;Geringere Helligkeit als OLED;Perfekte Schwarztöne;Hoher Kontrast;Lange Lebensdauer
-Technologie;Was ist der Hauptvorteil von PCIe 5.0?;Doppelte Bandbreite von 4.0;Geringerer Stromverbrauch;Kleinere Bauform;Geringere Kosten
-Technologie;Welches Unternehmen entwickelte den ersten 1TB MicroSD?;Micron;SanDisk;Samsung;Kingston
-Technologie;Was ist der Hauptzweck von HBM-Speicher?;Hohe Bandbreite für GPUs;Geringerer Stromverbrauch;Kleinere Bauform;Geringere Kosten
-Technologie;Welche Technologie ermöglicht "Handy-TV"?;DVB-T2;Bluetooth;NFC;Wi-Fi
-Technologie;Was ist der Hauptvorteil von LEO-Satelliteninternet?;Geringe Latenz;Geringere Kosten;Keine Bodenstationen;Unbegrenzte Daten
-Technologie;Welches ist KEIN Merkmal von RISC-Architektur?;Komplexe Befehle;Einfache Befehle;Energieeffizienz;Schnelle Ausführung
-Technologie;Was ist der Hauptzweck von Smart-Mesh-Netzwerken?;Bessere Abdeckung;Internet beschleunigen;Daten speichern;Akku sparen
-Technologie;Welches Unternehmen entwickelte den ersten 5nm Prozessor?;TSMC;Intel;Samsung;GlobalFoundries
-Technologie;Was ist der Hauptvorteil von LTPO-Displays?;Dynamische Refresh-Rate;Höhere Helligkeit;Geringerer Preis;Kleinere Bauform
-Technologie;Welche Technologie nutzt ein Smartphone für 3D-Fotos?;ToF-Sensor;NFC;Bluetooth;Fingerabdrucksensor
-Technologie;Was ist der Hauptzweck von Zero Trust Security?;Immer verifizieren;Passwörter abschaffen;Firewalls deaktivieren;Daten löschen
-Technologie;Welches ist KEIN Vorteil von Silicon Carbide in Halbleitern?;Geringere Leistung;Höhere Effizienz;Bessere Hitzeleitung;Höhere Spannung
-Technologie;Was ist der Hauptvorteil von Open RAN?;Herstellerunabhängigkeit;Geringere Kosten;Höhere Sicherheit;Bessere Performance
-Technologie;Was ist die Hauptfunktion eines Betriebssystems?;Hardware verwalten und Programme ausführen;Spiele ausführen; Internetseiten erstellen;Drucker reparieren
-Technologie;Welches Gerät speichert Daten dauerhaft?;Festplatte (HDD/SSD);Monitor;CPU;RAM
-Technologie;Was verbindet Computer in einem Netzwerk?;Router;Drucker;Monitor;Tastatur
-Technologie;Welches ist ein Eingabegerät?;Maus;Monitor;Lautsprecher;Drucker
-Technologie;Was misst die Leistung einer CPU?;Hertz (GHz);Gigabyte;Volt;Pixel
-Technologie;Welches Unternehmen entwickelte Windows?;Microsoft;Apple;Google;IBM
-Technologie;Was ist eine Datei mit der Endung .jpg?;Ein Bild;Ein Textdokument;Ein Tabellenblatt;Ein Programm
-Technologie;Welche Tastenkombination kopiert Text?;Strg + C;Strg + X;Strg + V;Strg + Z
-Technologie;"Wofür steht ""PDF""?";Portable Document Format;Personal Data File;Printed Document Form;Public Data Folder
-Technologie;Was macht ein Antivirenprogramm?;Schützt vor Schadsoftware ;Erstellt Backups;Beschleunigt das Internet;Installiert Spiele
-Technologie;"Was bedeutet ""www"" in einer Webadresse?";World Wide Web;World Wireless Web;Web Wide World;Wide Web World
-Technologie;Was ist ein Browser?;Ein Programm zum Surfen im Internet;Ein Druckertyp;Ein Spiel;Ein Betriebssystem
-Technologie;Welches Symbol zeigt eine WLAN-Verbindung an?;📶;🔄;⏏️;🔋
-Technologie;Was ist eine E-Mail-Adresse?;Eine digitale Postadresse;Eine physische Adresse;Ein Passwort;Ein Softwarename
-Technologie;Welches ist kein soziales Netzwerk?;Photoshop;Twitter;Instagram;Facebook
-Technologie;Was ist ein Passwort?;Eine Sicherheitsabfrage zur Identifizierung;Ein Hardwareteil;Ein Internetanbieter;Ein Programmfehler
-Technologie;"Was bedeutet ""USB""?";Universal Serial Bus;United Software Base;User Security Backup;Ultra Speed Buffer
-Technologie;Was ist ein Update?;Eine neue Hardware;Eine Software-Aktualisierung;Ein Internetvertrag;Ein Bildschirmtyp
-Technologie;Was ist Cloud-Speicher?;Online-Speicherplatz im Internet;Lokaler Festplattenspeicher;Ein physischer Server;Ein Kühlungssystem
-Technologie;"Was macht die ""Eingabetaste""?";Bestätigt Befehle ;Löscht Text;Schaltet den PC aus;Öffnet ein Menü
-Technologie;Welches Gerät zeigt Bilder an?;Monitor;Drucker;Tastatur;Router
-Technologie;Was ist ein Smartphone?;Ein internetfähiges Handy;Ein Fernseher;Ein Radio;Ein Faxgerät
-Technologie;Was ist ein Laptop?;Ein tragbarer Computer;Ein externer Speicher;Ein Drucker;Ein Projektor
-Technologie;Was ist Bluetooth?;Eine drahtlose Übertragungstechnik;Ein Kabeltyp;Ein Betriebssystem;Ein Virenscanner
-Technologie;Welches ist kein Betriebssystem?;Google Chrome;Linux;macOS;Windows
-Technologie;Welche Tastenkombination fügt kopierten Text ein?;Strg + V ;Strg + X;Strg + Z;Strg + Y
-Technologie;"Was bewirkt ""Strg + Z""?";Macht die letzte Aktion rückgängig;Löscht eine Datei;Öffnet ein neues Fenster;Speichert ein Dokument
-Technologie;Wie aktualisiert man eine Webseite?;F5;F1;F12;Esc
-Technologie;Welche Taste blendet die Tastatur auf einem Tablet ein?;🔍-Taste;Lautstärketaste;Ein-/Ausschalter;🏠 -Taste
-Technologie;"Was bedeutet ""Drag & Drop""?";Dateien durch Ziehen verschieben;Dateien löschen;Ein Programm deinstallieren;Einen Screenshot machen
-Technologie;Welche Endung hat eine Excel-Datei?;.xlsx;.txt;.mp3;.jpg
-Technologie;Was ist eine ZIP-Datei?;Ein komprimiertes Archiv;Ein Musikformat;Ein Bildtyp;Ein Videoformat
-Technologie;Welches Format speichert Musik?;.mp3;.docx;.html;.exe
-Technologie;Was ist ein Screenshot?;Ein Bildschirmfoto;Ein Druckauftrag;Ein Videoausschnitt;Ein Textdokument
-Technologie;Welche Datei ist kein Bildformat?;.exe;.png;.jpeg;.gif
-Technologie;Was ist HTML?;Eine Programmiersprache für Webseiten;Ein Druckertreiber;Ein Betriebssystem;Ein Virenscanner
-Technologie;Welches Symbol markiert den Beginn eines HTML-Dokuments?;<!DOCTYPE html>;<body>;<head>;<footer>
-Technologie;Was ist ein Bug?;Ein Programmfehler;Ein Hardwareteil;Ein Kabeltyp;Ein Netzwerkprotokoll
-Technologie;Welches Tier ist das Maskottchen von Linux?;Pinguin;Fuchs;Elefant;Katze
-Technologie;Was ist ein Algorithmus?;Eine Schritt-für-Schritt-Anleitung zur Problemlösung;Ein Computerhersteller;Ein Bildschirmtyp;Ein Anleitung zum Betriebssystem
-Technologie;Welches Unternehmen stellt iPhones her?;Apple;Samsung;Huawei;Nokia
-Technologie;Wer ist der Gründer von Microsoft?;Bill Gates ;Steve Jobs;Mark Zuckerberg;Elon Musk
-Technologie;Welche Marke gehört NICHT zu Google?;LibreOffice;YouTube;Android;Gmail
-Technologie;"Welches Unternehmen entwickelte den ""Windows Explorer""?";Microsoft;Apple;IBM;Adobe
-Technologie;"Was ist ""Siri""?";Ein Sprachassistent von Apple;Ein Android-Feature;Ein Google-Dienst;in Social Media-Netzwerk
-Technologie;Was ist ein QR-Code?;Ein scannbarer Barcode mit Informationen;Ein Musikformat;Ein WLAN-Passwort;Ein Virenschutzprogramm
-Technologie;"Wofür steht ""GPS""?";Global Positioning System;General Positioning Service;Google Page Storage;Graphics Positioning System
-Technologie;"Was ist ein ""Hashtag""?";Ein Symbol zur Verschlagwortung in sozialen Medien;Ein Passwort;Ein WLAN-Name;Ein Dateiformat
-Technologie;Welches Gerät liest CDs/DVDs?;Laufwerk;Drucker;Monitor;Router
-Technologie;"Was ist ein ""Emoji""?";Eine kleine digitale Bildschrift ;Ein technischer Fehler;Ein Computerhersteller;Ein Programmiersprachenbefehl
-Technologie;Was ist die Standard-Geschwindigkeit von Gigabit-Ethernet?;1000 Mbps;10 Mbps;100 Mbps;10000 Mbps
-Technologie;Welches Protokoll wird für die sichere Übertragung von Webseiten verwendet?;HTTPS;HTTP;FTP;SMTP
-Technologie;Was ist eine IP-Adresse?;Eine eindeutige Identifikation eines Geräts im Netzwerk;Ein Passwort;Ein Software-Update;Ein Bildschirmtyp
-Technologie;Welches Gerät verbindet verschiedene Netzwerke miteinander?;Router;Switch;Hub;Modem
-Technologie;"Was bedeutet ""DNS""?";Domain Name System;Digital Network Servic;Data Navigation Signal;Dynamic Network Structure
-Technologie;Welche Sprache wird primär für Android-Apps entwickelt?;Kotlin;Swift;Ruby;C#
-Technologie;"Was ist eine ""IDE""?";Eine integrierte Entwicklungsumgebung;Ein Betriebssystem;Ein Cloud-Speicher;Ein Datenbanktyp
-Technologie;Welches Symbol markiert in Python den Beginn eines Kommentars?;#;//;--;/*
-Technologie;Was ist der Zweck von Git?;Versionskontrolle für Code;Grafiken bearbeiten;E-Mails verschlüsseln;Datenbanken verwalten
-Technologie;Welches Framework wird für Frontend-Webentwicklung verwendet?;React;Django;Flask;Node.js
-Technologie;Was ist eine Zwei-Faktor-Authentifizierung (2FA)?;Eine Sicherheitsabfrage mit zwei Methoden;Ein doppeltes Passwort;Ein Virenscanner;Ein Firewall-Typ
-Technologie;Welche Verschlüsselungsmethode ist asymmetrisch?;RSA;AES;DES;SHA-256
-Technologie;"Was ist ein ""Phishing-Angriff""?";Betrug per gefälschter E-Mail/Webseite;Ein Hardware-Defekt;Ein Netzwerkausfall;Ein Programmfehler
-Technologie;Welches Tool scannt nach Sicherheitslücken in Netzwerken?;Nmap;Firewallshark;Photoshop;Excel
-Technologie;Was schützt eine Firewall?;Vor unbefugtem Netzwerkzugriff;Vor Stromausfällen;Vor physischem Diebstahl;Vor Datenverlust auf der Festplatte
-Technologie;Welches ist eine NoSQL-Datenbank?;MongoDB;MySQL;PostgreSQL;SQLite
-Technologie;"Was bedeutet ""SaaS""?";Software as a Service;Storage as a Service;Security as a Service;System as a Service
-Technologie;Welche Sprache wird für Datenbankabfragen verwendet?;SQL;HTML;Python;Java
-Technologie;Was ist AWS?;Ein Cloud-Computing-Dienst von Amazon;Ein Betriebssystem;Ein Programmiersprachenstandard;Ein Hardware-Hersteller
-Technologie;Welches ist kein Cloud-Speicherdienst?;Microsoft Docs;Google Drive;Dropbox;iCloud
-Technologie;Was ist ein Hypervisor?;Eine Software zur Virtualisierung von Betriebssystemen;Ein Tool für Screenshots;Ein Grafikdesign-Programm;Ein Netzwerkprotokoll
-Technologie;Welches ist ein Linux-Dateisystem?;ext4;NTFS;FAT32;APFS
-Technologie;Was macht der Befehl ping?;Testet die Verbindung zu einem anderen Gerät ;Löscht Dateien;Installiert Software;Verschlüsselt Daten
-Technologie;Welches OS ist Open-Source?;Linux;Windows;macOS;iOS
-Technologie;"Was ist ein ""Kernel""?";Der Kern eines Betriebssystems;Ein externes Laufwerk;Ein Netzwerkkabel;Ein Programmiersprachenbefehl
-Technologie;Welches Protokoll wird für IoT-Geräte (Internet of Things) genutzt?;MQTT;HTTP;SMTP;FTP
-Technologie;"Was ist ein ""Container"" in der Softwareentwicklung?";Eine isolierte Ausführungsumgebung (z. B. Docker) ;Eine physische Hardwarebox;Ein Cloud-Speicher;Ein Datenbanktyp
-Technologie;"Welche Technologie ermöglicht ""Serverless Computing""?";AWS Lambda;Virtualisierung;Blockchain;Quantum Computing
-Technologie;Quantum Computing;Ein automatischer API-Callback bei Ereignissen;Ein Haken für Kabel;Ein Browser-Plugin;Ein Sicherheitszertifikat
-Technologie;Welches ist kein JavaScript-Framework?;Django;React;Angular;Vue.js
-Technologie;Welche Funktion hat der Befehl git clone?;Kopiert ein Repository lokal;Löscht ein Repository;Erstellt einen neuen Branch;Committet Änderungen
-Technologie;Was ist der Hauptzweck von Docker?;Anwendungen in Containern isolieren ;Virtuelle Maschinen erstellen;Datenbanken verwalten;Netzwerke scannen
-Technologie;Welches Schlüsselwort deklariert in Python eine Variable?;Kein Schlüsselwort nötig;var;let;const
-Technologie;"Was ist ein ""Callback"" in JavaScript?";Eine Funktion, die als Argument übergeben wird;Eine Schleife;Ein Datentyp;Ein Fehlerhandler
-Technologie;Welches Tool wird für Paketmanagement in Python verwendet?;pip;npm;brew;apt
-Technologie;Welches Protokoll wird für die automatische IP-Adressvergabe genutzt?;DHCP;DNS;FTP;SSH
-Technologie;Was ist der Standard-Port für HTTPS?;443;80;22;53
-Technologie;Welches Tool zeigt Routing-Tabellen an?;netstat -r;ifconfig;ping;traceroute
-Technologie;"Was ist ein ""Subnetz""?";Eine Aufteilung eines Netzwerks in kleinere Segmente;Ein physisches Kabel;Ein Router-Modell;Ein VPN-Typ
-Technologie;Welches Protokoll verschlüsselt SSH-Verbindungen?;AES;Telnet;SSL;TLS
-Technologie;"Was ist ein ""Man-in-the-Middle-Angriff""?";Abfangen von Daten zwischen Sender und Empfänger;Hardware-Diebstahl;DDoS-Angriff;Phishing per E-Mail
-Technologie;Welches ist KEIN Hash-Algorithmus?;RSA;SHA-256;MD5;bcrypt
-Technologie;"Wofür steht ""CSRF""?";Cross-Site Request Forgery;Cyber Security Risk Framework;Centralized Server Routing File;Cryptographic Secure Random Function
-Technologie;"Was ist ein ""Penetrationstest""?";Gezielte Suche nach Sicherheitslücken;Ein Virenscan;Netzwerkgeschwindigkeitstest;Datenbankoptimierung
-Technologie;"Welche Methode verhindert ""Brute-Force-Angriffe""?";Ratenbegrenzung (Rate Limiting);Captchas;Firewalls;HTTPS
-Technologie;"Was ist ein ""Primary Key"" in einer Datenbank?";Ein eindeutiger Identifikator für Datensätze ;Ein Passwort;Ein Verschlüsselungsalgorithmus;Ein Backup-Tool
-Technologie;Welche Methode wird für API-Abfragen genutzt?;GET;SELECT;PRINT;EXPORT
-Technologie;"Was ist ""GraphQL""?";Eine Abfragesprache für APIs;Eine Programmiersprache;Ein Datenbanktyp;Ein Netzwerkprotokoll
-Technologie;Welcher Befehl löscht Daten in SQL?;DELETE;REMOVE;DROP;ERASE
-Technologie;"Was ist ein ""NoSQL""-Datenbankvorteil?";Skalierbarkeit für unstrukturierte Daten;Strikte Tabellenstruktur;Komplexe Joins;Nur SQL-Abfragen
-Technologie;Was ist der Unterschied zwischen Supervised und Unsupervised Learning?;Supervised benötigt gelabelte Daten;Unsupervised arbeitet nur mit Bildern;Supervised verwendet keine Algorithmen;Unsupervised erfordert menschliche Eingriffe
-Technologie;Welches ist KEIN gängiges Framework für Deep Learning?;Scikit-learn;TensorFlow;PyTorch;Keras
-Technologie;"Was beschreibt ""Overfitting"" in ML?";Modell passt zu stark an Trainingsdaten an;Modell ignoriert Trainingsdaten;Daten sind unvollständig;Algorithmus läuft unendlich
-Technologie;Welche Architektur wird für Bilderkennung verwendet?;CNN;RNN;SVM;k-NN
-Technologie;"Was ist ein ""GAN""?";Generative Adversarial Network;Google Analytics Network;General AI Node;Graphical Activation Net
-Technologie;"Was ist ein ""Zero-Day-Exploit""?";Eine unbekannte Lücke, die vor Patch-Ausnutzung wird;Ein Fehler, der nach 24 Stunden behoben wird;Ein Angriff um Mitternacht;Ein Standard-Sicherheitsupdate
-Technologie;Welches Tool wird für Passwort-Cracking genutzt?;John the Ripper;Wireshark;Nmap;Metasploit
-Technologie;"Was ist ""Sandboxing""?";Isolierte Ausführung von verdächtigem Code ;Verschlüsselung von E-Mails;Physische Abschottung von Servern;Cloud-Speicher für Backups
-Technologie;"Welches Protokoll ist anfällig für ""Man-in-the-Middle""-Angriffe?";HTTP;HTTPS;SSH;SFTP
-Technologie;"Was ist ""Stuxnet""?";Ein staatlicher Computerwurm;Ein Linux-Kernel;Ein Verschlüsselungsstandard;Ein Blockchain-Protokoll
-Technologie;Wie heißt der Konsensmechanismus von Bitcoin?;Proof of Work;Proof of Stake;Delegated Proof of Stake;Proof of Authority
-Technologie;"Was ist ein ""Smart Contract""?";Selbstausführender Vertrag auf der Blockchain;Ein Rechtsdokument;Ein Cloud-Service;Ein KI-Algorithmus
-Technologie;Welches Problem löst Blockchain?;Doppelausgabe (Double Spending) ;Zentrale Datenbanken;Langsame Internetverbindungen;Hardware-Fehler
-Technologie;"Was ist ""DeFi""?";Decentralized Finance;Deutsche Firewall;Dynamic File Integration;Data Encryption Framework
-Technologie;"Welche Kryptowährung nutzt ""Proof of History""?";Solana;Ethereum;Cardano;Polkadot
-Technologie;"Was ist ein ""Qubit""?";Quanten-Bit (kann 0, 1 oder Überlagerung sein;Schnellerer CPU-Core;Cloud-Speichereinheit;Blockchain-Transaktion
-Technologie;Welches Problem löst Quantencomputing NICHT?;Video-Streaming;Faktorisierung großer Zahlen;Optimierung komplexer Systeme;Molekülsimulation
-Technologie;"Was ist ""Post-Quanten-Kryptografie""?";Verschlüsselung gegen Quantencomputer-Angriffe;Quantenphysik in der Programmierung;KI-gestützte Sicherheit;Blockchain 3.0
-Technologie;Welches Unternehmen bietet kommerzielle Quantencomputer an?;IBM;Intel;NVIDIA;AMD
-Technologie;"Was beschreibt ""Quantum Supremacy""?";Quantencomputer löst unlösbare klassische Probleme;Quanten-Verschlüsselung;Quanten-Internet;Quanten-Mining
-Technologie;"Was ist ein ""Race Condition""?";Wettlaufbedingung bei parallelen Prozessen;CPU-Taktgeschwindigkeit;Netzwerk-Latenz;Speicherleck
-Technologie;Welche Sprache wird für Betriebssystem-Entwicklung genutzt?;C;Python;Java;Ruby
-Technologie;Was macht der Befehl sudo rm -rf /?;Löscht das gesamte Dateisystem ;Installiert Updates;Startet den Server neu;Zeigt Speichernutzung an
-Technologie;"Was ist ""Kernel Panic""?";Kritischer Systemabsturz;Netzwerkausfall;Virenalarm;Hardware-Überhitzung
-Technologie;Welches ist KEIN Speichertyp?;API;RAM;ROM;SSD
-Technologie;"Was ist ""BGP Hijacking""?";Umleitung von Internetverkehr durch falsche Routen;Passwortdiebstahl;DDoS-Angriff;DNS-Spoofing
-Technologie;Welches Protokoll nutzt IPv6?;ICMPv6;TCP;HTTP/3;FTP
-Technologie;"Was ist ""OSPF""?";Open Shortest Path First (Routing-Protokoll);Offline-Sicherheitsprotokoll;Cloud-Speicherstandard;Programmiersprache
-Technologie;Welches Tool analysiert Netzwerkpakete?;Wireshark;Git;Docker;Jenkins
-Technologie;"Was ist ein ""TOR-Netzwerk""?";Anonymisierungsnetzwerk;Blockchain-Protokoll;Quantenkommunikation;KI-Trainingsframework
-Technologie;In der Luftfahrt werden Landeklappen (Flaps) und Vorflügel (Slats) eingesetzt, um was am Flugzeug zu kontrollieren?;Auftrieb;Schub;Luftwiderstand;Gewicht
-Technologie;Welches Polymer wird zur Herstellung von CDs, Schutzbrillen und Riot-Schildern verwendet?;Polycarbonat;Gummi;Nylon;Bakelit
-Technologie;Welches der folgenden ist keine passive elektrische Komponente?;Transistor;Widerstand;Kondensator;Spule
-Technologie;Welcher Kunststoff wird häufig für Fensterrahmen, Dachrinnen und Abflussrohre verwendet?;Polyvinylchlorid (PVC);Polyethylen (PE);Polypropylen (PP);Polystyrol (PS)
-Technologie;Welche Programmiersprache verwendet Node.js?;JavaScript;Java;Java Source;Joomla Source Code
-Technologie;Wie viel Speicherplatz bot Gmail bei seiner Einführung?;1 GB;512 MB;5 GB;Unbegrenzt
-Technologie;Welche der folgenden ist nicht ein Kernwert agiler Softwareentwicklung?;Umfassende Dokumentation;Einzelpersonen und Interaktionen;Kundenzusammenarbeit;Reagieren auf Veränderung
-Technologie;Welche der folgenden ist das älteste?;TRS-80;Commodore 64;ZX Spectrum;Apple III
-Technologie;Ungefähr wie viele Apple I-Computer wurden verkauft?;200;100;500;1000
-Technologie;Welches Betriebssystem war 2007 auf dem ersten iPhone installiert?;iPhone OS;Android;Symbian;BlackBerry OS
-Technologie;Welche Programmiersprache wird hauptsächlich für maschinelles Lernen verwendet?;Python;C;Java;Ruby
-Technologie;Welches Unternehmen entwickelte das Game Boy-Handheld?;Nintendo;Atari;Sega;Sony
-Technologie;Welcher Webbrowser folgte auf Netscape Navigator?;Internet Explorer;Chrome;Firefox;Opera
-Technologie;In welchem Jahr wurde YouTube gegründet?;2005;2003;2007;2001
-Technologie;Welches ist die schnellste Art von RAM?;SRAM;DRAM;SDRAM;DDR5
-Technologie;Was misst die Einheit "PPI"?;Pixel pro Zoll (Bildschirmschärfe);Prozessorleistung pro Instanz;Programmpunkte pro Input;Physische Port-Integrität
-Technologie;Welche Schnittstelle überträgt 4K-Video und Stromversorgung über ein Kabel?;USB-C mit Thunderbolt 3;HDMI 2.1;DisplayPort 1.4;VGA
-Technologie;Was ist der Hauptvorteil von OLED-Displays?;Echte Schwarztöne (keine Hintergrundbeleuchtung);Geringerer Stromverbrauch als LCD;Höhere maximale Helligkeit;Günstigere Herstellung
-Technologie;Welche Technologie ermöglicht Touchscreens?;Kapazitive Sensorik;Infrarot-Gitter;Ultraschall-Erkennung;Druckempfindliche Schichten
-Technologie;Was ist der Unterschied zwischen HDD und SSD?;SSDs haben keine beweglichen Teile;HDDs sind immer schneller;SSDs benötigen mehr Strom;HDDs sind kleiner
-Technologie;Welches Material wird für moderne CPU-Halbleiter verwendet?;Silizium;Kupfer;Aluminium;Graphen
-Technologie;Was ist der Zweck eines Heatspreaders auf CPUs?;Wärmeableitung;Stromversorgung;Schutz vor Staub;Elektromagnetische Abschirmung
-Technologie;Welche GPU-Hersteller dominieren den Markt?;NVIDIA und AMD;Intel und Samsung;IBM und Qualcomm;Apple und Google
-Technologie;Was ist Raytracing?;Berechnung von Lichtstrahlen für realistische Grafiken;3D-Drucktechnologie;Netzwerk-Routing-Algorithmus;Datenbank-Indizierung
-Technologie;Welche Einheit misst die Helligkeit von Displays?;Nits;Lumens;Watts;Kelvin
-Technologie;Was ist der Vorteil von NVMe-SSDs gegenüber SATA?;Schnellere Datenübertragung durch PCIe;Geringerer Preis;Kompatibilität mit älteren PCs;Höhere Kapazität
-Technologie;Welche Technologie nutzt 5G für höhere Geschwindigkeiten?;Millimeterwellen (mmWave);Faseroptik;Koaxialkabel;Bluetooth LE
-Technologie;Was ist der Unterschied zwischen DDR4 und DDR5 RAM?;Höhere Bandbreite und Effizienz bei DDR5;DDR5 ist nur für Laptops;DDR4 hat niedrigere Latenzen;DDR5 benötigt mehr Strom
-Technologie;Welches ist KEIN Typ von mechanischer Tastatur?;Membranschalter (keine mechanischen Switches);Cherry MX Blue;Gateron Brown;Kailh Red
-Technologie;Was ist der Vorteil von IPS-Panels gegenüber TN?;Bessere Blickwinkelstabilität;Schnellere Reaktionszeiten;Geringerer Stromverbrauch;Höherer Kontrast
-Technologie;Welche Funktion hat ein NAS-Gerät?;Zentraler Netzwerkspeicher;Drahtlose Stromversorgung;3D-Rendering;Virenscanning
-Technologie;Was ist der Unterschied zwischen UHD und 4K?;UHD ist 3840x2160, echter 4K ist 4096x2160;4K ist nur für Kinos;UHD hat höhere Farbtiefe;4K unterstützt kein HDR
-Technologie;Welche Technologie ermöglicht kabelloses Laden?;Qi-Standard (induktives Laden);Bluetooth;NFC;Wi-Fi 6
-Technologie;Was ist der Unterschied zwischen SIM- und eSIM?;eSIM ist fest im Gerät verbaut;SIM-Karten sind schneller;eSIM benötigt mehr Strom;SIM-Karten unterstützen kein 5G
-Technologie;Welche Farbe hat ein USB-3.0-Port typischerweise?;Blau;Schwarz;Rot;Grün
-Technologie;Was ist der Hauptzweck eines VPN?;Verschlüsselter Datenverkehr über öffentliche Netze;Erhöhte Internetgeschwindigkeit;Kostenlose Cloud-Speicher;Automatische Backups
-Technologie;Welche Technologie nutzt kontaktloses Bezahlen?;NFC (Near Field Communication);Bluetooth;RFID;Infrarot
-Technologie;Was ist der Unterschied zwischen HTTP und HTTPS?;HTTPS verschlüsselt Daten;HTTP ist schneller;HTTPS benötigt spezielle Hardware;HTTP unterstützt kein Video
-Technologie;Welche Funktion hat ein DAC (Digital-Analog-Converter)?;Wandelt digitale Audiosignale in analoge um;Komprimiert Musikdateien;Entfernt Hintergrundgeräusche;Erhöht die Lautstärke
-Technologie;Was ist der Unterschied zwischen LCD und LED-Displays?;LEDs dienen als Hintergrundbeleuchtung bei LCDs;LCDs sind eine veraltete Technologie;LEDs können keine Farben anzeigen;LCDs sind immer dünner
-Technologie;Welche Technologie nutzt ein 3D-Drucker für präzise Modelle?;FDM (Fused Deposition Modeling);LCD-Beleuchtung;Magnetische Levitation;Dampfbetrieb
-Technologie;Was ist der Unterschied zwischen ARM- und x86-CPUs?;ARM ist energieeffizienter;x86 ist nur für Smartphones;ARM unterstützt kein Multitasking;x86 hat keine 64-Bit-Architektur
-Technologie;Welche Funktion hat ein Cache in CPUs?;Schneller Zwischenspeicher für häufig genutzte Daten;Externe Festplatte;Netzwerkfilter;Grafikbeschleuniger
-Technologie;Was ist der Unterschied zwischen SATA und M.2 SSDs?;M.2 nutzt PCIe für höhere Geschwindigkeit;SATA ist neuer;M.2 benötigt mehr Strom;SATA unterstützt kein NVMe
-Technologie;Welche Technologie ermöglicht adaptive Bildschirm-Aktualisierungsraten?;FreeSync/G-Sync;HDR10+;OLED;Touch Sampling
-Technologie;Was ist der Unterschied zwischen Java und JavaScript?;JavaScript läuft im Browser, Java als eigenständige App;Java ist nur für Spiele;JavaScript benötigt Compiler;Java ist eine Hardware
-Technologie;Welche Funktion hat ein RAID-System?;Datenredundanz oder Performance-Steigerung;Automatische Backups im Internet;Virenschutz;Netzwerkmanagement
-Technologie;Was ist der Unterschied zwischen TCP und UDP?;TCP garantiert Zustellung, UDP ist schnell aber unzuverlässig;UDP ist nur für Video;TCP verschlüsselt Daten;UDP benötigt mehr Bandbreite
-Technologie;Welche Technologie nutzt ein Smartphone für genaue Standortbestimmung?;GPS + GLONASS + Galileo;Nur WiFi-Positionierung;Bluetooth Beacons;NFC
-Technologie;Was ist der Unterschied zwischen 32-Bit- und 64-Bit-Systemen?;64-Bit kann mehr RAM adressieren;32-Bit ist schneller;64-Bit unterstützt keine Grafikkarten;32-Bit benötigt weniger Strom
-Technologie;Welche Funktion hat ein Sandbox-Modus in Browsern?;Isolierte Ausführung von unsicherem Code;Blockiert Werbung;Komprimiert Webseiten;Erhöht Download-Geschwindigkeit
-Technologie;Was ist der Unterschied zwischen Open-Source und Freeware?;Open-Source ermöglicht Code-Einsicht/-Modifikation;Freeware ist immer teurer;Open-Source hat keine Lizenzen;Freeware unterstützt keine Updates
-Technologie;Welche Technologie nutzt ein E-Ink-Display?;Elektrophorese (elektrisch geladene Pigmente);LCD mit speziellem Filter;OLED mit reduzierter Helligkeit;Projektion
-Technologie;Was ist der Unterschied zwischen RISC und CISC CPUs?;RISC hat einfachere Befehle für Effizienz;CISC ist nur für Smartphones;RISC benötigt mehr Transistoren;CISC unterstützt kein Multitasking
-Technologie;Welche Funktion hat ein Zero-Watt-Monitor?;Abschaltung bei Standby ohne Stromverbrauch;Keine Stromversorgung nötig;Läuft mit Solarenergie;Automatische Helligkeitsanpassung
-Technologie;Was ist der Unterschied zwischen Binär- und Hexadezimalsystem?;Hexadezimal ist kompakter für Menschen lesbar;Binär hat mehr Ziffern;Hexadezimal wird nur in der Chemie verwendet;Binär basiert auf 10 Ziffern
-Technologie;Welche Technologie nutzt ein VR-Headset für Bewegungserkennung?;Gyroskope + Beschleunigungssensoren;Nur Kameras;Wärmesensoren;Mikrofone
-Technologie;Was ist der Unterschied zwischen L1, L2 und L3 Cache?;L1 ist schnellster, kleinster Cache nahe der CPU;L3 ist immer außerhalb der CPU;L2 ist nur für Grafiken;L1 ist langsamer als RAM
-Technologie;Welche Funktion hat ein TPM-Chip?;Hardware-Verschlüsselung für Sicherheit;Übertaktung der CPU;Netzwerkgeschwindigkeitsmessung;Akku-Kalibrierung
-Technologie;Was ist der Unterschied zwischen Mono- und Multicore-CPUs?;Multicore kann mehrere Aufgaben parallel bearbeiten;Mono ist immer schneller;Multicore benötigt weniger Strom;Mono unterstützt keine Apps
-Technologie;Welche Technologie nutzt ein Smartphone für Gesichtserkennung?;Infrarot-Kamera + Punktprojektor;Nur Frontkamera;Fingerabdrucksensor;Spracherkennung
-Technologie;Was ist der Unterschied zwischen Lossless und Lossy Audio?;Lossless behält originale Qualität, Lossy komprimiert mit Qualitätsverlust;Lossy ist immer besser;Lossless unterstützt keine Kopfhörer;Lossy ist unkomprimiert
-Technologie;Welche Funktion hat ein KVM-Switch?;Steuerung mehrerer PCs mit einer Tastatur/Maus;Virtuelle Maschinen erstellen;Netzwerküberwachung;Automatische Backups
+subject;question;true;wrong1;wrong2;wrong3
+Technologie;Was ist der Hauptvorteil von Solid State Drives (SSDs) gegenüber HDDs?;Keine beweglichen Teile (schneller, robuster);Niedrigerer Preis pro GB;Größere Speicherkapazität;Nur für Server geeignet
+Technologie;Welche Einheit misst die Frequenz eines Prozessors?;Hertz (Hz);Volt (V);Ampere (A);Watt (W)
+Technologie;Was beschreibt die Auflösung eines Displays (z.B. 1920x1080)? ;Anzahl der horizontalen und vertikalen Pixel;Helligkeit des Bildschirms;Farbtiefe in Bit;Bildwiederholrate in Hz
+Technologie;Welche Funktion hat ein Router in einem Netzwerk?;Verbindet verschiedene Netzwerke und leitet Datenpakete;Druckt Dokumente im Netzwerk;Verwaltet Benutzerkonten;Misst die Umgebungstemperatur
+Technologie;Was ist der Unterschied zwischen RAM und ROM?;RAM ist flüchtig und wird zum Arbeiten genutzt, ROM ist nicht flüchtig und nur lesbar;ROM ist viel schneller als RAM;RAM speichert alle Daten dauerhaft;Beide sind gleich schnell
+Technologie;Welche Programmiersprache ist bekannt für ihre serverseitige Webentwicklung?;Python;HTML;CSS;Swift
+Technologie;Was ist ein 'Phishing'-Angriff?;Versuch, über gefälschte Nachrichten sensible Daten zu stehlen;Eine Art der Hardware-Verschlüsselung;Ein Virus, der das Betriebssystem löscht;Ein Verfahren zur Netzwerkoptimierung
+Technologie;Was bedeutet der Begriff 'Open Source'-Software?;Der Quellcode ist öffentlich zugänglich und änderbar;Die Software ist immer kostenlos;Die Software benötigt keine Lizenz;Sie kann nur von Profis genutzt werden
+Technologie;Welche Technologie dient zur eindeutigen Identifizierung von Objekten über Funkwellen?;RFID (Radio Frequency Identification);NFC (Near Field Communication);Bluetooth;Li-Fi
+Technologie;Was ist der Hauptzweck von 'Cloud Computing'?;Bereitstellung von IT-Ressourcen über das Internet;Reduzierung der Internetgeschwindigkeit;Ausschließlich Speicherung von Fotos;Ersatz für physische Tastaturen
+Technologie;Welcher Begriff beschreibt die Fähigkeit eines Systems, sich an steigende Last anzupassen?;Skalierbarkeit;Volatilität;Redundanz;Latenz
+Technologie;Was ist ein 'Firewall' in der IT-Sicherheit?;Ein System, das den Netzwerkverkehr überwacht und filtert;Ein Programm zur Defragmentierung der Festplatte;Ein Mechanismus zum Übertakten der CPU;Eine Methode zur Akku-Kalibrierung
+Technologie;Was ist der Unterschied zwischen einem 32-Bit und einem 64-Bit Betriebssystem?;64-Bit kann mehr RAM adressieren;32-Bit ist immer schneller;64-Bit ist nur für Grafikkarten;32-Bit benötigt weniger Speicherplatz
+Technologie;Was ist der Hauptvorteil eines Mesh-WLAN-Systems?;Bessere und gleichmäßigere Abdeckung in großen Bereichen;Höhere Geschwindigkeit durch Kabelverbindung;Immer kostenlos;Nutzt nur das 5G-Netzwerk
+Technologie;Welche Funktion hat die GPU (Graphics Processing Unit)?;Verarbeitung von Grafiken und parallelen Berechnungen;Speicherung des Betriebssystems;Verwaltung des Netzwerkverkehrs;Steuerung des Akkuladevorgangs
+Technologie;Was ist ein 'IP-Adresse'?;Eine eindeutige Adresse zur Identifizierung eines Geräts im Netzwerk;Ein Passwort für den WLAN-Zugang;Der Name eines Servers;Ein Standard für die E-Mail-Verschlüsselung
+Technologie;Was ist der Unterschied zwischen HTTP und HTTPS?;HTTPS verschlüsselt die Kommunikation mit SSL/TLS;HTTP ist nur für Bilder;HTTPS ist langsamer als HTTP;HTTP ist der neuere Standard
+Technologie;Was ist ein 'Cookie' im Kontext von Webbrowsern?;Eine kleine Datei, die Informationen über besuchte Websites speichert;Ein Virenscanner-Programm;Eine spezielle Art von Webserver;Ein Add-on für bessere Grafiken
+Technologie;Was ist der Hauptzweck eines VPN (Virtual Private Network)?;Erstellung einer sicheren, verschlüsselten Verbindung über das Internet;Beschleunigung der Internetverbindung;Blockierung aller E-Mails;Verwaltung von Druckerwarteschlangen
+Technologie;Was ist ein 'Blockchain'?;Eine dezentrale, unveränderliche Kette von Datenblöcken;Ein neues Betriebssystem von Microsoft;Eine Methode zur CPU-Kühlung;Ein Standard für drahtlose Kopfhörer
+Technologie;Welche Technologie ermöglicht es, Strom drahtlos an Geräte zu übertragen?;Induktives Laden;NFC (Near Field Communication);Bluetooth;Infrarot
+Technologie;Was ist die Hauptfunktion eines Treibers (Driver) in der IT?;Ermöglicht dem Betriebssystem, mit Hardware zu kommunizieren;Dient als Virenschutz;Speichert Benutzerdateien;Optimiert die Akkulaufzeit
+Technologie;Was ist der Unterschied zwischen LoRaWAN und WiFi?;LoRaWAN ist für große Reichweiten bei geringer Datenrate;WiFi ist nur für kleine Büros;LoRaWAN ist immer schneller;WiFi braucht keine Stromversorgung
+Technologie;Was ist 'Augmented Reality' (AR)?;Überlagerung digitaler Informationen über die reale Welt;Vollständiges Eintauchen in eine virtuelle Welt;Eine Art der Spracherkennung;Ein schnelleres Internetprotokoll
+Technologie;Was ist der Unterschied zwischen Bit und Byte?;Ein Byte besteht aus 8 Bit;Ein Bit besteht aus 8 Byte;Beide sind das Gleiche;Ein Byte ist nur für Grafiken
+Technologie;Was ist ein 'Latency' (Latenz) in einem Netzwerk?;Die Verzögerungszeit bei der Datenübertragung;Die maximale Übertragungsgeschwindigkeit;Die Anzahl der verbundenen Geräte;Die physikalische Größe des Netzwerkkabels
+Technologie;Welche Funktion hat ein DHCP-Server?;Automatische Zuweisung von IP-Adressen in einem Netzwerk;Übersetzung von Domainnamen in IP-Adressen;Speicherung aller E-Mails;Messung der Netzwerkgeschwindigkeit
+Technologie;Was ist 'Data Mining'?;Das Entdecken von Mustern in großen Datenmengen;Das Löschen alter Datenbanken;Die Erstellung von Hardware-Prototypen;Das Kopieren von Dateien auf eine externe Festplatte
+Technologie;Was ist der Unterschied zwischen USB 2.0 und USB 3.0/3.1/3.2?;USB 3.x bietet deutlich höhere Übertragungsgeschwindigkeiten;USB 2.0 ist neuer;USB 3.x benötigt spezielle Software;USB 2.0 kann keine Daten übertragen
+Technologie;Welche Technologie wird primär für kontaktloses Bezahlen mit dem Smartphone verwendet?;NFC (Near Field Communication);Bluetooth;Infrarot;GPS
+Technologie;Was ist der Hauptzweck eines 'Load Balancers' in einem Server-Setup?;Verteilung der Netzwerklast auf mehrere Server;Blockierung unerwünschter Werbung;Erstellung von Backups;Optimierung der CPU-Temperatur
+Technologie;Was ist ein 'Vektorformat' (z.B. SVG) im Gegensatz zu einem Rasterformat (z.B. JPEG)?;Bilder bleiben ohne Qualitätsverlust skalierbar;Vektorformate sind immer kleiner;Rasterformate unterstützen keine Farben;Vektorformate sind nur für Fotos
+Technologie;Was ist 'Biometrie' in der IT-Sicherheit?;Verwendung einzigartiger biologischer Merkmale zur Identifizierung;Eine Art der Hardware-Verschlüsselung;Ein Protokoll zur Netzwerküberwachung;Die Messung der CPU-Leistung
+Technologie;Was ist der Unterschied zwischen einem Hub und einem Switch in einem Netzwerk?;Ein Switch ist intelligenter und leitet gezielt, ein Hub verteilt wahllos;Ein Hub ist viel schneller;Ein Switch braucht keine Stromversorgung;Ein Hub ist der neuere Standard
+Technologie;Welche Funktion hat ein Barcode-Scanner?;Erfassung und Decodierung von optischen Codes;Messung der Funkwellen-Intensität;Drucken von Etiketten;Steuerung von Robotern
+Technologie;Was ist der Hauptvorteil eines RAID-Systems (z.B. RAID 1 oder 5)?;Verbesserte Datensicherheit und/oder Leistung durch Redundanz;Reduzierung des Stromverbrauchs;Erhöhung der CPU-Taktrate;Automatische Software-Updates
+Technologie;Was ist 'Machine Learning' (Maschinelles Lernen)?;Ein Teilgebiet der KI, bei dem Systeme aus Daten lernen;Das schnelle Speichern großer Datenmengen;Das Testen von Hardware-Komponenten;Eine Methode zur Netzwerkverkabelung
+Technologie;Was ist der Unterschied zwischen Single-Mode und Multi-Mode Glasfaserkabeln?;Single-Mode ist für lange Distanzen, Multi-Mode für kurze;Multi-Mode ist immer dicker;Single-Mode ist nur für Audio;Beide haben die gleiche Reichweite
+Technologie;Was ist der Hauptzweck von 'Containers' (z.B. Docker)?;Bündelung von Software und Abhängigkeiten für einfache Bereitstellung;Ersatz für physische Server;Methode zur CPU-Kühlung;Ein Protokoll für E-Mail-Versand
+Technologie;Was ist 'Overclocking' (Übertakten) der CPU?;Betrieb der CPU mit einer höheren Frequenz als der Herstellerspezifikation;Automatische Reduzierung der Taktrate;Eine Art der Virenentfernung;Die Messung der RAM-Geschwindigkeit
+Technologie;Welche Technologie ermöglicht eine drahtlose Kommunikation über kurze Strecken mit hohem Datendurchsatz?;Wi-Fi (Wireless Fidelity);Infrarot;Li-Fi;Radio
+Technologie;Was ist der Hauptunterschied zwischen einer App und einer Webanwendung?;Eine App läuft nativ auf dem Betriebssystem, eine Webanwendung im Browser;Webanwendungen sind immer schneller;Apps benötigen keine Internetverbindung;Webanwendungen sind immer kostenpflichtig
+Technologie;Was ist ein 'Digitaler Zwilling' (Digital Twin)?;Eine virtuelle Kopie eines physischen Objekts oder Systems;Ein neues Dateiformat für Videos;Ein Standard für die Netzwerksicherheit;Ein schnellerer Typ von Prozessor
+Technologie;Was ist 'Augmented Virtuality' (AV)?;Integration von realen Objekten in eine virtuelle Umgebung;Eine verbesserte Form von 3D-Druck;Ein Protokoll für Video-Streaming;Eine Methode zur Datenkomprimierung
+Technologie;Was ist ein 'Trojanisches Pferd' in der IT-Sicherheit?;Malware, die sich als nützliche Software tarnt;Ein Hardware-Schutzschalter;Ein Standard für Netzwerkadressen;Ein Programm zur CPU-Optimierung
+Technologie;Was ist der Hauptzweck von 'Virtualisierung' in der IT?;Erstellung virtueller Versionen von Ressourcen (z.B. Server, OS);Erhöhung der physischen Speicherkapazität;Messung der Akkulaufzeit;Reduzierung der Netzwerk-Latenz
+Technologie;Was ist der Unterschied zwischen einem Transistor und einem Chip?;Ein Chip besteht aus Milliarden von Transistoren;Ein Transistor ist größer als ein Chip;Beide sind dasselbe;Ein Chip speichert nur Daten
+Technologie;Welche Technologie ermöglicht es einem Display, schneller auf Bildänderungen zu reagieren?;Niedrige 'Reaktionszeit' (ms);Hohe Helligkeit (cd/m²);Große Farbraumabdeckung;Hohe Auflösung
+Technologie;Was ist 'Spear Phishing'?;Ein gezielter Phishing-Angriff auf eine bestimmte Person/Organisation;Eine neue Art des Internet-Streamings;Ein Fehlerkorrekturverfahren für Festplatten;Ein Standard für drahtlose Mäuse
+Technologie;Was ist der Hauptzweck eines 'DNS-Servers'?;Übersetzung von Domainnamen (z.B. google.com) in IP-Adressen;Verwaltung von WLAN-Passwörtern;Speicherung von Passwörtern;Messung der CPU-Temperatur
+Technologie;Was ist der Unterschied zwischen AC- und DC-Strom?;AC wechselt die Richtung, DC fließt in eine Richtung;DC ist immer gefährlicher;AC wird nur in Computern verwendet;DC hat eine höhere Spannung
+Technologie;Welche Funktion hat ein 'Lidar'-Sensor in der Technologie?;Misst Abstände und erstellt 3D-Modelle mithilfe von Laserpulsen;Erzeugt Töne in hoher Qualität;Verfolgt die Augenbewegung;Wärmesensorik
+Technologie;Was ist ein 'Software Defined Network' (SDN)?;Ein Ansatz, der das Netzwerkmanagement von der Hardware entkoppelt;Ein Protokoll zur Audioübertragung;Ein neuer Typ von Router;Ein Standard für mobile Kommunikation
+Technologie;Was ist der Unterschied zwischen einem Compiler und einem Interpreter?;Ein Compiler übersetzt den Code vorab, ein Interpreter zur Laufzeit;Compiler sind immer langsamer;Interpreter erzeugen Hardware-Fehler;Beide sind nur für Skriptsprachen
+Technologie;Was ist 'Data Loss Prevention' (DLP)?;Strategien und Tools zur Verhinderung des Abflusses sensibler Daten;Ein Programm zur Wiederherstellung gelöschter Dateien;Eine Methode zur Datenkomprimierung;Ein Standard für die drahtlose Tastatur
+Technologie;Welche Technologie dient zur Kommunikation zwischen einem Smartphone und einem Smartwatch?;Bluetooth Low Energy (BLE);NFC;Wi-Fi Direct;Infrarot
+Technologie;Was ist ein 'Botnet'?;Ein Netzwerk aus infizierten Computern unter zentraler Kontrolle;Ein schneller Webbrowser;Ein Protokoll zur Videoübertragung;Ein Speicherchip-Typ
+Technologie;Was ist der Hauptzweck eines 'API Gateway' in einer Microservices-Architektur?;Ein einziger Einstiegspunkt für alle externen Anfragen;Speicherung der Datenbank;Verwaltung der Benutzerpasswörter;Optimierung der CPU-Auslastung
+Technologie;Was ist der Unterschied zwischen einem Vektor- und einem Rasterdisplay?;Vektor-Displays nutzen Linien und Kurven, Raster-Displays Pixel;Raster-Displays sind immer kleiner;Vektor-Displays sind nur für Text;Beide sind die gleiche Technologie
+Technologie;Welche Funktion hat 'Key Management' in der Kryptographie?;Verwaltung der kryptografischen Schlüssel (Erstellung, Speicherung);Messung der CPU-Leistung;Überwachung der Netzwerkaktivität;Erstellung von Hardware-Prototypen
+Technologie;Was ist ein 'Denial of Service (DoS)'-Angriff?;Überflutung eines Systems, um es funktionsunfähig zu machen;Ein Virus, der nur Bilder löscht;Ein Programm zur Verbesserung der Audioqualität;Eine Methode zur CPU-Kühlung
+Technologie;Was ist der Hauptunterschied zwischen einer virtuellen Maschine und einem Container?;VMs virtualisieren Hardware, Container nur das Betriebssystem;VMs sind viel schneller;Container benötigen mehr Speicherplatz;VMs sind nur für Linux
+Technologie;Welche Einheit misst die Farbtiefe eines Bildes oder Displays?;Bit (z.B. 24 Bit);Pixel;Hertz (Hz);Lumen (lm)
+Technologie;Was ist 'Quantum Computing'?;Nutzung von Quantenmechanik zur Durchführung von Berechnungen;Ein neuer Typ von Mikroprozessor;Ein Standard für 8K-Video;Eine Methode zur Datenkomprimierung
+Technologie;Was ist der Hauptzweck von 'Zero Trust' in der IT-Sicherheit?;Keiner Entität wird automatisch vertraut, auch intern nicht;Das Deaktivieren aller Firewalls;Nur Apple-Geräte verwenden;Verwendung von Papier und Stift
+Technologie;Welche Technologie wird zur Identifizierung und Nachverfolgung von Produkten in der Logistik verwendet?;Barcode und QR-Code;USB-C;Li-Fi;NFC
+Technologie;Was ist der Unterschied zwischen einem Web-Server und einem Applikations-Server?;Web-Server liefern statische Inhalte, App-Server führen Logik aus;Applikations-Server sind nur für Handys;Web-Server benötigen keine Software;Beide sind dasselbe
+Technologie;Was ist 'Fuzzing' in der Software-Entwicklung?;Automatisierte Eingabe von zufälligen Daten, um Fehler zu finden;Ein Protokoll für Audio-Streaming;Eine Methode zur CPU-Übertaktung;Die Messung der Netzwerk-Latenz
+Technologie;Welche Funktion hat ein 'Hotspot' (Mobile Hotspot)?;Ermöglicht anderen Geräten die Nutzung der mobilen Datenverbindung;Drucken von Dokumenten;Speicherung von Passwörtern;Messung der Umgebungstemperatur
+Technologie;Was ist 'Deepfake'-Technologie?;Erstellung realistischer gefälschter Audio- oder Videoinhalte mittels KI;Ein neues Dateiformat für Text;Ein Protokoll zur Netzwerkverschlüsselung;Ein schnellerer Typ von RAM
+Technologie;Was ist der Unterschied zwischen Synchroner und Asynchroner Datenübertragung?;Synchron benötigt ein Taktsignal, Asynchron nutzt Start/Stopp-Bits;Asynchron ist immer schneller;Synchron ist nur für drahtlose Kommunikation;Beide sind dasselbe
+Technologie;Welche Funktion hat 'Quality of Service' (QoS) in Netzwerken?;Priorisierung des Datenverkehrs zur Sicherstellung von Leistung;Automatische Virensuche;Steuerung des Akkuladevorgangs;Messung der CPU-Temperatur
+Technologie;Was ist 'Digital Rights Management' (DRM)?;Technologien zur Kontrolle der Nutzung und Verbreitung urheberrechtlich geschützter Werke;Ein Standard für offene Software;Eine Methode zur Datenwiederherstellung;Ein Protokoll für VoIP-Telefonie
+Technologie;Was ist der Hauptzweck eines 'Hypervisors' in der Virtualisierung?;Verwaltung und Betrieb mehrerer virtueller Maschinen;Beschleunigung der Internetverbindung;Blockierung von Pop-ups;Messung der Funkwellen-Intensität
+Technologie;Was ist der Unterschied zwischen einem Frontend und einem Backend in der Webentwicklung?;Frontend ist die Benutzerschnittstelle, Backend die Serverlogik;Backend ist immer schneller;Frontend speichert alle Daten;Beide sind nur für Mobilgeräte
+Technologie;Welche Technologie dient zur präzisen Positionsbestimmung auf der Erde?;GPS (Global Positioning System) oder andere GNSS;NFC;Bluetooth;Infrarot
+Technologie;Was ist 'Edge AI' (Künstliche Intelligenz am Rand)?;KI-Verarbeitung direkt auf dem Gerät, nicht in der Cloud;Eine langsame Form von KI;Nur für wissenschaftliche Forschung;Benötigt immer eine konstante Internetverbindung
+Technologie;Was ist der Hauptzweck einer 'Message Queue' in der Softwarearchitektur?;Entkopplung von Systemkomponenten durch asynchrone Nachrichten;Synchronisierung der Systemzeit;Erstellung von Hardware-Prototypen;Verwaltung von Benutzerkonten
+Technologie;Was ist der Unterschied zwischen einem statischen und einem dynamischen IP-Adresse?;Statisch ändert sich nicht, Dynamisch wird neu zugewiesen;Dynamisch ist immer schneller;Statisch ist nur für mobile Geräte;Dynamisch ist sicherer
+Technologie;Welche Funktion hat die 'Two-Factor Authentication' (2FA)?;Erhöhung der Sicherheit durch zwei unabhängige Bestätigungsschritte;Verdopplung der Internetgeschwindigkeit;Automatische Defragmentierung der Festplatte;Messung der RAM-Auslastung
+Technologie;Was ist ein 'Cryptocurrency Wallet'?;Eine Software oder Hardware zur Verwaltung von privaten und öffentlichen Kryptoschlüsseln;Eine Art von Cloud-Speicher;Ein Protokoll für Video-Streaming;Ein schnellerer Typ von Prozessor
+Technologie;Was ist der Hauptzweck eines 'Proxy Servers' in einem Netzwerk?;Vermittler zwischen Client und Server zur Filterung/Anonymisierung;Speicherung aller E-Mails;Verwaltung des WLAN-Passworts;Messung der CPU-Temperatur
+Technologie;Was ist 'Big Data'?;Extrem große Datenmengen, die spezielle Tools zur Verarbeitung erfordern;Ein neuer Standard für kleine Dateien;Eine Methode zur Hardware-Verschlüsselung;Ein Protokoll zur Audioübertragung
+Technologie;Welche Technologie ermöglicht es, ein einzelnes physisches Kabel für Strom und Daten zu nutzen?;PoE (Power over Ethernet);NFC;Bluetooth;Infrarot
+Technologie;Was ist der Unterschied zwischen 'Client-side' und 'Server-side' Scripting?;Client-side läuft im Browser, Server-side auf dem Webserver;Client-side ist immer schneller;Server-side ist nur für Text;Beide sind dasselbe
+Technologie;Was ist 'Ethical Hacking'?;Legales Testen der Sicherheit eines Systems mit Erlaubnis;Das Stehlen von Passwörtern;Das Erstellen von Viren;Die Deaktivierung von Firewalls
+Technologie;Welche Funktion hat ein 'Transponder' in der drahtlosen Kommunikation?;Empfangen und Senden von Funksignalen;Messen der Entfernung zu Objekten;Speicherung von Fotos;Steuerung von Haushaltsgeräten
+Technologie;Was ist der Unterschied zwischen 'Full-HD' und '4K' (Ultra-HD)?;4K bietet eine viermal höhere Pixelanzahl als Full-HD;Full-HD ist der neuere Standard;4K ist immer langsamer;Full-HD ist nur für kleine Bildschirme
+Technologie;Was ist der Hauptzweck von 'Test Driven Development' (TDD)?;Schreiben von Tests vor dem eigentlichen Code;Das Überspringen aller Tests;Nur das Backend testen;Ausschließlich manuelle Tests
+Technologie;Welche Technologie dient zur eindeutigen Identifizierung von Produkten im Handel?;UPC/EAN-Barcode;NFC;Bluetooth;Li-Fi
+Technologie;Was ist 'Serverless Computing'?;Ein Cloud-Modell, bei dem sich Entwickler nicht um die Serverinfrastruktur kümmern müssen;Das Fehlen von Cloud-Diensten;Das Bauen eigener Server;Nur für kleine Anwendungen
+Technologie;Was ist der Unterschied zwischen einem 'Data Lake' und einem 'Data Warehouse'?;Data Lake speichert Rohdaten, Data Warehouse strukturierte Daten;Data Lake ist nur für Text;Data Warehouse ist immer langsamer;Beide sind dasselbe
+Technologie;Welche Funktion hat ein 'Digitaler Signatur' (Digital Signature)?;Bestätigung der Authentizität und Integrität einer Nachricht oder Datei;Ein Passwort für den WLAN-Zugang;Eine Art von Grafikformat;Ein Protokoll für die Datenkomprimierung
+Technologie;Was ist 'Agile Software Development'?;Ein iterativer und flexibler Ansatz für die Softwareentwicklung;Ein strikt linearer Entwicklungsprozess;Das Arbeiten ohne Planung;Nur für kleine Teams geeignet
+Technologie;Was ist der Unterschied zwischen einem 'Pixel' und einem 'Voxel'?;Ein Pixel ist 2D, ein Voxel ist 3D (Volumen-Element);Ein Voxel ist immer kleiner;Ein Pixel ist nur für Video;Beide sind dasselbe
+Technologie;Welche Funktion hat ein 'Time-of-Flight (ToF)' Sensor?;Misst die Entfernung basierend auf der Laufzeit von Licht;Erzeugt Töne;Wärmesensorik;Messung der Luftfeuchtigkeit
+Technologie;Was ist 'DevOps'?;Eine Kombination aus Entwicklung und IT-Betrieb zur Beschleunigung der Softwarebereitstellung;Eine neue Programmiersprache;Ein Protokoll zur Netzwerkverschlüsselung;Eine Methode zur Akku-Kalibrierung
+Technologie;Was ist der Hauptzweck eines 'Content Delivery Network' (CDN)?;Zwischenspeicherung von Inhalten an verschiedenen Orten zur schnelleren Auslieferung;Blockierung aller Internetverbindungen;Verwaltung von Benutzerkonten;Optimierung der CPU-Temperatur
+Technologie;Was ist der Unterschied zwischen 'Multitasking' und 'Multiprocessing'?;Multitasking ist ein Kern, Multiprocessing sind mehrere Kerne;Multiprocessing ist immer langsamer;Multitasking braucht keine CPU;Beide sind dasselbe
+Technologie;Welche Technologie dient zur sicheren Verwaltung und Speicherung von Passwörtern?;Ein 'Passwort-Manager';Ein Protokoll zur Videoübertragung;Eine Art von CPU-Kühler;Ein Standard für drahtlose Kopfhörer
+Technologie;Was ist 'Internet of Things' (IoT)?;Vernetzung von physischen Objekten mit dem Internet und untereinander;Ein schnellerer Typ von Router;Ein Protokoll zur Datenkomprimierung;Eine Methode zur CPU-Übertaktung
+Technologie;Was ist der Unterschied zwischen einem 'Web-Browser' und einer 'Suchmaschine'?;Der Browser zeigt Webseiten an, die Suchmaschine indiziert sie;Die Suchmaschine ist nur für Texte;Der Browser speichert alle Passwörter;Beide sind dasselbe
+Technologie;Welche Funktion hat die 'Forward Error Correction' (FEC)?;Hinzufügen redundanter Daten, um Übertragungsfehler zu korrigieren;Beschleunigung der CPU;Blockierung von Pop-ups;Messung der Netzwerk-Latenz
+Technologie;Was ist der Hauptzweck eines 'Digital Ocean' oder 'AWS' (Amazon Web Services)?;Bereitstellung von Cloud-Infrastruktur-Diensten;Entwicklung von Videospielen;Produktion von Hardware;Verkauf von Speicherkarten
+Technologie;Was ist der Unterschied zwischen 'Ethernet' und 'Token Ring'?;Ethernet ist heute der dominierende Standard;Token Ring ist viel schneller;Ethernet ist nur für drahtlose Netzwerke;Beide sind gleich alt
+Technologie;Welche Funktion hat ein 'Network Attached Storage' (NAS) Gerät?;Zentraler Speicher für mehrere Benutzer im Netzwerk;Ein Gerät zur CPU-Kühlung;Ein Protokoll für E-Mail-Versand;Eine Methode zur Virenentfernung
+Technologie;Was ist 'Cross-Site Scripting' (XSS)?;Eine Sicherheitslücke, bei der bösartiger Code in Webseiten injiziert wird;Ein Fehlerkorrekturverfahren für Festplatten;Ein Standard für drahtlose Mäuse;Ein Protokoll für Audio-Streaming
+Technologie;Was ist der Hauptzweck von 'Continuous Integration/Continuous Delivery' (CI/CD)?;Automatisierung des Build-, Test- und Deployment-Prozesses;Das manuelle Testen aller Software;Das Arbeiten ohne Versionskontrolle;Die ausschließliche Nutzung von Cloud-Diensten
+Technologie;Was ist der Unterschied zwischen 'Lossy' und 'Lossless' Datenkomprimierung?;Lossy entfernt unwiderruflich Daten, Lossless ist ohne Qualitätsverlust;Lossless ist immer kleiner;Lossy ist nur für Text;Beide sind dasselbe
+Technologie;Welche Funktion hat ein 'Software Development Kit' (SDK)?;Eine Sammlung von Tools zum Erstellen von Anwendungen für eine bestimmte Plattform;Ein neuer Typ von Hardware;Ein Protokoll zur Netzwerküberwachung;Ein Standard für drahtlose Kopfhörer
+Technologie;Was ist 'Augmented Reality Markup Language' (ARML)?;Eine Sprache zur Beschreibung von AR-Szenen;Eine Programmiersprache für Datenbanken;Ein Protokoll für E-Mail-Verschlüsselung;Ein neuer Typ von Prozessor
+Technologie;Was ist der Hauptzweck einer 'Public Key Infrastructure' (PKI)?;Verwaltung digitaler Zertifikate und Schlüssel zur Sicherung der Kommunikation;Messung der CPU-Leistung;Überwachung der Netzwerkaktivität;Erstellung von Hardware-Prototypen
+Technologie;Was ist 'Speicherkonsistenz' in verteilten Systemen?;Die Eigenschaft, dass alle Kopien von Daten denselben Wert haben;Die physische Größe des Speichers;Die Geschwindigkeit des Speichers;Die Art des Speichers
+Technologie;Welche Technologie dient zur Erzeugung von dreidimensionalen Objekten durch schichtweises Materialauftragen?;3D-Druck (Additives Fertigungsverfahren);CNC-Fräsen;Laser-Gravur;Spritzguss
+Technologie;Was ist der Unterschied zwischen 'Monolithischer' und 'Microservices' Architektur?;Monolithisch ist eine einzige große Anwendung, Microservices sind kleine unabhängige Dienste;Microservices sind immer langsamer;Monolithisch braucht keine Datenbank;Beide sind dasselbe
+Technologie;Welche Funktion hat ein 'Bootloader' auf einem Computer?;Programm, das das Betriebssystem startet;Ein Protokoll zur Netzwerkverschlüsselung;Ein Virenscanner;Ein Programm zur CPU-Optimierung
+Technologie;Was ist 'Data Governance'?;Die Verwaltung der Verfügbarkeit, Nutzbarkeit, Sicherheit und Integrität von Daten;Das Löschen aller alten Daten;Die alleinige Speicherung von Text;Das Erstellen von Hardware-Prototypen
+Technologie;Was ist der Hauptzweck eines 'Geofencing' in mobilen Anwendungen?;Erstellung eines virtuellen Zauns, der Aktionen bei Ein-/Austritt auslöst;Messung der Internetgeschwindigkeit;Blockierung von Anrufen;Steuerung der Display-Helligkeit
+Technologie;Was ist der Unterschied zwischen 'Open-Loop' und 'Closed-Loop' Steuerung?;Closed-Loop nutzt Feedback (Regelung), Open-Loop nicht (Steuerung);Open-Loop ist immer genauer;Closed-Loop ist nur für einfache Aufgaben;Beide sind dasselbe
+Technologie;Welche Technologie dient zur automatischen Verarbeitung von natürlichsprachigem Text?;Natural Language Processing (NLP);Li-Fi;RFID;NFC
+Technologie;Was ist der Hauptzweck eines 'Software Repository' (z.B. Git)?;Zentraler Ort zur Speicherung und Verwaltung von Quellcode;Speicherung aller E-Mails;Verwaltung des WLAN-Passworts;Messung der CPU-Temperatur
+Technologie;Was ist der Unterschied zwischen 'Desktop Virtualisierung' und 'Application Virtualisierung'?;Desktop virtualisiert das gesamte OS, Application nur eine Anwendung;Application Virtualisierung ist immer langsamer;Desktop Virtualisierung braucht weniger RAM;Beide sind dasselbe
+Technologie;Welche Funktion hat ein 'Captcha'?;Verifizierung, dass der Benutzer ein Mensch und kein Bot ist;Ein Standard für E-Mail-Verschlüsselung;Ein Protokoll zur Videoübertragung;Ein neuer Typ von Prozessor
+Technologie;Was ist 'Regression Testing' in der Softwareentwicklung?;Wiederholtes Testen, um sicherzustellen, dass neue Änderungen nichts Altes kaputt gemacht haben;Das Schreiben von Code ohne Tests;Ausschließlich manuelle Tests;Nur das Frontend testen
+Technologie;Was ist der Hauptzweck eines 'Digital Subscriber Line' (DSL) Modems?;Umwandlung digitaler Daten in analoge Signale für die Telefonleitung;Messung der Funkwellen-Intensität;Steuerung der Raumtemperatur;Verwaltung von Druckerwarteschlangen
+Technologie;Was ist der Unterschied zwischen 'Wi-Fi 5' (802.11ac) und 'Wi-Fi 6' (802.11ax)?;Wi-Fi 6 ist schneller und effizienter, besonders bei vielen Geräten;Wi-Fi 5 ist neuer;Wi-Fi 6 ist nur für Firmen;Beide haben die gleiche Geschwindigkeit
+Technologie;Welche Funktion hat ein 'Boot Sector' auf einer Festplatte?;Enthält den Code, der das Betriebssystem startet;Speichert alle Benutzerdateien;Optimiert die Akkulaufzeit;Misst die Umgebungstemperatur
+Technologie;Was ist 'Speicher-Deduplizierung' (Data Deduplication)?;Entfernung redundanter Kopien identischer Daten, um Speicherplatz zu sparen;Verdopplung aller Daten;Ein Protokoll für VoIP-Telefonie;Eine Methode zur CPU-Kühlung
+Technologie;Was ist der Hauptzweck einer 'Web Accessibility' (Barrierefreiheit)?;Gestaltung von Webseiten, damit sie für alle, auch Menschen mit Behinderung, nutzbar sind;Reduzierung der Ladezeit;Blockierung von Werbung;Verbesserung der Farbdarstellung

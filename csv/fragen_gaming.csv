@@ -1,314 +1,103 @@
 subject;question;true;wrong1;wrong2;wrong3
-Gaming;Was ist das Hauptmerkmal von „The Elder Scrolls V: Skyrim“?;Offene Fantasy-Welt mit Drachen;Lineare Story;Keine Customization;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Shield“-Fähigkeit in Overwatch?;Reinhardt;Zarya;Winston;Orisa
-Gaming;In welchem Spiel gibt es den „Vindicator“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Shulker Box“-Gegenstand?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Team Fortress 2“?;Ziel je nach Spielmodus (z.B.: Punkt erobern);Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Cloak“-Fähigkeit in Apex Legends?;Mirage;Wraith;Octane;Caustic
-Gaming;In welchem Spiel gibt es den „Evoker“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Adventure Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Grand Theft Auto V“?;Offene Welt mit kriminellen Aktivitäten;Lineare Story;Keine Customization;Nur Rennspiel
-Gaming;Welcher Charakter ist bekannt für seine „Sentry“-Fähigkeit in Team Fortress 2?;Engineer;Heavy;Spy;Scout
-Gaming;In welchem Spiel gibt es den „Hoglin“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Unternehmen hat die PlayStation entwickelt?;Sony;Microsoft;Nintendo;Apple
-Gaming;Wie heißt der Hauptcharakter in Super Mario Bros.?;Mario;Luigi;Bowser;Yoshi
-Gaming;Welches Spielprinzip beschreibt First-Person Shooter (FPS)?;Spielen aus der Ego-Perspektive;Spielen aus der Vogelperspektive;Nur mit Gamepad steuerbar;Nur auf PC verfügbar
-Gaming;Welche Farbe hat Pac-Man?;Gelb;Blau;Rot;Grün
-Gaming;Was sammelt man in Pokémon GO?;Pokémon;Autos;Bücher;Münzen
-Gaming;Welche Konsole erschien zuerst?;Super Nintendo;PlayStation 5;Nintendo Switch;Xbox 360
-Gaming;Was ist das Ziel in Tetris?;Linien komplettieren;Gegner besiegen;Rätsel lösen;Autos parken
-Gaming;Welches Tier ist Sonic?;Igel;Fuchs;Vogel;Hund
-Gaming;Was bedeutet NPC in Spielen?;Nicht spielbarer Charakter;Neuer Spieler-Code;Netzwerk-Probleme;Notfall-Power-Button
-Gaming;Welches Spiel gehört zum Genre Battle Royale?;Fortnite;Minecraft;The Sims;FIFA
-Gaming;Wie heißt die Prinzessin in The Legend of Zelda?;Zelda;Peach;Daisy;Rosalina
-Gaming;Was ist Minecraft?;Ein Open-World-Spiel mit Blöcken;Ein Rennspiel;Ein Fußballspiel;Ein Horror-Spiel
-Gaming;Welche Waffe ist typisch für Call of Duty?;Gewehr;Zauberstab;Schwert;Angelrute
-Gaming;Was ist Steam?;Eine Spiele-Plattform für PC;Eine Spielekonsole;Ein Spielentwickler;Ein Controller
-Gaming;Welches Pokémon ist bekannt für seine Elektrizität?;Pikachu;Glumanda;Bisasam;Schiggy
-Gaming;Was ist VR-Gaming?;Spielen mit Virtual-Reality-Brille;Spielen ohne Controller;Nur auf dem Handy spielen;Ein veralteter Konsolentyp
-Gaming;Welches Spiel hat den Battle Pass populär gemacht?;Fortnite;Mario Kart;GTA V;Among Us
-Gaming;Was ist das Hauptziel in Among Us?;Als Crewmate Aufgaben erfüllen oder als Impostor sabotieren;Autos reparieren;Städte bauen;Monster jagen
-Gaming;Welche Farbe hat Luigi?;Grün;Rot;Blau;Gelb
-Gaming;Was ist Game Over?;Spielende bei Verlust;Ein neues Spiel starten;Ein Cheat-Code;Ein Controller-Problem
-Gaming;Welches Spiel hat Creeper als Gegner?;Minecraft;Roblox;Terraria;Fortnite
-Gaming;Was ist DLC?;DownLoadable Content (Zusatzinhalte);Ein Controller-Typ;Eine Spielekonsole;Ein Internetproblem
-Gaming;Welche Firma entwickelt FIFA?;EA Sports;Ubisoft;Nintendo;Rockstar
-Gaming;Was ist Respawn?;Wiederbeleben nach dem Tod im Spiel;Ein Spielmodus;Eine Konsole;Ein Grafikfehler
-Gaming;Welches Tier ist Fox McCloud in Star Fox?;Fuchs;Wolf;Vogel;Hund
-Gaming;Was ist Crossplay?;Spielen über verschiedene Plattformen hinweg;Ein Spielgenre;Ein Cheat-Code;Ein Controller-Design
-Gaming;Welches Spiel spielt in Hyrule?;The Legend of Zelda;Final Fantasy;Dark Souls;Skyrim
-Gaming;Was ist Rage-Quit?;Spielabbruch aus Frust;Ein Spielmodus;Ein Internetproblem;Ein Controller-Defekt
-Gaming;Welche Firma hat Xbox entwickelt?;Microsoft;Sony;Nintendo;Sega
-Gaming;Was ist Sandbox in Spielen?;Ein Spiel mit offener Welt und kreativer Freiheit;Ein Ballerspiel;Ein Rennspiel;Ein Sportspiel
-Gaming;Welches Pokémon entwickelt sich zu Glurak?;Glumanda;Bisasam;Schiggy;Pikachu
-Gaming;Was ist LAN-Party?;Lokales Netzwerk-Treffen zum Zocken;Ein Online-Spielmodus;Ein Gaming-Event;Ein Internetproblem
-Gaming;Welches Spiel hat Ender Dragon als Endgegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Was ist FPS neben einer Spielperspektive?;Frames Per Second (Bildrate);Free Play System;Fast Player Speed;Final Player Score
-Gaming;Welche Farbe hat der Power Pellet in Pac-Man?;Orange;Blau;Rot;Grün
-Gaming;Was ist Speedrun?;Ein Spiel so schnell wie möglich durchspielen;Ein Rennspiel;Ein Internetproblem;Ein Cheat-Code
-Gaming;Welches Spiel hat Master Chief als Protagonisten?;Halo;Call of Duty;Doom;Gears of War
-Gaming;Was ist Early Access?;Vorabversion eines Spiels;Ein exklusives Angebot;Ein Spielmodus;Ein Internetproblem
-Gaming;Welche Firma entwickelt GTA?;Rockstar Games;Ubisoft;EA;Nintendo
-Gaming;Was ist Twitch?;Eine Streaming-Plattform für Gamer;Ein Spiel;Eine Konsole;Ein Controller
-Gaming;Welches Pokémon ist ein Pflanzen-Typ?;Bisasam;Glumanda;Schiggy;Pikachu
-Gaming;Was ist MMORPG?;Massively Multiplayer Online Role-Playing Game;Ein Rennspiel;Ein Sportspiel;Ein Puzzle-Genre
-Gaming;Welches Spiel hat Kratos als Protagonisten?;God of War;Assassin’s Creed;The Witcher;Dark Souls
-Gaming;Was ist Modding?;Spielveränderungen durch Fans;Ein Spielmodus;Ein Internetproblem;Ein Grafikfehler
-Gaming;Welche Farbe hat der 1-Up-Pilz in Super Mario?;Rot;Blau;Grün;Gelb
-Gaming;Was ist RNG?;Zufallsgenerierung im Spiel;Ein Spielmodus;Ein Internetproblem;Ein Cheat-Code
-Gaming;Welches Spiel hat Lara Croft als Protagonistin?;Tomb Raider;Assassin’s Creed;Horizon Zero Dawn;Metroid
-Gaming;Was ist Esports?;Professionelles Gaming;Ein Spielgenre;Ein Spielmodus;Ein Internetproblem
-Gaming;Welches Pokémon ist ein Wasser-Typ?;Schiggy;Bisasam;Glumanda;Pikachu
-Gaming;Was ist Raytracing?;Eine fortschrittliche Grafiktechnik;Ein Spielmodus;Ein Internetproblem;Ein Controller-Typ
-Gaming;In welchem Jahr wurde die erste PlayStation veröffentlicht?;1994;1996;1992;1998
-Gaming;Welches Studio entwickelte das Spiel „The Witcher 3“?;CD Projekt Red;Ubisoft;Bethesda;Rockstar Games
-Gaming;Welcher Teil von GTA spielt in Vice City?;GTA: Vice City;GTA III;GTA V;GTA: San Andreas
-Gaming;Wie heißt der Online-Modus in GTA V?;GTA Online;San Andreas Online;Liberty City Online;GTA Network
-Gaming;Welches Spiel nutzt das Revali's Gale-Feature?;Zelda: Breath of the Wild;Zelda: Skyward Sword;Zelda: Ocarina of Time;Zelda: Twilight Princess
-Gaming;In welchem Spiel erscheint die Figur „Solid Snake“?;Metal Gear;Call of Duty;Halo;Assassin’s Creed
-Gaming;Welcher Entwickler steht hinter „Skyrim“?;Bethesda;Ubisoft;CD Projekt Red;Bioware
-Gaming;In „Portal“ ist der Begleiter ein…?;Kompanion-Kubus;KI-Gefährte;Magischer Spiegel;Roboterhund
-Gaming;Welches Spiel enthält die „Omni-Werkzeug“-Funktion?;Mass Effect;Cyberpunk 2077;Halo;Titanfall
-Gaming;Welche Währung wird zum Kauf von Champions in LoL genutzt?;Blue Essence;Gold;Rune Coin;Valor Token
-Gaming;Welche Taste ist standardmäßig zum Springen auf PC eingestellt?;Leertaste;Shift;Alt;Ctrl
-Gaming;Welcher Champion in LoL ist als „Der blinde Mönch“ bekannt?;Lee Sin;Master Yi;Zed;Yasuo
-Gaming;Welches Spiel basiert auf einem Wikinger-Setting?;Assassin’s Creed Valhalla;Ghost of Tsushima;Horizon Forbidden West;Far Cry 6
-Gaming;In welchem Spiel kämpfst du gegen „Clicker“?;The Last of Us;Outlast;Resident Evil 4;Dead Space
-Gaming;Wie heißt der Entwickler von „Overwatch“?;Blizzard;Valve;Riot Games;Ubisoft
-Gaming;In „Minecraft“, wie heißt die Dimension des End-Drachen?;End;Nether;Void;Realm
-Gaming;Was passiert beim Prestige-Level in Call of Duty?;Level wird zurückgesetzt mit Symbol;Neuer Spielmodus wird freigeschaltet;Man verliert alle Waffen;Nur das Rangabzeichen ändert sich
-Gaming;Welcher Controller wurde mit der Nintendo 64 eingeführt?;Trident-Form;SNES-Controller;DualShock;NES-Pad
-Gaming;Wie viele Pokémon gab es in der ersten Generation?;151;101;200;250
-Gaming;Welche Spielereihe hat einen Charakter namens „Nathan Drake“?;Uncharted;Tomb Raider;Far Cry;Halo
-Gaming;Wie heißt die KI-Gegnerin in „Portal“?;GLaDOS;Cortana;EVA;ADA
-Gaming;In welchem Spiel gibt es den Planeten „Zebes“?;Metroid;Mass Effect;No Man’s Sky;Starfield
-Gaming;Welches MOBA-Spiel wird von Valve betrieben?;Dota 2;Smite;League of Legends;Heroes of the Storm
-Gaming;Welcher Sound begleitet den Fund einer Truhe in „Zelda“?;Fanfare mit Trompeten;Klavierakkord;Bongoschlag;Gitarrenriff
-Gaming;Welches Spiel enthält die Fraktionen „Templer“ und „Assassinen“?;Assassin’s Creed;Shadow of Mordor;Elden Ring;The Witcher
-Gaming;Was ist die „Ultimate Ability“ in Valorant?;Stärkste Fähigkeit des Charakters;Zweiter Sprung;Heiltrank;Nahkampf-Sprint
-Gaming;Welcher Held in Overwatch kann „Wände hochlaufen“?;Hanzo;Genji;Winston;Soldier: 76
-Gaming;In welchem Spiel musst du Teile für ein Raumschiff sammeln?;Pikmin;Metroid;Kerbal Space Program;Spore
-Gaming;Wie heißt der Protagonist in „Red Dead Redemption 2“?;Arthur Morgan;John Marston;Jack Hall;Clay Stranton
-Gaming;In welchem Spiel findest du die „Vaults“?;Fallout;Skyrim;Bioshock;Half-Life
-Gaming;Wie nennt man die Spielansicht von Diablo?;Isometrisch;Ego-Perspektive;Top-Down;Third-Person
-Gaming;Welcher Charakter in LoL hat eine Angel?;Fizz;Yuumi;Trundle;Nami
-Gaming;Welches Indie-Spiel hat eine Erzählung ohne Text?;Limbo;Hollow Knight;Dead Cells;Undertale
-Gaming;Was ist eine typische Waffe in Doom?;Plasmagewehr;Schwert;Bogen;Flammenwerfer
-Gaming;Welches Spiel enthält das Gebiet „Novigrad“?;The Witcher 3;Assassin’s Creed Odyssey;Elden Ring;Dragon Age
-Gaming;Wie heißt die Spielzeit in Animal Crossing?;Echtzeit;Tag/Nacht-Rotation;Zufallsgenerierung;Mondkalender
-Gaming;Was ist ein „Hitbox“?;Treffbarer Bereich einer Spielfigur;Soundeffekt beim Treffer;Spielmodus bei Kämpfen;Maßeinheit für Reichweite
-Gaming;Welches Spiel enthält Mechaniken wie „Crafting“ und „Survival“?;Rust;Counter-Strike;FIFA;Tekken
-Gaming;Welcher Charakter ist bekannt für seine „Spartan Armor“?;Master Chief;Doomguy;Kratos;Marcus Fenix
-Gaming;In welchem Spiel gibt es eine Frucht namens „Nuka-Cola“?;Fallout;GTA V;The Sims;Halo
-Gaming;Wie heißt das fliegende Reittier in Zelda: Skyward Sword?;Loftwing;Pegasus;Epona;Falcon
-Gaming;Was ist die maximale Sternebewertung im Mario Kart Grand Prix?;3 Sterne;5 Sterne;1 Stern;10 Sterne
-Gaming;In welchem Spiel baust du ein Weltraumunternehmen?;Kerbal Space Program;Starfield;Elite Dangerous;No Man’s Sky
-Gaming;Was ist das Ziel in „Stardew Valley“?;Farm aufbauen;Rätsel lösen;Monster töten;Rennen fahren
-Gaming;Welche Farbe hat Samus’ Anzug in Metroid Prime?;Orange;Gelb;Blau;Rot
-Gaming;In welchem Spiel ist „Rapture“ eine versunkene Stadt?;Bioshock;Halo;Fallout;Cyberpunk 2077
-Gaming;Was symbolisiert ein Bosskampf?;Schwieriger Gegner zum Spiel-Fortschritt;Extra-Level;Zufallsgegner;Ende des Spiels
-Gaming;Welches Spiel enthält „Needler“ als Waffe?;Halo;Overwatch;Borderlands;Fallout
-Gaming;Wie nennt man die Karte in Fortnite?;Battle Island;The Island;Skull Map;Combat Hill
-Gaming;Was bedeutet KO im Spiel Super Smash Bros.?;Spieler wird aus der Arena geschleudert;Spieler wird gelähmt;Spieler verliert Energie;Spieler bekommt Bonus
-Gaming;Was ist ein „Combo“ in Beat-’em-ups?;Abfolge von Angriffen;Treffer mit Spezialwaffe;Defensive Haltung;Zufälliger Treffer
-Gaming;Welche Taste aktiviert die Spezialfähigkeit bei den meisten Konsolen?;R1;X;L2;Start
-Gaming;Welches Spiel wurde 1993 als erstes mit der Doom Engine veröffentlicht?;Doom;Wolfenstein 3D;Quake;Duke Nukem 3D
-Gaming;Welche Farbe hat der Panzer von Donatello in den "Teenage Mutant Ninja Turtles"-Spielen?;Lila;Rot;Blau;Orange
-Gaming;Welches Spiel war das erste kommerziell erfolgreiche Battle Royale-Spiel?;PUBG;Fortnite;Apex Legends;H1Z1
-Gaming;Welche Firma entwickelte das ursprüngliche Spiel "Half-Life"?;Valve;Epic Games;Bungie;Ubisoft
-Gaming;Welches Spiel enthält die Stadt Rapture?;BioShock;Fallout;Tomb Raider;Mass Effect
-Gaming;Wer ist der Hauptcharakter in der "Red Dead Redemption"-Reihe?;Arthur Morgan;John Duke;Jack Hall;Micah Bell
-Gaming;Was ist das stärkste legendäre Pokémon der ersten Generation?;Mewtwo;Zapdos;Mew;Articuno
-Gaming;Welches Spiel war der Ursprung des Cheat-Codes „Konami-Code“?;Gradius;Contra;Metal Gear;Castlevania
-Gaming;Welcher Entwickler ist bekannt für die "Dark Souls"-Reihe?;FromSoftware;Bethesda;Naughty Dog;Square Enix
-Gaming;Wie heißt der Held in „The Legend of Zelda“?;Link;Zelda;Ganon;Epona
-Gaming;Welches Spiel enthält den Charakter Garrus Vakarian?;Mass Effect;Halo;Gears of War;StarCraft
-Gaming;In welchem Spiel kämpft man gegen die Heartless?;Kingdom Hearts;Final Fantasy;Xenoblade;Devil May Cry
-Gaming;Was war das erste Pokémon-Spiel, das in Europa veröffentlicht wurde?;Pokémon Red;Pokémon Gold;Pokémon Yellow;Pokémon Green
-Gaming;Welches Spiel enthält das Areal „Shadow Moses Island“?;Metal Gear Solid;Hitman;Call of Duty;Far Cry
-Gaming;Was ist die primäre Energiequelle in „Factorio“?;Kohle;Uran;Öl;Solar
-Gaming;In welchem Spiel gibt es einen Modus namens „Zombies“?;Call of Duty;Battlefield;Counter-Strike;Rainbow Six
-Gaming;Welches Spiel beinhaltet die Figur Geralt von Riva?;The Witcher;Skyrim;Dragon Age;Diablo
-Gaming;Wie heißt die Hauptfigur in „God of War“?;Kratos;Ares;Zeus;Hercules
-Gaming;Welches Spiel war bekannt für den Satz „The cake is a lie“?;Portal;Halo;Half-Life;Bioshock
-Gaming;In welchem Spiel gibt es eine Region namens „Skellige“?;The Witcher 3;Elden Ring;Assassin's Creed Valhalla;Dark Souls III
-Gaming;Welcher Entwickler veröffentlichte das Spiel „Overwatch“?;Blizzard;Valve;Riot Games;UbiSoft
-Gaming;Welches Spiel revolutionierte 3D-Plattforming mit einer offenen Welt?;Super Mario 64;Banjo-Kazooie;Crash Bandicoot;Spyro
-Gaming;Was ist der Hauptberuf der Spielfigur Gordon Freeman?;Physiker;Soldat;Ingenieur;Detektiv
-Gaming;In welchem Spiel gibt es eine Spielmechanik namens „V.A.T.S.“?;Fallout 3;BioShock;GTA V;Mass Effect
-Gaming;Wie heißt der Planet, auf dem „Halo“ hauptsächlich spielt?;Installation 04;Reach;Earth;Destiny
-Gaming;Wer ist der Endgegner in „Dark Souls“?;Gwyn;Ornstein & Smough;Manus;Lord Aldia
-Gaming;Welches Spiel basiert auf dem Roman „Metro 2033”?;Metro 2033;Stalker;Half-Life;Bioshock
-Gaming;Welcher Charakter ist kein spielbarer Champion in League of Legends?;Thrall;Ahri;Yasuo;Thresh
-Gaming;Wie heißt der kleine Roboterfreund von Ratchet?;Clank;Fixit;Cog;Chip
-Gaming;In welchem Spiel jagt man riesige Monster mit Schwertern?;Monster Hunter;Dark Souls;Horizon Zero Dawn;Ark
-Gaming;Welche Firma veröffentlichte die Soulslike „Sekiro“?;FromSoftware;Capcom;EA;Konami
-Gaming;Welches Spiel hat das Feature „Bullet Time“ eingeführt?;Max Payne;Hitman;Doom 3;FEAR
-Gaming;Was ist der Name des Virus in „Resident Evil“?;T-Virus;G-Virus;R-Virus;Bio-Virus
-Gaming;Welches Spiel ist bekannt für die Map „Dust II“?;Counter-Strike;Call of Duty;Overwatch;Valorant
-Gaming;Wie heißt die Firma hinter dem Spiel „Fortnite“?;Epic Games;Riot Games;Activision;Blizzard
-Gaming;Welches Spiel beginnt mit einem Leuchtturm im Meer?;BioShock;Silent Hill;Resident Evil;Subnautica
-Gaming;Wie heißt das Spiel mit der Figur „Isaac Clarke“?;Dead Space;Mass Effect;Prey;Doom
-Gaming;Welches Spiel hat den Schwierigkeitsgrad „Übermenschlich“?;DOOM Eternal;Halo Infinite;The Witcher 3;Far Cry 6
-Gaming;Was ist die Hauptressource in „Minecraft“?;Holz;Gold;Diamant;Eisen
-Gaming;Wer entwickelte das Spiel „Celeste“?;Matt Makes Games;Supergiant;Team Cherry;Devolver
-Gaming;Welches Spiel enthält den Modus „Build Battle“?;Minecraft;Fortnite;Rust;Roblox
-Gaming;Wie heißt die künstliche Intelligenz in „Halo“?;Cortana;Samantha;EVA;Betty
-Gaming;Welcher dieser Titel ist kein Soulslike?;Far Cry 5;Bloodborne;Elden Ring;Dark Souls
-Gaming;In welchem Spiel kämpft man gegen „Reaper“?;Overwatch;League of Legends;Apex Legends;Valorant
-Gaming;Was war das erste kommerziell erfolgreiche MMORPG?;EverQuest;Runescape;World of Warcraft;Ultima Online
-Gaming;Wie heißt der Protagonist in „Assassin’s Creed Valhalla“?;Eivor;Altaïr;Kassandra;Bayek
-Gaming;Was ist die Währung in „The Witcher 3“?;Kronen;Dublonen;Münzen;Goldstücke
-Gaming;Welches Spiel bietet die Funktion „Nuke“ als Killstreak?;Call of Duty;Valorant;Halo;CS:GO
-Gaming;In welchem Spiel ist die Welt in „Zonen“ unterteilt?;Horizon Forbidden West;Skyrim;Cyberpunk 2077;GTA V
-Gaming;Was ist der zentrale Konflikt in „StarCraft II“?;Terraner vs. Zerg;Menschen vs. Aliens;Roboter vs. Mutanten;Zerg vs. Protoss
-Gaming;Welches Spiel enthält den Charakter „Handsome Jack“?;Borderlands;Mass Effect;Dishonored;Bioshock
-Gaming;Welches Spiel enthält den Charakter „D.Va“?;Overwatch;League of Legends;Valorant;Apex Legends
-Gaming;Was ist das Hauptziel in „Dead by Daylight“?;Als Überlebender entkommen oder als Killer jagen;Städte bauen;Autos reparieren;Monster zähmen
-Gaming;Welche Firma entwickelte „Cyberpunk 2077“?;CD Projekt Red;Ubisoft;Bethesda;Rockstar
-Gaming;In welchem Spiel gibt es den „Nether“?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Welcher Charakter ist bekannt für seinen Haken in „League of Legends“?;Thresh;Blitzcrank;Pyke;Nautilus
-Gaming;Was ist das Hauptmerkmal von „No Man’s Sky“?;Prozedural generierte Planeten;Lineare Story;Nur Multiplayer;Keine Exploration
-Gaming;Welches Spiel hat den Slogan „Die Würfel sind gefallen“?;Baldur’s Gate 3;The Witcher 3;Divinity: Original Sin;Elden Ring
-Gaming;Wie heißt der Protagonist in „Death Stranding“?;Sam Porter Bridges;Solid Snake;Arthur Morgan;Geralt von Riva
-Gaming;Welches Spiel enthält den „Battle Bus“?;Fortnite;Apex Legends;PUBG;Call of Duty
-Gaming;Was ist das Hauptziel in „Stardew Valley“?;Eine Farm aufbauen;Monster besiegen;Autos sammeln;Rätsel lösen
-Gaming;Welcher Charakter trägt eine Maske in „Call of Duty: Warzone“?;Ghost;Price;Soap;Makarov
-Gaming;In welchem Spiel gibt es den „Ender Dragon“?;Minecraft;Terraria;Dragon Age;Skyrim
-Gaming;Welches Spiel nutzt die „Nemesis“-KI?;Middle-earth: Shadow of Mordor;Assassin’s Creed;The Witcher;Far Cry
-Gaming;Was ist das Hauptmerkmal von „Animal Crossing“?;Echtzeit-Spiel;Turn-based;Hardcore-Action;Keine Customization
-Gaming;Welches Spiel enthält den Charakter „Aloy“?;Horizon Zero Dawn;The Last of Us;Tomb Raider;Metroid
-Gaming;Was ist das Hauptziel in „Fall Guys“?;Minispiele gewinnen;Gegner töten;Städte bauen;Autos reparieren
-Gaming;Welches Spiel hat den „Creative Mode“?;Minecraft;Fortnite;Roblox;Terraria
-Gaming;Welcher Charakter ist bekannt für seine „Dragonblade“ in Overwatch?;Genji;Hanzo;Reinhardt;Zarya
-Gaming;Was ist das Hauptmerkmal von „The Sims“?;Virtuelles Leben steuern;Monster jagen;Autos reparieren;Rätsel lösen
-Gaming;Welches Spiel enthält den „Wither“ als Boss?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Was ist das Hauptziel in „Rocket League“?;Tore schießen mit Autos;Gegner töten;Städte bauen;Monster zähmen
-Gaming;Welcher Charakter ist bekannt für seine „Grappling Hook“ in Apex Legends?;Pathfinder;Wraith;Bloodhound;Mirage
-Gaming;In welchem Spiel gibt es den „Herobrine“-Mythos?;Minecraft;Roblox;Terraria;Fortnite
-Gaming;Welches Spiel hat den „Hardcore Mode“?;Minecraft;Fortnite;Roblox;Apex
-Gaming;Was ist das Hauptmerkmal von „Terraria“?;2D-Sandbox mit Bossen;3D-Shooter;Rennspiel;Sportspiel
-Gaming;Welcher Charakter ist bekannt für seine „Revive“-Fähigkeit in Overwatch?;Mercy;Moira;Zenyatta;Ana
-Gaming;In welchem Spiel gibt es den „Creeper“?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Welches Spiel enthält den „Netherite“-Rüstungssatz?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Was ist das Hauptziel in „Among Us“?;Als Crewmate Aufgaben erfüllen oder als Impostor sabotieren;Monster töten;Autos reparieren;Städte bauen
-Gaming;Welcher Charakter ist bekannt für seine „Tactical Visor“ in Overwatch?;Soldier: 76;Reaper;McCree;Widowmaker
-Gaming;In welchem Spiel gibt es den „Slime“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Survival Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Roblox“?;Nutzer erstellen Spiele;Lineare Story;Keine Customization;Nur Singleplayer
-Gaming;Welcher Charakter ist bekannt für seine „Self-Destruct“-Fähigkeit in Overwatch?;D.Va;Reinhardt;Zarya;Winston
-Gaming;In welchem Spiel gibt es den „Phantom“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Elytra“-Gegenstand?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Valorant“?;Runden gewinnen durch Taktik;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Wallhack“-Fähigkeit in Apex Legends?;Bloodhound;Wraith;Lifeline;Bangalore
-Gaming;In welchem Spiel gibt es den „Zombie“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Adventure Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Genshin Impact“?;Open-World-Gacha-Spiel;Lineare Story;Keine Charaktere;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Barrier“-Fähigkeit in Overwatch?;Reinhardt;Zarya;Winston;Orisa
-Gaming;In welchem Spiel gibt es den „Skeleton“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Totem of Undying“?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „League of Legends“?;Nexus zerstören;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Stealth“-Fähigkeit in Apex Legends?;Mirage;Wraith;Octane;Caustic
-Gaming;In welchem Spiel gibt es den „Enderman“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Spectator Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Fallout“?;Postapokalyptische Open-World;Mittelalter-Setting;Space-Opera;Horror
-Gaming;Welcher Charakter ist bekannt für seine „Resurrect“-Fähigkeit in Overwatch?;Mercy;Moira;Zenyatta;Ana
-Gaming;In welchem Spiel gibt es den „Blaze“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Trident“ als Waffe?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Dota 2“?;Ancient zerstören;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Grapple“-Fähigkeit in Apex Legends?;Pathfinder;Wraith;Bloodhound;Mirage
-Gaming;In welchem Spiel gibt es den „Ghast“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Creative Mode“?;Minecraft;Fortnite;Roblox;Terraria
-Gaming;Was ist das Hauptmerkmal von „The Legend of Zelda: Breath of the Wild“?;Offene Welt mit Physik-Interaktion;Lineare Story;Keine Exploration;Nur Dungeons
-Gaming;Welcher Charakter ist bekannt für seine „Sniper“-Fähigkeit in Overwatch?;Widowmaker;Hanzo;Ana;Ashe
-Gaming;In welchem Spiel gibt es den „Witch“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Beacon“-Block?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Counter-Strike: Global Offensive“?;Bombe entschärfen oder Gegner eliminieren;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Smoke“-Fähigkeit in Valorant?;Brimstone;Phoenix;Omen;Viper
-Gaming;In welchem Spiel gibt es den „Guardian“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Hard Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Red Dead Redemption 2“?;Western-Open-World mit realistischer Simulation;Space-Opera;Horror;Mittelalter
-Gaming;Welcher Charakter ist bekannt für seine „Heal“-Fähigkeit in Overwatch?;Mercy;Moira;Zenyatta;Ana
-Gaming;In welchem Spiel gibt es den „Pillager“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Conduit“-Gegenstand?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Rainbow Six Siege“?;Runden gewinnen durch Taktik;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Flash“-Fähigkeit in Valorant?;Phoenix;Jett;Reyna;Yoru
-Gaming;In welchem Spiel gibt es den „Ravager“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Peaceful Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Welches Spiel enthält den „Lodestone“-Block?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Paladins“?;Ziel je nach Spielmodus (z. B. Punkt erobern);Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Hook“-Fähigkeit in Overwatch?;Roadhog;Junkrat;Reaper;Doomfist
-Gaming;In welchem Spiel gibt es den „Piglin“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Creative Mode“?;Minecraft;Fortnite;Roblox;Terraria
-Gaming;Was ist das Hauptmerkmal von „The Witcher 3: Wild Hunt“?;Offene Fantasy-Welt mit moralischen Entscheidungen;Lineare Story;Keine Customization;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Stealth“-Fähigkeit in Team Fortress 2?;Spy;Scout;Sniper;Pyro
-Gaming;In welchem Spiel gibt es den „Zoglin“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Respawn Anchor“-Gegenstand?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Apex Legends“?;Als letztes Team überleben;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Teleport“-Fähigkeit in Valorant?;Omen;Jett;Reyna;Yoru
-Gaming;In welchem Spiel gibt es den „Stray“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat keinen „Hardcore Mode“?;Dark Souls-Reihe;Minecraft;Kingdom Come: Deliverance 2;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Dark Souls“?;Herausfordernde Kämpfe und düstere Welt;Leichte Steuerung;Keine Gegner;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Charge“-Fähigkeit in Overwatch?;Reinhardt;Zarya;Winston;Orisa
-Gaming;In welchem Spiel gibt es den „Warden“ als Gegner?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Sculk“-Block?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „PUBG“?;Als letzter Überlebender gewinnen;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Wall“-Fähigkeit in Valorant?;Phoenix;Jett;Reyna;Yoru
-Gaming;In welchem Spiel gibt es den „Allay“ als Helfer?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Survival Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Elden Ring“?;Offene Soulslike-Welt mit Lore;Lineare Story;Keine Gegner;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Biotic“-Fähigkeit in Overwatch?;Moira;Mercy;Zenyatta;Ana
-Gaming;In welchem Spiel gibt es den „Froglight“-Block?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Call of Duty: Warzone“?;Als letztes Team überleben;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Smoke“-Fähigkeit in Apex Legends?;Bangalore;Wraith;Octane;Caustic
-Gaming;In welchem Spiel gibt es den „Mangrove“-Baum?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Creative Mode“?;Minecraft;Fortnite;Roblox;Terraria
-Gaming;Was ist das Hauptmerkmal von „Hollow Knight“?;Metroidvania mit düsterer Atmosphäre;Lineare Story;Keine Gegner;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Barrier“-Fähigkeit in Team Fortress 2?;Engineer;Heavy;Spy;Scout
-Gaming;In welchem Spiel gibt es den „Deep Dark“-Biom?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Echo“-Gegenstand?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „Fortnite“?;Als letzter Überlebender gewinnen oder Ziele erfüllen;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Flash“-Fähigkeit in Overwatch?;McCree;Hanzo;Ana;Ashe
-Gaming;In welchem Spiel gibt es den „Ancient City“?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Hard Mode“?;Minecraft;Fortnite;Roblox;Call of Duty
-Gaming;Was ist das Hauptmerkmal von „Stardew Valley“?;Ländliches Leben simulieren;Lineare Story;Keine Customization;Nur PvP
-Gaming;Welcher Charakter ist bekannt für seine „Grapple“-Fähigkeit in Team Fortress 2?;Scout;Heavy;Spy;Engineer
-Gaming;In welchem Spiel gibt es den „Sculk Catalyst“?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Was ist das Hauptziel in „League of Legends: Wild Rift“?;Nexus zerstören;Monster töten;Städte bauen;Autos reparieren
-Gaming;Welcher Charakter ist bekannt für seine „Smoke“-Fähigkeit in Overwatch?;Ashe;Widowmaker;Hanzo;Ana
-Gaming;In welchem Spiel gibt es den „Warden“ als Boss?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel hat den „Creative Mode“?;Minecraft;Fortnite;Roblox;Terraria
-Gaming;Was ist das Hauptmerkmal von „Terraria“?;2D-Sandbox mit Bossen;3D-Shooter;Rennspiel;Sportspiel
-Gaming;Welcher Charakter ist bekannt für seine „Hook“-Fähigkeit in Team Fortress 2?;Engineer;Heavy;Spy;Scout
-Gaming;In welchem Spiel gibt es den „Ender Dragon“ als Endboss?;Minecraft;Terraria;Dark Souls;Skyrim
-Gaming;Welches Spiel enthält den „Nether Star“?;Minecraft;Terraria;Roblox;Fortnite
-Gaming;Welches Spiel führte das "Nemesis-System" ein?;Middle-earth: Shadow of Mordor;Assassin’s Creed;The Witcher;Dark Souls
-Gaming;Wer ist der Hauptantagonist in "BioShock Infinite"?;Zachary Comstock;Andrew Ryan;Frank Fontaine;Sander Cohen
-Gaming;Welches Spiel enthält die Waffe "BFG 9000"?;DOOM;Halo;Borderlands;Quake
-Gaming;In welchem Spiel kämpft man gegen die "Reapers"?;Mass Effect 3;Destiny;Halo;StarCraft
-Gaming;Welcher Charakter ist bekannt für den Satz "Would you kindly?" in BioShock?;Atlas;Big Daddy;Little Sister;Sander Cohen
-Gaming;Welches Spiel nutzt die "Animus"-Technologie als Story-Element?;Assassin’s Creed;Deus Ex;Cyberpunk 2077;Watch Dogs
-Gaming;Wer komponierte die Musik für "The Elder Scrolls V: Skyrim"?;Jeremy Soule;Hans Zimmer;Nobuo Uematsu;Mick Gordon
-Gaming;Welches Spiel hat den Codenamen "Project Scorpio"?;Xbox One X;PlayStation 5;Nintendo Switch;Steam Deck
-Gaming;In welchem Spiel gibt es den "Paleblood"-Mythos?;Bloodborne;Dark Souls;Sekiro;Elden Ring
-Gaming;Welcher Entwickler veröffentlichte "Death Stranding"?;Kojima Productions;Naughty Dog;FromSoftware;CD Projekt Red
-Gaming;Welches Spiel enthält die Fähigkeit "Slow Time" (Zauberspruch)?;The Elder Scrolls;The Witcher;Dragon Age;Kingdom Hearts
-Gaming;Wer ist der Sprecher von Geralt in "The Witcher 3"?;Doug Cockle;Charles Dance;Mark Hamill;Troy Baker
-Gaming;Welches Spiel hat den "New Game+"-Modus populär gemacht?;Dark Souls;The Legend of Zelda;Final Fantasy;Mass Effect
-Gaming;In welchem Spiel gibt es den "G-Man" als mysteriöse Figur?;Half-Life;Portal;Bioshock;Deus Ex
-Gaming;Welches Pokémon ist der Endgegner in "Pokémon Mystery Dungeon: Explorers of Time/Darkness"?;Dialga;Palkia;Giratina;Arceus
-Gaming;Wer entwickelte das Spiel "Disco Elysium"?;ZA/UM;Larian Studios;Obsidian;InXile
-Gaming;Welches Spiel enthält den "Mooncrash"-DLC?;Prey;Dishonored;Deus Ex;Alien: Isolation
-Gaming;In welchem Spiel gibt es den "Sans"-Kampf als geheimen Boss?;Undertale;Deltarune;Celeste;Hollow Knight
-Gaming;Welcher Charakter trägt den Titel "Ashen One"?;Dark Souls III Protagonist;Bloodborne Hunter;Sekiro;Elden Ring Tarnished
-Gaming;Welches Spiel hat den "Permadeath"-Modus als Kernelement?;XCOM;Fire Emblem;Civilization;Stellaris
-Gaming;Wer ist der Erzähler in "Bastion"?;Rucks;Zia;Zulf;The Kid
-Gaming;Welches Spiel enthält die "Zero Escape"-Reihe?;999: Nine Hours, Nine Persons, Nine Doors;Danganronpa;Ace Attorney;Steins
-Gaming;In welchem Spiel gibt es den "Corvo Attano" als Protagonisten?;Dishonored;Thief;Deus Ex;Assassin’s Creed
-Gaming;Welcher Soundtrack verwendet das "Halo"-Theme?;Halo: Combat Evolved;DOOM;Mass Effect;Destiny
-Gaming;Welches Spiel hat den "Tarnished" als Spielercharakter?;Elden Ring;Dark Souls;Bloodborne;Sekiro
-Gaming;Wer ist der Hauptcharakter in "Hellblade: Senua’s Sacrifice"?;Senua;Dillion;Druth;Galena
-Gaming;Welches Spiel enthält die "Lumen"-Grafiktechnik?;Unreal Engine 5 Tech Demo;Crysis;Cyberpunk 2077;Metro Exodus
-Gaming;In welchem Spiel gibt es den "Vaati"-Bosskampf?;The Legend of Zelda: The Minish Cap;Dark Souls;Final Fantasy;Elden Ring
-Gaming;Welcher Charakter sagt "The right man in the wrong place..." (Half-Life 2)?;G-Man;Gordon Freeman;Alyx Vance;Barney Calhoun
-Gaming;Welches Spiel hat den "Geraldo"-NSC als Meme?;The Witcher 3;Red Dead Redemption 2;Skyrim;Divinity: Original Sin 2
+Gaming;Welcher Charakter ist der Protagonist in "The Legend of Zelda: Ocarina of Time"?;Link;Zelda;Ganondorf;Saria
+Gaming;In welchem Spiel navigiert man ein "Mako"-Fahrzeug auf Planetenoberflächen?;Mass Effect;Halo;StarCraft;Cyberpunk 2077
+Gaming;Welche Fraktion kämpft in "StarCraft" mit organischen, insektenartigen Einheiten?;Zerg;Terraner;Protoss;Xel'Naga
+Gaming;Welcher Gegenstand wird in "Portal" zum Erstellen von interdimensionalen Verbindungen verwendet?;Portal Gun;Gravity Gun;Crowbar;Plasma Rifle
+Gaming;Wie heißt die Währung, die in der "Animal Crossing"-Reihe gesammelt wird?;Sternis (Bells);V-Bucks;Gems;Gil
+Gaming;Welcher Bösewicht ist der Hauptgegner in der "God of War"-Serie (nordische Ära)?;Odin;Zeus;Ares;Hades
+Gaming;Welches Spiel führte das Konzept des "Crafting"-Systems in großem Stil ein?;Minecraft;Pong;Tetris;Pac-Man
+Gaming;Wie nennt man die Fähigkeit von "Kirby", Gegner einzusaugen und deren Fähigkeiten zu kopieren?;Kopieren (Copy);Fressen (Eat);Schlucken (Swallow);Transformieren (Transform)
+Gaming;Welches Unternehmen entwickelte das Spiel "The Witcher 3: Wild Hunt"?;CD Projekt Red;Ubisoft;BioWare;Bethesda
+Gaming;In welchem Spiel sucht man nach "Power Stars" und besiegt "Bowser" auf der "Isle Delfino"?;Super Mario Sunshine;Super Mario Galaxy;Super Mario 64;Super Mario Odyssey
+Gaming;Welche Konsole war die Heimat des Spiels "Shadow of the Colossus"?;PlayStation 2;Nintendo 64;Xbox;GameCube
+Gaming;Wie heißt die Hauptfigur in der "Tomb Raider"-Serie?;Lara Croft;Nathan Drake;Kratos;Samus Aran
+Gaming;Welche Spielreihe ist bekannt für ihre "V.A.T.S."-Mechanik (Vault-Tec Assisted Targeting System)?;Fallout;The Elder Scrolls;Borderlands;Metro
+Gaming;Welche Art von Spiel ist "Dota 2"?;MOBA;MMORPG;Battle Royale;Echtzeit-Strategie
+Gaming;Wie heißt die mysteriöse, stumme Protagonistin aus "Half-Life 2"?;Alyx Vance;Chell;GLaDOS;Barney Calhoun
+Gaming;Welches Spiel besitzt eine Spielwelt namens "Hyrule"?;The Legend of Zelda;Final Fantasy;Dragon Quest;Pokémon
+Gaming;Welcher Charakter ist bekannt für den Ausruf "It's-a me, Mario!"?;Mario;Luigi;Toad;Wario
+Gaming;In welchem Spiel kämpft man gegen riesige Maschinen, die "Sawtooth" und "Thunderjaw" genannt werden?;Horizon Zero Dawn;Monster Hunter;Destiny;Gears of War
+Gaming;Welcher Charakter ist der Hauptantagonist in "Final Fantasy VII"?;Sephiroth;Cloud Strife;Squall Leonhart;Zidane Tribal
+Gaming;Welche Fähigkeit ist charakteristisch für den Charakter "Tracer" in "Overwatch"?;Zurückspulen (Recall);Teleportieren (Blink);Unsichtbarkeit (Cloak);Fliegen (Fly)
+Gaming;Was ist das Hauptziel im Spiel "Stardew Valley"?;Farm bewirtschaften;Monster jagen;Städte bauen;Rennen gewinnen
+Gaming;Welche Firma veröffentlichte die ursprüngliche "Xbox"-Konsole?;Microsoft;Sony;Nintendo;Sega
+Gaming;Wie nennt man die speziellen Angriffe in "Street Fighter", die eine gefüllte Leiste erfordern?;Super Combo;Hadouken;Shoryuken;Fatality
+Gaming;Welches Spiel ist bekannt für den Satz "War. War never changes."?;Fallout;Call of Duty;Metal Gear Solid;Doom
+Gaming;Welches Genre repräsentiert die "Diablo"-Reihe am besten?;Action-RPG (Hack and Slash);Rundenbasiertes RPG;Jump and Run;Echtzeit-Strategie
+Gaming;Wie heißt der ikonische "Tetris"-Block mit vier Quadraten in einer Reihe?;I-Block (Gerade);O-Block (Quadrat);L-Block;J-Block
+Gaming;Welches Spiel ist bekannt für die Figur "Geralt von Riva"?;The Witcher;Skyrim;Dragon Age;Dark Souls
+Gaming;In welchem Spiel steuert man ein U-Boot namens "Seamoth" und "Cyclops"?;Subnautica;No Man's Sky;Elite Dangerous;EVE Online
+Gaming;Welcher Charakter ist ein stummer "Gordon Freeman" in der "Half-Life"-Serie?;Gordon Freeman;Adrian Shephard;Chell;G-Man
+Gaming;Was ist die Hauptmechanik in "Rocket League"?;Fußball mit Autos;Basketball mit Robotern;Rennen mit Motorrädern;Kampf mit Panzern
+Gaming;Welche Einheit ist bekannt für den Satz "My life for Aiur!" in "StarCraft"?;Protoss Zealot;Zergling;Terran Marine;High Templar
+Gaming;Wie heißt das erste Gebiet, das Spieler in "World of Warcraft" oft besuchen?;Elwynn Forest;Durotar;Azeroth;Outland
+Gaming;Welcher Gegenstand lässt Charaktere in "Mario Kart" oft von der Strecke abkommen?;Blaue Panzer (Spiny Shell);Pilz (Mushroom);Stern (Star);Banane (Banana)
+Gaming;Welches Spiel hat den Untertitel "Welcome to the World of Tomorrow"?;Borderlands 2;BioShock Infinite;Fallout 4;Mass Effect 3
+Gaming;Wie heißt der Charakter, der die "Hidden Blade" in "Assassin's Creed" benutzt?;Ezio Auditore;Kassandra;Altaïr Ibn-La'Ahad;Bayek
+Gaming;Welches Spiel ist ein bekanntes Beispiel für das Genre "Survival Horror"?;Resident Evil;Uncharted;Assassin's Creed;Forza Horizon
+Gaming;Was ist das Hauptthema des Spiels "Civilization"?;Historische Imperien aufbauen;Monster jagen;Autos tunen;Sportmannschaften managen
+Gaming;Welches Spiel besitzt die ikonische "Master Sword"?;The Legend of Zelda;Final Fantasy;Dragon Quest;Fire Emblem
+Gaming;Wie lautet der Name des Unternehmens, das die "Pokémon"-Spiele entwickelt hat?;Game Freak;Nintendo;The Pokémon Company;Sony
+Gaming;Welcher Bösewicht ist bekannt für den Satz "The cake is a lie." in "Portal"?;GLaDOS;Wheatley;Cave Johnson;Atlas
+Gaming;In welchem Spiel kämpft man in einer Welt namens "Tamriel"?;The Elder Scrolls V: Skyrim;World of Warcraft;Dragon Age;Gothic
+Gaming;Wie heißt die Organisation von Agenten in "Valorant"?;Valorant Protocol;The Agents;Sentinel Squad;The Radiants
+Gaming;Welches Spiel ist bekannt für seinen "Defuse"-Spielmodus, bei dem eine Bombe entschärft werden muss?;Counter-Strike: Global Offensive;Call of Duty;Battlefield;Rainbow Six Siege
+Gaming;Wie nennt man die Erfahrungspunkte in der "Souls"-Reihe, die man bei Tod verliert?;Seelen (Souls);Erz (Ore);Blut (Blood);Runen (Runes)
+Gaming;Welcher Charakter ist der Hauptdarsteller in "Metal Gear Solid"?;Solid Snake;Big Boss;Raiden;Liquid Snake
+Gaming;Was ist das Ziel in "Pac-Man"?;Alle Punkte essen;Geister töten;Labyrinthe bauen;Rennen gewinnen
+Gaming;Welches Spiel hat den Untertitel "Rebirth"?;Final Fantasy VII Remake;Resident Evil 2;Tomb Raider;God of War
+Gaming;Welche Art von Spiel ist "Hearthstone"?;Digitales Sammelkartenspiel;Echtzeit-Strategie;MMORPG;Shooter
+Gaming;Welches Spiel führte das Konzept des "FUS RO DAH"-Schreis ein?;The Elder Scrolls V: Skyrim;Dragon Age;The Witcher 3;Gothic
+Gaming;Wie heißt der Charakter, der die "Gravity Gun" in "Half-Life 2" benutzt?;Gordon Freeman;Alyx Vance;Barney Calhoun;Dr. Kleiner
+Gaming;Welche Konsole war die Heimat des Spiels "Super Metroid"?;SNES;NES;Nintendo 64;Game Boy
+Gaming;Wie heißt die spielbare Spezies, die in "Halo" oft als Kanonenfutter dient?;Grunts (Kleine Grunts);Elites (Arbiter);Hunters (Lekgolo);Jackals (Kig-Yar)
+Gaming;In welchem Spiel baut man "Pylons", um die Basis zu erweitern?;StarCraft (Protoss);StarCraft (Terran);StarCraft (Zerg);Warcraft III
+Gaming;Welche Hauptfigur kämpft in "Devil May Cry" mit einem Großschwert namens "Rebellion"?;Dante;Nero;Vergil;Sparda
+Gaming;Welches Spiel ist bekannt für die Mechanik des "Wall Jump" in 2D-Plattformern?;Super Metroid;Castlevania;Sonic the Hedgehog;Mega Man
+Gaming;Welches Unternehmen entwickelte die "Uncharted"-Reihe?;Naughty Dog;Rockstar Games;Insomniac Games;Guerrilla Games
+Gaming;Wie heißt der Charakter, der in "Borderlands" die Fähigkeiten des "Sirenen"-Klasse besitzt?;Lilith;Maya;Amara;Zer0
+Gaming;Welches Spiel nutzt das Prinzip der "Time Loop" als Kernelement der Geschichte?;Outer Wilds;Deathloop;Prey;Dishonored
+Gaming;Welche Einheit ist bekannt für ihre Fähigkeit zur "Cloaking" in "StarCraft"?;Protoss Dark Templar;Zerg Mutalisk;Terran Ghost;Protoss Stalker
+Gaming;Wie heißt die ikonische Waffe von "Doomguy" in der "Doom"-Serie?;Super Shotgun;Plasma Gun;BFG 9000;Chainsaw
+Gaming;Welche Konsole war die Heimat des Spiels "Ocarina of Time"?;Nintendo 64;NES;SNES;Wii
+Gaming;Welche Spielreihe ist bekannt für die "Chocobos" und "Moogles"?;Final Fantasy;Dragon Quest;Kingdom Hearts;Tales of
+Gaming;Wie heißt der Charakter, der in "Genshin Impact" oft als der reisende "Paimon" bekannt ist?;Paimon;Traveler;Zhongli;Venti
+Gaming;Welche Art von Spiel ist "League of Legends"?;MOBA;MMORPG;Battle Royale;Echtzeit-Strategie
+Gaming;Welches Spiel besitzt die ikonische "Keyblade"?;Kingdom Hearts;Final Fantasy;The Legend of Zelda;Dark Souls
+Gaming;Wie heißt der Bösewicht in "Donkey Kong Country", der oft Bananen stiehlt?;King K. Rool;Diddy Kong;Cranky Kong;Funky Kong
+Gaming;Welche Konsole war die Heimat des Spiels "Halo: Combat Evolved"?;Xbox;PlayStation 2;Nintendo GameCube;Dreamcast
+Gaming;Welcher Charakter ist bekannt für seine "Overhead Smash"-Fähigkeit in "Super Smash Bros."?;Ganondorf;Mario;Link;Samus
+Gaming;In welchem Spiel sucht man nach "Shards" und reist durch Dimensionen namens "Rifts"?;Ratchet & Clank: Rift Apart;Spyro the Dragon;Crash Bandicoot;Jak and Daxter
+Gaming;Welches Spiel ist bekannt für das "Farming"-System, bei dem man Pflanzen anbauen und ernten kann?;Stardew Valley;Terraria;Minecraft;Rust
+Gaming;Wie heißt der Charakter, der in "Team Fortress 2" Sentry Guns baut?;Engineer;Heavy;Spy;Scout
+Gaming;Welche Art von Spiel ist "Forza Horizon"?;Open-World-Rennspiel;Rallye-Simulation;Kart-Rennspiel;Flugsimulator
+Gaming;Welches Spiel hat das "Moralitäts"-System, bei dem Entscheidungen das Spielende beeinflussen?;Mass Effect;Halo;Call of Duty;Doom
+Gaming;Welcher Charakter ist der Hauptgegner in der "Metroid"-Serie (oftmals)?;Ridley;Kraid;Mother Brain;Samus Aran
+Gaming;Welches Spiel ist bekannt für die Mechanik des "Parry" (Parieren) in Kämpfen?;Dark Souls;Final Fantasy XV;Assassin's Creed Valhalla;The Witcher 3
+Gaming;Wie heißt die Organisation, die in "Final Fantasy VII" gegen "Shinra" kämpft?;AVALANCHE;SOLDIER;Turks;Wutai
+Gaming;Welcher Charakter ist der Protagonist in "Grand Theft Auto V" (spielt man zu dritt)?;Franklin Clinton;Carl Johnson;Niko Bellic;Tommy Vercetti
+Gaming;Welches Spiel besitzt die "Portal"-Mechanik mit zwei verbundenen Türen?;Portal;Half-Life 2;Prey;Deathloop
+Gaming;Wie heißt der Charakter, der in "Super Mario Galaxy" Prinzessin Peach rettet?;Mario;Luigi;Rosalina;Toad
+Gaming;Welches Spiel ist bekannt für seine "Chainsaw"-Waffe und seine schnellen Kämpfe?;Doom;Resident Evil;Silent Hill;Dead Space
+Gaming;Welche Konsole war die Heimat des Spiels "God of War" (2005)?;PlayStation 2;Xbox 360;Nintendo Wii;PlayStation 3
+Gaming;Wie heißt die Welt, in der die "Pokémon" leben?;Pokémon-Welt;Hyrule;Azeroth;Middle-earth
+Gaming;Welcher Charakter ist bekannt für seine "Grappling Hook"-Fähigkeit in "Apex Legends"?;Pathfinder;Mirage;Wraith;Octane
+Gaming;Welches Spiel ist bekannt für das "Base Building"-System mit Ressourcen-Sammeln und Verteidigen?;Rust;The Sims;FIFA;NBA 2K
+Gaming;Wie heißt der Charakter, der in "Red Dead Redemption 2" der Protagonist ist?;Arthur Morgan;John Marston;Dutch van der Linde;Micah Bell
+Gaming;Welches Spiel besitzt das Konzept der "Gottestäler" (God Slayers)?;God Eater;Monster Hunter;Final Fantasy;Dragon Quest
+Gaming;Welche Einheit ist bekannt für ihre Fähigkeit, "Siege Mode" zu aktivieren, um Basen anzugreifen?;Terran Siege Tank;Protoss Immortal;Zerg Hydralisk;Terran Marine
+Gaming;Wie heißt der Charakter, der in "Street Fighter" den "Hadouken" benutzt?;Ryu;Ken;Chun-Li;Guile
+Gaming;Welches Spiel ist bekannt für seine "Jump Scare"-Momente und das Verstecken vor Monstern?;Amnesia: The Dark Descent;Outlast;Slender: The Eight Pages;Five Nights at Freddy's
+Gaming;Welches Unternehmen entwickelte die ursprüngliche "PlayStation"?;Sony;Nintendo;Microsoft;Sega
+Gaming;Welches Spiel besitzt die ikonische "Batarang"-Waffe?;Batman: Arkham Asylum;Spider-Man;Injustice;Mortal Kombat
+Gaming;Wie heißt der Charakter, der in "Gears of War" der Protagonist ist?;Marcus Fenix;Dominic Santiago;Cole Train;Baird
+Gaming;Welches Spiel ist bekannt für das Konzept der "Häuser" (Houses) und das soziale Management?;The Sims;SimCity;Planet Zoo;Two Point Hospital
+Gaming;Welche Einheit ist bekannt für ihre Fähigkeit, "Bunker" zu bauen, um Infanterie zu schützen?;Terran SCV;Protoss Probe;Zerg Drone;Terran Marine
+Gaming;Wie heißt der Charakter, der in "Final Fantasy X" die Rolle des Blitzball-Stars spielt?;Tidus;Yuna;Auron;Jecht
+Gaming;Welches Spiel ist bekannt für das Konzept des "Rumble" im Controller zur Vibrations-Rückmeldung?;Star Fox 64;Super Mario 64;Wave Race 64;The Legend of Zelda: Ocarina of Time
+Gaming;Welche Art von Spiel ist "Age of Empires"?;Echtzeit-Strategie;Rundenbasiertes Strategiespiel;Rollenspiel;Adventure
+Gaming;Welcher Charakter ist der Hauptdarsteller in "Bayonetta"?;Bayonetta;Jeanne;Rodin;Luka
+Gaming;Welches Spiel besitzt die ikonische "Blue Shell" im Multiplayer-Modus?;Mario Kart;Diddy Kong Racing;Crash Team Racing;Sonic & All-Stars Racing Transformed
+Gaming;Wie heißt die Welt, in der die "Elder Scrolls"-Spiele hauptsächlich spielen?;Tamriel;Azeroth;Golarion;Faerûn
+Gaming;Welche Spielreihe ist bekannt für die "Shish Kebabs" und die Kreativität der Spieler?;The Sims;Minecraft;Roblox;LittleBigPlanet
+Gaming;Welcher Charakter ist der Hauptantagonist in "Resident Evil 2" (oft als "Tyrant" bekannt)?;"Mr. X";Nemesis;Wesker;Birkin

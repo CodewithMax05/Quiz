@@ -1,300 +1,152 @@
-﻿subject;question;true;wrong1;wrong2;wrong3
-Automobil;Welches Schild zeigt eine Bundesstraße?;Gelb mit schwarzer Zahl;Blau mit "B";Rot mit Straße;Grün mit Nummer
-Automobil;Was bedeutet ein rotes Dreieck mit Traktor?;Achtung landw. Fahrzeuge;Traktorweg;Bauernhof;Feldweg
-Automobil;Welche Beleuchtung ist bei Schneefall Pflicht?;Abblendlicht;Fernlicht;Nebelscheinwerfer;Standlicht
-Automobil;Was ist ein "Verkehrszeichen mit Zusatzschild"?;Hauptschild mit zusätzlicher Info;Leuchtendes Schild;Schild mit Pfeilen;Digitales Schild
-Automobil;Welches Schild zeigt eine Fähre?;Blau mit Schiff;Rot mit Anker;Gelb mit Wasser;Grün mit Hafen
-Automobil;Was bedeutet ein grünes Schild mit weißem "P"?;Parkhaus;Parkverbot;Werkstatt;Tankstelle
-Automobil;Welche Regel gilt im Kreisverkehr?;Vorfahrt für Fahrzeuge im Kreis;Vorfahrt für Einfahrende;Rechts vor links;Ampelregelung
-Automobil;Was ist ein "Lichtzeichenanlage"?;Ampel;Blitzer;Warndreieck;Scheinwerfer
-Automobil;Welches Schild zeigt eine Autobahn?;Blau mit weißer "A";Grün mit "AB";Rot mit Fahrbahn;Gelb mit Pfeil
-Automobil;Was bedeutet ein rotes Dreieck mit Schneeflocke?;Schneekettenpflicht;Winterreifenpflicht;Schneefall;Glätte
-Automobil;Welche Höchstgeschwindigkeit gilt für Busse?;80 km/h;100 km/h;60 km/h;120 km/h
-Automobil;Was ist ein "Differenzialsperre"?;Traktionshilfe für Gelände;Bremsassistent;Tempomat;Spurhalteassistent
-Automobil;Welches Schild zeigt eine Gefällestrecke?;Rot-weiß mit %-Zahl;Blau mit Berg;Gelb mit Pfeil;Grün mit "Gefälle"
-Automobil;Was bedeutet ein blaues Schild mit weißem "LKW"?;LKW-Parkplatz;LKW-Überholverbot;LKW-Werkstatt;LKW-Raststätte
-Automobil;Welche Regel gilt bei einem "Vorfahrt gewähren"-Schild?;Bremsbereit sein und ggf. anhalten;Sofort stoppen;Nur langsam fahren;Nur nachts beachten
-Automobil;Was ist ein "Parkleitzeichen"?;Schild mit Parkplatzinfos;Parkschein;Parkuhr;Parkautomat
-Automobil;Welches Schild zeigt eine Haltestelle?;Blau mit "H";Rot mit Bus;Gelb mit "Stop";Grün mit Haltestrich
-Automobil;Was bedeutet ein rotes Dreieck mit Krankenwagen?;Achtung Rettungsfahrzeug;Krankenhaus;Notarzt;Rettungsweg
-Automobil;Welche Beleuchtung ist bei Regen Pflicht?;Abblendlicht;Fernlicht;Nebelscheinwerfer;Standlicht
-Automobil;Was ist ein "Totmannknopf"?;Sicherheitssystem in Zügen;Nothalt;Türöffner;Signalgeber
-Automobil;Welches Schild zeigt eine Autobahnkirche?;Blau mit Kirche;Grün mit Kreuz;Gelb mit "Gott";Rot mit Gebet
-Automobil;Was bedeutet ein rotes Dreieck mit Pferd?;Achtung Reiter;Pferdehof;Reitweg;Pferdeparkplatz
-Automobil;Welche Regel gilt bei einem "Vorfahrtstraße"-Schild?;Vorfahrt bis zum nächsten Kreuzung;Immer Vorfahrt;Nur tagsüber;Nur für Autos
-Automobil;Was ist ein "Reifendruckkontrollsystem"?;Überwachung des Reifendrucks;Reifenwechselhilfe;Reifenprofilmessung;Reifenalarmanlage
-Automobil;Welches Schild zeigt eine Tankstelle?;Blau mit Zapfsäule;Rot mit Benzin;Gelb mit "T";Grün mit Flamme
-Automobil;Was bedeutet ein rotes Dreieck mit Radfahrer und Fußgänger?;Achtung gemischter Weg;Radfahrer verboten;Fußgängerzone;Gemeinsamer Weg
-Automobil;Welche Höchstgeschwindigkeit gilt für Mofas?;25 km/h;45 km/h;30 km/h;20 km/h
-Automobil;Was ist ein "Verkehrsberuhigter Bereich"?;Schrittgeschwindigkeit;30 km/h-Zone;Spielstraße;Fußgängerzone
-Automobil;Welches Schild zeigt eine Raststätte?;Blau mit Gabel und Messer;Rot mit "Rast";Gelb mit Tisch;Grün mit "Pause"
-Automobil;Was bedeutet ein blaues Schild mit weißem "i"?;Information;Internet;Instandsetzung;Intersection
-Automobil;Welche Regel gilt bei einem "Einbahnstraße"-Schild?;Nur in Pfeilrichtung fahren;Keine Regel;Nur nachts beachten;Nur für Anwohner
-Automobil;Was ist ein "Grüne Welle"?;Ampelschaltung für flüssigen Verkehr;Radweg;Umweltzone;Tempolimit
-Automobil;Welches Schild zeigt eine Wasserschutzgebiet?;Blau mit Wassertropfen;Rot mit "Wasser";Gelb mit Fisch;Grün mit See
-Automobil;Was bedeutet ein rotes Dreieck mit Flugzeug?;Achtung Fluglärm;Flughafen;Landebahn;Flugverbotszone
-Automobil;Welche Beleuchtung ist bei Dämmerung Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
-Automobil;Was ist ein "Verkehrsleitsystem"?;Dynamische Wegweisung;Ampel;Blitzer;Warndreieck
-Automobil;Welches Schild zeigt eine Notrufsäule?;Blau mit Telefon;Rot mit "Hilfe";Gelb mit Sirene;Grün mit Kreuz
-Automobil;Was bedeutet ein rotes Dreieck mit Fußgängerüberweg?;Achtung Zebrastreifen;Fußgängerzone;Gehweg;Überweg verboten
-Automobil;Welche Höchstgeschwindigkeit gilt in verkehrsberuhigten Bereichen?;Schrittgeschwindigkeit;20 km/h;30 km/h;15 km/h
-Automobil;Was ist ein "Lane-Assist"?;Spurhalteassistent;Tempomat;Bremsassistent;Parkassistent
-Automobil;Welches Schild zeigt eine Pannenhilfe?;Blau mit Wagenheber;Rot mit "Hilfe";Gelb mit Werkzeug;Grün mit Mechaniker
-Automobil;Was bedeutet ein blaues Schild mit weißem "P" und Rollstuhl?;Behindertenparkplatz;Parkverbot;Rollstuhlweg;Krankenhaus
-Automobil;Welche Regel gilt bei einem "Überholverbot"-Schild?;Überholen verboten;Nur LKWs überholen;Nur tagsüber verboten;Nur für Motorräder
-Automobil;Was ist ein "Car-Sharing-Parkplatz"?;Parkplatz für Carsharing-Fahrzeuge;Privatparkplatz;Taxistand;Mietwagenparkplatz
-Automobil;Welches Schild zeigt eine Mautstelle?;Blau mit Euro-Zeichen;Rot mit "Maut";Gelb mit Kasse;Grün mit Münze
-Automobil;Was bedeutet ein rotes Dreieck mit Baustellenfahrzeug?;Achtung langsame Fahrzeuge;Baustelle;Fahrverbot;Arbeitsstelle
-Automobil;Welche Beleuchtung ist bei starkem Regen Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
-Automobil;Was ist ein "Verkehrsversuch"?;Temporäre Regeländerung;Dauerhafte Änderung;Teststrecke;Simulation
-Automobil;Welches Schild zeigt eine Feuerwehrzufahrt?;Rot mit Feuerwehrsymbol;Blau mit "Feuer";Gelb mit Hydrant;Grün mit Löschfahrzeug
-Automobil;Was bedeutet ein blaues Schild mit weißem "E"?;Einfahrt;Ausfahrt;Einkaufszone;Einstellplatz
-Automobil;Welche Regel gilt bei einem "Anlieger frei"-Schild?;Nur Anwohner dürfen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrslenkungstafel"?;Dynamische Anzeige;Festes Schild;Ampel;Wegweiser
-Automobil;Welches Schild zeigt eine Schulbus-Haltestelle?;Gelb mit Schulbus-Symbol;Rot mit "Schule";Blau mit Kindern;Grün mit "Bus"
-Automobil;Was bedeutet ein rotes Dreieck mit Radweg-Ende?;Achtung Radweg endet;Radfahrer absteigen;Radwegverbot;Neuer Radweg
-Automobil;Welche Höchstgeschwindigkeit gilt für Wohnmobile über 3,5 t?;80 km/h;100 km/h;120 km/h;60 km/h
-Automobil;Was ist ein "Verkehrsstromanalyse"?;Erfassung des Verkehrsflusses;Stauwarnung;Geschwindigkeitsmessung;Parkraumerfassung
-Automobil;Welches Schild zeigt eine Durchlässige Sackgasse?;Weiß mit durchgestrichenem Ende;Blau mit "Durchfahrt";Gelb mit Pfeil;Grün mit "Sack"
-Automobil;Was bedeutet ein blaues Schild mit weißem "L"?;Lehrfahrzeug;LKW;Lastzug;Langsamfahrer
-Automobil;Welche Regel gilt bei einem "Taxi frei"-Schild?;Nur Taxis dürgen einfahren;Alle Fahrzeuge;Keine Regel;Nur nachts
-Automobil;Was ist ein "Verkehrszeichen mit Wechseldisplay"?;Dynamisches Schild;Festes Schild;Leuchtzeichen;Reflektor
-Automobil;Welches Schild zeigt eine Rettungskette?;Blau mit Schneekette;Rot mit "Bergung";Gelb mit Abschleppwagen;Grün mit "Hilfe"
-Automobil;Was bedeutet ein rotes Dreieck mit Seitenwind?;Achtung Seitenwind;Windpark;Sturmwarnung;Windstille
-Automobil;Welche Beleuchtung ist bei Schneetreiben Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
-Automobil;Was ist ein "Verkehrsdatenerfassung"?;Erhebung von Verkehrsdaten;Stauvorhersage;Geschwindigkeitskontrolle;Parküberwachung
-Automobil;Welches Schild zeigt eine Notfallspur?;Rot mit "Notfall";Blau mit Kreuz;Gelb mit "Hilfe";Grün mit Pfeil
-Automobil;Was bedeutet ein blaues Schild mit weißem "K"?;Krankenhaus;Kindergarten;Kraftwerk;Kontrollstelle
-Automobil;Welche Regel gilt bei einem "Fahrrad frei"-Schild?;Nur Radfahrer dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrsleitrechner"?;Steuerung von Ampelschaltungen;Geschwindigkeitsmesser;Parkuhr;Stauwarner
-Automobil;Welches Schild zeigt eine Pannenbucht?;Blau mit Pannendreieck;Rot mit "Stop";Gelb mit Werkzeug;Grün mit "Hilfe"
-Automobil;Was bedeutet ein rotes Dreieck mit Steinschlag?;Achtung Steinschlaggefahr;Bergwerk;Baustelle;Felswand
-Automobil;Welche Höchstgeschwindigkeit gilt für Busse mit Anhänger?;60 km/h;80 km/h;100 km/h;70 km/h
-Automobil;Was ist ein "Verkehrsflussoptimierung"?;Verbesserung des Verkehrsflusses;Stauauflösung;Geschwindigkeitsbegrenzung;Parkraumverwaltung
-Automobil;Welches Schild zeigt eine Nothaltebucht?;Rot mit "Notstop";Blau mit Pannendreieck;Gelb mit "Halt";Grün mit "Sicherheit"
-Automobil;Was bedeutet ein blaues Schild mit weißem "T"?;Tankstelle;Telefon;Toilette;Tunnel
-Automobil;Welche Regel gilt bei einem "Anhänger frei"-Schild?;Nur Fahrzeuge mit Anhänger dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrsmonitoringsystem"?;Überwachung des Verkehrs;Stauanzeige;Geschwindigkeitskontrolle;Parkraumbewirtschaftung
-Automobil;Welches Schild zeigt eine Notausfahrt?;Grün mit "Notausgang";Rot mit "Flucht";Blau mit Pfeil;Gelb mit "Sicherheit"
-Automobil;Was bedeutet ein rotes Dreieck mit Splitt?;Achtung Rollsplitt;Baustelle;Schotterweg;Fahrbahnschäden
-Automobil;Welche Beleuchtung ist bei Nebel < 50 m Sicht Pflicht?;Nebelschlussleuchte;Abblendlicht;Standlicht;Fernlicht
-Automobil;Was ist ein "Verkehrsdatenspeicher"?;Archivierung von Verkehrsdaten;Stauvorhersage;Geschwindigkeitsprotokoll;Parkdatenbank
-Automobil;Welches Schild zeigt eine Notruftelefon?;Blau mit Telefonhörer;Rot mit "Hilfe";Gelb mit Sirene;Grün mit Kreuz
-Automobil;Was bedeutet ein blaues Schild mit weißem "WC"?;Toilette;Waschstraße;Werkstatt;Wasserstelle
-Automobil;Welche Regel gilt bei einem "Mofas frei"-Schild?;Nur Mofas dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrsleitsäule"?;Dynamische Wegweiser;Festes Schild;Ampel;Blitzer
-Automobil;Welches Schild zeigt eine Notwasserung?;Blau mit Flugzeug auf Wasser;Rot mit "Notfall";Gelb mit Rettungsring;Grün mit "See"
-Automobil;Was bedeutet ein rotes Dreieck mit Schleudergefahr?;Achtung rutschige Fahrbahn;Glätte;Aquaplaning;Schneefall
-Automobil;Welche Höchstgeschwindigkeit gilt für Motorräder mit Beiwagen?;80 km/h;100 km/h;120 km/h;60 km/h
-Automobil;Was ist ein "Verkehrsflussmessung"?;Erfassung der Fahrzeugströme;Stauberechnung;Geschwindigkeitsüberwachung;Parkraumerfassung
-Automobil;Welches Schild zeigt eine Notbremsstrecke?;Rot mit "Notbremsung";Blau mit Bremsweg;Gelb mit Gefälle;Grün mit "Sicherheit"
-Automobil;Was bedeutet ein blaues Schild mit weißem "R"?;Rastplatz;Reparatur;Restaurant;Rettungspunkt
-Automobil;Welche Regel gilt bei einem "Krankenwagen frei"-Schild?;Nur Rettungsfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit LED"?;Leuchtendes Verkehrsschild;Reflektierendes Schild;Digitale Anzeige;Beleuchtetes Schild
-Automobil;Welches Schild zeigt eine Notfalltelefon?;Blau mit Telefon und Kreuz;Rot mit "Notruf";Gelb mit Sirene;Grün mit "Hilfe"
-Automobil;Was bedeutet ein rotes Dreieck mit Gegenverkehr?;Achtung Gegenverkehr;Einbahnstraße;Überholverbot;Kreuzung
-Automobil;Welche Beleuchtung ist bei Dämmerung mit Regen Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
-Automobil;Was ist ein "Verkehrsdatennetz"?;Vernetzung von Verkehrssystemen;Staunetz;Geschwindigkeitsnetz;Parkleitnetz
-Automobil;Welches Schild zeigt eine Notfallzufahrt?;Rot mit "Notfall";Blau mit Kreuz;Gelb mit "Hilfe";Grün mit Pfeil
-Automobil;Was bedeutet ein blaues Schild mit weißem "S"?;Sackgasse;Straßenreinigung;Schule;Sportplatz
-Automobil;Welche Regel gilt bei einem "Polizei frei"-Schild?;Nur Polizeifahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrsleitsystem mit Kamera"?;Überwachung mit Kameras;Geschwindigkeitsmessung;Parkraumkontrolle;Stauerkennung
-Automobil;Welches Schild zeigt eine Notrufsäule mit Defibrillator?;Blau mit Herz und Blitz;Rot mit "Defi";Gelb mit Kreuz;Grün mit "Leben"
-Automobil;Was bedeutet ein rotes Dreieck mit Fußgänger und Radfahrer?;Achtung gemeinsamer Weg;Fußgängerzone;Radweg;Getrennter Weg
-Automobil;Welche Höchstgeschwindigkeit gilt für Trikes?;80 km/h;100 km/h;60 km/h;120 km/h
-Automobil;Was ist ein "Verkehrsflussvisualisierung"?;Darstellung des Verkehrsflusses;Staukarte;Geschwindigkeitsanzeige;Parkraumkarte
-Automobil;Welches Schild zeigt eine Notfall-Leitplanke?;Rot mit Leitplanke;Blau mit "Sicherheit";Gelb mit Absperrung;Grün mit "Schutz"
-Automobil;Was bedeutet ein blaues Schild mit weißem "U"?;Umleitung;Ufer;Unterführung;Umweltzone
-Automobil;Welche Regel gilt bei einem "Einsatzfahrzeug frei"-Schild?;Nur Rettungskräfte dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit Wechselverkehr"?;Dynamische Regelung;Feste Regelung;Temporäre Regelung;Testphase
-Automobil;Welches Schild zeigt eine Notfall-Treppe?;Blau mit Treppe und Pfeil;Rot mit "Flucht";Gelb mit "Ausgang";Grün mit "Sicherheit"
-Automobil;Was bedeutet ein rotes Dreieck mit Straßenbahn?;Achtung Straßenbahn;Straßenbahnhaltestelle;Straßenbahnverbot;Straßenbahnkreuzung
-Automobil;Welche Beleuchtung ist bei Nebel > 50 m Sicht Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
-Automobil;Was ist ein "Verkehrsdatenanalyse"?;Auswertung von Verkehrsdaten;Stauprognose;Geschwindigkeitsauswertung;Parkraumanalyse
-Automobil;Was bedeutet ein blaues Schild mit weißem "V"?;Verkehrsübungsplatz;Verkehrsschule;Verkehrsinsel;Verkehrsberuhigung
-Automobil;Welche Regel gilt bei einem "Feuerwehr frei"-Schild?;Nur Feuerwehrfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit Sensor"?;Schild mit Bewegungserkennung;Lichtsensor;Temperatursensor;Regensensor
-Automobil;Welches Schild zeigt eine Notfall-Beleuchtung?;Blau mit Lampe;Rot mit "Licht";Gelb mit Blitz;Grün mit "Sicherheit"
-Automobil;Was bedeutet ein rotes Dreieck mit Pannenfahrzeug?;Achtung liegengebliebenes Fahrzeug;Abschleppwagen;Werkstatt;Pannenhelfer
-Automobil;Welche Höchstgeschwindigkeit gilt für Quadricycles?;80 km/h;100 km/h;60 km/h;45 km/h
-Automobil;Was ist ein "Verkehrsflussregelung"?;Steuerung des Verkehrsflusses;Stauvermeidung;Geschwindigkeitskontrolle;Parkraumsteuerung
-Automobil;Was bedeutet ein blaues Schild mit weißem "Z"?;Zollstelle;Zone;Zufahrt;Zentrum
-Automobil;Welche Regel gilt bei einem "Rettungsdienst frei"-Schild?;Nur Rettungsfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit Fernbedienung"?;Ferneinstellbares Schild;Handbedienung;Automatische Steuerung;Manuelle Regelung
-Automobil;Welches Schild zeigt eine Notfall-Verzögerung?;Rot mit "Langsam";Blau mit "Bremsen";Gelb mit "Stop";Grün mit "Vorsicht"
-Automobil;Was bedeutet ein rotes Dreieck mit Abschleppwagen?;Achtung Abschleppvorgang;Abschleppdienst;Pannenhilfe;Werkstatt
-Automobil;Welche Beleuchtung ist bei Schneefall mit Nebel Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
-Automobil;Was ist ein "Verkehrsdatenmanagement"?;Verwaltung von Verkehrsdaten;Staumanagement;Geschwindigkeitsmanagement;Parkdatenverwaltung
-Automobil;Welches Schild zeigt eine Notfall-Umleitung?;Blau mit Umleitungspfeil;Rot mit "Umweg";Gelb mit "Alternativ";Grün mit "Ausweichen"
-Automobil;Was bedeutet ein blaues Schild mit weißem "Y"?;Y-Kreuzung;Yachtclub;Y-Punkt;Y-Verzweigung
-Automobil;Welche Regel gilt bei einem "THW frei"-Schild?;Nur THW-Fahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit Sprachausgabe"?;Audiovisuelles Schild;Akustische Ansage;Sprachsteuerung;Tonausgabe
-Automobil;Welches Schild zeigt eine Notfall-Kommunikation?;Blau mit Sprechblase;Rot mit "Info";Gelb mit "Hilfe";Grün mit "Sprechen"
-Automobil;Was bedeutet ein rotes Dreieck mit Pannenauto?;Achtung Pannenfahrzeug;Abschleppwagen;Werkstatt;Pannenhelfer
-Automobil;Welche Höchstgeschwindigkeit gilt für Leichtkrafträder?;80 km/h;100 km/h;45 km/h;60 km/h
-Automobil;Was ist ein "Verkehrsflussüberwachung"?;Kontrolle des Verkehrsflusses;Stauüberwachung;Geschwindigkeitskontrolle;Parkraumüberwachung
-Automobil;Welches Schild zeigt eine Notfall-Information?;Blau mit "i";Rot mit "Achtung";Gelb mit "Warnung";Grün mit "Hinweis"
-Automobil;Was bedeutet ein blaues Schild mit weißem "X"?;Kreuzung;X-Punkt;Verbot;Kontrollstelle
-Automobil;Welche Regel gilt bei einem "Bundeswehr frei"-Schild?;Nur Militärfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit Touchscreen"?;Interaktives Schild;Berührungsempfindlich;Digitale Steuerung;Manuelle Eingabe
-Automobil;Welches Schild zeigt eine Notfall-Assistenz?;Blau mit "Hilfe";Rot mit "Notfall";Gelb mit "Support";Grün mit "Assistenz"
-Automobil;Was bedeutet ein rotes Dreieck mit Sonderfahrzeug?;Achtung langsames Fahrzeug;Baustellenfahrzeug;Abschleppwagen;Pannenfahrzeug
-Automobil;Welche Beleuchtung ist bei Starkregen mit Nebel Pflicht?;Abblendlicht + Nebelschlussleuchte;Fernlicht;Standlicht;Nebelscheinwerfer
-Automobil;Was ist ein "Verkehrsdatenarchiv"?;Speicherung von Verkehrsdaten;Stauarchiv;Geschwindigkeitsarchiv;Parkdatenarchiv
-Automobil;Welches Schild zeigt eine Notfall-Koordination?;Blau mit "Koordination";Rot mit "Leitung";Gelb mit "Organisation";Grün mit "Planung"
-Automobil;Was bedeutet ein blaues Schild mit weißem "W"?;Wasserstelle;Werkstatt;Wegweiser;Warnung
-Automobil;Welche Regel gilt bei einem "Katastrophenschutz frei"-Schild?;Nur Katastrophenschutzfahrzeuge dürgen einfahren;Frei befahrbar;Durchfahrt verboten;Nur tagsüber erlaubt
-Automobil;Was ist ein "Verkehrszeichen mit Gestensteuerung"?;Schild mit Gestenerkennung;Handzeichen;Körpersteuerung;Bewegungserkennung
-Automobil;Welches Schild zeigt eine Notfall-Lenkung?;Blau mit Lenkrad;Rot mit "Steuerung";Gelb mit "Führung";Grün mit "Kontrolle"
-Automobil;Wie heißt die Sicherheitsfahrschaltung in Zügen?;SIVA;ZUB;PZB;ETCS
-Automobil;Welches System warnt vor Auffahrunfällen?;FCW;ACC;TBMS;LDW
-Automobil;Welches System warnt den Fahrer beim Verlassen der Fahrspur?;LDW;TPMS;FCB;ESP
-Automobil;Welches System prüft den Reifendruck?;TPMS;FCB;PZB;ETCS
-Automobil;Welche Farbe hat ein Stoppschild?;Rot;Grün;Gelb;Blau
-Automobil;Was bedeutet ein dreieckiges Verkehrsschild?;Vorfahrt gewähren;Parkverbot;Einbahnstraße;Geschwindigkeitsbegrenzung
-Automobil;Welches Fahrzeug hat Vorfahrt an einer Kreuzung ohne Schilder?;Das Fahrzeug von rechts;Das schnellere Fahrzeug;Das größere Fahrzeug;Das Fahrzeug von links
-Automobil;Was bedeutet eine durchgezogene weiße Linie zwischen Fahrspuren?;Fahrspurwechsel verboten;Überholen erlaubt;Parken erlaubt;Geschwindigkeitsbegrenzung
-Automobil;Wie schnell darf man innerorts maximal fahren?;50 km/h;30 km/h;70 km/h;100 km/h
-Automobil;Wozu dient der Blinker am Auto?;Zum Anzeigen von Richtungs-/Spurwechseln;Zum Hupen;Zum Bremsen;Zum Beschleunigen
-Automobil;Was bedeutet ein gelbes Blinklicht an einer Ampel?;Weiterfahren mit Vorsicht;Sofort anhalten;Nur rechts abbiegen;Geschwindigkeit erhöhen
-Automobil;Welches Verkehrsschild zeigt eine Gefahrenstelle an?;Rotes Dreieck;Blaues Rechteck;Grüner Kreis;Gelbes Sechseck
-Automobil;Was ist die Hauptaufgabe eines Rückspiegels?;Den Verkehr hinter dem Fahrzeug beobachten;Musik abspielen;Die Geschwindigkeit anzeigen;Die Scheiben reinigen
-Automobil;Welches Fahrzeug darf eine Rettungsgasse bilden?;Alle Fahrzeuge bei Stau;Nur Feuerwehrfahrzeuge;Nur Krankenwagen;Nur Polizeiautos
-Automobil;Was bedeutet ein rotes Ampelsignal?;Anhalten;Weiterfahren;Beschleunigen;Langsamer fahren
-Automobil;Welche Straßen haben normalerweise Vorfahrt?;Hauptstraßen;Feldwege;Parkplätze;Spielstraßen
-Automobil;Was ist ein Zebrastreifen?;Ein Fußgängerüberweg;Ein Parkplatz;Eine Baustelle;Eine Autobahnausfahrt
-Automobil;Wie nennt man den Bereich, in dem man nicht überholen darf?;Überholverbot;Parkverbot;Halteverbot;Einfahrverbot
-Automobil;Welches Schild warnt vor einer Baustelle?;Rot-weißes Dreieck mit Bauarbeiter;Blau-weißer Kreis;Grün-gelbes Rechteck;Schwarz-gelbes Sechseck
-Automobil;Was ist die korrekte Reihenfolge bei einer Ampel?;Grün – Gelb – Rot;Rot – Grün – Gelb;Gelb – Rot – Grün;Rot – Gelb – Grün
-Automobil;Welche Fahrzeuge dürfen eine Busspur benutzen?;Nur Busse;Nur Taxis;Nur Motorräder;Alle Fahrzeuge
-Automobil;Wie nennt man den Sicherheitsgurt im Auto?;Anschnallgurt;Haltegurt;Fahrgurt;Sitzgurt
-Automobil;Welches Fahrzeug hat Sonderrechte im Verkehr?;Einsatzfahrzeuge mit Blaulicht;Fahrräder;Lastwagen;Motorroller
-Automobil;Was ist ein Tempomat?;Ein Geschwindigkeitsregler;Ein Bremsassistent;Ein Navigationsgerät;Ein Parksensor
-Automobil;Was bedeutet eine weiße gestrichelte Linie auf der Straße?;Überholen erlaubt;Fahrverbot;Parken erlaubt;Geschwindigkeitsbegrenzung
-Automobil;Wie nennt man den Bereich vor einer Kreuzung, der frei bleiben muss?;Sichtdreieck ;Parkbucht;Einfahrt;Rastplatz
-Automobil;Welches Fahrzeug darf eine Umweltzone befahren?;Fahrzeuge mit grüner Plakette;Nur Fahrräder;Nur Elektroautos;Alle Dieselautos
-Automobil;Was bedeutet ein rot-weißes Dreieck am Fahrbahnrand?;fahrzeugpanne;Vorfahrtstraße;Parkplatz;Fußgängerüberweg
-Automobil;Welches Schild warnt vor spielenden Kindern?;Rot-weißes Dreieck mit Kindersymbol;Blaues Quadrat;Grüner Kreis;Gelbes Rechteck
-Automobil;Was ist ein Tachometer?;Ein Geschwindigkeitsmesser;Ein Öldruckmesser;Ein Temperaturmesser;Ein Tankfüllstandsanzeiger
-Automobil;Welche Lichtzeichen gelten für Radfahrer?;Eigene Fahrradampeln;Nur Ampeln für Autos;Nur Fußgängerampeln;Keine Ampeln
-Automobil;Was bedeutet ein blau Schild mit weißer Autobahn?;Autobahnbeginn;Autobahnausfahrt;Baustelle;Parkplatz
-Automobil;Welches Verkehrsmittel fährt auf Schienen?;Straßenbahn;Motorrad;Taxi;Bus
-Automobil;Was ist ein Spurwechselassistent?;Ein System, das beim Wechsel der Fahrspur hilft;Ein Navigationsgerät;Ein Tempomat;Ein Parksensor
-Automobil;Welches Schild zeigt eine Einbahnstraße an?;Blaues Rechteck mit weißem Pfeil;Rotes Dreieck;Gelbes Sechseck;Grüner Kreis
-Automobil;Was bedeutet ein orangefarbenes Warndreieck am Fahrzeug?;Das Fahrzeug kann sich nicht mehr bewegen;Das Fahrzeug hat Vorfahrt;Das Fahrzeug ist ein Notfallfahrzeug;Das Fahrzeug parkt
-Automobil;Was hat immer Vorrang an einem Zebrastreifen?;Fußgänger;Fahrräder;Lastwagen;Motorroller
-Automobil;Was ist ein Kreisverkehr?;Ein rundes Verkehrssystem mit Vorrang für Fahrzeuge im Kreis;Eine Sackgasse;Ein rundes Verkehrssystem mit Vorrang für einfahrende Fahrzeuge;Eine Kreuzung mit Ampeln
-Automobil;Welches Schild zeigt eine Steigung an?;Rot-weißes Dreieck mit Prozentzahl;Blaues Quadrat;Grüner Kreis;Gelbes Rechteck
-Automobil;Was bedeutet ein rotes Kreuz über der Autobahnspur?;Spur gesperrt;Überholen erlaubt;Geschwindigkeitsbegrenzung;Parken erlaubt
-Automobil;Welches Fahrzeug darf in einer Feuerwehrzufahrt parken?;Kein Fahrzeug;Nur Taxis;Nur Motorräder;Nur Elektroautos
-Automobil;Was ist ein Toter Winkel?;Ein Bereich, den der Fahrer nicht einsehen kann;Eine defekte Straßenlaterne;Eine gesperrte Straße;Ein Parkplatz
-Automobil;Welches Schild warnt vor Wildwechsel?;Rot-weißes Dreieck mit Reh-Symbol;Blaues Quadrat;Grüner Kreis;Gelbes Rechteck
-Automobil;Was bedeutet eine gelbe Ampel?;Anhalten, wenn möglich;Weiterfahren, wenn sicher möglich;Beschleunigen;Nur rechts abbiegen
-Automobil;Welches Fahrzeug hat eine grüne Versicherungsplakette?;Oldtimer;Elektroauto;Lastwagen;Motorrad
-Automobil;Was ist ein Navigationssystem?;Ein Gerät zur Routenplanung;Ein Geschwindigkeitsmesser;Ein Bremsassistent;Ein Parksensor
-Automobil;Welches Schild zeigt eine Unterführung an?;Blaues Quadrat mit einem Tunnel-Symbol;Rotes Dreieck;Gelbes Sechseck;Grüner Kreis
-Automobil;Was bedeutet ein rotes Dreieck mit Ausrufezeichen?;Allgemeine Gefahr;Parkverbot;Vorfahrt;Einbahnstraße
-Automobil;Welches Fahrzeug darf auf der Autobahn fahren?;PKWs;Fahrräder;Traktoren;Pferdekutschen
-Automobil;Was ist ein Reifenprofil?;Die Rillen und Lamellen auf der Reifenoberfläche;Die Farbe des Reifens;Die Größe des Reifens;Der Luftdruck im Reifen
-Automobil;Welche Mindestprofiltiefe muss ein Reifen haben?;1,6 mm;0,5 mm;1,0 mm;2,5 mm
-Automobil;Was bedeutet das Schild „Vorfahrtstraße“?;Man hat immer Vorfahrt;Man muss Vorfahrt gewähren;Es gilt Rechts-vor-Links;Nur Fahrräder haben Vorfahrt
-Automobil;Wie weit muss ein Warndreieck bei einer Panne auf der Autobahn aufgestellt werden?;150 Meter;50 Meter;100 Meter;200 Meter
-Automobil;Was ist ein „Eco-Modus“ im Auto?;Ein spritsparender Fahrmodus;Ein Sportmodus;Ein Modus für Geländefahrten;Ein Standheizungssystem
-Automobil;Welches Schild zeigt ein „absolutes Halteverbot“ an?;Roter Kreis mit zwei Strichen;Blaues Quadrat mit weißem P;Gelbes Dreieck mit Ausrufezeichen;Grünes Rechteck mit Fußgänger
-Automobil;Was bedeutet eine gelb-rot leuchtende Ampel?;Achtung, Ampel wird gleich rot;Nur Rechtsabbieger dürfen fahren;Nur Fußgänger dürfen gehen;Achtung, Ampel wird gleich grün
-Automobil;Welche Höchstgeschwindigkeit gilt innerorts ohne besondere Beschilderung?;50 km/h;30 km/h;70 km/h;100 km/h
-Automobil;Was ist ein „Toter Winkel“?;Ein Bereich, den der Fahrer nicht einsehen kann;Eine tote Straße ohne Verkehr;Ein Parkplatz ohne Ausfahrt;Eine defekte Ampel
-Automobil;Was bedeutet ein blaues Schild mit weißem Fahrrad?;Radweg;Fahrradverbot;Fahrradparkplatz;Fahrradwerkstatt
-Automobil;Wie lange darf man im „Parkverbot“ halten?;Bis zu 3 Minuten;Gar nicht;Bis zu 10 Minuten;Nur Nachts
-Automobil;Was ist ein „Spurhalteassistent“?;Ein System, das beim Halten der Spur hilft;Ein Tempomat;Ein Einparkhilfe-System;Ein Bremsassistent
-Automobil;Welches Schild kennzeichnet eine „Verkehrsberuhigte Zone“?;Blaues Quadrat mit spielendem Kind;Rotes Dreieck mit Ausrufezeichen;Gelbes Rechteck mit Fußgänger;Grüner Kreis mit Fahrrad
-Automobil;Welche Lichtzeichen gelten für Straßenbahnen?;Weiße T- oder Baken-Lichter;Nur normale Ampeln;Blaue Lichter;Gelbe Blinklichter
-Automobil;Was ist die „Rettungsgasse“?;Eine freie Spur für Einsatzfahrzeuge;Ein Fußgängerweg;Ein Parkplatz für Notfälle;Eine Autobahnausfahrt
-Automobil;Welches Schild warnt vor „Schleudergefahr“?;Rot-weißes Dreieck mit Auto auf rutschiger Fahrbahn;Blaues Quadrat mit Schneeflocke;Gelbes Rechteck mit Regenwolke;Grüner Kreis mit Glätte-Symbol
-Automobil;Was bedeutet ein „gelbes Blinklicht“ an einer Ampel?;Weiterfahren mit erhöhter Vorsicht;Sofort anhalten;Nur rechts abbiegen;Geschwindigkeit reduzieren
-Automobil;Welche Bremsflüssigkeit sollte regelmäßig kontrolliert werden?;Hydraulikflüssigkeit für die Bremsen;Motoröl;Kühlmittel;Scheibenwischwasser
-Automobil;Was ist ein „Notbremsassistent“?;Ein System, das bei Gefahr selbst bremst;Ein Tempomat;Ein Tempomat;Ein Parkassistent
-Automobil;Welches Schild zeigt eine „Bundesstraße“ an?;Gelbes Rechteck mit schwarzer Zahl;Blaues Quadrat mit weißer Autobahn;Grüner Kreis mit Straßennummer;Rotes Dreieck mit „B“
-Automobil;Was bedeutet ein elektronischer „grüner Pfeil“ an der Ampel?;Rechtsabbiegen ohne zu halten;Nur geradeaus fahren;Sofort anhalten;Nur links abbiegen
-Automobil;Welche Sicherheitsausrüstung ist für Motorradfahrer Pflicht?;Helm;Handschuhe;Stiefel;Rucksack
-Automobil;Welches Schild zeigt eine „Umweltzone“ an?;Runder roter Kreis mit „Umweltzone“;Blaues Quadrat mit grüner Plakette;Gelbes Dreieck mit „CO “;Grünes Rechteck mit „E“
-Automobil;Was bedeutet ein „roter Kreis mit Motorrad“?;Verbot für Krafträder;Motorradweg;Motorradwerkstatt;Motorradparkplatz
-Automobil;Was ist ein „Adaptiver Tempomat“?;Ein Tempomat, der Abstand hält;Ein Bremsassistent;Ein Spurhalteassistent;Ein Navigationssystem
-Automobil;Welches Schild zeigt eine „Autobahn“ an?;Blaues Quadrat mit weißem A;Grünes Rechteck mit „A“;Gelbes Dreieck mit Fahrbahn;Rotes Quadrat mit „AB“
-Automobil;Welche Beleuchtung muss tagsüber bei schlechter Sicht eingeschaltet sein?;Abblendlicht;Fernlicht;Nebelscheinwerfer;Standlicht
-Automobil;Was ist ein „Park & Ride“-Parkplatz?;Ein Parkplatz zum Umsteigen auf ÖPNV;Ein Parkplatz für Wohnmobile;Ein Parkplatz mit Ladesäulen;Ein Parkplatz für Motorräder
-Automobil;Welches Schild zeigt eine „Gefällestrecke“ an?;Rot-weißes Dreieck mit Prozentzahl;Blaues Quadrat mit Pfeil nach unten;Gelbes Rechteck mit „Gefälle“;Grüner Kreis mit Bergsymbol
-Automobil;Was bedeutet ein „roter Kreis mit Fußgänger“?;Verbot für Fußgänger;Fußgängerüberweg;Fußgängerzone;Gehweg
-Automobil;Was ist ein „Müdigkeitswarner“ im Auto?;Ein System, das bei Müdigkeit warnt;Ein Tempomat;Ein Spurhalteassistent;Ein Navigationssystem
-Automobil;Welches Schild zeigt eine „Wendeverbot“ an?;Roter Kreis mit einem durchgestrichenen Pfeil;Blaues Quadrat mit „W“;Gelbes Dreieck mit U-Turn;Grünes Rechteck mit „Kehrt“
-Automobil;Welche Bremsen sind bei einem Pkw mit ABS sicherer?;Scheibenbremsen;Trommelbremsen;Handbremsen;Motorbremse
-Automobil;Was ist ein „Verkehrszeichen mit Zusatzschild“?;Ein Schild mit zusätzlicher Info;Ein Schild mit Leuchten;Ein Schild mit Pfeilen;Ein Schild mit Symbolen
-Automobil;Welches Schild zeigt eine „Spielstraße“ an?;Blaues Quadrat mit spielendem Kind;Rotes Dreieck mit Ball;Gelbes Rechteck mit „Spiel“;Grüner Kreis mit „Zone“
-Automobil;Was bedeutet ein „roter Kreis mit Auto“?;Verbot für Kraftfahrzeuge;Autobahn;Parkplatz;Werkstatt
-Automobil;Was ist ein „Reifendruckkontrollsystem“ (RDKS)?;Ein System, das Reifendruck überwacht;Ein Navigationssystem;Ein Tempomat;Ein Spurhalteassistent
-Automobil;Welches Schild zeigt eine „Baustelle“ an?;Rot-weißes Dreieck mit Schaufel;Blaues Quadrat mit „B“;Gelbes Rechteck mit Hammer;Grüner Kreis mit „Achtung“
-Automobil;Was bedeutet ein „gelbes Blinklicht“ an einem Bus?;Der Bus fährt gleich los;Der Bus hat eine Panne;Der Bus hält nicht an;Der Bus fährt im Schritttempo
-Automobil;Welche Sicherheitsabstände gelten auf der Autobahn?;Halber Tacho;Immer 30 Meter;Immer 100 Meter;Nur bei Regen
-Automobil;Was ist ein „Parkassistent“?;Ein System, das beim Einparken hilft;Ein Tempomat;Ein Spurhalteassistent;Ein Navigationssystem
-Automobil;Welches Schild zeigt eine „Fahrradstraße“?;Blaues Quadrat mit weißem Fahrrad;Rotes Dreieck mit Rad;Gelbes Rechteck mit „Fahrrad“;Grüner Kreis mit „Rad“
-Automobil;Was bedeutet das Schild mit„roter Kreis“?;Verbot für alle Fahrzeuge;Einbahnstraße;Sackgasse;Parkverbot
-Automobil;Welches Schild zeigt eine „Kreisverkehr“-Regelung an?;Blauer Kreis mit Pfeilen;Rotes Dreieck mit Kreis;Gelbes Rechteck mit „Ring“;Grüner Kreis mit „Kreisel“
-Automobil;Welche Mindestprofiltiefe gilt für Winterreifen?;4,0 mm;1,0 mm;1,6 mm;3,0 mm
-Automobil;Was bedeutet ein „gelbes Blinklicht“ an einem Schulbus?;Der Bus hält zum Ein- und Aussteigen;Der Bus fährt gleich los;Der Bus hat eine Panne;Der Bus fährt im Schritttempo
-Automobil;Welche Höchstgeschwindigkeit gilt für Lkw über 3,5 t auf deutschen Autobahnen?;80 km/h;60 km/h;100 km/h;120 km/h
-Automobil;Was ist ein „Grüne Welle“?;Eine Ampelsteuerung für flüssigen Verkehr;Ein Radweg;Eine Umweltzone;Ein Tempolimit
-Automobil;Welches Verkehrszeichen zeigt eine „Durchfahrt verboten“ an?;Roter Kreis mit weißem Balken;Rot-weißes Dreieck mit „Stop“;Gelbes Rechteck mit „Sperrung“;Blaues Quadrat mit „X“
-Automobil;Was bedeutet ein „weißes Dreieck mit rotem Rand“ auf der Straße?;Vorfahrt gewähren;Stop;Parkverbot;Einbahnstraße
-Automobil;Welche Bremsflüssigkeit ist hygroskopisch?;Sie zieht Wasser an;Sie ist wasserabweisend;Sie verdunstet schnell;Sie ist biologisch abbaubar
-Automobil;Was ist ein „Notlaufprogramm“ im Auto?;Ein Schutzmodus bei Motorproblemen;Ein Sportmodus;Ein Sparmodus;Ein Wintermodus
-Automobil;Welches Schild kennzeichnet eine „Kraftfahrstraße“?;Blaues Quadrat mit weißem Auto;"Grünes Rechteck mit „KS""";Gelbes Dreieck mit Fahrbahn;Rotes Quadrat mit „KFZ“
-Automobil;Was bedeutet ein „roter Kreis mit Traktor“?;Verbot für landwirtschaftliche Fahrzeuge;Traktorweg;Bauernhof;Feldweg
-Automobil;Welche Sicherheitsabstände gelten bei Nebel (Sichtweite < 50 m);Geschwindigkeit als Abstand;50 m;100 m;150 m
-Automobil;Was ist ein „Differenzialsperre“?;Ein System für bessere Traktion;Ein System für bessere Traktion;Ein Tempomat;Ein Spurhalteassistent
-Automobil;Welche Beleuchtung ist bei Schlechtwetter Pflicht?;Abblendlicht oder Nebelscheinwerfer;Fernlicht;Standlicht;Blinker
-Automobil;Was ist ein „Rüttelstreifen“?;Eine Warnmarkierung bei Fahrbahnrändern;Eine Baustellenmarkierung;Ein Radweg;Eine Lärmschutzzone
-Automobil;Was bedeutet ein „roter Kreis mit Pkw und Anhänger“?;Verbot für Pkw mit Anhänger;Anhängerparkplatz;Anhängerverleih;Anhängerverbot
-Automobil;Welche Regel gilt im „Verkehrsberuhigten Bereich“?;Schrittgeschwindigkeit;30 km/h;50 km/h;je nach Zusatzzeichen
-Automobil;Was ist ein „Totmannknopf“ in der Bahn?;Ein Sicherheitssystem für den Lokführer;Ein Nothalt;Ein Türöffner;Ein Signalgeber
-Automobil;Was ist ein „Lichtzeichenanlage“?;Eine Ampel;Ein Blitzer;Ein Warndreieck;Ein Scheinwerfer
-Automobil;Welches Schild zeigt eine „Gefahrstelle“ an?;Rot-weißes Dreieck mit Ausrufezeichen;Blaues Quadrat mit „Achtung“;Blaues Quadrat mit „Achtung“;Grüner Kreis mit „!“
-Automobil;Welche Regel gilt bei „Reißverschlussverfahren“?;Einfädeln im Wechsel;Wer zuerst kommt, fährt zuerst;Nur rechts einfädeln;Nur links einfädeln
-Automobil;Was ist ein „Parkleitzeichen“?;Ein Schild mit Parkplatzinfos;Ein Parkschein;Ein Parkverbot;Ein Parksensor
-Automobil;"Was bedeutet ein „grün-gelbes Schild mit schwarzem H""?";Haltestelle;Hauptstraße;Hafen;Hotel
-Automobil;Welche Beleuchtung ist bei Tunneln Pflicht?;Abblendlicht;Fernlicht;Standlicht;Nebelscheinwerfer
-Automobil;Welche Regel gilt bei „Stop-Schild“?;Vollständiger Halt;Langsam vorbeifahren;Nur bei Verkehr achten;Nur nachts halten
-Automobil;Welches Schild zeigt eine „Autobahnkirche“ an?;Blaues Quadrat mit Kirche;Grünes Rechteck mit „Gott“;Gelbes Dreieck mit Kreuz;Rotes Quadrat mit „AK“
-Automobil;Welches Schild zeigt eine „Fähre“ an?;Rot-weißes Dreieck mit Schiff;Blaues Quadrat mit „F“;Gelbes Rechteck mit „Hafen“;Grüner Kreis mit „Wasser“
-Automobil;Welche Farbe hat die Bordsteinkante bei Parkverbot in Deutschland?;Gelb;Rot;Blau;Weiß
-Automobil;Was bedeutet ein blaues Schild mit weißem P?;Parkplatz;Parkverbot;Werkstatt;Tankstelle
-Automobil;Wie nennt man den Sicherheitsabstand bei 100 km/h?;Halber Tachostand (50 m);30 Meter;15 Meter;100 Meter
-Automobil;Welches Schild zeigt eine Sackgasse an?;Roter Kreis mit weißem Balken;Blaues Quadrat mit "Ende";Gelbes Dreieck mit Straße;Grüner Pfeil nach links
-Automobil;Was ist die Regel bei einem "Grünen Pfeil"?;Rechtsabbiegen ohne Halt;Linksabbiegen erlaubt;Geradeausfahren;Fußgänger haben Vorrang
-Automobil;Welche Beleuchtung ist bei Dunkelheit Pflicht?;Abblendlicht;Standlicht;Nebelscheinwerfer;Fernlicht
-Automobil;Was bedeutet ein rotes Dreieck mit Ausrufezeichen?;Allgemeine Gefahr;Baustelle;Vorfahrt;Parken erlaubt
-Automobil;Welche Höchstgeschwindigkeit gilt für Pkw mit Anhänger auf Autobahnen?;80 km/h;100 km/h;120 km/h;60 km/h
-Automobil;Was ist ein "Müdigkeitswarner"?;System zur Erkennung von Fahrermüdigkeit;Tempomat;Bremsassistent;Spurhalteassistent
-Automobil;Welches Schild kennzeichnet eine Spielstraße?;Blau mit spielendem Kind;Rot mit Ball;Gelb mit "Spiel";Grün mit Fußgänger
-Automobil;Was bedeutet ein gelbes Blinklicht an einer Baustelle?;Vorsicht, langsam fahren;Stop;Überholverbot;Geschwindigkeitsbegrenzung
-Automobil;Welche Mindestprofiltiefe gilt für Winterreifen?;4 mm;1,6 mm;2 mm;3 mm
-Automobil;Was ist ein "Eco-Modus"?;Spritsparender Fahrmodus;Sportmodus;Geländemodus;Standheizung
-Automobil;Welches Schild zeigt eine Umweltzone?;Roter Kreis mit "Umweltzone";Blau mit grüner Plakette;Gelb mit "CO2";Grün mit "E"
-Automobil;Was bedeutet ein rotes Dreieck mit Fahrrad?;Achtung Radfahrer;Radweg;Fahrradverbot;Fahrradparkplatz
-Automobil;Welche Regel gilt im Reißverschlussverfahren?;Fahrzeuge wechseln sich ab;Rechts vor links;Links überholen;Geradeausfahrer haben Vorrang
-Automobil;Was ist ein "Toter Winkel"?;Bereich, den der Fahrer nicht sieht;Defekter Spiegel;Parklücke;Baustellenbereich
-Automobil;Welches Schild warnt vor Wildwechsel?;Rot-weiß mit Reh;Blau mit Hirsch;Gelb mit Wolf;Grün mit Bär
-Automobil;Was bedeutet ein blaues Schild mit weißem Fahrrad?;Radweg;Fahrradverbot;Fahrradwerkstatt;Fahrradparkplatz
-Automobil;Welche Geschwindigkeit gilt bei Nebel (Sicht < 50 m)?;50 km/h;70 km/h;30 km/h;100 km/h
-Automobil;Was ist ein "Parkassistent"?;System zum Einparken;Tempomat;Bremsassistent;Spurhalteassistent
-Automobil;Welches Schild zeigt eine Autobahnausfahrt?;Blau mit weißer Autobahnnummer;Grün mit "Ausfahrt";Gelb mit Pfeil;Rot mit "Ende"
-Automobil;Was bedeutet ein rotes Dreieck mit Kinder-Symbol?;Achtung Kinder;Schulweg;Kindergarten;Spielplatz
-Automobil;Welche Beleuchtung ist im Tunnel Pflicht?;Abblendlicht;Fernlicht;Standlicht;Nebelscheinwerfer
-Automobil;Was ist ein "Notbremsassistent"?;Automatisches Bremssystem;Tempomat;Spurhalteassistent;Parkhilfe
-Automobil;Welches Schild zeigt eine Steigung?;Rot-weiß mit %-Zahl;Blau mit Berg;Gelb mit Pfeil;Grün mit "Steil"
-Automobil;Was bedeutet ein gelbes Blinklicht an einem Bus?;Bus hält an;Bus hat Panne;Bus fährt durch;Bus wartet
-Automobil;Welche Sicherheitsausrüstung ist für Motorradfahrer nicht verpflichtet aber empholen?;Handschuhe;Helm;Stiefel;Signalleute
-Automobil;Was ist ein "Adaptiver Tempomat"?;Tempomat mit Abstandshaltung;Bremsassistent;Spurhalteassistent;Parkassistent
-Automobil;Welches Schild zeigt eine Durchfahrt verboten?;Roter Kreis mit Balken;Blau mit "Stop";Gelb mit "Verbot";Grün mit "X"
-Automobil;Was bedeutet ein weißes Dreieck auf der Straße?;Vorfahrt gewähren;Stop;Parken;Einbahnstraße
-Automobil;Welche Regel gilt bei einem Stop-Schild?;Vollständig anhalten;Langsam fahren;Nur bei Verkehr;Nur nachts halten
-Automobil;Was ist ein "Rüttelstreifen"?;Warnstreifen am Fahrbahnrand;Baustellenmarkierung;Radweg;Lärmschutzzone
+subject;question;true;wrong1;wrong2;wrong3
+Automobil;Hauptfunktion des **Katalysators**?;Reduzierung schädlicher Abgase;Erhöhung der Motorleistung;Kühlung des Motors;Besserer Kraftstoffverbrauch
+Automobil;Auswirkung von **zu niedrigem Reifendruck**?;Erhöhter Verbrauch und Flankenverschleiß;Besserer Grip;Reduzierte Bremsweglänge;Geringeres Lenkradspiel
+Automobil;Was bedeutet **'Hydroplaning'**?;Verlust der Bodenhaftung durch Wasser;Funktion des ABS;Spezielle Winterreifenart;Schleudern auf trockener Bahn
+Automobil;Primäraufgabe des **Differentials**?;Drehzahl-Ausgleich der Räder in Kurven;Erhöhung der Motordrehzahl;Steuerung des Ladedrucks;Übertragung der Bremskraft
+Automobil;Wofür steht **ESP** in der Fahrsicherheit?;Elektronisches Stabilitätsprogramm;Extra Sicherer Parkassistent;Energie-Spar-Programm;Emissions-Sensor-Prüfung
+Automobil;Mindestprofiltiefe für PKW-Reifen (DE)?;1,6 mm;2,5 mm;4,0 mm;3,0 mm
+Automobil;Merkmal des **Common-Rail-Einspritzsystems**?;Einspritzung über gemeinsame Hochdruckleitung;Verwendung von Vergaser;Direkte Benzineinspritzung;Zündung mittels Zündkerzen
+Automobil;Was ist **'Drehmoment'**?;Die ziehende/drehende Kraft des Motors;Die maximale Geschwindigkeit;Leistung an die Lichtmaschine;Reibungswiderstand der Lenkung
+Automobil;Vorteil von **Allradantrieb (4x4)**?;Bessere Traktion/Stabilität auf rutschigem Untergrund;Geringerer Kraftstoffverbrauch;Höhere Höchstgeschwindigkeit;Niedrigere Anschaffungskosten
+Automobil;Funktion der **Lichtmaschine** (Generator)?;Erzeugung von Strom und Laden der Batterie;Speicherung von Bremsenergie;Steuerung der Klimaanlage;Direkte Regelung der Zündung
+Automobil;Hauptvorteil des **ABS**?;Erhält die Lenkbarkeit bei Vollbremsung;Verkürzt Bremsweg drastisch;Ersetzt die Handbremse;Verhindert Schleudern in Kurven
+Automobil;Aufgabe der **Zündkerze** (Benzinmotor)?;Erzeugt Funken zur Gemischentzündung;Misst Abgastemperatur;Reguliert Einspritzmenge;Kühlt den Brennraum
+Automobil;Komponente zur **Dämpfung des Nachschwingens**?;Der Stoßdämpfer;Die Feder selbst;Die Stabilisatorstange;Die Lenkstange
+Automobil;Zweck des **Doppelkupplungsgetriebes** (DSG)?;Ermöglicht schnelle Gangwechsel;Spart Gewicht;Eliminiert Ölwechsel;Erhöht max. Motordrehzahl
+Automobil;Was gibt **Amperestunden (Ah)** an der Batterie an?;Elektrische Ladungsmenge (Kapazität);Spannung im Ruhezustand;Maximale Startstromstärke;Lebensdauer in Monaten
+Automobil;Wie erhöht ein **Turbolader** die Leistung?;Presst mehr Luft in die Zylinder;Kühlt das Motoröl stärker;Reduziert Auspuffwiderstand;Senkt die Betriebstemperatur
+Automobil;Funktion des **Dieselpartikelfilters (DPF)**?;Filtert Rußpartikel aus den Abgasen;Reduziert Stickoxidausstoß (NOx);Erhöht die Oktanzahl;Kühlt die Ansaugluft
+Automobil;Aufgabe des **Thermostats** im Kühlsystem?;Reguliert die Motor-Betriebstemperatur;Erzeugt Druck im Kühlsystem;Kühlt das Motoröl;Filtert Verunreinigungen
+Automobil;Hauptfunktion des **Gurtstraffers**?;Strafft den Gurt bei Unfall zur Festsitzung;Erhöht Airbag-Auslösezeit;Lockert den Gurt;Aktiviert Warnblinklicht
+Automobil;Bedeutung **geschwindigkeitsabhängige Servolenkung**?;Lenkunterstützung wird bei Tempo reduziert;Lenkung funktioniert nur ab bestimmter Geschwindigkeit;Passt sich Fahrbahnbeschaffenheit an;Verbraucht keinen Strom
+Automobil;Was gibt die Zahl **91** (Reifenkennzeichnung) an?;Den Tragfähigkeitsindex (Load Index);Die Profiltiefe in mm;Den Geschwindigkeitsindex;Den Reifendurchmesser
+Automobil;Prinzip der **Rekuperation**?;Wandelt Bremsenergie in Strom um;Erhöhung der Motorleistung;Spezielle Batteriekühlung;Nur Laden durch Verbrenner
+Automobil;Was beschreibt die Kennzahl **5W-30** (Motoröl)?;Viskosität bei Kälte (W) und Betriebstemperatur;Mischverhältnis von Öl und Kraftstoff;Empfohlene Wechselhäufigkeit;Chemische Zusammensetzung
+Automobil;Auslösezeit des Airbags bei Unfall?;Innerhalb von 20 bis 50 Millisekunden;Nach 1 bis 2 Sekunden;Nur über 100 km/h;Nachdem der Gurtstraffer endet
+Automobil;Hauptzweck der **Nebelschlussleuchte**?;Verbessert Sichtbarkeit bei starkem Nebel/Regen;Beleuchtung der Straße bei Nebel;Wird automatisch bei Regen aktiv;Ersatz für die normale Bremsleuchte
+Automobil;Aufgabe des **CAN-Busses**?;Ermöglicht Datenaustausch zwischen Steuergeräten;Versorgt Komponenten mit Strom;Steuert nur das Infotainmentsystem;Teil des Katalysators
+Automobil;Unterschied **Direkteinspritzung**?;Kraftstoff direkt in den Brennraum;Verwendet Diesel;Nur für Sportwagen erlaubt;Entfall der Zündkerze
+Automobil;Funktion der **Stabilisatorstange**?;Reduziert Seitenneigung (Wanken) in Kurven;Dämpft Stöße;Sorgt für Höhenverstellung;Überträgt die Antriebskraft
+Automobil;Rolle der **Knautschzone**?;Verformt sich zur Energieabsorption;Versteift die Karosserie;Dient als Stauraum;Optimiert die Aerodynamik
+Automobil;Was misst der **Tachometer**?;Momentane Geschwindigkeit in km/h;Motordrehzahl in U/min;Zurückgelegte Strecke in Meilen;Kraftstoffverbrauch in L/100 km
+Automobil;Wofür wird die **Lambdasonde** benötigt?;Misst den Restsauerstoffgehalt im Abgas;Regulierung des Reifendrucks;Steuerung der Klimaanlage;Ermittlung der Fahrzeuggeschwindigkeit
+Automobil;Hauptzweck der **Spureinstellung (Toe)**?;Optimiert Geradeauslauf und verhindert seitliches Schieben;Reguliert die Härte der Federung;Misst die Motordrehzahl;Überträgt die Bremskraft
+Automobil;Warum muss **Bremsflüssigkeit** gewechselt werden?;Nimmt Wasser auf (senkt Siedepunkt);Verliert ihre Farbe;Wird zu dickflüssig;Verdampft im Bremssystem
+Automobil;Aufgabe der **Kurbelwelle**?;Wandelt Kolbenbewegung in Drehbewegung um;Misst den Ölstand;Erzeugt den Zündfunken;Filtert das Motoröl
+Automobil;Funktion des **Synchronrings** im Getriebe?;Gleicht die Drehzahl der Zahnräder an;Stellt den Leerlauf her;Ersetzt die Kupplung;Misst die Geschwindigkeit
+Automobil;Unterschied **aktive/passive Sicherheit**?;Aktiv: Unfallvermeidung; Passiv: Unfallfolgenminimierung;Aktiv: nur für Fahrer; Passiv: nur für Passagiere;Aktiv: nur mechanisch; Passiv: nur elektronisch;Es gibt keinen Unterschied
+Automobil;Vorteil eines **Mild-Hybrid**-Systems?;Unterstützt Verbrenner beim Beschleunigen (Boost);Kann rein elektrisch lange fahren;Hat keinen Verbrennungsmotor;Benötigt kein Benzin
+Automobil;Unterschied im **Zündprinzip** Diesel/Benzin?;Diesel: Selbstzündung; Benzin: Fremdzündung;Diesel: Funktioniert ohne Luft; Benzin: Benötigt reinen Sauerstoff;Diesel: Hat keine Kolben; Benzin: Hat keine Ventile
+Automobil;Bedeutung des **M+S-Symbols** (ohne Alpine)?;Eignet sich für Matsch/Schnee, nicht immer wintertauglich;Darf nur im Sommer gefahren werden;Ist ein reiner Ganzjahresreifen;Darf nur auf Matsch gefahren werden
+Automobil;Regel für **Tagfahrlicht (TFL)**?;Ersetzt Abblendlicht nicht bei Dämmerung;Muss immer angeschaltet sein;Ist in Deutschland verboten;Ist nur in der Nacht erlaubt
+Automobil;Konsequenz bei Reißen des **Zahnriemens**?;Schwerer Motorschaden (Kolben/Ventile kollidieren);Auto fährt weiter, verliert Leistung;Nur Klimaanlage fällt aus;Das Öl muss gewechselt werden
+Automobil;Was ist ein **Querlenker**?;Verbindet Rad mit Fahrgestell und führt das Rad;Kühlt das Getriebe;Misst die Geschwindigkeit;Dient als Stoßdämpfer
+Automobil;Umschreibung des **Drehmomentwandlers** (Automatik)?;Ersetzt die Kupplung und ermöglicht Anfahren/Schalten;Teil des Differentials;Regelt die Lüftung;Ist ein Filter
+Automobil;Rolle von **AdBlue** (Diesel)?;Reduziert Stickoxide (NOx) im SCR-Katalysator;Erhöht die Lebensdauer des Motors;Verbessert die Beschleunigung;Dient als Frostschutzmittel
+Automobil;Funktion der **elektrischen Parkbremse (EPB)**?;Betätigung/Lösen der Feststellbremse per Knopfdruck;Ersatz für die Betriebsbremse;Kühlt die Bremsen;Regelt das ABS
+Automobil;Warum **Klimaanlage** warten?;Verlust von Kältemittel und Keimbildung;Verbraucht sonst zu viel Benzin;Muss gefettet werden;Scheinwerfer funktionieren sonst nicht
+Automobil;Zweck der **vollverzinkten Karosserie**?;Langanhaltender Schutz vor Rost;Reduziert das Gewicht;Verbessert die Aerodynamik;Macht das Auto schneller
+Automobil;Was ist **Over-the-Air (OTA)**-Updates?;Drahtlose Aktualisierung der Fahrzeugsoftware;System zur Fernsteuerung des Motors;Ein sehr großer Turbolader;Ein spezieller Reifentyp
+Automobil;Was beschreibt die **Sturzeinstellung (Camber)**?;Die Neigung des Rades zur Vertikalen;Die Härte der Federung;Die Breite des Reifens;Die Höhe des Autos
+Automobil;Anzeichen für **überhitzte Bremsscheiben**?;Starkes Fading (nachlassende Bremswirkung);ABS-Symbol leuchtet auf;Die Lenkung vibriert;Der Bremsweg wird kürzer
+Automobil;Hauptfunktion der **Ölpumpe**?;Stellt Druck für Ölverteilung im Motor sicher;Kühlt das Öl;Filtert das Öl;Erzeugt Vakuum für Bremskraftverstärker
+Automobil;Vorteil von **LED-Scheinwerfern**?;Längere Lebensdauer und geringerer Verbrauch;Heller, aber kurzlebiger;Müssen häufiger gereinigt werden;Erzeugen mehr Wärme
+Automobil;Primäraufgabe des **Spurhalteassistenten**?;Warnt/korrigiert bei unbeabsichtigtem Verlassen der Spur;Hält automatisch Abstand zum Vordermann;Erkennt Verkehrszeichen;Übernimmt das Lenken
+Automobil;Was ist die **Zylinderkopfdichtung**?;Dichtet Brennraum zwischen Kopf und Block ab;Filter für die Ansaugluft;Teil des Auspuffs;Speichert Kühlmittel
+Automobil;Bedeutung der Abkürzung **CVT**?;Stufenloses Getriebe (Continuously Variable Transmission);Controlled Valve Technology;Central Vehicle Turbine;Constant Velocity Turbo
+Automobil;Intervall für **Innenraumfilter**-Wechsel?;Jährlich oder alle 15.000 bis 30.000 km;Nur alle fünf Jahre;Wird nie gewechselt;Alle 100.000 km
+Automobil;Funktion des **Heckspoilers**?;Erhöht Anpressdruck (Downforce) bei hohem Tempo;Verringert das Gewicht;Erleichtert Öffnen des Kofferraums;Steuert die Beleuchtung
+Automobil;Verwendung der **Glühkerze** (Dieselmotor)?;Hilft beim Kaltstart (wärmt Luft vor);Erzeugt den Zündfunken;Misst Abgastemperatur;Kühlt den Brennraum
+Automobil;Was besagt der **Geschwindigkeitsindex**?;Maximal zulässige Geschwindigkeit des Reifens;Empfohlene Mindestgeschwindigkeit;Der Reifendurchmesser;Das maximale Drehmoment
+Automobil;Primäres Ziel des **Luftfahrwerks**?;Niveauregulierung und Fahrwerksanpassung;Spart Kraftstoff;Eliminiert Stoßdämpfer;Nur in Kleinwagen verbaut
+Automobil;Funktion des **Berganfahrassistenten**?;Hält Fahrzeug an Steigung fest (verhindert Zurückrollen);Beschleunigt das Fahrzeug bergauf;Warnt vor zu steilen Straßen;Erkennt die Steigung
+Automobil;Was ist ein **Wastegate** (Turbolader)?;Ventil zur Begrenzung des Ladedrucks;Filter für die Turbolader-Luft;Spezielle Art von Luftpumpe;Sensor zur Temperaturmessung
+Automobil;Bedeutung der Abkürzung **AGR**?;Abgasrückführung (reduziert NOx);Allgemeine Getrieberegelung;Aktive Geschwindigkeitsregulierung;Anlasser-Generator-Regelung
+Automobil;Aufgabe des **Bordcomputers (BC)**?;Berechnet/zeigt Fahrdaten (Verbrauch, Reichweite) an;Steuert die Bremsen;Regelt die Kühlung;Steuert Fensterheber
+Automobil;Anzeichen für **verschlissene Bremsbeläge**?;Quietschendes/schleifendes Geräusch beim Bremsen;Die Lenkung zieht zur Seite;Gaspedal schwer betätigbar;Scheinwerfer flackern
+Automobil;Funktion des **Kühlmittels**?;Führt überschüssige Wärme vom Motor ab;Dient als Schmiermittel;Reguliert den Öldruck;Erzeugt Wärme für die Heizung
+Automobil;Unterschied **PHEV** (Plug-in) zu Hybrid?;PHEV kann extern (Steckdose) geladen werden;PHEV hat keinen Verbrennungsmotor;PHEV ist immer allradgetrieben;PHEV hat keine Bremsen
+Automobil;Was ist das **Kompressionsverhältnis**?;Verhältnis des Volumens über dem Kolben (OT/UT);Maximale Drehzahl des Motors;Verhältnis von Luft zu Kraftstoff;Abstand zwischen den Zylindern
+Automobil;Aufgabe des **ISOFIX**-Systems?;Standardisiertes Befestigungssystem für Kindersitze;Spezielle Art von Sicherheitsgurt;Ein Notrufsystem;Ein System zur Diebstahlsicherung
+Automobil;Nachteil des **CVT-Getriebes**?;Oft "Gummibandeffekt" und höhere Geräuschentwicklung;Viel komplexere Bauweise;Deutlich höherer Verbrauch;Es hat keine Rückwärtsgänge
+Automobil;Zuständigkeit des **Luftmassenmessers (LMM)**?;Misst angesaugte Luftmenge für Gemischbildung;Reguliert Ladedruck;Misst Außentemperatur;Reguliert Drehzahl der Lichtmaschine
+Automobil;Hauptzweck der **Querlenker**?;Führen die Räder und sind Verbindung Rad/Karosserie;Dienen als Stoßdämpfer;Verbinden Vorder-/Hinterachse;Sind für die Beleuchtung verantwortlich
+Automobil;Bedeutung der Zahl **55** (Reifen)?;Querschnittsverhältnis (Flankenhöhe zu Breite);Maximale Belastung in kg;Mindestprofiltiefe;Die Geschwindigkeitsklasse
+Automobil;Aufgabe eines **Relais**?;Schaltet starken Arbeitsstrom mit schwachem Steuerstrom;Misst Batteriespannung;Filtert elektrische Störungen;Speichert Energie
+Automobil;Was ist der **Ansaugkrümmer**?;Das Bauteil, durch das Frischluft in die Zylinder strömt;Ein Teil des Auspuffs;Ein Filter für das Motoröl;Ein Kühlmittelbehälter
+Automobil;Funktion des **Notruf-Assistenten (E-Call)**?;Sendet bei Unfall automatisch Notruf mit Standort;Kontaktiert bei kleinem Schaden die Versicherung;Ruft den Pannendienst;Steuert die Airbags
+Automobil;Anzeichen für **Luft im Bremssystem**?;Weiches, schwammiges Bremspedal;Hartes Pedal ohne Bremswirkung;Lautes Quietschen der Bremsen;Bremslichter funktionieren nicht
+Automobil;Folge von **falschem Motoröl**?;Erhöhter Verschleiß, Motorschäden;Nichts, das Öl funktioniert immer;Auto verbraucht mehr Kühlmittel;Batterie wird schneller leer
+Automobil;Funktion der **Federung**?;Trägt das Gewicht und isoliert von Fahrbahnunebenheiten;Steuert die Richtung;Erzeugt den notwendigen Grip;Dient als Hitzeschutz
+Automobil;Wozu dient das **Schwungrad**?;Gleicht ungleichmäßige Kurbelwellendrehung aus;Regelt die Kraftstoffzufuhr;Teil des Turboladers;Kühlt den Motor
+Automobil;Ursache für **Batteriewarnleuchte**?;Lichtmaschine lädt Batterie nicht ausreichend;Batterie ist überladen;Ein Scheinwerfer ist defekt;Der Ölstand ist zu niedrig
+Automobil;Bedeutung von **P** (Automatik)?;Parkstellung: Getriebe blockiert;Power-Modus (Sport);Pedal-Assistent ist aktiv;Programm-Modus (Manuell)
+Automobil;Grund für **ungleichmäßigen Reifenverschleiß**?;Falsche Achsgeometrie (Spur, Sturz);Der Tank ist nicht voll;Die Musik ist zu laut;Fahrersitz ist falsch eingestellt
+Automobil;Welche Abgaskomponente reduziert der **SCR-Katalysator**?;Stickoxide (NOx);Kohlenmonoxid (CO);Wasserdampf;Unverbrannte Kohlenwasserstoffe
+Automobil;Rolle der **Airbag-Steuereinheit**?;Erkennt Aufprallschwere und steuert Airbag-Auslösung;Pumpt Luft in die Reifen;Steuert die Klimaanlage;Regelt das Radio
+Automobil;Funktion des **Ventilspielausgleichs**?;Stellt sicher, dass Ventile korrekt schließen;Erhöht die Motorleistung;Kühlt die Ventile;Verhindert Ölverlust
+Automobil;Effekt des **Bremskraftverstärkers**?;Reduziert die notwendige Pedalkraft;Erhöht Lebensdauer der Bremsbeläge;Verkürzt Bremsweg bei Nässe;Steuert das ABS
+Automobil;Hauptvorteil eines **Mehrlenker-Fahrwerks**?;Bessere Radführung und Fahrverhalten;Niedrigeres Fahrzeuggewicht;Einfachere Reparaturen;Geringere Kosten
+Automobil;Anzeichen für **defekten Kühlerlüfter**?;Motortemperatur steigt im Stand stark an;Auto qualmt weiß aus dem Auspuff;Scheinwerfer sind dunkel;Innenraum wird nicht warm
+Automobil;Was ist **Verwindungssteifigkeit** der Karosserie?;Widerstandsfähigkeit gegen Verdrehung;Die Härte des Lackes;Das Gewicht des Autos;Der Rostschutz
+Automobil;Funktion des **Ladeluftkühlers (Intercooler)**?;Kühlt komprimierte Ansaugluft (steigert Leistung);Kühlt das Motoröl;Filtert die Ladeluft;Regelt den Kraftstoffdruck
+Automobil;Funktion des **adaptiven Kurvenlichts**?;Passt Lichtkegel Lenkeinschlag und Geschwindigkeit an;Schaltet Fern-/Abblendlicht automatisch um;Spezielles Licht für Nebel;Erkennt Fußgänger
+Automobil;Zweck der **Servolenkungsflüssigkeit**?;Überträgt Kraft und schmiert die Komponenten;Kühlt die Bremsen;Reinigt das Getriebe;Dient als Frostschutzmittel
+Automobil;Was ist ein **Overdrive**-Gang?;Langer Gang zur Drehzahlsenkung (Kraftstoffersparnis);Kurzer Gang für starke Beschleunigung;Spezialgang für Geländefahrten;Der Rückwärtsgang
+Automobil;Zweck des **Bremsassistenten (BAS)**?;Erkennt Notbremsung und baut maximalen Bremsdruck auf;Hält den Abstand;Übernimmt das Einparken;Ersetzt das ABS
+Automobil;Rolle der **Wasserpumpe**?;Zirkuliert das Kühlmittel durch Motor und Kühler;Reguliert den Öldruck;Erzeugt Wärme für die Heizung;Filtert das Kühlmittel
+Automobil;Info durch den **DOT-Code** (Reifen)?;Produktionswoche und -jahr;Die Höchstgeschwindigkeit;Die Profiltiefe;Die Reifengröße
+Automobil;Bauteil zur Regelung von **Kraftstoffmenge**?;Die Motorsteuerung (ECU/ECM);Der Zündverteiler;Die Ölpumpe;Der Anlasser
+Automobil;Unterschied **Torsionsstab-/Schraubenfeder**?;Torsionsstab: Verdrehung; Schraubenfeder: Verformung der Spirale;Schraubenfeder nur in Sportwagen;Torsionsstab dient nur der Lenkung;Es gibt keinen Unterschied
+Automobil;Was ist die **Verstärkung** in der Tür?;Der Seitenaufprallschutz;Die Fensterhebermechanik;Das Türschloss;Der Türgriff
+Automobil;Aufgabe des **Luftfilters**?;Reinigt angesaugte Luft von Staub/Schmutz;Filtert das Motoröl;Kühlt das Getriebe;Reduziert den Lärm
+Automobil;Ursache für **erhöhten Ölverbrauch**?;Verschlissene Kolbenringe/Ventilschaftdichtungen;Defekte Zündkerzen;Zu hoher Reifendruck;Verstopfter Kühler
+Automobil;Ziel des **Start-Stopp-Systems**?;Reduzierung von Verbrauch/Emissionen (Motor aus);Erhöhung der Motorleistung;Kühlen des Innenraums;Automatisches Einparken
+Automobil;Unterschied **Trommel-/Scheibenbremsen**?;Scheibe: Bessere Wärmeabfuhr und Leistung;Trommel: Leichter;Scheibe: Nur an der Hinterachse;Trommel: Hat kein ABS
+Automobil;Funktion des **Expansionsventils** (Klima)?;Regelt Kältemittelmenge in den Verdampfer;Kühlt den Motor;Erhöht den Druck im System;Steuert die Lüftung
+Automobil;Hauptzweck der **Lenkgeometrie**?;Optimaler Geradeauslauf und geringer Reifenverschleiß;Erhöht die Höchstgeschwindigkeit;Kontrolliert den Ölstand;Misst die Batteriespannung
+Automobil;Was ist ein **Gleichlaufgelenk**?;Überträgt Kraft Getriebe/Rad (unter Winkeln);Dient als Stoßdämpfer;Teil der Beleuchtung;Filtert die Abgase
+Automobil;Aufgabe des **Zündverteilers** (alt)?;Verteilt Hochspannung auf die Zündkerzen;Regelt die Kraftstoffmenge;Kühlt den Motor;Startet den Motor
+Automobil;Defekt an **Zweimassenschwungrad (ZMS)**?;Verschlissene Dämpferelemente (Vibrationen);Es kann rosten;Es wird zu leicht;Es verliert Öl
+Automobil;Zweck des **Regensensors**?;Erkennt Niederschlag und steuert Scheibenwischer;Misst die Luftfeuchtigkeit;Steuert die Beleuchtung;Aktiviert Nebelscheinwerfer
+Automobil;Einheit für **Motorleistung** (DE)?;Kilowatt (kW) oder Pferdestärke (PS);Newtonmeter (Nm);Amperestunden (Ah);Liter pro 100 km
+Automobil;Bedeutung der Abkürzung **OPF**?;Ottopartikelfilter (reduziert Rußpartikel);Öl-Prüf-Funktion;Optimierter Fahrassistent;On-Board-Pannenhilfe
+Automobil;Ziel der **Rekuperation** bei E-Autos?;Rückgewinnung von Energie (erhöht Reichweite);Erhöhung der Bremsleistung;Kühlung der Bremsen;Verringerung des Radstandes
+Automobil;Was ist ein **Viskolüfter**?;Mechanischer Kühlerlüfter (Drehzahl temp.-abhängig);Elektrisch gesteuerter Turbolader;Sensor zur Temperaturmessung;Automatisches Getriebe
+Automobil;Was bedeutet **SAE-Klassifikation** beim Öl?;Viskosität (Fließfähigkeit) des Öls;Die chemische Zusammensetzung;Die empfohlene Wechselhäufigkeit;Der Brennwert
+Automobil;Was ist ein **Head-up-Display**?;Projektion relevanter Infos auf die Scheibe;Ein spezieller Scheinwerfer;Ein Warnsystem für Müdigkeit;Eine Art von Radio
+Automobil;Aufgabe des **Tempomaten**?;Hält eine konstante Geschwindigkeit;Reguliert den Abstand zum Vordermann;Lenkt das Auto automatisch;Bremst in Notfällen
+Automobil;Wofür steht **TDI** (VW)?;Turbocharged Direct Injection (Turbo-Diesel);Total Dynamic Intelligence;Traffic Data Indicator;Technisch Direkte Instandhaltung
+Automobil;Dichtung gegen Öleintritt in den Brennraum?;Ventilschaftdichtungen und Kolbenringe;Die Zylinderkopfdichtung;Der Ölfilter;Die Ölablassschraube
+Automobil;Zweck eines **Bremslichtschalters**?;Aktiviert die Bremslichter bei Pedalbetätigung;Misst den Bremsweg;Regelt den Bremsdruck;Steuert das ABS
+Automobil;Was ist ein **Bimetall-Thermostat**?;Reguliert Kühlmitteltemperatur mechanisch;Ein elektrischer Temperatursensor;Ein Teil der Klimaanlage;Ein Öldrucksensor
+Automobil;Bedeutung des **"Alpine"-Symbols** (Reifen)?;Erfüllt definierte Wintertauglichkeitsstandards;Ist für den Sommer ungeeignet;Gilt nur für Allradfahrzeuge;Symbol für hohe Geschwindigkeiten
+Automobil;Funktion des **Kühlmittel-Ausgleichsbehälters**?;Nimmt Volumenänderungen auf und hält Druck konstant;Speichert das gesamte Kühlmittel;Kühlt das Motoröl;Filtert das Kühlmittel
+Automobil;Vorteil eines **Längsmotors**?;Einfachere Anordnung für Allrad/sportliche Fahrwerke;Kompaktere Bauweise;Niedrigerer Kraftstoffverbrauch;Geringere Kosten
+Automobil;Warnsignal bei **platten Reifen** (TPMS)?;Das Reifendruck-Kontrollsystem leuchtet auf;Das ABS schaltet sich ab;Die Lenkung blockiert;Der Motor wird langsamer
+Automobil;Hauptfunktion der **Vakuumpumpe** (Diesel)?;Erzeugt Unterdruck für Bremskraftverstärker;Pumpt den Kraftstoff;Reguliert den Ladedruck;Kühlt das Getriebe
+Automobil;Rolle des **Schaltgestänges**?;Mechanische Verbindung zwischen Schalthebel und Getriebe;Elektronische Steuerung der Gänge;Hydraulische Kupplungsbetätigung;Teil des Differentials
+Automobil;Was ist ein **Luftfederbein**?;Kombiniert Stoßdämpfer und Luftfeder;Ein spezieller Reifen;Ein Sensor für die Luftqualität;Ein Teil der Karosserie
+Automobil;Was ist ein **"Drehzahlmesser"**?;Zeigt die Umdrehungen pro Minute (U/min);Misst die Geschwindigkeit;Zeigt den Kraftstoffverbrauch;Zeigt die Wassertemperatur
+Automobil;Hauptaufgabe des **Abgasrückführungsventils (EGR)**?;Leitet Abgas in Ansaugtrakt zur Temperatursenkung;Erhöht die Leistung;Kühlt den Katalysator;Filtert den Kraftstoff
+Automobil;Zweck des **Fahrwerksregelsystems (DCC)**?;Ermöglicht elektronische Anpassung der Dämpfer;Steuert nur die Lenkung;Misst den Reifendruck;Ist nur für Geländewagen
+Automobil;Funktion des **Anlassers** (Starters)?;Elektromotor, der den Verbrennungsmotor startet;Erzeugt den Zündfunken;Pumpt Öl in den Motor;Lädt die Batterie
+Automobil;Was ist ein **Steuergerät** (ECU/ECM)?;Ein elektronisches Gehirn (regelt Motor/Systeme);Ein mechanisches Getriebe;Ein Sensor für Bremsflüssigkeit;Ein einfacher Schalter
+Automobil;Was passiert beim **Zündwinkel** im Motor?;Bestimmt, wann der Zündfunken erfolgt;Er regelt die Ölmenge;Er steuert die Klimaanlage;Er misst die Temperatur
+Automobil;Hauptzweck eines **Reserverades** (Notrad)?;Kurzfristiger Ersatz bei einem Platten;Für Fahrten über 100 km/h;Teil der Bremsanlage;Enthält das Wagenheber-Werkzeug
+Automobil;Rolle der **Domlager** im Fahrwerk?;Verbinden Federbein mit Karosserie (ermöglichen Drehung);Tragen das gesamte Fahrzeuggewicht;Dämpfen Stöße;Stabilisieren die Spur
+Automobil;Funktion des **Dieselinjektors**?;Zerstäubt und spritzt Dieselkraftstoff;Erzeugt den Zündfunken;Regelt die Luftzufuhr;Kühlt das Getriebe
+Automobil;Vorteil eines **elektrischen Zuheizers**?;Schnellere Erwärmung des Innenraums;Verbraucht keinen Strom;Kühlt das Auto besser;Verhindert das Beschlagen der Scheiben
+Automobil;Wann **Warnblinkanlage** einsetzen?;Bei Panne, Unfall oder Gefahr (z.B. Stauende);Immer bei Regen;Beim Fahren durch einen Tunnel;Beim Warten auf Grün an der Ampel
+Automobil;Welche Beleuchtung ist innerorts bei Nacht Pflicht?;Abblendlicht;Fernlicht;Standlicht;Nebelscheinwerfer
+Automobil;Was ist ein **Aktives Fahrwerk**?;Fahrwerk, dessen Komponenten elektronisch gesteuert werden;Fahrwerk ohne Federn;Fahrwerk, das nur aus Gummi besteht;Fahrwerk mit nur einer Achse
+Automobil;Was ist ein **Schiebedach**?;Eine bewegliche Glas- oder Metallfläche im Dach;Ein Teil der Sicherheitszelle;Eine spezielle Antenne;Ein Sensor für die Höhe
+Automobil;Hauptfunktion des **Scheibenwischers**?;Reinigung der Windschutzscheibe;Aktivierung des Regensensors;Belüftung des Innenraums;Abwehr von Insekten
+Automobil;Wofür steht **DPF**?;Dieselpartikelfilter;Direkt-Power-Funktion;Dynamische Fahrprofil;Doppel-Pedal-Führung
+Automobil;Aufgabe des **Bremskraftreglers**?;Verteilt die Bremskraft optimal Achse/Achse;Erhöht den Bremsdruck gleichmäßig;Schaltet das ABS ein;Kühlt die Bremsen
+Automobil;Was ist ein **Kolben**?;Überträgt Kraft des Motors auf die Kurbelwelle;Ein Sensor für den Öldruck;Ein Filter für die Luft;Ein Teil des Auspuffs
+Automobil;Wozu dient **Scheibenwaschwasser**?;Reinigung der Scheiben;Kühlen der Scheinwerfer;Kühlen des Motors;Schmieren der Wischerblätter
+Automobil;Was ist ein **Automatikgetriebe**?;Getriebe, das die Gänge ohne manuelles Kuppeln wechselt;Getriebe mit nur zwei Gängen;Getriebe ohne Rückwärtsgang;Getriebe nur für Sportwagen
+Automobil;Funktion der **Ölwanne**?;Behälter zur Speicherung des Motoröls;Filter für das Öl;Kühlt das Öl;Regelt den Öldruck
+Automobil;Was ist ein **Bremsbelagverschleißanzeiger**?;Signalisiert notwendigen Bremsbelagwechsel;Ein Sensor für die Temperatur;Ein Teil des ABS;Ein Warnsystem für Müdigkeit
+Automobil;Wofür steht **TÜV** (Deutschland)?;Technischer Überwachungsverein (Prüfstelle);Totaler Umwelt-Verein;Transport-Unterstützungs-Verband;Test- und Überführungs-Vorgabe
