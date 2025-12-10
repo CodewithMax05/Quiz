@@ -434,6 +434,20 @@ def initialize_database():
             test_news = [
                 # 1. News: Zufallsmodus (Heute, 18.10.2025)
                 {
+                    'title': 'Wichtige Meldung: Fragen-Update und Bugfixing',
+                    'content': 'Liebe Community, aufgrund häufiger technischer Fehlermeldungen und inkorrekter Inhalte haben wir entschieden, <strong>alle alten Fragen</strong> aus dem System zu entfernen. Wir haben den gesamten Katalog für 15 Themen überarbeitet und durch <strong>1.500 brandneue, geprüfte Fragen</strong> ersetzt (100 pro Thema). Dieser Schritt sorgt für <strong>Stabilität und Korrektheit</strong> im Spiel. Wir arbeiten bereits mit Hochdruck daran, <strong> schnellstmöglich weitere neue Fragen</strong> nachzureichen.',
+                    'created_at': datetime(2025, 12, 10, 5, 0, tzinfo=timezone.utc)
+                },
+
+                # 1. News: Zufallsmodus (Heute, 18.10.2025)
+                {
+                    'title': 'Multiplayer-News: Kleine Verzögerung, große Features',
+                    'content': 'Ein kurzes Update zum <strong>Multiplayer-Modus</strong>: Die Entwicklung läuft bereits, wird jedoch erst <strong>Anfang Februar 2026</strong> abgeschlossen sein. Wir bitten die Verzögerung zu entschuldigen.<br><br>Zusätzlich zu den Einstellungen <strong>„privat“</strong> und <strong>„öffentlich“</strong> wird es neue Optionen geben – darunter die Wahl, ob <strong>Themen gezielt ausgewählt</strong> oder <strong>zufällig</strong> erstellt werden. Außerdem lässt sich die <strong>Bestenliste</strong> künftig als <strong>PDF</strong> exportieren.<br><br>Weitere Infos folgen bald!',
+                    'created_at': datetime(2025, 1, 30, 5, 0, tzinfo=timezone.utc)
+                },
+
+                # 1. News: Zufallsmodus (Heute, 18.10.2025)
+                {
                     'title': 'Du kannst jetzt mit uns schreiben!',
                     'content': 'Ende des Monats möchten wir ein neues Feature einführen in Support. <br> Dann könnt ihr nicht nur eine Anfrage schicken sondern direkt mit uns schreiben!',
                     'created_at': datetime(2025, 10, 18, 5, 0, tzinfo=timezone.utc)
