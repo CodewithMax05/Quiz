@@ -70,10 +70,11 @@
             </div>
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
-                    <div class="card-header">Tickets</div>
+                    <div class="card-header">Datenbank-Verwaltung</div>
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        <a href="{{ url_for('tickets_overview') }}" class="btn btn-outline-warning w-100 admin-card-btn sound-button">
-                            <i class="fas fa-headset me-1"></i> Tickets anzeigen
+                        {# Platzhalter, verweist auf sich selbst #}
+                        <a href="{{ url_for('admin_panel') }}" class="btn btn-outline-secondary w-100 admin-card-btn sound-button">
+                            <i class="fas fa-cogs me-1"></i> Daten Im-/Export
                         </a>
                     </div>
                 </div>
@@ -90,18 +91,6 @@
             </div>
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
-                    <div class="card-header">User</div>
-                    <div class="card-body d-flex align-items-center justify-content-center">
-                        <a href="" class="btn btn-outline-secondary w-100 admin-card-btn sound-button">
-                            <i class="fas fa-person me-1"></i> User Verwaltung
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            {# NEUE BOXEN HIER #}
-            <div class="col-md-6 mb-3 d-flex">
-                <div class="card admin-card w-100 h-100">
                     <div class="card-header">Fragen</div>
                     <div class="card-body d-flex align-items-center justify-content-center">
                         <a href="{{ url_for('add_question_page') }}" class="btn btn-outline-primary w-100 admin-card-btn sound-button">
@@ -112,16 +101,24 @@
             </div>
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
-                    <div class="card-header">Datenbank-Verwaltung</div>
+                    <div class="card-header">Tickets</div>
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        {# Platzhalter, verweist auf sich selbst #}
-                        <a href="{{ url_for('admin_panel') }}" class="btn btn-outline-secondary w-100 admin-card-btn sound-button">
-                            <i class="fas fa-cogs me-1"></i> Daten Im-/Export
+                        <a href="{{ url_for('tickets_overview') }}" class="btn btn-outline-warning w-100 admin-card-btn sound-button">
+                            <i class="fas fa-headset me-1"></i> Tickets anzeigen
                         </a>
                     </div>
                 </div>
             </div>
-            
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card admin-card w-100 h-100">
+                    <div class="card-header">User</div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <a href="" class="btn btn-outline-secondary w-100 admin-card-btn sound-button">
+                            <i class="fas fa-person me-1"></i> User Verwaltung
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
