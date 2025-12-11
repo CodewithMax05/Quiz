@@ -450,7 +450,7 @@ def initialize_database():
                 {
                     'title': 'Multiplayer-News: Kleine Verzögerung, große Features',
                     'content': 'Ein kurzes Update zum <strong>Multiplayer-Modus</strong>: Die Entwicklung läuft bereits, wird jedoch erst <strong>Anfang Februar 2026</strong> abgeschlossen sein. Wir bitten die Verzögerung zu entschuldigen.<br><br>Zusätzlich zu den Einstellungen <strong>„privat“</strong> und <strong>„öffentlich“</strong> wird es neue Optionen geben – darunter die Wahl, ob <strong>Themen gezielt ausgewählt</strong> oder <strong>zufällig</strong> erstellt werden. Außerdem lässt sich die <strong>Bestenliste</strong> künftig als <strong>PDF</strong> exportieren.<br><br>Weitere Infos folgen bald!',
-                    'created_at': datetime(2025, 1, 30, 5, 0, tzinfo=timezone.utc)
+                    'created_at': datetime(2025, 11, 30, 5, 0, tzinfo=timezone.utc)
                 },
 
                 # 4. News: Ticketsystem (18.10.2025)
@@ -479,13 +479,6 @@ def initialize_database():
                     'title': '💥 Ankündigung: Der Multiplayer kommt!',
                     'content': 'Wir freuen uns, den Start des mit Spannung erwarteten <strong>Multiplayer-Modus</strong> bekanntzugeben – geplant für <strong>Januar 2026</strong>!<br><br>Spieler können in eigenen Räumen gegeneinander antreten. Die Räume werden mit Einstellungen wie <strong>"privat"</strong> oder <strong>"öffentlich"</strong> anpassbar sein. Weitere Details zum Beta-Start folgen in Kürze!',
                     'created_at': datetime(2025, 9, 25, 18, 30, tzinfo=timezone.utc)
-                },
-                
-                # 8. News: Große Fragen-Erweiterung (05.09.2025)
-                {
-                    'title': 'QuizMaster wächst: Über 3.000 Fragen verfügbar!',
-                    'content': 'Dank unserer Community konnten wir unseren Fragenkatalog massiv erweitern. Ab sofort stehen euch <strong>über 3.000 einzigartige Fragen</strong> in allen Kategorien zur Verfügung.<br><br>Das heißt: Mehr Abwechslung, mehr Herausforderung und mehr Punkte für euch!<br>Ihr habt noch gute Ideen für neue Fragen - dann meldet euch über unseren Support!',
-                    'created_at': datetime(2025, 9, 5, 9, 0, tzinfo=timezone.utc)
                 },
             ]
 
