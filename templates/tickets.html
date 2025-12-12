@@ -53,17 +53,16 @@
                     <option value="Missbrauch">Missbrauch</option>
                     <option value="Sonstiges">Sonstiges</option>
                 </select>
-    
-                {% if is_admin %}
-                <div class="search-wrapper">
-                    <input type="text" id="filter-player" class="filter-input" placeholder="Spieler...">
-                    <i class="fas fa-search search-icon"></i>
+                
                 </div>
-                {% endif %}
-            </div>
             
             <div class="button-group">
-                {% if not is_admin %}
+                {% if is_admin %}
+                    <div class="search-wrapper">
+                        <input type="text" id="filter-player" class="filter-input" placeholder="Spieler...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                {% else %}
                     {% if return_to == 'playermenu' %}
                         <a href="{{ url_for('ticket_create', return_to='playermenu') }}" class="create-button sound-button">
                             <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
@@ -73,10 +72,6 @@
                             <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
                         </a>
                     {% endif %}
-                {% else %}
-                    <button class="create-button disabled" disabled>
-                        <i class="fas fa-plus"></i> <span class="btn-text">Ticket</span>
-                    </button>
                 {% endif %}
             </div>
         </div>
@@ -113,9 +108,11 @@
                             </time>
                         </td>
                         {% if is_admin %}
-                        <td data-label="Spieler">{{ ticket.user.username }}</td>
+                        <td data-label="Spieler" class="ticket-player-cell" title="{{ ticket.user.username }}">{{ ticket.user.username }}</td>
                         {% endif %}
-                        <td data-label="Betreff" class="ticket-subject-cell">{{ ticket.subject }}</td>
+                        
+                        <td data-label="Betreff" class="ticket-subject-cell" title="{{ ticket.subject }}">{{ ticket.subject }}</td>
+                        
                         <td data-label="Kategorie">{{ ticket.category }}</td>
                         <td data-label="Status">
                             {% if ticket.status == 'open' %}
@@ -158,12 +155,10 @@
 </div>
 
 <script>
-    // URL für die API
     const apiTicketsUrl = "{{ url_for('api_tickets') }}";
     let filterDebounceTimer;
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Event Delegation für Ticket Klicks
         const tbody = document.getElementById('tickets-tbody');
         if (tbody) {
             tbody.addEventListener('click', function(e) {
@@ -175,7 +170,6 @@
             });
         }
         
-        // Filter Event Listeners
         const filterElements = ['filter-sort', 'filter-status', 'filter-category'];
         filterElements.forEach(id => {
             const el = document.getElementById(id);
@@ -190,11 +184,9 @@
             });
         }
 
-        // Infinite Scrolling aktivieren
         setupTicketsInfiniteScroll();
     });
     
-    // Infinite Scrolling Variablen
     let currentTicketPage = 1;
     let isLoadingTickets = false;
     let hasMoreTicketPages = true;
@@ -216,7 +208,6 @@
     }
     
     function setupTicketsInfiniteScroll() {
-        // WICHTIG: Jetzt auf den neuen Wrapper hören!
         const ticketsContent = document.querySelector('.tickets-scroll-wrapper');
         if (!ticketsContent) return;
         
@@ -288,7 +279,7 @@
                     if(!document.querySelector('.no-tickets')) {
                         const p = document.createElement('p');
                         p.className = 'no-tickets';
-                        p.innerHTML = '🔍 Keine Tickets gefunden.';
+                        p.innerHTML = '📭 Keine Tickets gefunden.';
                         scrollWrapper.appendChild(p);
                     }
                 }
@@ -304,7 +295,6 @@
     function appendTicketsToTable(tickets) {
         let tbody = document.getElementById('tickets-tbody');
         
-        // Falls Tabelle durch "no-tickets" Nachricht ersetzt wurde, Struktur wiederherstellen
         if (!tbody) {
             const scrollWrapper = document.querySelector('.tickets-scroll-wrapper');
             const noTickets = scrollWrapper.querySelector('.no-tickets');
@@ -317,7 +307,7 @@
                 table.appendChild(tbody);
             }
         }
-        if (!tbody) return; // Fallback
+        if (!tbody) return; 
         
         const hasPlayerColumn = document.querySelector('.tickets-table th.ticket-player') !== null;
         
@@ -326,16 +316,19 @@
             row.className = 'ticket-row';
             row.setAttribute('data-ticket-id', ticket.id);
             
-            // Helper für Zellen
             const createCell = (text, label, className = '') => {
                 const td = document.createElement('td');
                 if(className) td.className = className;
                 td.setAttribute('data-label', label);
+                
+                if (className.includes('ticket-subject-cell') || className.includes('ticket-player-cell')) {
+                    td.setAttribute('title', text);
+                }
+                
                 td.textContent = text;
                 return td;
             };
 
-            // 1. Datum
             const dateCell = document.createElement('td');
             dateCell.setAttribute('data-label', 'Datum');
             const timeElement = document.createElement('time');
@@ -345,18 +338,13 @@
             dateCell.appendChild(timeElement);
             row.appendChild(dateCell);
             
-            // 2. Spieler
             if (hasPlayerColumn) {
-                row.appendChild(createCell(ticket.user || 'Unbekannt', 'Spieler'));
+                row.appendChild(createCell(ticket.user || 'Unbekannt', 'Spieler', 'ticket-player-cell'));
             }
             
-            // 3. Betreff
             row.appendChild(createCell(ticket.subject, 'Betreff', 'ticket-subject-cell'));
-            
-            // 4. Kategorie
             row.appendChild(createCell(ticket.category, 'Kategorie'));
             
-            // 5. Status
             const statusCell = document.createElement('td');
             statusCell.setAttribute('data-label', 'Status');
             const statusBadge = document.createElement('span');
@@ -370,7 +358,6 @@
             statusCell.appendChild(statusBadge);
             row.appendChild(statusCell);
             
-            // 6. Update
             const updateCell = document.createElement('td');
             updateCell.className = 'ticket-update-cell';
             updateCell.setAttribute('data-label', 'Update');
@@ -381,7 +368,7 @@
                 indicator.innerHTML = '<i class="fas fa-envelope"></i><span class="update-text">Neu</span>';
             } else {
                 indicator.className = 'update-indicator seen';
-                indicator.innerHTML = '<i class="fas fa-check"></i>';
+                indicator.innerHTML = '<i class="fas fa-eye"></i>';
             }
             updateCell.appendChild(indicator);
             row.appendChild(updateCell);
