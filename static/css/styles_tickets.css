@@ -342,6 +342,9 @@ html, body {
 
 @media (max-width: 768px) {
     
+    /* ------------------------------------------- */
+    /* BUTTONS / FILTER ANORDNUNG */
+    /* ------------------------------------------- */
     .buttons-container {
         display: flex;
         flex-direction: row;    /* Wichtig: Zeilen-Ausrichtung */
@@ -375,7 +378,7 @@ html, body {
         justify-content: space-between;
     }
 
-    /* Mobile Anpassung für Selects und Inputs (bleibt wie vorher) */
+    /* Mobile Anpassung für Selects und Inputs (Filter-Elemente) */
     .filter-select, .search-wrapper, .filter-input {
         flex: 1 1 45%;
         min-width: 120px;
@@ -388,78 +391,130 @@ html, body {
         max-width: 200px; 
     }
 
-    /* --- AB HIER KARTEN-ANSICHT (UNVERÄNDERT) --- */
+    /* ------------------------------------------- */
+    /* CARD VIEW (MOBILE TICKET LISTE) */
+    /* ------------------------------------------- */
+
+    /* Tabellen-Header ausblenden */
     .tickets-table thead {
         display: none;
     }
 
-    .tickets-table, .tickets-table tbody, .tickets-table tr, .tickets-table td {
+    /* Tabelle und Body als Block, damit wir Rows stylen können */
+    .tickets-table, .tickets-table tbody {
         display: block;
         width: 100%;
-        box-sizing: border-box;
     }
 
+    /* Die einzelne Ticket-Karte -> CSS GRID */
     .ticket-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Zwei gleich große Spalten */
+        gap: 10px; /* Abstand zwischen den Elementen */
+        
         margin-bottom: 15px;
         background: rgba(255,255,255,0.05);
         border-radius: 12px;
-        padding: 12px;
+        padding: 15px;
         border: 1px solid rgba(255,255,255,0.08);
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+        position: relative;
     }
 
+    /* Alle Zellen erst mal resetten */
     .tickets-table td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-align: right;
-        padding: 6px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.03);
-        width: auto;
-        font-size: 0.9rem;
-    }
-
-    .tickets-table td:last-child {
-        border-bottom: none;
-    }
-
-    .tickets-table td::before {
-        content: attr(data-label);
-        font-weight: 600;
-        color: #8e2de2;
-        font-size: 0.85rem;
-        margin-right: 15px;
+        display: block;
+        border: none;
+        padding: 0;
         text-align: left;
+        width: auto;
     }
 
-    .ticket-subject-cell {
-        order: -1;
-        display: block !important;
-        text-align: left !important;
-        font-weight: bold;
-        color: white;
-        font-size: 1.1rem !important;
-        padding-bottom: 10px !important;
-        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-        white-space: normal !important; 
-        overflow: visible !important;
-    }
-    
-    .ticket-subject-cell::before {
+    /* Alte "Label"-Logik (::before) entfernen */
+    .tickets-table td::before {
         display: none;
     }
 
-    .ticket-player-cell {
-        white-space: normal !important;
-        overflow: visible !important;
-        display: flex !important;
+    /* --- 1. ZEILE: BETREFF (Ganz oben) --- */
+    .ticket-subject-cell {
+        order: 1;               /* Position 1 */
+        grid-column: 1 / -1;    /* Über volle Breite (beide Spalten) */
+        
+        font-size: 1.1rem !important;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 5px;
+        padding-bottom: 10px !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        
+        /* Text abschneiden mit ... */
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        min-width: 0; /* Wichtig für Grid-Truncation */
     }
 
+    /* --- 2. ZEILE: SPIELER (Nur Admin, volle Breite) --- */
+    .ticket-player-cell {
+        order: 2;               /* Position 2 */
+        grid-column: 1 / -1;    /* Über volle Breite */
+        
+        color: #8e2de2;         /* Hervorheben */
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        display: flex !important;
+        align-items: center;
+        gap: 5px;
+    }
+    /* Kleines Icon vor den Spielernamen faken (Font Awesome muss geladen sein) */
+    .ticket-player-cell::before {
+        content: '\f007'; /* FontAwesome User Icon */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        margin-right: 5px;
+    }
+
+    /* --- 3. ZEILE LINKS: DATUM --- */
+    td[data-label="Datum"] {
+        order: 3;
+        grid-column: 1; /* Linke Spalte */
+        align-self: center;
+        
+        color: rgba(255,255,255,0.6);
+        font-size: 0.85rem;
+    }
+
+    /* --- 3. ZEILE RECHTS: KATEGORIE --- */
+    td[data-label="Kategorie"] {
+        order: 4;
+        grid-column: 2; /* Rechte Spalte */
+        justify-self: end; /* Rechtsbündig */
+        align-self: center;
+        
+        font-weight: 600;
+        color: #f0f4f8;
+        background: rgba(255,255,255,0.1);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+    }
+
+    /* --- 4. ZEILE LINKS: STATUS --- */
+    td[data-label="Status"] {
+        order: 5;
+        grid-column: 1; /* Linke Spalte */
+        align-self: center;
+        margin-top: 5px;
+    }
+
+    /* --- 4. ZEILE RECHTS: UPDATES --- */
     .ticket-update-cell {
-        justify-content: flex-end;
+        order: 6;
+        grid-column: 2; /* Rechte Spalte */
+        justify-self: end; /* Rechtsbündig */
+        align-self: center;
+        margin-top: 5px;
     }
 }
 
