@@ -343,36 +343,52 @@ html, body {
 @media (max-width: 768px) {
     
     .buttons-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
+        display: flex;
+        flex-direction: row;    /* Wichtig: Zeilen-Ausrichtung */
+        flex-wrap: wrap;        /* Wichtig: Erlaubt Umbruch für die Filter */
+        justify-content: space-between; /* Schiebt Button 1 nach Links, Button 2 nach Rechts */
+        align-items: center;
+        gap: 10px;              /* Kleiner Abstand */
     }
     
+    /* 1. Zurück-Button -> Oben Links */
+    .button-group:first-child { 
+        order: 1; 
+        width: auto !important; /* Erzwingt, dass der Button nicht die ganze Breite nimmt */
+        flex: 0 1 auto;
+    }
+    
+    /* 2. Ticket-Button -> Oben Rechts */
+    .button-group:last-child { 
+        order: 2; 
+        width: auto !important; /* Erzwingt, dass der Button nicht die ganze Breite nimmt */
+        flex: 0 1 auto;
+        margin-bottom: 0; 
+    }
+
+    /* 3. Filter-Container -> Unten, volle Breite */
     .filter-container {
-        order: 2;
-        width: 100%;
+        order: 3;
+        width: 100%;       /* Nimmt 100% ein und erzwingt so die neue Zeile */
+        flex-basis: 100%;  /* Sicherheitshalber auch Flex-Basis setzen */
+        margin-top: 5px;   /* Etwas Abstand zu den Buttons darüber */
         justify-content: space-between;
     }
 
-    .button-group {
-        width: 100%;
-        justify-content: space-between;
-    }
-    .button-group:first-child { order: 3; }
-    .button-group:last-child { order: 1; margin-bottom: 5px; }
-
+    /* Mobile Anpassung für Selects und Inputs (bleibt wie vorher) */
     .filter-select, .search-wrapper, .filter-input {
         flex: 1 1 45%;
         min-width: 120px;
     }
     
-    /* NEU: Mobile Fix für Suchfeld im Button-Group */
+    /* Suchfeld im Button-Group nicht zu breit machen */
     .button-group .search-wrapper,
     .button-group .search-wrapper .filter-input {
         width: 100%;
+        max-width: 200px; 
     }
 
-    /* Card View */
+    /* --- AB HIER KARTEN-ANSICHT (UNVERÄNDERT) --- */
     .tickets-table thead {
         display: none;
     }
@@ -419,7 +435,6 @@ html, body {
         text-align: left;
     }
 
-    /* Mobile Reset für Betreff */
     .ticket-subject-cell {
         order: -1;
         display: block !important;
@@ -437,7 +452,6 @@ html, body {
         display: none;
     }
 
-    /* Mobile Reset für Spieler-Zelle */
     .ticket-player-cell {
         white-space: normal !important;
         overflow: visible !important;
