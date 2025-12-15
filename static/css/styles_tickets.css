@@ -553,21 +553,6 @@ html, body {
         margin-bottom: 15px;
     }
 
-    .btn-text {
-        display: none;
-    }
-
-    .back-button, .create-button {
-        padding: 0;
-        width: 40px;
-        height: 40px;
-    }
-    
-    .back-button i, .create-button i {
-        margin: 0;
-        font-size: 1.1rem;
-    }
-
     .filter-select, .search-wrapper, .filter-input {
         flex: 1 1 100%;
     }
