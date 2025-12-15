@@ -73,7 +73,7 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
@@ -136,13 +136,28 @@ html, body {
     height: 36px;
 }
 
-.btn-toggle {
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+/* Neuer Schließen-Button Style */
+.btn-close {
+    background: linear-gradient(135deg, #e53e3e, #c53030);
+    border: 1px solid rgba(229, 62, 62, 0.3);
 }
 
-.btn-toggle:hover {
-    background: linear-gradient(135deg, #7a26c5, #3d00b8);
+.btn-close:hover {
+    background: linear-gradient(135deg, #c53030, #9b2c2c);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+/* Neuer Öffnen-Button Style */
+.btn-reopen {
+    background: linear-gradient(135deg, #38a169, #2f855a);
+    border: 1px solid rgba(56, 161, 105, 0.3);
+}
+
+.btn-reopen:hover {
+    background: linear-gradient(135deg, #2f855a, #276749);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
 }
 
 .btn-delete {
@@ -176,31 +191,6 @@ html, body {
     border: 1px solid rgba(229, 62, 62, 0.4);
 }
 
-/* Meta Info Zeile */
-.ticket-meta-row {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    color: #ccc;
-    font-size: 0.85rem;
-    margin-bottom: 15px;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-}
-
-.meta-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 4px 10px;
-    border-radius: 6px;
-}
-
-.meta-item i {
-    color: rgba(255, 255, 255, 0.5);
-}
-
 /* =======================================
    2. CHAT BEREICH (Scrollable)
    ======================================= */
@@ -231,11 +221,41 @@ html, body {
     font-size: 0.9rem;
 }
 
+/* Datums-Separator */
+.date-separator {
+    text-align: center;
+    margin: 10px 0;
+    position: relative;
+}
+
+.date-separator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.date-separator span {
+    position: relative;
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(15, 32, 39, 0.8);
+    color: #aaa;
+    font-size: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
 /* Nachrichten Bubbles */
 .message {
     padding: 10px 15px;
     border-radius: 12px;
-    max-width: 60%; /* Kleiner wie gewünscht */
+    max-width: 70%; /* Etwas größer für bessere Lesbarkeit */
     word-wrap: break-word;
     position: relative;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -268,7 +288,7 @@ html, body {
     align-items: baseline;
     margin-bottom: 4px;
     font-size: 0.75rem;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .sender-name {
@@ -364,4 +384,148 @@ html, body {
     border: 1px dashed rgba(229, 62, 62, 0.4);
     border-radius: 8px;
     background: rgba(229, 62, 62, 0.1);
+}
+
+/* =======================================
+   4. RESPONSIVE DESIGN
+   ======================================= */
+
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: calc(var(--safe-area-top) + 10px) 
+                 calc(var(--safe-area-left) + 10px)
+                 calc(var(--safe-area-bottom) + 10px)
+                 calc(var(--safe-area-right) + 10px);
+    }
+    
+    .container {
+        padding: 15px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .support-title {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .controls-row {
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+        gap: 8px;
+    }
+    
+    .controls-left, .controls-center, .controls-right {
+        flex: 0 0 100%;
+        justify-content: center;
+    }
+    
+    .controls-center {
+        order: 1;
+    }
+    
+    .controls-left {
+        order: 2;
+    }
+    
+    .controls-right {
+        order: 3;
+        margin-top: 5px;
+    }
+    
+    .chat-scroll-wrapper {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .message {
+        max-width: 85%;
+        padding: 8px 12px;
+    }
+    
+    .input-area-wrapper {
+        padding: 12px;
+    }
+    
+    .back-button .btn-text,
+    .action-button .btn-text {
+        display: none;
+    }
+    
+    .back-button,
+    .action-button {
+        padding: 8px 12px;
+    }
+    
+    .back-button i,
+    .action-button i {
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-wrapper {
+        padding: calc(var(--safe-area-top) + 5px) 
+                 calc(var(--safe-area-left) + 5px)
+                 calc(var(--safe-area-bottom) + 5px)
+                 calc(var(--safe-area-right) + 5px);
+    }
+    
+    .container {
+        padding: 12px;
+        border-radius: 12px;
+    }
+    
+    .support-title {
+        font-size: 1.3rem;
+    }
+    
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    
+    .chat-scroll-wrapper {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .message {
+        max-width: 90%;
+        padding: 8px 10px;
+    }
+    
+    .message-header {
+        font-size: 0.7rem;
+    }
+    
+    .message-content {
+        font-size: 0.9rem;
+    }
+    
+    .date-separator span {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+    }
+    
+    .chat-textarea {
+        min-height: 45px;
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    
+    .send-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .char-counter {
+        font-size: 0.75rem;
+    }
+    
+    .closed-notice {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
 }
