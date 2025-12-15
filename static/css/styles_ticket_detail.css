@@ -407,6 +407,10 @@ html, body {
         width: 100%;
         max-width: 100%;
     }
+
+    .status-badge {
+        font-size: 0.75rem; /* Auch Status-Badge kleiner */
+    }
     
     .support-title {
         font-size: 1.5rem;
@@ -414,27 +418,14 @@ html, body {
     }
     
     .controls-row {
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Änderung von wrap zu nowrap */
         margin-bottom: 15px;
         gap: 8px;
     }
     
     .controls-left, .controls-center, .controls-right {
-        flex: 0 0 100%;
-        justify-content: center;
-    }
-    
-    .controls-center {
-        order: 1;
-    }
-    
-    .controls-left {
-        order: 2;
-    }
-    
-    .controls-right {
-        order: 3;
-        margin-top: 5px;
+        flex: 1; /* Alle Bereiche bekommen gleiche Flex-Basis */
+        justify-content: center; /* Zentrieren */
     }
     
     .chat-scroll-wrapper {
@@ -453,12 +444,14 @@ html, body {
     
     .back-button .btn-text,
     .action-button .btn-text {
-        display: none;
+        font-size: 0.8rem; /* Kleinere Schrift */
     }
     
     .back-button,
     .action-button {
-        padding: 8px 12px;
+        padding: 6px 10px; /* Kleinere Padding für mobile */
+        font-size: 0.85rem; /* Kleinere Schriftgröße */
+        gap: 4px; /* Weniger Abstand zwischen Icon und Text */
     }
     
     .back-button i,
@@ -467,26 +460,20 @@ html, body {
     }
 }
 
-@media (max-width: 480px) {
-    .page-wrapper {
-        padding: calc(var(--safe-area-top) + 5px) 
-                 calc(var(--safe-area-left) + 5px)
-                 calc(var(--safe-area-bottom) + 5px)
-                 calc(var(--safe-area-right) + 5px);
-    }
-    
+@media (max-width: 480px) {    
     .container {
         padding: 12px;
         border-radius: 12px;
     }
     
     .support-title {
-        font-size: 1.3rem;
+        font-size: 1.2rem; /* Titel etwas kleiner */
+        margin-bottom: 10px;
     }
     
     .status-badge {
-        font-size: 0.75rem;
-        padding: 5px 10px;
+        font-size: 0.5rem; /* Auch Status-Badge kleiner */
+        padding: 4px 8px;
     }
     
     .chat-scroll-wrapper {
@@ -530,5 +517,16 @@ html, body {
     .closed-notice {
         font-size: 0.9rem;
         padding: 8px;
+    }
+
+    .back-button,
+    .action-button {
+        padding: 5px 8px; /* Noch kompaktere Buttons */
+        gap: 3px; /* Minimale Lücke */
+    }
+    
+    .back-button .btn-text,
+    .action-button .btn-text {
+        font-size: 0.6rem; /* Noch kleinere Schrift für Text */
     }
 }
