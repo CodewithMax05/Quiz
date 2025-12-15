@@ -241,3 +241,99 @@ html, body {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
 }
+
+/* =======================================
+   4. RESPONSIVE DESIGN (Mobile)
+   ======================================= */
+
+@media (max-width: 768px) {
+    
+    /* 1. Mehr Abstand zum Rand (Wrapper) */
+    .page-wrapper {
+        padding: 25px; /* Erhöht, damit der Container Luft hat */
+    }
+
+    .container {
+        width: 100%;
+        /* Höhe flexibel lassen, aber nicht größer als Screen */
+        height: auto;        
+        max-height: 95vh;    
+        border-radius: 15px; 
+    }
+
+    /* Header Anpassung */
+    .form-header {
+        padding: 15px 20px;
+    }
+    
+    .support-title {
+        font-size: 1.5rem;
+    }
+
+    /* --- FORMULAR LAYOUT --- */
+    
+    .form-scroll-wrapper {
+        padding: 20px 25px; /* Angenehmer Innenabstand */
+    }
+
+    /* Labels über die Inputs schieben */
+    .form-row, 
+    .form-row.top-aligned {
+        flex-direction: column;
+        align-items: stretch; /* Volle Breite nutzen */
+        gap: 8px; 
+        margin-bottom: 15px; /* Mehr Abstand zwischen den Feldern */
+    }
+
+    /* Label Styling - WIEDER NORMAL */
+    .form-label {
+        width: 100%;
+        margin-bottom: 2px;
+        font-size: 0.95rem;
+        color: #ccc;      /* Zurück zur Standardfarbe (kein Violett mehr) */
+        text-align: left; /* Linksbuendig */
+    }
+
+    /* Inputs volle Breite und Zoom-Fix */
+    .form-input, 
+    .form-select, 
+    .form-textarea {
+        width: 100%;
+        font-size: 16px; /* Verhindert Auto-Zoom auf iOS */
+        padding: 12px;   
+    }
+
+    .form-textarea {
+        min-height: 100px;
+    }
+
+    /* --- FOOTER / BUTTONS (Gleiche Form) --- */
+
+    .form-footer {
+        flex-direction: column-reverse; /* Erstellen oben, Zurück unten */
+        gap: 15px;
+        padding: 20px 25px;
+    }
+
+    .btn-submit, 
+    .btn-back {
+        width: 100%;             /* Beide volle Breite für Symmetrie */
+        justify-content: center; /* Text/Icon zentrieren */
+        height: 50px;            /* Identische Höhe festlegen */
+        font-size: 1rem;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Spezifische Korrektur für den Zurück-Button */
+    .btn-back {
+        background: rgba(255, 255, 255, 0.1); /* Wie Desktop */
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Rand wieder sichtbar */
+        color: white;
+    }
+    
+    /* Erstellen Button (zur Sicherheit styles festigen) */
+    .btn-submit {
+        border: none; /* Hat keinen Rand wegen Gradient */
+    }
+}
