@@ -72,7 +72,7 @@
                             {% if message.sender_type == 'admin' %}Support{% else %}{{ message.sender_name }}{% endif %}
                         </span>
                         <span class="message-time">
-                            <time class="utc-time" data-iso="{{ message.created_at|to_iso }}">
+                            <time class="ticket-time-only" data-iso="{{ message.created_at|to_iso }}">
                                 {{ message.created_at.strftime('%H:%M') }}
                             </time>
                         </span>
@@ -122,6 +122,41 @@
         }
     }
 
+    // Funktion zum Konvertieren von UTC-Zeiten zu lokaler Zeit (nur HH:MM)
+    function convertTicketTimeElements(root = document) {
+        root.querySelectorAll && root.querySelectorAll('time.ticket-time-only').forEach(el => {
+            const iso = el.dataset.iso || el.getAttribute('datetime') || el.textContent.trim();
+            if (iso) {
+                try {
+                    const date = new Date(iso);
+                    // Nur die Uhrzeit extrahieren (HH:MM) in lokaler Zeit
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    el.textContent = `${hours}:${minutes}`;
+                    el.setAttribute('datetime', iso);
+                    el.classList.remove('ticket-time-only');
+                    el.classList.add('ticket-time-done');
+                } catch (e) {
+                    console.log("Could not parse date:", e);
+                }
+            }
+        });
+    }
+
+    // Funktion zum Extrahieren der Uhrzeit aus einem ISO-String (für nachgeladene Nachrichten)
+    function extractTime(isoString) {
+        try {
+            const date = new Date(isoString);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+        } catch (e) {
+            // Fallback: Versuche Uhrzeit aus String zu extrahieren
+            const timeMatch = isoString.match(/\b(\d{1,2}:\d{2})\b/);
+            return timeMatch ? timeMatch[1] : isoString;
+        }
+    }
+
     // --- CHAT LOGIK: Paging & Scrolling ---
     document.addEventListener("DOMContentLoaded", function() {
         const chatContainer = document.getElementById('chat-container');
@@ -142,7 +177,10 @@
             }, 100);
         }
 
-        // 2. Event Listener für das Scrollen nach oben
+        // 2. Ticket-Zeiten konvertieren (nur für initial geladene Nachrichten)
+        convertTicketTimeElements();
+
+        // 3. Event Listener für das Scrollen nach oben
         chatContainer.addEventListener('scroll', function() {
             if (chatContainer.scrollTop === 0 && !isLoading && hasMore) {
                 loadOlderMessages();
@@ -191,7 +229,7 @@
                 const isSupport = (msg.sender_type === 'admin');
                 const cssClass = isSupport ? 'admin-message' : 'user-message';
                 const senderDisplay = isSupport ? 'Support' : msg.sender_name;
-                const messageDate = formatDateForDisplay(msg.created_at_formatted);
+                const messageDate = formatDateForDisplay(msg.created_at_iso);
                 
                 // Datums-Separator einfügen, wenn sich das Datum ändert
                 if (lastDate !== messageDate) {
@@ -203,15 +241,13 @@
                     lastDate = messageDate;
                 }
                 
-                // Zeit extrahieren (nur HH:MM)
-                const messageTime = extractTime(msg.created_at_formatted);
-                
+                // HTML für Nachricht mit ISO-Zeit im data-iso Attribut
                 html += `
                 <div class="message ${cssClass}">
                     <div class="message-header">
                         <span class="sender-name">${escapeHtml(senderDisplay)}</span>
                         <span class="message-time">
-                            <time class="utc-time-done">${messageTime}</time>
+                            <time class="ticket-time-only" data-iso="${msg.created_at_iso}">${extractTime(msg.created_at_iso)}</time>
                         </span>
                     </div>
                     <p class="message-content">${escapeHtml(msg.content)}</p>
@@ -222,12 +258,12 @@
             lastLoadedDate = lastDate;
             loadingIndicator.insertAdjacentHTML('afterend', html);
             
-            // UTC-Zeiten konvertieren
-            convertUtcTimeElements();
+            // Ticket-Zeiten für nachgeladene Nachrichten konvertieren
+            convertTicketTimeElements();
         }
         
         function formatDateForDisplay(isoString) {
-            // Konvertiere ISO-String zu dd.mm.yyyy
+            // Konvertiere ISO-String zu dd.mm.yyyy in lokaler Zeit
             try {
                 const date = new Date(isoString);
                 const day = String(date.getDate()).padStart(2, '0');
@@ -236,19 +272,6 @@
                 return `${day}.${month}.${year}`;
             } catch (e) {
                 return isoString.split(' ')[0]; // Fallback
-            }
-        }
-        
-        function extractTime(isoString) {
-            // Extrahiere nur die Uhrzeit (HH:MM) aus dem String
-            try {
-                const date = new Date(isoString);
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                return `${hours}:${minutes}`;
-            } catch (e) {
-                const parts = isoString.split(' ');
-                return parts.length > 1 ? parts[1].substring(0, 5) : isoString;
             }
         }
         
@@ -261,9 +284,6 @@
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
-        
-        // Initial UTC-Zeiten konvertieren
-        convertUtcTimeElements();
     });
 </script>
 {% endblock %}
