@@ -247,16 +247,6 @@ html, body {
    ======================================= */
 
 @media (max-width: 768px) {
-    
-    /* 1. Wrapper mit Safe-Area-Support */
-    .page-wrapper {
-        /* WICHTIG: Nicht einfach padding: 25px schreiben! 
-           Wir müssen die Safe-Areas (Notch/Home-Bar) dazu addieren (+ 25px Wunschabstand). */
-        padding-top: calc(var(--safe-area-top) + 25px);
-        padding-bottom: calc(var(--safe-area-bottom) + 25px);
-        padding-left: calc(var(--safe-area-left) + 25px);
-        padding-right: calc(var(--safe-area-right) + 25px);
-    }
 
     .container {
         width: 100%;
