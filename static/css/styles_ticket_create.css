@@ -248,20 +248,23 @@ html, body {
 
 @media (max-width: 768px) {
     
-    /* 1. Mehr Abstand zum Rand (Wrapper) */
+    /* 1. Wrapper mit Safe-Area-Support */
     .page-wrapper {
-        padding: 25px; /* Erhöht, damit der Container Luft hat */
+        /* WICHTIG: Nicht einfach padding: 25px schreiben! 
+           Wir müssen die Safe-Areas (Notch/Home-Bar) dazu addieren (+ 25px Wunschabstand). */
+        padding-top: calc(var(--safe-area-top) + 25px);
+        padding-bottom: calc(var(--safe-area-bottom) + 25px);
+        padding-left: calc(var(--safe-area-left) + 25px);
+        padding-right: calc(var(--safe-area-right) + 25px);
     }
 
     .container {
         width: 100%;
-        /* Höhe flexibel lassen, aber nicht größer als Screen */
         height: auto;        
         max-height: 95vh;    
         border-radius: 15px; 
     }
 
-    /* Header Anpassung */
     .form-header {
         padding: 15px 20px;
     }
@@ -273,33 +276,32 @@ html, body {
     /* --- FORMULAR LAYOUT --- */
     
     .form-scroll-wrapper {
-        padding: 20px 25px; /* Angenehmer Innenabstand */
+        padding: 20px 25px; 
     }
 
-    /* Labels über die Inputs schieben */
     .form-row, 
     .form-row.top-aligned {
         flex-direction: column;
-        align-items: stretch; /* Volle Breite nutzen */
+        align-items: stretch; 
         gap: 8px; 
-        margin-bottom: 15px; /* Mehr Abstand zwischen den Feldern */
+        margin-bottom: 15px;
     }
 
-    /* Label Styling - WIEDER NORMAL */
+    /* Label Styling */
     .form-label {
         width: 100%;
         margin-bottom: 2px;
         font-size: 0.95rem;
-        color: #ccc;      /* Zurück zur Standardfarbe (kein Violett mehr) */
-        text-align: left; /* Linksbuendig */
+        color: #ccc;      
+        text-align: left; 
     }
 
-    /* Inputs volle Breite und Zoom-Fix */
+    /* Inputs */
     .form-input, 
     .form-select, 
     .form-textarea {
         width: 100%;
-        font-size: 16px; /* Verhindert Auto-Zoom auf iOS */
+        font-size: 16px; /* Zoom-Fix iOS */
         padding: 12px;   
     }
 
@@ -307,33 +309,31 @@ html, body {
         min-height: 100px;
     }
 
-    /* --- FOOTER / BUTTONS (Gleiche Form) --- */
+    /* --- FOOTER / BUTTONS --- */
 
     .form-footer {
-        flex-direction: column-reverse; /* Erstellen oben, Zurück unten */
+        flex-direction: column-reverse; 
         gap: 15px;
         padding: 20px 25px;
     }
 
     .btn-submit, 
     .btn-back {
-        width: 100%;             /* Beide volle Breite für Symmetrie */
-        justify-content: center; /* Text/Icon zentrieren */
-        height: 50px;            /* Identische Höhe festlegen */
+        width: 100%;             
+        justify-content: center; 
+        height: 50px;            
         font-size: 1rem;
         margin: 0;
         box-sizing: border-box;
     }
 
-    /* Spezifische Korrektur für den Zurück-Button */
     .btn-back {
-        background: rgba(255, 255, 255, 0.1); /* Wie Desktop */
-        border: 1px solid rgba(255, 255, 255, 0.2); /* Rand wieder sichtbar */
+        background: rgba(255, 255, 255, 0.1); 
+        border: 1px solid rgba(255, 255, 255, 0.2); 
         color: white;
     }
     
-    /* Erstellen Button (zur Sicherheit styles festigen) */
     .btn-submit {
-        border: none; /* Hat keinen Rand wegen Gradient */
+        border: none; 
     }
 }
