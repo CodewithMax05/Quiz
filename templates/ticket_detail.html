@@ -57,15 +57,17 @@
                 <i class="fas fa-spinner fa-spin"></i> Lade ältere Nachrichten...
             </div>
 
-            {% set current_date = None %}
+            {% set current_date = namespace(value=None) %}
             {% for message in messages %}
                 {% set message_date = message.created_at.strftime('%d.%m.%Y') %}
-                {% if current_date != message_date %}
+                
+                {% if current_date.value != message_date %}
                     <div class="date-separator">
                         <span>{{ message_date }}</span>
                     </div>
-                    {% set current_date = message_date %}
+                    {% set current_date.value = message_date %}
                 {% endif %}
+                
                 <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
                     <div class="message-header">
                         <span class="sender-name">
@@ -157,6 +159,19 @@
         }
     }
 
+    // Funktion zum Formatieren des Datums für Datums-Separatoren
+    function formatDateForDisplay(isoString) {
+        try {
+            const date = new Date(isoString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}.${month}.${year}`;
+        } catch (e) {
+            return isoString.split(' ')[0] || isoString;
+        }
+    }
+
     // --- CHAT LOGIK: Paging & Scrolling ---
     document.addEventListener("DOMContentLoaded", function() {
         const chatContainer = document.getElementById('chat-container');
@@ -177,7 +192,7 @@
             }, 100);
         }
 
-        // 2. Ticket-Zeiten konvertieren (initial geladene Nachrichten)
+        // 2. Ticket-Zeiten konvertieren (nur für initial geladene Nachrichten)
         convertTicketTimeElements();
 
         // 3. Event Listener für das Scrollen nach oben
@@ -260,19 +275,6 @@
             
             // Ticket-Zeiten für nachgeladene Nachrichten konvertieren
             convertTicketTimeElements();
-        }
-        
-        function formatDateForDisplay(isoString) {
-            // Konvertiere ISO-String zu dd.mm.yyyy in lokaler Zeit
-            try {
-                const date = new Date(isoString);
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                return `${day}.${month}.${year}`;
-            } catch (e) {
-                return isoString.split(' ')[0]; // Fallback
-            }
         }
         
         function escapeHtml(text) {
