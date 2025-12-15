@@ -365,29 +365,3 @@ html, body {
     border-radius: 8px;
     background: rgba(229, 62, 62, 0.1);
 }
-
-/* =======================================
-   RESPONSIVE
-   ======================================= */
-
-@media (max-width: 600px) {
-    .container {
-        padding: 15px;
-    }
-
-    .controls-row {
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .controls-center {
-        order: 1;
-        width: 100%; /* Status in neue Zeile oben, oder Back/Action in eine Zeile */
-        margin-bottom: 5px;
-    }
-    
-    .controls-left { order: 2; }
-    .controls-right { order: 3; }
-    
-    .btn-text { display: none; } /* Text auf Buttons ausblenden */
-}
