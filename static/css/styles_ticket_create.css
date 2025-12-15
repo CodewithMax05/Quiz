@@ -247,11 +247,19 @@ html, body {
    ======================================= */
 
 @media (max-width: 768px) {
+    .page-wrapper {
+        padding-top: calc(var(--safe-area-top) + 15px); /* Reduzierter Abstand auf mobil */
+        padding-bottom: calc(var(--safe-area-bottom) + 15px);
+        padding-left: calc(var(--safe-area-left) + 15px);
+        padding-right: calc(var(--safe-area-right) + 15px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        align-items: flex-start;
+    }
 
     .container {
         width: 100%;
-        height: auto;        
-        max-height: 95vh;    
+        height: auto;          
         border-radius: 15px; 
     }
 
