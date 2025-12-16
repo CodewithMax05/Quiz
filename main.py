@@ -15,17 +15,16 @@ from flask_session import Session
 from datetime import datetime, timezone, timedelta
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import uuid
-from threading import Timer, Lock
+from threading import Lock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from functools import wraps
-from flask_wtf.csrf import CSRFProtect, generate_csrf
-from wtforms import ValidationError
+from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren (automatische before Funktion)
+csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren (automatischer before handler)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
@@ -53,7 +52,6 @@ app.config.update(
     SESSION_COOKIE_SECURE=is_production,
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
-    SESSION_REFRESH_EACH_REQUEST=True,  # Session-Cookie wird bei jeder Anfrage erneuert
     PERMANENT_SESSION_LIFETIME=timedelta(days=30),
     SESSION_USE_SIGNER=True,
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
@@ -838,6 +836,13 @@ def initialize_database():
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
 
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    # Logge den Benutzer sicherheitshalber aus
+    session.clear()
+    flash('Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.', 'error')
+    return redirect(url_for('index'))
+
 # Error Handler für 405 Method Not Allowed
 @app.errorhandler(405)
 def method_not_allowed(error):
@@ -997,8 +1002,10 @@ def index():
             room_id = session['quiz_data'].get('room_id')
             if room_id:
                 stop_timer(room_id)
-        # Session komplett löschen
-        session.clear()
+        # Nur User-Daten entfernen
+        keys_to_remove = ['username', 'quiz_data', 'user_id', 'is_admin']
+        for key in keys_to_remove:
+            session.pop(key, None)
 
     # Prüfe ob AGB Modal gezeigt werden soll
     show_agb_modal = request.args.get('show_agb_modal') == 'true'
