@@ -105,6 +105,11 @@
                 this.setupEventListeners();
                 this.setupModal();
                 this.updateTimer(this.initialTimeLeft);
+
+                const currentQ = this.getCurrentQuestionNumber();
+                const totalQ = this.getTotalQuestions();
+                this.updateProgressBarVisuals(currentQ, totalQ);
+
                 this.keepSessionAlive();
             }
 
@@ -657,6 +662,18 @@
                 });
             }
 
+            updateProgressBarVisuals(current, total) {
+                const progressBar = document.querySelector('.progress-bar');
+                if (progressBar) {
+                    // Berechne Prozent (mindestens 0%, maximal 100%)
+                    const percent = Math.min(100, Math.max(0, (current / total) * 100));
+                    // Setze die CSS Variable
+                    progressBar.style.setProperty('--progress', `${percent}%`);
+                    // Setze den Text (wie bisher)
+                    progressBar.textContent = `Frage ${current} von ${total}`;
+                }
+            }
+
             updateQuestion(data) {
                 const questionTextElement = document.querySelector('.question-text');
                 if (questionTextElement) {
@@ -680,7 +697,7 @@
 
                 const progressBar = document.querySelector('.progress-bar');
                 if (progressBar) {
-                    progressBar.textContent = `Frage ${data.progress} von ${data.total_questions}`;
+                    this.updateProgressBarVisuals(data.progress, data.total_questions);
                 }
 
                 const scoreDisplay = document.getElementById('score-display');

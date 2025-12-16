@@ -315,20 +315,51 @@ body {
 
 /* Fortschrittsbalken */
 .progress-bar {
+    /* Positionierung & Text */
+    position: relative; /* Wichtig für das Pseudo-Element */
     font-size: 1.1rem;
-    color: #c5cbd3;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 8px 12px;
-    border-radius: 50px;
-    display: inline-block;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
-    width: auto;
-    text-align: center;
-    white-space: nowrap;
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    z-index: 1;
     
-    flex: 0 0 auto; 
+    /* Container Style */
+    background: rgba(0, 0, 0, 0.4); /* Etwas dunklerer Hintergrund als Track */
+    padding: 8px 16px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Layout */
+    display: inline-block;
+    width: auto;
+    min-width: 180px; /* Feste Mindestbreite damit es nicht "springt" */
+    text-align: center;
+    overflow: hidden; /* Damit der Füllstand die runden Ecken nicht verlässt */
+    flex: 0 0 auto;
+}
+
+/* Der eigentliche Balken im Hintergrund */
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    
+    /* Die Breite wird über JS gesteuert */
+    width: var(--progress, 0%);
+    
+    /* Verlauf von Blau zu Grün (passend zu deinem Theme) */
+    background: linear-gradient(90deg, 
+        rgba(66, 153, 225, 0.5) 0%, 
+        rgba(72, 187, 120, 0.6) 100%
+    );
+    
+    z-index: -1; /* Hinter den Text schieben */
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Weiche Animation */
+    box-shadow: 2px 0 10px rgba(72, 187, 120, 0.3); /* Leichter Glow an der Kante */
 }
 
 /* === ANIMATIONEN === */
