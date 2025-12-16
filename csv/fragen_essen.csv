@@ -1,115 +1,102 @@
 subject;question;true;wrong1;wrong2;wrong3
 Essen;Was ist der Hauptbestandteil von Tofu?;Sojabohnen;Kichererbsen;Reis;Weizen
-Essen;Welche Zutat bindet die klassische Béchamelsauce?;Mehlschwitze (Roux);Eigelb;Speisestärke;Sahne
+Essen;Welche Zutat bindet die klassische Béchamelsauce?;Mehlschwitze;Eigelb;Speisestärke;Sahne
 Essen;Woraus besteht Marzipan hauptsächlich?;Mandeln und Zucker;Haselnüsse und Honig;Walnüsse und Sirup;Pistazien und Puderzucker
 Essen;Was ist Umami?;Die fünfte Geschmacksrichtung;Eine japanische Reissorte;Eine Kochtechnik;Ein Gewürz
-Essen;Welches Tier liefert Kalbfleisch?;Rind (jung);Schaf;Schwein;Ziege
+Essen;Welches Tier liefert Kalbfleisch?;junges Rind;junges Schaf;junges Schwein;junge Ziege
 Essen;Wie nennt man die Hefepilze, die für Bier und Brot verwendet werden?;Saccharomyces cerevisiae;Penicillium;Aspergillus;Candida
 Essen;Was ist die Hauptzutat der spanischen Paella?;Reis;Nudeln;Kartoffeln;Mais
-Essen;Welche Säure verleiht Essig seinen charakteristischen Geschmack?;Essigsäure;Zitronensäure;Milchsäure;Salpetersäure
-Essen;Was ist ein Sous-vide-Garen?;Garen im Vakuum bei niedriger Temperatur;Garen in kochendem Wasser;Garen im Dampf;Garen unter starkem Druck
+Essen;Was ist Sous-vide-Garen?;Garen im Vakuum bei niedriger Temperatur;Garen in kochendem Wasser;Garen im Dampf;Garen unter starkem Druck
 Essen;Welche Frucht ist der Hauptbestandteil von Guacamole?;Avocado;Mango;Limette;Papaya
 Essen;Wie wird echter Balsamico-Essig traditionell hergestellt?;Aus eingekochtem Traubenmost;Aus Weinessig mit Karamell;Aus Apfelwein;Aus Malz
-Essen;Was ist Koji?;Ein japanischer Schimmelpilz zur Fermentation;Ein Fisch;Ein Seetang;Eine Nudelart
+Essen;Was ist Koji?;Ein japanischer Schimmelpilz zur Fermentation;Das Filet eines karibischen Fisches ;Ein Seetang, der geschmoren serviert wird;Eine Nudelart aus Sibirien
 Essen;Welches Gewürz wird aus der Narbe des Krokus gewonnen?;Safran;Kurkuma;Paprika;Chili
-Essen;Welche Zutat unterscheidet Mousse au Chocolat von Schokoladenpudding?;Geschlagenes Eiweiß oder Sahne;Mehr Zucker;Dunklere Schokolade;Speisestärke
-Essen;Was ist ein Coulis?;Ein dickflüssiges Püree oder Soße;Ein dünnes Gebäck;Eine klare Brühe;Ein Kräuteröl
+Essen;Welche Zutat unterscheidet Mousse au Chocolat von Schokoladenpudding?;Geschlagenes Eiweiß;Mehr Zucker;Dunklere Schokolade;Speisestärke
+Essen;Was ist ein Coulis?;Ein dickflüssiges Püree;Ein dünnes Gebäck;Eine klare Brühe;Ein Kräuteröl
 Essen;Wofür steht die Abkürzung PDO bei Lebensmitteln?;Protected Designation of Origin;Processed Dairy Output;Premium Delicatessen Option;Purely Domestic Organics
 Essen;Was ist der Unterschied zwischen Butter und Margarine?;Pflanzliche Fette in Margarine;Tierische Fette in Margarine;Der Salzgehalt;Die Farbe
 Essen;Welches Getränk ist die Basis für einen klassischen Mojito?;Rum;Wodka;Tequila;Gin
 Essen;Was ist das A und O der Mayonnaise-Herstellung?;Emulsion von Öl und Eigelb;Kochen von Eiern und Milch;Mischen von Essig und Wasser;Pürieren von Kräutern
-Essen;Was ist Feta?;Ein griechischer Salzlakenkäse aus Schaf/Ziege;Ein italienischer Hartkäse;Ein französischer Weichkäse;Ein holländischer Schnittkäse
-Essen;Welche Zutat ist für die Schärfe in Meerrettich verantwortlich?;Senföle (Isothiocyanate);Capsaicin;Piperin;Alliin
+Essen;Was ist Feta?;Ein griechischer Salzlakenkäse;Ein italienischer Hartkäse;Ein französischer Weichkäse;Ein holländischer Schnittkäse
+Essen;Welche Zutat ist für die Schärfe in Meerrettich verantwortlich?;Senföle;Capsaicin;Piperin;Alliin
 Essen;Was ist Panko?;Japanisches Paniermehl;Eine Reissorte;Ein Gewürzpulver;Ein Nudelgericht
 Essen;Was ist der Unterschied zwischen einem Steak "Medium" und "Rare"?;Die Kerntemperatur;Die Dicke des Steaks;Die Fleischsorte;Die Marinade
-Essen;Welche Süßspeise basiert auf Reismilch und ist oft mit Zimt gewürzt?;Milchreis;Grießbrei;Pudding;Quark
-Essen;Was sind **Gluten** (chemisch)?;Proteine in Getreide;Kohlenhydrate in Früchten;Fette in Nüssen;Ballaststoffe in Gemüse
+Essen;Was sind Gluten?;Proteine in Getreide;Kohlenhydrate in Früchten;Fette in Nüssen;Ballaststoffe in Gemüse
 Essen;Welches Gemüse ist der Hauptbestandteil von Kimchi?;Chinakohl;Karotte;Brokkoli;Sellerie
-Essen;Was ist eine Reduktion in der Küche?;Eine eingekochte Flüssigkeit (Soße/Fond);Das Marinieren von Fleisch;Das Passieren von Brühe;Das Würzen von Speisen
+Essen;Was ist eine Reduktion in der Küche?;Eine eingekochte Flüssigkeit;Das Marinieren von Fleisch;Das Passieren von Brühe;Das Würzen von Speisen
 Essen;Wie nennt man das Fett, das man aus Schweinefleisch ausschmelzen kann?;Schmalz;Talg;Öl;Ghee
 Essen;Welche italienische Nudelform ist besonders gut für dicke Soßen geeignet?;Penne;Spaghetti;Fettuccine;Capellini
-Essen;Was ist das Ziel des **Degorgierens** bei Champagner?;Entfernen der Hefeablagerungen;Hinzufügen von Zucker;Kühlen der Flasche;Verschließen der Flasche
+Essen;Was ist das Ziel des Degorgierens bei Champagner?;Entfernen der Hefeablagerungen;Hinzufügen von Zucker;Kühlen der Flasche;Verschließen der Flasche
 Essen;Woraus wird das Gewürz Vanille gewonnen?;Aus der Kapselfrucht einer Orchidee;Aus einer Wurzel;Aus Baumrinde;Aus den Samen einer Beere
-Essen;Was ist ein Fond?;Eine klare, kräftige Basisbrühe;Eine cremige Suppe;Ein herzhafter Eintopf;Ein dünnes Omelett
+Essen;Was ist ein Fond?;Eine klare, kräftige Basisbrühe;Eine weiche, cremige Suppe;Ein herzhafter Eintopf;Ein dünnes Omelett
 Essen;Welche Kohlsorte ist die Grundlage für Sauerkraut?;Weißkohl;Rotkohl;Wirsing;Blumenkohl
-Essen;Was ist **Teriyaki**?;Eine japanische Marinade/Soße;Eine Reissorte;Ein Teezeremonie-Utensil;Ein scharfes Gewürz
+Essen;Was ist Teriyaki?;Eine japanische Marinade;Eine chinesische Reissorte;Ein Teezeremonie-Utensil;Ein scharfes Gewürz
 Essen;Was ist der wichtigste Bestandteil der ungesüßten Schokolade?;Kakaomasse;Kakaobutter;Zucker;Milchpulver
 Essen;Wie heißt das traditionelle britische Fischgericht in Teig frittiert?;Fish and Chips;Shepherd's Pie;Bangers and Mash;Steak and Kidney Pie
-Essen;Welche Temperaturzone (kalt/warm) wird bei der Zubereitung von Sushi-Reis genutzt?;Lauwarm;Eiskalt;Kochend heiß;Zimmertemperatur
-Essen;Was ist ein **Vinaigrette**?;Eine Emulsion aus Öl und Essig;Eine cremige Joghurtsauce;Ein dicker Dip aus Käse;Eine scharfe Chili-Paste
+Essen;Was ist eine Vinaigrette?;Eine Emulsion aus Öl und Essig;Eine cremige Joghurtsauce;Ein dicker Dip aus Käse;Eine scharfe Chili-Paste
 Essen;Was ist der Hauptbestandteil von Eischnee?;Luft und Eiweiß;Zucker und Eiweiß;Wasser und Eigelb;Milch und Eiweiß
-Essen;Welches Öl wird hauptsächlich zur Herstellung von **Pommes frites** verwendet?;Pflanzenöl (z.B. Sonnenblume);Olivenöl;Sesamöl;Leinöl
-Essen;Was ist der Hauptunterschied zwischen **Lachs** und **Thunfisch** in der Ernährung?;Lachs ist fettreicher;Thunfisch ist süßer;Lachs ist weißer;Thunfisch ist kleiner
-Essen;Was ist ein **Aperitif**?;Ein Getränk vor dem Essen;Ein Gericht nach dem Dessert;Ein Gewürz beim Kochen;Ein Wein zum Hauptgang
-Essen;Wie nennt man das Fleisch, das nach dem Pökeln und Räuchern zum Speck wird?;Bauchfleisch/Rücken;Keule;Schulter;Nacken
+Essen;Welches Öl wird hauptsächlich zur Herstellung von Pommes frites verwendet?;Pflanzenöl;Olivenöl;Sesamöl;Leinöl
+Essen;Was ist der Hauptunterschied zwischen Lachs und Thunfisch in der Ernährung?;Lachs ist fettreicher;Thunfisch ist süßer;Lachs ist weißer;Thunfisch ist kleiner
+Essen;Was ist ein Aperitif?;Ein Getränk vor dem Essen;Ein Gericht nach dem Dessert;Ein Gewürz beim Kochen;Ein Wein zum Hauptgang
+Essen;Wie nennt man das Fleisch, das nach dem Pökeln und Räuchern zum Speck wird?;Bauchfleisch;Keule;Schulter;Nacken
 Essen;Was ist der Hauptbestandteil von Crème brûlée (außer Zucker)?;Sahne und Eigelb;Milch und Mehl;Quark und Joghurt;Butter und Wasser
-Essen;Was ist ein **Crostini**?;Kleine, geröstete Brotscheiben;Ein italienisches Nudelgericht;Eine Art Käse;Ein gefüllter Pfannkuchen
-Essen;Welche Kochtechnik ist für die Kruste (Maillard-Reaktion) beim Anbraten verantwortlich?;Braten bei Hitze;Kochen in Wasser;Dämpfen;Garen im Vakuum
-Essen;Was ist die Hauptzutat der japanischen **Miso-Paste**?;Sojabohnen;Reis;Gerste;Kichererbsen
-Essen;Was ist **Ghee**?;Geklärte Butter (ohne Wasser/Eiweiß);Ein indisches Brot;Ein scharfes Curry-Gewürz;Eine Art Linse
+Essen;Was ist ein Crostini?;Kleine, geröstete Brotscheiben;Ein italienisches Nudelgericht;Eine Art Käse;Ein gefüllter Pfannkuchen
+Essen;Was ist die Hauptzutat der japanischen Miso-Paste?;Sojabohnen;Reis;Gerste;Kichererbsen
+Essen;Was ist Ghee?;Geklärte Butter;Ein indisches Brot;Ein scharfes Curry-Gewürz;Eine Art Linse
 Essen;Welche Farbe wird beim Spargel durch Lichtmangel erreicht?;Weiß;Grün;Violett;Rosa
-Essen;Was ist das **Sieden** in der Küche?;Garen kurz unter dem Siedepunkt (Blasen);Kochen auf höchster Stufe;Braten in der Pfanne;Frittieren in Öl
-Essen;Welches Land ist bekannt für seine **Waffeln** und **Pommes**?;Belgien;Frankreich;Deutschland;Niederlande
-Essen;Was ist ein **Risotto**?;Ein cremiges Reisgericht aus Italien;Eine spanische Suppe;Ein griechischer Auflauf;Ein türkisches Brot
-Essen;Was ist **Gelatine**?;Ein Protein aus tierischem Bindegewebe;Ein pflanzliches Geliermittel;Ein Zuckerersatzstoff;Eine Art Hefe
-Essen;Was ist die Funktion von **Hefe** im Brotbacken?;Treibt den Teig durch Kohlendioxid an;Macht den Teig weicher;Färbt den Teig braun;Konserviert das Brot
+Essen;Was ist das Sieden in der Küche?;Garen kurz unter dem Siedepunkt;Kochen auf höchster Stufe;Braten in der Pfanne;Frittieren in Öl
+Essen;Welches Land ist bekannt für seine Waffeln und Pommes?;Belgien;Frankreich;Deutschland;Niederlande
+Essen;Was ist ein Risotto?;Ein cremiges Reisgericht aus Italien;Eine spanische Suppe;Ein griechischer Auflauf;Ein türkisches Brot
+Essen;Was ist Gelatine?;Ein Protein aus tierischem Bindegewebe;Ein pflanzliches Geliermittel;Ein Zuckerersatzstoff;Eine Art Hefe
+Essen;Was ist die Funktion von Hefe im Brotbacken?;Treibt den Teig durch Kohlendioxid an;Macht den Teig weicher;Färbt den Teig braun;Konserviert das Brot
 Essen;Welche Zutat verleiht Currypulver oft die gelbe Farbe?;Kurkuma;Kreuzkümmel;Kardamom;Chili
-Essen;Was ist **Polenta**?;Ein Brei aus Maisgrieß;Ein italienisches Brot;Ein spezieller Käse;Eine Art Bohne
-Essen;Was ist die wichtigste Regel beim **Schneebesen**-Schlagen von Eiweiß?;Fettfrei arbeiten;Immer Zucker hinzufügen;Nur Eigelb verwenden;Schnell erhitzen
-Essen;Welche Fleischsorte wird für ein klassisches **Wiener Schnitzel** verwendet?;Kalb;Schwein;Rind;Pute
-Essen;Was ist ein **Degustationsmenü**?;Ein Menü mit kleinen Portionen vieler Gänge;Ein Kindermenü;Ein vegetarisches Menü;Ein Buffet-Angebot
-Essen;Was ist die **Karkasse**?;Das Gerippe von Geflügel oder Fisch;Eine Art Wurst;Ein französisches Gebäck;Eine süße Creme
-Essen;Welches Kraut ist der Hauptbestandteil von echtem **Pesto Genovese**?;Basilikum;Petersilie;Minze;Koriander
-Essen;Was ist ein **Mirepoix**?;Eine Basis aus gewürfeltem Gemüse;Ein spezieller Kochtopf;Eine Art Weinsoße;Eine französische Brotsorte
+Essen;Was ist Polenta?;Ein Brei aus Maisgrieß;Ein italienisches Brot;Ein spezieller Käse;Eine Art Bohne
+Essen;Was ist die wichtigste Regel beim Schneebesen-Schlagen von Eiweiß?;Fettfrei arbeiten;Immer Zucker hinzufügen;Nur Eigelb verwenden;Schnell erhitzen
+Essen;Welche Fleischsorte wird für ein klassisches Wiener Schnitzel verwendet?;Kalb;Schwein;Rind;Pute
+Essen;Was ist ein Degustationsmenü?;Ein Menü mit kleinen Portionen vieler Gänge;Ein Menü speziell für Köche;Ein vegetarisches Menü;Ein Buffet-Angebot
+Essen;Was ist die Karkasse?;Das Gerippe von Geflügel oder Fisch;Eine Art Wurst;Ein französisches Gebäck;Eine süße Creme
+Essen;Welches Kraut ist der Hauptbestandteil von echtem Pesto Genovese?;Basilikum;Petersilie;Minze;Koriander
+Essen;Was ist ein Mirepoix?;Eine Basis aus gewürfeltem Gemüse;Ein spezieller Kochtopf;Eine Art Weinsoße;Eine französische Brotsorte
 Essen;Was ist die chemische Bezeichnung für Kochsalz?;Natriumchlorid;Kaliumchlorid;Calciumcarbonat;Magnesiumsulfat
-Essen;Was ist der Hauptbestandteil des **Falafel**?;Kichererbsen;Linsen;Bohnen;Erbsen
-Essen;Was ist die **Albedo** (Zitrusfrüchte)?;Die weiße Schicht unter der Schale;Der Saft im Fruchtfleisch;Die äußere farbige Schale;Die Kerne
-Essen;Was macht die **Pektine** in Marmelade?;Sie wirken als Geliermittel;Sie dienen als Süßstoff;Sie geben die Farbe;Sie wirken als Konservierungsmittel
-Essen;Was ist die Hauptzutat in der ungarischen **Gulasch**-Würzung?;Paprika;Chili;Kumin;Pfeffer
-Essen;Was ist ein **Emulgator** (z.B. Lecithin im Eigelb)?;Stoffe, die Wasser und Fett verbinden;Stoffe, die konservieren;Stoffe, die süßen;Stoffe, die färben
-Essen;Was ist der Hauptunterschied zwischen **Brühe** und **Fond**?;Fond ist konzentrierter;Brühe ist dicker;Brühe ist immer vegetarisch;Fond wird kalt serviert
-Essen;Was ist ein **Canapé**?;Ein kleines, belegtes Brot/Häppchen;Ein französischer Kuchen;Eine Art Suppe;Ein italienischer Wein
-Essen;Welche Zutat ist für die **Tönung** (Tannine) im Rotwein verantwortlich?;Traubenschalen;Der Alkoholgehalt;Der Zuckergehalt;Die Lagerzeit
-Essen;Was ist ein **Raffiniertes Öl**?;Ein Öl, das gereinigt und hitzebehandelt wurde;Ein kaltgepresstes Öl;Ein Öl mit Zusätzen;Ein Öl mit hohem Säuregehalt
-Essen;Was ist der Hauptbestandteil des mexikanischen **Tequila**?;Agave;Zuckerrohr;Mais;Kartoffel
-Essen;Was ist ein **Chiffonade**?;In feine Streifen geschnittene Blätter/Kräuter;Ein spezieller Käse;Ein dünnes Omelett;Eine Art Reisgericht
-Essen;Welche Art von Pilz ist der **Trüffel**?;Ein unterirdisch wachsender Schlauchpilz;Ein oberirdisch wachsender Blätterpilz;Eine Art Hefe;Ein Schimmelpilz
-Essen;Was ist der Unterschied zwischen **Sauce Hollandaise** und **Béarnaise**?;Die Würzung (Béarnaise mit Estragon);Die Grundzutat (Milch vs. Brühe);Die Farbe;Die Konsistenz
-Essen;Was ist **Sous-Chef** in einer Küche?;Der Stellvertreter des Küchenchefs;Der Chef des Patisserie-Bereichs;Der Verantwortliche für Gemüse;Der Wein-Experte
-Essen;Was ist die Hauptzutat von **Hummus**?;Kichererbsen;Linsen;Bohnen;Erbsen
-Essen;Was ist ein **Ceviche**?;Roher Fisch, mariniert in Zitrussaft;Ein gekochter Eintopf;Ein frittiertes Gebäck;Ein Fleischgericht
-Essen;Was ist **Saisonales Kochen**?;Kochen mit regionalen Zutaten der Jahreszeit;Kochen nach festen Rezepten;Kochen ohne Gewürze;Kochen nur mit Fleisch
+Essen;Was ist der Hauptbestandteil des Falafel?;Kichererbsen;Linsen;Bohnen;Soja
+Essen;Was macht die Pektine in Marmelade?;Sie wirken als Geliermittel;Sie dienen als Süßstoff;Sie geben die Farbe;Sie wirken als Konservierungsmittel
+Essen;Was ist die Hauptzutat in der ungarischen Gulasch-Würzung?;Paprika;Chili;Kumin;Pfeffer
+Essen;Was ist ein Emulgator?;Stoffe, die Wasser und Fett verbinden;Stoffe, die konservieren;Stoffe, die süßen;Stoffe, die Reaktionen beschleunigen
+Essen;Was ist der Hauptunterschied zwischen Brühe und Fond?;Fond ist konzentrierter;Brühe ist dicker;Brühe ist immer vegetarisch;Fond wird kalt serviert
+Essen;Was ist ein Canapé?;Ein kleines, belegtes Brot;Ein französischer Kuchen;Eine kalte Suppe;Ein trockener, italienischer Wein
+Essen;Welche Zutat ist für die Tönung im Rotwein verantwortlich?;Traubenschalen;Der Alkoholgehalt;Der Zuckergehalt;Die Lagerzeit
+Essen;Was ist ein Raffiniertes Öl?;Ein Öl, das gereinigt und hitzebehandelt wurde;Ein kaltgepresstes Öl;Ein Öl mit der typischen Geschmacksnote;Ein Öl mit hohem Säuregehalt
+Essen;Was ist der Hauptbestandteil des mexikanischen Tequila?;Agave;Zuckerrohr;Mais;Kartoffel
+Essen;Was ist ein Chiffonade?;In feine Streifen geschnittene Blätter/Kräuter;Ein spezieller französischer Käse;Ein dünnes Omelett;Eine Suppe ohne Fleisch
+Essen;Welche Art von Pilz ist der Trüffel?;Ein unterirdisch wachsender Schlauchpilz;Ein oberirdisch wachsender Blätterpilz;Eine Art Hefe;Ein Schimmelpilz
+Essen;Was ist der Unterschied zwischen Sauce Hollandaise und Béarnaise?;Die Würzung;Die Grundzutat (Milch vs. Brühe);Die Farbe;Die Konsistenz
+Essen;Was ist ein Sous-Chef in einer Küche?;Der Stellvertreter des Küchenchefs;Der Chef des Patisserie-Bereichs;Der Verantwortliche für Gemüse;Der Wein-Experte
+Essen;Was ist die Hauptzutat von Hummus?;Kichererbsen;Linsen;Bohnen;Soja
+Essen;Was ist ein Ceviche?;Roher Fisch, mariniert in Zitrussaft;Ein gekochter Eintopf;Ein frittiertes Gebäck;Ein Fleischgericht ohne Panade
+Essen;Was ist Saisonales Kochen?;Kochen mit regionalen Zutaten der Jahreszeit;Kochen nach festen Rezepten;Kochen ohne Gewürze;Kochen nur im Winter
 Essen;Was ist die chemische Bezeichnung für Fruchtzucker?;Fruktose;Glukose;Saccharose;Maltose
-Essen;Was ist die **Hauptrolle** von Salz beim Backen (Brot)?;Es reguliert die Hefeaktivität;Es macht den Teig weicher;Es gibt ihm die Farbe;Es konserviert
-Essen;Was ist **Tempeh**?;Ein fermentiertes Sojabohnenprodukt;Ein Reiswein;Eine Art Nudel;Ein scharfes Gewürz
-Essen;Was ist ein **Enzym** beim Kochen (z.B. in Ananas, Papaya)?;Ein Protein, das chemische Reaktionen beschleunigt;Ein Zucker;Ein Fett;Eine Säure
-Essen;Was ist ein **Bouquet garni**?;Ein Kräuterbund zum Mitkochen;Eine Weinsorte;Ein Kochtopf;Eine Soße
-Essen;Welcher Käse ist Hauptbestandteil für eine klassische **Käsefondue**?;Greyerzer und Emmentaler;Mozzarella und Parmesan;Gouda und Edamer;Cheddar und Gorgonzola
-Essen;Was ist **Blanchieren**?;Kurzes Überbrühen in kochendem Wasser, dann abschrecken;Langes Garen bei niedriger Temperatur;Braten in wenig Fett;Trocknen von Gemüse
-Essen;Was ist **Demi-Glace**?;Eine stark reduzierte, braune Grundsoße;Eine leichte, klare Brühe;Eine helle Sahnesauce;Ein süßer Sirup
-Essen;Was ist die **Hauptfunktion** von Essig in einer Marinade?;Macht das Fleisch zarter (Säure);Verleiht Süße;Verleiht Schärfe;Färbt das Fleisch
-Essen;Was ist **Surimi**?;Ein Imitat aus Fischfleisch (oft Krebsfleisch);Eine japanische Nudel;Eine Art Sushi-Reis;Ein Gewürz
-Essen;Was ist **Mole** (mexikanische Küche)?;Eine Soße mit Chili und Schokolade;Ein Maisbrot;Ein scharfes Fleischgericht;Ein Dessert
-Essen;Was ist die Rolle von **Bindemitteln** (z.B. Speisestärke, Mehl) in Soßen?;Erhöhen die Viskosität;Verringern die Viskosität;Verleihen Farbe;Machen süß
-Essen;Was ist ein **Amuse-Bouche**?;Ein kleiner, kostenloser Gruß aus der Küche;Ein süßes Dessert;Ein großes Hauptgericht;Eine Art Salat
-Essen;Welche Zutat macht **Rye Bread** (Roggenbrot) oft dunkel?;Roggenmehl und Malz;Karamellfarbe;Kakaopulver;Zuckerrüben
-Essen;Was ist ein **Curry** (indisch)?;Ein Eintopfgericht mit Gewürzmischung;Ein Brotersatz;Ein Getränk;Ein Süßgebäck
-Essen;Was ist **Pannacotta**?;Eine italienische Sahnespeise;Ein französisches Gebäck;Eine spanische Suppe;Ein griechischer Käse
-Essen;Was ist der Hauptunterschied zwischen **Sauerteig** und **Hefeteig**?;Sauerteig fermentiert durch Milchsäurebakterien/Hefe;Sauerteig ist immer süß;Hefeteig ist immer Vollkorn;Sauerteig wird nicht gebacken
-Essen;Was ist der Hauptbestandteil von **Zucker** (chemisch)?;Saccharose;Glukose;Fruktose;Maltose
-Essen;Was ist der Effekt des **Röstens** von Nüssen/Samen?;Intensiviert den Geschmack;Reduziert den Fettgehalt;Verlängert die Haltbarkeit;Macht sie weicher
-Essen;Was ist ein **A la minute** Gericht?;Ein Gericht, das frisch zubereitet wird;Ein Gericht, das Stunden vorher zubereitet wird;Ein sehr großes Gericht;Ein kaltes Gericht
-Essen;Was ist **Agar-Agar**?;Ein pflanzliches Geliermittel aus Algen;Ein tierisches Protein;Ein Gewürz aus Indien;Eine Reissorte
-Essen;Was ist ein **Chutney**?;Eine würzige, süß-saure Soße;Ein indisches Brot;Ein japanischer Tee;Ein chinesischer Reis
-Essen;Was ist der Hauptbestandteil von **Olivenöl** (chemisch)?;Ölsäure (einfach ungesättigte);Palmitinsäure;Stearinsäure;Linolsäure
-Essen;Was ist **Garnitur** in der Küche?;Die Dekoration des Gerichts;Die Hauptzutat;Die Kochtechnik;Die Soße
-Essen;Was ist der Hauptbestandteil der **Gazpacho** (spanisch)?;Tomaten (kalt);Reis (heiß);Fisch (gebraten);Fleisch (gegrillt)
-Essen;Welches Getränk wird oft mit dem Zusatz **"extra dry"** (wenig Zucker) bezeichnet?;Sekt/Champagner;Bier;Weinbrand;Wodka
-Essen;Was ist die **Funktion** von **Joghurt** in einem indischen Curry?;Kühlt die Schärfe und bindet die Soße;Macht das Fleisch zarter;Färbt das Gericht rot;Macht es süßer
-Essen;Was ist der **Maillard-Effekt**?;Die Bräunung von Lebensmitteln durch Hitze;Das Gefrieren von Lebensmitteln;Das Fermentieren von Gemüse;Das Kochen in Wasser
-Essen;Was ist **Brioche**?;Ein französisches Hefegebäck mit viel Butter/Ei;Ein italienisches Brot;Ein deutsches Vollkornbrot;Ein spanischer Keks
-Essen;Welche Zutat bindet eine klassische **Zitronentarte**?;Eier und Zucker;Mehl und Wasser;Kartoffeln und Sahne;Gelatine und Saft
-Essen;Was ist **Umrühren** beim Kochen?;Bewegung, um gleichmäßige Hitze/Textur zu erreichen;Dauerhaftes Kochen;Braten ohne Fett;Abschmecken
-Essen;Was ist **Kandieren** von Früchten?;Konservieren durch Kochen in Zuckerlösung;Einfrieren und Lagern;Fermentieren mit Salz;Trocknen an der Luft
-Essen;Was ist **Parmesan**?;Ein italienischer Hartkäse;Ein französischer Weichkäse;Ein holländischer Schnittkäse;Ein britischer Schimmelkäse
-Essen;Was ist der Hauptbestandteil von **Wasabi**-Paste (traditionell)?;Echter Wasabi (Meerrettich-Art);Grüner Farbstoff und Meerrettich;Avocado-Püree;Spinat
+Essen;Was ist die Hauptrolle von Salz beim Backen?;Es reguliert die Hefeaktivität;Es macht den Teig weicher;Es gibt ihm die Farbe;Es konserviert
+Essen;Was ist Tempeh?;Ein fermentiertes Sojabohnenprodukt;Ein sher alter Reiswein;Eine Art Nudelgericht;Ein scharfes Gewürz aus Indien
+Essen;Was ist ein Enzym beim Kochen?;Ein Protein, das chemische Reaktionen beschleunigt;Ein Zucker, dass den Geschmack verstärkt;Ein Fett, dass sich leicht abbaut;Eine Säure
+Essen;Was ist ein Bouquet garni?;Ein Kräuterbund;Eine Weinsorte;Ein Kochtopf;Eine Soße
+Essen;Welcher Käse ist Hauptbestandteil für eine klassische Käsefondue?;Greyerzer und Emmentaler;Mozzarella und Parmesan;Gouda und Edamer;Cheddar und Gorgonzola
+Essen;Was ist Blanchieren?;Kurzes Überbrühen in kochendem Wasser, dann abschrecken;Langes Garen bei niedriger Temperatur;Braten in wenig Fett;Einen Truthahn fachgerecht zerlegen
+Essen;Was ist Demi-Glace?;Eine stark reduzierte, braune Grundsoße;Eine leichte, klare Brühe;Eine helle Sahnesauce;Ein süßer Sirup
+Essen;Was ist die Hauptfunktion von Essig in einer Marinade?;Macht das Fleisch zarter;Verleiht dem Fleisch Süße;Verleiht dem Fleisch Schärfe;Färbt das Fleisch rot
+Essen;Was ist Surimi?;Ein Imitat aus Fischfleisch;Eine japanische Nudel;Eine Art Sushi-Reis;Ein Gewürz aus Ost-Asien
+Essen;Was ist Mole?;Eine Soße mit Chili und Schokolade;Ein Maisbrot;Ein scharfes Fleischgericht;Ein Dessert aus Schokolade
+Essen;Was ist die Rolle von Bindemitteln in Soßen?;Erhöhen die Viskosität;Verringern die Viskosität;Verleihen Farbe;Machen süß
+Essen;Was ist ein Amuse-Bouche?;Ein kleiner, kostenloser Gruß aus der Küche;Ein süßes Dessert, kostenlos von der Küche;Ein großes Hauptgericht;Eine Art Salat
+Essen;Was ist Pannacotta?;Eine italienische Sahnespeise;Ein französisches Gebäck;Eine spanische Suppe;Ein griechischer Käse
+Essen;Was ist der Effekt des Röstens von Nüssen/Samen?;Intensiviert den Geschmack;Reduziert den Fettgehalt;Verlängert die Haltbarkeit;Macht sie weicher
+Essen;Was ist ein "A la minute" Gericht?;Ein Gericht, das frisch zubereitet wird;Ein Gericht, das Stunden vorher zubereitet wird;Ein sehr großes Gericht;Ein Gericht, das nur 1min Zubereitung benötigt
+Essen;Was ist Agar-Agar?;Ein pflanzliches Geliermittel;Ein tierisches Protein;Ein Gewürz aus Indien;Eine Reissorte
+Essen;Was ist ein Chutney?;Eine würzige, süß-saure Soße;Ein indisches Brot;Ein japanischer Tee;Ein chinesischer Reis
+Essen;Was ist eine Garnitur in der Küche?;Die Dekoration des Gerichts;Die Hauptzutat;Die Kochtechnik;Die Einrichtung der Küche
+Essen;Was ist der Hauptbestandteil der Gazpacho?;Tomaten (kalt);Reis (heiß);Fisch (gebraten);Fleisch (gegrillt)
+Essen;Was ist die Funktion von Joghurt in einem indischen Curry?;Kühlt die Schärfe und bindet die Soße;Macht das Fleisch zarter;Färbt das Gericht rot;Macht es süßer
+Essen;Was ist der Maillard-Effekt?;Die Bräunung von Lebensmitteln durch Hitze;Das Gefrieren von Lebensmitteln;Das Fermentieren von Gemüse;Das Kochen in Wasser
+Essen;Was ist Brioche?;Ein Hefegebäck mit viel Butter/Ei;Ein italienisches Brot aus Gerste/Weizen;Ein deutsches Vollkornbrot;Ein spanischer Keks
+Essen;Welche Zutat bindet eine klassische Zitronentarte?;Eier und Zucker;Mehl und Wasser;Kartoffeln und Sahne;Gelatine und Saft
+Essen;Was ist Kandieren von Früchten?;Konservieren durch Kochen in Zuckerlösung;Einfrieren und Lagern;Fermentieren mit Salz;Trocknen an der Luft
+Essen;Was ist Parmesan?;Ein italienischer Hartkäse;Ein französischer Weichkäse;Ein holländischer Schnittkäse;Ein britischer Schimmelkäse
