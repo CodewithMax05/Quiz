@@ -34,6 +34,8 @@ input, textarea, [contenteditable="true"] {
     z-index: 9999 !important;
     width: 85%;
     max-width: 400px;
+    /* Lässt Klicks durch den leeren Container hindurch */
+    pointer-events: none;
 }
 
 .info-message, .success-message, .error-message, .warning-message, .permanent-message {
@@ -46,6 +48,8 @@ input, textarea, [contenteditable="true"] {
     border: 1px solid rgba(255, 255, 255, 0.3);
     overflow: hidden;
     color: white;
+    /* Reaktiviert Klicks für die Nachricht selbst (z.B. für Close-Buttons) */
+    pointer-events: auto;
 }
 
 .info-message {
