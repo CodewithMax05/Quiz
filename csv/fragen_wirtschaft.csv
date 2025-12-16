@@ -1,14 +1,14 @@
 subject;question;true;wrong1;wrong2;wrong3
-Wirtschaft;Was beschreibt der Begriff "Elastizität" in der Ökonomie?;Die Reaktion der Nachfrage/des Angebots auf Preisänderungen;Die Flexibilität von Arbeitsmärkten;Die Geschwindigkeit der Geldmenge;Die Stabilität des Wechselkurses
+Wirtschaft;Was beschreibt der Begriff "Elastizität" in der Ökonomie?;Die Reaktion auf Preisänderungen;Die Flexibilität von Arbeitsmärkten;Die Geschwindigkeit der Geldmenge;Die Stabilität des Wechselkurses
 Wirtschaft;Was ist der "Opportunitätskosten"-Ansatz?;Der Verzicht auf die beste Alternative;Die tatsächlichen Ausgaben;Die staatlichen Subventionen;Die Abschreibungen von Gütern
 Wirtschaft;Was ist das "Giffen-Paradoxon"?;Nachfrage steigt bei steigendem Preis;Angebot sinkt bei steigendem Preis;Nachfrage sinkt bei sinkendem Preis;Angebot steigt bei sinkendem Preis
 Wirtschaft;Welche Funktion hat die "Zentralbank" in der Regel?;Steuerung der Geldpolitik;Erhebung von Steuern;Regulierung der Arbeitsmärkte;Ausstellung von Handelslizenzen
-Wirtschaft;Was ist eine "externer Effekt"?;Auswirkungen ökonomischer Entscheidungen auf Dritte;Steuerliche Vergünstigungen;Interne Unternehmensstrategien;Veränderungen des Aktienkurses
+Wirtschaft;Was ist ein "externer Effekt"?;Auswirkungen ökonomischer Entscheidungen auf Dritte;Steuerliche Vergünstigungen;Interne Unternehmensstrategien;Veränderungen des Aktienkurses
 Wirtschaft;Was versteht man unter "Marktversagen"?;Der Markt liefert keine effizienten Ergebnisse;Alle Unternehmen machen Verluste;Der Staat greift nicht ein;Es gibt keine Konkurrenz
 Wirtschaft;Was ist die "Quantitätsgleichung" des Geldes?;M * V = P * Y;E = mc^2;F = m * a;P = U * I
 Wirtschaft;Welchen Markt beschreibt das "Oligopol"?;Wenige Anbieter und viele Nachfrager;Ein Anbieter und viele Nachfrager;Viele Anbieter und ein Nachfrager;Viele Anbieter und viele Nachfrager
 Wirtschaft;Was ist ein "natürliches Monopol"?;Ein Monopol, das effizienter ist als Wettbewerb;Ein staatlich verordnetes Monopol;Ein Monopol durch Innovation;Ein Monopol durch Fusionen
-Wirtschaft;Was misst der "Bruttoinlandsprodukt" (BIP)?;Gesamtwert aller Güter und Dienstleistungen;Gesamtwert aller Exporte;Die Schulden des Staates;Die Arbeitslosenquote
+Wirtschaft;Was misst das "Bruttoinlandsprodukt" (BIP)?;Gesamtwert aller Güter und Dienstleistungen;Gesamtwert aller Exporte;Die Schulden des Staates;Die Arbeitslosenquote
 Wirtschaft;Was ist "Deflation"?;Anhaltender Rückgang des allgemeinen Preisniveaus;Anhaltender Anstieg des Preisniveaus;Stagnation der Preise;Schnelle Preiswechsel
 Wirtschaft;Was bedeutet "Prohibitivpreis"?;Preis, zu dem die Nachfrage Null ist;Niedrigstmöglicher Preis;Staatlich festgelegter Preis;Preis inklusive aller Steuern
 Wirtschaft;Was ist der "Grenznutzen"?;Der zusätzliche Nutzen einer weiteren Einheit;Der Gesamtgewinn eines Gutes;Die Kosten einer zusätzlichen Einheit;Der Preis eines Gutes
@@ -21,8 +21,8 @@ Wirtschaft;Was ist ein "Preisnehmer"?;Ein Akteur, der den Marktpreis akzeptiert;
 Wirtschaft;Was ist "Nominalzins"?;Der ausgewiesene Zinssatz ohne Inflationsbereinigung;Der Zinssatz nach Abzug der Inflation;Der höchste mögliche Zinssatz;Der niedrigste mögliche Zinssatz
 Wirtschaft;Was ist "Realzins"?;Der Nominalzins abzüglich der Inflationsrate;Der Nominalzins plus der Inflationsrate;Der Zinssatz ohne Steuern;Der Zinssatz für Tagesgeld
 Wirtschaft;Was ist eine "Budgetrestriktion"?;Die Grenze der Konsummöglichkeiten durch Einkommen;Eine staatliche Ausgabenbremse;Eine Begrenzung der Kreditaufnahme;Die Obergrenze des Steuersatzes
-Wirtschaft;Was ist die "Phillips-Kurve" (ursprünglich)? ;Zusammenhang zwischen Inflation und Arbeitslosigkeit;Zusammenhang zwischen Steuern und Einnahmen;Zusammenhang zwischen Zinssatz und Investitionen;Zusammenhang zwischen Angebot und Nachfrage
-Wirtschaft;Was ist "Spekulation" auf den Märkten?;Gewinnabsicht durch Vorhersage zukünftiger Preise;Erhalt von staatlichen Subventionen;Kontrolle eines Monopols;Anmeldung eines Patentes
+Wirtschaft;Was ist die "Phillips-Kurve"? ;Zusammenhang zwischen Inflation und Arbeitslosigkeit;Zusammenhang zwischen Steuern und Einnahmen;Zusammenhang zwischen Zinssatz und Investitionen;Zusammenhang zwischen Angebot und Nachfrage
+Wirtschaft;Was ist "Spekulation" auf den Märkten?;Gewinnabsicht durch Vorhersage zukünftiger Preise;Erhalt von staatlichen Subventionen;Kontrolle eines Monopols;Ein sehr leckeres Gebäck
 Wirtschaft;Was ist "Derivativer Markt"?;Markt für Finanzinstrumente, deren Wert von einem Basiswert abhängt;Markt für Rohstoffe;Markt für Gebrauchtwagen;Markt für Kunstwerke
 Wirtschaft;Was ist ein "Konjunkturzyklus"?;Regelmäßige Schwankungen der Wirtschaftstätigkeit;Die Änderung der Unternehmensstrategie;Der Lebenszyklus eines Produkts;Die jährliche Steuererklärung
 Wirtschaft;Was ist ein "Nachfrageüberhang"?;Die Nachfrage ist höher als das Angebot;Das Angebot ist höher als die Nachfrage;Nachfrage und Angebot sind gleich;Der Preis ist zu niedrig
@@ -33,7 +33,7 @@ Wirtschaft;Was bedeutet "Gleichgewichtspreis"?;Der Preis, bei dem Angebot und Na
 Wirtschaft;Was ist eine "progressive Steuer"?;Steuersatz steigt mit der Bemessungsgrundlage;Steuersatz ist für alle gleich;Steuersatz sinkt mit der Bemessungsgrundlage;Nur Unternehmen zahlen diese Steuer
 Wirtschaft;Was ist die "Geldumlaufgeschwindigkeit"?;Häufigkeit, mit der eine Geldeinheit pro Jahr verwendet wird;Die Geschwindigkeit der Inflation;Die Wachstumsrate des BIP;Die Geschwindigkeit von Finanztransaktionen
 Wirtschaft;Was beschreibt die "Transmissionsmechanismus"?;Art und Weise, wie geldpolitische Impulse die Wirtschaft beeinflussen;Die Übertragung von Kosten auf den Endverbraucher;Die Verbreitung von Informationen;Die Verteilung von Gewinnen
-Wirtschaft;Was ist "Arbitrage" (einfach)? ;Gewinn durch Ausnutzen von Preisunterschieden;Eine Form der Kreditvergabe;Eine Steuer auf Finanztransaktionen;Eine staatliche Garantie
+Wirtschaft;Was ist "Arbitrage"? ;Gewinn durch Ausnutzen von Preisunterschieden;Eine Form der Kreditvergabe;Eine Steuer auf Finanztransaktionen;Eine staatliche Garantie
 Wirtschaft;Was ist eine "Put-Option"?;Das Recht, einen Basiswert zu einem festgelegten Preis zu verkaufen;Die Verpflichtung, einen Basiswert zu kaufen;Das Recht, einen Basiswert zu kaufen;Die Verpflichtung, einen Basiswert zu verkaufen
 Wirtschaft;Was ist eine "Call-Option"?;Das Recht, einen Basiswert zu einem festgelegten Preis zu kaufen;Die Verpflichtung, einen Basiswert zu verkaufen;Das Recht, einen Basiswert zu verkaufen;Die Verpflichtung, einen Basiswert zu kaufen
 Wirtschaft;Was bedeutet "Dividende"?;Gewinnbeteiligung, die ein Unternehmen an Aktionäre ausschüttet;Der Wert einer Aktie beim Kauf;Die Steuer auf Aktiengewinne;Der Zinssatz für Unternehmensanleihen
@@ -48,7 +48,7 @@ Wirtschaft;Was ist das "Eigenkapital"?;Der Teil des Kapitals, der den Eigentüme
 Wirtschaft;Was ist das "Fremdkapital"?;Der Teil des Kapitals, der von Dritten geliehen wurde;Der Teil des Kapitals, der den Eigentümern gehört;Die Gewinne des Unternehmens;Die gesamten Vermögenswerte
 Wirtschaft;Was ist der "Liquiditätsgrad"?;Kennzahl zur Fähigkeit, kurzfristige Schulden zu begleichen;Die Profitabilität eines Unternehmens;Der Marktanteil eines Produkts;Die Wachstumsrate
 Wirtschaft;Was ist die "Rentabilität"?;Verhältnis von Gewinn zu eingesetztem Kapital;Die Schuldenlast eines Unternehmens;Die Anzahl der Mitarbeiter;Die Produktionsmenge
-Wirtschaft;Was beschreibt die "Gewinnschwelle" (Break-even)? ;Der Punkt, an dem Erlöse gleich Kosten sind;Der maximale Umsatz eines Unternehmens;Der niedrigste Preis am Markt;Der Punkt mit dem höchsten Gewinn
+Wirtschaft;Was beschreibt die "Gewinnschwelle" (Break-even)? ;Der Punkt, an dem Erlöse gleich Kosten sind;Der maximale Umsatz eines Unternehmens;Der niedrigste Preis am Markt;Der Punkt, wenn der Umsatz 0 ist
 Wirtschaft;Was ist eine "Preiselastizität der Nachfrage"?;Prozentuale Änderung der Nachfrage im Verhältnis zur Preisänderung;Die Stärke der Preisbindung;Die Kosten der Produktion;Die Gesamtmenge an Nachfrage
 Wirtschaft;Was ist eine "Preiselastizität des Angebots"?;Prozentuale Änderung des Angebots im Verhältnis zur Preisänderung;Die Geschwindigkeit der Preisänderung;Der maximale Preis;Die Steuerlast auf Produkte
 Wirtschaft;Was ist "Steuerinzidenz"?;Die tatsächliche Verteilung der Steuerlast zwischen Anbietern und Nachfragern;Die Höhe des Steuersatzes;Die Verwendung der Steuereinnahmen;Die Steuerhinterziehung

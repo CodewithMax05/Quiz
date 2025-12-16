@@ -1,111 +1,97 @@
 subject;question;true;wrong1;wrong2;wrong3
 Sprache;Welche Redewendung bedeutet „etwas ist leicht zu verstehen“?;Das ist kein Hexenwerk;Das ist ein alter Hut;Das ist Schnee von gestern;Das ist kalter Kaffee
-Sprache;Was ist ein **Hendiadyoin**?;Eine Verbindung aus zwei Wörtern gleicher Bedeutung;Eine Wiederholung des Satzanfangs;Ein Gegensatzpaar;Ein Reim
-Sprache;Wie lautet der **Genitiv Singular** von „der Kaktus“?;des Kaktus;des Kaktusses;des Kaktusse;der Kaktus
-Sprache;Welche Sprache gehört zur **romanischen** Sprachfamilie?;Französisch;Deutsch;Englisch;Russisch
-Sprache;Was beschreibt die **Syntax**?;Die Satzlehre;Die Formenlehre;Die Bedeutung von Wörtern;Die Lautlehre
-Sprache;Was ist ein **Parataxe**?;Eine Satzreihe mit Hauptsätzen;Ein Satzgefüge mit Nebensätzen;Eine rhetorische Frage;Eine Auslassung
-Sprache;Welches Wort ist ein **Neologismus**?;Simsen;Schuh;Baum;Haus
-Sprache;Was ist ein **Assonanz**?;Gleichklang der Vokale;Gleichklang der Konsonanten;Wiederholung eines Wortes;Endreim
-Sprache;Welcher Satz ist im **Präteritum** (einfache Vergangenheit)?;Er **sagte** die Wahrheit;Er **hat** die Wahrheit **gesagt**;Er **wird** die Wahrheit **sagen**;Er **hatte** die Wahrheit **gesagt**
-Sprache;Was ist die **indirekte Rede** des Satzes „Ich gehe jetzt.“?;Er **sagte, er gehe** jetzt;Er **sagte, er ging** jetzt;Er **sagte, er geht** jetzt;Er **sagte, er wird** jetzt **gehen**
-Sprache;Was ist die **korrekte Pluralform** von „Atlas“ (Kartensammlung)?;Atlanten;Atlasse;Atlasse;Ätlas
+Sprache;Was ist ein Hendiadyoin?;Eine Verbindung aus zwei Wörtern gleicher Bedeutung;Eine Wiederholung des Satzanfangs;Ein Gegensatzpaar;Ein Reim
+Sprache;Wie lautet der Genitiv Singular von „der Kaktus“?;des Kaktus;des Kaktäns;dem Kaktus;der Kaktus
+Sprache;Welche Sprache gehört zur romanischen Sprachfamilie?;Französisch;Deutsch;Englisch;Russisch
+Sprache;Was beschreibt die Syntax?;Die Satzlehre;Die Formenlehre;Die Bedeutung von Wörtern;Die Lautlehre
+Sprache;Was ist ein Parataxe?;Eine Satzreihe mit Hauptsätzen;Ein Satzgefüge mit Nebensätzen;Eine rhetorische Frage;Eine Auslassung
+Sprache;Welches Wort ist ein Neologismus?;Simsen;Schuh;Baum;Haus
+Sprache;Was ist eine Assonanz?;Gleichklang der Vokale;Gleichklang der Konsonanten;Wiederholung eines Wortes;Endreim
+Sprache;Welcher Satz ist im Präteritum geschrieben?;Er sagte die Wahrheit.;Er hat die Wahrheit gesagt.;Er wird die Wahrheit sagen.;Er hatte die Wahrheit gesagt.
+Sprache;Was ist die indirekte Rede des Satzes: „Ich gehe jetzt.“?;Er sagte, er gehe jetzt.;Er sagte, er ging jetzt.;Er sagte, er geht jetzt.;Er sagte, er wird jetzt gehen.
+Sprache;Was ist die korrekte Pluralform von „Atlas“ (Kartensammlung)?;Atlanten;Atlasse;Atlas;Ätlas
 Sprache;Welcher Kasus wird oft nach der Präposition „wegen“ verwendet?;Genitiv;Dativ;Akkusativ;Nominativ
-Sprache;Was ist eine **Alliteration**?;Gleicher Anlaut benachbarter Wörter;Gleicher Auslaut benachbarter Wörter;Ein Gegensatz;Eine Übertreibung
-Sprache;Was bedeutet die **Konjunktion** „obschon“?;Obwohl;Sobald;Falls;Damit
-Sprache;Was ist die **korrekte Pluralform** von „Album“?;Alben;Albums;Albume;Alba
-Sprache;Was ist ein **Tautologie**?;Wiederholung eines Sachverhalts mit sinnverwandten Wörtern;Eine Wortneuschöpfung;Ein überzogener Ausdruck;Ein Vergleich
-Sprache;Welche Wortart kann **dekliniert** werden?;Nomen;Präposition;Adverb;Konjunktion
-Sprache;Was ist die **korrekte Form** von „ich müssen“ im Präteritum?;ich **musste**;ich **muss**;ich **müßte**;ich **gemusst**
-Sprache;Was ist ein **Anglizismus**?;Ein Wort aus dem Englischen;Ein Wort aus dem Französischen;Ein Wort aus dem Lateinischen;Ein altes deutsches Wort
-Sprache;Was ist ein **Apostrophe** (rhetorische Figur)?;Anrede an Abwesende oder Dinge;Wiederholung eines Wortes;Eine Auslassung;Ein Gegensatz
-Sprache;Welche Form ist die **korrekte Steigerung** von „gern“?;gern – lieber – am liebsten;gern – gerner – am gernsten;gern – mehr gern – am meisten gern;gern – lieber – am liebstenst
-Sprache;Was ist ein **Ellipse**?;Auslassung eines Satzteils;Wiederholung eines Satzteils;Ein Einschub;Eine Umstellung
-Sprache;Was ist die **korrekte Pluralform** von „Faktum“?;Fakten;Faktums;Fakta;Faktas
-Sprache;Welcher Begriff beschreibt die **Lehre vom Bau der Wörter**?;Morphologie;Phonetik;Semantik;Pragmatik
-Sprache;Was ist ein **Hyperbel**?;Eine starke Übertreibung;Eine Untertreibung;Ein Vergleich;Eine Anspielung
-Sprache;Was ist die **korrekte Pluralform** von „Tempus“?;Tempora;Tempusse;Tempen;Tempi
-Sprache;Welche Präposition erfordert in der Regel den **Dativ**?;mit;durch;gegen;ohne
-Sprache;Was ist ein **Chiasmus**?;Überkreuzstellung von Satzgliedern;Gleiche Satzanfänge;Gleiche Satzenden;Eine Frage
-Sprache;Welches Wort ist ein **Archaismus**?;Mär;Mail;App;Tweet
-Sprache;Welcher Fall ist das **Objekt** im Satz „Er **hilft** dem Kind.“?;Dativ;Akkusativ;Nominativ;Genitiv
-Sprache;Was ist ein **Euphemismus** für „sterben“?;entschlafen;weggehen;verschwinden;verreisen
-Sprache;Was ist die **korrekte Pluralform** von „Visum“?;Visa;Visen;Visums;Vise
-Sprache;Was ist die **korrekte Konjugation** von „er sprechen“ im Konjunktiv I?;er **spreche**;er **spricht**;er **sprach**;er **würde sprechen**
-Sprache;Was ist ein **Litotes**?;Eine Bejahung durch doppelte Verneinung;Eine rhetorische Frage;Ein Ausruf;Eine Wiederholung
-Sprache;Welches Wort ist ein **Homograf** zu „modern“ (im Sinne von „zeitgemäß“)?;modern (im Sinne von „verfaulen“);neu;aktuell;zeitnah
-Sprache;Was ist die **korrekte Pluralform** von „Praktikum“?;Praktika;Praktikums;Praktiken;Praktikumse
-Sprache;Was ist ein **Pleonasmus**?;Eine unnötige Wiederholung von Bedeutungen;Eine starke Übertreibung;Eine Auslassung;Eine Umstellung
-Sprache;Was ist die **korrekte Form** von „du wissen“ im Präteritum?;du **wusstest**;du **weißt**;du **wissest**;du **gewusst**
-Sprache;Was ist eine **Metonymie**?;Ersetzung eines Wortes durch ein verwandtes;Ein Vergleich;Eine Personifikation;Eine Untertreibung
-Sprache;Welches Wort ist ein **Kollektivum**?;Gebirge;Stein;Berg;Hügel
-Sprache;Was ist die **korrekte Pluralform** von „Dilemma“?;Dilemmata;Dilemmas;Dilemmate;Dilemmen
-Sprache;Was ist die **korrekte Steigerung** von „bald“?;bald – eher – am ehesten;bald – balder – am baldesten;bald – mehr bald – am meisten bald;bald – lieber – am liebsten
-Sprache;Was ist ein **Ironie**?;Das Gegenteil des Gesagten ist gemeint;Das Gesagte ist wörtlich gemeint;Eine Übertreibung;Eine Untertreibung
-Sprache;Welche Wortart verbindet **gleichrangige** Sätze oder Satzglieder?;Konjunktion;Präposition;Adverb;Artikel
-Sprache;Was ist die **korrekte Pluralform** von „Globus“?;Globen;Globusse;Globen;Globuse
-Sprache;Was ist eine **Epipher**?;Wiederholung gleicher Wörter am Satzende;Wiederholung gleicher Wörter am Satzanfang;Überkreuzstellung;Auslassung
-Sprache;Welche Sprache gehört zur **germanischen** Sprachfamilie?;Schwedisch;Italienisch;Spanisch;Griechisch
-Sprache;Was ist die **korrekte Form** von „ihr sein“ im Konjunktiv II (Höflichkeitsform)?;ihr **wäret**;ihr **seid**;ihr **wären**;ihr **seiet**
-Sprache;Was ist ein **Akronym**?;Ein aus Anfangsbuchstaben gebildetes Kurzwort;Ein langes Fremdwort;Ein Dialektausdruck;Ein überholtes Wort
-Sprache;Welches Wort ist ein **Heteronym** zu „Bank“ (Sitzgelegenheit)?;Bank (Geldinstitut);Tisch;Stuhl;Sofa
-Sprache;Was ist die **korrekte Pluralform** von „Numerus“?;Numeri;Numerusse;Numerussen;Numeras
-Sprache;Was ist ein **Periphrase**?;Umschreibung eines Begriffs;Direkte Benennung;Eine Auslassung;Ein Gegensatz
-Sprache;Welche Konjugationsform ist die **Grundform** des Verbs?;Infinitiv;Partizip I;Partizip II;Präteritum
-Sprache;Was ist die **korrekte Pluralform** von „Mythos“?;Mythen;Mythosse;Mythis;Mytha
-Sprache;Was ist ein **Syllogismus**?;Ein logischer Schluss aus zwei Prämissen;Ein Wortspiel;Eine Metapher;Ein Ausruf
+Sprache;Was ist eine Alliteration?;Gleicher Anlaut benachbarter Wörter;Gleicher Auslaut benachbarter Wörter;Ein Gegensatz;Eine Übertreibung
+Sprache;Was ist die korrekte Pluralform von „Album“?;Alben;Albums;Albume;Alba
+Sprache;Was ist ein Tautologie?;Wiederholung eines Sachverhalts mit sinnverwandten Wörtern;Eine Wortneuschöpfung;Ein überzogener Ausdruck;Ein Vergleich
+Sprache;Welche Wortart kann dekliniert werden?;Nomen;Präposition;Adverb;Konjunktion
+Sprache;Was ist die korrekte Form von „ich müssen“ im Präteritum?;ich musste;ich muss;ich müßte;ich gemusst
+Sprache;Was ist ein Anglizismus?;Ein Wort aus dem Englischen;Ein Wort aus dem Französischen;Ein Wort aus dem Lateinischen;Ein altes deutsches Wort
+Sprache;Was ist ein Apostrophe?;Anrede an Abwesende oder Dinge;Wiederholung eines Wortes;Eine Auslassung;Ein Gegensatz
+Sprache;Was ist ein Ellipse?;Auslassung eines Satzteils;Wiederholung eines Satzteils;Ein Einschub;Eine Umstellung
+Sprache;Was ist die korrekte Pluralform von „Faktum“?;Fakten;Faktums;Fakta;Faktas
+Sprache;Welcher Begriff beschreibt die Lehre vom Bau der Wörter?;Morphologie;Phonetik;Semantik;Pragmatik
+Sprache;Was ist eine Hyperbel?;Eine starke Übertreibung;Eine Untertreibung;Ein Vergleich;Eine Anspielung
+Sprache;Was ist die korrekte Pluralform von „Tempus“?;Tempora;Tempusse;Tempen;Tempi
+Sprache;Welche Präposition erfordert in der Regel den Dativ?;mit;durch;gegen;ohne
+Sprache;Was ist ein Chiasmus?;Überkreuzstellung von Satzgliedern;Gleiche Satzanfänge;Gleiche Satzenden;Eine Frage
+Sprache;Welches Wort ist ein Archaismus?;Mär;Mail;App;Tweet
+Sprache;In welchem Fall ist der Satz „Er hilft dem Kind.“?;Dativ;Akkusativ;Nominativ;Genitiv
+Sprache;Was ist ein Euphemismus für „sterben“?;entschlafen;leben;verschwinden;verreisen
+Sprache;Was ist die korrekte Pluralform von „Visum“?;Visa;Visen;Visums;Vise
+Sprache;Was ist die korrekte Konjugation von „er sprechen“ im Konjunktiv I?;er spreche;er spricht;er sprach;er würde sprechen
+Sprache;Was ist ein Litotes?;Eine Bejahung durch doppelte Verneinung;Eine rhetorische Frage;Ein Ausruf;Eine Wiederholung
+Sprache;Was ist die korrekte Pluralform von „Praktikum“?;Praktika;Praktikums;Praktiken;Praktikumse
+Sprache;Was ist ein Pleonasmus?;Eine unnötige Wiederholung von Bedeutungen;Eine starke Übertreibung;Eine Auslassung;Eine Umstellung
+Sprache;Was ist die korrekte Form von „du wissen“ im Präteritum?;du wusstest;du weißt;du wissest;du gewusst
+Sprache;Was ist eine Metonymie?;Ersetzung eines Wortes durch ein verwandtes;Ein Vergleich;Eine Personifikation;Eine Untertreibung
+Sprache;Welches Wort ist ein Kollektivum?;Gebirge;Stein;Berg;Hügel
+Sprache;Was ist die korrekte Pluralform von „Dilemma“?;Dilemmata;Dilemmas;Dilemma;Dilemmen
+Sprache;Was ist Ironie?;Das Gegenteil des Gesagten ist gemeint;Das Gesagte ist wörtlich gemeint;Eine Übertreibung;Eine Untertreibung
+Sprache;Welche Wortart verbindet gleichrangige Sätze oder Satzglieder?;Konjunktion;Präposition;Adverb;Artikel
+Sprache;Was ist die korrekte Pluralform von „Globus“?;Globen;Globusse;Globa;Globuse
+Sprache;Was ist eine Epipher?;Wiederholung gleicher Wörter am Satzende;Wiederholung gleicher Wörter am Satzanfang;Überkreuzstellung;Auslassung
+Sprache;Welche Sprache gehört zur germanischen Sprachfamilie?;Schwedisch;Italienisch;Spanisch;Griechisch
+Sprache;Was ist die korrekte Form von „ihr sein“ im Konjunktiv II?;ihr wäret;ihr seid;ihr wären;ihr würdet
+Sprache;Was ist ein Akronym?;Ein aus Anfangsbuchstaben gebildetes Kurzwort;Ein langes Fremdwort;Ein Dialektausdruck;Ein überholtes Wort
+Sprache;Was ist die korrekte Pluralform von „Numerus“?;Numeri;Numerusse;Numerussen;Numera
+Sprache;Was ist ein Periphrase?;Umschreibung eines Begriffs;Direkte Benennung;Eine Auslassung;Ein Gegensatz
+Sprache;Welche Konjugationsform ist die Grundform des Verbs?;Infinitiv;Partizip I;Partizip II;Imperativ
+Sprache;Was ist die korrekte Pluralform von „Mythos“?;Mythen;Mythosse;Mythis;Mytha
+Sprache;Was ist ein Syllogismus?;Ein logischer Schluss aus zwei Prämissen;Ein Wortspiel;Eine Metapher;Ein Ausruf
 Sprache;Welcher Kasus wird oft nach der Präposition „trotz“ verwendet?;Genitiv;Dativ;Akkusativ;Nominativ
-Sprache;Was ist ein **Epanalepse**?;Wiederholung eines Wortes am Satzanfang und -ende;Wiederholung am Satzende;Überkreuzstellung;Auslassung
-Sprache;Was ist die **korrekte Form** von „er gehen“ im Perfekt?;er **ist gegangen**;er **ging**;er **hat gegangen**;er **wird gehen**
-Sprache;Was ist ein **Onomatopoesie**?;Lautmalerei;Ein Vergleich;Eine Übertreibung;Ein Gegensatz
-Sprache;Was ist die **korrekte Pluralform** von „Kriterium“?;Kriterien;Kriteriums;Kriterien;Kriterias
-Sprache;Welche Satzart enthält einen **eingeschobenen** Nebensatz?;Schachtelsatz;Hauptsatz;Satzreihe;Einfacher Satz
-Sprache;Was ist die **korrekte Form** von „wir dürfen“ im Konjunktiv II?;wir **dürften**;wir **durften**;wir **dürfen**;wir **gedurft**
-Sprache;Was ist ein **Asyndeton**?;Unverbundene Aneinanderreihung;Verbundene Aneinanderreihung;Ein Gegensatz;Eine Auslassung
-Sprache;Welches Wort ist ein **Polysem**?;Lauf (Fluss / Rennen);Haus;Baum;Tisch
-Sprache;Was ist die **korrekte Pluralform** von „Modus“?;Modi;Modusse;Modussen;Moda
-Sprache;Was ist ein **Parenthese**?;Ein Einschub in Klammern oder Gedankenstrichen;Eine Wiederholung;Ein Gegensatz;Eine Auslassung
-Sprache;Was ist die **korrekte Form** von „sie kennen“ im Präteritum?;sie **kannten**;sie **kennen**;sie **kennt**;sie **gekannt**
-Sprache;Welche Sprache gehört zur **slawischen** Sprachfamilie?;Polnisch;Ungarisch;Finnisch;Türkisch
-Sprache;Was ist ein **Antithese**?;Gegenüberstellung gegensätzlicher Begriffe;Gleiche Satzanfänge;Eine Wiederholung;Eine Übertreibung
-Sprache;Was ist die **korrekte Pluralform** von „Kompliment“?;Komplimente;Komplimenten;Kompliments;Komplimanta
-Sprache;Was ist die **korrekte Form** von „es regnen“ im Futur I?;es **wird regnen**;es **regnet**;es **regnete**;es **hat geregnet**
-Sprache;Was ist ein **Paradoxon**?;Eine scheinbar widersinnige Aussage;Eine Übertreibung;Ein Vergleich;Eine Untertreibung
-Sprache;Welche Wortart dient zur **Veränderung** eines Verbs, Adjektivs oder Adverbs?;Adverb;Nomen;Artikel;Präposition
-Sprache;Was ist die **korrekte Pluralform** von „Zensus“?;Zensen;Zensussen;Zensusse;Zensa
-Sprache;Was ist ein **Anakoluth**?;Ein Satzbruch;Eine Wiederholung;Ein Gegensatz;Eine Auslassung
-Sprache;Welcher Fall ist das **Objekt** im Satz „Sie **liebt** ihn.“?;Akkusativ;Dativ;Nominativ;Genitiv
-Sprache;Was ist die **korrekte Pluralform** von „Kaktus“?;Kakteen;Kaktusse;Kaktusse;Kakten
-Sprache;Was ist ein **Klimax**?;Steigerung vom Kleineren zum Größeren;Abschwächung vom Größeren zum Kleineren;Ein Gegensatz;Eine Wiederholung
-Sprache;Was ist die **korrekte Form** von „du helfen“ im Konjunktiv II?;du **hülfest**;du **hilfst**;du **halfst**;du **hilst**
-Sprache;Was ist ein **Synekdoche**?;Ein Teil steht für das Ganze;Eine Übertreibung;Ein Vergleich;Ein Gegensatz
-Sprache;Welches Wort ist ein **Antonym** zu „subtil“?;grob;fein;elegant;zart
-Sprache;Was ist die **korrekte Pluralform** von „Numerale“?;Numeralia;Numeralien;Numerals;Numeras
-Sprache;Was ist ein **Zeugma**?;Ein Verb bezieht sich auf zwei Objekte unterschiedlicher Art;Eine Auslassung;Eine Wiederholung;Ein Gegensatz
-Sprache;Was ist die **korrekte Steigerung** von „oft“?;oft – öfter – am häufigsten;oft – ofter – am oftsten;oft – mehr oft – am meisten oft;oft – oftiger – am oftesten
-Sprache;Was ist ein **Elision**?;Die Auslassung eines unbetonten Vokals;Die Hinzufügung eines Vokals;Ein Ausruf;Ein Gegensatz
-Sprache;Welcher Satz ist im **Plusquamperfekt**?;Er **hatte gelernt**;Er **lernte**;Er **hat gelernt**;Er **wird lernen**
-Sprache;Was ist die **korrekte Pluralform** von „Sexus“?;Sexen;Sexusse;Sexi;Sexe
-Sprache;Was ist ein **Neologismus**?;Ein neu gebildetes Wort;Ein altes Wort;Ein Fremdwort;Ein Dialektwort
-Sprache;Welches Wort ist ein **Homophon** zu „Laie“?;Leihe;Ley;Lai;Leihe
-Sprache;Was ist die **korrekte Pluralform** von „Status“?;Status;Statuse;Staten;Stati
-Sprache;Was ist eine **Akkumulation**?;Reihung von Begriffen;Eine Übertreibung;Ein Vergleich;Ein Gegensatz
+Sprache;Was ist die korrekte Form von „er gehen“ im Perfekt?;er ist gegangen;er ging;er war gegangen;er wird gegangen sein
+Sprache;Was ist eine Onomatopoesie?;Eine Lautmalerei;Ein Vergleich;Eine Übertreibung;Ein Gegensatz
+Sprache;Was ist die korrekte Pluralform von „Kriterium“?;Kriterien;Kriteriums;Kritiken;Kriterias
+Sprache;Welche Satzart enthält einen eingeschobenen Nebensatz?;Schachtelsatz;Hauptsatz;Satzreihe;Einfacher Satz
+Sprache;Was ist die korrekte Form von „wir dürfen“ im Konjunktiv II?;wir dürften;wir durften;wir dürfen;wir hätten gedurft
+Sprache;Was ist ein Asyndeton?;Unverbundene Aneinanderreihung;Verbundene Aneinanderreihung;Ein Gegensatz;Eine Auslassung
+Sprache;Welches Wort ist ein Polysem?;Bank;Haus;Baum;Tisch
+Sprache;Was ist die korrekte Pluralform von „Modus“?;Modi;Modusse;Modussen;Modem
+Sprache;Was ist ein Parenthese?;Ein Einschub;Eine Wiederholung;Ein Gegensatz;Eine Auslassung
+Sprache;Was ist die korrekte Form von „sie kennen“ im Präteritum?;sie kannten;sie kennen;sie kennt;sie kannte
+Sprache;Welche Sprache gehört zur slawischen Sprachfamilie?;Polnisch;Ungarisch;Finnisch;Türkisch
+Sprache;Was ist ein Antithese?;Gegenüberstellung gegensätzlicher Begriffe;Gleiche Satzanfänge;Eine Verneinung;Eine Übertreibung
+Sprache;Was ist die korrekte Pluralform von „Kompliment“?;Komplimente;Komplimenten;Kompliments;Komplimanta
+Sprache;Was ist die korrekte Form von „es regnen“ im Futur I?;es wird regnen;es regnet;es wird geregnet haben;es hat geregnet
+Sprache;Was ist ein Paradoxon?;Eine widersinnige Aussage;Eine Übertreibung;Ein Vergleich;Etwas Unerklärliches
+Sprache;In welchem Fall ist das Objekt im Satz „Sie liebt ihn.“?;Akkusativ;Dativ;Nominativ;Genitiv
+Sprache;Was ist ein Klimax?;Steigerung vom Kleineren zum Größeren;Abschwächung vom Größeren zum Kleineren;Ein Gegensatz;Eine Wiederholung
+Sprache;Was ist die korrekte Form von „du helfen“ im Konjunktiv II?;du hülfest;du hilfst;du halfst;du hälftest
+Sprache;Was ist ein Synekdoche?;Ein Teil steht für das Ganze;Zwei Wörter mit derselben Bedeutung;Ein Reimschema (Kreuzreim);Ein Gegensatz
+Sprache;Welches Wort ist ein Antonym zu „subtil“?;grob;fein;elegant;zart
+Sprache;Was ist die korrekte Pluralform von „Numerale“?;Numeralia;Numeralien;Numerals;Nummern
+Sprache;Was ist die korrekte Steigerung von „oft“?;oft - öfter - am häufigsten;oft – kaum – niemals;oft - mehr oft - am meisten oft;es gibt keine Steigerung
+Sprache;Was ist ein Elision?;Die Auslassung eines unbetonten Vokals;Die Hinzufügung eines Vokals;Ein Ausruf;Ein Gegensatz
+Sprache;Welcher Satz ist im Plusquamperfekt?;Er hatte gelernt;Er lernte;Er hat gelernt;Er wird lernen
+Sprache;Was ist ein Neologismus?;Ein neu gebildetes Wort;Ein altes Wort;Ein Fremdwort;Ein Dialektwort
+Sprache;Was ist die korrekte Pluralform von „Status“?;Status;Statuse;Staten;Stati
+Sprache;Was ist eine Akkumulation?;Aufzählung von Unterbegriffen;Ein Reimschema nach Dr. Akku;Ein Vergleich;Das Aufbewahren von Texten
 Sprache;Welcher Kasus wird oft nach der Präposition „mithilfe“ verwendet?;Genitiv;Dativ;Akkusativ;Nominativ
-Sprache;Was ist die **korrekte Form** von „ich wissen“ im Konjunktiv I?;ich **wisse**;ich **weiß**;ich **wusste**;ich **gewusst**
-Sprache;Was ist ein **Metapher**?;Ein bildhafter Vergleich ohne „wie“;Ein direkter Vergleich mit „wie“;Eine Übertreibung;Eine Untertreibung
-Sprache;Welche Wortart steht **vor** dem Nomen und bestimmt seinen Fall und Numerus?;Artikel;Verb;Adjektiv;Adverb
-Sprache;Was ist die **korrekte Pluralform** von „Korpus“ (Gesamtheit der Texte)?;Korpora;Korpüsse;Korpen;Korpi
-Sprache;Was ist ein **Rhetorische Frage**?;Eine Frage, auf die keine Antwort erwartet wird;Eine Frage, die eine Antwort erfordert;Eine einfache Frage;Eine Suggestivfrage
-Sprache;Was ist die **korrekte Form** von „er sprechen“ im Passiv Präsens?;er **wird gesprochen**;er **spricht**;er **ist gesprochen**;er **sprach**
-Sprache;Was ist ein **Oxymoron**?;Verbindung zweier widersprüchlicher Begriffe;Eine Wiederholung;Ein Vergleich;Eine Übertreibung
-Sprache;Was ist die **korrekte Pluralform** von „Epos“?;Epen;Eposse;Epoi;Epes
-Sprache;Was ist ein **Inversion**?;Umstellung der Satzglieder;Normale Satzstellung;Eine Wiederholung;Eine Auslassung
-Sprache;Welches Wort ist ein **Hyperonym** zu „Rot“?;Farbe;Blau;Gelb;Grün
-Sprache;Was ist die **korrekte Form** von „wir gehen“ im Futur II?;wir **werden gegangen sein**;wir **gehen**;wir **gingen**;wir **sind gegangen**
-Sprache;Was ist ein **Allusion**?;Eine Anspielung;Ein Vergleich;Eine Übertreibung;Ein Gegensatz
-Sprache;Welche Sprache gehört zur **semitischen** Sprachfamilie?;Arabisch;Persisch;Türkisch;Finnisch
-Sprache;Was ist ein **Analogie**?;Eine Entsprechung oder Ähnlichkeit;Ein Gegensatz;Eine Wiederholung;Eine Auslassung
-Sprache;Was ist die **korrekte Pluralform** von „Klima“?;Klimata;Klimas;Klimen;Klimi
-Sprache;Was ist die **korrekte Form** von „du lachen“ im Imperativ Singular?;**Lach!**;**Lache!**;**Lachst!**;**Gelacht!**
-Sprache;Was ist ein **Synästhesie**?;Verbindung verschiedener Sinneseindrücke;Ein Vergleich;Eine Übertreibung;Ein Gegensatz
-Sprache;Welcher Fall ist das **Subjekt** im Satz „**Die** Sonne scheint.“?;Nominativ;Akkusativ;Dativ;Genitiv
+Sprache;Was ist die korrekte Form von „ich wissen“ im Konjunktiv I?;ich wisse;ich weiß;ich wusste;ich wüsste
+Sprache;Was ist ein Metapher?;Ein bildhafter Vergleich“;Das Gegenteil einer Anapaher;Eine Übertreibung;Eine Untertreibung
+Sprache;Welche Wortart steht vor dem Nomen und bestimmt seinen Fall und Numerus?;Artikel;Verb;Adjektiv;Adverb
+Sprache;Was ist die korrekte Pluralform von „Korpus“?;Korpora;Korpüsse;Delicti;Korpi
+Sprache;Was ist eine Rhetorische Frage?;Eine Frage, auf die keine Antwort erwartet wird;Eine Frage, die eine Antwort erfordert;Eine einfache Frage;Eine Suggestivfrage
+Sprache;Was ist ein Oxymoron?;Verbindung zweier widersprüchlicher Begriffe;Eine Wiederholung;Eine lebendige Beschreibung;Zwei Begriffe mit derselben Bedeutung
+Sprache;Was ist die korrekte Pluralform von „Epos“?;Epen;Eposse;Epoi;Epes
+Sprache;Was ist ein Inversion?;Umstellung der Satzglieder;Ein Satz rückwärts geschrieben;Gegenteilige Interpunktion;Eine Auslassung
+Sprache;Welches Wort ist ein Hyperonym zu „Rot“?;Farbe;Blau;Gelb;Grün
+Sprache;Was ist die korrekte Form von „wir gehen“ im Futur II?;wir werden gegangen sein;wir werden gehen;wir gingen;wir sind gegangen
+Sprache;Was ist eine Allusion?;Eine Anspielung;Ein Vergleich;Eine Übertreibung;Ein Gegensatz
+Sprache;Welche Sprache gehört zur semitischen Sprachfamilie?;Arabisch;Persisch;Türkisch;Finnisch
+Sprache;Was ist eine Analogie?;Ein Vergleich für ähnliche Sachverhalte;Ein Gegensatz;Eine Legende der nordischen Mythologie;Eine Sprachwissenschaft
+Sprache;Was ist die korrekte Pluralform von „Klima“?;Klimata;Klimas;Klimen;Klimi
+Sprache;Was ist die korrekte Form von „du lachen“ im Imperativ Singular?;Lach!;Du lache!;Lachst!;Gelacht!
+Sprache;Was ist ein Synästhesie?;Verbindung verschiedener Sinneseindrücke;Ein Zusammensetzung von Substantiven;Eine Übertreibung;Ein Gegensatz
+Sprache;In welchem Fall ist das Subjekt im Satz „Die Sonne scheint.“?;Nominativ;Akkusativ;Dativ;Genitiv
