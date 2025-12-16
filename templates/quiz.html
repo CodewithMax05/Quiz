@@ -108,7 +108,7 @@
 
                 const currentQ = this.getCurrentQuestionNumber();
                 const totalQ = this.getTotalQuestions();
-                this.updateProgressBarVisuals(currentQ, totalQ);
+                this.updateProgressBarVisuals(currentQ, totalQ, false);
 
                 this.keepSessionAlive();
             }
@@ -525,6 +525,11 @@
                     opt.classList.add('disabled', 'answered');
                 });
 
+                // FORTSCHRITTSLEISTE AKTUALISIEREN - SOFORT nach Timeout
+                const currentQ = this.getCurrentQuestionNumber();
+                const totalQ = this.getTotalQuestions();
+                this.updateProgressBarVisuals(currentQ, totalQ, true);
+                
                 this.submitAnswer('');
             }
 
@@ -543,6 +548,12 @@
                 this.updateScore(data.current_score, data.points_earned);
                 
                 this.highlightAnswers(data);
+                
+                // FORTSCHRITTSLEISTE AKTUALISIEREN - SOFORT nach Antwort
+                const currentQ = this.getCurrentQuestionNumber();
+                const totalQ = this.getTotalQuestions();
+                // Diese Frage wurde gerade beantwortet = true
+                this.updateProgressBarVisuals(currentQ, totalQ, true);
                 
                 const isLastQuestion = data.is_last_question || 
                     (this.getCurrentQuestionNumber() >= this.getTotalQuestions());
@@ -662,14 +673,29 @@
                 });
             }
 
-            updateProgressBarVisuals(current, total) {
+            updateProgressBarVisuals(current, total, isAnswered = false) {
                 const progressBar = document.querySelector('.progress-bar');
                 if (progressBar) {
-                    // Berechne Prozent (mindestens 0%, maximal 100%)
-                    const percent = Math.min(100, Math.max(0, (current / total) * 100));
+                    // Berechne Prozent basierend auf beendeten Fragen
+                    let answeredCount;
+                    if (isAnswered) {
+                        // Wenn gerade beantwortet wurde, zählt die aktuelle Frage
+                        answeredCount = current;
+                    } else {
+                        // Ansonsten: (aktuelle Frage - 1) beantwortet
+                        answeredCount = Math.max(0, current - 1);
+                    }
+                    
+                    // Sonderfall: Wenn es die letzte Frage ist und gerade beantwortet wurde
+                    if (isAnswered && current === total) {
+                        answeredCount = total; // 100% für letzte beantwortete Frage
+                    }
+                    
+                    const percent = Math.min(100, Math.max(0, (answeredCount / total) * 100));
+                    
                     // Setze die CSS Variable
                     progressBar.style.setProperty('--progress', `${percent}%`);
-                    // Setze den Text (wie bisher)
+                    // Setze den Text
                     progressBar.textContent = `Frage ${current} von ${total}`;
                 }
             }
@@ -697,7 +723,8 @@
 
                 const progressBar = document.querySelector('.progress-bar');
                 if (progressBar) {
-                    this.updateProgressBarVisuals(data.progress, data.total_questions);
+                    // Beim Laden neuer Frage: vorige ist beantwortet, aktuelle noch nicht
+                    this.updateProgressBarVisuals(data.progress, data.total_questions, false);
                 }
 
                 const scoreDisplay = document.getElementById('score-display');
