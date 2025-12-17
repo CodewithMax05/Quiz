@@ -179,7 +179,7 @@ class TestAuthFlow:
         }, follow_redirects=True)
         
         flashed_messages = get_flashed_messages(with_categories=False)
-        expected_message = "Bitte fülle alle Felder aus"
+        expected_message = "Um einen Account anzulegen bitte Usernamen und Passwort wählen!"
 
         assert any(expected_message in msg for msg in flashed_messages), \
             f"FEHLER: '{expected_message}' nicht gefunden. Gefunden: {flashed_messages}"
@@ -255,7 +255,7 @@ class TestAuthFlow:
         }, follow_redirects=True)
         
         flashed_messages = get_flashed_messages(with_categories=False)
-        expected_message = "Bitte fülle alle Felder aus"
+        expected_message = "Um einen Account anzulegen bitte Usernamen und Passwort wählen!"
 
         assert any(expected_message in msg for msg in flashed_messages), \
             f"FEHLER: '{expected_message}' nicht gefunden. Gefunden: {flashed_messages}"
