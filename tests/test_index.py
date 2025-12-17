@@ -264,6 +264,42 @@ class TestAuthFlow:
         assert any(expected_message in msg for msg in flashed_messages), \
             f"FEHLER: '{expected_message}' nicht gefunden. Gefunden: {flashed_messages}"
         
+    def test_login_fails_wrong_case(self, client):
+        """
+        ✅ Test: Login ist case-sensitive (streng).
+        Szenario: User registriert sich als 'MixedCaseUser'.
+        Login-Versuch als 'mixedcaseuser' muss fehlschlagen.
+        """
+        # 1. User korrekt registrieren (z.B. "MixedCaseUser")
+        username_real = "MixedCaseUser"
+        password = "SecurePass123"
+        
+        client.post('/', data={
+            'username': username_real,
+            'password': password,
+            'agb': 'on'
+        }, follow_redirects=True)
+        
+        # WICHTIG: Nach Registrierung ist man oft automatisch eingeloggt.
+        # Wir müssen uns erst ausloggen, um den falschen Login zu testen.
+        client.get('/logout', follow_redirects=True)
+        
+        # 2. Versuch: Login mit falscher Schreibweise (alles klein)
+        username_wrong = "mixedcaseuser"
+        
+        response = client.post('/login', data={
+            'username': username_wrong,
+            'password': password
+        }, follow_redirects=True)
+        
+        # 3. Überprüfungen
+        
+        # A) Wir dürfen NICHT im Spielermenü sein
+        assert 'Spielermenü'.encode('utf-8') not in response.data
+        
+        # B) Wir sollten wieder auf der Startseite/Login sein
+        assert b'name="username"' in response.data
+        
     def test_login_fail_empty_fields(self, client):
         """❌ Test: Fehlende Felder beim Login."""
         client.post('/login', data={
@@ -874,10 +910,6 @@ def test_clean_database_after_each_test(client):
     
     # Test sollte erfolgreich sein
     assert 'Spielermenü'.encode('utf-8') in response.data
-    
-    # Nach diesem Test sollte die DB durch die Fixture bereinigt werden
-    # Der nächste Test beginnt mit sauberer DB
-
 
 if __name__ == '__main__':
     # Direktes Ausführen der Tests (für Debugging)
