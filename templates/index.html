@@ -169,7 +169,7 @@
             return;
         }
         if (username.length > 12) {
-            (typeof createFlashMessage === 'function') ? createFlashMessage('Benutzername darf maximal 12 Zeichen haben.', 'error') : alert('Benutzername darf maximal 12 Zeichen haben.');
+            (typeof createFlashMessage === 'function') ? createFlashMessage('Benutzername darf maximal 12 Zeichen haben!', 'error') : alert('Benutzername darf maximal 12 Zeichen haben!');
             return;
         }
         if (password.length < 5) {

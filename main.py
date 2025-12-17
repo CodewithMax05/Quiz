@@ -1091,7 +1091,7 @@ def register():
             return redirect(url_for('index'))
 
         if len(username) > 12:
-            flash('Benutzername darf maximal 12 Zeichen haben', 'error')
+            flash('Benutzername darf maximal 12 Zeichen haben!', 'error')
             return redirect(url_for('index'))
 
         if User.query.filter_by(username=username).first():
@@ -1143,7 +1143,7 @@ def check_username():
         if not username:
             return jsonify({'available': False, 'message': 'Bitte gib einen Benutzernamen an.'}), 400
         if len(username) > 12:
-            return jsonify({'available': False, 'message': 'Benutzername darf maximal 12 Zeichen haben.'}), 200
+            return jsonify({'available': False, 'message': 'Benutzername darf maximal 12 Zeichen haben!'}), 200
 
         # Normale Prüfung in DB
         user = User.query.filter_by(username=username).first()

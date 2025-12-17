@@ -153,16 +153,16 @@ class TestAuthFlow:
         }, follow_redirects=True)
         
         flashed_messages = get_flashed_messages(with_categories=False)
-        expected_message = "Benutzername darf maximal 12 Zeichen haben."
+        expected_message = "Benutzername darf maximal 12 Zeichen haben!"
         
         assert any(expected_message in msg for msg in flashed_messages), \
             f"FEHLER: '{expected_message}' nicht gefunden. Gefunden: {flashed_messages}"
 
     def test_registration_fail_validation_password_too_short(self, client):
-        """❌ Test: Registrierung - Passwort zu kurz (< 8 Zeichen)."""
+        """❌ Test: Registrierung - Passwort zu kurz (< 5 Zeichen)."""
         client.post('/register', data={
             'username': 'ShortPWTest',
-            'password': 'short' # < 8 Zeichen
+            'password': '1234' # < 5 Zeichen
         }, follow_redirects=True)
         
         flashed_messages = get_flashed_messages(with_categories=False)
