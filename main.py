@@ -53,7 +53,6 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
     PERMANENT_SESSION_LIFETIME=timedelta(days=30),
-    SESSION_USE_SIGNER=True,
     SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
     SESSION_COOKIE_DOMAIN=None,
     SESSION_COOKIE_PATH='/'
@@ -108,7 +107,7 @@ class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
     def to_dict(self):
         return {
@@ -133,7 +132,7 @@ class Ticket(db.Model):
     status = db.Column(db.String(20), default='open', nullable=False, index=True)
 
     # Zeitstempel
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
     # Beziehung zu den Nachrichten
     messages = db.relationship('TicketMessage', backref='ticket', lazy='dynamic')
@@ -152,7 +151,7 @@ class TicketMessage(db.Model):
     sender_name = db.Column(db.String(80), nullable=False)
 
     content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     # Status, ob die Nachricht gelesen wurde
     read = db.Column(db.Boolean, default=False)
 

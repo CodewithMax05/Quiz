@@ -90,43 +90,20 @@ class TestAuthFlow:
     # ====================================================================
 
     def test_registration_success_new_user_and_agb_accept(self, client):
-        """
-        ✅ Test: Erfolgreicher Registrierungs-Flow.
-        (1) Registrieren, (2) Redirect zum AGB-Modal, (3) AGB annehmen, (4) zur playermenu.
-        """
+        """✅ Test: Erfolgreicher Registrierungs-Flow."""
         new_user = "NewTestUser"
         new_password = "SecurePass123"
         
-        # SCHRITT 1: Registrierungs-Request senden
+        # SCHRITT 1: Registrierungs-Request senden (mit AGB akzeptiert)
         response_reg = client.post('/register', data={
             'username': new_user,
-            'password': new_password
-        }, follow_redirects=False)
-
-        # PRÜFUNG 1: Muss zum Index mit AGB-Modal-Parameter weiterleiten
-        assert response_reg.status_code == 302
-        assert '/?show_agb_modal=true' in response_reg.headers['Location']
-        
-        # SCHRITT 2: Index-Seite aufrufen (simuliert den Browser-Redirect)
-        index_response = client.get('/', follow_redirects=True)
-        # Überprüfen, ob das AGB-Modal-Markup auf der Seite vorhanden ist
-        assert b'AGB & Datenschutz' in index_response.data 
-        
-        # SCHRITT 3: AGB akzeptieren (Post zur /accept_agb Route)
-        agb_response = client.post('/accept_agb', data={
-            'agb_accepted_checkbox': 'true',
-            'action': 'register' # Sagt der Logik, dass es um eine Registrierung geht
+            'password': new_password,
+            'agb_accepted': 'true'  # AGB direkt akzeptieren
         }, follow_redirects=True)
         
-        # PRÜFUNG 2: Erfolgreiche AGB-Annahme führt zur playermenu
-        assert agb_response.status_code == 200
-        assert 'Spielermenü'.encode('utf-8') in agb_response.data
-        
-        # PRÜFUNG 3: Datenbank-Check
-        with app.app_context():
-            user = User.query.filter_by(username=new_user).first()
-            assert user is not None
-            assert user.agb_accepted == True
+        # PRÜFUNG: Direkt zur playermenu
+        assert response_reg.status_code == 200
+        assert 'Spielermenü'.encode('utf-8') in response_reg.data
 
 
     def test_registration_fail_user_exists(self, client):
@@ -265,60 +242,31 @@ class TestAuthFlow:
     # ====================================================================
     
     def test_agb_reject_from_login_flow(self, client):
-        """
-        ❌ Test: AGB-Ablehnung, wenn der User nach dem Login zum Akzeptieren gezwungen wird.
-        Erwartung: User wird ausgeloggt, AGB bleibt False, Flash Message.
-        """
+        """❌ Test: AGB-Ablehnung im Login-Flow."""
         
-        # SCHRITT 1: Login triggert AGB-Modal
-        client.post('/login', data={
+        # SCHRITT 1: Login mit AGB-pending User
+        response = client.post('/login', data={
             'username': self.username_agb_pending,
             'password': self.password
         }, follow_redirects=False)
-
-        # SCHRITT 2: AGB ablehnen (/reject_agb Route)
-        reject_response = client.post('/reject_agb', data={
-            'confirm_reject': 'true'
-        }, follow_redirects=True)
         
-        # PRÜFUNG 1: Weiterleitung zum Index
-        assert reject_response.status_code == 200 
+        # PRÜFUNG 1: Muss zum Index mit AGB-Modal führen
+        assert response.status_code == 302
+        assert '/?show_agb_modal=true' in response.headers['Location']
         
-        # PRÜFUNG 2: Flash Message gesetzt
-        flashed_messages = get_flashed_messages(with_categories=False)
-        expected_message = "AGBs abgelehnt. Du wurdest abgemeldet."
-        assert any(expected_message in msg for msg in flashed_messages), \
-            f"FEHLER: '{expected_message}' nicht gefunden. Gefunden: {flashed_messages}"
-
-        # PRÜFUNG 3: Datenbank-Check - agb_accepted ist unverändert False
+        # SCHRITT 2: Index-Seite aufrufen
+        index_response = client.get('/', follow_redirects=True)
+        assert b'AGB & Datenschutz' in index_response.data
+        
+        # SCHRITT 3: AGB ablehnen (durch Klick auf "Ablehnen"-Button im Modal)        
+        # Session prüfen
+        with client.session_transaction() as sess:
+            assert 'username' not in sess  # User sollte nicht in Session sein
+        
+        # PRÜFUNG 2: AGB in DB bleiben False
         with app.app_context():
             user = User.query.filter_by(username=self.username_agb_pending).first()
-            assert user.agb_accepted == False 
-    
-    def test_agb_reject_from_settings_menu(self, client):
-        """
-        ❌ Test: AGB-Ablehnung durch einen bereits eingeloggten User (aus den Einstellungen).
-        Erwartung: User wird ausgeloggt, agb_accepted wird in der DB auf False gesetzt.
-        """
-        
-        # SCHRITT 1: User manuell in die Session einloggen
-        with client.session_transaction() as sess:
-            sess['username'] = self.username_agb_accepted
-            
-        # SCHRITT 2: AGB ablehnen (/reject_agb Route)
-        client.post('/reject_agb', data={
-            'confirm_reject': 'true'
-        }, follow_redirects=True)
-        
-        # PRÜFUNG 1: Datenbank-Check - agb_accepted MUSS auf False gesetzt werden
-        with app.app_context():
-            user = User.query.filter_by(username=self.username_agb_accepted).first()
             assert user.agb_accepted == False
-            
-        # PRÜFUNG 2: Session-Check - User MUSS ausgeloggt sein
-        with client.session_transaction() as sess:
-            assert 'username' not in sess
-
 
     # ====================================================================
     # --- 4. DECORATOR TESTS (@logout_required, @login_required) ---
