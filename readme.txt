@@ -66,7 +66,7 @@ python main.py
 6. Zugriff
 Die Website ist jetzt lokal auf deinem Computer erreichbar. Der Standard-Port ist 5000.
 
-Öffne deinen Browser und gehe zu: http://localhost:5000
+Öffne deinen Browser und gehe zu: http://localhost:5000 (Chrome empfohlen)
 
 Ausführen der Tests
 Um die Tests auszuführen, müssen zuerst die Test-Pakete installiert werden.
