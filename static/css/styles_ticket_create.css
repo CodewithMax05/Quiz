@@ -1,6 +1,6 @@
-/* =======================================
-   BASIS LAYOUT (Analog zu styles_tickets.css)
-   ======================================= */
+/* ============
+   BASIS LAYOUT
+   ============ */
 
 :root {
     --extra-gap: 20px;
@@ -15,6 +15,46 @@ html, body {
     min-height: 100dvh !important;
     overflow: hidden !important;
     display: block !important;
+}
+
+/* =======================================
+   CHROME AUTOCOMPLETE FIX (ULTIMATIV)
+   ======================================= */
+
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover, 
+.form-input:-webkit-autofill:focus, 
+.form-input:-webkit-autofill:active,
+.form-select:-webkit-autofill,
+.form-select:-webkit-autofill:hover, 
+.form-select:-webkit-autofill:focus, 
+.form-select:-webkit-autofill:active,
+.form-textarea:-webkit-autofill,
+.form-textarea:-webkit-autofill:hover, 
+.form-textarea:-webkit-autofill:focus, 
+.form-textarea:-webkit-autofill:active {
+    /* 1. Schriftfarbe Weiß/Hell erzwingen (SEHR WICHTIG) */
+    -webkit-text-fill-color: #f0f4f8 !important;
+    color: #f0f4f8 !important;
+    
+    /* 2. Cursor-Farbe fixieren */
+    caret-color: #f0f4f8;
+
+    /* 3. Der Trick: Hintergrund- und Farbwechsel extrem verzögern */
+    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+    
+    /* 4. Den normalen, nicht-fokussierten Rand fixieren (verhindert das Orange) */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 5. Fokus-Status explizit für Autocomplete-Felder überschreiben (Dein Lila) */
+.form-input:-webkit-autofill:focus,
+.form-select:-webkit-autofill:focus,
+.form-textarea:-webkit-autofill:focus {
+    /* Lila Border */
+    border-color: #8e2de2 !important; 
+    /* Lila Schatten */
+    box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.2);
 }
 
 .page-wrapper {

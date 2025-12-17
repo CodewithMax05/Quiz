@@ -142,20 +142,31 @@ h1 {
     cursor: not-allowed;
 }
 
-/* Autofill verhindern */
-input.input-field:-webkit-autofill,
-input.input-field:-webkit-autofill:hover,
-input.input-field:-webkit-autofill:focus,
-input.input-field:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.12) inset !important;
-    -webkit-text-fill-color: white !important;
-    transition: background-color 5000s ease-in-out 0s;
-}
+/* =======================================
+   CHROME AUTOCOMPLETE FIX (ULTIMATIV)
+   ======================================= */
 
-/* Firefox */
-input.input-field:-moz-autofill {
-    box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.12) inset !important;
-    -moz-text-fill-color: white !important;
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover, 
+.input-field:-webkit-autofill:focus, 
+.input-field:-webkit-autofill:active {
+    /* 1. Schriftfarbe Weiß/Hell erzwingen */
+    /* Du verwendest hier wahrscheinlich nur 'white' oder 'inherit', 
+       aber wir nehmen das allgemein helle #f0f4f8, falls es verwendet wird. 
+       WICHTIG: Beide Farbregeln sind notwendig */
+    -webkit-text-fill-color: #f0f4f8 !important;
+    color: #f0f4f8 !important; 
+    
+    /* 2. Cursor-Farbe fixieren */
+    caret-color: #f0f4f8;
+
+    /* 3. Der Trick: Hintergrund- und Farbwechsel extrem verzögern */
+    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+    
+    /* 4. Verhindern, dass Chrome den Rand ändert 
+       (Dein normaler Rand ist wahrscheinlich in styles_index.css definiert, 
+        aber wir setzen ihn hier explizit auf eine Standard-Transparenz zurück) */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 .input-field::placeholder {
