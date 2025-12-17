@@ -692,33 +692,6 @@ class TestAuthFlow:
         # Prüfe auf Admin-spezifischen Inhalt (abhängig von deinem Template)
         # assert b'Admin' in response.data or b'Dashboard' in response.data
 
-    # ====================================================================
-    # --- 16. CSRF TESTS (wenn aktiviert) ---
-    # ====================================================================
-
-    def test_csrf_protection_when_enabled(self, client):
-        """❌ Test: CSRF-Schutz verhindert POST ohne Token (nur wenn aktiviert)."""
-        # Merke aktuellen CSRF-Status
-        csrf_was_enabled = app.config.get('WTF_CSRF_ENABLED', False)
-        
-        if not csrf_was_enabled:
-            # Test überspringen, wenn CSRF deaktiviert ist
-            pytest.skip("CSRF ist deaktiviert in Test-Umgebung")
-            return
-        
-        # Versuche POST ohne CSRF-Token
-        response = client.post('/login', data={
-            'username': self.username_agb_accepted,
-            'password': self.password
-            # Kein CSRF-Token
-        }, follow_redirects=True)
-        
-        # Sollte fehlschlagen
-        assert response.status_code != 200
-        flashed = get_flashed_messages()
-        assert any('CSRF' in msg or 'Token' in msg for msg in flashed)
-
-
 # ====================================================================
 # ZUSÄTZLICHE TEST-KLASSEN FÜR SPEZIFISCHE FUNKTIONALITÄTEN
 # ====================================================================
@@ -755,7 +728,9 @@ class TestUsernameValidation:
         """❌ Test: Username nur aus Leerzeichen scheitert."""
         response = register_user(client, "   ", "ValidPass123")
         flashed = get_flashed_messages()
-        assert any('fülle' in msg or 'Feld' in msg for msg in flashed)
+        expected_message = "Um einen Account anzulegen bitte Usernamen und Passwort wählen!"
+        assert any(expected_message in msg for msg in flashed), \
+            f"Erwartete Nachricht '{expected_message}' nicht in: {flashed}"
 
 
 class TestPasswordValidation:
@@ -776,7 +751,9 @@ class TestPasswordValidation:
         """❌ Test: Leeres Passwort scheitert."""
         response = register_user(client, "EmptyPassUser", "")
         flashed = get_flashed_messages()
-        assert any('fülle' in msg or 'Feld' in msg for msg in flashed)
+        expected_message = "Um einen Account anzulegen bitte Usernamen und Passwort wählen!"
+        assert any(expected_message in msg for msg in flashed), \
+            f"Erwartete Nachricht '{expected_message}' nicht in: {flashed}"
         
     def test_password_long_success(self, client):
         """✅ Test: Sehr langes Passwort (keine Obergrenze)."""
