@@ -23,8 +23,10 @@
                        class="input-field" 
                        required 
                        id="username-field" 
+                       maxlength="12"
                        value="{{ pending_registration.username if pending_registration else '' }}">
             </div>
+            <div id="username-counter" class="input-hint">0 / 12</div>
 
             <div class="input-wrap">
                 <input
@@ -38,6 +40,7 @@
                     <i class="fa-solid fa-eye"></i>
                 </button>
             </div>
+            <div id="password-hint" class="input-hint">Min. 5 Zeichen</div>
 
             <input type="button" value="Anmelden" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
             <input type="button" value="Account erstellen" class="btn btn-register sound-button" onclick="prepareRegister()" id="register-btn">
@@ -189,7 +192,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // --- START: Hinzugefügter Code ---
         const usernameField = document.getElementById('username-field');
         const pwField = document.getElementById('password-field'); // Definition hierher verschoben
 
@@ -216,7 +218,57 @@
                 }
             });
         }
-        // --- ENDE: Hinzugefügter Code ---
+
+        const usernameCounter = document.getElementById('username-counter');
+        
+        function updateUsernameUI() {
+            if (!usernameField || !usernameCounter) return;
+            const len = usernameField.value.length;
+            const max = usernameField.getAttribute('maxlength') || 12;
+            
+            usernameCounter.textContent = `${len} / ${max}`;
+            
+            if (len >= max) {
+                usernameCounter.classList.add('limit-reached');
+            } else {
+                usernameCounter.classList.remove('limit-reached');
+            }
+        }
+
+        if (usernameField) {
+            usernameField.addEventListener('input', updateUsernameUI);
+            // Initial aufrufen, falls Browser Daten vorausgefüllt hat
+            updateUsernameUI();
+        }
+
+        const passwordHint = document.getElementById('password-hint');
+        
+        function updatePasswordUI() {
+            if (!pwField || !passwordHint) return;
+            const len = pwField.value.length;
+            const min = 5;
+
+            if (len === 0) {
+                // Leer: Standard Text
+                passwordHint.textContent = `Min. ${min} Zeichen`;
+                passwordHint.classList.remove('requirement-met');
+                passwordHint.style.color = ''; // Reset
+            } else if (len < min) {
+                // Zu kurz: Zeige wie viele noch fehlen (optional) oder bleibe bei Standard
+                passwordHint.textContent = `Noch ${min - len} Zeichen...`;
+                passwordHint.classList.remove('requirement-met');
+                passwordHint.style.color = ''; // Standard Grau
+            } else {
+                // Erfüllt: Grüner Haken oder Text
+                passwordHint.innerHTML = '<i class="fa-solid fa-check"></i> Gültig';
+                passwordHint.classList.add('requirement-met');
+            }
+        }
+
+        if (pwField) {
+            pwField.addEventListener('input', updatePasswordUI);
+            updatePasswordUI();
+        }
 
         const pwToggle = document.querySelector('.pw-toggle');
         if (pwField && pwToggle) { // pwField ist jetzt hier bereits definiert

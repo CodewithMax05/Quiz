@@ -178,6 +178,34 @@ input.input-field:-moz-autofill {
     width: 100%;              /* Layout: Verhält sich wie das Passwort-Feld (100% des Containers) */
     max-width: 320px;         /* Layout: Maximale Breite */
     box-sizing: border-box;
+    margin-bottom: 6px !important;
+}
+
+.input-hint {
+    /* Layout damit es genauso breit/zentriert ist wie das Input-Feld */
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 22px; /* Hier ist jetzt der große Abstand zum nächsten Element */
+    box-sizing: border-box;
+    
+    /* Text Styling */
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    min-height: 1.2em;
+    padding-right: 4px; /* Kleiner Abstand vom rechten Rand */
+}
+
+/* Wenn das Limit beim Username erreicht ist */
+.input-hint.limit-reached {
+    color: #ff4b2b; /* Rot, passend zu deinen Error-Messages */
+}
+
+/* Wenn die Mindestanforderung beim Passwort erfüllt ist */
+.input-hint.requirement-met {
+    color: #38ef7d; /* Grün, passend zum Register-Button */
 }
 
 #password-field {
