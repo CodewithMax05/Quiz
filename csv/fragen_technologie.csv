@@ -119,3 +119,103 @@ Technologie;Was ist der Unterschied zwischen 'Wi-Fi 5' und 'Wi-Fi 6'?;Wi-Fi 6 is
 Technologie;Welche Funktion hat ein 'Boot Sector' auf einer Festplatte?;Enthält den Code, der das Betriebssystem startet;Speichert alle Benutzerdateien;Optimiert die Akkulaufzeit;Auf ihm wird das Backup gespeichert
 Technologie;Was ist 'Speicher-Deduplizierung'?;Entfernung redundanter Kopien identischer Daten;Verdopplung aller Daten für Redundanz;Ein Protokoll für VoIP-Telefonie;Eine Methode zur CPU-Kühlung
 Technologie;Was ist der Hauptzweck einer 'Web Accessibility'?;Gestaltung von Webseiten, damit sie für alle nutzbar sind;Reduzierung der Ladezeit von Webseiten;Blockierung von Werbung auf Webseiten;Verbesserung der Farbdarstellung auf Webseiten
+
+
+
+
+
+
+Technologie;Wie bezeichnet man ein Programm, das unbefugten Zugriff auf einen Computer ermöglicht und im System versteckt bleibt?;Rootkit;Compiler;Defragmentierer;Proxy
+Technologie;Warum wird in modernen Rechenzentren oft eine Wasserkühlung statt Luftkühlung eingesetzt?;Wasser leitet Wärme effizienter ab als Luft;Wasser ist leichter als Luft;Luftkühlung verbraucht mehr Strom als der Server selbst;Wasser verhindert statische Elektrizität vollständig
+Technologie;Welches Dateisystem wird standardmäßig für Apple-Geräte mit macOS und iOS verwendet?;APFS;NTFS;FAT32;EXT4
+Technologie;Was ist die Hauptaufgabe des 'Kernels' in einem Betriebssystem?;Verwaltung der Hardware-Ressourcen und Prozesse;Darstellung der grafischen Benutzeroberfläche;Verschlüsselung der Internetverbindung;Sortierung von E-Mails im Posteingang
+Technologie;Ordne den Begriff 'Latency' richtig zu. Was beschreibt er im Netzwerk?;Die Zeitspanne zwischen Anfrage und Antwort;Die maximale Datenmenge pro Sekunde;Die physische Länge der Glasfaser;Die Anzahl der Hops bis zum Ziel
+Technologie;Wofür wird die 'Thermal Design Power' (TDP) bei Prozessoren angegeben?;Maximale Wärmeabgabe, die das Kühlsystem ableiten muss;Die Anzahl der Transistoren pro mm²;Die maximale Stromspannung des Netzteils;Die Geschwindigkeit des L1-Caches
+Technologie;Welches Protokoll sorgt dafür, dass Webseiten heute fast nur noch über Port 443 aufgerufen werden?;HTTPS;FTP;Telnet;SMTP
+Technologie;Was ist der Hauptvorteil von 'Container-Orchestrierung' (z.B. Kubernetes)?;Automatisierte Skalierung und Verwaltung von Containern;Erstellung von Backups auf physischen Tapes;Verschlüsselung von Passwörtern im Browser;Kühlung der Serverhardware
+Technologie;Wie unterscheidet sich eine 'Public Cloud' von einer 'Private Cloud'?;Public Cloud wird mit anderen Kunden geteilt;Private Cloud ist immer kostenlos;Public Cloud ist nur für Mobilgeräte;Private Cloud benötigt kein Internet
+Technologie;Was bewirkt die 'Defragmentierung' bei einer klassischen HDD-Festplatte?;Sie ordnet Dateifragmente für schnelleren Zugriff neu an;Sie löscht ungenutzte Programme automatisch;Sie erhöht die Spannung des Schreibkopfs;Sie wandelt das Dateisystem in NTFS um
+Technologie;Welches Bauteil fungiert als 'Gedächtnis' für die CPU und speichert kurzzeitig Befehle?;Cache;Netzteil;Lüfter;Soundkarte
+Technologie;Warum nutzen Unternehmen oft ein 'Active Directory' (AD)?;Zur zentralen Verwaltung von Benutzern und Computern;Zum Streamen von Werbevideos;Zur Erstellung von 3D-Grafiken;Zum Schutz vor physischem Diebstahl
+Technologie;Was versteht man unter 'Over-Provisioning' bei einer SSD?;Reservierung von Speicherplatz für die Controller-Verwaltung;Übertakten des Speichercontrollers;Nutzung der SSD als Arbeitsspeicher;Kauf von mehr SSDs als nötig
+Technologie;Welche Technologie steckt hinter der automatischen Vervollständigung von Sätzen in E-Mails?;Künstliche Intelligenz / NLP;Blockchain;NFC-Chips;Infrarot-Sensoren
+Technologie;Wie erkennt man eine gesicherte Verbindung in der Adressleiste des Browsers?;Durch ein Schloss-Symbol;Durch ein blaues Hintergrundbild;Durch das Fehlen der URL;Durch eine blinkende LED am Monitor
+Technologie;Was ist 'Raytracing' in modernen Grafikkarten?;Physikalisch korrekte Berechnung von Lichtstrahlen;Eine Methode zum schnelleren Download;Ein Tool zur Bildkomprimierung;Ein Standard für kabellose Mausübertragung
+Technologie;Wofür steht die Abkürzung 'GPU'?;Graphics Processing Unit;General Power Utility;Global Positioning Unit;Grid Processing Unit
+Technologie;Was ist der Hauptvorteil von 5G gegenüber LTE?;Höhere Datenrate und geringere Latenz;Größere Reichweite der einzelnen Funkzelle;Funktioniert ohne SIM-Karte;Verbraucht gar keinen Strom am Endgerät
+Technologie;Welches Protokoll ermöglicht das Senden von Dateien zwischen zwei Rechnern im Netzwerk?;FTP;HTML;CSS;PNG
+Technologie;Was passiert bei einem 'Cold Boot'?;Der Computer startet aus dem komplett ausgeschalteten Zustand;Das Betriebssystem wird nur aktualisiert;Die CPU wird künstlich verlangsamt;Ein Virus wird isoliert
+Technologie;Was ist der Zweck von 'VRAM'?;Speicherplatz für Bilddaten auf der Grafikkarte;Ein Backup-System für Server;Ein spezieller Modus für Virtual Reality;Ein Schutz gegen Überspannung
+Technologie;Wie nennt man die kleinste Informationseinheit in der Digitaltechnik?;Bit;Byte;Pixel;Gigahertz
+Technologie;Wofür wird das 'Markdown'-Format oft genutzt?;Einfache Formatierung von Text mit Symbolen;Berechnung von Finanzdaten;Verschlüsselung von Festplatten;Steuerung von Satelliten
+Technologie;Welche Hardware-Komponente wandelt Wechselstrom aus der Steckdose in Gleichstrom um?;Netzteil (PSU);Mainboard;Prozessor;RAM
+Technologie;Was ist ein 'Zombie-PC'?;Ein mit Malware infizierter Rechner in einem Botnetz;Ein Computer ohne Betriebssystem;Ein Rechner, der über 10 Jahre alt ist;Ein PC, der sich nicht mehr ausschalten lässt
+Technologie;Welches Protokoll wird standardmäßig für die Zuweisung von IP-Adressen genutzt?;DHCP;DNS;SSH;IMAP
+Technologie;Was beschreibt der Begriff 'Open Source' primär?;Freie Verfügbarkeit und Änderbarkeit des Quellcodes;Kostenlose Nutzung für alle Ewigkeit;Software ohne grafische Oberfläche;Hardware, die man selbst löten muss
+Technologie;Was macht ein 'Compiler'?;Er übersetzt Programmiersprache in Maschinencode;Er löscht Viren von der Festplatte;Er verbindet den PC mit dem WLAN;Er optimiert die Bildschirmhelligkeit
+Technologie;Wofür wird ein 'Proxy-Server' oft eingesetzt?;Anonymisierung und Filterung von Anfragen;Beschleunigung der CPU-Taktfrequenz;Speicherung von BIOS-Einstellungen;Drucken von Dokumenten über Funk
+Technologie;Was ist der Hauptunterschied zwischen IPv4 und IPv6?;IPv6 hat einen viel größeren Adressraum;IPv4 ist schneller bei Videos;IPv6 benötigt kein Kabel;IPv4 funktioniert nur in Europa
+Technologie;Wie nennt man die Technik, bei der eine CPU mehrere Befehlsketten gleichzeitig abarbeitet?;Multithreading;Defragmentierung;Overclocking;Caching
+Technologie;Was ist ein 'Mainboard'?;Die zentrale Platine, die alle Komponenten verbindet;Das Gehäuse des Computers;Der Bildschirm eines Laptops;Die Software zur Dateiverwaltung
+Technologie;Welche Funktion hat ein 'L1-Cache'?;Sehr schneller Zwischenspeicher direkt in der CPU;Sicherungskopie der Festplattendaten;Speicherung von Browser-Verläufen;Verbindung zum Router
+Technologie;Wofür steht 'VPN'?;Virtual Private Network;Verified Personal Name;Variable Power Node;Virtual Protocol Navigation
+Technologie;Was ist die Hauptaufgabe eines 'Load Balancers'?;Verteilung von Anfragen auf mehrere Server;Kühlung des Serverraums;Speicherung von Passwörtern;Erstellung von Nutzerprofilen
+Technologie;Wie unterscheidet sich ein 'Virus' von einem 'Wurm'?;Ein Wurm verbreitet sich selbstständig im Netzwerk;Ein Virus ist immer kostenlos;Ein Wurm löscht nur Bilder;Ein Virus benötigt kein Betriebssystem
+Technologie;Welches Unternehmen entwickelte das Android-Betriebssystem?;Google (nach Übernahme von Android Inc.);Apple;Microsoft;Samsung
+Technologie;Was ist 'Zwei-Faktor-Authentisierung'?;Anmeldung mit Passwort und einer weiteren Methode;Zwei Passwörter für dasselbe Konto;Anmeldung an zwei PCs gleichzeitig;Ein Backup auf zwei Festplatten
+Technologie;Welche Technologie wird für die Kommunikation in einem Smart Home oft genutzt?;Zigbee / Z-Wave;SATA;HDMI;DDR4
+Technologie;Was bedeutet 'Latenz' beim Online-Gaming?;Die Verzögerungszeit der Internetverbindung;Die Anzahl der Bilder pro Sekunde;Die Größe der heruntergeladenen Datei;Die Lautstärke des Spiele-Sounds
+Technologie;Was ist 'Phishing'?;Versuch, über gefälschte Mails an Daten zu gelangen;Ein Programm zum Sichern von Fotos;Ein neues Dateiformat für Musik;Eine Methode zur WLAN-Erweiterung
+Technologie;Wofür steht 'USB'?;Universal Serial Bus;Unified System Backup;User System Bridge;Universal Signal Board
+Technologie;Was ist ein 'Snapshot' in der Virtualisierung?;Ein gespeicherter Zustand einer virtuellen Maschine;Ein Foto des Computer-Gehäuses;Eine sehr kleine Festplatte;Ein Tool zur Bildbearbeitung
+Technologie;Welche Funktion hat 'Bluetooth'?;Drahtlose Datenübertragung über kurze Distanzen;Verschlüsselung der gesamten Festplatte;Messung der CPU-Temperatur;Beschleunigung des Internet-Downloads
+Technologie;Was ist 'Cloud-Storage'?;Speicherung von Daten auf entfernten Servern;Ein spezieller Speicher für Wetterdaten;Eine Hardware zur Luftreinigung im PC;Ein sehr schneller RAM-Riegel
+Technologie;Was ist der Zweck eines 'BIOS'?;Initialisierung der Hardware beim Starten;Verwaltung von Excel-Tabellen;Erstellung von Grafiken für Spiele;Schutz vor Spam-Mails
+Technologie;Welcher Port wird für unverschlüsselte Webverbindungen (HTTP) genutzt?;80;443;21;25
+Technologie;Was ist ein 'Hyperlink'?;Ein Verweis auf ein anderes Dokument oder eine Webseite;Ein besonders schnelles Internetkabel;Ein Teil der CPU-Kühlung;Ein Standard für USB-Stecker
+Technologie;Was beschreibt die 'Pixeldichte' (PPI)?;Anzahl der Bildpunkte pro Zoll;Die maximale Helligkeit des Bildschirms;Die Geschwindigkeit des Prozessors;Die Dicke eines Monitors
+Technologie;Was ist 'Malware'?;Sammelbegriff für bösartige Software;Ein Bauteil in der Maus;Ein Programm zur Textverarbeitung;Die Firmware eines Druckers
+Technologie;Welche Technologie ermöglicht das Bezahlen mit der Smartwatch?;NFC;GPS;WLAN;LTE
+Technologie;Was ist 'Edge Computing'?;Datenverarbeitung direkt am Entstehungsort (nah am Gerät);Speicherung von Daten in der Mitte der Cloud;Ein neuer Browser von Microsoft;Ein spezielles Kabel für Monitore
+Technologie;Wofür wird 'CSS' verwendet?;Gestaltung und Layout von Webseiten;Programmierung von Datenbanken;Sicherung von Netzwerken;Erstellung von E-Mail-Konten
+Technologie;Was ist ein 'Pixel'?;Der kleinste Bildpunkt auf einem Display;Ein Bauteil im Netzteil;Eine Maßeinheit für Strom;Ein spezieller CPU-Kern
+Technologie;Was bedeutet 'Full-HD'?;Eine Auflösung von 1920x1080 Pixeln;Ein Monitor mit Touchscreen;Die maximale Lautstärke;Eine sehr schnelle Internetverbindung
+Technologie;Was ist ein 'Server'?;Ein Computer, der Dienste oder Daten bereitstellt;Ein besonders teurer Laptop;Ein Programm zum Musik hören;Ein spezieller Stecker für das Internet
+Technologie;Was bedeutet 'Streaming'?;Direktes Abspielen von Daten während der Übertragung;Speichern von Videos auf einer DVD;Ein Tool zum Komprimieren von Fotos;Das Löschen von alten Dateien
+Technologie;Was ist ein 'Algorithmus'?;Eine klare Handlungsanweisung zur Problemlösung;Ein Bauteil in der Tastatur;Ein spezieller Grafikchip;Ein Passwort-Manager
+Technologie;Wofür steht 'CPU'?;Central Processing Unit;Computer Power Unit;Central Peripheral Unit;Control Panel Utility
+Technologie;Was ist ein 'Firmware-Update'?;Aktualisierung der hardwarenahen Software;Einbau einer neuen Festplatte;Löschen der Benutzerkonten;Reinigung des Gehäuses
+Technologie;Was ist der Unterschied zwischen einem Bit und einem Byte?;8 Bit entsprechen einem Byte;Ein Byte ist kleiner als ein Bit;Ein Bit ist nur für Audio;Es gibt keinen Unterschied
+Technologie;Was ist eine 'Sandbox'?;Eine isolierte Umgebung zum sicheren Ausführen von Programmen;Ein physisches Gehäuse für USB-Sticks;Ein Tool zur Datenbank-Bereinigung;Ein spezieller Spiele-Modus
+Technologie;Welches Dateiformat wird oft für transparente Grafiken im Web genutzt?;PNG;JPG;MP3;TXT
+Technologie;Was ist 'VoIP'?;Telefonieren über das Internet;Ein Protokoll für Drucker;Ein neuer Standard für Akkus;Ein spezieller Modus für Grafikkarten
+Technologie;Wofür steht 'PoE'?;Power over Ethernet (Strom über Netzwerkkabel);Point of Entry;Path of Encryption;Protocol of Efficiency
+Technologie;Was ist ein 'Patch'?;Eine kleine Software-Korrektur zur Fehlerbehebung;Ein physisches Ersatzteil für den PC;Ein Tool zum Übertakten;Ein spezielles WLAN-Kabel
+Technologie;Welches Gerät verbindet mehrere Computer innerhalb eines lokalen Netzwerks?;Switch;Modem;Scanner;Soundkarte
+Technologie;Was ist der Hauptzweck von 'RAID 1'?;Spiegelung von Daten zur Ausfallsicherheit;Erhöhung der Speicherkapazität;Kühlung der Festplatte;Automatische Dateikomprimierung
+Technologie;Welche Komponente im PC ist primär für die Grafikberechnung zuständig?;Grafikkarte (GPU);Arbeitsspeicher (RAM);Netzteil;Soundkarte
+Technologie;Was ist 'Machine Learning'?;Ein Bereich der KI, in dem Computer aus Daten lernen;Das manuelle Eintippen von Code;Der Zusammenbau von Robotern;Ein Test für die Festplatte
+Technologie;Wofür steht 'PDF'?;Portable Document Format;Personal Data File;Private Digital Folder;Public Data Format
+Technologie;Was ist ein 'Webbrowser'?;Ein Programm zum Anzeigen von Webseiten;Ein spezielles Kabel für den Router;Ein Server im Internet;Ein Virus, der Werbung zeigt
+Technologie;Was ist 'Verschlüsselung'?;Umwandlung von Daten in eine unlesbare Form;Löschen von Metadaten;Kopieren von Dateien;Vergrößern von Bildern
+Technologie;Was bedeutet 'Backup'?;Eine Sicherungskopie von Daten erstellen;Die Festplatte komplett löschen;Den PC schneller machen;Zwei Monitore gleichzeitig nutzen
+Technologie;Was ist 'Open Source'?;Software, deren Quellcode frei einsehbar ist;Hardware, die man nicht öffnen darf;Ein Internetzugang ohne Passwort;Ein Programm, das nur online funktioniert
+Technologie;Welche Funktion hat ein 'Lüfter' im PC?;Abtransport von Wärme zur Kühlung;Erhöhung der Internetgeschwindigkeit;Sicherung der Daten;Beleuchtung des Gehäuses
+Technologie;Was ist 'Multitasking'?;Das gleichzeitige Ausführen mehrerer Aufgaben;Die Nutzung von zwei Tastaturen;Das Einbauen von zwei CPUs;Ein sehr schnelles Internet
+Technologie;Was ist der Unterschied zwischen 'Download' und 'Upload'?;Download empfängt Daten, Upload sendet Daten;Upload ist immer schneller;Download braucht kein Internet;Es ist das Gleiche
+Technologie;Wofür steht 'Ghz'?;Gigahertz (Maß für die Taktfrequenz);Gigahits (Anzahl der Klicks);Global Hertz (Stromverbrauch);General Hits (Speicherplatz)
+Technologie;Was ist ein 'Hotspot'?;Ein drahtloser Internetzugangspunkt;Ein besonders heißer Prozessor;Ein Tool zur Bildbearbeitung;Ein neuer Typ von Monitor
+Technologie;Was ist eine 'IP-Adresse'?;Eine Nummer zur Identifizierung von Geräten im Netz;Das Geburtsdatum des Nutzers;Der Name des Internetproviders;Ein Code für Rabatte
+Technologie;Wofür wird 'HTML' genutzt?;Strukturierung von Webinhalten;Berechnung von 3D-Grafiken;Kühlung von Servern;Bearbeitung von Musik
+Technologie;Was ist 'Zippen'?;Komprimieren von Dateien zur Platzersparnis;Verschlüsseln von E-Mails;Löschen von alten Fotos;Drucken von Dokumenten
+Technologie;Was bedeutet 'WLAN'?;Wireless Local Area Network;Wide Logic Access Node;Web Link Authentication Network;Wired Local Area Network
+Technologie;Was ist ein 'Treiber'?;Software zur Steuerung von Hardwarekomponenten;Ein physischer Hebel im PC;Ein Programm zum Autofahren;Ein spezieller USB-Stick
+Technologie;Was ist eine 'Datenbank'?;Ein System zur strukturierten Datenspeicherung;Ein Ordner auf dem Desktop;Ein physischer Tresor;Ein Tool zum Zeichnen
+Technologie;Wofür steht 'IT'?;Informationstechnik;Internet-Telefonie;Interne Technologie;Intelligente Transformation
+Technologie;Was ist 'Spam'?;Unerwünschte Werbe-Nachrichten;Ein Programm zum Defragmentieren;Ein Bauteil im Monitor;Ein spezieller Arbeitsspeicher
+Technologie;Was ist ein 'Plug-in'?;Eine Erweiterung für eine Software;Ein neuer Stecker für den PC;Ein Virus im Browser;Ein Tool zum Löschen von Daten
+Technologie;Was beschreibt die 'Reaktionszeit' eines Monitors?;Zeit für den Farbwechsel eines Pixels;Zeit zum Einschalten des Geräts;Dauer eines Downloads;Lautstärke der Boxen
+Technologie;Was ist 'Deep Learning'?;Ein Teil der KI, der neuronale Netze nutzt;Ein Programm zum tiefen Löschen;Eine Methode zum Übertakten;Ein Standard für Unterseekabel
+Technologie;Was ist ein 'Screenshot'?;Abbild des aktuellen Bildschirminhalts;Ein kaputter Monitor;Ein Tool zum Versenden von Mails;Ein spezieller Grafikchip
+Technologie;Wofür steht 'SATA'?;Serial Advanced Technology Attachment;Secure Access Tool;System Audio Terminal;Standard Analog Tool
+Technologie;Was ist 'Social Engineering'?;Manipulation von Menschen zum Erhalt von Daten;Programmierung von sozialen Netzwerken;Reparatur von Hardware;Ein neues Dateiformat
