@@ -1,10 +1,20 @@
 <!DOCTYPE html>
+
+<!--
+Grundlegende HTML-Struktur, die von allen anderen Templates erweitert wird
+Enthält:
+1. Grundlegende Meta-Tags und Links
+2. Flash-Message-Container für Benachrichtigungen
+3. Globale JavaScript-Funktionen
+4. WebSocket-Integration
+5. Inaktivitäts-Timer
+-->
+
 <html lang="de">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<meta name="google" content="notranslate">
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_base.css') }}">
@@ -23,7 +33,7 @@
 		<!-- CSRF -->
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 
-		<!-- Sounds -->
+		<!-- Sounds (nur rudimentär) -->
 		<audio id="clickSound" preload="auto">
 			<source src="{{ url_for('static', filename='sounds/button_klick_1.mp3') }}" type="audio/mpeg">
 		</audio>
@@ -31,25 +41,29 @@
 		<title>Clash under Minds</title>
 
 		{%block head%}
-
+		<!-- Block für seiten-spezifische Kopf-Elemente -->
 		{% endblock %}
 	</head>
+	<!-- Datenattribute für JavaScript-Zugriff -->
 	<body data-was-correct="{{ 'true' if was_correct else 'false' }}" 
       data-is-logged-in="{{ 'true' if is_logged_in else 'false' }}"
       data-is-admin="{{ 'true' if is_admin else 'false' }}" 
       data-automatic-logout-url="{{ url_for('automatic_logout') }}">
 
 		<!-- ZENTRALER FLASH-MESSAGE CONTAINER -->
+		 <!-- Anzeige von Erfolgs-, Fehler- und Info-Nachrichten -->
 		<div id="flash-container">
 			{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 					{% for category, message in messages %}
 						{% if category == 'permanent' %}
+						<!-- Permanente Nachrichten (Inaktivitätswarnungen) -->
 						<div class="permanent-message" id="permanent-flash">
 							<div class="message-content">{{ message }}</div>
 							<button class="close-btn" onclick="closePermanentMessage()">&times;</button>
 						</div>
 						{% else %}
+						<!-- Temporäre Nachrichten mit Auto-Fade-Out -->
 						<div class="{% if category == 'error' %}error-message{% elif category == 'info' %}info-message{% else %}success-message{% endif %}">
 							{{ message }}
 							<div class="custom-progress-bar"></div>
@@ -61,10 +75,10 @@
 		</div>
 		
 		{%block body%}
-
+		<!-- Hauptinhalt der Seite wird hier eingefügt -->
 		{% endblock %}
 
-		<!-- Socket.io Script am Ende des body für bessere Ladeleistung -->
+		<!-- Socket.io für Echtzeit-Kommunikation (Quiz) -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 		
 		<script>
@@ -98,8 +112,8 @@
 					console.error("Sound error:", e);
 				}
 			}
-			// neu
-			// Sound-Event für alle Buttons
+
+			// Sound-Event für alle sound-Buttons
 			document.addEventListener('DOMContentLoaded', () => {
 				document.querySelectorAll('.sound-button').forEach(el => {
 					el.addEventListener('click', () => {
@@ -108,7 +122,7 @@
 				});
 			});
 
-			// Funktion für permanente Nachrichten (aus index.html)
+			// Funktion für permanente Nachrichten
 			function closePermanentMessage() {
 				const permanentMessage = document.getElementById('permanent-flash');
 				if (permanentMessage) {
@@ -123,7 +137,7 @@
 				}
 			}
 
-			// Globale Flash-Message Funktion (für ranking.html, homepage.html, etc.)
+			// Globale Flash-Message Funktion (Info/Error/Success)
 			function createFlashMessage(text, type = 'info') {
 				const flashContainer = document.getElementById('flash-container');
 				if (!flashContainer) return;
@@ -141,11 +155,11 @@
 				
 				// Korrekte Klasse basierend auf type setzen
 				if (type === 'error') {
-					messageDiv.className = 'error-message';
+					messageDiv.className = 'error-message'; // rot
 				} else if (type === 'success') {
-					messageDiv.className = 'success-message'; // Das wird grün
+					messageDiv.className = 'success-message'; // grün
 				} else {
-					messageDiv.className = 'info-message'; // Standard ist blau
+					messageDiv.className = 'info-message'; // blau
 				}
 				
 				messageDiv.textContent = text;
@@ -169,14 +183,14 @@
 				}, 5000);
 			}
 
-			// Inaktivitäts-Timer (nur für eingeloggte Benutzer)
+			// Inaktivitäts-Timer (eingeloggte Benutzer, kein Admin)
 			document.addEventListener('DOMContentLoaded', function() {
 				const body = document.body;
 				const isLoggedIn = body.getAttribute('data-is-logged-in') === 'true';
-				const isAdmin = body.getAttribute('data-is-admin') === 'true'; // Neue Prüfung
+				const isAdmin = body.getAttribute('data-is-admin') === 'true';
 				const automaticLogoutUrl = body.getAttribute('data-automatic-logout-url');
 				
-				// Logik nur starten, wenn eingeloggt UND KEIN Admin
+				// Logik nur starten, wenn eingeloggt und kein Admin
 				if (isLoggedIn && !isAdmin) {
 					let warningTimer;
 					let logoutTimer;
@@ -209,8 +223,7 @@
 								warningMessageElement = null;
 							}, 300);
 						}
-						
-						startTimers();
+						startTimers(); // Timer neustarten
 					}
 
 					function showInactivityWarning() {
@@ -241,10 +254,10 @@
 					// Timer initial starten
 					startTimers();
 
-					// Event-Listener für Aktivität ("Maus & Tastatur")
+					// Event-Listener für Aktivität (Maus & Tastatur)
 					const events = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
 					
-					// Debouncing: Nicht bei jedem Pixel Mausbewegung feuern, sondern maximal alle 500ms
+					// Nicht bei jedem Pixel Mausbewegung feuern, sondern maximal alle 500ms
 					let eventTimeout;
 					const eventHandler = () => {
 						if (!eventTimeout) {
@@ -254,7 +267,6 @@
 							}, 500);
 						}
 					};
-
 					events.forEach(event => {
 						document.addEventListener(event, eventHandler);
 					});
@@ -263,7 +275,7 @@
 				}
 			});
 
-			// zeit konvertieren
+			// Zeit konvertieren ISO-Format zu lokaler Zeit
 			function formatIsoToLocal(iso) {
 				if (!iso) return null;
 				const d = new Date(iso);
@@ -275,6 +287,8 @@
 				const mins = String(d.getMinutes()).padStart(2, '0');
 				return `${day}.${month}.${year} ${hours}:${mins}`;
 			}
+
+			// Konvertiert alle UTC-Zeit-Elemente auf der Seite
 			function convertUtcTimeElements(root = document) {
 				root.querySelectorAll && root.querySelectorAll('time.utc-time').forEach(el => {
 					const iso = el.dataset.iso || el.getAttribute('datetime') || el.textContent.trim();
@@ -287,16 +301,16 @@
 					}
 				});
 			}
+
+			// Zeitkonvertierung bei Seitenladung ausführen
 			document.addEventListener('DOMContentLoaded', () => convertUtcTimeElements());
-			// Kleine MutationObserver nur bei Bedarf (siehe ranking.html Beispiel)
 		</script>
 
-		<!-- Quiz-Schutz-Script -->
 		<script>
-		/*
-		Vereinfachter pageshow-Handler:
-		- BFCache-Fall: wenn e.persisted und auf '/', dann serverseitig ausloggen
-		*/
+		// ============================================
+		// QUIZ-SCHUTZ (Verhindert unerlaubtes Verlassen)
+		// ============================================
+
 		window.addEventListener('pageshow', function(e) {
 			try {
 				// Prüfe, ob wir das Quiz gerade absichtlich verlassen haben
@@ -312,7 +326,7 @@
 
 				// BFCache + Index => serverseitig ausloggen
 				if (fromBFCache && path === '/') {
-					// Nutze deine vorhandene Logout-Route (stoppt Timer + session.clear())
+					// Nutze vorhandene Logout-Route (stop Timer + Session löschen)
 					window.location.href = "{{ url_for('logout') }}";
 					return;
 				}

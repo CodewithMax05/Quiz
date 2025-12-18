@@ -2,36 +2,38 @@ from gevent import monkey, spawn, sleep
 monkey.patch_all()
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, abort, make_response
-from flask_bcrypt import Bcrypt
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import SQLAlchemyError, OperationalError
-from sqlalchemy import func, or_
+from flask_bcrypt import Bcrypt  # Passwort-Hashing
+from flask_sqlalchemy import SQLAlchemy  # ORM für Datenbank
+from sqlalchemy.exc import SQLAlchemyError, OperationalError  # Datenbank-Fehler
+from sqlalchemy import func, or_  # Datenbank-Funktionen und Operatoren
 import os
 import random
 import csv
 import time
 import io
 from collections import defaultdict
-from flask_session import Session
+from flask_session import Session  # Serverseitige Sessions
 from datetime import datetime, timezone, timedelta
-from flask_socketio import SocketIO, emit, join_room, leave_room
-import uuid
-from threading import Lock
-from werkzeug.middleware.proxy_fix import ProxyFix
-from functools import wraps
-from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError
-from dotenv import load_dotenv
+from flask_socketio import SocketIO, emit, join_room, leave_room  # WebSockets für Echtzeit-Quiz
+import uuid  # Eindeutige IDs für Quiz-Räume
+from threading import Lock  # Thread-Sicherheit für Timer
+from werkzeug.middleware.proxy_fix import ProxyFix  # Proxy-Unterstützung
+from functools import wraps  # Für Decorator-Funktionen
+from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError  # CSRF-Schutz
+from dotenv import load_dotenv  # Umgebungsvariablen aus .env-Datei
 
-load_dotenv()
+load_dotenv() # Lädt Umgebungsvariablen aus .env-Datei
 
+# Flask-App-Initialisierung
 app = Flask(__name__)
 csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren (automatischer before handler)
 
+# Proxy-Einstellungen für Render/Heroku
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
-# WebSocket-Konfiguration für Render
+# WebSocket-Konfiguration
 socketio = SocketIO(app, 
-                   async_mode='gevent', 
+                   async_mode='gevent', # Asynchrone Verarbeitung mit gevent
                    manage_session=False,
                    logger=True,  # Für Debugging aktivieren
                    engineio_logger=True,  # Für Debugging aktivieren
@@ -41,6 +43,7 @@ socketio = SocketIO(app,
                    allow_upgrades=True,  # WebSocket-Upgrades erlauben
                    transports=['websocket', 'polling'])  # Beide Transportmethoden
 
+# Datenbank-Konfiguration (PostgreSQL in Production, SQLite lokal)
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db')
 if database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
@@ -49,17 +52,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 is_production = os.environ.get('FLASK_ENV') == 'production'
 
+# Sicherheits- und Session-Konfiguration
 app.config.update(
-    SESSION_COOKIE_SECURE=is_production,
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_COOKIE_SECURE=is_production, # HTTPS nur in Production
+    SESSION_COOKIE_HTTPONLY=True, # Verhindert JavaScript-Zugriff auf Cookies
+    SESSION_COOKIE_SAMESITE='Lax', # CSRF-Schutz
     PERMANENT_SESSION_LIFETIME=timedelta(days=30),
-    SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()),
+    SECRET_KEY=os.environ.get('SECRET_KEY', os.urandom(24).hex()), # Zufälliger Key falls nicht gesetzt (Fallback)
     SESSION_COOKIE_DOMAIN=None,
     SESSION_COOKIE_PATH='/'
 )
 
+# Datenbank- und Authentifizierungs-Initialisierung
 db = SQLAlchemy(app)
+
+# ============================================
+# DATENBANK-MODELLE
+# ============================================
 
 # Verbindungstabelle für Gelesen-Status
 news_views = db.Table('news_views',
@@ -68,49 +77,55 @@ news_views = db.Table('news_views',
 )
 
 class User(db.Model):
+    """Benutzermodell mit allen Benutzerdaten und Statistiken"""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False, index=True)
     email = db.Column(db.String(120), nullable=True)
     phone = db.Column(db.String(50), nullable=True)
-    password_hash = db.Column(db.String(150), nullable=False)
-    highscore = db.Column(db.Integer, default=0)
-    highscore_time = db.Column(db.DateTime)
-    correct_high = db.Column(db.Integer, default=0)
-    first_played = db.Column(db.DateTime)  
-    is_admin = db.Column(db.Boolean, default=False)
-    avatar = db.Column(db.String(200), default="avatar0.png")
-    number_of_games = db.Column(db.Integer, default=0)
-    agb_accepted = db.Column(db.Boolean, default=False)
-    # Neue Beziehung: Welche News hat der User gesehen?
+    password_hash = db.Column(db.String(150), nullable=False)  # Gehashtes Passwort
+    highscore = db.Column(db.Integer, default=0)  # Bester Punktestand
+    highscore_time = db.Column(db.DateTime)  # Zeitpunkt des Highscores
+    correct_high = db.Column(db.Integer, default=0)  # Höchste Anzahl korrekter Antworten
+    first_played = db.Column(db.DateTime)  # Erstes Spiel
+    is_admin = db.Column(db.Boolean, default=False)  # Admin-Rechte
+    avatar = db.Column(db.String(200), default="avatar0.png")  # Benutzeravatar
+    number_of_games = db.Column(db.Integer, default=0)  # Anzahl gespielter Spiele
+    agb_accepted = db.Column(db.Boolean, default=False)  # AGB-Akzeptierung
+
+    # Beziehung: Welche News hat der User gesehen?
     seen_news = db.relationship('News', secondary=news_views, backref=db.backref('viewers', lazy='dynamic'))
     
-    # Hilfsmethode
+    # Hilfsmethode zum Markieren von News als gesehen
     def has_seen_news(self, news_entry):
         return self.seen_news.append(news_entry) if news_entry not in self.seen_news else None
 
+    # Passwort-Hashing
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
+    # Passwort-Überprüfung
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
 class Question(db.Model):
+    """Fragenmodell für Quiz-Fragen"""
     id = db.Column(db.Integer, primary_key=True)
-    subject = db.Column(db.String(150), nullable=False)
-    question = db.Column(db.String(500), unique=True, nullable=False)
-    true = db.Column(db.String(150), nullable=False)
-    wrong1 = db.Column(db.String(150), nullable=False)
-    wrong2 = db.Column(db.String(150), nullable=False)
-    wrong3 = db.Column(db.String(150), nullable=False)
+    subject = db.Column(db.String(150), nullable=False)  # Thema
+    question = db.Column(db.String(500), unique=True, nullable=False)  # Frage
+    true = db.Column(db.String(150), nullable=False)  # Richtige Antwort
+    wrong1 = db.Column(db.String(150), nullable=False)  # Falsche Antwort 1
+    wrong2 = db.Column(db.String(150), nullable=False)  # Falsche Antwort 2
+    wrong3 = db.Column(db.String(150), nullable=False)  # Falsche Antwort 3
 
-# News-Modell
 class News(db.Model):
+    """News-Modell"""
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    title = db.Column(db.String(200), nullable=False)  # Titel
+    content = db.Column(db.Text, nullable=False)  # Inhalt
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))  # Erstellungszeit
 
     def to_dict(self):
+        """Konvertiert News-Objekt zu Dictionary für JSON-Antworten"""
         return {
             'id': self.id,
             'title': self.title,
@@ -119,18 +134,19 @@ class News(db.Model):
         }
 
 class Ticket(db.Model):
+    """Support-Ticket-Modell"""
     id = db.Column(db.Integer, primary_key=True)
     
     # User-Fremdschlüssel
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    # Das erlaubt Zugriff auf das User-Objekt via ticket.user
+    # Beziehung zum Benutzer
     user = db.relationship('User', backref=db.backref('tickets', lazy=True))
 
     # Ticket-Details
-    subject = db.Column(db.String(100), nullable=False, index=True)
-    category = db.Column(db.String(50), nullable=False, index=True)
-    status = db.Column(db.String(20), default='open', nullable=False, index=True)
+    subject = db.Column(db.String(100), nullable=False, index=True)  # Betreff
+    category = db.Column(db.String(50), nullable=False, index=True)  # Kategorie
+    status = db.Column(db.String(20), default='open', nullable=False, index=True)  # Status
 
     # Zeitstempel
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
@@ -141,8 +157,8 @@ class Ticket(db.Model):
     # Initialnachricht
     initial_message_content = db.Column(db.Text, nullable=False)
 
-
 class TicketMessage(db.Model):
+    """Nachrichten innerhalb eines Tickets"""
     id = db.Column(db.Integer, primary_key=True)
     
     ticket_id = db.Column(db.Integer, db.ForeignKey('ticket.id'), nullable=False)
@@ -151,13 +167,13 @@ class TicketMessage(db.Model):
     sender_type = db.Column(db.String(10), nullable=False)
     sender_name = db.Column(db.String(80), nullable=False)
 
-    content = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)  # Nachrichteninhalt
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-    # Status, ob die Nachricht gelesen wurde
-    read = db.Column(db.Boolean, default=False)
+    read = db.Column(db.Boolean, default=False)  # Gelesen-Status
 
-# Eine Hilfsfunktion erstellen, um ungelesene Nachrichten zu zählen
+# Hilfsfunktion für ungelesene Nachrichten
 def get_unread_ticket_messages_count(user):
+    """Zählt ungelesene Ticket-Nachrichten für Benutzer oder Admin"""
     if user.is_admin:
         # Admin: Zähle ALLE Nachrichten im System, die von Usern kommen und ungelesen sind
         return TicketMessage.query.filter_by(sender_type='user', read=False).count()
@@ -170,18 +186,20 @@ def get_unread_ticket_messages_count(user):
         ).count()
 
 class QuizTimer:
+    """Timer-Klasse für Quiz-Fragen mit WebSocket-Unterstützung"""
     def __init__(self, socketio, room_id, duration=30):
         self.socketio = socketio
         self.room_id = room_id
         self.duration = duration
         self.time_left = duration
         self.is_running = False
-        self.lock = Lock()
+        self.lock = Lock()  # Thread-Sicherheit
         self.start_time = None
-        self.greenlet = None
+        self.greenlet = None  # Asynchroner Task
         self.timed_out = False
 
     def start(self):
+        """Startet den Timer"""
         with self.lock:
             if self.is_running:
                 return
@@ -189,7 +207,7 @@ class QuizTimer:
             self.start_time = time.time()
             self.time_left = self.duration
             self.timed_out = False
-            # Starte den Timer in einem Greenlet
+            # Starte den Timer in einem Greenlet (asynchron)
             self.greenlet = spawn(self._run_timer)
 
     def _run_timer(self):
@@ -204,7 +222,7 @@ class QuizTimer:
                 elapsed = time.time() - start_time
                 self.time_left = max(0, self.duration - int(elapsed))
                 
-                # Sende Update an den Raum
+                # Sende Update an den Raum über WebSocket
                 try:
                     self.socketio.emit('time_update', 
                                     {'time_left': self.time_left}, 
@@ -222,8 +240,8 @@ class QuizTimer:
                     
                     # Flags setzen
                     self.is_running = False
-                    self.timed_out = True  # <-- WICHTIG!
-                    break # Loop beenden
+                    self.timed_out = True
+                    break # Schleife beenden
             
             # Exakt 1 Sekunde warten
             next_update = start_time + (self.duration - self.time_left + 1)
@@ -231,16 +249,18 @@ class QuizTimer:
             sleep(sleep_time)
 
     def stop(self):
+        """Stoppt den Timer"""
         with self.lock:
             self.is_running = False
             if self.greenlet:
                 try:
-                    self.greenlet.kill()
+                    self.greenlet.kill()  # Beende den asynchronen Task
                 except:
                     pass
                 self.greenlet = None
 
     def get_time_left(self):
+        """Gibt die verbleibende Zeit zurück"""
         with self.lock:
             if not self.is_running or not self.start_time:
                 return 0
@@ -248,10 +268,9 @@ class QuizTimer:
             return max(0, self.duration - int(elapsed))
 
 # Thread-safe Timer Management
-active_timers = {}
-timer_lock = Lock()
-# Speichere Socket-Sessions zu Räumen
-socket_rooms = {}
+active_timers = {}  # Speichert aktive Timer pro Raum
+timer_lock = Lock()  # Synchronisation
+socket_rooms = {}  # Speichere Socket-Sessions zu Räumen
 
 # Serverseitige Session-Konfiguration
 app.config['SESSION_TYPE'] = 'sqlalchemy'
@@ -259,8 +278,11 @@ app.config['SESSION_SQLALCHEMY'] = db
 app.config['SESSION_PERMANENT'] = False
 
 server_session = Session(app)
+bcrypt = Bcrypt(app) # Passwort-Hashing
 
-bcrypt = Bcrypt(app)
+# ============================================
+# TIMER-MANAGEMENT-FUNKTIONEN
+# ============================================
 
 def stop_timer(room_id):
     """Stoppt und entfernt Timer sicher"""
@@ -285,12 +307,17 @@ def get_or_create_timer(room_id):
                 timer.start()
                 print(f"Timer für Raum {room_id} neu gestartet")
         return active_timers[room_id]
+    
+# ============================================
+# TEMPLATE-FILTER UND CONTEXT-PROCESSOR
+# ============================================
 
 # Template-Filter für lokale Zeit
 @app.template_filter('to_iso')
 def to_iso(utc_dt):
+    """Konvertiert UTC-Zeit zu ISO-Format für JavaScript"""
     if not utc_dt:
-        return ''  # leer, damit Template entscheiden kann (z.B. "Noch nicht gespielt")
+        return ''  # leer, damit Template entscheiden kann
     # Sicherstellen, dass dt timezone-aware ist (UTC)
     if utc_dt.tzinfo is None:
         utc_dt = utc_dt.replace(tzinfo=timezone.utc)
@@ -298,7 +325,42 @@ def to_iso(utc_dt):
         utc_dt = utc_dt.astimezone(timezone.utc)
     return utc_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-# Automatische Datenbankinitialisierung beim App-Start
+@app.context_processor
+def inject_csrf_token():
+    """Macht CSRF-Token in allen Templates verfügbar"""
+    return dict(csrf_token=generate_csrf)
+                
+@app.after_request
+def add_cache_headers(response):
+    try:
+        content_type = response.headers.get('Content-Type', '') or ''
+        if 'text/html' in content_type:
+            # Strenge Cache-Header für HTML-Antworten
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, private, max-age=0'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = '0'
+    except Exception:
+        pass
+    return response
+ 
+@app.context_processor
+def inject_user():
+    """Macht Benutzerinformationen in allen Templates verfügbar"""
+    user = None
+    is_admin = False
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        if user and user.is_admin:
+            is_admin = True
+    return dict(
+        is_logged_in='username' in session,
+        is_admin=is_admin
+    )
+
+# ============================================
+# DATENBANK-INITIALISIERUNG BEI START
+# ============================================
+
 def initialize_database():
     """Erstellt Tabellen und importiert neue Fragen bei jedem Start"""
     # Verhindere doppelte Ausführung im Reloader
@@ -836,16 +898,21 @@ def initialize_database():
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
 
+# ===============
+# ERROR HANDLER
+# ===============
+
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
+    """Behandelt CSRF-Fehler (Session abgelaufen)"""
     # Logge den Benutzer sicherheitshalber aus
     session.clear()
     flash('Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.', 'error')
     return redirect(url_for('index'))
 
-# Error Handler für 405 Method Not Allowed
 @app.errorhandler(405)
 def method_not_allowed(error):
+    """Behandelt ungültige HTTP-Methoden"""
     # Session beenden bei ungültiger Zugriffsmethode
     if 'quiz_data' in session:
         room_id = session['quiz_data'].get('room_id')
@@ -855,9 +922,13 @@ def method_not_allowed(error):
     session.clear()
     flash('Ungültige Zugriffsmethode für diese Seite.', 'error')
     return render_template('index.html'), 405
+
+# ============================================
+# DECORATOR-FUNKTIONEN FÜR ZUGRIFFSKONTROLLE
+# ============================================
     
 def quiz_required(f):
-    """Prüft ob ein Quiz aktiv ist"""
+    """Prüft ob ein Quiz aktiv ist - nur für Quiz-Routen"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'quiz_data' not in session:
@@ -879,8 +950,8 @@ def quiz_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Admin Panel
 def admin_required(f):
+    """Prüft ob Benutzer Admin-Rechte hat"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'username' not in session:
@@ -893,6 +964,7 @@ def admin_required(f):
     return decorated_function
 
 def login_required(f):
+    """Prüft ob Benutzer angemeldet ist"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'username' not in session:
@@ -953,48 +1025,20 @@ def prevent_quiz_exit(f):
                 quiz_data = session.get('quiz_data', {})
                 current_q = quiz_data.get('current_index', 0) + 1
                 
-                # Redirect zur aktuellen Quiz-Frage MIT Modal-Parameter
-                # WICHTIG: Keine Flash-Nachricht, da das Modal die Kommunikation übernimmt
+                # Redirect zur aktuellen Quiz-Frage mit Modal-Parameter
                 return redirect(url_for('show_question', q=current_q, show_exit_modal='true'))
         
         return f(*args, **kwargs)
     return decorated_function
 
-# CSRF-Token global verfügbar machen
-@app.context_processor
-def inject_csrf_token():
-    return dict(csrf_token=generate_csrf)
-                
-@app.after_request
-def add_cache_headers(response):
-    try:
-        content_type = response.headers.get('Content-Type', '') or ''
-        if 'text/html' in content_type:
-            # Strenge Cache-Header für HTML-Antworten
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, private, max-age=0'
-            response.headers['Pragma'] = 'no-cache'
-            response.headers['Expires'] = '0'
-    except Exception:
-        pass
-    return response
- 
-@app.context_processor
-def inject_user():
-    user = None
-    is_admin = False
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
-        if user and user.is_admin:
-            is_admin = True
-    return dict(
-        is_logged_in='username' in session,
-        is_admin=is_admin
-    )
+# ===================
+# ROUTEN (ENDPUNKTE)
+# ===================
 
-# Ab hier alle Routes 
 @app.route('/')
 @prevent_quiz_exit 
 def index():
+    """Startseite der Anwendung"""
     # Wenn Benutzer angemeldet ist: serverseitig ausloggen
     if 'username' in session:
         # Falls ein Quiz läuft: Timer stoppen
@@ -1030,6 +1074,7 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
+    """Verarbeitet Benutzer-Login mit AGB-Überprüfung"""
     try:
         username = request.form['username'].strip()
         password = request.form['password'].strip()
@@ -3134,9 +3179,13 @@ def admin_delete_ticket(ticket_id):
         flash('Fehler beim Löschen des Tickets.', 'error')
         return redirect(url_for('ticket_detail', ticket_id=ticket_id))
 
-# WebSocket Event Handlers
+# ========================
+# WEBSOCKET-EVENT-HANDLER
+# ========================
+
 @socketio.on('connect')
 def handle_connect():
+    """Verarbeitet WebSocket-Verbindungsaufbau"""
     print(f"Client connected: {request.sid}")
     if 'username' not in session:
         print(f"Socket connect denied for sid={request.sid} (not authenticated)")
@@ -3145,8 +3194,9 @@ def handle_connect():
 
 @socketio.on('disconnect')
 def handle_disconnect():
+    """Verarbeitet WebSocket-Verbindungstrennung"""
     print(f"Client disconnected: {request.sid}")
-    # Cleanup socket_rooms
+    # Socket rooms aufräumen
     if request.sid in socket_rooms:
         room_id = socket_rooms[request.sid]
         leave_room(room_id)
@@ -3157,16 +3207,17 @@ def handle_reset_timer(data):
     if not room_id:
         return
 
-    # 1. Stoppt den alten Timer UND löscht ihn aus dem 'active_timers'-Dict
+    # 1. Stoppt den alten Timer und löscht ihn aus dem 'active_timers'-Dict
     stop_timer(room_id)
     
     # 2. Erstellt eine brandneue Timer-Instanz, da die alte gelöscht wurde
     get_or_create_timer(room_id)
     
-    print(f"Timer für Raum {room_id} robust zurückgesetzt (via stop/create)")
+    print(f"Timer für Raum {room_id} zurückgesetzt)")
 
 @socketio.on('join_quiz_session')
 def handle_join_quiz_session(data):
+    """Tritt einem Quiz-Room bei und startet Timer"""
     room_id = data.get('room_id')
     if not room_id:
         emit('error', {'error': 'Keine Room-ID'})
@@ -3183,7 +3234,6 @@ def handle_join_quiz_session(data):
     current_time = timer.get_time_left()
     emit('time_update', {'time_left': current_time})
 
-    # Aktuellen Timer-Stand senden
     print(f"Client {request.sid} hat Raum {room_id} betreten, Timer läuft")
 
 def _process_answer(room_id, user_answer, time_left):
@@ -3270,6 +3320,7 @@ def _process_answer(room_id, user_answer, time_left):
 
 @socketio.on('submit_answer')
 def handle_submit_answer(data):
+    """Verarbeitet Quiz-Antworten über WebSocket"""
     try:
         room_id = data.get('room_id')
         user_answer = data.get('answer', '')
@@ -3284,11 +3335,11 @@ def handle_submit_answer(data):
             if timer:
                 time_left = timer.get_time_left()
                 timer.stop()
-                timer.timed_out = False # <-- WICHTIG: Flag hier zurücksetzen
+                timer.timed_out = False
             else:
                 time_left = 0
         
-        # Antwort in der Session verarbeiten (greift auf 'session' zu)
+        # Antwort in der Session verarbeiten
         result = _process_answer(room_id, user_answer, time_left)
         
         # Ergebnis an Client senden
@@ -3302,6 +3353,10 @@ def handle_submit_answer(data):
         db.session.rollback()
         print(f"Unerwarteter Fehler in _process_answer: {str(e)}")
         return {'error': 'Ein unerwarteter Fehler ist aufgetreten'}
+
+# ============================================
+# HAUPTFUNKTION FÜR SERVER-START
+# ============================================
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

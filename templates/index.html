@@ -1,6 +1,13 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Startseite enthält:
+    1. Login- und Registrierungsformular
+    2. AGB/Datenschutz-Modal
+-->
 
 {% block head %}
+    <!-- Seiten-spezifische Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_index.css') }}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
@@ -8,14 +15,17 @@
 {% block body %}
 <div class="page-wrapper">
 
+    <!-- HAUPTCONTAINER FÜR LOGIN/REGISTRIERUNG -->
     <div class="container"
      data-show-agb-modal="{{ 'true' if show_agb_modal else 'false' }}"
      data-agb-action="{{ agb_action or '' }}">
         <h1>Willkommen</h1>
 
+        <!-- AUTHENTIFIZIERUNGS-FORMULAR -->
         <form id="auth-form" method="post"> 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+            <!-- BENUTZERNAME-FELD -->
             <div class="input-wrap">
                 <input type="text" 
                        name="username" 
@@ -28,6 +38,7 @@
             </div>
             <div id="username-counter" class="input-hint">0 / 12</div>
 
+            <!-- PASSWORT-FELD MIT SICHERHEITS-AUGE -->
             <div class="input-wrap">
                 <input
                     type="password"
@@ -42,10 +53,13 @@
             </div>
             <div id="password-hint" class="input-hint">Min. 5 Zeichen</div>
 
+            <!-- ANMELDEN-BUTTON -->
             <input type="button" value="Anmelden" class="btn btn-login sound-button" onclick="submitForm('login')" id="login-btn">
+            <!-- REGISTRIEREN-BUTTON -->
             <input type="button" value="Account erstellen" class="btn btn-register sound-button" onclick="prepareRegister()" id="register-btn">
         </form>
 
+        <!-- LEGAL-BUTTON -->
         <div class="legal-button-container">
             <a href="{{ url_for('legal') }}" class="legal-button sound-button" aria-label="Rechtliche Informationen">
                 <i class="fa-solid fa-section"></i>
@@ -53,6 +67,7 @@
         </div>
     </div>
 
+    <!-- AGB MODAL-->
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-container">
             <h2 class="popup-title">AGB & Datenschutz</h2>
@@ -61,29 +76,32 @@
                 <div class="setting-item">
                     <button class="setting-toggle">🧾 AGB <i class="fa fa-chevron-down"></i></button>
                     <div class="setting-content">
-                        {% include 'agb_content.html' %}
+                        {% include 'agb_content.html' %} <!-- Externe AGB-Datei -->
                     </div>
                 </div>
 
                 <div class="setting-item">
                     <button class="setting-toggle">🔒 Datenschutzerklärung <i class="fa fa-chevron-down"></i></button>
                     <div class="setting-content">
-                        {% include 'privacy_content.html' %}
+                        {% include 'privacy_content.html' %} <!-- Externe Datenschutz-Datei -->
                     </div>
                 </div>
             </div>
 
+            <!-- AKZEPTIERUNG-CHECKBOX -->
             <div class="acceptance-section">
                 <label class="checkbox-container">
                     <input type="checkbox" id="accept-checkbox"> Ich akzeptiere die AGB & Datenschutzerklärung
                 </label>
             </div>
             
-
+            <!-- MODAL-BUTTONS -->
             <div class="popup-buttons">
                 <button id="accept-btn" class="popbtn btn-accept" disabled>Akzeptieren</button>
                 <button id="reject-btn" class="popbtn btn-reject">Ablehnen</button>
             </div>
+
+            <!-- HINWEISTEXT -->
             <div class="agb-hint">
                 <p>AGB und Datenschutz jederzeit unter <strong>"Rechtliche Informationen"</strong> nachlesbar.</p>
             </div>
@@ -92,6 +110,8 @@
 </div>
 
 <script>
+
+    // Sendet das Formular (Login oder Registrierung)
     function submitForm(action) {
         try { playSound('clickSound'); } catch(e){}
         const form = document.getElementById('auth-form');
@@ -102,6 +122,7 @@
         form.submit();
     }
 
+    // Zeigt das AGB-Modal an
     function showAgbModal(action) {
         const overlay = document.getElementById('popup-overlay');
         if (!overlay) return;
@@ -109,17 +130,20 @@
         overlay.dataset.action = action || '';
     }
 
+    // Versteckt das AGB-Modal
     function hideAgbModal() {
         const overlay = document.getElementById('popup-overlay');
         if (!overlay) return;
         overlay.style.display = 'none';
     }
 
+    // Verarbeitet die AGB-Antwort (Akzeptieren/Ablehnen)
     function handleAgbResponse(accepted) {
         const overlay = document.getElementById('popup-overlay');
         const action = overlay?.dataset.action || '';
         if (accepted) {
             if (action === 'register') {
+                // Registrierung: Formular absenden mit AGB-Akzeptierung
                 const form = document.getElementById('auth-form');
                 if (!form) return;
                 const agbInput = document.createElement('input');
@@ -129,6 +153,7 @@
                 form.method = 'post';
                 form.submit();
             } else {
+                // Login
                 const f = document.createElement('form');
                 f.method = 'post'; f.action = "{{ url_for('accept_agb') }}";
                 const csrfToken = document.createElement('input');
@@ -138,6 +163,7 @@
                 f.submit();
             }
         } else {
+            // AGB abgelehnt: Modal schließen und Fehler anzeigen
             hideAgbModal();
             const msg = (action === 'register')
                 ? 'Um sich zu registrieren, müssen Sie den AGB und der Datenschutzerklärung zustimmen.'
@@ -146,6 +172,7 @@
         }
     }
 
+    // Prüft ob ein Benutzername verfügbar ist (AJAX)
     async function isUsernameAvailable(username) {
         const url = "{{ url_for('check_username') }}?username=" + encodeURIComponent(username);
         try {
@@ -157,6 +184,7 @@
         }
     }
 
+    // Bereitet die Registrierung vor (Validierung + AGB-Check)
     async function prepareRegister() {
         try { playSound('clickSound'); } catch(e){}
         const usernameField = document.getElementById('username-field');
@@ -164,6 +192,7 @@
         const username = usernameField?.value.trim() || '';
         const password = passwordField?.value || '';
 
+        // VALIDIERUNG (für flash-Nachrichten, auch im Server)
         if (!username || !password) {
             (typeof createFlashMessage === 'function') ? createFlashMessage('Um einen Account anzulegen bitte Name und Passwort wählen!', 'error') : alert('Um einen Account anzulegen bitte Name und Passwort wählen!');
             return;
@@ -177,6 +206,7 @@
             return;
         }
 
+        // BENUTZERNAME-VERFÜGBARKEIT PRÜFEN
         const registerBtn = document.getElementById('register-btn');
         if (registerBtn) registerBtn.disabled = true;
         const result = await isUsernameAvailable(username);
@@ -188,13 +218,20 @@
             usernameField?.focus();
             return;
         }
+
+        // Alles OK: AGB-Modal anzeigen
         showAgbModal('register');
     }
 
+    // =======================
+    // SEITENINITIALISIERUNG
+    // =======================
+
     document.addEventListener('DOMContentLoaded', function() {
         const usernameField = document.getElementById('username-field');
-        const pwField = document.getElementById('password-field'); // Definition hierher verschoben
+        const pwField = document.getElementById('password-field');
 
+        // ENTER-TASTEN-HANDLING FÜR FORMULARFELDER
         if (usernameField && pwField) {
             usernameField.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
@@ -211,6 +248,7 @@
                 }
             });
 
+            // Enter im Passwort-Feld: Login ausführen
             pwField.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault(); // Standard-Formularabsendung verhindern
@@ -219,6 +257,7 @@
             });
         }
 
+        // BENUTZERNAME-ZÄHLER UI
         const usernameCounter = document.getElementById('username-counter');
         
         function updateUsernameUI() {
@@ -228,6 +267,7 @@
             
             usernameCounter.textContent = `${len} / ${max}`;
             
+            // Visuelle Warnung bei Maximal-Länge
             if (len >= max) {
                 usernameCounter.classList.add('limit-reached');
             } else {
@@ -241,6 +281,7 @@
             updateUsernameUI();
         }
 
+        // PASSWORT-HINWEIS UI
         const passwordHint = document.getElementById('password-hint');
         
         function updatePasswordUI() {
@@ -254,7 +295,7 @@
                 passwordHint.classList.remove('requirement-met');
                 passwordHint.style.color = ''; // Reset
             } else if (len < min) {
-                // Zu kurz: Zeige wie viele noch fehlen (optional) oder bleibe bei Standard
+                // Zu kurz: Zeige wie viele noch fehlen
                 passwordHint.textContent = `Noch ${min - len} Zeichen...`;
                 passwordHint.classList.remove('requirement-met');
                 passwordHint.style.color = ''; // Standard Grau
@@ -267,12 +308,13 @@
 
         if (pwField) {
             pwField.addEventListener('input', updatePasswordUI);
-            updatePasswordUI();
+            updatePasswordUI(); // Initial aufrufen
         }
 
+        // PASSWORT-SICHTBARKEITS-TOGGLE
         const pwToggle = document.querySelector('.pw-toggle');
-        if (pwField && pwToggle) { // pwField ist jetzt hier bereits definiert
-            pwToggle.addEventListener('mousedown', e => e.preventDefault());
+        if (pwField && pwToggle) {
+            pwToggle.addEventListener('mousedown', e => e.preventDefault()); // Verhindert Fokus-Verlust
             pwToggle.addEventListener('click', () => {
                 const isHidden = pwField.type === 'password';
                 pwField.type = isHidden ? 'text' : 'password';
@@ -282,39 +324,48 @@
                     icon.classList.remove('fa-eye', 'fa-eye-slash');
                     icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
                 }
-                pwField.focus();
+                pwField.focus(); // Fokus behalten
+                // Cursor ans Ende setzen
                 setTimeout(() => {
                     try { const pos = pwField.value.length; pwField.setSelectionRange(pos,pos); } catch(e){}
                 }, 0);
             });
         }
 
+        // AGB-MODAL BEI BEDARF ANZEIGEN
         const container = document.querySelector('.container');
         const shouldShowAgbModal = container?.getAttribute('data-show-agb-modal') === 'true';
         const agbAction = container?.getAttribute('data-agb-action');
         if (shouldShowAgbModal) showAgbModal(agbAction || 'login');
 
+        // AGB-MODAL INTERAKTIONEN
         const acceptCheckbox = document.getElementById('accept-checkbox');
         const acceptBtn = document.getElementById('accept-btn');
         const rejectBtn = document.getElementById('reject-btn');
         if (acceptCheckbox && acceptBtn && rejectBtn) {
+            // Checkbox: Akzeptieren-Button aktivieren/deaktivieren
             acceptCheckbox.addEventListener('change', function() { acceptBtn.disabled = !this.checked; });
+            // Akzeptieren-Button: Formular absenden
             acceptBtn.addEventListener('click', () => { if (acceptCheckbox.checked) handleAgbResponse(true); });
+            // Ablehnen-Button: Modal schließen
             rejectBtn.addEventListener('click', () => handleAgbResponse(false));
         }
 
+        // AKKORDEON-FUNKTIONALITÄT FÜR AGB/DATENSCHUTZ
         const toggles = document.querySelectorAll('.setting-toggle');
         toggles.forEach(toggle => {
             toggle.addEventListener('click', function() {
                 const content = this.nextElementSibling;
                 const isOpen = content.classList.contains('open');
 
+                // Body-Klasse für Scroll-Sperre
                 if (isOpen) {
                     document.body.classList.remove('agb-modal-open');
                 } else {
                     document.body.classList.add('agb-modal-open');
                 }
 
+                // Andere geöffnete Abschnitte schließen
                 document.querySelectorAll('.setting-content.open').forEach(c => {
                     if (c !== content) {
                         c.classList.remove('open');
@@ -324,6 +375,7 @@
                     }
                 });
 
+                // Aktuellen Abschnitt öffnen/schließen
                 if (isOpen) {
                     content.classList.remove('open');
                     const icon = this.querySelector('i');
@@ -336,6 +388,7 @@
             });
         });
 
+        // Alle Inhalte initial geschlossen halten
         document.querySelectorAll('.setting-content').forEach(c => {
             c.classList.remove('open');
         });
