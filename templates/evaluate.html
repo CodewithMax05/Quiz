@@ -1,48 +1,67 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Auswertungsseite enthält:
+    1. Anzeige der erreichten Punktzahl mit animiertem Kreis-Diagramm
+    2. Wasser-Animation mit Wellen und Blasen basierend auf der Leistung
+    3. Performance-Bewertung mit Icons und Texten je nach Erfolgsquote
+    4. Highscore-Informationen
+-->
 
 {% block head %}
+    <!-- Seiten-spezifische Stylesheets für die Auswertungsseite -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_evaluate.css') }}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}    
+    <!-- Hauptcontainer für die Quiz-Auswertung -->
     <div class="evaluate-container">
-        <!-- Header mit Avatar und Benutzername -->
+        <!-- Header-Bereich mit Avatar und Benutzername -->
         <div class="user-header">
             <div class="avatar-section">
+                <!-- Benutzeravatar -->
                 <img src="{{ url_for('static', filename='pictures/avatar/' + user_avatar) }}" 
                      alt="Avatar" 
                      class="user-avatar-large">
                 <div class="user-info">
+                    <!-- Anzeige des Benutzernamens -->
                     <h2 class="username">{{ session.username }}</h2>
+                    <!-- Bestätigung, dass Quiz abgeschlossen wurde -->
                     <div class="quiz-completion">Quiz abgeschlossen!</div>
                 </div>
             </div>
         </div>
 
-        <!-- Haupt-Ergebnisbereich -->
+        <!-- Hauptbereich der Ergebnisse -->
         <div class="results-main">
+            <!-- Punktesektion mit animiertem Kreis -->
             <div class="score-section">
+                <!-- Animierter Punktkreis: Füllhöhe basierend auf Score -->
                 <div class="score-circle" id="scoreCircle" data-score="{{ score }}" data-total="{{ total }}">
+                    <!-- Glaseffekt-Overlay für den Kreis -->
                     <div class="circle-glass"></div>
 
-                    <!-- Wasser-Layer: Füllung, Wellen, Blasen -->
+                    <!-- Wasser-Effekte (Wellen und Blasen) für visuelles Feedback -->
                     <div class="water-layer" aria-hidden="true">
+                        <!-- Animierte Wellen für Wassereffekt -->
                         <div class="waves">
                             <div class="wave wave1"></div>
                             <div class="wave wave2"></div>
                         </div>
 
-                        <!-- bubble container: wird dynamisch mittels JS befüllt -->
+                        <!-- Container für animierte Blasen (wird via JavaScript befüllt) -->
                         <div class="bubbles" aria-hidden="true"></div>
                     </div>
 
+                    <!-- Zentrale Punktanzeige im Kreis -->
                     <div class="score-content">
                         <div class="score-number">{{ score }}</div>
                         <div class="score-label">Punkte</div>
                     </div>
                 </div>
                 
+                <!-- Anzeige der korrekten Antworten -->
                 <div class="correct-answers">
                     <div class="correct-count">
                         <span class="correct-number">{{ correct_answers }}</span>
@@ -54,9 +73,10 @@
                 </div>
             </div>
 
-            <!-- Performance-Bewertung -->
+            <!-- Performance-Bewertung basierend auf der Erfolgsquote -->
             <div class="performance-rating">
                 {% if correct_answers == total %}
+                    <!-- Perfektes Ergebnis (100% richtig) -->
                     <div class="rating perfect">
                         <i class="fas fa-trophy rating-icon"></i>
                         <div class="rating-content">
@@ -65,6 +85,7 @@
                         </div>
                     </div>
                 {% elif correct_answers >= total * 0.8 %}
+                    <!-- Exzellentes Ergebnis (≥80% richtig) -->
                     <div class="rating excellent">
                         <i class="fas fa-star rating-icon"></i>
                         <div class="rating-content">
@@ -73,6 +94,7 @@
                         </div>
                     </div>
                 {% elif correct_answers >= total * 0.65 %}
+                    <!-- Gutes Ergebnis (≥65% richtig) -->
                     <div class="rating good">
                         <i class="fas fa-thumbs-up rating-icon"></i>
                         <div class="rating-content">
@@ -81,6 +103,7 @@
                         </div>
                     </div>
                 {% elif correct_answers >= total * 0.5 %}
+                    <!-- Durchschnittliches Ergebnis (≥50% richtig) -->
                     <div class="rating average">
                         <i class="fas fa-rocket rating-icon"></i>
                         <div class="rating-content">
@@ -89,6 +112,7 @@
                         </div>
                     </div>
                 {% else %}
+                    <!-- Verbesserungspotenzial (<50% richtig) -->
                     <div class="rating improve">
                         <i class="fas fa-book rating-icon"></i>
                         <div class="rating-content">
@@ -99,14 +123,16 @@
                 {% endif %}
             </div>
 
-            <!-- Highscore-Information -->
+            <!-- Highscore-Informationen -->
             <div class="highscore-section">
                 {% if new_highscore %}
+                    <!-- Anzeige bei neuem Highscore -->
                     <div class="new-highscore-badge">
                         <i class="fas fa-crown"></i>
                         <span>Neuer Rekord: {{ score }} Punkte!</span>
                     </div>
                 {% else %}
+                    <!-- Anzeige des aktuellen (nicht übertroffenen) Highscores -->
                     <div class="current-highscore">
                         <i class="fas fa-chart-line"></i>
                         <span>Dein Highscore: <strong>{{ highscore }}</strong> Punkte</span>
@@ -115,12 +141,14 @@
             </div>
         </div>
 
-        <!-- Aktions-Buttons -->
+        <!-- Navigations-Buttons nach der Auswertung -->
         <div class="action-buttons">
+            <!-- Button zur Rangliste -->
             <a href="{{ url_for('ranking') }}" class="btn ranking-btn sound-button">
                 <i class="fas fa-trophy"></i>
                 Ranking
             </a>
+            <!-- Button zurück zur Themenauswahl -->
             <a href="{{ url_for('homepage') }}" class="btn home-btn sound-button">
                 <i class="fas fa-home"></i>
                 Zurück zur Themenwahl
@@ -128,94 +156,105 @@
         </div>
     </div>
 
+    <!-- JavaScript für die animierte Auswertung -->
     <script>
+        // Entferne Quiz-Active-Flag aus Session Storage (falls vorhanden)
         try { sessionStorage.removeItem('quiz_active'); } catch (e) { console.warn(e); }
 
+        // Initialisierung der animierten Punktedarstellung
         document.addEventListener('DOMContentLoaded', function () {
-        const scoreCircle = document.getElementById('scoreCircle');
-        if (!scoreCircle) return;
+            // Hole den Score-Circle Element
+            const scoreCircle = document.getElementById('scoreCircle');
+            if (!scoreCircle) return;
 
-        const score = parseInt(scoreCircle.dataset.score || '0', 10);
-        const total = parseInt(scoreCircle.dataset.total || '1', 10);
-        const maxScore = total * 100;
-        const fillPercentage = Math.max(0, Math.min((score / maxScore) * 100, 100));
+            // Lese Score-Daten aus HTML-Attributen
+            const score = parseInt(scoreCircle.dataset.score || '0', 10);
+            const total = parseInt(scoreCircle.dataset.total || '1', 10);
+            const maxScore = total * 100; // Maximal mögliche Punktzahl
+            const fillPercentage = Math.max(0, Math.min((score / maxScore) * 100, 100)); // Füllhöhe in Prozent
 
-        // setze CSS-Variable für Füllhöhe falls benötigt
-        scoreCircle.style.setProperty('--fill-height', fillPercentage + '%');
+            // Setze CSS-Variable für die Füllhöhe
+            scoreCircle.style.setProperty('--fill-height', fillPercentage + '%');
 
-        // warte kurz, damit Layout gemessen werden kann
-        setTimeout(() => {
-            scoreCircle.classList.add('animate-fill');
-            if (fillPercentage > 5) scoreCircle.classList.add('has-waves');
+            // Kurze Verzögerung für Layout-Berechnung
+            setTimeout(() => {
+                // Aktiviere Animationen
+                scoreCircle.classList.add('animate-fill');
+                if (fillPercentage > 5) scoreCircle.classList.add('has-waves');
 
-            const bubblesContainer = scoreCircle.querySelector('.bubbles');
-            bubblesContainer.innerHTML = '';
+                // Container für Blasen-Effekte
+                const bubblesContainer = scoreCircle.querySelector('.bubbles');
+                bubblesContainer.innerHTML = '';
 
-            if (score >= 400) {
-            scoreCircle.classList.add('has-bubbles');
+                // Blasen-Effekte nur bei ausreichend hoher Punktzahl (≥400)
+                if (score >= 400) {
+                    scoreCircle.classList.add('has-bubbles');
 
-            // Anzahl Blasen skalierend mit Score
-            const bubbleCount = Math.min(24, Math.max(6, Math.round(score / 200)));
+                    // Dynamische Berechnung der Blasenanzahl basierend auf Score
+                    const bubbleCount = Math.min(24, Math.max(6, Math.round(score / 200)));
 
-            // exakte Kreis-Höhe in px (Layout-sicher)
-            const circleRect = scoreCircle.getBoundingClientRect();
-            const circleHeightPx = circleRect.height || 200;
+                    // Berechne Kreis-Höhe für präzise Positionierung
+                    const circleRect = scoreCircle.getBoundingClientRect();
+                    const circleHeightPx = circleRect.height || 200;
 
-            const globalMinPeak = 4; // in % of circle height, minimale Aufstiegsmöglichkeit
+                    const globalMinPeak = 4; // Minimaler Aufstiegspunkt in % der Kreis-Höhe
 
-            for (let i = 0; i < bubbleCount; i++) {
-                const b = document.createElement('span');
-                b.className = 'bubble';
+                    // Erzeuge Blasen dynamisch
+                    for (let i = 0; i < bubbleCount; i++) {
+                        const b = document.createElement('span');
+                        b.className = 'bubble';
 
-                // zufällige Größe in px
-                const size = Math.round(6 + Math.random() * 12);
-                b.style.width = size + 'px';
-                b.style.height = size + 'px';
+                        // Zufällige Größe der Blase (6-18px)
+                        const size = Math.round(6 + Math.random() * 12);
+                        b.style.width = size + 'px';
+                        b.style.height = size + 'px';
 
-                // horizontale Position
-                const left = (5 + Math.random() * 90).toFixed(2);
-                b.style.left = left + '%';
+                        // Horizontale Position (5-95%)
+                        const left = (5 + Math.random() * 90).toFixed(2);
+                        b.style.left = left + '%';
 
-                // Verzögerung und Dauer
-                const delay = (Math.random() * 6).toFixed(2) + 's';
-                const duration = (3.2 + Math.random() * 4.0).toFixed(2) + 's';
+                        // Animationsparameter
+                        const delay = (Math.random() * 6).toFixed(2) + 's';
+                        const duration = (3.2 + Math.random() * 4.0).toFixed(2) + 's';
 
-                // Größe der Blase in Prozent der Kreis-Höhe
-                const sizePercent = (size / circleHeightPx) * 100;
+                        // Größe in Prozent der Kreis-Höhe berechnen
+                        const sizePercent = (size / circleHeightPx) * 100;
 
-                //seitliche Bewegung
-                const wobblePx = ((Math.random() - 0.5) * 12).toFixed(2) + 'px'; // seitliche Verschiebung ±6px
-                const scale = (0.86 + Math.random() * 0.26).toFixed(2); // Skala 0.86 - 1.12
+                        // Seitliche Wackelbewegung
+                        const wobblePx = ((Math.random() - 0.5) * 12).toFixed(2) + 'px';
+                        const scale = (0.86 + Math.random() * 0.26).toFixed(2);
 
-                b.style.setProperty('--bubble-wobble', wobblePx);
-                b.style.setProperty('--bubble-scale', scale);
+                        b.style.setProperty('--bubble-wobble', wobblePx);
+                        b.style.setProperty('--bubble-scale', scale);
 
-                // berechne maxAllowed in % (fillPercentage minus Blasengröße minus Sicherheitsabstand)
-                let maxAllowed = fillPercentage - sizePercent - 1;
-                if (!isFinite(maxAllowed)) maxAllowed = globalMinPeak;
-                if (maxAllowed < globalMinPeak) maxAllowed = globalMinPeak;
-                if (maxAllowed > 92) maxAllowed = 92;
+                        // Maximal erlaubte Aufstiegshöhe berechnen
+                        let maxAllowed = fillPercentage - sizePercent - 1;
+                        if (!isFinite(maxAllowed)) maxAllowed = globalMinPeak;
+                        if (maxAllowed < globalMinPeak) maxAllowed = globalMinPeak;
+                        if (maxAllowed > 92) maxAllowed = 92;
 
-                // zufälliger Peak in % zwischen globalMinPeak und maxAllowed
-                const peakPercent = (globalMinPeak + Math.random() * (maxAllowed - globalMinPeak));
+                        // Zufällige Aufstiegshöhe innerhalb der Grenzen
+                        const peakPercent = (globalMinPeak + Math.random() * (maxAllowed - globalMinPeak));
 
-                // Wandle Peak% in px um und setze CSS-Variable in px
-                const peakPx = (peakPercent / 100) * circleHeightPx;
-                b.style.setProperty('--bubble-peak-px', Math.round(peakPx) + 'px');
+                        // Konvertiere Prozent in Pixel für CSS
+                        const peakPx = (peakPercent / 100) * circleHeightPx;
+                        b.style.setProperty('--bubble-peak-px', Math.round(peakPx) + 'px');
 
-                // Setze sonstige Animations-Variablen
-                b.style.setProperty('--bubble-delay', delay);
-                b.style.setProperty('--bubble-duration', duration);
-                b.style.animationDelay = delay;
-                b.style.animationDuration = duration;
+                        // Setze Animationsvariablen
+                        b.style.setProperty('--bubble-delay', delay);
+                        b.style.setProperty('--bubble-duration', duration);
+                        b.style.animationDelay = delay;
+                        b.style.animationDuration = duration;
 
-                bubblesContainer.appendChild(b);
-            }
+                        // Füge Blase zum Container hinzu
+                        bubblesContainer.appendChild(b);
+                    }
 
-            } else {
-            scoreCircle.classList.remove('has-bubbles');
-            }
-        }, 80); // kurzer Timeout, damit Layoutgrößen verfügbar sind
+                } else {
+                    // Entferne Blasen-Effekte bei niedriger Punktzahl
+                    scoreCircle.classList.remove('has-bubbles');
+                }
+            }, 80); // Kurzer Timeout für Layout-Berechnung
         });
-        </script>
+    </script>
 {% endblock %}

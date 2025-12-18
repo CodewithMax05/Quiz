@@ -1,12 +1,22 @@
-<!-- quiz.html -->
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Quiz-Seite enthält:
+    1. Bestätigungs-Modal für Quiz-Abbruch
+    2. Timer
+    3. Score
+    4. Fragen- und Antwortoptionen
+    5. Fortschrittsbalken mit Fragezähler
+-->
 
 {% block head %}
+    <!-- Quiz-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_quiz.css') }}"/>
 {% endblock %}
 
 {% block body %}
-    <!-- Bestätigungs-Modal -->
+    <!-- Bestätigungs-Modal, wenn User das Quiz abbrechen möchte
+        Wird per JavaScript ein-/ausgeblendet -->
     <div class="confirmation-modal" id="confirmationModal">
         <div class="modal-content">
             <h3>Quiz abbrechen</h3>
@@ -19,9 +29,11 @@
         </div>
     </div>
 
+    <!-- Haupt-Container mit Timer, Score, Frage, Antworten und progressbar -->
     <div class="main-quiz-wrapper">
         <div class="header-controls">
             <div class="header-content">
+                <!-- Timer -->
                 <div class="timer-container">
                     <svg class="timer-circle" viewBox="0 0 100 100">
                         <circle class="timer-background" cx="50" cy="50" r="45"></circle>
@@ -32,10 +44,12 @@
                     <div class="timer-text">30</div>
                 </div>
                 
+                <!-- Score -->
                 <div class="score-display" id="score-display">
                     Score: {{ score }}
                 </div>
                 
+                <!-- Abbrechen-Button -->
                 <button class="cancel-btn" id="cancelQuizBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <line x1="18" y1="6"  x2="6" y2="18" stroke="white" stroke-width="2"/>
@@ -45,17 +59,21 @@
             </div>
         </div>
 
+        <!-- Frage, Antwortoptionen und progressbar -->
         <div class="quiz-container-wide" 
             data-was-correct="{{ 'true' if was_correct else 'false' }}"
             data-room-id="{{ room_id }}"
             data-initial-time-left="{{ time_left }}"
             data-show-exit-modal="{{ 'true' if show_exit_modal else 'false' }}">
+            
+            <!-- Frage -->
             <div class="question-box">
                 <div class="question-text">
                     {{ question.question }}
                 </div>
             </div>
 
+            <!-- Antworten: 4 Antwortmöglichkeiten als Grid -->
             <div class="options-grid" id="options-grid">
                 {% for option in options %}
                 <div class="option" data-answer="{{ option }}">
@@ -64,10 +82,12 @@
                 {% endfor %}
             </div>
 
+            <!-- progressbar: aktuelle Frage / Gesamtfragen -->
             <div class="progress-bar">
                 Frage {{ progress }} von {{ total_questions }}
             </div>
 
+            <!-- Verstecktes Formular: Wird per JavaScript für die nächste Frage verwendet -->
             <form id="next-form" action="/next_question" method="POST" style="display: none;">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" id="selected-answer" name="answer">
@@ -75,49 +95,61 @@
         </div>
     </div>
     
+    <!-- 
+        1. QuizManager-Klasse: Verwaltet Timer, WebSocket, Antworten, Navigation
+        2. Event-Handler für Browser-Navigation (Back-Button)
+        3. Modal-Steuerung
+        4. WebSocket-Kommunikation mit Server 
+    -->
     <script>
         class QuizManager {
             constructor() {
-                this.socket = null;
-                this.roomId = document.querySelector('.quiz-container-wide').dataset.roomId;
-                this.hasAnswered = false;
-                this.isConnected = false;
-                this.reconnectAttempts = 0;
-                this.maxReconnectAttempts = 5;
-                this.selectedOption = null;
+                // WEBSOCKET & RAUMVERWALTUNG
+                this.socket = null;                    // Socket.io Verbindung
+                this.roomId = document.querySelector('.quiz-container-wide').dataset.roomId; // Eindeutige Raum-ID
+                this.hasAnswered = false;             // Hat User aktuell geantwortet?
+                this.isConnected = false;             // WebSocket-Verbindungsstatus
+                this.reconnectAttempts = 0;           // Wiederverbindungsversuche
+                this.maxReconnectAttempts = 5;        // Maximale Reconnect-Versuche
+                this.selectedOption = null;           // Aktuell ausgewählte Antwort
+
+                // TIMER & MODAL
                 this.initialTimeLeft = parseInt(document.querySelector('.quiz-container-wide').dataset.initialTimeLeft) || 30;
-                this.confirmationModal = null;
-                this.isModalOpen = false;
-                this.pendingVisibilityChange = false;
-                this.allowNavigation = false;
+                this.confirmationModal = null;        // Modal-Referenz
+                this.isModalOpen = false;             // Modal-Status
+                this.pendingVisibilityChange = false; // Tab-Wechsel erkannt?
+                this.allowNavigation = false;         // Navigation erlauben (nach Quiz-Ende)
                 
                 console.log('Quiz Manager initialisiert für Raum:', this.roomId);
 
+                // SESSION-STATUS
                 try {
                     sessionStorage.setItem('quiz_active', '1');
                 } catch (e) {
                     console.warn('sessionStorage not available:', e);
                 }
 
-                this.setupBrowserNavigation();
-                this.setupGlobalEventListeners();
-                this.initializeSocket();
-                this.setupEventListeners();
-                this.setupModal();
-                this.updateTimer(this.initialTimeLeft);
+                // INITIALISIERUNG aller Komponenten
+                this.setupBrowserNavigation();      // Browser-History-Management
+                this.setupGlobalEventListeners();   // Globale Events (Tab-Wechsel)
+                this.initializeSocket();            // WebSocket-Verbindung
+                this.setupEventListeners();         // UI-Event-Listener
+                this.setupModal();                  // Modal-Event-Listener
+                this.updateTimer(this.initialTimeLeft); // Timer starten
 
+                // FORTSCHRITTSANZEIGE initialisieren
                 const currentQ = this.getCurrentQuestionNumber();
                 const totalQ = this.getTotalQuestions();
                 this.updateProgressBarVisuals(currentQ, totalQ);
-
-                this.keepSessionAlive();
             }
 
+            // Gibt Basis-URL für aktuelle Frage zurück
             getCurrentBaseUrl() {
                 const progress = this.getCurrentQuestionNumber();
                 return `/show_question?q=${progress}`;
             }
 
+            // Browser-History-Management für Back-Button
             setupBrowserNavigation() {
                 // Bereinige URL von show_exit_modal Parameter
                 const cleanUrl = this.getCurrentBaseUrl();
@@ -132,7 +164,7 @@
                     console.warn('History initialisation failed:', e);
                 }
 
-                // Popstate Handler - EINZIGER Mechanismus für Back-Button
+                // Back-Button-Handler - einziger Mechanismus für Navigation
                 window.addEventListener('popstate', (event) => {
                     console.log('=== POPSTATE EVENT ===');
                     console.log('Modal open:', this.isModalOpen);
@@ -155,7 +187,7 @@
                     console.log('*** Modal ist geschlossen - ZEIGE MODAL ***');
                     this.showConfirmationModal();
                     
-                    // Erstelle einen neuen State, damit der nächste Back das Modal nicht schließt
+                    // Erstelle neuen State, damit nächster Back das Modal nicht schließt
                     try {
                         const trapUrl = this.getCurrentBaseUrl();
                         history.pushState(
@@ -170,9 +202,8 @@
                 });
             }
 
-            setupGlobalEventListeners() {
-                // KEIN beforeunload mehr - das verursacht den Browser-Dialog!
-                
+            // Globale Event-Listener (Tab-Wechsel, Fokus)
+            setupGlobalEventListeners() {                
                 document.addEventListener('visibilitychange', () => {
                     if (document.visibilityState === 'hidden' && !this.hasAnswered && !this.isModalOpen && !this.allowNavigation) {
                         this.pendingVisibilityChange = true;
@@ -187,10 +218,12 @@
                 });
             }
 
+            // Modal-Initialisierung und Event-Handler
             setupModal() {
                 this.confirmationModal = document.getElementById('confirmationModal');
                 const cancelBtn = document.getElementById('cancelQuizBtn');
                 
+                // ABBRECHEN-BUTTON: Zeigt Bestätigungsmodal
                 cancelBtn.addEventListener('click', () => {
                     console.log('Cancel button clicked');
                     this.showConfirmationModal();
@@ -208,6 +241,7 @@
                     }
                 });
                 
+                // MODAL-BUTTONS: Bestätigung und Abbrechen
                 document.getElementById('confirmCancelBtn').addEventListener('click', () => {
                     console.log('Confirm cancel clicked');
                     this.confirmCancel();
@@ -217,7 +251,7 @@
                     console.log('Dismiss clicked');
                     this.hideConfirmationModal();
                     
-                    // Pushe einen neuen Trap-State
+                    // Pushe neuen Trap-State
                     try {
                         const trapUrl = this.getCurrentBaseUrl();
                         history.pushState(
@@ -231,6 +265,7 @@
                     }
                 });
                 
+                // MODAL-HINTERGRUND: Schließt Modal bei Klick außerhalb
                 this.confirmationModal.addEventListener('click', (e) => {
                     if (e.target === this.confirmationModal) {
                         console.log('Modal background clicked');
@@ -250,6 +285,7 @@
                     }
                 });
                 
+                // ESC-TASTE: Schließt Modal
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && this.isModalOpen) {
                         console.log('ESC pressed');
@@ -270,6 +306,7 @@
                 });
             }
 
+            // Zeigt Bestätigungsmodal an
             showConfirmationModal() {
                 console.log('=== SHOWING MODAL ===');
                 if (this.confirmationModal) {
@@ -280,6 +317,7 @@
                 }
             }
 
+            // Versteckt Bestätigungsmodal
             hideConfirmationModal() {
                 console.log('=== HIDING MODAL ===');
                 if (this.confirmationModal) {
@@ -290,10 +328,12 @@
                 }
             }
 
+            // Bestätigt Quiz-Abbruch (Server-Kommunikation)
             confirmCancel() {
                 console.log('=== CONFIRMING CANCEL ===');
                 this.allowNavigation = true;
 
+                // Session-Storage aktualisieren
                 try {
                     sessionStorage.setItem('quiz_cancelled_intentionally', '1');
                     sessionStorage.removeItem('quiz_active');
@@ -303,10 +343,12 @@
 
                 this.hideConfirmationModal();
 
+                // WebSocket-Verbindung trennen
                 if (this.socket) {
                     this.socket.disconnect();
                 }
 
+                // Server über Quiz-Abbruch informieren
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
                 const body = new URLSearchParams();
                 body.append('csrf_token', csrfToken);
@@ -328,15 +370,7 @@
                 });
             }
 
-            keepSessionAlive() {
-                setInterval(() => {
-                    if (!this.hasAnswered && !this.isModalOpen) {
-                        fetch('/quiz_session_status')
-                            .catch(error => console.log('Session keep-alive fehlgeschlagen:', error));
-                    }
-                }, 60000);
-            }
-
+            // Initialisiert WebSocket-Verbindung zum Server
             initializeSocket() {
                 console.log('Initialisiere Socket-Verbindung...');
                 
@@ -352,6 +386,9 @@
                     timeout: 20000
                 });
 
+                // WEBSOCKET-EVENT-HANDLER
+
+                // Verbindung erfolgreich
                 this.socket.on('connect', () => {
                     console.log('Socket verbunden, ID:', this.socket.id);
                     this.isConnected = true;
@@ -359,6 +396,7 @@
                     this.joinQuizSession();
                 });
 
+                // Verbindung getrennt
                 this.socket.on('disconnect', (reason) => {
                     console.log('Socket getrennt:', reason);
                     this.isConnected = false;
@@ -370,45 +408,54 @@
                     }
                 });
 
+                // Verbindungsfehler
                 this.socket.on('connect_error', (error) => {
                     console.error('Verbindungsfehler:', error.message);
                     this.isConnected = false;
                     this.reconnectAttempts++;
                 });
 
+                // Wieder verbunden
                 this.socket.on('reconnect', (attemptNumber) => {
                     console.log('Reconnected nach', attemptNumber, 'Versuchen');
                     this.joinQuizSession();
                 });
 
+                // Wiederherstellung fehlgeschlagen
                 this.socket.on('reconnect_failed', () => {
                     console.error('Reconnect fehlgeschlagen nach', this.maxReconnectAttempts, 'Versuchen');
                     alert('Verbindung zum Server verloren. Bitte lade die Seite neu.');
                 });
 
+                // Bestätigung der erfolgreichen Verbindung
                 this.socket.on('connection_success', (data) => {
                     console.log('Verbindung erfolgreich:', data);
                 });
 
+                // Timer-Update vom Server
                 this.socket.on('time_update', (data) => {
                     this.updateTimer(data.time_left);
                 });
 
+                // Zeit abgelaufen
                 this.socket.on('time_out', () => {
                     console.log('Zeit abgelaufen - automatische Antwort');
                     this.handleTimeOut();
                 });
 
+                // Antwort-Ergebnis vom Server
                 this.socket.on('answer_result', (data) => {
                     console.log('Antwort-Ergebnis erhalten:', data);
                     this.handleAnswerResult(data);
                 });
 
+                // Fehler vom Server
                 this.socket.on('error', (data) => {
                     console.error('Socket-Fehler:', data);
                 });
             }
 
+            // Tritt einem Quiz-Raum auf dem Server bei
             joinQuizSession() {
                 if (!this.roomId) {
                     console.error('Keine Room-ID vorhanden');
@@ -421,6 +468,7 @@
                 });
             }
 
+            // Event-Listener für Antwortoptionen
             setupEventListeners() {
                 const options = document.querySelectorAll('.option');
                 options.forEach(option => {
@@ -432,6 +480,7 @@
                 });
             }
 
+            // Verarbeitet Auswahl einer Antwortoption
             selectOption(element) {
                 if (this.hasAnswered) {
                     console.log('Bereits geantwortet');
@@ -450,6 +499,7 @@
 
                 element.classList.add('selected');
                 
+                // Deaktiviere alle Optionen nach Antwort
                 const allOptions = document.querySelectorAll('.option');
                 allOptions.forEach(opt => {
                     opt.style.pointerEvents = 'none';
@@ -461,6 +511,7 @@
                 this.submitAnswer(selectedAnswer);
             }
 
+            // Sendet Antwort an Server über WebSocket
             submitAnswer(answer) {
                 if (!this.isConnected) {
                     console.error('Nicht verbunden - kann Antwort nicht senden');
@@ -482,6 +533,7 @@
                 });
             }
 
+            // Aktualisiert Timer-Anzeige
             updateTimer(timeLeft) {
                 const timerText = document.querySelector('.timer-text');
                 const timerProgress = document.querySelector('.timer-progress');
@@ -494,15 +546,18 @@
 
                 timerText.textContent = Math.max(0, timeLeft);
                 
+                // SVG-Animation: Kreis wird abgebaut
                 const progress = (timeLeft / 30) * 283;
                 const offset = Math.max(0, 283 - progress);
                 timerProgress.style.strokeDashoffset = offset;
                 
+                // Farbänderung: Grün -> Rot bei Zeitablauf
                 const ratio = Math.max(0, timeLeft / 30);
                 const red = Math.floor(255 * (1 - ratio));
                 const green = Math.floor(255 * ratio);
                 timerProgress.style.stroke = `rgb(${red}, ${green}, 0)`;
                 
+                // Puls-Animation bei letzten 10 Sekunden
                 if (timeLeft <= 10 && timeLeft > 0) {
                     timerContainer.classList.add('pulse');
                 } else {
@@ -510,6 +565,7 @@
                 }
             }
 
+            // Verarbeitet Zeitablauf (automatische Antwort)
             handleTimeOut() {
                 if (this.hasAnswered) return;
                 
@@ -518,6 +574,7 @@
                 
                 this.hideConfirmationModal();
                 
+                // Deaktiviere alle Optionen
                 const allOptions = document.querySelectorAll('.option');
                 allOptions.forEach(opt => {
                     opt.style.pointerEvents = 'none';
@@ -525,9 +582,10 @@
                     opt.classList.add('disabled', 'answered');
                 });
 
-                this.submitAnswer('');
+                this.submitAnswer(''); // Leere Antwort bei Timeout
             }
 
+            // Verarbeitet Antwort-Ergebnis vom Server
             handleAnswerResult(data) {
                 if (data.error) {
                     console.error('Antwort-Fehler:', data.error);
@@ -544,14 +602,17 @@
                 
                 this.highlightAnswers(data);
                 
+                // Prüfe, ob letzte Frage erreicht
                 const isLastQuestion = data.is_last_question || 
                     (this.getCurrentQuestionNumber() >= this.getTotalQuestions());
                 
                 if (!isLastQuestion) {
+                    // Weiter zur nächsten Frage nach 1,5s
                     setTimeout(() => {
                         this.goToNextQuestion();
                     }, 1500);
                 } else {
+                    // Letzte Frage: Weiter zur Auswertung
                     console.log('Letzte Frage beantwortet - weiter zur Auswertung');
                     try { 
                         sessionStorage.removeItem('quiz_active'); 
@@ -565,28 +626,33 @@
                 }
             }
 
+            // Extrahiert aktuelle Frage-Nummer aus Fortschrittsbalken-Text
             getCurrentQuestionNumber() {
                 const progressText = document.querySelector('.progress-bar').textContent;
                 const match = progressText.match(/Frage (\d+) von (\d+)/);
                 return match ? parseInt(match[1]) : 1;
             }
 
+            // Extrahiert Gesamtzahl der Fragen aus Fortschrittsbalken-Text
             getTotalQuestions() {
                 const progressText = document.querySelector('.progress-bar').textContent;
                 const match = progressText.match(/Frage (\d+) von (\d+)/);
                 return match ? parseInt(match[2]) : 30;
             }
 
+            // Aktualisiert Score-Anzeige mit Animation
             updateScore(newScore, pointsEarned) {
                 const scoreDisplay = document.getElementById('score-display');
                 if (scoreDisplay) {
                     if (pointsEarned > 0) {
+                        // Erstelle Punkte-Indikator
                         const pointsIndicator = document.createElement('div');
                         pointsIndicator.className = 'points-indicator';
                         pointsIndicator.textContent = `+${pointsEarned}`;
                         scoreDisplay.style.position = 'relative';
                         scoreDisplay.appendChild(pointsIndicator);
                         
+                        // Entferne Indikator nach 1,5s
                         setTimeout(() => {
                             pointsIndicator.remove();
                         }, 1500);
@@ -602,6 +668,7 @@
                 }
             }
 
+            // Hebt richtige/falsche Antworten farblich hervor
             highlightAnswers(result) {
                 const allOptions = document.querySelectorAll('.option');
                 
@@ -613,18 +680,22 @@
                     
                     option.classList.add('answered');
                     
+                    // Markiere korrekte Antwort
                     if (optionText === result.correct_answer) {
                         option.classList.add('correct');
                     } 
+                    // Markiere falsche Auswahl des Users
                     else if (this.selectedOption && this.selectedOption === option) {
                         option.classList.add('wrong');
                     }
+                    // Andere falsche Optionen
                     else {
                         option.classList.add('wrong');
                     }
                 });
             }
 
+            // Lädt nächste Frage per AJAX
             loadNextQuestion() {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -662,6 +733,7 @@
                 });
             }
 
+            // Aktualisiert Fortschrittsbalken-Visualisierung
             updateProgressBarVisuals(current, total) {
                 const progressBar = document.querySelector('.progress-bar');
                 if (progressBar) {
@@ -669,17 +741,19 @@
                     const percent = Math.min(100, Math.max(0, (current / total) * 100));
                     // Setze die CSS Variable
                     progressBar.style.setProperty('--progress', `${percent}%`);
-                    // Setze den Text (wie bisher)
+                    // Setze den Text
                     progressBar.textContent = `Frage ${current} von ${total}`;
                 }
             }
 
+            // Aktualisiert gesamte Frage-Anzeige mit neuen Daten
             updateQuestion(data) {
                 const questionTextElement = document.querySelector('.question-text');
                 if (questionTextElement) {
                     questionTextElement.textContent = data.question;
                 }
 
+                // Antwortoptionen neu generieren
                 const optionsGrid = document.getElementById('options-grid');
                 if (optionsGrid) {
                     optionsGrid.innerHTML = '';
@@ -695,11 +769,13 @@
                     this.setupEventListeners();
                 }
 
+                // Fortschrittsbalken aktualisieren
                 const progressBar = document.querySelector('.progress-bar');
                 if (progressBar) {
                     this.updateProgressBarVisuals(data.progress, data.total_questions);
                 }
 
+                // Score aktualisieren
                 const scoreDisplay = document.getElementById('score-display');
                 if (scoreDisplay) {
                     scoreDisplay.textContent = `Score: ${data.score}`;
@@ -708,6 +784,7 @@
                 this.hasAnswered = false;
                 this.selectedOption = null;
 
+                // Browser-History aktualisieren
                 try {
                     const newUrl = `/show_question?q=${data.progress}`;
                     history.replaceState({ quiz: true, q: data.progress }, document.title, newUrl);
@@ -717,6 +794,7 @@
                 }
             }
 
+            // Geht zur nächsten Frage oder zur Auswertung
             goToNextQuestion() {
                 console.log('Gehe zur nächsten Frage');
                 
@@ -728,6 +806,7 @@
                 if (currentQuestion < totalQuestions) {
                     this.loadNextQuestion();
                 } else {
+                    // Letzte Frage: Weiter zur Auswertung
                     console.log('Letzte Frage beantwortet - weiter zur Auswertung');
                     try { 
                         sessionStorage.removeItem('quiz_active'); 
@@ -742,6 +821,7 @@
                 }
             }
 
+            // Trennt WebSocket-Verbindung
             disconnect() {
                 if (this.socket && this.socket.connected) {
                     console.log('Socket wird getrennt');
@@ -750,8 +830,10 @@
             }
         }
 
+        // Globale QuizManager-Instanz
         let quizManager;
 
+        // Initialisierung nach DOM-Ladung
         document.addEventListener('DOMContentLoaded', () => {
             console.log('=== DOM LOADED ===');
             quizManager = new QuizManager();
@@ -788,6 +870,7 @@
             }
         });
 
+        // Versucht Reconnect bei Tab-Wechsel zurück
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible' && quizManager && !quizManager.isConnected) {
                 console.log('Tab wieder aktiv - versuche Reconnect');
