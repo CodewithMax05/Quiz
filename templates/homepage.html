@@ -1,7 +1,15 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Homepage enthält:
+    1. Quiz-Kategorien (15 Themen + Zufallsmodus)
+    2. Buttons für Ranking, Player-Menü und Support
+-->
 
 {% block head %}
+    <!-- Seiten-spezifische Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_homepage.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
@@ -10,26 +18,36 @@
     
     <div class="container">
 
+        <!-- HEADER-CONTROLS (Info, Ranking, Playermenü) -->
         <div class="header-controls">
+            <!-- Info-Button -->
             <button class="info-button sound-button" id="info-button" aria-label="Information">
                 <i class="fas fa-question-circle"></i>
             </button>
+            <!-- Ranking-Button -->
             <a href="{{ url_for('ranking') }}" class="ranking-button sound-button" aria-label="Ranking">
                 <i class="fas fa-trophy"></i>
             </a>
+            <!-- Playermenü-Button -->
             <a href="{{ url_for('playermenu') }}" class="playermenu-button sound-button" aria-label="Playermenü">
                 <i class="fas fa-address-card"></i>
             </a>
         </div>
 
+        <!-- HAUPTFORMULAR: Auswahl der Quiz-Kategorien -->
         <form action="/start_custom_quiz" method="POST" class="categories-form" id="quiz-form">
             
+            <!-- Überschrift -->
             <h1 class="headline">Wähle deine Quiz-Kategorien</h1>
 
+            <!-- CSRF-Token für Sicherheit -->
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <!-- Hidden-Feld für Zufallsmodus-Status -->
             <input type="hidden" name="random_mode" id="random-mode" value="false">
             
+            <!-- KATEGORIEN-GRID: 16 Karten (15 Themen + Zufallsmodus) -->
             <div class="category-grid">
+                <!-- ZUFALLSMODUS -->
                 <label class="category-card random-mode-card">
                     <input type="checkbox" name="topics" value="random" id="random-mode-checkbox">
                     <div class="card-content">
@@ -38,6 +56,7 @@
                     </div>
                 </label>
                 
+                <!-- THEMEN-KARTEN: 15 verschiedene Wissensgebiete -->
                 <label class="category-card">
                     <input type="checkbox" name="topics" value="Musik">
                     <div class="card-content">
@@ -159,18 +178,23 @@
                 </label>
             </div>
             
+            <!-- ACTION-BUTTONS: Support, Quiz-Start, Admin-Panel (falls Admin) -->
             <div class="button-row">
+                <!-- SUPPORT-BUTTON -->
                 <a href="{{ url_for('tickets_overview') }}" class="support-button sound-button" aria-label="Support">
                     <i class="fas fa-headset"></i>
+                    <!-- Benachrichtigungs-Badge für ungelesene Nachrichten -->
                     {% if ticket_notification_count and ticket_notification_count > 0 %}
                         <span class="notification-badge">{{ ticket_notification_count }}</span>
                     {% endif %}
                 </a>
                 
+                <!-- QUIZ-START-BUTTON -->
                 <button type="submit" class="start-button sound-button">
                     <i class="fas fa-play-circle"></i> Quiz starten
                 </button>
 
+                <!-- ADMIN-BUTTON: Nur sichtbar für Administratoren -->
                 {% if is_admin %}
                 <a href="{{ url_for('admin_panel') }}" class="admin-button sound-button" aria-label="Admin Panel">
                     <i class="fas fa-cogs"></i>
@@ -183,6 +207,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // DOM-Element-Referenzen
         const infoButton = document.getElementById('info-button');
         const flashContainer = document.getElementById('flash-container');
         const randomModeCheckbox = document.getElementById('random-mode-checkbox');
@@ -190,7 +215,9 @@
         const categoryCards = document.querySelectorAll('.category-card:not(.random-mode-card)');
         const allCheckboxes = document.querySelectorAll('input[name="topics"]');
         
-        // Zufallsmodus Logik
+        // ========================
+        // ZUFALLSMODUS-LOGIK
+        // ========================
         randomModeCheckbox.addEventListener('change', function() {
             if (this.checked) {
                 // Zufallsmodus aktivieren
@@ -206,6 +233,7 @@
                     icon.className = 'fas fa-question';
                 });
                 
+                // Benutzer-Info anzeigen
                 createFlashMessage('Es werden 30 zufällige Fragen aus einer zufälligen Anzahl von Kategorien ausgewählt.', 'info');
             } else {
                 // Zufallsmodus deaktivieren
@@ -215,7 +243,7 @@
                     const checkbox = card.querySelector('input[type="checkbox"]');
                     checkbox.disabled = false;
                     
-                    // Icons zurückändern
+                    // Original-Icons wiederherstellen
                     const originalIcons = {
                         'Musik': 'fas fa-music',
                         'Geschichte': 'fas fa-landmark',
@@ -243,17 +271,21 @@
             }
         });
 
-        // Formular-Submit validieren
+        // ========================
+        // FORMULAR-VALIDIERUNG
+        // ========================
         document.getElementById('quiz-form').addEventListener('submit', function(e) {
             const randomMode = randomModeInput.value === 'true';
             const selectedTopics = Array.from(allCheckboxes).filter(cb => cb.checked && cb.value !== 'random');
             
+            // Validierung: Mindestens ein Thema muss ausgewählt sein (außer im Zufallsmodus)
             if (!randomMode && selectedTopics.length === 0) {
                 e.preventDefault();
                 createFlashMessage('Bitte wähle mindestens ein Thema aus oder aktiviere den Zufallsmodus!', 'error');
                 return false;
             }
 
+            // Im Zufallsmodus: Deaktivere alle Themen-Checkboxes für saubere Übergabe
             if (randomMode) {
                 categoryCards.forEach(card => {
                     const checkbox = card.querySelector('input[type="checkbox"]');
@@ -263,6 +295,9 @@
             }
         });
         
+        // ========================
+        // INFO-BUTTON-HANDLER
+        // ========================
         infoButton.addEventListener('click', function() {
             createFlashMessage('Du kannst bis zu 15 Themen gleichzeitig auswählen oder den Zufallsmodus aktivieren!', 'info');
         });
