@@ -39,20 +39,43 @@
     font-size: 0.9rem;
 }
 
-.form-control, .form-select {
+/* Input & Select Grundstil (Dark Theme) */
+.form-control,
+.form-select {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
-.form-control:focus, .form-select:focus {
+/* Fokus-Zustand */
+.form-control:focus,
+.form-select:focus {
     background-color: rgba(255, 255, 255, 0.15);
     color: #fff;
     border-color: #3498db;
     box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
 }
 
-/* Responsive Anpassungen */
+/* ============================= */
+/* DROPDOWN (geöffnet) – WICHTIG */
+/* ============================= */
+
+/* Optionen im geöffneten Dropdown */
+.form-select option {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Aktuell ausgewählte Option */
+.form-select option:checked {
+    background-color: #e9ecef;
+    color: #000000;
+}
+
+/* ============================= */
+/* Responsive Anpassungen        */
+/* ============================= */
+
 @media (max-width: 768px) {
     .management-card {
         margin-bottom: 20px;
