@@ -1,0 +1,60 @@
+/* Styles für das Daten-Management */
+
+.management-title {
+    color: #f0f4f8;
+    font-weight: bold;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+.management-card {
+    background-color: rgba(44, 62, 80, 0.8);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: #f0f4f8;
+    transition: transform 0.2s;
+}
+
+.management-card:hover {
+    transform: translateY(-5px);
+}
+
+.management-card .card-header {
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.list-group-item {
+    background-color: transparent;
+    color: #f0f4f8;
+    border-color: rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+}
+
+.form-label {
+    color: #bdc3c7;
+    font-size: 0.9rem;
+}
+
+.form-control, .form-select {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+    .management-card {
+        margin-bottom: 20px;
+    }
+}

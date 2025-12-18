@@ -10,6 +10,7 @@ import os
 import random
 import csv
 import time
+import io
 from collections import defaultdict
 from flask_session import Session
 from datetime import datetime, timezone, timedelta
@@ -2190,6 +2191,180 @@ def db_stats():
         print(f"Datenbankfehler auf der Homepage: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
         return redirect(url_for('index'))
+    
+
+
+
+
+
+
+
+
+# --- DATA MANAGEMENT ROUTES ---
+# --- DATA MANAGEMENT ROUTES ---
+
+@app.route('/admin/data-management')
+@login_required
+@admin_required
+def data_management():
+    return render_template('data_management.html')
+
+
+@app.route('/admin/export/<table_slug>')
+@login_required
+@admin_required
+def export_data(table_slug):
+    models = {
+        'user': User,
+        'news': News,
+        'ticket': Ticket,
+        'ticket_message': TicketMessage
+    }
+
+    model = models.get(table_slug)
+    if not model:
+        flash("Tabelle nicht gefunden.", "error")
+        return redirect(url_for('data_management'))
+
+    try:
+        data = model.query.all()
+        output = io.StringIO()
+        writer = csv.writer(output, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        columns = [column.key for column in model.__table__.columns]
+        writer.writerow(columns)
+
+        for row in data:
+            writer.writerow([getattr(row, col) for col in columns])
+
+        output.seek(0)
+        response = make_response(output.getvalue())
+        filename = f"export_{table_slug}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+        response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+        response.headers["Content-type"] = "text/csv"
+        return response
+
+    except Exception as e:
+        flash(f"Fehler beim Export: {str(e)}", "error")
+        return redirect(url_for('data_management'))
+
+
+@app.route('/admin/import', methods=['POST'])
+@login_required
+@admin_required
+def import_data():
+    table_name = request.form.get('table')
+    file = request.files.get('file')
+
+    if not file or not table_name:
+        flash("Datei oder Tabelle fehlt.", "error")
+        return redirect(url_for('data_management'))
+
+    models = {
+        'user': User,
+        'news': News,
+        'ticket': Ticket,
+        'ticket_message': TicketMessage
+    }
+
+    model = models.get(table_name)
+    if not model:
+        flash("Ungültige Tabelle.", "error")
+        return redirect(url_for('data_management'))
+
+    try:
+        stream = io.StringIO(file.stream.read().decode("utf-8"), newline=None)
+        reader = csv.DictReader(stream, delimiter=';')
+
+        valid_columns = [c.key for c in model.__table__.columns]
+        count = 0
+
+        for row in reader:
+            clean_data = {}
+
+            for column in valid_columns:
+                if column not in row:
+                    continue
+
+                value = row[column]
+
+                # Leere Werte → None
+                if value in ("", None):
+                    clean_data[column] = None
+                    continue
+
+                # ---------- TYP-KONVERTIERUNG ----------
+                column_type = model.__table__.columns[column].type
+
+                if isinstance(column_type, db.Integer):
+                    clean_data[column] = csv_int(value)
+
+                elif isinstance(column_type, db.Boolean):
+                    clean_data[column] = csv_bool(value)
+
+                elif isinstance(column_type, db.DateTime):
+                    clean_data[column] = csv_datetime(value)
+
+                else:
+                    clean_data[column] = value
+                # ---------------------------------------
+
+            # 🔒 ID NIE überschreiben
+            entry_id = clean_data.pop("id", None)
+
+            if entry_id:
+                existing = db.session.get(model, entry_id)
+                if existing:
+                    for k, v in clean_data.items():
+                        setattr(existing, k, v)
+                else:
+                    clean_data["id"] = entry_id
+                    db.session.add(model(**clean_data))
+            else:
+                db.session.add(model(**clean_data))
+
+            count += 1
+
+        db.session.commit()
+        flash(f"{count} Datensätze in '{table_name}' erfolgreich importiert!", "success")
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Import Fehler: {e}")
+        flash(f"Fehler beim Import: {str(e)}", "error")
+
+    return redirect(url_for('data_management'))
+
+
+# ---------- HILFSFUNKTIONEN ----------
+
+def csv_int(value, default=0):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def csv_bool(value):
+    return str(value).lower() in ("1", "true", "yes", "ja")
+
+
+def csv_datetime(value):
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.split("+")[0])
+    except ValueError:
+        return None
+
+    
+
+
+
+
+
+
+
 
 @app.route('/ranking')      
 @login_required     
