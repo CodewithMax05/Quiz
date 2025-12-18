@@ -54,6 +54,11 @@ Sport;Wie viele Runden werden beim Boxen maximal in einem WM-Kampf ausgetragen?;
 Sport;Welche Disziplin gehört nicht zum Triathlon?;Klettern;Schwimmen;Radfahren;Laufen
 Sport;Welcher Sport ist bekannt für den "Heimvorteil" oder "Home Advantage"?;Fußball;Tennis;Golf;Schwimmen
 Sport;Wie viele Gewichtsklassen gibt es ungefähr im Boxen?;17;10;15;20
+
+
+
+
+
 Sport;Welche Sportart wird oft als "Ballett auf dem Eis" bezeichnet?;Eiskunstlauf;Eishockey;Eisschnelllauf;Curling
 Sport;Welcher Sport verwendet ein "Harness" (Gurt) und ein "Seil"?;Klettern;Surfen;Windsurfen;Segeln
 Sport;Wie viele Punkte muss man beim Tennis mindestens erzielen, um ein Spiel zu gewinnen?;4;3;5;6
@@ -100,3 +105,112 @@ Sport;Wie viele Spiele umfasst eine Serie in den NHL-Playoffs maximal?;7 Spiele;
 Sport;Welcher Sportler ist bekannt für den Begriff "Tiki-Taka" im Fußball?;Pep Guardiola;Lionel Messi;Johan Cruyff;Zinédine Zidane
 Sport;Wie viele Strafpunkte erhält man beim Bogenschießen, wenn man das Ziel komplett verfehlt?;10;5;0;1
 Sport;Welche Sportart ist die Basis für das "Ultimate Frisbee"?;Disziplinübergreifende Spiele;Fußball;Basketball;Rugby
+Sport;In welcher Stadt findet das Finale der French Open statt?;Paris;Lyon;Marseille;Bordeaux
+Sport;Wer war der erste deutsche Formel-1-Weltmeister?;Michael Schumacher;Sebastian Vettel;Nico Rosberg;Wolfgang von Trips
+Sport;In welcher Stadt wird traditionell das Neujahrsspringen der Vierschanzentournee ausgetragen?;Garmisch-Partenkirchen;Oberstdorf;Innsbruck;Bischofshofen
+Sport;Wie viele Spieler stehen beim American Football gleichzeitig für ein Team auf dem Feld?;11;12;10;15
+Sport;In welcher Sportart ist der "America’s Cup" die wichtigste Trophäe?;Segeln;Golf;Polo;Rudern
+Sport;Welcher Tennisspieler ist als "King of Clay" bekannt?;Rafael Nadal;Roger Federer;Novak Djokovic;Björn Borg
+Sport;Wie viele Minuten beträgt die Zeitstrafe für eine Zeitstrafe beim Handball?;2 Minuten;5 Minuten;10 Minuten;1 Minute
+Sport;In welchem Land finden 2024 die Olympischen Sommerspiele statt?;Frankreich;USA;Australien;Japan
+Sport;Wie nennt man den Ball beim Badminton offiziell?;Shuttlecock;Federball;Baddy;Speedball
+Sport;Wer hält den Rekord für die meisten Grand-Slam-Titel bei den Herren (Stand Ende 2023)?;Novak Djokovic;Rafael Nadal;Roger Federer;Pete Sampras
+Sport;In welcher Sportart kann man einen "Eagle" erzielen?;Golf;Darts;Bogenschießen;Kegeln
+Sport;Wie viele Spieler bilden ein Team beim Wasserball (inklusive Torwart)?;7;6;11;5
+Sport;In welcher Stadt steht das berühmte Wembley-Stadion?;London;Manchester;Liverpool;Birmingham
+Sport;Wie nennt man die Schutzausrüstung, die ein Catcher beim Baseball trägt?;Maske und Protektoren;Helm;Handschuh;Weste
+Sport;In welchem Jahr wurde Deutschland zum ersten Mal Fußball-Weltmeister?;1954;1974;1990;2014
+Sport;Wie viele Gelbe Karten führen im Fußball zu einer Gelb-Roten Karte?;2;1;3;0
+Sport;In welcher Sportart gibt es die Disziplinen Riesenslalom und Abfahrt?;Ski Alpin;Skilanglauf;Eiskunstlauf;Bob
+Sport;Wie viele Sätze gewinnt man beim Volleyball, um ein Spiel zu entscheiden?;3;2;4;5
+Sport;In welchem Land wurde der Sport "Rugby" erfunden?;England;Neuseeland;Australien;Südafrika
+Sport;Wer gewann die erste Fußball-Weltmeisterschaft der Frauen (1991)?;USA;Deutschland;Norwegen;China
+Sport;Wie viele Punkte ist das Bullseye beim Darts wert?;50;25;100;75
+Sport;In welcher Sportart gibt es einen "Libero"?;Volleyball;Basketball;Eishockey;Handball
+Sport;Wie viele Meter ist ein Elfmeterpunkt vom Tor entfernt?;11 Meter;9 Meter;12 Meter;10 Meter
+Sport;In welcher Stadt fanden die Olympischen Sommerspiele 1972 statt?;München;Berlin;Mexiko-Stadt;Montreal
+Sport;Welche Nationalmannschaft hat die meisten WM-Titel im Fußball gewonnen?;Brasilien;Deutschland;Italien;Argentinien
+Sport;Wie nennt man den Bereich beim Boxen, in dem gekämpft wird?;Ring;Matte;Käfig;Oktagon
+Sport;In welcher Sportart nutzt man einen "Cue"?;Billard;Golf;Cricket;Lacrosse
+Sport;Wie viele Auswechslungen pro Team sind aktuell in den meisten Fußball-Profiligen erlaubt?;5;3;4;6
+Sport;In welchem Land findet das Etappenrennen "Giro d'Italia" statt?;Italien;Spanien;Frankreich;Schweiz
+Sport;Wer hält den Rekord für die meisten Tore bei einer einzelnen Fußball-WM (13 Tore)?;Just Fontaine;Gerd Müller;Pelé;Ronaldo
+Sport;In welcher Sportart ist die "Vierschanzentournee" ein Saison-Highlight?;Skispringen;Skilanglauf;Biathlon;Alpin-Ski
+Sport;Wie viele Punkte zählt ein Korbwurf von der Dreierlinie beim Basketball?;3;2;1;4
+Sport;Welcher Box-Weltmeister blieb in 50 Profikämpfen unbesiegt?;Floyd Mayweather;Mike Tyson;Lennox Lewis;Wladimir Klitschko
+Sport;In welcher Stadt findet das Tennisturnier von Wimbledon statt?;London;Paris;Melbourne;New York
+Sport;Wie nennt man den Startblock beim Golf?;Tee;Green;Fairway;Bunker
+Sport;Wie viele Feldspieler hat eine Fußballmannschaft?;10;11;9;12
+Sport;In welcher Sportart ist der Begriff "Ippon" ein vorzeitiger Sieg?;Judo;Karate;Fechten;Ringen
+Sport;Wie viele Kilo wiegt eine Bowlingkugel maximal?;7,26 kg;10 kg;5 kg;8,5 kg
+Sport;In welcher Stadt wird der "Ironman Hawaii" ausgetragen?;Kailua-Kona;Honolulu;Hilo;Lahaina
+Sport;Wie nennt man den Endpunkt einer Golfbahn?;Loch;Kuhle;Ziel;Becken
+Sport;Wer ist der Rekordsieger der Tour de France (offiziell 5 Siege)?;Eddy Merckx;Lance Armstrong;Jan Ullrich;Tadej Pogacar
+Sport;In welcher Sportart wird ein "Puck" verwendet?;Eishockey;Unihockey;Feldhockey;Lacrosse
+Sport;Wie viele Kilometer lang ist eine Standard-Marathonstrecke?;42,195 km;40,0 km;41,5 km;43,2 km
+Sport;In welcher Stadt findet das Finale der Champions League 2024 statt?;London;Berlin;München;Madrid
+Sport;Wie viele Spieler stehen beim Beachvolleyball auf dem Feld?;2;4;6;3
+Sport;Welcher Verein wird als "Die Werkself" bezeichnet?;Bayer Leverkusen;VfL Wolfsburg;PSV Eindhoven;VfB Stuttgart
+Sport;In welcher Sportart gibt es die Begriffe "Clean & Jerk"?;Gewichtheben;Boxen;Ringen;Turnen
+Sport;Wie viele Minuten dauert eine Halbzeit im Profi-Fußball?;45 Minuten;40 Minuten;50 Minuten;35 Minuten
+Sport;In welchem Land wurde der Fußballverein FC Barcelona gegründet?;Spanien;Italien;Portugal;Argentinien
+Sport;Wie viele Steine hat ein Team beim Curling pro End?;8;4;6;10
+Sport;In welcher Sportart ist Tiger Woods ein Superstar?;Golf;Tennis;Segeln;Polo
+Sport;Wie viele Runden läuft man bei einem 1500-Meter-Lauf in der Halle (200m Bahn)?;7,5;4;6;5,5
+Sport;In welcher Stadt fanden 1992 die Olympischen Sommerspiele statt?;Barcelona;Seoul;Atlanta;Sydney
+Sport;Wie nennt man im Fußball das Erzielen von drei Toren durch einen Spieler?;Hattrick;Triple;Double;Goal-Rush
+Sport;In welcher Sportart gewinnt man den "Stanley Cup"?;Eishockey;Basketball;Baseball;American Football
+Sport;Wie viele Sätze muss man im Tischtennis für einen Matchgewinn meistens gewinnen?;4;3;2;5
+Sport;In welcher Sportart gibt es die Position des "Tight End"?;American Football;Rugby;Baseball;Handball
+Sport;Wer ist der erfolgreichste Olympionike aller Zeiten?;Michael Phelps;Usain Bolt;Larissa Latynina;Mark Spitz
+Sport;Wie nennt man den Schiedsrichter beim Tennis?;Stuhlschiedsrichter;Referee;Umpire;Judge
+Sport;In welcher Sportart gibt es den "Davis Cup"?;Tennis;Golf;Tischtennis;Badminton
+Sport;Wie viele Meter beträgt die Länge einer Standard-Laufbahn im Stadion?;400 Meter;300 Meter;500 Meter;250 Meter
+Sport;In welcher Stadt ist der Fußballclub Juventus beheimatet?;Turin;Mailand;Rom;Neapel
+Sport;Wie viele Punkte gibt es für einen verwandelten Freiwurf beim Basketball?;1;2;3;5
+Sport;In welcher Sportart wird um den "Ryder Cup" gekämpft?;Golf;Polo;Segeln;Tennis
+Sport;Wie viele Ringe hat das olympische Logo?;5;4;6;3
+Sport;In welcher Sportart ist Mikaela Shiffrin eine Rekordhalterin?;Ski Alpin;Eiskunstlauf;Schwimmen;Leichtathletik
+Sport;Wie viele Spieler pro Team sind beim Basketball gleichzeitig auf dem Feld?;5;6;7;4
+Sport;In welcher Stadt findet jährlich das Hahnenkammrennen statt?;Kitzbühel;Schladming;St. Moritz;Davos
+Sport;Wie nennt man das Spielgerät beim Eishockey?;Puck;Ball;Scheibe;Slide
+Sport;In welcher Sportart wird ein "Broom" verwendet?;Curling;Eishockey;Lacrosse;Polo
+Sport;Wie viele Sätze braucht man im Volleyball für einen Satzgewinn (außer Tie-Break)?;25 Punkte;21 Punkte;15 Punkte;30 Punkte
+Sport;In welcher Stadt steht das Stadion "Santiago Bernabéu"?;Madrid;Barcelona;Lissabon;Sevilla
+Sport;Wer gewann die Fußball-WM 2022?;Argentinien;Frankreich;Kroatien;Marokko
+Sport;Wie viele Gewichtsklassen gibt es beim Judo bei Olympia?;7;10;5;12
+Sport;In welcher Sportart gibt es den "Fosbury-Flop"?;Hochsprung;Weitsprung;Stabhochsprung;Dreisprung
+Sport;Wie viele Hürden müssen bei einem 110m Hürdenlauf überwunden werden?;10;8;12;11
+Sport;In welcher Stadt findet das Radrennen "Paris-Roubaix" statt?;Roubaix;Lyon;Marseille;Paris
+Sport;Wie viele Spieler stehen beim Feldhockey pro Team auf dem Platz?;11;10;9;12
+Sport;In welcher Sportart gibt es die "Tour de Ski"?;Skilanglauf;Skispringen;Biathlon;Alpin-Ski
+Sport;Wer war der erste Mensch, der die 100 Meter unter 10 Sekunden lief?;Jim Hines;Usain Bolt;Carl Lewis;Jesse Owens
+Sport;Wie viele gelbe Karten führen in der Bundesliga zu einer Sperre?;5;3;4;6
+Sport;In welcher Stadt findet das Finale der Super Bowl 2024 statt?;Las Vegas;Los Angeles;Miami;New Orleans
+Sport;Wie viele Sätze spielt man beim Badminton maximal?;3;5;2;1
+Sport;In welcher Sportart gibt es den "V-Stil"?;Skispringen;Eiskunstlauf;Hochsprung;Stabhochsprung
+Sport;Wie viele Zylinder hat ein aktueller Formel-1-Motor?;6;8;10;12
+Sport;In welcher Stadt wird das "Masters" im Golf ausgetragen?;Augusta;New York;Chicago;London
+Sport;Wie viele Punkte zählt ein Field Goal beim American Football?;3;6;2;1
+Sport;In welcher Sportart ist Steffi Graf eine Legende?;Tennis;Schwimmen;Leichtathletik;Golf
+Sport;Wie viele Minuten dauert eine Strafe beim Eishockey (kleine Bankstrafe)?;2;5;10;4
+Sport;In welcher Stadt finden die Olympischen Sommerspiele 2028 statt?;Los Angeles;Paris;Brisbane;Tokio
+Sport;Wie viele Spieler stehen beim Rugby Union pro Team auf dem Feld?;15;11;13;7
+Sport;In welcher Sportart gibt es den Begriff "Birdie"?;Golf;Tennis;Badminton;Squash
+Sport;Wie viele Löcher hat eine Standard-Golfrunde?;18;9;12;24
+Sport;In welcher Stadt wurde der Fußballverein FC Bayern München gegründet?;München;Berlin;Nürnberg;Augsburg
+Sport;Wie viele Spieler pro Team sind beim Wasserball gleichzeitig im Becken?;7;6;8;5
+Sport;In welcher Sportart ist Max Verstappen Weltmeister?;Formel 1;MotoGP;Rallye;Darts
+Sport;Wie viele Sätze braucht man beim Frauentennis meist für einen Sieg?;2;3;4;1
+Sport;In welcher Stadt wurde die erste moderne Olympiade 1896 gefeiert?;Athen;Paris;London;Rom
+Sport;Wie viele Auszeiten hat ein Team pro Hälfte in der NFL?;3;2;1;4
+Sport;In welcher Sportart ist Ronnie O'Sullivan ein Weltstar?;Snooker;Darts;Tennis;Golf
+Sport;Wie viele Punkte ist der schwarze Ball beim Snooker wert?;7;1;5;6
+Sport;In welcher Stadt befindet sich das Stadion "Old Trafford"?;Manchester;London;Liverpool;Leeds
+Sport;Wie viele Meter ist die Distanz beim Elfmeter im Fußball?;11;9;10;12
+Sport;In welcher Sportart gibt es den "Slam Dunk"?;Basketball;Volleyball;Handball;Wasserball
+Sport;Wie viele Runden werden bei einem 400m-Lauf im Stadion absolviert?;1;2;4;0,5
+Sport;In welcher Stadt findet das Finale der French Open statt?;Paris;Lyon;Nizza;Marseille
+Sport;Wie viele Spieler hat eine Baseballmannschaft auf dem Feld?;9;11;10;12
+Sport;In welcher Sportart gibt es den Begriff "Checkmate"?;Schach;Fechten;Boxen;Ringen
+
