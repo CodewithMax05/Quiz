@@ -2224,19 +2224,6 @@ def cancel_quiz():
         print(f"Fehler beim Abbrechen des Quiz: {str(e)}")
         return jsonify({'error': 'Ein Fehler ist aufgetreten.'}), 500
 
-@app.route('/quiz_session_status')
-@login_required
-@quiz_required
-def quiz_session_status():
-    """Gibt den aktuellen Quiz-Status zurück - verhindert Session-Timeouts"""
-    if 'quiz_data' in session:
-        return jsonify({
-            'active': True,
-            'current_question': session['quiz_data'].get('current_index', 0) + 1,
-            'total_questions': session['quiz_data'].get('total_questions', 30)
-        })
-    return jsonify({'active': False})
-
 @app.route('/ranking')      
 @login_required     
 @prevent_quiz_exit           
