@@ -1,23 +1,33 @@
-/* 🌌 BASE STYLING: HINTERGRUND */
+/* 🌌 BASE STYLING: Globales Erscheinungsbild der Anwendung */
+
+/* ================================================================
+   1. GRUNDGERÜST (HTML & BODY)
+   Legt den Hintergrund und die globale Schriftart fest
+   ================================================================
+*/
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    /* Moderner, serifenloser Font-Stack */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Dunkler Drei-Farben-Verlauf für den "Space"-Look */
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    /* Helles Grau-Weiß für Texte */
     color: #f0f4f8;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     position: relative;
-    /* Text-Selektion deaktivieren */
+
+    /* Globaler Schutz gegen Text-Markierung (außer in Eingabefeldern) */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none;    /* Firefox */
     -ms-user-select: none;     /* Internet Explorer/Edge */
     user-select: none;         /* Standard */
 }
 
-/* Ausnahme für Texteingabefelder und Textareas - diese sollten selektierbar sein */
+/* Erlaubt Textmarkierung explizit nur dort, wo getippt wird */
 input, textarea, [contenteditable="true"] {
     -webkit-user-select: text; /* Safari */
     -moz-user-select: text;    /* Firefox */
@@ -25,7 +35,13 @@ input, textarea, [contenteditable="true"] {
     user-select: text;         /* Standard */
 }
 
-/* Nachrichten */
+/* ================================================================
+   2. FLASH-NACHRICHTEN (Benachrichtigungen)
+   Design für Erfolgs-, Fehler- und Warnmeldungen
+   ================================================================
+*/
+
+/* Container, der die Nachrichten oben in der Mitte der Seite hält */
 #flash-container {
     position: fixed;
     top: 20px;
@@ -34,10 +50,10 @@ input, textarea, [contenteditable="true"] {
     z-index: 9999 !important;
     width: 85%;
     max-width: 400px;
-    /* Lässt Klicks durch den leeren Container hindurch */
     pointer-events: none;
 }
 
+/* Gemeinsames Design für alle Nachrichtentypen */
 .info-message, .success-message, .error-message, .warning-message, .permanent-message {
     padding: 14px 18px;
     border-radius: 10px;
@@ -52,6 +68,7 @@ input, textarea, [contenteditable="true"] {
     pointer-events: auto;
 }
 
+/* Spezielle Farbanstriche für die verschiedenen Nachrichtentypen */
 .info-message {
     animation: fadeIn 0.5s, fadeOut 0.5s 5s forwards;
     background: linear-gradient(135deg, #4299e1, #3182ce);
@@ -72,6 +89,7 @@ input, textarea, [contenteditable="true"] {
     background: linear-gradient(135deg, #ff8c00, #ff5500);
 }
 
+/* Permanente Nachricht: Bleibt oben fixiert (z.B. Auto-Logout) */
 .permanent-message {
     animation: fadeIn 0.5s;       
     background: linear-gradient(135deg, #ff8c00, #ff5500);   
@@ -86,6 +104,7 @@ input, textarea, [contenteditable="true"] {
     padding: 0 10px;
 }
 
+/* Der "Schließen"-Knopf für permanente Meldungen */
 .permanent-message .close-btn {
     background: none;
     border: none;
@@ -104,6 +123,7 @@ input, textarea, [contenteditable="true"] {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Der kleine Balken unter der Nachricht, der anzeigt, wie lange sie noch da ist */
 .custom-progress-bar {
     position: absolute;
     bottom: 0;
@@ -115,16 +135,24 @@ input, textarea, [contenteditable="true"] {
     border-radius: 0 0 10px 10px;
 }
 
+/* ================================================================
+   3. ANIMATIONEN & EFFEKTE
+   ================================================================
+*/
+
+/* Sanftes Einblenden und von oben nach unten gleiten */
 @keyframes fadeIn {
     from { opacity: 0; top: 0; }
     to { opacity: 1; top: 20px; }
 }
 
+/* Umgekehrter Effekt zum Verschwinden lassen */
 @keyframes fadeOut {
     from { opacity: 1; top: 20px; }
     to { opacity: 0; top: 0; visibility: hidden; }
 }
 
+/* Reduziert die Breite des Fortschrittsbalkens von 100% auf 0% */
 @keyframes progressBar {
     0% { width: 100%; }
     100% { width: 0%; }
