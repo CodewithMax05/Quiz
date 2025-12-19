@@ -28,8 +28,27 @@ load_dotenv() # Lädt Umgebungsvariablen aus .env-Datei
 app = Flask(__name__)
 csrf = CSRFProtect(app)  # CSRF-Schutz aktivieren (automatischer before handler)
 
-# Proxy-Einstellungen für Render/Heroku
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+# Proxy-Einstellungen für Render 
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, 
+
+    # x_for=1: Vertraut einem 'X-Forwarded-For' Header
+    # Damit erhält 'request.remote_addr' die echte IP des Nutzers statt der internen IP des Hosters
+    x_for=1, 
+
+    # x_proto=1: Vertraut dem 'X-Forwarded-Proto' Header
+    # Wichtig, damit Flask erkennt, ob der User HTTPS nutzt. Verhindert Probleme bei Redirects 
+    # und sorgt dafür, dass Cookies mit 'secure=True' korrekt funktionieren
+    x_proto=1, 
+
+    # x_host=1: Vertraut dem 'X-Forwarded-Host' Header.
+    # Stellt sicher, dass die App ihren eigenen Hostnamen korrekt kennt.
+    x_host=1, 
+
+    # x_prefix=1: Vertraut dem 'X-Forwarded-Prefix' Header
+    # Nützlich, wenn die App in einem Unterverzeichnis läuft, damit URLs korrekt generiert werden
+    x_prefix=1
+    )
 
 # WebSocket-Konfiguration
 socketio = SocketIO(app, 
