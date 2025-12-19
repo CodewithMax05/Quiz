@@ -1,4 +1,12 @@
+/* styles_admin.css - Haupt-Stylesheet für das Admin-Dashboard */
+
+/* ================================================================
+   1. BASIS-LAYOUT
+   ================================================================
+*/
+
 body {
+    /* Die Seite füllt immer mindestens die volle Bildschirmhöhe aus */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -6,17 +14,24 @@ body {
 }
 
 .page-wrapper {
+    /* Nimmt den gesamten Platz zwischen Header und Footer ein */
     flex: 1;
     display: flex;
     flex-direction: column;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    /* Ermöglicht Scrollen, wenn der Inhalt zu groß für den Bildschirm ist */
     overflow: auto;
 }
 
-/* Navigation */
+/* ================================================================
+   2. NAVIGATION (Admin-Leiste oben)
+   ================================================================
+*/
+
 .admin-nav { 
+    /* Dunkles Blau-Grau mit Glas-Effekt (Blur) */
     background-color: rgba(44, 62, 80, 0.9) !important; 
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -35,6 +50,7 @@ body {
 }
 
 .admin-nav .navbar-nav {
+    /* Zeigt die Nav-Links (Home, Logout) nebeneinander an */
     flex-direction: row;
     align-items: center;
 }
@@ -48,14 +64,15 @@ body {
 }
 
 .admin-nav .nav-link:hover {
-    color: white !important;
+    color: white !important; /* Wird beim Drüberfahren komplett weiß */
 }
 
 .admin-nav .nav-link-text {
+    /* Abstand zwischen dem Icon und dem Text im Link */
     margin-left: 5px;
 }
 
-/* Container */
+/* Hauptcontainer für den Dashboard-Inhalt */
 .container {
     width: 100%;
     max-width: 1200px;
@@ -68,15 +85,17 @@ body {
     position: relative;
 }
 
-/* Überschrift */
+/* Titel der Admin-Seite */
 .admin-title {
     color: white;
     font-weight: bold;
+    /* Schatten für bessere Lesbarkeit auf dynamischen Hintergründen */
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 /* Karten */
 .admin-card {
+    /* Halbtransparenter Hintergrund */
     background-color: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid rgba(0, 180, 255, 0.3) !important;
     border-radius: 12px;
@@ -86,12 +105,14 @@ body {
     height: 100%;
 }
 
+/* Verhalten beim Hovern über die Karten */
 .admin-card:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     background-color: rgba(255, 255, 255, 0.1) !important;
     border-color: rgba(0, 180, 255, 0.3) !important;
 }
 
+/* Kopfbereich der Admin-Karte */
 .admin-card .card-header {
     background: rgba(0, 0, 0, 0.2) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -103,7 +124,12 @@ body {
     color: white;
 }
 
-/* Statistik-Karten */
+/* ================================================================
+   4. STATISTIK-KARTEN (Quadratische Anzeigen)
+   Fest definierte Boxen für Zahlen (User, Fragen, Tickets)
+   ================================================================
+*/
+
 .stat-card {
     border-radius: 12px;
     border: none;
@@ -111,7 +137,7 @@ body {
     overflow: hidden;
     height: 100%;
     cursor: pointer;
-    /* NEUE REGELN FÜR FESTE GRÖSSE */
+    /* Festgelegte Maße für ein quadratisches Erscheinungsbild */
     width: 135px !important;
     height: 135px !important;
     min-width: 135px;
@@ -122,12 +148,13 @@ body {
     align-items: center;
 }
 
+/* Hebt die Karte beim Drüberfahren leicht an */
 .stat-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Anpassung des stat-card col-containers, um Zentrierung auf Desktop zu ermöglichen */
+/* Sorgt dafür, dass die Statistik-Karten innerhalb der Spalten zentriert sind */
 .stats-row .col-md-4,
 .stats-row .col-sm-6,
 .stats-row .col-12 {
@@ -135,14 +162,20 @@ body {
     justify-content: center; 
 }
 
-/* GLEICHE BREITE FÜR ALLE BUTTONS */
+/* ================================================================
+   5. BUTTON-STYLING
+   Einheitliches Design für alle Schaltflächen
+   ================================================================
+*/
+
+/* Erzwingt eine einheitliche Breite für Buttons innerhalb der Karten */
 .admin-card .card-body .btn {
-    width: 80% !important; /* NEU: Setzt die Button-Breite auf 80% des Containers */
-    max-width: 300px; /* NEU: Eine Obergrenze, damit sie nicht zu groß werden */
+    width: 80% !important; 
+    max-width: 300px; 
     flex: 0 0 auto !important;
 }
 
-/* Buttons (vereinheitlicht für alle vier Varianten) */
+/* Basis-Stil für Outline-Buttons (Pillen-Design) */
 .btn-outline-primary,
 .btn-outline-warning,
 .btn-outline-info,
@@ -161,7 +194,7 @@ body {
     border-width: 2px;
 }
 
-/* Hover-Effekt für alle Buttons */
+/* Hover-Effekt: Buttons bewegen sich leicht hoch */
 .btn-outline-primary:hover,
 .btn-outline-warning:hover,
 .btn-outline-info:hover,
@@ -170,7 +203,7 @@ body {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Farbvarianten */
+/* Spezifische Farben für die Buttons */
 .btn-outline-primary {
     color: #4299e1;
     border-color: #4299e1;
@@ -211,7 +244,7 @@ body {
     color: #fff;
 }
 
-/* Admin Button mit speziellem Effekt */
+/* Spezieller "pulsierender" Button (z.B. für Erfolg oder Hinzufügen) */
 .admin-btn-success {
     background: linear-gradient(135deg, #4a00e0, #8e2de2) !important;
     border: none !important;
@@ -236,13 +269,19 @@ body {
     min-height: 50px;
 }
 
-/* Responsive Anpassungen (Nur die Dashboard-relevanten behalten) */
+/* ================================================================
+   6. RESPONSIVE ANPASSUNGEN (Media Queries)
+   Anpassung des Layouts an Tablets und Smartphones
+   ================================================================
+*/
+
 @media (max-width: 1200px) {
     .container {
         max-width: 1000px;
     }
 }
 
+/* --- GROSSE TABLETS / KLEINE LAPTOPS (unter 992px) --- */
 @media (max-width: 992px) {
     .container {
         max-width: 800px;
@@ -250,21 +289,21 @@ body {
     
     .stats-row .col-md-4 {
         margin-bottom: 20px;
-	/* Die Bootstrap-Spalteneinstellungen für 992px werden beibehalten, aber die stat-card selbst behält die feste Größe */
         min-height: auto;
         min-width: auto;
         width: auto;
-        display: flex; /* Wichtig, um die Zentrierung zu gewährleisten */
-        justify-content: center; /* Zentriert die Karte */
+        display: flex; 
+        justify-content: center; 
     }
 
-/* Entfernt die Anweisungen, die die stat-card auf 100% Breite setzen, um die feste Größe zu erzwingen */
+    /* Die Statistik-Karten bleiben quadratisch, werden aber mittig platziert */
     .stats-row .col-md-4 .stat-card {
         width: 135px !important;
         height: 135px !important;
     }
 }
 
+/* --- SMARTPHONES & KLEINE TABLETS (unter 768px) --- */
 @media (max-width: 768px) {
     .container {
         padding-top: 15px;
@@ -281,7 +320,6 @@ body {
     }
     
     .stat-card .card-body {
-/* Anpassung für kleinere Karten, da sie jetzt flexibler sind */
         padding: 1rem;
     }
     
@@ -293,28 +331,32 @@ body {
         font-size: 2rem;
     }
     
+    /* Statistik-Karten dehnen sich jetzt auf die volle Breite aus (Balken-Form) */
     .stats-row .col-md-4 {
-/* Die ursprünglichen Einstellungen für 768px beibehalten, um volle Breite zu nutzen */
         flex: 0 0 100%;
         max-width: 100%;
         margin-bottom: 15px;
-        justify-content: center; /* Zentriert die nun volle-breite Karte */
-        width: 100%; /* Wichtig, da col-md-4 standardmäßig 33% ist */
+        justify-content: center; 
+        width: 100%; 
     }
 
+    /* Weg von Quadraten, hin zu breiten Rechtecken für Fingerbedienung */
     .stats-row .col-md-4 .stat-card {
-        width: 100% !important; /* Volle Breite in der 100% Spalte */
+        width: 100% !important; 
         height: auto !important;
-        min-height: 110px; /* Eine Mindesthöhe für bessere Optik */
+        min-height: 110px; 
     }
     
+    /* Platz sparen in der Navbar: Text wird versteckt, nur Icons bleiben */
     .admin-nav .nav-link-text {
         display: none;
     }
 }
 
+/* --- KLEINE SMARTPHONES (unter 576px) --- */
 @media (max-width: 576px) {
     .page-wrapper {
+        /* Weniger Rand für mehr Platz auf kleinen Screens */
         padding: 10px;
     }
     
@@ -364,6 +406,7 @@ body {
     }
 }
 
+/* --- SEHR KLEINE HANDYS (unter 400px) --- */
 @media (max-width: 400px) {
     .admin-nav .navbar-brand {
         font-size: 1rem;
@@ -375,6 +418,7 @@ body {
     }
     
     .admin-title {
+        /* Hauptüberschrift anpassen */
         font-size: 1.5rem;
     }
 }
