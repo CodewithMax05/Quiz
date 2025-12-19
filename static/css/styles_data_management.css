@@ -1,45 +1,70 @@
-/* Styles für das Daten-Management */
+/* styles_data_management.css - Design für die CSV-Export/Import-Verwaltung */
+
+/* ================================================================
+   1. TITEL & ÜBERSCHRIFTEN
+   ================================================================
+*/
 
 .management-title {
+    /* Titel Design */
     color: #f0f4f8;
     font-weight: bold;
+    /* Eine blaue Linie unter dem Titel zur optischen Trennung */
     border-bottom: 2px solid #3498db;
     padding-bottom: 10px;
     margin-bottom: 25px;
 }
 
+/* ================================================================
+   2. KARTEN-DESIGN (Export- & Import-Boxen)
+   ================================================================
+*/
+
 .management-card {
+    /* Dunkelblau-grauer Hintergrund mit leichter Transparenz */
     background-color: rgba(44, 62, 80, 0.8);
     border: none;
     border-radius: 12px;
+    /* Schatten für einen "schwebenden" Effekt auf der Seite */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     color: #f0f4f8;
+    /* Sanfter Übergang für Hover-Effekte */
     transition: transform 0.2s;
 }
 
+/* Die Karte bewegt sich leicht nach oben, wenn man mit der Maus darüberfährt */
 .management-card:hover {
     transform: translateY(-5px);
 }
 
+/* Oberer Teil der Karte (Header) mit abgerundeten Ecken */
 .management-card .card-header {
     border-radius: 12px 12px 0 0 !important;
     font-weight: bold;
     font-size: 1.1rem;
 }
 
+/* ================================================================
+   3. LISTEN & FORMULAR-ELEMENTE
+   ================================================================
+*/
+
+/* Einzelne Zeilen in der Export-Liste (z.B. Benutzerdaten) */
 .list-group-item {
-    background-color: transparent;
+    background-color: transparent; /* Kein eigener Hintergrund */
     color: #f0f4f8;
+    /* Sehr dezente Trennlinie zwischen den Zeilen */
     border-color: rgba(255, 255, 255, 0.1);
     padding: 12px 20px;
 }
 
+/* Beschriftungen über den Eingabefeldern */
 .form-label {
     color: #bdc3c7;
     font-size: 0.9rem;
 }
 
-/* Input & Select Grundstil (Dark Theme) */
+/* Grundstil für Eingabefelder (Input) und Auswahlmenüs (Select) im Dark Theme */
 .form-control,
 .form-select {
     background-color: rgba(255, 255, 255, 0.1);
@@ -47,7 +72,7 @@
     color: #fff;
 }
 
-/* Fokus-Zustand */
+/* Effekt, wenn der User in ein Feld klickt (Fokus) */
 .form-control:focus,
 .form-select:focus {
     background-color: rgba(255, 255, 255, 0.15);
@@ -56,28 +81,32 @@
     box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
 }
 
-/* ============================= */
-/* DROPDOWN (geöffnet) – WICHTIG */
-/* ============================= */
+/* ================================================================
+   4. DROPDOWN-STYLING (WICHTIG für Lesbarkeit)
+   ================================================================
+*/
 
-/* Optionen im geöffneten Dropdown */
+/* Die ausklappbaren Optionen im Dropdown-Menü */
 .form-select option {
     background-color: #ffffff;
     color: #000000;
 }
 
-/* Aktuell ausgewählte Option */
+/* Styling für die bereits ausgewählte Option im Menü */
 .form-select option:checked {
     background-color: #e9ecef;
     color: #000000;
 }
 
-/* ============================= */
-/* Responsive Anpassungen        */
-/* ============================= */
+/* ================================================================
+   5. RESPONSIVE ANPASSUNGEN (Mobilgeräte)
+   ================================================================
+*/
 
+/* Auf Bildschirmen schmaler als 768px (Smartphones/Tablets) */
 @media (max-width: 768px) {
     .management-card {
+        /* Fügt Abstand nach unten hinzu, damit die Karten nicht zusammenkleben */
         margin-bottom: 20px;
     }
 }
