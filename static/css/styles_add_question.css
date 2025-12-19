@@ -50,9 +50,9 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================
-   CHROME AUTOCOMPLETE FIX 
-   =========================
+/* =====================
+   CHROME AUTOCOMPLETE
+   =====================
 */
 
 .admin-input:-webkit-autofill,
