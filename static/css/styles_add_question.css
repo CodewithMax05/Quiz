@@ -50,6 +50,35 @@ body {
     margin-bottom: 20px;
 }
 
+/* =========================
+   CHROME AUTOCOMPLETE FIX 
+   =========================
+*/
+
+.admin-input:-webkit-autofill,
+.admin-input:-webkit-autofill:hover, 
+.admin-input:-webkit-autofill:focus, 
+.admin-input:-webkit-autofill:active {
+    /* 1. Schriftfarbe Weiß erzwingen */
+    -webkit-text-fill-color: white !important;
+    color: white !important;
+    
+    /* 2. Cursor-Farbe fixieren */
+    caret-color: white;
+
+    /* 3. Der Trick: Hintergrund- und Farbwechsel extrem verzögern */
+    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+    
+    /* 4. Den normalen, nicht-fokussierten Rand fixieren */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 5. Fokus-Status explizit für Autocomplete-Felder überschreiben */
+/* Hier nutzen wir deine blauen Farben aus .admin-input:focus */
+.admin-input:-webkit-autofill:focus {
+    border-color: rgba(0, 180, 255, 0.7) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 180, 255, 0.25) !important;
+}
 
 /* ================================================================
    2. KARTEN-DESIGN (Admin Card)
