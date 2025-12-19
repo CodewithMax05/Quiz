@@ -74,13 +74,23 @@ body {
     padding-right: env(safe-area-inset-right);
 }
 
-body.ranking-page {
-    overflow-y: auto; 
+.ranking-page {
+    /* WICHTIG: Damit das Div den Platz im body (base.html) voll ausfüllt */
+    flex: 1;             /* Wächst, um den gesamten vertikalen Platz zu nutzen */
+    width: 100%;         /* Nimmt die volle Breite ein */
+    
+    /* Layout für den Inhalt (zentrieren) */
+    display: flex;       
+    flex-direction: column;
+    align-items: center; /* Das ist der Schlüssel: Zentriert den .ranking-wrapper horizontal! */
+    
+    /* Scroll-Verhalten (statt auf dem Body nun hier) */
+    overflow-y: auto;    /* Erlaubt scrollen, wenn die Liste lang ist */
     overflow-x: hidden;
-    min-height: 100dvh; 
-    /* ❌ Entfernt: justify-content: center; */
-    justify-content: flex-start; /* Stellt sicher, dass Inhalte oben beginnen */
-    align-items: center;     /* Behält horizontale Zentrierung des Wrappers bei */
+    
+    /* Sicherheitshalber, falls flex:1 nicht greift */
+    min-height: 0;       /* Verhindert Flexbox-Overflow-Probleme */
+    height: 100%;        /* Füllt die Höhe des Eltern-Elements (body) */
 }
 
 /* Leaderboard, Player-Info etc. */
@@ -489,7 +499,7 @@ body.ranking-page {
 @media (max-width: 768px) {
     /* WICHTIG: Wenn der Inhalt größer als der Bildschirm ist, 
        soll er oben beginnen, nicht in der Mitte (Standard-Verhalten). */
-    body.ranking-page {
+    .ranking-page {
         justify-content: flex-start;
     }
 

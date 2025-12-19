@@ -16,7 +16,7 @@ Ranking-Seite enthält:
 {% endblock %}
 
 {% block body %}
-    <body class="ranking-page">
+    <div class="ranking-page">
         <!-- Haupt-Container für die gesamte Ranking-Seite -->
         <div class="ranking-wrapper">
             <h1 class="ranking-title">Rangliste der Legenden</h1>
@@ -213,297 +213,290 @@ Ranking-Seite enthält:
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            /*
-            RANKING-SEITEN-LOGIK:
-                1. Infinite Scrolling für Leaderboard
-                2. Spielersuche via AJAX
-                3. Aktualisierung der Spielerinfo-Karte
-            */
+    <script>
+        // Variablen für Infinite Scrolling
+        let currentPage = 1;           // Aktuelle Seite
+        let isLoading = false;         // Verhindert parallele Ladevorgänge
+        let hasMorePages = true;       // Gibt an ob weitere Seiten vorhanden sind
 
-            // Variablen für Infinite Scrolling
-            let currentPage = 1;           // Aktuelle Seite
-            let isLoading = false;         // Verhindert parallele Ladevorgänge
-            let hasMorePages = true;       // Gibt an ob weitere Seiten vorhanden sind
+        // Initialisierung beim Laden der Seite
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setze Session-Flag dass wir auf der Ranking-Seite sind
+            fetch('/api/set_ranking_flag', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).catch(e => console.log('Flag setzen fehlgeschlagen:', e));
+            
+            // Wähle Standard-Spieler (eigenen Benutzer) aus
+            const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
+            if (defaultPlayer) {
+                defaultPlayer.classList.add('active');
+            }
 
-            // Initialisierung beim Laden der Seite
-            document.addEventListener('DOMContentLoaded', () => {
-                // Setze Session-Flag dass wir auf der Ranking-Seite sind
-                fetch('/api/set_ranking_flag', {
+            // Info-Button Funktion
+            const infoButton = document.getElementById('ranking-info-button');
+            
+            infoButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
+            });
+
+            // Infinite Scrolling einrichten
+            setupInfiniteScroll();
+        });
+
+        // Infinite Scrolling
+        function setupInfiniteScroll() {
+            const leaderboardContent = document.getElementById('leaderboard-scroll');
+            if (!leaderboardContent) return;
+            
+            // Event-Listener für Scroll-Ereignis
+            leaderboardContent.addEventListener('scroll', function() {
+                if (isLoading || !hasMorePages) return;
+                
+                const scrollTop = leaderboardContent.scrollTop;
+                const scrollHeight = leaderboardContent.scrollHeight;
+                const clientHeight = leaderboardContent.clientHeight;
+                
+                // Wenn 90% des Inhalts gescrollt wurde, lade mehr Spieler
+                if (scrollTop + clientHeight >= scrollHeight * 0.9) {
+                    loadMorePlayers();
+                }
+            });
+        }
+
+        // Weitere Spieler laden (API-Aufruf)
+        async function loadMorePlayers() {
+            if (isLoading || !hasMorePages) return;
+            
+            isLoading = true;
+            
+            const leaderboardContent = document.getElementById('leaderboard-content');
+            
+            // Entferne bestehende Loading-Indikatoren
+            const existingLoader = document.querySelector('.loading-indicator');
+            if (existingLoader) {
+                existingLoader.remove();
+            }
+            
+            // Lade-Indikator hinzufügen
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.className = 'loading-indicator';
+            loadingIndicator.textContent = 'Lade weitere Spieler...';
+            leaderboardContent.appendChild(loadingIndicator);
+            
+            try {
+                const nextPage = currentPage + 1;
+                // API-Aufruf für nächste Seite
+                const response = await fetch(`/api/ranking_players?page=${nextPage}`);
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                
+                // Entferne Loading-Indikator
+                const currentLoader = document.querySelector('.loading-indicator');
+                if (currentLoader) {
+                    currentLoader.remove();
+                }
+                
+                if (data.players && data.players.length > 0) {
+                    // Füge Spieler zur Liste hinzu
+                    appendPlayersToLeaderboard(data.players);
+                    currentPage = nextPage;
+                    hasMorePages = data.has_next;
+                    
+                    // Wenn keine weiteren Seiten, zeige End-of-List Indicator
+                    if (!hasMorePages) {
+                        showEndOfListIndicator();
+                    }
+                } else {
+                    hasMorePages = false;
+                    showEndOfListIndicator();
+                }
+            } catch (error) {
+                console.error('Fehler beim Laden weiterer Spieler:', error);
+                const currentLoader = document.querySelector('.loading-indicator');
+                if (currentLoader) {
+                    currentLoader.remove();
+                }
+                createFlashMessage('Fehler beim Laden weiterer Spieler', 'error');
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // End-of-List Indicator anzeigen (alle Spieler geladen)
+        function showEndOfListIndicator() {
+            const leaderboardContent = document.getElementById('leaderboard-content');
+            const existingEndIndicator = document.querySelector('.end-of-list');
+            
+            if (!existingEndIndicator) {
+                const endIndicator = document.createElement('div');
+                endIndicator.className = 'end-of-list';
+                endIndicator.textContent = 'Alle Spieler geladen';
+                leaderboardContent.appendChild(endIndicator);
+            }
+        }
+
+        // Spieler zur Leaderboard-Liste hinzufügen
+        function appendPlayersToLeaderboard(players) {
+            const leaderboardContent = document.getElementById('leaderboard-content');
+            if (!leaderboardContent) return;
+
+            players.forEach((player) => {
+                // Erstelle neue Zeile
+                const row = document.createElement('div');
+                row.className = `leaderboard-row ${player.rank <= 3 ? 'podium' : ''}`;
+                row.setAttribute('data-rank', player.rank);
+                row.setAttribute('data-username', player.username);
+                row.setAttribute('data-avatar', player.avatar);
+                row.setAttribute('data-registered', player.first_played);
+                row.setAttribute('data-score', player.highscore);
+                row.setAttribute('data-highscore-date', player.highscore_time);
+                row.setAttribute('data-correct', player.correct_high);
+                row.setAttribute('data-games', player.number_of_games);
+                row.onclick = () => updatePlayerInfo(row);
+
+                // Platzierungszelle
+                const positionCell = document.createElement('div');
+                positionCell.className = 'leaderboard-cell position';
+                if (player.rank === 1) positionCell.innerHTML = '🥇';
+                else if (player.rank === 2) positionCell.innerHTML = '🥈';
+                else if (player.rank === 3) positionCell.innerHTML = '🥉';
+                else positionCell.textContent = player.rank;
+
+                // Benutzername-Zelle
+                const usernameCell = document.createElement('div');
+                usernameCell.className = 'leaderboard-cell username';
+                usernameCell.setAttribute('title', player.username); // Tooltip bleibt
+                usernameCell.textContent = player.username; // Voller Name
+
+                // Score-Zelle
+                const scoreCell = document.createElement('div');
+                scoreCell.className = 'leaderboard-cell score';
+                scoreCell.textContent = player.highscore;
+
+                // Datums-Zelle
+                const dateCell = document.createElement('div');
+                dateCell.className = 'leaderboard-cell date';
+                if (player.highscore_time) {
+                    const timeElement = document.createElement('time');
+                    timeElement.className = 'utc-time';
+                    timeElement.setAttribute('data-iso', player.highscore_time);
+                    timeElement.textContent = 'Lädt...';
+                    dateCell.appendChild(timeElement);
+                } else {
+                    dateCell.textContent = 'N/A';
+                }
+
+                // Zellen zur Zeile hinzufügen
+                row.appendChild(positionCell);
+                row.appendChild(usernameCell);
+                row.appendChild(scoreCell);
+                row.appendChild(dateCell);
+
+                // Zeile zum Leaderboard hinzufügen
+                leaderboardContent.appendChild(row);
+            });
+
+            // Zeit-Konvertierung für neue Elemente (globale Funktion aus base.html)
+            convertUtcTimeElements(leaderboardContent);
+        }
+
+        // Spielerinformationen aktualisieren (wird bei Klick auf Zeile aufgerufen)
+        function updatePlayerInfo(row) {
+            // Highlight aktive Zeile
+            document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
+            row.classList.add('active');
+
+            // Alle Daten aus den data-Attributen auslesen und anzeigen
+            const rank = row.dataset.rank;
+            document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
+            document.getElementById('info-username').textContent = row.dataset.username || "N/A";
+            document.getElementById('info-registered').textContent = formatIsoToLocal(row.dataset.registered) || "N/A";
+            document.getElementById('info-games').textContent = row.dataset.games || "0";
+            document.getElementById('info-highscore').textContent = row.dataset.score || "0";
+            document.getElementById('info-highscore-date').textContent = formatIsoToLocal(row.dataset.highscoreDate) || "N/A";
+            document.getElementById('info-correct').textContent = row.dataset.correct || "0";
+            
+            // Avatar aktualisieren
+            const avatarContainer = document.getElementById('info-avatar');
+            const avatar = row.dataset.avatar;
+            if (avatar && avatar !== "None") {
+                avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${avatar}" 
+                                            alt="Avatar von ${row.dataset.username || 'Spieler'}" 
+                                            class="avatar-image">`;
+            } else {
+                avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
+            }
+        }
+
+        // Spieler suchen (per API)
+        async function searchPlayer() {
+            const searchInput = document.getElementById('player-search');
+            const username = searchInput.value.trim();
+            
+            if (!username) {
+                createFlashMessage('Bitte gib einen Benutzernamen ein', 'error');
+                return;
+            }
+
+            // 1. CSRF-Token holen
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            try {
+                // API-Aufruf für Spielersuche
+                const response = await fetch('/api/search_player', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                    }
-                }).catch(e => console.log('Flag setzen fehlgeschlagen:', e));
-                
-                // Wähle Standard-Spieler (eigenen Benutzer) aus
-                const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
-                if (defaultPlayer) {
-                    defaultPlayer.classList.add('active');
-                }
-
-                // Info-Button Funktion
-                const infoButton = document.getElementById('ranking-info-button');
-                
-                infoButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    createFlashMessage('Weitere Informationen zum Spieler durch Klick oder Suche', 'info');
+                        'X-CSRFToken': csrfToken // 2. Token als Header hinzufügen
+                    },
+                    body: JSON.stringify({
+                        username: username
+                    })
                 });
-
-                // Infinite Scrolling einrichten
-                setupInfiniteScroll();
-            });
-
-            // Infinite Scrolling
-            function setupInfiniteScroll() {
-                const leaderboardContent = document.getElementById('leaderboard-scroll');
-                if (!leaderboardContent) return;
                 
-                // Event-Listener für Scroll-Ereignis
-                leaderboardContent.addEventListener('scroll', function() {
-                    if (isLoading || !hasMorePages) return;
-                    
-                    const scrollTop = leaderboardContent.scrollTop;
-                    const scrollHeight = leaderboardContent.scrollHeight;
-                    const clientHeight = leaderboardContent.clientHeight;
-                    
-                    // Wenn 90% des Inhalts gescrollt wurde, lade mehr Spieler
-                    if (scrollTop + clientHeight >= scrollHeight * 0.9) {
-                        loadMorePlayers();
-                    }
-                });
-            }
-
-            // Weitere Spieler laden (API-Aufruf)
-            async function loadMorePlayers() {
-                if (isLoading || !hasMorePages) return;
-                
-                isLoading = true;
-                
-                const leaderboardContent = document.getElementById('leaderboard-content');
-                
-                // Entferne bestehende Loading-Indikatoren
-                const existingLoader = document.querySelector('.loading-indicator');
-                if (existingLoader) {
-                    existingLoader.remove();
-                }
-                
-                // Lade-Indikator hinzufügen
-                const loadingIndicator = document.createElement('div');
-                loadingIndicator.className = 'loading-indicator';
-                loadingIndicator.textContent = 'Lade weitere Spieler...';
-                leaderboardContent.appendChild(loadingIndicator);
-                
-                try {
-                    const nextPage = currentPage + 1;
-                    // API-Aufruf für nächste Seite
-                    const response = await fetch(`/api/ranking_players?page=${nextPage}`);
-                    
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    
-                    const data = await response.json();
-                    
-                    // Entferne Loading-Indikator
-                    const currentLoader = document.querySelector('.loading-indicator');
-                    if (currentLoader) {
-                        currentLoader.remove();
-                    }
-                    
-                    if (data.players && data.players.length > 0) {
-                        // Füge Spieler zur Liste hinzu
-                        appendPlayersToLeaderboard(data.players);
-                        currentPage = nextPage;
-                        hasMorePages = data.has_next;
-                        
-                        // Wenn keine weiteren Seiten, zeige End-of-List Indicator
-                        if (!hasMorePages) {
-                            showEndOfListIndicator();
-                        }
-                    } else {
-                        hasMorePages = false;
-                        showEndOfListIndicator();
-                    }
-                } catch (error) {
-                    console.error('Fehler beim Laden weiterer Spieler:', error);
-                    const currentLoader = document.querySelector('.loading-indicator');
-                    if (currentLoader) {
-                        currentLoader.remove();
-                    }
-                    createFlashMessage('Fehler beim Laden weiterer Spieler', 'error');
-                } finally {
-                    isLoading = false;
-                }
-            }
-
-            // End-of-List Indicator anzeigen (alle Spieler geladen)
-            function showEndOfListIndicator() {
-                const leaderboardContent = document.getElementById('leaderboard-content');
-                const existingEndIndicator = document.querySelector('.end-of-list');
-                
-                if (!existingEndIndicator) {
-                    const endIndicator = document.createElement('div');
-                    endIndicator.className = 'end-of-list';
-                    endIndicator.textContent = 'Alle Spieler geladen';
-                    leaderboardContent.appendChild(endIndicator);
-                }
-            }
-
-            // Spieler zur Leaderboard-Liste hinzufügen
-            function appendPlayersToLeaderboard(players) {
-                const leaderboardContent = document.getElementById('leaderboard-content');
-                if (!leaderboardContent) return;
-
-                players.forEach((player) => {
-                    // Erstelle neue Zeile
-                    const row = document.createElement('div');
-                    row.className = `leaderboard-row ${player.rank <= 3 ? 'podium' : ''}`;
-                    row.setAttribute('data-rank', player.rank);
-                    row.setAttribute('data-username', player.username);
-                    row.setAttribute('data-avatar', player.avatar);
-                    row.setAttribute('data-registered', player.first_played);
-                    row.setAttribute('data-score', player.highscore);
-                    row.setAttribute('data-highscore-date', player.highscore_time);
-                    row.setAttribute('data-correct', player.correct_high);
-                    row.setAttribute('data-games', player.number_of_games);
-                    row.onclick = () => updatePlayerInfo(row);
-
-                    // Platzierungszelle
-                    const positionCell = document.createElement('div');
-                    positionCell.className = 'leaderboard-cell position';
-                    if (player.rank === 1) positionCell.innerHTML = '🥇';
-                    else if (player.rank === 2) positionCell.innerHTML = '🥈';
-                    else if (player.rank === 3) positionCell.innerHTML = '🥉';
-                    else positionCell.textContent = player.rank;
-
-                    // Benutzername-Zelle
-                    const usernameCell = document.createElement('div');
-                    usernameCell.className = 'leaderboard-cell username';
-                    usernameCell.setAttribute('title', player.username); // Tooltip bleibt
-                    usernameCell.textContent = player.username; // Voller Name
-
-                    // Score-Zelle
-                    const scoreCell = document.createElement('div');
-                    scoreCell.className = 'leaderboard-cell score';
-                    scoreCell.textContent = player.highscore;
-
-                    // Datums-Zelle
-                    const dateCell = document.createElement('div');
-                    dateCell.className = 'leaderboard-cell date';
-                    if (player.highscore_time) {
-                        const timeElement = document.createElement('time');
-                        timeElement.className = 'utc-time';
-                        timeElement.setAttribute('data-iso', player.highscore_time);
-                        timeElement.textContent = 'Lädt...';
-                        dateCell.appendChild(timeElement);
-                    } else {
-                        dateCell.textContent = 'N/A';
-                    }
-
-                    // Zellen zur Zeile hinzufügen
-                    row.appendChild(positionCell);
-                    row.appendChild(usernameCell);
-                    row.appendChild(scoreCell);
-                    row.appendChild(dateCell);
-
-                    // Zeile zum Leaderboard hinzufügen
-                    leaderboardContent.appendChild(row);
-                });
-
-                // Zeit-Konvertierung für neue Elemente (globale Funktion aus base.html)
-                convertUtcTimeElements(leaderboardContent);
-            }
-
-            // Spielerinformationen aktualisieren (wird bei Klick auf Zeile aufgerufen)
-            function updatePlayerInfo(row) {
-                // Highlight aktive Zeile
-                document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
-                row.classList.add('active');
-
-                // Alle Daten aus den data-Attributen auslesen und anzeigen
-                const rank = row.dataset.rank;
-                document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
-                document.getElementById('info-username').textContent = row.dataset.username || "N/A";
-                document.getElementById('info-registered').textContent = formatIsoToLocal(row.dataset.registered) || "N/A";
-                document.getElementById('info-games').textContent = row.dataset.games || "0";
-                document.getElementById('info-highscore').textContent = row.dataset.score || "0";
-                document.getElementById('info-highscore-date').textContent = formatIsoToLocal(row.dataset.highscoreDate) || "N/A";
-                document.getElementById('info-correct').textContent = row.dataset.correct || "0";
-                
-                // Avatar aktualisieren
-                const avatarContainer = document.getElementById('info-avatar');
-                const avatar = row.dataset.avatar;
-                if (avatar && avatar !== "None") {
-                    avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${avatar}" 
-                                             alt="Avatar von ${row.dataset.username || 'Spieler'}" 
-                                             class="avatar-image">`;
-                } else {
-                    avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
-                }
-            }
-
-            // Spieler suchen (per API)
-            async function searchPlayer() {
-                const searchInput = document.getElementById('player-search');
-                const username = searchInput.value.trim();
-                
-                if (!username) {
-                    createFlashMessage('Bitte gib einen Benutzernamen ein', 'error');
+                if (!response.ok) {
+                    // Fehler vom Server als JSON parsen
+                    const errorData = await response.json();
+                    createFlashMessage(errorData.error || 'Ein Fehler ist aufgetreten', 'error');
                     return;
                 }
 
-                // 1. CSRF-Token holen
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const data = await response.json();
 
-                try {
-                    // API-Aufruf für Spielersuche
-                    const response = await fetch('/api/search_player', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken // 2. Token als Header hinzufügen
-                        },
-                        body: JSON.stringify({
-                            username: username
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        // Fehler vom Server als JSON parsen
-                        const errorData = await response.json();
-                        createFlashMessage(errorData.error || 'Ein Fehler ist aufgetreten', 'error');
-                        return;
-                    }
-
-                    const data = await response.json();
-
-                    // Spielerdaten in der Info-Karte anzeigen
-                    document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
-                    document.getElementById('info-username').textContent = data.username || "N/A";
-                    document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
-                    document.getElementById('info-games').textContent = data.number_of_games || "0";
-                    document.getElementById('info-highscore').textContent = data.highscore || "0";
-                    document.getElementById('info-highscore-date').textContent = formatIsoToLocal(data.highscore_time) || "N/A";
-                    document.getElementById('info-correct').textContent = data.correct_high || "0";
-                    
-                    // Avatar anzeigen
-                    const avatarContainer = document.getElementById('info-avatar');
-                    if (data.avatar) {
-                        avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${data.avatar}" 
-                                                     alt="Avatar von ${data.username || 'Spieler'}" 
-                                                     class="avatar-image">`;
-                    } else {
-                        avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
-                    }
-                    
-                    // Highlight entfernen (wenn ein Spieler in der Liste angeklickt war)
-                    document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
-                    
-                } catch (error) {
-                    console.error('Fehler bei der Suche:', error);
-                    createFlashMessage('Ein Fehler ist aufgetreten', 'error');
+                // Spielerdaten in der Info-Karte anzeigen
+                document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
+                document.getElementById('info-username').textContent = data.username || "N/A";
+                document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
+                document.getElementById('info-games').textContent = data.number_of_games || "0";
+                document.getElementById('info-highscore').textContent = data.highscore || "0";
+                document.getElementById('info-highscore-date').textContent = formatIsoToLocal(data.highscore_time) || "N/A";
+                document.getElementById('info-correct').textContent = data.correct_high || "0";
+                
+                // Avatar anzeigen
+                const avatarContainer = document.getElementById('info-avatar');
+                if (data.avatar) {
+                    avatarContainer.innerHTML = `<img src="{{ url_for('static', filename='pictures/avatar/') }}${data.avatar}" 
+                                                    alt="Avatar von ${data.username || 'Spieler'}" 
+                                                    class="avatar-image">`;
+                } else {
+                    avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
                 }
+                
+                // Highlight entfernen (wenn ein Spieler in der Liste angeklickt war)
+                document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
+                
+            } catch (error) {
+                console.error('Fehler bei der Suche:', error);
+                createFlashMessage('Ein Fehler ist aufgetreten', 'error');
             }
-        </script>
-    </body>
+        }
+    </script>
 {% endblock %}
