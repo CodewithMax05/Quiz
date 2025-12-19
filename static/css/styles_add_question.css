@@ -1,62 +1,84 @@
-/* styles_add_question.css - VÖLLIG EIGENSTÄNDIG MIT ALLEN FORMULAR- & RESPONSIVE-STILEN */
+/* styles_add_question.css - Design für das Formular zum Hinzufügen von Fragen */
 
 /* ================================================================
-   BASIS & LAYOUT (Übernommen/Angepasst für Solo-Formular)
+   1. BASIS & LAYOUT
+   Grundgerüst der Seite und Positionierung
    ================================================================
 */
+
 body {
+    /* Stellt sicher, dass die Seite immer mindestens so hoch wie der Bildschirm ist */
     min-height: 100vh;
+    /* Flexbox sorgt dafür, dass Kopf-, Inhalts- und Fußbereich sauber untereinander stehen */
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Hintergrund wird von base.html/styles_base.css übernommen */
+    /* Hinweis: Hintergrundfarbe/Bild kommt global aus der styles_base.css */
 }
 
 .page-wrapper {
+    /* Nimmt den gesamten verfügbaren Platz zwischen Header und Footer ein */
     flex: 1;
+    /* Zentriert das Formular-Modul horizontal und vertikal auf der Seite */
     display: flex;
-    /* Zentriert den Inhalt (das Formular) vertikal und horizontal */
     justify-content: center;
     align-items: center;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    /* Ermöglicht Scrollen innerhalb der Seite, falls das Formular zu hoch wird */
     overflow: auto;
 }
 
 .form-container {
     width: 100%;
-    max-width: 700px; /* Begrenzt die Breite des Formular-Containers */
+    /* Verhindert, dass das Formular auf Desktop-Bildschirmen zu breit und unleserlich wird */
+    max-width: 700px; 
     margin: auto;
 }
 
-/* Überschrift */
+/* Titel des Formulars */
 .admin-title {
     color: white;
     font-weight: bold;
+    /* Subtiler Schatten für bessere Lesbarkeit auf transparenten Hintergründen */
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     text-align: center; 
+    /* Gelbe Akzentlinie unter dem Titel für Admin-Wiedererkennungswert */
     border-bottom: 3px solid #ffc107;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-/* Karten (Für das Formular-Card) */
+
+/* ================================================================
+   2. KARTEN-DESIGN (Admin Card)
+   Styling des Containers, der die Formularfelder umschließt
+   ================================================================
+*/
+
+
 .admin-card {
+    /* Glassmorphism-Effekt: Leicht transparentes Weiß */
     background-color: rgba(255, 255, 255, 0.1) !important;
+    /* Dezenter blauer Rand passend zum Technologie-Thema */
     border: 1px solid rgba(0, 180, 255, 0.3) !important;
     border-radius: 12px;
+    /* Tiefe durch weichen Schatten */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Animiert Änderungen am Rand oder Hintergrund sanft */
     transition: all 0.3s ease;
     overflow: hidden;
 }
 
+/* Verhindert ungewollte visuelle Sprünge beim Hovern */
 .admin-card:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     background-color: rgba(255, 255, 255, 0.1) !important;
     border-color: rgba(0, 180, 255, 0.3) !important;
 }
 
+/* Kopfbereich der Karte (dunkler abgesetzt) */
 .admin-card .card-header {
     background: rgba(0, 0, 0, 0.2) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -64,16 +86,18 @@ body {
     color: white;
 }
 
+/* Inhaltsbereich der Karte */
 .admin-card .card-body {
     color: white;
 }
 
 /* ================================================================
-   FORMULAR-SPEZIFISCHE STILE (Extrahierter Code)
+   3. FORMULAR-STILE
+   Eingabefelder, Labels und Dropdowns
    ================================================================
 */
 
-/* Formulare */
+/* Standard-Eingabefelder (Input & Textarea) */
 .admin-input {
     background-color: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -81,19 +105,22 @@ body {
     border-radius: 8px;
 }
 
+/* Effekt, wenn der User in ein Feld klickt (Fokus) */
 .admin-input:focus {
     background-color: rgba(255, 255, 255, 0.15) !important;
+    /* Fokus-Rahmen in hellem Blau zur Orientierung */
     border-color: rgba(0, 180, 255, 0.7) !important;
     box-shadow: 0 0 0 0.2rem rgba(0, 180, 255, 0.25) !important;
     color: white !important;
 }
 
+/* Beschriftungen der Felder */
 .form-label {
     color: white;
     font-weight: 600;
 }
 
-/* Dropdown-Menü für Themen (Zur Sicherstellung übernommen) */
+/* Dropdown-Menüs (Select) */
 .admin-select {
     background-color: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -110,20 +137,30 @@ body {
     color: white !important;
 }
 
+/* Styling der einzelnen Optionen im Dropdown-Menü */
 .admin-select option {
     background-color: #2c5364;
     color: white;
     padding: 8px 12px;
 }
 
-/* Theme Radio Container */
+
+/* ================================================================
+   4. THEMEN-AUSWAHL (RADIO-BUTTONS)
+   Gitter-Layout für die Quiz-Themen
+   ================================================================
+*/
+
+
+/* Container für alle Radio-Buttons */
 .theme-radio-container {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     padding: 15px 20px;
-    max-height: 200px;
-    overflow-y: auto;
+    max-height: 200px; /* Begrenzt die Höhe, falls es sehr viele Themen werden */
+    overflow-y: auto;  /* Fügt Scrollbalken hinzu, falls max-height überschritten wird */
+    /* Erzeugt ein Raster mit 4 gleich breiten Spalten */
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px 20px;
@@ -132,7 +169,7 @@ body {
     max-width: 800px;
 }
 
-/* Checkbox + Text nach rechts rücken */
+/* Einzelnes Radio-Button-Element + Label */
 .theme-radio-container .form-check {
     margin-bottom: 0;
     display: flex;
@@ -143,6 +180,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Der runde Auswahl-Button an sich */
 .theme-radio-container .form-check-input {
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -151,30 +189,42 @@ body {
     margin-right: 10px;
     margin-left: 5px;
     margin-top: 0;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Verhindert das Quetschen des Buttons bei langem Text */
 }
 
+/* Styling, wenn ein Thema ausgewählt wurde */
 .theme-radio-container .form-check-input:checked {
     background-color: #4299e1;
     border-color: #4299e1;
 }
 
+/* Text neben dem Radio-Button */
 .theme-radio-container .form-check-label {
     color: white;
     cursor: pointer;
     font-weight: normal;
-    white-space: nowrap;
+    white-space: nowrap; /* Verhindert unschöne Zeilenumbrüche im Namen */
 }
 
+/* Blauer Glüh-Effekt bei Tastatur-Fokus */
 .theme-radio-container .form-check-input:focus {
     box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
 }
 
-/* Admin Button mit speziellem Effekt (Wird für den Submit-Button verwendet) */
+/* ================================================================
+   5. SPEZIAL-EFFEKTE (Buttons & Animationen)
+   Hervorhebung des Speicher-Buttons
+   ================================================================
+*/
+
+/* Der "Frage hinzufügen"-Button */
 .admin-btn-success {
+    /* Farbverlauf von Dunkel- zu Hellviolett */
     background: linear-gradient(135deg, #4a00e0, #8e2de2) !important;
     border: none !important;
+    /* Permanenter violetter Schatten */
     box-shadow: 0 4px 12px rgba(74, 0, 224, 0.4) !important;
+    /* Startet die unten definierte Puls-Animation */
     animation: pulse-purple 2s infinite;
     color: white !important;
     width: 100%; 
@@ -186,6 +236,7 @@ body {
     color: white !important;
 }
 
+/* Animation für den pulsierenden Schatten des Buttons */
 @keyframes pulse-purple {
     0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
    70% { box-shadow: 0 0 0 10px rgba(116, 0, 224, 0); }
@@ -193,10 +244,12 @@ body {
 }
 
 /* ================================================================
-   RESPONSIVE ANPASSUNGEN (Extrahierte @media-Queries)
+   6. RESPONSIVE ANPASSUNGEN
+   Optimierung für verschiedene Bildschirmgrößen
    ================================================================
 */
 
+/* Laptops & große Tablets: Themen-Gitter wird auf 3 Spalten reduziert */
 @media (max-width: 992px) {
 	.container {
         max-width: 800px;
@@ -210,6 +263,7 @@ body {
     }
 }
 
+/* Feinabstimmung für mittlere Displaybreiten */
 @media (max-width: 825px) and (min-width: 805px) {
     .theme-radio-container {
         max-width: 600px;
@@ -217,6 +271,7 @@ body {
     }
 }
 
+/* Tablets: Themen-Gitter wird auf 2 Spalten reduziert */
 @media (max-width: 768px) {
 	.container {
         padding-top: 15px;
@@ -245,6 +300,7 @@ body {
     }
 }
 
+/* Smartphones: Umstellung auf ein einspaltiges Layout */
 @media (max-width: 576px) {
     .page-wrapper {
         padding: 10px;
@@ -259,7 +315,7 @@ body {
     }
 
     .theme-radio-container {
-        /* Mobile-Layout: Vertikale Liste */
+        /* Themen werden nun einfach untereinander gelistet */
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -292,6 +348,7 @@ body {
     }
 }
 
+/* Sehr kleine Handys */
 @media (max-width: 400px) {
     .admin-title {
         font-size: 1.5rem;
