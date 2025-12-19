@@ -1,24 +1,38 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Admin-Panel enthält:
+    1. Admin-Navigation
+    2. Dashboard-Statistiken (Benutzer, Fragen, Tickets)
+-->
 
 {% block head %}
+    <!-- Bootstrap für Responsive Design -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Seiten-spezifische Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_admin.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
 <div class="page-wrapper">
     
+    <!-- ADMIN-NAVIGATION -->
     <nav class="navbar navbar-dark admin-nav">
         <div class="container-fluid">
+            <!-- Brand-Logo -->
             <a class="navbar-brand" href="#">
-                <i class="fas fa-crown me-2"></i>Quiz-App Admin
+                <i class="fas fa-crown me-2"></i>Clash under Minds
             </a>
+            <!-- Navigationslinks -->
             <div class="navbar-nav flex-row">
+                <!-- Homepage-Link -->
                 <a class="nav-link me-2 sound-button" href="{{ url_for('homepage') }}" title="Homepage">
                     <i class="fas fa-home"></i>
                     <span class="nav-link-text">Homepage</span>
                 </a>
+                <!-- Logout-Link -->
                 <a class="nav-link sound-button" href="{{ url_for('logout') }}" title="Abmelden">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="nav-link-text">Abmelden</span>
@@ -27,10 +41,14 @@
         </div>
     </nav>
 
+    <!-- HAUPTINHALT -->
     <div class="container mt-4">
+        <!-- Dashboard-Titel -->
         <h2 class="mb-4 admin-title">Admin-Dashboard</h2>
         
+        <!-- STATISTIK-KARTEN -->
         <div class="row mb-4 stats-row">
+            <!-- Benutzer-Statistik -->
             <div class="col-md-4 col-sm-6 col-12 mb-3">
                 <div class="card stat-card text-white bg-primary h-100">
                     <div class="card-body">
@@ -39,6 +57,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Fragen-Statistik -->
             <div class="col-md-4 col-sm-6 col-12 mb-3">
                 <div class="card stat-card text-white bg-success h-100">
                     <div class="card-body">
@@ -47,6 +67,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Tickets-Statistik -->
             <div class="col-md-4 col-sm-12 col-12 mb-3">
                 <div class="card stat-card text-white bg-warning h-100">
                     <div class="card-body">
@@ -57,7 +79,9 @@
             </div>
         </div>
 
+        <!-- VERWALTUNGSKARTEN (2x3 Grid) -->
         <div class="row">
+            <!-- Datenbank-Statistiken -->
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
                     <div class="card-header">Datenbank</div>
@@ -68,6 +92,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Datenbank-Verwaltung -->
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
                     <div class="card-header">Datenbank-Verwaltung</div>
@@ -79,6 +105,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- News-Verwaltung -->
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
                     <div class="card-header">News</div>
@@ -89,6 +117,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Fragen hinzufügen -->
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
                     <div class="card-header">Fragen</div>
@@ -99,6 +129,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Tickets anzeigen -->
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
                     <div class="card-header">Tickets</div>
@@ -109,6 +141,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- User-Verwaltung (Platzhalter) -->
             <div class="col-md-6 mb-3 d-flex">
                 <div class="card admin-card w-100 h-100">
                     <div class="card-header">User</div>
@@ -123,5 +157,6 @@
     </div>
 </div>
 
+<!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
