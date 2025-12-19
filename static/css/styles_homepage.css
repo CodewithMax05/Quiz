@@ -1,3 +1,12 @@
+/* styles_homepage.css - Themenmenü */
+
+
+/* ============================================================
+   1. HAUPT-LAYOUT
+   ============================================================ 
+*/
+
+/* Der Page-Wrapper umschließt alles und sorgt für die Zentrierung auf dem Bildschirm */
 .page-wrapper {
     flex: 1;
     display: flex;
@@ -11,6 +20,7 @@
     min-height: 100dvh; /* Dynamische Viewport-Höhe für Browser-Leisten */
 }
 
+/* Der Container begrenzt die Breite des Quiz-Bereichs */
 .container {
     width: 100%;
     max-width: 900px;
@@ -20,9 +30,16 @@
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    max-height: calc(100dvh - 40px); /* 20px top + 20px bottom page-wrapper-padding */
+    /* Berechnet Platz: Gesamthöhe minus Abstände oben/unten */
+    max-height: calc(100dvh - 40px); 
+    /* Verhindert, dass die Box zusammengedrückt wird */
     flex-shrink: 0;
 }
+
+/* ============================================================
+   2. HEADER-STEUERUNG (Die runden Buttons oben)
+   ============================================================ 
+*/
 
 .header-controls {
     display: flex;
@@ -41,7 +58,11 @@
     flex-shrink: 0; /* Verhindert Schrumpfen der Überschrift */
 }
 
-/* Kategorien-Formular */
+/* ============================================================
+   3. KATEGORIEN-FORMULAR & GRID (Das Auswahlfeld)
+   ============================================================ */
+
+/* Das Formular, das die Kategorien hält */
 .categories-form {
     width: 100%;
     max-width: 800px;
@@ -64,9 +85,9 @@
     padding: 3px 10px;
     box-sizing: border-box;
     flex: 1; /* Nimmt verfügbaren Platz ein */
-    min-height: 0; /* Wichtig für flexbox scrolling */
+    min-height: 0; 
     overflow-y: auto; /* Scrollen falls nötig */
-    scrollbar-gutter: stable; 
+    scrollbar-gutter: stable; /* Platz für Scrollbar reservieren */
     padding-inline-end: 12px; 
 }
 
@@ -93,12 +114,16 @@
     border-radius: 8px;
 }
 
-/* Kategorie-Karten */
+/* ============================================================
+   4. KATEGORIE-KACHELN (Die einzelnen Themen-Boxen)
+   ============================================================ 
+*/
+
 .category-card {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Weicher Übergang bei Klick/Hover */
     cursor: pointer;
     display: flex;
     height: 100px;
@@ -107,9 +132,10 @@
     border: 2px solid rgb(27, 158, 214);
 }
 
+/* Box-Zustand: Deaktiviert (wenn Zufall aktiv ist) */
 .category-card.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+    opacity: 0.4; /* Karte wird blass */
+    cursor: not-allowed; /* Zeigt "Verboten"-Zeiger */
     background-color: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.1);
     transform: none !important;
@@ -127,13 +153,15 @@
     color: rgba(255, 255, 255, 0.5) !important;
 }
 
+/* Effekt beim Drüberfahren (Hover) */
 .category-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-3px); /* Karte schwebt leicht nach oben */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(0, 180, 255, 0.7);
 }
 
+/* Der Inhalt in der Karte (Icon + Text) */
 .card-content {
     display: flex;
     flex-direction: column;
@@ -145,10 +173,12 @@
     z-index: 2;
 }
 
+/* Versteckt die Standard-HTML-Checkbox */
 .category-card input[type="checkbox"] {
     display: none;
 }
 
+/* Design, wenn die Box ausgewählt wurde (Checked) */
 .category-card input[type="checkbox"]:checked + .card-content {
     color: #4299e1;
     background: linear-gradient(135deg, rgba(66, 153, 225, 0.3), rgba(56, 178, 172, 0.3));
@@ -175,6 +205,7 @@
     border-color: #3182ce;
 }
 
+/* Das kleine weiße Häkchen oben rechts bei Auswahl */
 .category-card input[type="checkbox"]:checked + .card-content::after {
     content: "✓";
     position: absolute;
@@ -207,12 +238,17 @@
     transition: all 0.3s ease;
 }
 
-/* Spezielle Stile für Zufallsmodus-Karte */
+/* ============================================================
+   5. SPEZIAL-BOX: ZUFALLSMODUS (Die lila Box)
+   ============================================================ 
+*/
+
 .random-mode-card {
-    border: 2px solid rgba(155, 89, 182, 0.5);
+    border: 2px solid rgba(155, 89, 182, 0.5); /* Lila Rahmen */
     background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.3));
 }
 
+/* Wenn Zufall ausgewählt ist, leuchtet alles Lila */
 .random-mode-card:hover {
     border-color: rgba(155, 89, 182, 0.8);
     background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(142, 68, 173, 0.4));
@@ -245,7 +281,11 @@
     background: #9b59b6;
 }
 
-/* Button-Row */
+/* ============================================================
+   6. AKTION-BUTTONS (Support, Start, Admin unten)
+   ============================================================ 
+*/
+
 .button-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -256,7 +296,7 @@
     flex-shrink: 0; /* Verhindert Schrumpfen der Button-Zeile */
 }
 
-/* Support-Button */
+/* Support-Button (orange) */
 .support-button {
     justify-self: start;
     display: flex;
@@ -283,6 +323,7 @@
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
 }
 
+/* Benachrichtigungs-Badge am Support */
 .notification-badge {
     position: absolute;
     top: -5px;
@@ -308,7 +349,7 @@
     100% { transform: scale(1); }
 }
 
-/* Admin-Button */
+/* Admin-Button (Grün) */
 .admin-button {
     justify-self: end;
     display: flex;
@@ -335,7 +376,7 @@
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5);
 }
 
-/* Start-Button */
+/* Der große Quiz-Start-Button in der Mitte */
 .start-button {
     justify-self: center;
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
@@ -368,7 +409,11 @@
     font-size: 1.4rem;
 }
 
-/* Buttons */
+/* ============================================================
+   7. HEADER-BUTTON DESIGNS (Info, Profil, Ranking)
+   ============================================================ 
+*/
+
 .playermenu-button,
 .info-button,
 .ranking-button {
@@ -397,6 +442,7 @@
     color: white;
 }
 
+/* --- Individuelle Farben für die runden Header-Buttons --- */
 /* Playermenu-Button */
 .playermenu-button {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
@@ -486,7 +532,12 @@
     opacity: 1;
 }
 
-/* Animationen */
+/* ============================================================
+   8. ANIMATIONEN (Leuchteffekte)
+   ============================================================ 
+*/
+
+/* Sanftes lila Pulsieren für den Start-Button */
 @keyframes pulse-purple {
     0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5); }
     70% { box-shadow: 0 0 0 10px rgba(116, 0, 224, 0); }
@@ -523,10 +574,13 @@
     100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
 }
 
-/* ==================== MEDIA QUERIES ==================== */
+/* ============================================================
+   9. MOBILE ANPASSUNG (Für Handys und Tablets)
+   ============================================================ 
+*/
 
 /* Tablet (768px - 1024px) */
-@media (max-width: 1024px) {
+@media (max-width: 1024px) { /* Tablet-Modus: 3 Spalten */
     .page-wrapper {
         padding: 15px;
     }
@@ -611,7 +665,7 @@
 }
 
 /* Mobile (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* Handy-Modus: 2 Spalten */
     .page-wrapper {
         padding: 10px;
     }
@@ -706,7 +760,7 @@
 }
 
 /* Kleine Mobile (max-width: 480px) */
-@media (max-width: 480px) {
+@media (max-width: 480px) { /* Buttons und Schrift werden kleiner */
     .page-wrapper {
         padding: 8px;
     }
