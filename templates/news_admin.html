@@ -1,15 +1,27 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+News-Admin-Seite enthält:
+    1. Verwaltungsoberfläche für News-Einträge
+    2. Formatierungshinweise für HTML-Formatierung
+    3. Erstellungsformular für neue News
+-->
 
 {% block head %}
+    <!-- News-Admin-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_news_admin.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
 <div class="page-wrapper">
+    <!-- HAUPTCONTAINER FÜR NEWS-VERWALTUNG -->
     <div class="container">
+        <!-- SEITENTITEL -->
         <h1 class="headline">News Verwaltung</h1>
         
+        <!-- FORMATIERUNGSHINWEISE FÜR HTML -->
         <div class="formatting-info-box">
             <p><strong>Formatierungs-Hinweis:</strong> Der Inhalt der News kann HTML enthalten.</p>
             <ul>
@@ -20,41 +32,60 @@
                 <li>Kursiv: <code>&lt;em&gt;Text&lt;/em&gt;</code></li>
             </ul>
         </div>
+        
+        <!-- NEWS-LISTE MIT AKKORDEON-FUNKTIONALITÄT -->
         <div class="admin-news-list">
+            
+            <!-- NEUE NEWS ERSTELLEN -->
             <div class="admin-news-item">
                 <button class="admin-news-toggle">Neue News erstellen <i class="fa fa-chevron-down"></i></button>
                 <div class="admin-news-content">
+                    <!-- ERSTELLUNGSFORMULAR -->
                     <form method="POST">
+                        <!-- CSRF-Schutz-Token -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <!-- Hidden-Feld zur Aktionskennzeichnung -->
                         <input type="hidden" name="action" value="create">
                         
+                        <!-- TITEL-EINGABE -->
                         <input type="text" name="title" placeholder="Titel der News" required>
+                        <!-- INHALT-EINGABE (HTML-fähig) -->
                         <textarea name="content" placeholder="Inhalt der News (HTML möglich)" rows="6" required></textarea>
                         
+                        <!-- ERSTELLEN-BUTTON -->
                         <button type="submit" class="btn-create">News erstellen</button>
                     </form>
                 </div>
             </div>
 
+            <!-- DYNAMISCHE LISTE BESTEHENDER NEWS-EINTRÄGE -->
             {% for entry in news_entries %}
             <div class="admin-news-item">
+                <!-- AKKORDEON-TOGGLE MIT TITEL UND DATUM -->
                 <button class="admin-news-toggle">
                     <span class="news-admin-title">{{ entry.title }}</span>
                     <span class="news-admin-date">{{ entry.created_at.strftime('%d.%m.%Y') }}</span>
                     <i class="fa fa-chevron-down"></i>
                 </button>
+                <!-- BEARBEITUNGSFORMULAR -->
                 <div class="admin-news-content">
                     <form method="POST">
+                        <!-- CSRF-Schutz-Token -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <!-- Hidden-Feld mit News-ID -->
                         <input type="hidden" name="news_id" value="{{ entry.id }}">
                         
+                        <!-- BEARBEITUNGSFELDER -->
                         <input type="text" name="title" value="{{ entry.title }}" required>
                         <textarea name="content" rows="6" required>{{ entry.content }}</textarea>
                         
+                        <!-- AKTIONSBUTTONS FÜR BEARBEITUNG UND LÖSCHUNG -->
                         <div class="admin-news-actions">
+                            <!-- SPEICHERN-BUTTON -->
                             <button type="submit" name="action" value="edit" class="btn-edit">
                                 <i class="fas fa-save"></i> Speichern
                             </button>
+                            <!-- LÖSCHEN-BUTTON MIT BESTÄTIGUNGSDIALOG -->
                             <button type="submit" name="action" value="delete" class="btn-delete" 
                                     onclick="return confirm('News &quot;{{ entry.title }}&quot; wirklich löschen?');">
                                 <i class="fas fa-trash"></i> Löschen
@@ -66,6 +97,7 @@
             {% endfor %}
         </div>
 
+        <!-- ZURÜCK ZUM ADMIN-BEREICH -->
         <div class="link-content">
             <a href="{{ url_for('admin_panel') }}" class="back-button1 sound-button">Zurück zum Admin-Bereich</a>
         </div>
@@ -73,42 +105,46 @@
 </div>
 
 <script>
-// Korrigierte Version - ohne Syntaxfehler
+// Initialisierung nach DOM-Ladung
 document.addEventListener('DOMContentLoaded', function() {
+    // Selektiere alle Akkordeon-Toggle-Buttons
     const adminToggles = document.querySelectorAll('.admin-news-toggle');
 
+    // Event-Listener für jeden Toggle-Button
     adminToggles.forEach(function(toggle) {
         toggle.addEventListener('click', function() {
-            const thisContent = this.nextElementSibling;
-            const thisIcon = this.querySelector('i');
-            const isOpen = thisContent.style.maxHeight;
+            const thisContent = this.nextElementSibling; // Zugehöriger Inhaltsbereich
+            const thisIcon = this.querySelector('i');    // Chevron-Icon
+            const isOpen = thisContent.style.maxHeight;  // Prüft ob bereits geöffnet
 
-            // Schließe alle anderen
+            // Schließe alle anderen Akkordeon-Elemente
             adminToggles.forEach(function(other) {
                 if (other !== toggle) {
                     const content = other.nextElementSibling;
                     const icon = other.querySelector('i');
-                    content.style.maxHeight = null;
+                    content.style.maxHeight = null; // Höhe zurücksetzen
                     if (icon) {
-                        icon.style.transform = 'rotate(0deg)';
+                        icon.style.transform = 'rotate(0deg)'; // Icon zurücksetzen
                     }
-                    other.classList.remove('active');
+                    other.classList.remove('active'); // CSS-Klasse entfernen
                 }
             });
 
-            // Öffne/Schließe diese
+            // Öffne/Schließe aktuelles Akkordeon-Element
             if (!isOpen) {
+                // Öffnen: Höhe auf scrollHeight setzen
                 thisContent.style.maxHeight = thisContent.scrollHeight + "px";
                 if (thisIcon) {
-                    thisIcon.style.transform = 'rotate(180deg)';
+                    thisIcon.style.transform = 'rotate(180deg)'; // Icon drehen
                 }
-                this.classList.add('active');
+                this.classList.add('active'); // CSS-Klasse hinzufügen
             } else {
+                // Schließen: Höhe zurücksetzen
                 thisContent.style.maxHeight = null;
                 if (thisIcon) {
-                    thisIcon.style.transform = 'rotate(0deg)';
+                    thisIcon.style.transform = 'rotate(0deg)'; // Icon zurücksetzen
                 }
-                this.classList.remove('active');
+                this.classList.remove('active'); // CSS-Klasse entfernen
             }
         });
     });

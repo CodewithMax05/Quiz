@@ -1,26 +1,48 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Admin-Seite zum Hinzufügen neuer Quiz-Fragen enthält:
+    1. Formular für Themenauswahl (Radio-Buttons)
+    2. Eingabefelder für Frage und Antworten
+    3. Submit-Button zum Speichern
+    4. Rückkehr-Button zum Admin-Panel
+-->
 
 {% block head %}
+    <!-- Externe CSS-Bibliotheken für Styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Seiten-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_add_question.css') }}"/> 
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
+<!-- Haupt-Container -->
 <div class="page-wrapper">
     
+    <!-- Formular-Container mit zentriertem Layout -->
     <div class="form-container">
+        <!-- Seiten-Titel -->
         <h2 class="mb-4 admin-title">Neue Frage hinzufügen</h2>
         
-        {# Der 100% übernommene HTML-Code für das Formular #}
+        <!-- Card (Container) für das Formular -->
         <div class="card admin-card">
+            <!-- Card-Header: Überschrift -->
             <div class="card-header">Frage eingeben</div>
+            
+            <!-- Card-Body: Enthält das eigentliche Formular -->
             <div class="card-body">
+                <!-- POST-Formular: Sendet Daten an add_question-Route -->
                 <form method="post" action="{{ url_for('add_question') }}">
+                    <!-- CSRF-Schutz-Token -->
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <!-- THEMENAUSWAHL: 16 Radio-Buttons für verschiedene Quiz-Themen -->
                     <div class="mb-3">
                         <label class="form-label">Thema</label>
                         <div class="theme-radio-container">
+                            <!-- Jedes Theme als Radio-Button mit Label -->
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="subject" id="topic-wirtschaft" value="wirtschaft" required>
                                 <label class="form-check-label" for="topic-wirtschaft">Wirtschaft</label>
@@ -87,14 +109,20 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- FRAGE-EINGABE: Textarea für die Quiz-Frage -->
                     <div class="mb-3">
                         <label class="form-label">Frage</label>
                         <textarea class="form-control admin-input" name="question" rows="2" required></textarea>
                     </div>
+                    
+                    <!-- RICHTIGE ANTWORT: Eingabefeld für korrekte Antwort -->
                     <div class="mb-3">
                         <label class="form-label">Richtige Antwort</label>
                         <input type="text" class="form-control admin-input" name="true" required>
                     </div>
+                    
+                    <!-- FALSCHE ANTWORTEN: Drei Eingabefelder in einem Responsive Grid -->
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Falsche Antwort 1</label>
@@ -109,6 +137,8 @@
                             <input type="text" class="form-control admin-input" name="wrong3" required>
                         </div>
                     </div>
+                    
+                    <!-- SUBMIT-BUTTON: Speichert die neue Frage in der Datenbank -->
                     <button type="submit" class="btn admin-btn-success w-100 mb-3">
                         <i class="fas fa-plus-circle me-1"></i> Frage hinzufügen
                     </button>
@@ -116,6 +146,7 @@
             </div>
         </div>
         
+        <!-- BUTTON zum Admin-Dashboard -->
         <a href="{{ url_for('admin_panel') }}" class="btn btn-outline-secondary w-100 sound-button mt-3">
             <i class="fas fa-arrow-left me-1"></i> Zurück zum Admin-Dashboard
         </a>
@@ -123,5 +154,6 @@
     </div>
 </div>
 
+<!-- Bootstrap JavaScript für interaktive Komponenten -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

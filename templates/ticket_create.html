@@ -1,24 +1,40 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Ticket-Erstellungsseite enthält:
+    1. Formular zur Ticket-Erstellung mit allen benötigten Feldern
+    2. Zeichenzähler für Betreff und Nachricht
+    3. Validierung und Benutzerfreundliche UI-Elemente
+-->
 
 {% block head %}
     <title>Neues Ticket erstellen</title>
+    <!-- Ticket-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ticket_create.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
 <div class="page-wrapper">
 
+    <!-- HAUPTCONTAINER FÜR TICKET-FORMULAR -->
     <div class="container">
         
+        <!-- FORMULAR-KOPF MIT TITEL -->
         <div class="form-header">
             <h1 class="support-title">Ticket erstellen</h1>
         </div>
 
+        <!-- SCROLLBARER FORMULAR-INHALT -->
         <div class="form-scroll-wrapper">
+            <!-- TICKET-ERSTELLUNGSFORMULAR -->
             <form id="createTicketForm" class="support-form" method="POST" action="{{ url_for('ticket_create') }}">
+                
+                <!-- CSRF-Schutz-Token -->
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+                <!-- SPIELERNAME-FELD (nicht editierbar) -->
                 <div class="form-row">
                     <label class="form-label">Spielername:</label>
                     <div class="form-input-wrapper">
@@ -28,11 +44,13 @@
                     </div>
                 </div>
 
+                <!-- KATEGORIE-AUSWAHL (Pflichtfeld) -->
                 <div class="form-row">
                     <label class="form-label" for="category">Kategorie <span class="required-mark">*</span></label>
                     <div class="form-input-wrapper">
                         <select id="category" name="category" class="form-select" required>
                             <option value="" disabled selected>Bitte auswählen</option>
+                            <!-- Dynamisch geladene Kategorien aus der Backend-Liste -->
                             {% for cat in categories %}
                                 <option value="{{ cat }}">{{ cat }}</option>
                             {% endfor %}
@@ -40,6 +58,7 @@
                     </div>
                 </div>
 
+                <!-- BETREFF-FELD MIT ZEICHENZÄHLER (Pflichtfeld) -->
                 <div class="form-row">
                     <label class="form-label" for="subject">Betreff <span class="required-mark">*</span></label>
                     <div class="form-input-wrapper">
@@ -48,10 +67,12 @@
                                placeholder="Kurze Zusammenfassung"
                                maxlength="80"
                                oninput="updateCharCount(this, 'counter-subject')">
+                        <!-- Zeichenzähler-UI -->
                         <div id="counter-subject" class="char-counter">0 / 80</div>
                     </div>
                 </div>
 
+                <!-- E-MAIL-FELD (optional) -->
                 <div class="form-row">
                     <label class="form-label" for="email">E-Mail:</label>
                     <div class="form-input-wrapper">
@@ -61,6 +82,7 @@
                     </div>
                 </div>
 
+                <!-- TELEFON-FELD (optional) -->
                 <div class="form-row">
                     <label class="form-label" for="phone">Telefon:</label>
                     <div class="form-input-wrapper">
@@ -70,6 +92,7 @@
                     </div>
                 </div>
 
+                <!-- NACHRICHTEN-FELD (Pflichtfeld) -->
                 <div class="form-row top-aligned">
                     <label class="form-label" for="message">Nachricht <span class="required-mark">*</span></label>
                     <div class="form-input-wrapper">
@@ -78,19 +101,24 @@
                                   maxlength="500"
                                   placeholder="Beschreibe dein Anliegen so genau wie möglich."
                                   oninput="updateCharCount(this, 'counter-message')"></textarea>
+                        <!-- Zeichenzähler-UI für Nachricht -->
                         <div id="counter-message" class="char-counter">0 / 500</div>
                     </div>
                 </div>
 
+                <!-- HINWEIS ZU PFLICHTFELDERN -->
                 <div class="required-note">* Pflichtfelder</div>
             </form>
         </div>
 
+        <!-- NAVIGATIONS-BUTTONS -->
         <div class="form-footer">
+            <!-- ZURÜCK-BUTTON: Zur Ticket-Übersicht -->
             <a href="{{ url_for('tickets_overview') }}" class="btn-back sound-button">
                 <i class="fas fa-chevron-left"></i> Zurück
             </a>
             
+            <!-- ABSENDEN-BUTTON: Formular submit -->
             <button type="submit" form="createTicketForm" class="btn-submit sound-button">
                 <i class="fas fa-paper-plane"></i> Erstellen
             </button>
@@ -100,17 +128,20 @@
 </div>
 
 <script>
+    // Aktualisiert die Zeichenzähler-Anzeige für Input-Felder
     function updateCharCount(element, counterId) {
         const maxLength = element.getAttribute('maxlength');
         const currentLength = element.value.length;
         const counter = document.getElementById(counterId);
         
+        // Text aktualisieren
         counter.textContent = `${currentLength} / ${maxLength}`;
         
+        // Farbänderung bei Limit-Erreichung
         if (currentLength >= maxLength) {
             counter.style.color = '#fc8181'; // Rot bei Limit
         } else {
-            counter.style.color = '#aaa'; // Normal
+            counter.style.color = '#aaa'; // Normal (Grau)
         }
     }
 </script>

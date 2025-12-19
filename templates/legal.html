@@ -1,18 +1,27 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Rechtliche Informationen-Seite enthält:
+    1. Daten zum Spiel
+    2. Logo
+    3. Akkordeon für AGB und Datenschutzerklärung
+-->
 
 {% block head %}
+    <!-- Seiten-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_legal.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
 <div class="page-wrapper">
-
     <div class="legal-box">
         <h1 class="legal-title">Rechtliche Informationen</h1>
 
+        <!-- KOPFBEREICH MIT DATEN UND LOGO -->
         <div class="legal-header-content">
-
+            <!-- DATEN-TABELLE -->
             <div class="legal-info">
                 <div class="info-row">
                     <span class="info-label">Name:</span>
@@ -28,22 +37,32 @@
                 </div>
             </div>
 
+            <!-- LOGO -->
             <img src="{{ url_for('static', filename='pictures/Icon.png') }}"
                  alt="legal Logo"
                  class="legal-image">
-
         </div>
 
-        <div class="settings-list"> <div class="setting-item"> <button class="setting-toggle">🧾 AGB <i class="fas fa-chevron-down"></i></button> <div class="setting-content"> {% include 'agb_content.html' %}
+        <!-- AKKORDEON FÜR RECHTSDOKUMENTE -->
+        <div class="settings-list">
+            <!-- 1. ABSCHNITT: ALLGEMEINE GESCHÄFTSBEDINGUNGEN -->
+            <div class="setting-item">
+                <button class="setting-toggle">🧾 AGB <i class="fas fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    {% include 'agb_content.html' %} <!-- Externe AGB-Datei einbinden -->
                 </div>
             </div>
 
-            <div class="setting-item"> <button class="setting-toggle">🔒 Datenschutzerklärung <i class="fas fa-chevron-down"></i></button> <div class="setting-content"> {% include 'privacy_content.html' %}
+            <!-- 2. ABSCHNITT: DATENSCHUTZERKLÄRUNG -->
+            <div class="setting-item">
+                <button class="setting-toggle">🔒 Datenschutzerklärung <i class="fas fa-chevron-down"></i></button>
+                <div class="setting-content">
+                    {% include 'privacy_content.html' %} <!-- Externe Datenschutz-Datei einbinden -->
                 </div>
             </div>
-
         </div>
 
+        <!-- ZURÜCK ZUM LOGIN -->
         <div class="link-content">
             <a href="{{ url_for('index') }}" class="back-button sound-button">Zurück zum Login</a>
         </div>
@@ -52,34 +71,40 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    // ===============================
+    // AKKORDEON-LOGIK FÜR RECHTSDOKUMENTE
+    // ===============================
     const toggles = document.querySelectorAll(".setting-toggle");
+    
     toggles.forEach(toggle => {
         toggle.addEventListener("click", function () {
             const content = this.nextElementSibling;
             const icon = this.querySelector("i");
-            const isOpen = content.classList.contains("open"); // Prüft CSS-Klasse
+            const isOpen = content.classList.contains("open"); // Prüft ob bereits geöffnet
 
-            // Alles schließen
+            // Schließe alle anderen geöffneten Abschnitte
             document.querySelectorAll(".setting-content.open").forEach(c => {
                 if (c !== content) {
-                    c.classList.remove("open"); // Entfernt Klasse
+                    c.classList.remove("open"); // Entfernt 'open'-Klasse
                     const otherIcon = c.previousElementSibling.querySelector("i");
-                    if (otherIcon) otherIcon.style.transform = "rotate(0deg)";
+                    if (otherIcon) otherIcon.style.transform = "rotate(0deg)"; // Icon zurücksetzen
                 }
             });
 
-            // Ggf. öffnen oder schließen
+            // Öffne/Schließe den angeklickten Abschnitt
             if (isOpen) {
                 content.classList.remove("open");
                 if (icon) icon.style.transform = "rotate(0deg)";
             } else {
-                content.classList.add("open"); // Setzt Klasse (CSS macht den Rest)
-                if (icon) icon.style.transform = "rotate(180deg)";
+                content.classList.add("open"); // CSS regelt die Animation über max-height
+                if (icon) icon.style.transform = "rotate(180deg)"; // Icon drehen
             }
         });
     });
 
-    // Sicherstellen, dass beim Laden alles zu ist
+    // ===============================
+    // ALLE ABSCHNITTE GESCHLOSSEN
+    // ===============================
     document.querySelectorAll('.setting-content').forEach(c => {
         c.classList.remove('open');
     });

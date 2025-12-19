@@ -1,15 +1,28 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+News-Seite enthält:
+    1. Übersichtsliste aller News-Einträge
+    2. Akkordeon-Funktionalität zum Auf-/Zuklappen
+    3. Badge-Anzeige für ungelesene News
+    4. Automatische Markierung als gelesen bei Öffnen
+-->
 
 {% block head %}
+    <!-- News-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_news.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
+<!-- Haupt-Container für die News-Seite -->
 <div class="page-wrapper">
     <div class="container">
+        <!-- Seiten-Titel -->
         <h1 class="headline">News</h1>
 
+        <!-- Fallback: Keine News vorhanden -->
         {% if not news_entries %}
         <div class="no-news-message">
             <i class="fa fa-newspaper-o" style="font-size: 2rem; margin-bottom: 10px;"></i>
@@ -18,14 +31,16 @@
         </div>
         {% endif %}
 
+        <!-- Liste aller News-Einträge -->
         <div class="news-list">
             {% for entry in news_entries %}
             <div class="news-item" data-id="{{ entry.id }}">
-
+                <!-- Badge-Indikator für ungelesene News -->
                 {% if entry.id not in seen_ids %}
                     <span class="new-badge-indicator">!</span>
                 {% endif %}
 
+                <!-- Akkordeon-Button zum Auf-/Zuklappen -->
                 <button class="news-toggle">
                     <span class="news-title">
                         {{ entry.title }}
@@ -33,10 +48,12 @@
                     <i class="fa fa-chevron-down"></i>
                 </button>
 
+                <!-- Inhalt der News (zunächst ausgeblendet) -->
                 <div class="news-content">
                     <div class="news-text">
-                        {{ entry.content|safe }}
+                        {{ entry.content|safe }} <!-- Inhalt als HTML erlauben -->
                     </div>
+                    <!-- Footer mit Erstellungsdatum -->
                     <div class="news-footer">
                         Erstellt am: <time class="utc-time" data-iso="{{ entry.created_at|to_iso }}">Lädt...</time>
                     </div>
@@ -46,6 +63,7 @@
             {% endfor %}
         </div>
 
+        <!-- Navigations-Link zurück zum Playermenü -->
         <div class="link-content">
             <a href="{{ url_for('playermenu') }}" class="back-button1 sound-button">Zurück zum Playermenü</a>
         </div>
@@ -53,19 +71,21 @@
 </div>
 
 <script>
+    // Initialisierung nach DOM-Ladung
     document.addEventListener("DOMContentLoaded", () => {
         const newsToggles = document.querySelectorAll('.news-toggle');
-        const csrfToken = "{{ csrf_token() }}"; // Token holen
+        const csrfToken = "{{ csrf_token() }}"; // CSRF-Token für AJAX-Requests
 
+        // Event-Handler für jeden News-Toggle-Button
         newsToggles.forEach(toggle => {
             toggle.addEventListener('click', function () {
-                const thisContent = this.nextElementSibling;
-                const thisIcon = this.querySelector('i');
+                const thisContent = this.nextElementSibling; // Nächstes Element ist News-Content
+                const thisIcon = this.querySelector('i'); // Pfeil-Icon
                 
-                // Prüfen, ob das angeklickte Element bereits offen ist
+                // Prüfe, ob diese News bereits geöffnet ist
                 const isOpen = this.classList.contains('active');
 
-                // 1. Schließe alle anderen News
+                // 1. Alle anderen News schließen
                 newsToggles.forEach(other => {
                     if (other !== this) {
                         const content = other.nextElementSibling;
@@ -77,7 +97,7 @@
                     }
                 });
 
-                // 2. Öffne/Schließe diese News
+                // 2. Diese News öffnen/schließen
                 if (!isOpen) {
                     thisContent.classList.add('open');
                     thisIcon.style.transform = 'rotate(180deg)';
@@ -88,21 +108,22 @@
                     this.classList.remove('active');
                 }
 
+                // 3. News als gelesen markieren (falls ungelesen)
                 const newsItem = this.closest('.news-item');
                 const badge = newsItem.querySelector('.new-badge-indicator');
                 const newsId = newsItem.dataset.id;
 
-                // Wenn ein Badge da ist, ist die News ungelesen -> Als gelesen markieren
+                // Wenn ein Badge vorhanden ist, ist die News ungelesen
                 if (badge) {
-                    // 1. Badge sofort visuell entfernen
+                    // 1. Badge visuell sofort entfernen
                     badge.remove();
 
-                    // 2. Server informieren
+                    // 2. Server informieren (AJAX-POST)
                     fetch('/api/mark_news_read', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken
+                            'X-CSRFToken': csrfToken // CSRF-Schutz
                         },
                         body: JSON.stringify({ news_id: newsId })
                     }).then(response => {

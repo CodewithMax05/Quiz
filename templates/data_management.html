@@ -61,6 +61,7 @@
                     </div>
                     <div class="card-body">
                         <form action="{{ url_for('import_data') }}" method="POST" enctype="multipart/form-data">
+                            <!-- CSRF-Schutz-Token -->
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div class="mb-3">
                                 <label class="form-label">Zieltabelle wählen:</label>

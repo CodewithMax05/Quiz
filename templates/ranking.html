@@ -1,21 +1,33 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Ranking-Seite enthält:
+    1. Leaderboard mit Top-Spielern und Infinite Scrolling
+    2. Eigene Platzierung
+    3. Spielersuche per Eingabefeld und Button
+    4. Spielerinfo-Karte mit Statistiken
+-->
 
 {% block head %}
+    <!-- Seiten-spezifisches Stylesheet für Ranking -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ranking.css') }}"/>
+    <!-- Font Awesome für Icons (Such-Button, Info-Button, Zurück-Button) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
     <body class="ranking-page">
+        <!-- Haupt-Container für die gesamte Ranking-Seite -->
         <div class="ranking-wrapper">
-            <!-- Zentrierte Überschrift mit reduziertem Abstand -->
             <h1 class="ranking-title">Rangliste der Legenden</h1>
 
-            <!-- Inhalt direkt unter der Überschrift -->
+            <!-- Hauptinhalt -->
             <div class="ranking-content">
-                <!-- Linke Spalte (Leaderboard) -->
+                <!-- Linke Spalte (Leaderboard/Toppliste) -->
                 <div class="ranking-column-left">
+                    <!-- Leaderboard-Container -->
                     <div class="leaderboard">
+                        <!-- Header für die Top-Liste -->
                         <div class="leaderboard-header top-list-header">
                             <div class="header-item">Platz</div>
                             <div class="header-item">Username</div>
@@ -23,11 +35,14 @@
                             <div class="header-item">Highscrore-Datum</div>
                         </div>
                         
-                        <!-- Topliste mit Scrollcontainer für Infinite Scrolling -->
+                        <!-- Scrollcontainer für Infinite Scrolling der Top-Liste -->
                         <div id="leaderboard-scroll" class="leaderboard-scroll">
+                            <!-- Dynamischer Inhalt der Top-Liste -->
                             <div class="leaderboard-content" id="leaderboard-content">
+                                <!-- Schleife durch alle Top-Spieler aus dem Backend -->
                                 {% for player in top_players %}
                                 {% set rank = loop.index %}
+                                <!-- Jede Zeile mit Datenattributen für JavaScript-Zugriff -->
                                 <div class="leaderboard-row {% if loop.index <= 3 %}podium{% endif %}" 
                                     data-rank="{{ rank }}"     
                                     data-username="{{ player.username }}"
@@ -38,14 +53,18 @@
                                     data-correct="{{ player.correct_high }}"
                                     data-games="{{ player.number_of_games }}"
                                     onclick="updatePlayerInfo(this)">
+                                    <!-- Platzierung mit Emojis für Top 3 -->
                                     <div class="leaderboard-cell position">
                                         {% if rank == 1 %}🥇
                                         {% elif rank == 2 %}🥈
                                         {% elif rank == 3 %}🥉
                                         {% else %}{{ rank }}{% endif %}
                                     </div>
+                                    <!-- Benutzername mit Tooltip -->
                                     <div class="leaderboard-cell username" title="{{ player.username }}">{{ player.username }}</div>
+                                    <!-- Highscore-Punkte -->
                                     <div class="leaderboard-cell score">{{ player.highscore }}</div>
+                                    <!-- Highscore-Datum -->
                                     <div class="leaderboard-cell date">
                                         {% if player.highscore_time %}
                                             <time class="utc-time" data-iso="{{ player.highscore_time | to_iso }}">Lädt...</time>
@@ -60,12 +79,14 @@
 
                         <!-- Eigene Platzierung -->
                         {% if current_player %}
+                        <!-- Header für "Deine Platzierung" -->
                         <div class="leaderboard-header platzierung-header" style="margin-top: 1rem;">
                             <div class="header-item">Deine Platzierung</div>
                             <div class="header-item"></div>
                             <div class="header-item"></div>
                             <div class="header-item"></div>
                         </div>
+                        <!-- Zeile für eigenen Benutzer -->
                         <div class="leaderboard-row highlight" 
                             data-rank="{{ player_rank }}"
                             data-username="{{ current_player.username }}"
@@ -76,12 +97,16 @@
                             data-correct="{{ current_player.correct_high }}"
                             data-games="{{ current_player.number_of_games }}"
                             onclick="updatePlayerInfo(this)">
+                            <!-- Platzierung -->
                             <div class="leaderboard-cell position">
                                 {% if player_rank %}#{{ player_rank }}
                                 {% else %}N/A{% endif %}
                             </div>
+                            <!-- Benutzername -->
                             <div class="leaderboard-cell username" title="{{ current_player.username }}">{{ current_player.username }}</div>
+                            <!-- Highscore -->
                             <div class="leaderboard-cell score">{{ current_player.highscore }}</div>
+                            <!-- Highscore-Datum -->
                             <div class="leaderboard-cell date">
                                 {% if current_player and current_player.highscore_time %}
                                     <time class="utc-time" data-iso="{{ current_player.highscore_time | to_iso }}">Lädt...</time>
@@ -94,9 +119,9 @@
                     </div>
                 </div>
 
-                <!-- Rechte Spalte (Unter der Liste) -->
+                <!-- Rechte Spalte (Spielersuche und Spielerinfo-Karte) -->
                 <div class="ranking-column-right">
-                    <!-- Einfache Suchleiste -->
+                    <!-- Suchleiste für Spieler -->
                     <div class="search-wrapper">
                         <input type="text" id="player-search" placeholder="Spieler suchen..." 
                             onkeypress="if(event.key === 'Enter') searchPlayer()">
@@ -107,24 +132,28 @@
 
                     <!-- Spielerinfo-Karte -->
                     <div class="player-info-card">
+                        <!-- Titelzeile mit Info-Button -->
                         <div class="player-info-title-row">
                             <a href="#" class="ranking-info-button" id="ranking-info-button" aria-label="Information">
                                 <i class="fas fa-question-circle"></i>
                             </a>
                             <h3>Spielerprofil</h3>
                         </div>
+                        <!-- Inhalt der Spielerinfo-Karte -->
                         <div class="player-info-content">
+                            <!-- Platzierung -->
                             <div class="info-row">
                                 <span class="info-label">Platzierung:</span>
                                 <span id="info-rank" class="info-value">
                                     {% if player_rank %}{{ player_rank }}{% else %}N/A{% endif %}
                                 </span>
                             </div>
+                            <!-- Benutzername -->
                             <div class="info-row">
                                 <span class="info-label">Username:</span>
                                 <span id="info-username" class="info-value">{{ current_player.username if current_player else "N/A" }}</span>
                             </div>
-                            <!-- NEUE ZEILE: Profilbild -->
+                            <!-- Profilbild -->
                             <div class="info-row avatar-row">
                                 <span class="info-label">Profilbild:</span>
                                 <div id="info-avatar" class="info-avatar">
@@ -137,6 +166,7 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <!-- Registrierungsdatum -->
                             <div class="info-row">
                                 <span class="info-label">Registriert am:</span>
                                 <span id="info-registered" class="info-value">
@@ -147,15 +177,17 @@
                                     {% endif %}
                                 </span>
                             </div>
-                            <!-- NEUE ZEILE: Anzahl Spiele -->
+                            <!-- Anzahl gespielter Spiele -->
                             <div class="info-row">
                                 <span class="info-label">Anzahl Spiele:</span>
                                 <span id="info-games" class="info-value">{{ current_player.number_of_games if current_player else "0" }}</span>
                             </div>
+                            <!-- Highscore -->
                             <div class="info-row highlight">
                                 <span class="info-label">Highscore:</span>
                                 <span id="info-highscore" class="info-value">{{ current_player.highscore if current_player else "0" }}</span>
                             </div>
+                            <!-- Datum des Highscores -->
                             <div class="info-row">
                                 <span class="info-label">Highscoredatum:</span>
                                 <span id="info-highscore-date" class="info-value">
@@ -166,6 +198,7 @@
                                     {% endif %}
                                 </span>
                             </div>
+                            <!-- Anzahl richtiger Fragen -->
                             <div class="info-row">
                                 <span class="info-label">Richtige Fragen:</span>
                                 <span id="info-correct" class="info-value">{{ current_player.correct_high if current_player else "0" }}</span>
@@ -173,7 +206,7 @@
                         </div>
                     </div>
                     
-                    <!-- Zurück-Button -->
+                    <!-- Zurück-Button zur Themenwahl -->
                     <a href="{{ url_for('homepage') }}" class="back-button sound-button">
                         <i class="fas fa-arrow-left"></i> Zurück zur Themenwahl
                     </a>
@@ -181,16 +214,22 @@
             </div>
         </div>
 
-        <!-- JavaScript für Infinite Scrolling -->
         <script>
+            /*
+            RANKING-SEITEN-LOGIK:
+                1. Infinite Scrolling für Leaderboard
+                2. Spielersuche via AJAX
+                3. Aktualisierung der Spielerinfo-Karte
+            */
+
             // Variablen für Infinite Scrolling
-            let currentPage = 1;
-            let isLoading = false;
-            let hasMorePages = true;
+            let currentPage = 1;           // Aktuelle Seite
+            let isLoading = false;         // Verhindert parallele Ladevorgänge
+            let hasMorePages = true;       // Gibt an ob weitere Seiten vorhanden sind
 
             // Initialisierung beim Laden der Seite
             document.addEventListener('DOMContentLoaded', () => {
-                // Session-Flag setzen dass wir auf der Ranking-Seite sind
+                // Setze Session-Flag dass wir auf der Ranking-Seite sind
                 fetch('/api/set_ranking_flag', {
                     method: 'POST',
                     headers: {
@@ -198,7 +237,7 @@
                     }
                 }).catch(e => console.log('Flag setzen fehlgeschlagen:', e));
                 
-                // Standard-Spieler auswählen
+                // Wähle Standard-Spieler (eigenen Benutzer) aus
                 const defaultPlayer = document.querySelector('.leaderboard-row.highlight');
                 if (defaultPlayer) {
                     defaultPlayer.classList.add('active');
@@ -216,11 +255,12 @@
                 setupInfiniteScroll();
             });
 
-            // Infinite Scrolling Setup
+            // Infinite Scrolling
             function setupInfiniteScroll() {
                 const leaderboardContent = document.getElementById('leaderboard-scroll');
                 if (!leaderboardContent) return;
                 
+                // Event-Listener für Scroll-Ereignis
                 leaderboardContent.addEventListener('scroll', function() {
                     if (isLoading || !hasMorePages) return;
                     
@@ -228,14 +268,14 @@
                     const scrollHeight = leaderboardContent.scrollHeight;
                     const clientHeight = leaderboardContent.clientHeight;
                     
-                    // Wenn 90% des Inhalts gescrollt wurde, lade mehr
+                    // Wenn 90% des Inhalts gescrollt wurde, lade mehr Spieler
                     if (scrollTop + clientHeight >= scrollHeight * 0.9) {
                         loadMorePlayers();
                     }
                 });
             }
 
-            // Weitere Spieler laden
+            // Weitere Spieler laden (API-Aufruf)
             async function loadMorePlayers() {
                 if (isLoading || !hasMorePages) return;
                 
@@ -249,6 +289,7 @@
                     existingLoader.remove();
                 }
                 
+                // Lade-Indikator hinzufügen
                 const loadingIndicator = document.createElement('div');
                 loadingIndicator.className = 'loading-indicator';
                 loadingIndicator.textContent = 'Lade weitere Spieler...';
@@ -256,19 +297,21 @@
                 
                 try {
                     const nextPage = currentPage + 1;
+                    // API-Aufruf für nächste Seite
                     const response = await fetch(`/api/ranking_players?page=${nextPage}`);
                     
                     if (!response.ok) throw new Error('Network response was not ok');
                     
                     const data = await response.json();
                     
-                    // Entferne Loading-Indicator
+                    // Entferne Loading-Indikator
                     const currentLoader = document.querySelector('.loading-indicator');
                     if (currentLoader) {
                         currentLoader.remove();
                     }
                     
                     if (data.players && data.players.length > 0) {
+                        // Füge Spieler zur Liste hinzu
                         appendPlayersToLeaderboard(data.players);
                         currentPage = nextPage;
                         hasMorePages = data.has_next;
@@ -293,7 +336,7 @@
                 }
             }
 
-            // End-of-List Indicator anzeigen
+            // End-of-List Indicator anzeigen (alle Spieler geladen)
             function showEndOfListIndicator() {
                 const leaderboardContent = document.getElementById('leaderboard-content');
                 const existingEndIndicator = document.querySelector('.end-of-list');
@@ -312,6 +355,7 @@
                 if (!leaderboardContent) return;
 
                 players.forEach((player) => {
+                    // Erstelle neue Zeile
                     const row = document.createElement('div');
                     row.className = `leaderboard-row ${player.rank <= 3 ? 'podium' : ''}`;
                     row.setAttribute('data-rank', player.rank);
@@ -324,6 +368,7 @@
                     row.setAttribute('data-games', player.number_of_games);
                     row.onclick = () => updatePlayerInfo(row);
 
+                    // Platzierungszelle
                     const positionCell = document.createElement('div');
                     positionCell.className = 'leaderboard-cell position';
                     if (player.rank === 1) positionCell.innerHTML = '🥇';
@@ -331,15 +376,18 @@
                     else if (player.rank === 3) positionCell.innerHTML = '🥉';
                     else positionCell.textContent = player.rank;
 
+                    // Benutzername-Zelle
                     const usernameCell = document.createElement('div');
                     usernameCell.className = 'leaderboard-cell username';
                     usernameCell.setAttribute('title', player.username); // Tooltip bleibt
                     usernameCell.textContent = player.username; // Voller Name
 
+                    // Score-Zelle
                     const scoreCell = document.createElement('div');
                     scoreCell.className = 'leaderboard-cell score';
                     scoreCell.textContent = player.highscore;
 
+                    // Datums-Zelle
                     const dateCell = document.createElement('div');
                     dateCell.className = 'leaderboard-cell date';
                     if (player.highscore_time) {
@@ -352,25 +400,27 @@
                         dateCell.textContent = 'N/A';
                     }
 
+                    // Zellen zur Zeile hinzufügen
                     row.appendChild(positionCell);
                     row.appendChild(usernameCell);
                     row.appendChild(scoreCell);
                     row.appendChild(dateCell);
 
+                    // Zeile zum Leaderboard hinzufügen
                     leaderboardContent.appendChild(row);
                 });
 
-                // Zeit-Konvertierung für neue Elemente
+                // Zeit-Konvertierung für neue Elemente (globale Funktion aus base.html)
                 convertUtcTimeElements(leaderboardContent);
             }
 
-            // Spielerinformationen aktualisieren
+            // Spielerinformationen aktualisieren (wird bei Klick auf Zeile aufgerufen)
             function updatePlayerInfo(row) {
                 // Highlight aktive Zeile
                 document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active'));
                 row.classList.add('active');
 
-                // Alle Daten aktualisieren
+                // Alle Daten aus den data-Attributen auslesen und anzeigen
                 const rank = row.dataset.rank;
                 document.getElementById('info-rank').textContent = (!rank || rank === "None") ? "N/A" : rank;
                 document.getElementById('info-username').textContent = row.dataset.username || "N/A";
@@ -392,7 +442,7 @@
                 }
             }
 
-            // Spieler suchen
+            // Spieler suchen (per API)
             async function searchPlayer() {
                 const searchInput = document.getElementById('player-search');
                 const username = searchInput.value.trim();
@@ -402,10 +452,11 @@
                     return;
                 }
 
-                // 1. Token aus dem <meta>-Tag holen (aus base.html)
+                // 1. CSRF-Token holen
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
                 try {
+                    // API-Aufruf für Spielersuche
                     const response = await fetch('/api/search_player', {
                         method: 'POST',
                         headers: {
@@ -426,7 +477,7 @@
 
                     const data = await response.json();
 
-                    // Spielerdaten anzeigen
+                    // Spielerdaten in der Info-Karte anzeigen
                     document.getElementById('info-rank').textContent = data.rank ? `${data.rank}` : "N/A";
                     document.getElementById('info-username').textContent = data.username || "N/A";
                     document.getElementById('info-registered').textContent = formatIsoToLocal(data.first_played) || "N/A";
@@ -445,7 +496,7 @@
                         avatarContainer.innerHTML = '<div class="avatar-placeholder">N/A</div>';
                     }
                     
-                    // Highlight entfernen
+                    // Highlight entfernen (wenn ein Spieler in der Liste angeklickt war)
                     document.querySelectorAll('.leaderboard-row').forEach(r => r.classList.remove('active', 'highlight'));
                     
                 } catch (error) {

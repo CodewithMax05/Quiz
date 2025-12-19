@@ -3238,11 +3238,8 @@ def handle_join_quiz_session(data):
 
 def _process_answer(room_id, user_answer, time_left):
     """
-    Zentrale Logik zur Verarbeitung einer Antwort (ob per Socket oder Timeout).
-    Aktualisiert die Session und gibt ein Ergebnis-Wörterbuch zurück.
-    
-    WICHTIG: Diese Funktion MUSS innerhalb eines app.app_context() 
-    oder einer aktiven Anfrage aufgerufen werden, um Zugriff auf 'session' zu haben.
+    Logik zur Verarbeitung einer Antwort (ob per Socket oder Timeout)
+    Aktualisiert die Session und gibt ein Dict zurück
     """
     try:
         if 'quiz_data' not in session:
@@ -3287,7 +3284,7 @@ def _process_answer(room_id, user_answer, time_left):
 
         new_score = quiz_data['score'] + points_earned
         quiz_data['score'] = new_score
-        quiz_data['answered'] = True # <--- WICHTIG!
+        quiz_data['answered'] = True
 
         if current_index >= quiz_data['total_questions'] - 1:
             quiz_data['completed'] = True

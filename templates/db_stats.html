@@ -1,27 +1,41 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Datenbank-Statistik-Seite für Administratoren enthält:
+    1. Übersicht über Frageanzahl pro Thema
+    2. Gesamtanzahl aller Fragen
+-->
 
 {% block head %}
+    <!-- Seiten-spezifisches Stylesheet für Statistik-Seite -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_db_stats.css') }}"/>
 {% endblock %}
 
 {% block body %}
+<!-- Haupt-Container -->
 <div class="page-wrapper">
+    <!-- Titel -->
     <div class="container">
         <h1 class="db-title">📊 Datenbank-Statistiken</h1>
     </div>
 
+    <!-- Hauptinhalt: Statistik-Box -->
     <div class="db-content">
         <div class="stat-box">
             <h2>Fragen pro Thema</h2>
+            <!-- Ungeordnete Liste der Themen mit Anzahl -->
             <ul class="topic-list">
                 {% for topic, count in topic_counts %}
+                    <!-- Jedes Listenelement zeigt Thema und Anzahl -->
                     <li><b>{{ topic.capitalize() }}</b>: {{ count }} Fragen</li>
                 {% endfor %}
             </ul>
+            <!-- Gesamtanzahl aller Fragen in der Datenbank -->
             <p class="total-line">Gesamt: {{ total }}</p>
         </div>
     </div>
 
+    <!-- Button zum Admin-Panel -->
     <div class="link-content">
         <a href="{{ url_for('admin_panel') }}" class="db-button sound-button">
             Zurück zum Admin-Panel

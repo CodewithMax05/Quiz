@@ -1,7 +1,17 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Einstellungsseite enthält:
+    1. Formular zum Ändern des Benutzernamens
+    2. Formular zum Ändern des Passworts
+    3. Formular zum Nachträglichen Ablehnen der AGB
+    4. Formular zum Löschen des Accounts
+-->
 
 {% block head %}
+    <!-- Seiten-spezifisches Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_settings.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
@@ -10,32 +20,46 @@
     <div class="container">
         <h1 class="headline">Einstellungen</h1>
 
+        <!-- Einstellungsliste als Akkordeon -->
         <div class="settings-list">
-            <!-- Benutzername ändern -->
+            
+            <!-- 1. BENUTZERNAME ÄNDERN -->
             <div class="setting-item">
                 <button class="setting-toggle">Username ändern <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="username-form" method="POST" action="{{ url_for('change_username') }}">
+
+                        <!-- CSRF-Schutz-Token -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <!-- Neuer Benutzername -->
                         <input type="text" name="new_username" placeholder="Neuer Benutzername" value="" required>
+
+                        <!-- Passwort zur Bestätigung -->
                         <div class="input-wrap">
                             <input type="password" name="password" placeholder="Passwort" value="" required>
+                            <!-- Passwort-Sichtbarkeits-Toggle -->
                             <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
                         </div>
+
+                        <!-- Speichern-Button -->
                         <button type="submit">Speichern</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Passwort ändern -->
+            <!-- 2. PASSWORT ÄNDERN -->
             <div class="setting-item">
                 <button class="setting-toggle">Passwort ändern <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="password-form" method="POST" action="{{ url_for('change_password') }}">
+
+                        <!-- CSRF-Schutz-Token -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         
+                        <!-- Aktuelles Passwort -->
                         <div class="input-wrap">
                             <input type="password" name="current_password" placeholder="Aktuelles Passwort" value="" required>
                             <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
@@ -43,6 +67,7 @@
                             </button>
                         </div>
                         
+                        <!-- Neues Passwort -->
                         <div class="input-wrap">
                             <input type="password" name="new_password" placeholder="Neues Passwort" value="" required>
                             <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
@@ -50,6 +75,7 @@
                             </button>
                         </div>
                         
+                        <!-- Neues Passwort bestätigen -->
                         <div class="input-wrap">
                             <input type="password" name="confirm_password" placeholder="Neues Passwort bestätigen" value="" required>
                             <button type="button" class="pw-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
@@ -57,18 +83,22 @@
                             </button>
                         </div>
                         
+                        <!-- Speichern-Button -->
                         <button type="submit">Speichern</button>
                     </form>
                 </div>
             </div>
 
-            <!-- AGBs ablehnen -->
+            <!-- 3. AGBs NACHTRÄGLICH ABLEHNEN -->
             <div class="setting-item">
                 <button class="setting-toggle">AGBs ablehnen <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="reject-agb-form" method="POST" action="{{ url_for('reject_agb') }}">
+
+                        <!-- CSRF-Schutz-Token -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+                        <!-- Bestätigungs-Checkbox -->
                         <div class="agb-checkbox-container">
                             <label class="agb-checkbox-label">
                                 <input type="checkbox" name="confirm_reject" value="true" class="agb-checkbox">
@@ -76,6 +106,7 @@
                             </label>
                         </div>
 
+                        <!-- Ablehnen-Button -->
                         <button type="submit" class="danger-button">
                             Ablehnen
                         </button>
@@ -83,18 +114,23 @@
                 </div>
             </div>
 
-            <!-- Account löschen -->
+            <!-- 4. ACCOUNT LÖSCHEN -->
             <div class="setting-item">
                 <button class="setting-toggle">Account löschen <i class="fa fa-chevron-down"></i></button>
                 <div class="setting-content">
                     <form id="delete-account-form" method="POST" action="{{ url_for('delete_account') }}">
+
+                        <!-- CSRF-Schutz-Token -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+                        <!-- Warnhinweis -->
                         <p class="delete-warning">
                             Zum Löschen des Accounts <u>DELETE</u> eingeben:
                         </p>
+                        <!-- Bestätigungstextfeld -->
                         <input type="text" name="confirm_delete" placeholder="DELETE" value="" required>
 
+                        <!-- Löschen-Button -->
                         <button type="submit" class="danger-button">
                             Account löschen
                         </button>
@@ -102,6 +138,8 @@
                 </div>
             </div>
         </div>
+        
+        <!-- ZURÜCK ZUM SPIELERMENÜ -->
         <div class="link-content">
             <a href="{{ url_for('playermenu') }}" class="back-button1 sound-button">Zurück zum Spielermenü</a>
         </div>
@@ -110,12 +148,16 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // --- Passwort Toggle für alle Passwort-Felder ---
+    // ===============================
+    // PASSWORT-SICHTBARKEITS-TOGGLE
+    // ===============================
     const pwToggles = document.querySelectorAll('.pw-toggle');
 
     pwToggles.forEach(toggle => {
+        // Verhindert Fokus-Verlust bei Mausklick
         toggle.addEventListener('mousedown', function(e) { e.preventDefault(); });
 
+        // Toggle-Logik für Passwort-Anzeige/Verstecken
         toggle.addEventListener('click', function(e) {
             const pwField = this.parentElement.querySelector('input');
             if (!pwField) return;
@@ -124,12 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
             pwField.type = isHidden ? 'text' : 'password';
             this.setAttribute('aria-pressed', String(isHidden));
 
+            // Icon aktualisieren
             const icon = this.querySelector('i');
             if (icon) {
                 icon.classList.remove('fa-eye', 'fa-eye-slash');
                 icon.classList.add(isHidden ? 'fa-eye-slash' : 'fa-eye');
             }
 
+            // Fokus behalten und Cursor ans Ende setzen
             pwField.focus();
             setTimeout(() => {
                 try {
@@ -140,25 +184,29 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- Toggle-Logik: Nur eine Box darf geöffnet sein ---
+    // ===============================
+    // AKKORDEON-LOGIK FÜR EINSTELLUNGEN
+    // ===============================
     const toggles = document.querySelectorAll('.setting-toggle');
 
     toggles.forEach(toggle => {
         toggle.addEventListener('click', function () {
             const thisContent = this.nextElementSibling;
             const thisIcon = this.querySelector('i');
-            const isOpen = thisContent.style.maxHeight;
+            const isOpen = thisContent.style.maxHeight; // Prüft ob bereits geöffnet
 
+            // Schließe alle anderen Einstellungsbereiche
             toggles.forEach(other => {
                 const content = other.nextElementSibling;
                 const icon = other.querySelector('i');
-                content.style.maxHeight = null;
-                icon.style.transform = 'rotate(0deg)';
+                content.style.maxHeight = null; // Schließt
+                icon.style.transform = 'rotate(0deg)'; // Icon zurücksetzen
             });
 
+            // Öffne den angeklickten Bereich, wenn er geschlossen war
             if (!isOpen) {
                 thisContent.style.maxHeight = thisContent.scrollHeight + "px";
-                thisIcon.style.transform = 'rotate(180deg)';
+                thisIcon.style.transform = 'rotate(180deg)'; // Icon drehen
             }
         });
     });

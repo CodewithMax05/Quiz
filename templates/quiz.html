@@ -89,6 +89,7 @@ Quiz-Seite enthält:
 
             <!-- Verstecktes Formular: Wird per JavaScript für die nächste Frage verwendet -->
             <form id="next-form" action="/next_question" method="POST" style="display: none;">
+                <!-- CSRF-Schutz-Token -->
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" id="selected-answer" name="answer">
             </form>

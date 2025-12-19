@@ -1,8 +1,16 @@
-{% extends "base.html" %}
+{% extends "base.html" %} <!-- Erbt von Basis-Template -->
+
+<!--
+Ticket-Detail-Seite enthält:
+    1. Ticket-Übersicht mit Betreff und Status
+    2. Chat mit Datums-Separatoren
+-->
 
 {% block head %}
+    <!-- Seiten-spezifisches Stylesheet für Ticket-Details -->
     <title>Ticket #{{ ticket.id }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ticket_detail.css') }}"/>
+    <!-- Font Awesome für Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
@@ -10,15 +18,19 @@
 <div class="page-wrapper">
     <div class="container">
         
+        <!-- TICKET-ÜBERSCHRIFT: Betreff des Tickets -->
         <h1 class="support-title">{{ ticket.subject }}</h1>
 
+        <!-- STEUERUNGSLEISTE: Enthält Navigation, Status und Aktionen -->
         <div class="controls-row">
+            <!-- LINKE SEITE: Zurück-Button zur Ticket-Übersicht -->
             <div class="controls-left">
                 <a href="{{ url_for('tickets_overview') }}" class="back-button sound-button">
                     <i class="fas fa-chevron-left"></i> <span class="btn-text">Zurück</span>
                 </a>
             </div>
 
+            <!-- MITTE: Status-Anzeige -->
             <div class="controls-center">
                 {% if ticket.status == 'open' %}
                     <span class="status-badge status-open"><i class="fas fa-lock-open"></i> Offen</span>
@@ -27,22 +39,29 @@
                 {% endif %}
             </div>
 
+            <!-- RECHTE SEITE: Ticket-Aktionen (Schließen/Öffnen/Löschen) -->
             <div class="controls-right">
+                <!-- Formular zum Umschalten des Ticket-Status -->
                 <form method="POST" action="{{ url_for('toggle_ticket_status', ticket_id=ticket.id) }}">
+                    <!-- CSRF-Schutz-Token -->
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     {% if ticket.status == 'open' %}
+                    <!-- Button zum Schließen des Tickets (nur wenn offen) -->
                     <button type="submit" class="action-button btn-close sound-button" title="Ticket schließen">
                         <i class="fas fa-lock"></i> <span class="btn-text">Schließen</span>
                     </button>
                     {% else %}
+                    <!-- Button zum Wiederöffnen des Tickets (nur wenn geschlossen) -->
                     <button type="submit" class="action-button btn-reopen sound-button" title="Ticket wieder öffnen">
                         <i class="fas fa-lock-open"></i> <span class="btn-text">Öffnen</span>
                     </button>
                     {% endif %}
                 </form>
 
+                <!-- Löschen-Button (NUR für Admins und NUR bei geschlossenen Tickets) -->
                 {% if is_admin and ticket.status == 'closed' %}
                 <form method="POST" action="{{ url_for('admin_delete_ticket', ticket_id=ticket.id) }}" onsubmit="return confirm('Möchten Sie dieses Ticket wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.');">
+                    <!-- CSRF-Schutz-Token -->
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button type="submit" class="action-button btn-delete sound-button" title="Ticket löschen">
                         <i class="fas fa-trash"></i>
@@ -52,15 +71,20 @@
             </div>
         </div>
 
+        <!-- CHAT-CONTAINER: Scrollbarer Bereich für Nachrichtenverlauf -->
         <div class="chat-scroll-wrapper" id="chat-container">
+            <!-- Lade-Indikator für ältere Nachrichten (wird per JavaScript ein/ausgeblendet) -->
             <div id="chat-loading" style="display: none;">
                 <i class="fas fa-spinner fa-spin"></i> Lade ältere Nachrichten...
             </div>
 
+            <!-- NACHRICHTEN-VERLAUF: Iteriert durch alle Nachrichten des Tickets -->
             {% set current_date = namespace(value=None) %}
             {% for message in messages %}
+                <!-- Datum jedes Nachrichten-Eintrags extrahieren -->
                 {% set message_date = message.created_at.strftime('%d.%m.%Y') %}
                 
+                <!-- DATUMS-SEPARATOR: Zeigt Datumswechsel im Chat an -->
                 {% if current_date.value != message_date %}
                     <div class="date-separator">
                         <span>{{ message_date }}</span>
@@ -68,31 +92,41 @@
                     {% set current_date.value = message_date %}
                 {% endif %}
                 
+                <!-- EINZELNACHRICHT: CSS-Klasse unterscheidet zwischen Admin und User -->
                 <div class="message {{ 'admin-message' if message.sender_type == 'admin' else 'user-message' }}">
+                    <!-- NACHRICHTEN-KOPF: Absender und Uhrzeit -->
                     <div class="message-header">
                         <span class="sender-name">
                             {% if message.sender_type == 'admin' %}Support{% else %}{{ message.sender_name }}{% endif %}
                         </span>
                         <span class="message-time">
+                            <!-- Zeit in ISO-Format für JavaScript-Konvertierung -->
                             <time class="ticket-time-only" data-iso="{{ message.created_at|to_iso }}">
                                 {{ message.created_at.strftime('%H:%M') }}
                             </time>
                         </span>
                     </div>
+                    <!-- NACHRICHTEN-INHALT -->
                     <p class="message-content">{{ message.content }}</p>
                 </div>
             {% endfor %}
         </div>
 
+        <!-- EINGABEBEREICH: Für neue Nachrichten (nur bei offenen Tickets) -->
         <div class="input-area-wrapper">
             {% if ticket.status == 'open' %}
+                <!-- Formular zum Senden neuer Nachrichten -->
                 <form class="chat-form" method="POST" action="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">
+
+                    <!-- CSRF-Schutz-Token -->
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     
+                    <!-- Textarea für Nachrichteneingabe mit Zeichenlimit -->
                     <textarea name="message_content" class="chat-textarea" 
                               maxlength="500" placeholder="Schreibe eine Nachricht..." required 
                               oninput="updateCharCount(this, 'counter-chat')"></textarea>
                     
+                    <!-- UNTERE LEISTE: Zeichenzähler und Senden-Button -->
                     <div class="input-actions">
                         <span id="counter-chat" class="char-counter">0 / 500</span>
                         <button type="submit" class="send-button sound-button">
@@ -101,6 +135,7 @@
                     </div>
                 </form>
             {% else %}
+                <!-- Hinweis bei geschlossenen Tickets (keine Eingabe möglich) -->
                 <div class="closed-notice">
                     <i class="fas fa-lock"></i> Dieses Ticket ist geschlossen.
                 </div>
@@ -111,20 +146,28 @@
 </div>
 
 <script>
+    // ---------------------------------------------------------------------
+    // FUNKTION: updateCharCount
+    // ZWECK: Zeichenzähler für Textarea (max. 500 Zeichen)
+    // ---------------------------------------------------------------------
     function updateCharCount(textarea, counterId) {
         const maxLength = 500;
         const currentLength = textarea.value.length;
         const counter = document.getElementById(counterId);
         counter.textContent = `${currentLength} / ${maxLength}`;
         
+        // Farbwechsel bei Erreichen des Limits
         if (currentLength >= maxLength) {
-            counter.style.color = '#fc8181';
+            counter.style.color = '#fc8181'; // Rot
         } else {
-            counter.style.color = '#aaa';
+            counter.style.color = '#aaa';    // Grau
         }
     }
 
-    // Funktion zum Konvertieren von UTC-Zeiten zu lokaler Zeit (nur HH:MM)
+    // ---------------------------------------------------------------------
+    // FUNKTION: convertTicketTimeElements
+    // ZWECK: Konvertiert UTC-Zeiten zu lokaler Zeit (nur HH:MM)
+    // ---------------------------------------------------------------------
     function convertTicketTimeElements(root = document) {
         root.querySelectorAll && root.querySelectorAll('time.ticket-time-only').forEach(el => {
             const iso = el.dataset.iso || el.getAttribute('datetime') || el.textContent.trim();
@@ -145,7 +188,10 @@
         });
     }
 
-    // Funktion zum Extrahieren der Uhrzeit aus einem ISO-String (für nachgeladene Nachrichten)
+    // ---------------------------------------------------------------------
+    // FUNKTION: extractTime
+    // ZWECK: Extrahiert Uhrzeit aus ISO-String (für nachgeladene Nachrichten)
+    // ---------------------------------------------------------------------
     function extractTime(isoString) {
         try {
             const date = new Date(isoString);
@@ -159,7 +205,10 @@
         }
     }
 
-    // Funktion zum Formatieren des Datums für Datums-Separatoren
+    // ---------------------------------------------------------------------
+    // FUNKTION: formatDateForDisplay
+    // ZWECK: Formatiert Datum für Datums-Separatoren (TT.MM.JJJJ)
+    // ---------------------------------------------------------------------
     function formatDateForDisplay(isoString) {
         try {
             const date = new Date(isoString);
@@ -172,18 +221,21 @@
         }
     }
 
-    // --- CHAT LOGIK: Paging & Scrolling ---
+    // =====================================================================
+    // CHAT-LOGIK: Paging & Scrolling für Nachrichtenverlauf
+    // =====================================================================
     document.addEventListener("DOMContentLoaded", function() {
         const chatContainer = document.getElementById('chat-container');
         const loadingIndicator = document.getElementById('chat-loading');
         const ticketId = "{{ ticket.id }}";
         
-        let currentOffset = 20; 
-        let isLoading = false;
-        let hasMore = true; 
-        let lastLoadedDate = null;
+        // Variablen für das Paging
+        let currentOffset = 20;     // Anzahl der bereits angezeigten Nachrichten
+        let isLoading = false;      // Flag für laufenden Ladevorgang
+        let hasMore = true;         // Gibt an ob weitere Nachrichten verfügbar sind
+        let lastLoadedDate = null;  // Letztes geladenes Datum für Separatoren
 
-        // 1. Initial ganz nach unten scrollen
+        // 1. Initial ganz nach unten scrollen (neueste Nachricht)
         scrollToBottom();
 
         function scrollToBottom() {
@@ -195,13 +247,17 @@
         // 2. Ticket-Zeiten konvertieren (nur für initial geladene Nachrichten)
         convertTicketTimeElements();
 
-        // 3. Event Listener für das Scrollen nach oben
+        // 3. Event Listener für das Scrollen nach oben (Nachladen älterer Nachrichten)
         chatContainer.addEventListener('scroll', function() {
             if (chatContainer.scrollTop === 0 && !isLoading && hasMore) {
                 loadOlderMessages();
             }
         });
 
+        // -----------------------------------------------------------------
+        // FUNKTION: loadOlderMessages
+        // ZWECK: Lädt ältere Nachrichten per AJAX nach
+        // -----------------------------------------------------------------
         async function loadOlderMessages() {
             isLoading = true;
             loadingIndicator.style.display = 'block';
@@ -209,16 +265,19 @@
             const oldHeight = chatContainer.scrollHeight;
 
             try {
+                // AJAX-Request an API-Endpunkt
                 const response = await fetch(`/api/ticket/${ticketId}/messages?offset=${currentOffset}`);
                 if (!response.ok) throw new Error('Netzwerkfehler');
                 
                 const data = await response.json();
                 
                 if (data.messages && data.messages.length > 0) {
+                    // Nachrichten am Anfang einfügen
                     prependMessages(data.messages);
                     currentOffset += data.messages.length;
                     hasMore = data.has_more;
 
+                    // Scroll-Position anpassen, damit der Viewport stabil bleibt
                     requestAnimationFrame(() => {
                         const newHeight = chatContainer.scrollHeight;
                         chatContainer.scrollTop = newHeight - oldHeight;
@@ -235,6 +294,10 @@
             }
         }
 
+        // -----------------------------------------------------------------
+        // FUNKTION: prependMessages
+        // ZWECK: Fügt nachgeladene Nachrichten in den Chat-Container ein
+        // -----------------------------------------------------------------
         function prependMessages(messages) {
             let html = '';
             let lastDate = lastLoadedDate;
@@ -271,12 +334,17 @@
             });
             
             lastLoadedDate = lastDate;
+            // Nachrichten nach dem Lade-Indikator einfügen
             loadingIndicator.insertAdjacentHTML('afterend', html);
             
             // Ticket-Zeiten für nachgeladene Nachrichten konvertieren
             convertTicketTimeElements();
         }
         
+        // -----------------------------------------------------------------
+        // FUNKTION: escapeHtml
+        // ZWECK: Escaped HTML-Sonderzeichen zur XSS-Prävention
+        // -----------------------------------------------------------------
         function escapeHtml(text) {
             if (!text) return text;
             return text
