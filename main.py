@@ -329,20 +329,7 @@ def to_iso(utc_dt):
 def inject_csrf_token():
     """Macht CSRF-Token in allen Templates verfügbar"""
     return dict(csrf_token=generate_csrf)
-                
-@app.after_request
-def add_cache_headers(response):
-    try:
-        content_type = response.headers.get('Content-Type', '') or ''
-        if 'text/html' in content_type:
-            # Strenge Cache-Header für HTML-Antworten
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, private, max-age=0'
-            response.headers['Pragma'] = 'no-cache'
-            response.headers['Expires'] = '0'
-    except Exception:
-        pass
-    return response
- 
+
 @app.context_processor
 def inject_user():
     """Macht Benutzerinformationen in allen Templates verfügbar"""
@@ -356,6 +343,37 @@ def inject_user():
         is_logged_in='username' in session,
         is_admin=is_admin
     )
+                
+@app.after_request
+def add_cache_headers(response):
+    """
+    Fügt global Cache-Control-Header zu allen Antworten hinzu, die HTML enthalten.
+    Dies verhindert, dass Browser sensible Seiten (wie Profile oder Quiz-Stände) speichern.
+    """
+    try:
+        # Prüfen, ob die Antwort HTML enthält
+        content_type = response.headers.get('Content-Type', '') or ''
+        
+        if 'text/html' in content_type:
+            # no-store: Der Browser darf die Seite NICHT auf der Festplatte speichern (wichtig für Sicherheit/Logout)
+            # no-cache: Der Browser muss vor jeder Anzeige den Server fragen, ob die Seite noch aktuell ist
+            # must-revalidate: Zwingt den Browser zur Überprüfung, auch wenn er glaubt, die Seite sei noch "frisch"
+            # private: Die Seite ist nur für diesen einen User bestimmt
+            # max-age=0: Die Seite ist sofort "abgelaufen".
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, private, max-age=0'
+            
+            # Ein veralteter Header für HTTP/1.0 Kompatibilität (z.B. alte IE Versionen)
+            response.headers['Pragma'] = 'no-cache'
+            
+            # Datum in der Vergangenheit/0 stellt sicher, dass die Seite sofort als ungültig gilt
+            response.headers['Expires'] = '0'
+            
+    except Exception:
+        # Falls ein unerwarteter Fehler beim Setzen der Header auftritt,
+        # soll die App nicht abstürzen, sondern die Antwort einfach ohne die Header senden.
+        pass
+        
+    return response
 
 # ============================================
 # DATENBANK-INITIALISIERUNG BEI START
@@ -2038,17 +2056,18 @@ def next_question():
 @app.route('/evaluate')
 @login_required
 def evaluate_quiz():
-    """Zeigt die Auswertung eines abgeschlossenen Quiz"""
+    """Zeigt die Auswertung eines abgeschlossenen Quiz an und speichert Ergebnisse."""
     try:
-        # Prüfe ob Auswertungsdaten in der Session vorhanden sind (für Neuladen)
+        # Prüfe, ob wir bereits fertige Auswertungsdaten in der Session haben
         if 'evaluation_data' in session:
             data = session['evaluation_data']
             
-            # Benutzerdaten für Avatar holen
+            # Benutzerdaten für Avataranzeige nachladen
             user = User.query.filter_by(username=session['username']).first()
             user_avatar = user.avatar if user else "avatar0.png"
             
-            response = make_response(render_template(
+            # Seite rendern mit den gespeicherten Daten
+            return render_template(
                 'evaluate.html',
                 score=data['score'],
                 total=data['total'],
@@ -2056,20 +2075,17 @@ def evaluate_quiz():
                 new_highscore=data['new_highscore'],
                 highscore=data['highscore'],
                 user_avatar=user_avatar
-            ))
-            # Cache-Header setzen
-            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-            response.headers['Pragma'] = 'no-cache'
-            response.headers['Expires'] = '0'
-            return response
+            )
         
+        # Sicherheitsprüfung: Gibt es Quiz-Daten
         if 'quiz_data' not in session or 'username' not in session:
             flash('Kein Quiz zur Auswertung gefunden.', 'error')
             return redirect(url_for('homepage'))
         
         quiz_data = session['quiz_data']
 
-        # Prüfe ob das Quiz als abgeschlossen markiert wurde oder alle Fragen beantwortet wurden
+        # Validierung: Wurde das Quiz wirklich beendet oder alle Fragen beantwortet
+        # Verhindert, dass User die URL manuell aufrufen, um das Quiz zu überspringen.
         is_completed = quiz_data.get('completed', False)
         all_questions_answered = (quiz_data.get('current_index', 0) >= quiz_data.get('total_questions', 0) - 1)
         
@@ -2077,54 +2093,54 @@ def evaluate_quiz():
             flash('Du musst erst alle Fragen beantworten!', 'error')
             return redirect(url_for('show_question'))
         
-        # Timer stoppen und Raum komplett aufräumen
+        # Timer stoppen und WebSocket-Raum freigeben
         room_id = quiz_data.get('room_id') if quiz_data else None
         if room_id:
             stop_timer(room_id)
-            # WebSocket-Raum aufräumen
             with timer_lock:
                 if room_id in active_timers:
                     del active_timers[room_id]
         
+        # Daten aus der Session extrahieren
         score = quiz_data.get('score', 0)
         total = quiz_data.get('total_questions', 0)
         correct_count = quiz_data.get('correct_count', 0)
         
-        # Highscore-Logik
+        # Datenbank-Update
         user = User.query.filter_by(username=session['username']).first()
         new_highscore = False
         now = datetime.now(timezone.utc)
         
         if user:
+            # evtl first_played Datum
             if not user.first_played:
                 user.first_played = now
             
-            # Highscore für Punkte
+            # Prüfen auf neuen Highscore
             if score > user.highscore:
                 user.highscore = score
                 user.highscore_time = now
                 new_highscore = True
 
+            # Prüfen auf Rekord bei korrekten Antworten
             if correct_count > user.correct_high:
                 user.correct_high = correct_count
 
-	        # prüfen nochmal explizit auf vollständigen Abschluss (defensive Prüfung)
+            # Anzahl der gespielten Spiele erhöhen
             try:
-                quiz_completed_flag = is_completed or all_questions_answered
-                if quiz_completed_flag:
-                    if getattr(user, 'number_of_games', None) is None:
-                        user.number_of_games = 0
-                    user.number_of_games += 1
+                if getattr(user, 'number_of_games', None) is None:
+                    user.number_of_games = 0
+                user.number_of_games += 1
             except Exception as e:
-                # Fehler beim Erhöhen soll die Auswertung nicht abbrechen
                 print(f"Fehler beim Erhöhen von number_of_games: {e}")
             
+            # Alle Änderungen in die DB schreiben
             db.session.commit()
 
-        # Benutzerdaten für Avatar holen
         user_avatar = user.avatar if user else "avatar0.png"
 
-        # Speichere Auswertungsdaten in separater Session-Variable für Neuladen
+        # Wir speichern das Ergebnis separat, damit 'quiz_data' gelöscht werden kann,
+        # die Auswertung aber bei einem Reload erhalten bleibt.
         evaluation_data = {
             'score': score,
             'total': total,
@@ -2134,14 +2150,14 @@ def evaluate_quiz():
         }
         session['evaluation_data'] = evaluation_data
 
-        # Komplette Quiz-Daten aus Session entfernen
+        # Das eigentliche Quiz-Objekt wird jetzt gelöscht
         session.pop('quiz_data', None)
         
-        # Flag setzen, dass Quiz ordnungsgemäß beendet wurde
+        # Flag setzen
         session['quiz_properly_ended'] = True
         
-        # Response mit Cache-Control Headern
-        response = make_response(render_template(
+        # Seite rendern
+        return render_template(
             'evaluate.html',
             score=score,
             total=total,
@@ -2149,14 +2165,7 @@ def evaluate_quiz():
             new_highscore=new_highscore,
             highscore=user.highscore if user else score,
             user_avatar=user_avatar
-        ))
-        
-        # Verhindert, dass der Browser die Seite cached
-        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
-        
-        return response
+        )
         
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler in evaluate_quiz: {str(e)}")
