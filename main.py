@@ -1125,6 +1125,7 @@ def login():
 
 @app.route('/register', methods=['POST'])
 def register():
+    """Registriert einen neuen Benutzer"""
     try:
         username = request.form['username'].strip()
         password = request.form['password'].strip()
@@ -1183,6 +1184,7 @@ def register():
     
 @app.route('/check_username', methods=['GET'])
 def check_username():
+    """API-Endpunkt zur Überprüfung der Verfügbarkeit eines Benutzernamens"""
     try:
         username = (request.args.get('username') or '').strip()
         if not username:
@@ -1190,7 +1192,7 @@ def check_username():
         if len(username) > 12:
             return jsonify({'available': False, 'message': 'Benutzername darf maximal 12 Zeichen haben!'}), 200
 
-        # Normale Prüfung in DB
+        # Prüfung in DB
         user = User.query.filter_by(username=username).first()
         if user:
             return jsonify({'available': False, 'message': 'Benutzername bereits vergeben.'}), 200
@@ -1206,13 +1208,14 @@ def check_username():
 
 @app.route('/accept_agb', methods=['POST'])
 def accept_agb():
+    """Verarbeitet die AGB-Akzeptierung für ausstehende Logins"""
     try:
         pending = session.get('pending_login')
         if not pending:
             flash('Sitzung abgelaufen. Bitte melden Sie sich erneut an.', 'error')
             return redirect(url_for('index'))
         
-        # Benutzer per ID holen (sichere Methode)
+        # Benutzer per ID holen
         user = None
         user_id = pending.get('user_id')
         if user_id:
@@ -1252,10 +1255,12 @@ def accept_agb():
 @login_required
 @prevent_quiz_exit
 def settings():
+    """Einstellungsseite für angemeldete Benutzer"""
     return render_template("settings.html", is_logged_in=True)
 
 @app.route('/change_username', methods=['POST'])
 def change_username():
+    """Ändert den Benutzernamen eines angemeldeten Benutzers."""
     try:
         new_username = request.form.get('new_username', '').strip()
         password = request.form.get('password', '')
@@ -1313,6 +1318,7 @@ def change_username():
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
+    """Ändert das Passwort eines angemeldeten Benutzers"""
     try:
         current_password = request.form.get('current_password', '')
         new_password = request.form.get('new_password', '')
@@ -1367,6 +1373,7 @@ def change_password():
 
 @app.route('/change_avatar', methods=['POST'])
 def change_avatar():
+    """Ändert den Avatar eines Benutzers"""
     try:
         avatar = request.form.get('avatar')
         username = request.form.get('username')
@@ -1412,6 +1419,7 @@ def change_avatar():
 
 @app.route('/reject_agb', methods=['POST'])
 def reject_agb():
+    """Verarbeitet die Ablehnung der AGBs"""
     try:
         confirm_reject = request.form.get('confirm_reject', 'false') == 'true'
 
@@ -1430,7 +1438,7 @@ def reject_agb():
             flash("Benutzer nicht gefunden!", "error")
             return redirect(url_for('settings'))
 
-        # AGBs ablehnen (auf False setzen)
+        # AGBs ablehnen
         user.agb_accepted = False
         db.session.commit()
 
@@ -1452,6 +1460,7 @@ def reject_agb():
 
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
+    """Löscht den Account eines Benutzers dauerhaft"""
     try:
         confirm_delete = request.form.get('confirm_delete', '').strip()
 
@@ -1498,6 +1507,7 @@ def delete_account():
 @login_required
 @prevent_quiz_exit 
 def playermenu():
+    """Hauptmenü für angemeldete Spieler"""
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
@@ -1536,6 +1546,7 @@ def playermenu():
 @app.route('/update_avatar', methods=['POST'])
 @login_required
 def update_avatar():
+    """API-Endpunkt zum Aktualisieren des Avatars (AJAX)"""
     try:
         avatar = request.form.get('avatar')
         if not avatar:
@@ -1568,6 +1579,7 @@ def update_avatar():
 @login_required
 @prevent_quiz_exit
 def homepage():
+    """Homepage für angemeldete Benutzer (Themen)"""
     try:
         # Alte Auswertungsdaten löschen, wenn Benutzer zur Homepage zurückkehrt
         if 'evaluation_data' in session:
@@ -1599,6 +1611,7 @@ def homepage():
 @app.route('/logout')
 @login_required
 def logout():
+    """Loggt den Benutzer aus"""
     # Alte Auswertungsdaten löschen
     if 'evaluation_data' in session:
         session.pop('evaluation_data', None)
@@ -1615,6 +1628,7 @@ def logout():
 @app.route('/start_custom_quiz', methods=['POST'])
 @login_required
 def start_custom_quiz():
+    """Startet ein benutzerdefiniertes Quiz"""
     try:
         # Alte Auswertungsdaten löschen
         if 'evaluation_data' in session:
@@ -1640,13 +1654,12 @@ def start_custom_quiz():
         all_questions = []
         selected_questions = []
         subject_display = ""
-        
-        # --- START ANPASSUNG ---
+
+        # =====================
+        # LOGIK ZUFALLSMODUS
+        # =====================
 
         if random_mode:
-            # ==================================================
-            # NEUE LOGIK FÜR ZUFALLSMODUS
-            # ==================================================
             
             # 1. Alle verfügbaren Themen holen
             all_topics = db.session.query(Question.subject.distinct()).all()
@@ -1671,9 +1684,9 @@ def start_custom_quiz():
             selected_questions = all_questions[:30]
         
         else:
-            # ==================================================
-            # DEINE ALTE LOGIK FÜR MANUELLEN MODUS (MIT BUGFIX)
-            # ==================================================
+            # ==========================
+            # LOGIK FÜR MANUELLEN MODUS
+            # ==========================
             if not selected_topics:
                 flash('Bitte wähle mindestens ein Thema aus', 'error')
                 return redirect(url_for('homepage'))
@@ -1708,31 +1721,24 @@ def start_custom_quiz():
             # Mischen der finalen Liste
             random.shuffle(selected_questions)
             
-            # --- BUGFIX: Stelle sicher, dass *maximal* 30 Fragen genommen werden ---
-            # (Falls 30 // len(topics) * len(topics) > 30 war, z.B. bei 8 Themen -> 8 * 4 = 32)
+            # Stelle sicher, dass maximal 30 Fragen genommen werden
             selected_questions = selected_questions[:30]
-
-        # --- ENDE ANPASSUNG ---
-
-        # ==================================================
-        # GEMEINSAME LOGIK
-        # ==================================================
         
-        # Finale Anzahl der Fragen (ist jetzt immer korrekt)
+        # Finale Anzahl der Fragen
         num_questions = len(selected_questions)
 
         if num_questions == 0:
-             flash('Konnte keine Fragen für die Auswahl finden', 'error')
-             return redirect(url_for('homepage'))
+            flash('Konnte keine Fragen für die Auswahl finden', 'error')
+            return redirect(url_for('homepage'))
 
         # Room-ID für WebSocket erstellen
         room_id = str(uuid.uuid4())
         
         session['quiz_data'] = {
             'subject': subject_display,
-            'questions': [q.id for q in selected_questions], # Basiert auf der finalen, ggf. gekürzten Liste
+            'questions': [q.id for q in selected_questions],
             'current_index': 0,
-            'total_questions': num_questions, # Stimmt jetzt immer mit der Listenlänge überein
+            'total_questions': num_questions,
             'score': 0,
             'correct_count': 0,
             'room_id': room_id,
@@ -1755,6 +1761,7 @@ def start_custom_quiz():
 @login_required
 @quiz_required 
 def show_question():
+    """Zeigt die aktuelle Quiz-Frage"""
     if request.method != 'GET':
         abort(405)
 
@@ -1764,17 +1771,12 @@ def show_question():
         
         quiz_data = session['quiz_data']
 
-        # =================================================================
-        # HIER IST DIE NEUE LOGIK
-        # =================================================================
-
-        # 1. Zuerst prüfen, ob das Quiz als GANZES beendet ist.
+        # 1. Zuerst prüfen, ob das Quiz beendet ist
         if quiz_data.get('completed', False):
             print("show_question: Quiz ist 'completed', redirecting to evaluate.")
             return redirect(url_for('evaluate_quiz'))
 
-        # 2. Prüfen, ob die AKTUELLE Frage bereits beantwortet wurde
-        #    (d.h. User hat neu geladen, BEVOR der Client /next_question aufrufen konnte)
+        # 2. Prüfen, ob die aktuelle Frage bereits beantwortet wurde
         if quiz_data.get('answered', False):
             print(f"show_question: Frage {quiz_data['current_index']+1} war bereits beantwortet. Forciere nächste Frage.")
             
@@ -1784,14 +1786,14 @@ def show_question():
             current_index = quiz_data['current_index']
             total_questions = quiz_data['total_questions']
             
+            # Wenn letzte Frage
             if current_index >= total_questions - 1:
-                # Das WAR die letzte Frage
-                print("show_question: Letzte Frage war's. Setze 'completed' und redirect to evaluate.")
+                print("show_question: Letzte Frage. Setze 'completed' und redirect to evaluate.")
                 quiz_data['completed'] = True
                 session['quiz_data'] = quiz_data
                 return redirect(url_for('evaluate_quiz'))
             
-            # Es war NICHT die letzte Frage -> Index serverseitig vorrücken
+            # Wenn NICHT letzte Frage -> Index serverseitig vorrücken
             quiz_data['current_index'] += 1
             
             # Optionen für die (jetzt neue) nächste Frage zurücksetzen
@@ -1801,25 +1803,20 @@ def show_question():
             room_id = quiz_data.get('room_id')
             if room_id:
                 stop_timer(room_id)
-                get_or_create_timer(room_id) # Startet einen neuen Timer
+                get_or_create_timer(room_id)
                 
             # Session speichern
             session['quiz_data'] = quiz_data
             session.modified = True
             
-            # WICHTIG: Redirect zur URL der NEUEN Frage
+            # Redirect zur URL der NEUEN Frage
             new_question_number = quiz_data['current_index'] + 1
             print(f"show_question: Redirecting to new question q={new_question_number}")
             return redirect(url_for('show_question', q=new_question_number))
 
-        # =================================================================
-        # ENDE DER NEUEN LOGIK
-        # =================================================================
-
         # URL-Parameter q handling: 1-basierter Index
         q_param = request.args.get('q')
         if q_param is not None:
-            # ... (Rest deines q_param Handlings bleibt gleich) ...
             try:
                 q_index = int(q_param) - 1
             except ValueError:
@@ -1832,18 +1829,12 @@ def show_question():
 
             if q_index != quiz_data.get('current_index', 0):
                 return redirect(url_for('show_question', q=quiz_data['current_index'] + 1))
-        
-        # HINWEIS: Dieser Check ist jetzt redundant, da oben schon geprüft,
-        # aber zur Sicherheit kannst du ihn lassen:
-        if quiz_data.get('completed', False):
-            return redirect(url_for('evaluate_quiz'))
 
         # Timer-Zeit holen
         room_id = quiz_data.get('room_id')
         time_left = 30
         
         if room_id:
-            # ... (Rest deiner Timer-Logik bleibt gleich) ...
             with timer_lock:
                 timer = active_timers.get(room_id)
                 if timer:
@@ -1860,8 +1851,6 @@ def show_question():
         
         current_index = quiz_data['current_index']
         question = db.session.get(Question, quiz_data['questions'][current_index])
-
-        # ... (Rest der Funktion bis zum render_template bleibt gleich) ...
         
         if not question:
             flash('Frage nicht gefunden.', 'error')
@@ -1903,7 +1892,7 @@ def show_question():
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler in show_question: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('homepage'))
     except Exception as e:
         print(f"Unerwarteter Fehler in show_question: {str(e)}")
         flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
@@ -1913,6 +1902,7 @@ def show_question():
 @login_required
 @quiz_required 
 def check_answer():
+    """Überprüft eine Quiz-Antwort (AJAX-Endpunkt)"""
     if request.method != 'POST':
         abort(405)
 
@@ -1966,6 +1956,7 @@ def check_answer():
 @login_required
 @quiz_required 
 def next_question():
+    """Lädt die nächste Quiz-Frage (AJAX-Endpunkt)."""
     if request.method != 'POST':
         abort(405)
     
@@ -1996,7 +1987,7 @@ def next_question():
         # Prüfe ob dies die letzte Frage war, die gerade beantwortet wurde
         current_index_after_answer = quiz_data['current_index']
         
-        # Wenn die gerade beantwortete Frage die letzte war (Index = total_questions - 1)
+        # Wenn die gerade beantwortete Frage die letzte war
         if current_index_after_answer >= quiz_data['total_questions'] - 1:
             quiz_data['completed'] = True
             session['quiz_data'] = quiz_data
@@ -2014,7 +2005,7 @@ def next_question():
         if room_id:
             print(f"Setze Timer für nächste Frage in Raum {room_id} zurück")
 
-            # 1. Stoppt den alten Timer UND löscht ihn aus dem 'active_timers'-Dict
+            # 1. Stoppt den alten Timer und löscht ihn aus dem 'active_timers'-Dict
             stop_timer(room_id)
             
             # 2. Erstellt eine brandneue Timer-Instanz, da die alte gelöscht wurde
@@ -2047,6 +2038,7 @@ def next_question():
 @app.route('/evaluate')
 @login_required
 def evaluate_quiz():
+    """Zeigt die Auswertung eines abgeschlossenen Quiz"""
     try:
         # Prüfe ob Auswertungsdaten in der Session vorhanden sind (für Neuladen)
         if 'evaluation_data' in session:
@@ -2063,7 +2055,7 @@ def evaluate_quiz():
                 correct_answers=data['correct_answers'],
                 new_highscore=data['new_highscore'],
                 highscore=data['highscore'],
-                user_avatar=user_avatar  # Avatar hinzugefügt
+                user_avatar=user_avatar
             ))
             # Cache-Header setzen
             response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
@@ -2077,7 +2069,7 @@ def evaluate_quiz():
         
         quiz_data = session['quiz_data']
 
-        # Prüfe ob das Quiz als abgeschlossen markiert wurde ODER alle Fragen beantwortet wurden
+        # Prüfe ob das Quiz als abgeschlossen markiert wurde oder alle Fragen beantwortet wurden
         is_completed = quiz_data.get('completed', False)
         all_questions_answered = (quiz_data.get('current_index', 0) >= quiz_data.get('total_questions', 0) - 1)
         
@@ -2120,7 +2112,6 @@ def evaluate_quiz():
             try:
                 quiz_completed_flag = is_completed or all_questions_answered
                 if quiz_completed_flag:
-                    # Defensive: falls Feld nicht existiert oder None
                     if getattr(user, 'number_of_games', None) is None:
                         user.number_of_games = 0
                     user.number_of_games += 1
@@ -2143,7 +2134,7 @@ def evaluate_quiz():
         }
         session['evaluation_data'] = evaluation_data
 
-        # WICHTIG: Komplette Quiz-Daten aus Session entfernen
+        # Komplette Quiz-Daten aus Session entfernen
         session.pop('quiz_data', None)
         
         # Flag setzen, dass Quiz ordnungsgemäß beendet wurde
@@ -2157,7 +2148,7 @@ def evaluate_quiz():
             correct_answers=correct_count,
             new_highscore=new_highscore,
             highscore=user.highscore if user else score,
-            user_avatar=user_avatar  # Avatar hinzugefügt
+            user_avatar=user_avatar
         ))
         
         # Verhindert, dass der Browser die Seite cached
@@ -2170,11 +2161,12 @@ def evaluate_quiz():
     except (SQLAlchemyError, OperationalError) as e:
         print(f"Datenbankfehler in evaluate_quiz: {str(e)}")
         flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('homepage'))
 
 @app.route('/cancel_quiz', methods=['POST'])
 @login_required
 def cancel_quiz():
+    """Bricht ein laufendes Quiz ab (AJAX-Endpunkt)"""
     try:
         if request.method != 'POST':
             abort(405)
@@ -2190,14 +2182,14 @@ def cancel_quiz():
         # Prüfe ob eine ausstehende Navigation existiert
         target = session.pop('pending_navigation', None)
         
-        # WICHTIG: Flag setzen, dass Quiz absichtlich abgebrochen wurde
+        # Flag setzen, dass Quiz absichtlich abgebrochen wurde
         session['quiz_cancelled'] = True
         session.modified = True  # Sicherstellen, dass Session gespeichert wird
 
         if target:
             return jsonify({'redirect': url_for(target)})
         
-        # WICHTIG: Immer JSON zurückgeben, auch wenn kein Target
+        # Immer JSON zurückgeben, auch wenn kein Target
         return jsonify({'redirect': url_for('homepage')})
 
     except Exception as e:
@@ -2217,204 +2209,11 @@ def quiz_session_status():
         })
     return jsonify({'active': False})
 
-@app.route('/db_stats')
-@login_required
-@admin_required
-def db_stats():
-    try:
-        total = db.session.query(func.count(Question.id)).scalar()
-        topic_counts = db.session.query(
-            Question.subject,
-            func.count(Question.id)
-        ).group_by(Question.subject).all()
-
-        return render_template(
-            "db_stats.html", 
-            total=total, topic_counts=topic_counts
-        )
-    except (SQLAlchemyError, OperationalError) as e:
-        print(f"Datenbankfehler auf der Homepage: {str(e)}")
-        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
-        return redirect(url_for('index'))
-    
-
-
-
-
-
-
-
-
-# --- DATA MANAGEMENT ROUTES ---
-# --- DATA MANAGEMENT ROUTES ---
-
-@app.route('/admin/data-management')
-@login_required
-@admin_required
-def data_management():
-    return render_template('data_management.html')
-
-
-@app.route('/admin/export/<table_slug>')
-@login_required
-@admin_required
-def export_data(table_slug):
-    models = {
-        'user': User,
-        'news': News,
-        'ticket': Ticket,
-        'ticket_message': TicketMessage
-    }
-
-    model = models.get(table_slug)
-    if not model:
-        flash("Tabelle nicht gefunden.", "error")
-        return redirect(url_for('data_management'))
-
-    try:
-        data = model.query.all()
-        output = io.StringIO()
-        writer = csv.writer(output, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-        columns = [column.key for column in model.__table__.columns]
-        writer.writerow(columns)
-
-        for row in data:
-            writer.writerow([getattr(row, col) for col in columns])
-
-        output.seek(0)
-        response = make_response(output.getvalue())
-        filename = f"export_{table_slug}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
-        response.headers["Content-Disposition"] = f"attachment; filename={filename}"
-        response.headers["Content-type"] = "text/csv"
-        return response
-
-    except Exception as e:
-        flash(f"Fehler beim Export: {str(e)}", "error")
-        return redirect(url_for('data_management'))
-
-
-@app.route('/admin/import', methods=['POST'])
-@login_required
-@admin_required
-def import_data():
-    table_name = request.form.get('table')
-    file = request.files.get('file')
-
-    if not file or not table_name:
-        flash("Datei oder Tabelle fehlt.", "error")
-        return redirect(url_for('data_management'))
-
-    models = {
-        'user': User,
-        'news': News,
-        'ticket': Ticket,
-        'ticket_message': TicketMessage
-    }
-
-    model = models.get(table_name)
-    if not model:
-        flash("Ungültige Tabelle.", "error")
-        return redirect(url_for('data_management'))
-
-    try:
-        stream = io.StringIO(file.stream.read().decode("utf-8"), newline=None)
-        reader = csv.DictReader(stream, delimiter=';')
-
-        valid_columns = [c.key for c in model.__table__.columns]
-        count = 0
-
-        for row in reader:
-            clean_data = {}
-
-            for column in valid_columns:
-                if column not in row:
-                    continue
-
-                value = row[column]
-
-                # Leere Werte → None
-                if value in ("", None):
-                    clean_data[column] = None
-                    continue
-
-                # ---------- TYP-KONVERTIERUNG ----------
-                column_type = model.__table__.columns[column].type
-
-                if isinstance(column_type, db.Integer):
-                    clean_data[column] = csv_int(value)
-
-                elif isinstance(column_type, db.Boolean):
-                    clean_data[column] = csv_bool(value)
-
-                elif isinstance(column_type, db.DateTime):
-                    clean_data[column] = csv_datetime(value)
-
-                else:
-                    clean_data[column] = value
-                # ---------------------------------------
-
-            # 🔒 ID NIE überschreiben
-            entry_id = clean_data.pop("id", None)
-
-            if entry_id:
-                existing = db.session.get(model, entry_id)
-                if existing:
-                    for k, v in clean_data.items():
-                        setattr(existing, k, v)
-                else:
-                    clean_data["id"] = entry_id
-                    db.session.add(model(**clean_data))
-            else:
-                db.session.add(model(**clean_data))
-
-            count += 1
-
-        db.session.commit()
-        flash(f"{count} Datensätze in '{table_name}' erfolgreich importiert!", "success")
-
-    except Exception as e:
-        db.session.rollback()
-        print(f"Import Fehler: {e}")
-        flash(f"Fehler beim Import: {str(e)}", "error")
-
-    return redirect(url_for('data_management'))
-
-
-# ---------- HILFSFUNKTIONEN ----------
-
-def csv_int(value, default=0):
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        return default
-
-
-def csv_bool(value):
-    return str(value).lower() in ("1", "true", "yes", "ja")
-
-
-def csv_datetime(value):
-    if not value:
-        return None
-    try:
-        return datetime.fromisoformat(value.split("+")[0])
-    except ValueError:
-        return None
-
-    
-
-
-
-
-
-
-
-
 @app.route('/ranking')      
 @login_required     
 @prevent_quiz_exit           
 def ranking():
+    """Zeigt die Highscore-Rangliste"""
     try:
         # Lade nur die erste Seite für initiales Rendering
         per_page = 20
@@ -2461,13 +2260,14 @@ def ranking():
 @app.route('/api/ranking_players')
 @login_required
 def api_ranking_players():
+    """API-Endpunkt für paginierte Ranglistendaten"""
     try:
         page = request.args.get('page', 1, type=int)
         per_page = 20
         
         players = User.query.filter(
-            User.first_played.isnot(None),
-            User.is_admin == False
+            User.first_played.isnot(None), # bereits gespielt
+            User.is_admin == False # keine Admins
         ).order_by(
             User.highscore.desc(),
             User.highscore_time.asc()
@@ -2501,8 +2301,9 @@ def api_ranking_players():
 @app.route('/api/search_player', methods=['POST'])
 @login_required
 def search_player():
+    """Sucht nach einem bestimmten Spieler in der Rangliste"""
     try:
-        # Bessere JSON/Form-Daten Handhabung
+        #  JSON/Form-Daten Handhabung
         if request.content_type and 'application/json' in request.content_type:
             data = request.get_json() or {}
         else:
@@ -2520,7 +2321,7 @@ def search_player():
         if not user:
             return jsonify({'error': 'Spieler nicht gefunden'}), 404
         
-        # Rang berechnen - optimierte Version
+        # Rang berechnen
         # Zuerst alle Highscores abrufen und dann lokal sortieren
         all_players = User.query.filter(
             User.first_played.isnot(None),
@@ -2572,13 +2373,15 @@ def search_player():
         return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
 
 @app.route('/legal')
-@logout_required 
+@logout_required # Nur für nicht-angemeldete Benutzer
 def legal():
+    """Zeigt rechtliche Informationen (AGB, Datenschutz)"""
     return render_template('legal.html')
 
 @app.route('/automatic_logout')
-@login_required
+@login_required 
 def automatic_logout():
+    """Verarbeitet automatischen Logout bei Inaktivität"""
     # Prüfe, ob der Aufruf vom Inaktivitäts-Timer kommt
     if not request.referrer or not request.referrer.startswith(request.host_url):
         flash('Ungültiger Zugriff auf den automatischen Logout.', 'error')
@@ -2599,6 +2402,7 @@ def automatic_logout():
 @login_required
 @admin_required
 def admin_panel():
+    """Admin-Dashboard mit Übersichtsstatistiken"""
     try:
         # Statistiken für das Dashboard sammeln
         total_users = User.query.count()
@@ -2620,21 +2424,191 @@ def admin_panel():
 @login_required
 @admin_required
 def add_question_page():
-    """Rendert die separate Seite zum Hinzufügen einer neuen Frage (add_question.html)."""
-    # Wenn der Benutzer diese Seite aufruft, wird das Template gerendert
+    """Zeigt das Formular zum Hinzufügen einer neuen Frage"""
     return render_template('add_question.html')
     
-    
+@app.route('/db_stats')
+@login_required
+@admin_required
+def db_stats():
+    """Zeigt Datenbank-Statistiken für Admins"""
+    try:
+        total = db.session.query(func.count(Question.id)).scalar()
+        topic_counts = db.session.query(
+            Question.subject,
+            func.count(Question.id)
+        ).group_by(Question.subject).all()
+
+        return render_template(
+            "db_stats.html", 
+            total=total, topic_counts=topic_counts
+        )
+    except (SQLAlchemyError, OperationalError) as e:
+        print(f"Datenbankfehler auf der Homepage: {str(e)}")
+        flash('Verbindungsproblem zur Datenbank. Bitte versuche es später erneut.', 'error')
+        return redirect(url_for('index'))
+
+@app.route('/admin/data-management')
+@login_required
+@admin_required
+def data_management():
+    """Datenmanagement-Übersicht für Admins"""
+    return render_template('data_management.html')
+
+@app.route('/admin/export/<table_slug>')
+@login_required
+@admin_required
+def export_data(table_slug):
+    """Exportiert eine Datenbanktabelle als CSV-Datei"""
+    models = {
+        'user': User,
+        'news': News,
+        'ticket': Ticket,
+        'ticket_message': TicketMessage
+    }
+
+    model = models.get(table_slug)
+    if not model:
+        flash("Tabelle nicht gefunden.", "error")
+        return redirect(url_for('data_management'))
+
+    try:
+        data = model.query.all()
+        output = io.StringIO()
+        writer = csv.writer(output, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        columns = [column.key for column in model.__table__.columns]
+        writer.writerow(columns)
+
+        for row in data:
+            writer.writerow([getattr(row, col) for col in columns])
+
+        output.seek(0)
+        response = make_response(output.getvalue())
+        filename = f"export_{table_slug}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+        response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+        response.headers["Content-type"] = "text/csv"
+        return response
+
+    except Exception as e:
+        flash(f"Fehler beim Export: {str(e)}", "error")
+        return redirect(url_for('data_management'))
+
+@app.route('/admin/import', methods=['POST'])
+@login_required
+@admin_required
+def import_data():
+    """Importiert Daten aus einer CSV-Datei in eine Datenbanktabelle"""
+    table_name = request.form.get('table')
+    file = request.files.get('file')
+
+    if not file or not table_name:
+        flash("Datei oder Tabelle fehlt.", "error")
+        return redirect(url_for('data_management'))
+
+    models = {
+        'user': User,
+        'news': News,
+        'ticket': Ticket,
+        'ticket_message': TicketMessage
+    }
+
+    model = models.get(table_name)
+    if not model:
+        flash("Ungültige Tabelle.", "error")
+        return redirect(url_for('data_management'))
+
+    try:
+        stream = io.StringIO(file.stream.read().decode("utf-8"), newline=None)
+        reader = csv.DictReader(stream, delimiter=';')
+
+        valid_columns = [c.key for c in model.__table__.columns]
+        count = 0
+
+        for row in reader:
+            clean_data = {}
+
+            for column in valid_columns:
+                if column not in row:
+                    continue
+
+                value = row[column]
+
+                # Leere Werte → None
+                if value in ("", None):
+                    clean_data[column] = None
+                    continue
+
+                # TYP-KONVERTIERUNG
+                column_type = model.__table__.columns[column].type
+
+                if isinstance(column_type, db.Integer):
+                    clean_data[column] = csv_int(value)
+
+                elif isinstance(column_type, db.Boolean):
+                    clean_data[column] = csv_bool(value)
+
+                elif isinstance(column_type, db.DateTime):
+                    clean_data[column] = csv_datetime(value)
+
+                else:
+                    clean_data[column] = value
+
+            # ID nicht überschreiben
+            entry_id = clean_data.pop("id", None)
+
+            if entry_id:
+                existing = db.session.get(model, entry_id)
+                if existing:
+                    for k, v in clean_data.items():
+                        setattr(existing, k, v)
+                else:
+                    clean_data["id"] = entry_id
+                    db.session.add(model(**clean_data))
+            else:
+                db.session.add(model(**clean_data))
+
+            count += 1
+
+        db.session.commit()
+        flash(f"{count} Datensätze in '{table_name}' erfolgreich importiert!", "success")
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Import Fehler: {e}")
+        flash(f"Fehler beim Import: {str(e)}", "error")
+
+    return redirect(url_for('data_management'))
+
+# ---------- HILFSFUNKTIONEN ----------
+
+def csv_int(value, default=0):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def csv_bool(value):
+    return str(value).lower() in ("1", "true", "yes", "ja")
+
+
+def csv_datetime(value):
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.split("+")[0])
+    except ValueError:
+        return None   
     
 @app.route('/add_question', methods=['POST'])
 @login_required
 @admin_required
 def add_question():
+    """Verarbeitet das Hinzufügen einer neuen Frage"""
     if request.method != 'POST':
         abort(405)
 
-    # Bestimmen der Rückleitungs-URL (sollte die Formularseite sein)
-    # WICHTIG: Ersetzen Sie 'admin_panel' durch 'add_question_page'
     redirect_url = url_for('add_question_page') 
 
     try:
@@ -2648,19 +2622,16 @@ def add_question():
         # Validierung der Eingaben
         if not all([subject, question_text, true_answer, wrong1, wrong2, wrong3]):
             flash('Bitte fülle alle Felder aus', 'error')
-            # ÄNDERUNG: Leitet zur Formular-Seite
             return redirect(redirect_url) 
             
         if len(question_text) > 500:
             flash('Frage darf maximal 500 Zeichen haben', 'error')
-            # ÄNDERUNG: Leitet zur Formular-Seite
             return redirect(redirect_url) 
             
         # Prüfen ob Frage bereits existiert
         existing = Question.query.filter_by(question=question_text).first()
         if existing:
             flash('Diese Frage existiert bereits', 'error')
-            # ÄNDERUNG: Leitet zur Formular-Seite
             return redirect(redirect_url) 
             
         new_question = Question(
@@ -2675,27 +2646,24 @@ def add_question():
         db.session.commit()
         flash('Frage erfolgreich hinzugefügt!', 'success')
         
-        # ÄNDERUNG: Leitet zur Formular-Seite
         return redirect(redirect_url)
 
     except (SQLAlchemyError, OperationalError) as e:
         db.session.rollback()
         print(f"Datenbankfehler beim Hinzufügen der Frage: {str(e)}")
         flash('Datenbankfehler beim Hinzufügen der Frage', 'error')
-        # ÄNDERUNG: Leitet zur Formular-Seite
         return redirect(redirect_url)
     except Exception as e:
         db.session.rollback()
         print(f"Unerwarteter Fehler beim Hinzufügen der Frage: {str(e)}")
         flash('Ein unerwarteter Fehler ist aufgetreten', 'error')
-        # ÄNDERUNG: Leitet zur Formular-Seite
         return redirect(redirect_url)
 
-# Spieler-Seite - News anzeigen
 @app.route("/news")
 @login_required
 @prevent_quiz_exit
 def news():
+    """Zeigt News-Einträge für Spieler."""
     try:
         user = User.query.filter_by(username=session['username']).first()
         news_entries = News.query.order_by(News.created_at.desc()).all()
@@ -2712,6 +2680,7 @@ def news():
 @app.route('/api/mark_news_read', methods=['POST'])
 @login_required
 def mark_news_read():
+    """Markiert eine News als gelesen (AJAX-Endpunkt)"""
     try:
         data = request.get_json()
         news_id = data.get('news_id')
@@ -2730,15 +2699,16 @@ def mark_news_read():
         print(f"Error marking news read: {e}")
         return jsonify({'success': False}), 500
 
-# Admin-Seite - News verwalten
 @app.route("/admin/news", methods=["GET", "POST"])
 @login_required
 @admin_required
 def news_admin():
+    """News-Verwaltung für Administratoren"""
     try:
         if request.method == "POST":
             action = request.form.get("action")
             
+            # Erstellen neuer News
             if action == "create":
                 title = request.form.get("title", "").strip()
                 content = request.form.get("content", "").strip()
@@ -2751,6 +2721,7 @@ def news_admin():
                     db.session.commit()
                     flash("News erfolgreich erstellt!", "success")
                     
+            #  Bearbeiten bestehender News
             elif action == "edit":
                 news_id = request.form.get("news_id")
                 if news_id:
@@ -2760,7 +2731,8 @@ def news_admin():
                         entry.content = request.form.get("content", "").strip()
                         db.session.commit()
                         flash("News erfolgreich aktualisiert!", "success")
-                        
+
+            # Löschen von News  
             elif action == "delete":
                 news_id = request.form.get("news_id")
                 if news_id:
@@ -2781,6 +2753,7 @@ def news_admin():
 @app.route('/tickets', methods=['GET'])
 @login_required
 def tickets_overview():
+    """Übersicht über Support-Tickets"""
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
@@ -2815,7 +2788,10 @@ def tickets_overview():
 @app.route('/api/tickets')
 @login_required
 def api_tickets():
-    """API für das Nachladen von Tickets mit Paging und Filtern"""
+    """
+    API für das Nachladen von Tickets mit Paging und Filtern
+    Wird für Filterung, Sortierung und Paginierung verwendet.
+    """
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
@@ -2849,7 +2825,7 @@ def api_tickets():
             
         # Admin: Spieler-Suche
         if user.is_admin and filter_player:
-            # Join mit User Tabelle, um nach Username zu suchen (case insensitive via ilike)
+            # Join mit User Tabelle, um nach Username zu suchen (case insensitive über ilike)
             query = query.join(User).filter(User.username.ilike(f"%{filter_player}%"))
             
         # 4. Sortierung anwenden
@@ -2860,7 +2836,7 @@ def api_tickets():
         elif sort_by == 'subject_desc':
             query = query.order_by(Ticket.subject.desc())
         else:
-            # Default: date_desc
+            # Standard: date_desc
             query = query.order_by(Ticket.created_at.desc())
 
         # 5. Paginierung ausführen
@@ -2875,7 +2851,7 @@ def api_tickets():
             else:
                 unread = ticket.messages.filter_by(sender_type='admin', read=False).count()
 
-            # Username holen (etwas robuster, falls User gelöscht wurde)
+            # Username holen
             username = ticket.user.username if ticket.user else "Unbekannt"
 
             tickets_data.append({
@@ -2912,7 +2888,7 @@ TICKET_CATEGORIES = [
 @app.route('/create_ticket', methods=['GET', 'POST'])
 @login_required
 def ticket_create():
-    # Formular zum Erstellen eines neuen Tickets und Logik zum Speichern.
+    """Erstellt ein neues Support-Ticket"""
     try:
         user = User.query.filter_by(username=session['username']).first()
         if not user:
@@ -2979,11 +2955,10 @@ def ticket_create():
         flash('Ein Fehler ist beim Speichern aufgetreten.', 'error')
         return redirect(url_for('tickets_overview'))
 
-
 @app.route('/ticket/<int:ticket_id>', methods=['GET', 'POST'])
 @login_required
 def ticket_detail(ticket_id):
-    # Tickets Chat
+    """Detailansicht eines Tickets mit Chat"""
     try:
         ticket = db.session.get(Ticket, ticket_id)
         if ticket is None:
@@ -3002,7 +2977,7 @@ def ticket_detail(ticket_id):
 
         # Nur die neuesten 20 Nachrichten laden
         initial_messages = ticket.messages.order_by(TicketMessage.created_at.desc()).limit(20).all()
-        # Liste umdrehen, damit sie chronologisch (alt -> neu) im Chat angezeigt werden
+        # Liste umdrehen, damit sie chronologisch (alt --> neu) im Chat angezeigt werden
         messages = list(reversed(initial_messages))
 
         target_sender_type = 'user' if is_admin else 'admin'
@@ -3063,16 +3038,16 @@ def ticket_detail(ticket_id):
         flash('Ein Fehler ist aufgetreten.', 'error')
         return redirect(url_for('tickets_overview'))
     
-# für das Nachladen älterer Nachrichten
 @app.route('/api/ticket/<int:ticket_id>/messages')
 @login_required
 def api_ticket_messages(ticket_id):
+    """API für paginierte Nachladen älterer Nachrichten"""
     try:
         ticket = db.session.get(Ticket, ticket_id)
         if not ticket:
             return jsonify({'error': 'Ticket not found'}), 404
             
-        # Berechtigung prüfen (wie oben)
+        # Berechtigung prüfen
         user = User.query.filter_by(username=session['username']).first()
         if ticket.user_id != user.id and not user.is_admin:
             return jsonify({'error': 'Unauthorized'}), 403
@@ -3083,7 +3058,7 @@ def api_ticket_messages(ticket_id):
         
         # Ältere Nachrichten holen (überspringe die ersten 'offset' Nachrichten)
         older_messages = ticket.messages.order_by(TicketMessage.created_at.desc())\
-                                      .offset(offset).limit(limit).all()
+            .offset(offset).limit(limit).all()
         
         # Umdrehen für chronologische Reihenfolge
         older_messages = list(reversed(older_messages))
@@ -3097,7 +3072,6 @@ def api_ticket_messages(ticket_id):
                 'sender_name': 'Support' if msg.sender_type == 'admin' else msg.sender_name,
                 'content': msg.content,
                 'created_at_iso': msg.created_at.isoformat() if msg.created_at else None,
-                # Für das Frontend formatieren wir das Datum hier oder nutzen JS
                 'created_at_formatted': msg.created_at.strftime('%H:%M') if msg.created_at else ''
             })
             
@@ -3145,8 +3119,6 @@ def toggle_ticket_status(ticket_id):
         
     return redirect(url_for('ticket_detail', ticket_id=ticket_id))
 
-
-# ÄNDERE DIE ADMIN-ROUTE ZUM LÖSCHEN - Nur für Admins
 @app.route('/admin/ticket/delete/<int:ticket_id>', methods=['POST'])
 @admin_required
 def admin_delete_ticket(ticket_id):
