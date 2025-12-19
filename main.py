@@ -1935,60 +1935,6 @@ def show_question():
         flash('Ein unerwarteter Fehler ist aufgetreten.', 'error')
         return redirect(url_for('homepage'))
 
-@app.route('/check_answer', methods=['POST'])
-@login_required
-@quiz_required 
-def check_answer():
-    """Überprüft eine Quiz-Antwort (AJAX-Endpunkt)"""
-    if request.method != 'POST':
-        abort(405)
-
-    try:
-        if 'quiz_data' not in session:
-            return jsonify({'error': 'Session expired'}), 400
-            
-        quiz_data = session['quiz_data']
-        current_index = quiz_data['current_index']
-        question_id = quiz_data['questions'][current_index]
-        question = db.session.get(Question, question_id)
-        
-        if not question:
-            return jsonify({'error': 'Question not found'}), 404
-            
-        user_answer = request.form.get('answer', '')
-        
-        is_correct = user_answer == question.true
-        
-        # Vereinfachte Punkteberechnung (da Timer über WebSocket läuft)
-        points_earned = 100 if is_correct else 0
-
-        if is_correct:
-            quiz_data['correct_count'] += 1
-
-        new_score = quiz_data['score'] + points_earned
-        quiz_data['score'] = new_score
-        quiz_data['answered'] = True
-
-        if current_index >= quiz_data['total_questions'] - 1:
-            quiz_data['completed'] = True
-
-        session['quiz_data'] = quiz_data
-        
-        return jsonify({
-            'is_correct': is_correct,
-            'correct_answer': question.true,
-            'points_earned': points_earned,
-            'current_score': new_score,
-            'is_last_question': (current_index >= quiz_data['total_questions'] - 1)
-        })
-    
-    except (SQLAlchemyError, OperationalError) as e:
-        print(f"Datenbankfehler in check_answer: {str(e)}")
-        return jsonify({'error': 'Datenbankfehler aufgetreten. Bitte versuche es später erneut.'}), 500
-    except Exception as e:
-        print(f"Unerwarteter Fehler in check_answer: {str(e)}")
-        return jsonify({'error': 'Ein unerwarteter Fehler ist aufgetreten.'}), 500
-
 @app.route('/next_question', methods=['POST'])
 @login_required
 @quiz_required 
