@@ -1,17 +1,23 @@
-/* scrollen */
+/* 📊 DB_STATS STYLING: Design für die Datenbank-Statistik-Seite */
+
+/* ================================================================
+   1. ALLGEMEINE EINSTELLUNGEN
+   ================================================================
+*/
+
 html, body {
+    /* Stellt sicher, dass Scrollen auf dieser Seite immer möglich ist */
     overflow: auto !important;
 }
 
-/* -------------------------
-   Titel
-------------------------- */
+/* Zentriert den Header-Bereich */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Hauptüberschrift mit leuchtendem Effekt (Neon-Look) */
 .db-title {
     font-size: 2.5rem;
     color: #ffffff;
@@ -20,14 +26,15 @@ html, body {
     text-align: center;
 }
 
-/* -------------------------
-   Container für Boxen
-------------------------- */
+/* ================================================================
+   2. LAYOUT-CONTAINER (Grid für die Boxen)
+   ================================================================
+*/
 .db-content {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Boxen springen in die nächste Zeile, wenn der Platz nicht reicht */
     gap: 2rem;
     width: 100%;
     max-width: 900px;
@@ -35,47 +42,54 @@ html, body {
     box-sizing: border-box;
 }
 
-/* -------------------------
-   Boxen für Statistiken
-------------------------- */
+/* ================================================================
+   3. STATISTIK-BOXEN (Karten-Design)
+   ================================================================
+*/
 .stat-box {
-    width: 300px;                /* feste Breite auf Desktop */
-    max-width: 100%;             /* nie größer als Bildschirm */
-    min-width: 250px;            /* Mindestbreite */
+    width: 300px;                /* Feste Breite auf Desktop-Monitoren */
+    max-width: 100%;             /* Verhindert, dass die Box breiter als der Bildschirm wird */
+    min-width: 250px;            /* Mindestbreite für gute Lesbarkeit */
     background: rgba(255,255,255,0.05);
     padding: 1.5rem;
     border-radius: 12px;
+    /* Rahmen und Schatten zur Abhebung vom Hintergrund */
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Text oben */
+    justify-content: flex-start;
+    /* Sanfter Übergang beim Hovern */
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
+/* Interaktion: Box hebt sich leicht an, wenn man mit der Maus darüberfährt */
 .stat-box:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.35);
 }
 
-/* Überschriften & Inhalte */
+/* Titel innerhalb der Statistik-Box */
 .stat-box h2 {
     font-size: 1.5rem;
     margin: 0 0 0.8rem 0;
     color: #8e2de2;
 }
 
+/* Styling für die Fragenanzahl */
 .stat-number {
     font-size: 2rem;
     font-weight: bold;
     color: #ffffff;
 }
 
+/* Entfernt Aufzählungspunkte der <ul> aus dem HTML */
 .topic-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* Einzelne Zeilen */
 .topic-list li {
     margin: 0.4rem 0;
 }
@@ -87,15 +101,17 @@ html, body {
     color: #f0f4f8;
 }
 
-/* -------------------------
-   Buttons
-------------------------- */
+/* ================================================================
+   4. NAVIGATION (Zurück-Button)
+   ================================================================
+*/
 .link-content {
     display: flex;
     justify-content: center;
     margin: 2rem auto;
 }
 
+/* Der Button zum Admin-Panel mit Farbverlauf */
 .db-button {
     display: block;
     width: 250px;
@@ -116,9 +132,12 @@ html, body {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* -------------------------
-   Media Queries (Responsiv)
-------------------------- */
+/* ================================================================
+   5. RESPONSIVE DESIGN (Anpassung für Tablets und Smartphones)
+   ================================================================
+*/
+
+/* Tablets und schmale Desktops */
 @media (max-width: 950px) {
     .db-content {
         flex-direction: column; /* Boxen untereinander */
@@ -128,8 +147,8 @@ html, body {
     }
 
     .stat-box {
-        width: 80%;   /* passt sich wie Button an */
-        min-width: 0; /* schrumpfen möglich */
+        width: 80%;   /* Nutzt mehr Breite auf kleineren Bildschirmen */
+        min-width: 0; 
     }
 
     .db-title {
@@ -141,13 +160,14 @@ html, body {
     }
 }
 
+/* Kleine Smartphones */
 @media (max-width: 500px) {
     .db-title {
         font-size: 1.5rem;
     }
 
     .stat-box {
-        width: 90%;
+        width: 90%; /* Maximale Platzausnutzung */
         padding: 1rem;
     }
 
