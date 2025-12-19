@@ -1,3 +1,11 @@
+/* styles_evaluate.css - Auswertungsfenster nach Quiz */
+
+/* ==========================================================================
+   BASIS-STYLING & SCROLLBAR
+   ========================================================================== 
+*/
+
+/* Definiert das globale Erscheinungsbild der Seite */
 body {
     min-height: 100dvh;
     display: flex;
@@ -6,20 +14,24 @@ body {
     box-sizing: border-box; 
     overflow-x: hidden;
     margin: 0;
+    /* Farben für die Scrollbar in Firefox */
     scrollbar-width: thin;
     scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
 }
 
+/* Gestaltet den vertikalen Scrollbalken für Chrome, Edge und Safari */
 body::-webkit-scrollbar {
     width: 6px;
 }
 
+/* Hintergrund-Schiene der Scrollbar */
 body::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.06);
     border-radius: 8px;
     margin: 4px 0;
 }
 
+/* Der bewegliche Teil der Scrollbar */
 body::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
     border-radius: 8px;
@@ -36,6 +48,12 @@ body::-webkit-scrollbar-corner {
     border-radius: 8px;
 }
 
+/* ==========================================================================
+   2. HAUPTCONTAINER (AUSWERTUNGS-KARTE)
+   ========================================================================== 
+*/
+
+/* Die Karte, die alle Ergebnisse umschließt */
 .evaluate-container {
     width: 90%;
     max-width: 800px;
@@ -56,6 +74,10 @@ body::-webkit-scrollbar-corner {
     flex-shrink: 0; /* Verhindert unschönes Schrumpfen bei sehr kleinem Viewport */
 }
 
+/* ==========================================================================
+   3. HEADER MIT AVATAR & USERNAME
+   ========================================================================== 
+*/
 
 /* 🎯 User Header mit Avatar */
 .user-header {
@@ -66,6 +88,7 @@ body::-webkit-scrollbar-corner {
     flex-shrink: 0; 
 }
 
+/* Container für Avatar und Texte nebeneinander */
 .avatar-section {
     display: flex;
     align-items: center;
@@ -74,6 +97,7 @@ body::-webkit-scrollbar-corner {
     margin-bottom: 15px;
 }
 
+/* Das große Profilbild */
 .user-avatar-large {
     width: 90px;
     height: 90px;
@@ -85,11 +109,13 @@ body::-webkit-scrollbar-corner {
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* Interaktion beim Drüberfahren */
 .user-avatar-large:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
 }
 
+/* Name des Spielers */
 .user-info h2 {
     margin: 0;
     font-size: 2rem;
@@ -98,6 +124,7 @@ body::-webkit-scrollbar-corner {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Untertitel "Quiz abgeschlossen" */
 .quiz-completion {
     color: #4ecdc4;
     font-size: 1.2rem;
@@ -111,6 +138,12 @@ body::-webkit-scrollbar-corner {
     flex-shrink: 0; 
 }
 
+/* ==========================================================================
+   4. SCORE-KREIS (WASSER-ANIMATION)
+   ========================================================================== 
+*/
+
+/* Der Bereich mit dem Kreis und der Punkteanzahl */
 .score-section {
     display: flex;
     justify-content: center;
@@ -264,6 +297,7 @@ body::-webkit-scrollbar-corner {
     pointer-events: none;
 }
 
+/* Text in der Mitte des Kreises */
 .score-number {
     font-size: 3rem;
     font-weight: bold;
@@ -310,6 +344,12 @@ body::-webkit-scrollbar-corner {
     flex-shrink: 0; 
 }
 
+/* ==========================================================================
+   5. PERFORMANCE-RATING (FEEDBACK)
+   ========================================================================== 
+*/
+
+/* Feedback-Karte (z.B. "Perfektes Ergebnis!") */
 .rating {
     display: flex;
     align-items: center;
@@ -322,11 +362,13 @@ body::-webkit-scrollbar-corner {
     margin-bottom: 20px;
 }
 
+/* Wenn man mit der Maus über die Bewertung fährt */
 .rating:hover {
-    transform: translateX(10px);
-    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(10px); /* Schiebt die Karte sanft nach rechts */
+    background: rgba(255, 255, 255, 0.12); /* Wird etwas heller */
 }
 
+/* Spezifische Farben für die Erfolgsstufen */
 .rating.perfect {
     border-left-color: #ffd700;
 }
@@ -416,7 +458,12 @@ body::-webkit-scrollbar-corner {
     text-shadow: 0 0 10px rgba(255, 7, 58, 0.7); 
 }
 
-/* 🔘 Aktions-Buttons */
+/* ==========================================================================
+   6. NAVIGATION-BUTTONS
+   ========================================================================== 
+*/
+
+/* Bereich für die Buttons am Ende der Seite */
 .action-buttons {
     display: flex;
     justify-content: center;   
@@ -436,6 +483,7 @@ body::-webkit-scrollbar-corner {
     margin-top: auto;
 }
 
+/* Grunddesign aller Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -459,16 +507,19 @@ body::-webkit-scrollbar-corner {
     max-width: 100%;          
 }
 
+/* Spezifischer Verlauf für den Ranking-Button */
 .ranking-btn {
     background: linear-gradient(135deg, #ffd700, #ff6b00);
     color: white;
 }
 
+/* Spezifischer Verlauf für den Home-Button */
 .home-btn {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
 }
 
+/* Effekt beim Hovern der Buttons */
 .btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
@@ -477,7 +528,12 @@ body::-webkit-scrollbar-corner {
 .ranking-btn:hover { background: linear-gradient(135deg, #f5b041, #e67e22); }
 .home-btn:hover { background: linear-gradient(135deg, #7a1fd1, #3a00b3); }
 
-/* 🎭 Animationen */
+/* ==========================================================================
+   7. KEYFRAMES (ANIMATIONEN)
+   ========================================================================== 
+*/
+
+/* Rahmen-Animation: Schiebt den Hintergrund-Gradienten hin und her */
 @keyframes gradientFlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -490,7 +546,7 @@ body::-webkit-scrollbar-corner {
     100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
 }
 
-/* Keyframes: Wellen bewegen sich horizontal und leicht vertikal */
+/* Wellen bewegen sich horizontal und leicht vertikal */
 @keyframes waveMove1 {
   0%   { transform: translateX(0%) translateY(0) scaleX(2); }
   50%  { transform: translateX(-30%) translateY(-6%) scaleX(2); }
@@ -502,6 +558,7 @@ body::-webkit-scrollbar-corner {
   100% { transform: translateX(-70%) translateY(0) scaleX(1.6); }
 }
 
+/* Bewegung der Blasen von unten nach oben */
 @keyframes bubbleRiseLinear {
   from {
     transform: translate3d(var(--bubble-wobble, 0px), 0, 0) scale(var(--bubble-scale, 1));
@@ -521,7 +578,12 @@ body::-webkit-scrollbar-corner {
   }
 }
 
-/* 📱 Responsive Design (MODIFIZIERT) */
+/* ==========================================================================
+   8. RESPONSIVE DESIGN (MOBILE OPTIMIERUNG)
+   ========================================================================== 
+*/
+
+/* Anpassungen für Tablets und Smartphones */
 @media (max-width: 768px) {
     .evaluate-container {
         width: 95%;
@@ -597,6 +659,7 @@ body::-webkit-scrollbar-corner {
     }
 }
 
+/* Anpassungen für kleine Smartphones */
 @media (max-width: 480px) {
     body {
         /* Padding für Mobile anpassen */
