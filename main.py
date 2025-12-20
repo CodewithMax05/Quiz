@@ -400,17 +400,21 @@ def add_cache_headers(response):
 
 def initialize_database():
     """Erstellt Tabellen und importiert neue Fragen bei jedem Start"""
+
     # Verhindere doppelte Ausführung im Reloader
+    # Dies verhindert, dass die Datenbank zweimal initialisiert wird
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
         print("⏩ Überspringe Datenbankinitialisierung im Reloader")
         return
 
+    # Verwende den App-Kontext, da Datenbankoperationen außerhalb der App nicht erlaubt sind
     with app.app_context():
         try:
             # Tabellen erstellen
             db.create_all()
             
             print("Prüfe auf neue Fragen...")
+            # Liste aller verfügbaren Themenkategorien
             categories = [
                 'wirtschaft', 'technologie', 'sprache', 'promis', 
                 'sport', 'natur', 'musik', 'glauben', 'kunst', 
@@ -420,8 +424,9 @@ def initialize_database():
             
             # Pfad zum CSV-Ordner
             csv_folder = os.path.join(os.path.dirname(__file__), 'csv')
-            total_imported = 0
+            total_imported = 0 # Zähler für importierte Fragen
             
+            # Für jede Kategorie CSV-Datei durchsuchen und Fragen importieren
             for category in categories:
                 # Pfad zur CSV-Datei im Unterordner
                 csv_file = os.path.join(csv_folder, f'fragen_{category}.csv')
@@ -430,32 +435,40 @@ def initialize_database():
                     print(f"⚠️ Datei nicht gefunden: {csv_file}")
                     continue
                     
-                imported = 0
+                imported = 0 # Zähler für diese Kategorie
                 try:
                     # UTF-8-SIG für BOM-Behandlung verwenden
                     with open(csv_file, 'r', encoding='utf-8-sig') as file:
+
+                        # CSV als Dictionary lesen mit Semikolon als Trennzeichen
                         reader = csv.DictReader(file, delimiter=';')
+
+                        # Erforderliche Spalten in der CSV-Datei
                         required_keys = ['subject', 'question', 'true', 'wrong1', 'wrong2', 'wrong3']
                         
+                        # Jede Zeile (Frage) in der CSV-Datei verarbeiten
                         for row in reader:
-                            # Sicherstellen, dass alle Spalten vorhanden und nicht leer sind
+                            # Validierung: Sind alle erforderlichen Spalten vorhanden?
                             if not all(key in row for key in required_keys):
-                                continue
+                                continue # Zeile überspringen, falls Spalten fehlen
                                 
+                            # Validierung: Sind alle Werte nicht-leer?
                             if any(not row[key].strip() for key in required_keys):
-                                continue
+                                continue  # Zeile überspringen, falls Werte leer
                                 
-                            # Daten bereinigen
-                            subject_lower = row['subject'].strip().lower()
-                            question_text = row['question'].strip()
-                            true_answer = row['true'].strip()
-                            wrong1 = row['wrong1'].strip()
-                            wrong2 = row['wrong2'].strip()
-                            wrong3 = row['wrong3'].strip()
+                            # Daten bereinigen (Leerzeichen entfernen)
+                            subject_lower = row['subject'].strip().lower()  # Thema in Kleinbuchstaben
+                            question_text = row['question'].strip()  # Fragetext
+                            true_answer = row['true'].strip()  # Richtige Antwort
+                            wrong1 = row['wrong1'].strip()  # Falsche Antwort 1
+                            wrong2 = row['wrong2'].strip()  # Falsche Antwort 2
+                            wrong3 = row['wrong3'].strip()  # Falsche Antwort 3
                             
-                            # Prüfen ob Frage bereits existiert
+                            # Prüfen ob Frage bereits in der Datenbank existiert
+                            # Verhindert Duplikate bei wiederholtem Import
                             existing = Question.query.filter_by(question=question_text).first()
                             if not existing:
+                                # Neue Frage-Instanz erstellen
                                 new_question = Question(
                                     subject=subject_lower,
                                     question=question_text,
@@ -464,13 +477,14 @@ def initialize_database():
                                     wrong2=wrong2,
                                     wrong3=wrong3
                                 )
-                                db.session.add(new_question)
-                                imported += 1
+                                db.session.add(new_question)  # Zur Session hinzufügen
+                                imported += 1  # Zähler erhöhen
                     
+                    # Änderungen nur committen, wenn neue Fragen importiert wurden
                     if imported > 0:
-                        db.session.commit()
+                        db.session.commit()  # Alle neuen Fragen auf einmal speichern
                         print(f"✅ {category}: {imported} neue Fragen importiert")
-                        total_imported += imported
+                        total_imported += imported  # Gesamtzähler aktualisieren
                     else:
                         print(f"ℹ️ {category}: Keine neuen Fragen gefunden")
                         
@@ -500,20 +514,25 @@ def initialize_database():
                 {'username': 'Seelenlose', 'password': '#12345', 'highscore': 1000, 'highscore_time': datetime(2025, 10, 4, tzinfo=timezone.utc), 'correct_high': 12}
             ]
 
-            added_users = 0
+            added_users = 0 # Zähler für neue Benutzer
+
             for user_data in test_users:
+                # Prüfen ob Benutzer bereits existiert
                 user = User.query.filter_by(username=user_data['username']).first()
+
                 if not user:
+                    # Neuen Benutzer erstellen
                     new_user = User(
                         username=user_data['username'],
                         highscore=user_data['highscore'],
                         highscore_time=user_data['highscore_time'],
-                        correct_high=user_data.get('correct_high', 0),
+                        correct_high=user_data.get('correct_high', 0), # Standardwert falls nicht vorhanden
                         first_played=user_data.get('first_played', datetime.now(timezone.utc))  # Erstes Spiel setzen
                     )
-                    new_user.set_password(user_data['password'])
+                    new_user.set_password(user_data['password']) # Passwort hashen und speichern
                     db.session.add(new_user)
                     added_users += 1
+
                 # Existierenden Benutzer aktualisieren, falls notwendig
                 elif user.highscore != user_data['highscore']:
                     user.highscore = user_data['highscore']
@@ -521,13 +540,16 @@ def initialize_database():
                     if not user.first_played:
                         user.first_played = user_data['highscore_time']
             
+            # Commit nur wenn neue Benutzer hinzugefügt wurden
             if added_users > 0:
                 db.session.commit()
                 print(f"✅ {added_users} Testbenutzer hinzugefügt/aktualisiert")
             else:
                 print("ℹ️ Keine neuen Testbenutzer benötigt")
 
+            # TEST-NEWS EINTRÄGE ANLEGEN
             print("Prüfe Test-News...")
+            # Liste von News-Einträgen für die Anwendung
             test_news = [
                 # 1. News: Bedanken für Feedback (20.12.2025)
                 {
@@ -586,11 +608,13 @@ def initialize_database():
                 },
             ]
 
-            added_news = 0
+            added_news = 0 # Zähler für neue News
+
             for news_data in test_news:
                 # Prüfen ob News bereits existiert (anhand des Titels)
                 existing = News.query.filter_by(title=news_data['title']).first()
                 if not existing:
+                    # Neuen News-Eintrag erstellen
                     new_news = News(
                         title=news_data['title'],
                         content=news_data['content'],
@@ -599,17 +623,22 @@ def initialize_database():
                     db.session.add(new_news)
                     added_news += 1
 
+            # Commit nur wenn neue News hinzugefügt wurden
             if added_news > 0:
                 db.session.commit()
                 print(f"✅ {added_news} Test-News hinzugefügt")
             else:
                 print("ℹ️ Keine neuen Test-News benötigt")
 
+            # ADMIN-BENUTZER ERSTELLEN
+            # Admin-Zugangsdaten aus Umgebungsvariablen holen (oder Standardwerte verwenden)
             admin_username = os.environ.get('ADMIN_USERNAME', 'AdminZugang')
             admin_password = os.environ.get('ADMIN_PASSWORD', 'adminzugang')
 
+            # Prüfen ob Admin bereits existiert
             admin_user = User.query.filter_by(username=admin_username).first()
             if not admin_user:
+                # Neuen Admin-Benutzer erstellen
                 admin_user = User(
                     username=admin_username,
                     is_admin=True,
@@ -627,6 +656,7 @@ def initialize_database():
             print(f"❌❌ KRITISCHER FEHLER: {str(e)}")
 
 # Initialisierung nur im Hauptprozess durchführen
+# Verhindert doppelte Ausführung durch Flask-Entwicklungsserver-Reloader
 if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     initialize_database()
 
