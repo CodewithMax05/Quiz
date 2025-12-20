@@ -1,9 +1,8 @@
 /* styles_add_question.css - Design für das Formular zum Hinzufügen von Fragen */
 
-/* ================================================================
-   1. BASIS & LAYOUT
-   Grundgerüst der Seite und Positionierung
-   ================================================================
+/* ================
+   1. BASIS LAYOUT
+   ================
 */
 
 body {
@@ -13,7 +12,6 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Hinweis: Hintergrundfarbe/Bild kommt global aus der styles_base.css */
 }
 
 .page-wrapper {
@@ -32,7 +30,7 @@ body {
 
 .form-container {
     width: 100%;
-    /* Verhindert, dass das Formular auf Desktop-Bildschirmen zu breit und unleserlich wird */
+    /* Verhindert, dass das Formular zu breit und unleserlich wird */
     max-width: 700px; 
     margin: auto;
 }
@@ -74,18 +72,15 @@ body {
 }
 
 /* 5. Fokus-Status explizit für Autocomplete-Felder überschreiben */
-/* Hier nutzen wir deine blauen Farben aus .admin-input:focus */
 .admin-input:-webkit-autofill:focus {
     border-color: rgba(0, 180, 255, 0.7) !important;
     box-shadow: 0 0 0 0.2rem rgba(0, 180, 255, 0.25) !important;
 }
 
-/* ================================================================
-   2. KARTEN-DESIGN (Admin Card)
-   Styling des Containers, der die Formularfelder umschließt
-   ================================================================
+/* =================
+   2. KARTEN-DESIGN
+   =================
 */
-
 
 .admin-card {
     /* Glassmorphism-Effekt: Leicht transparentes Weiß */
@@ -120,10 +115,9 @@ body {
     color: white;
 }
 
-/* ================================================================
+/* ===================
    3. FORMULAR-STILE
-   Eingabefelder, Labels und Dropdowns
-   ================================================================
+   ===================
 */
 
 /* Standard-Eingabefelder (Input & Textarea) */
@@ -174,10 +168,9 @@ body {
 }
 
 
-/* ================================================================
-   4. THEMEN-AUSWAHL (RADIO-BUTTONS)
-   Gitter-Layout für die Quiz-Themen
-   ================================================================
+/* ==================
+   4. THEMEN-AUSWAHL
+   ==================
 */
 
 
@@ -240,10 +233,9 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
 }
 
-/* ================================================================
-   5. SPEZIAL-EFFEKTE (Buttons & Animationen)
-   Hervorhebung des Speicher-Buttons
-   ================================================================
+/* =========================
+   5. Buttons & Animationen
+   =========================
 */
 
 /* Der "Frage hinzufügen"-Button */
@@ -272,10 +264,9 @@ body {
    100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0); }
 }
 
-/* ================================================================
-   6. RESPONSIVE ANPASSUNGEN
-   Optimierung für verschiedene Bildschirmgrößen
-   ================================================================
+/* =====================
+   6. RESPONSIVE DESIGN
+   =====================
 */
 
 /* Laptops & große Tablets: Themen-Gitter wird auf 3 Spalten reduziert */
