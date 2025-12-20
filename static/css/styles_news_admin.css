@@ -1,4 +1,11 @@
-/* Grundlegendes Layout wie Settings */
+/* styles_news_admin.css - Admin-Bereich für News-Verwaltung */
+
+/* ================
+   1. BASIS-LAYOUT
+   ================
+*/
+
+/* Haupt-Wrapper für zentriertes Layout */
 .page-wrapper {
     min-height: 100vh;
     display: flex;
@@ -6,21 +13,28 @@
     align-items: flex-start;
     padding: 20px 10px;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow-y: auto; /* Ermöglicht Scrollen bei langen Listen */
 }
 
+/* Hauptcontainer mit Glas-Effekt und Schatten */
 .container {
     background: rgba(15, 32, 39, 0.45);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px); /* Glas-Effekt */
     border-radius: 20px;
     padding: 20px;
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     width: 900px;
-    max-width: 100%;
-    box-sizing: border-box;
+    max-width: 100%; /* Responsive Begrenzung */
+    box-sizing: border-box; /* Padding in Breite einbeziehen */
 }
 
+/* ===============
+   2. KOPFBEREICH
+   ===============
+*/
+
+/* Hauptüberschrift der Seite */
 h1.headline {
     font-size: 2.2rem;
     font-weight: 400;
@@ -29,9 +43,14 @@ h1.headline {
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
 }
 
-/* Neue Formatierungs-Info-Box Styles */
+/* ==========================
+   3. FORMATIERUNGS-INFO-BOX
+   ==========================
+*/
+
+/* Container für Formatierungshinweise */
 .formatting-info-box {
-    background: rgba(0, 170, 255, 0.15); /* Helles Blau, um es abzuheben */
+    background: rgba(0, 170, 255, 0.15); /* Helles Blau für Abhebung */
     border: 1px solid rgba(0, 170, 255, 0.4);
     border-radius: 10px;
     padding: 15px;
@@ -42,45 +61,54 @@ h1.headline {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+/* Absatz in der Info-Box */
 .formatting-info-box p {
     margin: 0 0 10px 0;
     font-size: 1rem;
 }
 
+/* Liste der HTML-Tags */
 .formatting-info-box ul {
-    list-style: none;
+    list-style: none; /* Entfernt Standard-Aufzählungszeichen */
     padding: 0;
     margin: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px 20px;
+    flex-wrap: wrap; /* Bei vielen Items Umbruch */
+    gap: 10px 20px; /* Abstand zwischen Items */
 }
 
+/* Einzelne Tag-Items */
 .formatting-info-box li {
     background: rgba(255, 255, 255, 0.1);
     padding: 5px 10px;
     border-radius: 5px;
-    font-family: monospace;
+    font-family: monospace; /* Code-ähnliche Darstellung */
 }
 
+/* Code-Snippets innerhalb der Tags */
 .formatting-info-box code {
     background: none;
-    color: #ffc107; /* Gelb für die Code-Snippets */
+    color: #ffc107; /* Gelb für gute Sichtbarkeit */
     font-weight: bold;
 }
-/* Ende Formatierungs-Info-Box Styles */
 
+/* ====================
+   4. ADMIN NEWS LISTE
+   ====================
+*/
 
-/* Admin News Liste */
+/* Container für alle News-Einträge */
 .admin-news-list {
     text-align: left;
     margin: 20px 0;
 }
 
+/* Einzelner News-Eintrag */
 .admin-news-item {
     margin-bottom: 15px;
 }
 
+/* Toggle-Button zum Öffnen/Schließen des Akkordeons */
 .admin-news-toggle {
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
@@ -94,45 +122,52 @@ h1.headline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background 0.3s;
+    transition: background 0.3s; /* Sanfter Hover-Effekt */
 }
 
+/* Hover-Effekt für Toggle-Button */
 .admin-news-toggle:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* Aktiver (geöffneter) Zustand */
 .admin-news-toggle.active {
     background: rgba(0, 170, 255, 0.3);
 }
 
+/* Titel im Toggle-Button */
 .news-admin-title {
     font-weight: bold;
-    flex: 1;
+    flex: 1; /* Nimmt verfügbaren Platz ein */
     text-align: left;
 }
 
+/* Datum im Toggle-Button */
 .news-admin-date {
     margin: 0 15px;
-    color: #ccc;
+    color: #ccc; /* Dezentere Farbe für sekundäre Info */
     font-size: 0.9rem;
 }
 
+/* Versteckter Inhaltsbereich (Akkordeon-Inhalt) */
 .admin-news-content {
-    max-height: 0;
+    max-height: 0; /* Startet geschlossen */
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: max-height 0.4s ease; /* Sanfte Animation */
     background: rgba(255, 255, 255, 0.05);
     margin-top: 5px;
     border-radius: 10px;
 }
 
+/* Formular innerhalb des Akkordeons */
 .admin-news-content form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 15px; /* Abstand zwischen Formularfeldern */
     padding: 20px;
 }
 
+/* Gemeinsame Stile für Eingabefelder */
 .admin-news-content input,
 .admin-news-content textarea {
     width: 100%;
@@ -141,23 +176,30 @@ h1.headline {
     border: none;
     outline: none;
     box-sizing: border-box;
-    background: white !important;
-    color: black !important;
-    font-family: inherit;
+    background: white !important; /* Sicherstellen, dass Hintergrund weiß ist */
+    color: black !important; /* Sicherstellen, dass Text schwarz ist */
+    font-family: inherit; /* Vererbt Schriftart */
 }
 
+/* Spezifisches Styling für Textarea */
 .admin-news-content textarea {
-    resize: vertical;
-    min-height: 120px;
+    resize: vertical; /* Nur vertikales Resizing erlauben */
+    min-height: 120px; /* Mindesthöhe für Text */
 }
 
-/* Admin Actions */
+/* ============================
+   5. ADMIN AKTIONEN (Buttons)
+   ============================
+*/
+
+/* Container für Action-Buttons */
 .admin-news-actions {
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    gap: 10px; /* Abstand zwischen Buttons */
+    justify-content: flex-end; /* Rechtsbündig ausrichten */
 }
 
+/* Grundlegendes Button-Styling */
 .btn-create,
 .btn-edit,
 .btn-delete {
@@ -166,48 +208,55 @@ h1.headline {
     border: none;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s;
+    transition: all 0.3s; /* Sanfte Übergänge für alle Eigenschaften */
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 8px; /* Abstand zwischen Icon und Text */
 }
 
+/* Spezifische Button-Farben */
 .btn-create {
-    background-color: #28a745;
+    background-color: #28a745; /* Grün für Erstellen */
     color: white;
-    width: 100%;
+    width: 100%; /* Volle Breite im Erstellungsformular */
     justify-content: center;
 }
 
 .btn-create:hover {
-    background-color: #218838;
+    background-color: #218838; /* Dunkleres Grün für Hover */
 }
 
 .btn-edit {
-    background-color: #ffc107;
+    background-color: #ffc107; /* Gelb für Bearbeiten */
     color: black;
 }
 
 .btn-edit:hover {
-    background-color: #e0a800;
+    background-color: #e0a800; /* Dunkleres Gelb für Hover */
 }
 
 .btn-delete {
-    background-color: #dc3545;
+    background-color: #dc3545; /* Rot für Löschen */
     color: white;
 }
 
 .btn-delete:hover {
-    background-color: #c82333;
+    background-color: #c82333; /* Dunkleres Rot für Hover */
 }
 
-/* Back Button */
+/* =================
+   6. ZURÜCK-BUTTON
+   =================
+*/
+
+/* Container für Zurück-Button */
 .link-content {
     display: flex;
     justify-content: center;
     margin-top: 25px;
 }
 
+/* Styling des Zurück-Buttons */
 .back-button1 {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -221,45 +270,52 @@ h1.headline {
     display: inline-block;
 }
 
+/* Hover-Effekt für Zurück-Button */
 .back-button1:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    transform: translateY(-2px); /* Leichter Lift-Effekt */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4); /* Verstärkter Schatten */
 }
 
-/* Responsive Design */
+/* =====================
+   7. RESPONSIVE DESIGN
+   =====================
+*/
+
+/* Tablet-Ansicht (max. 768px) */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 15px; /* Weniger Padding auf kleineren Bildschirmen */
     }
     
     .admin-news-toggle {
         padding: 12px 15px;
-        font-size: 0.9rem;
+        font-size: 0.9rem; /* Kleinere Schrift */
     }
     
     .news-admin-date {
         margin: 0 10px;
-        font-size: 0.8rem;
+        font-size: 0.8rem; /* Kleinere Datumsanzeige */
     }
     
     .admin-news-actions {
-        flex-direction: column;
+        flex-direction: column; /* Buttons untereinander stapeln */
     }
     
     .formatting-info-box ul {
-        flex-direction: column;
+        flex-direction: column; /* Tags untereinander anzeigen */
         gap: 8px;
     }
 }
 
+/* Mobile-Ansicht (max. 480px) */
 @media (max-width: 480px) {
     .admin-news-toggle {
-        flex-direction: column;
+        flex-direction: column; /* Titel und Datum untereinander */
         align-items: flex-start;
     }
     
     .news-admin-date {
-        margin: 5px 0 0 0;
-        align-self: flex-end;
+        margin: 5px 0 0 0; /* Abstand nach oben */
+        align-self: flex-end; /* Rechts ausrichten */
     }
 }

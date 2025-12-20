@@ -1,8 +1,8 @@
 /* styles_ticket_create.css - Stylesheet für Ticketerstellen */
 
-/* ============
+/* =============
    BASIS LAYOUT
-   ============ 
+   =============
 */
 
 /* Globale Variablen */
@@ -22,9 +22,9 @@ html, body {
     display: block !important;
 }
 
-/* =======================================
-   CHROME AUTOCOMPLETE FIX
-   ======================================= 
+/* ====================
+   CHROME AUTOCOMPLETE
+   ====================
 */
 
 /* Verhindert, dass Chrome Autocomplete-Felder gelb/blau einfärbt */
@@ -40,7 +40,7 @@ html, body {
 .form-textarea:-webkit-autofill:hover, 
 .form-textarea:-webkit-autofill:focus, 
 .form-textarea:-webkit-autofill:active {
-    /* 1. Schriftfarbe Weiß/Hell erzwingen (SEHR WICHTIG) */
+    /* 1. Schriftfarbe Weiß/Hell erzwingen */
     -webkit-text-fill-color: #f0f4f8 !important;
     color: #f0f4f8 !important;
     
@@ -54,7 +54,7 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-/* 5. Fokus-Status explizit für Autocomplete-Felder überschreiben (Dein Lila) */
+/* 5. Fokus-Status explizit für Autocomplete-Felder überschreiben */
 .form-input:-webkit-autofill:focus,
 .form-select:-webkit-autofill:focus,
 .form-textarea:-webkit-autofill:focus {
@@ -84,7 +84,7 @@ html, body {
     background: rgba(15, 32, 39, 0.65);
     backdrop-filter: blur(15px);
     border-radius: 20px;
-    padding: 0; /* Padding innen regeln wir über Flex-Children */
+    padding: 0;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     
     width: 800px; /* Angenehme Breite für Formulare */
@@ -98,9 +98,9 @@ html, body {
     overflow: hidden; /* Damit Ecken abgerundet bleiben */
 }
 
-/* =======================================
+/* ==========
    1. HEADER
-   ======================================= 
+   ==========
 */
 
 /* Kopfbereich des Formulars */
@@ -121,9 +121,9 @@ html, body {
     text-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
-/* =======================================
+/* =============================
    2. SCROLLBEREICH (Formular)
-   ======================================= 
+   =============================
 */
 
 /* Der scrollbare Mittelteil */
@@ -251,9 +251,9 @@ html, body {
     font-style: italic;
 }
 
-/* =======================================
+/* ====================
    3. FOOTER (Buttons)
-   ======================================= 
+   ====================
 */
 
 /* Fußbereich mit Buttons */
@@ -311,9 +311,9 @@ html, body {
     box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
 }
 
-/* =======================================
+/* ======================
    4. RESPONSIVE DESIGN
-   ======================================= 
+   ======================
 */
 
 /* Anpassungen für Tablets/Mobile */

@@ -1,21 +1,19 @@
 /* styles_tickets.css - Stylesheet für Ticketübersicht */
 
-/* =======================================
-   BASIS LAYOUT
-   Hier werden globale Variablen und das Grundgerüst definiert.
-   ======================================= 
+/* =============
+   1. BASIS LAYOUT
+   =============
 */
 
 :root {
     --extra-gap: 20px;
-    /* Safe-Area sorgt dafür, dass auf modernen Handys (z.B. iPhone mit Notch) nichts verdeckt wird */
     --safe-area-top: env(safe-area-inset-top, 15px);
     --safe-area-bottom: env(safe-area-inset-bottom, 15px);
     --safe-area-left: env(safe-area-inset-left, 15px);
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
-/* Grundeinstellung für HTML/Body: Verhindert Scrollen auf dem Body selbst, fixiert Höhe */
+/* Verhindert Scrollen auf dem Body selbst, fixiert Höhe */
 html, body {
     height: 100dvh !important;
     min-height: 100dvh !important;
@@ -43,7 +41,7 @@ html, body {
 /* Der Haupt-Glas-Container - Das ist die große Box in der Mitte mit dem Milchglas-Effekt.*/
 .container {
     background: rgba(15, 32, 39, 0.65);
-    backdrop-filter: blur(15px); /* Der "Milchglas"Effekt hinter der Box */
+    backdrop-filter: blur(15px);
     border-radius: 20px;
     padding: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
@@ -59,12 +57,6 @@ html, body {
     min-height: 0;
 }
 
-/* =======================================
-   1. ÜBERSCHRIFT ("Support Tickets")
-   ======================================= 
-*/
-
-/* Styling für den Titel "Support Tickets" ganz oben */
 .support-title {
     font-size: 2.2rem;
     font-weight: 400;
@@ -75,9 +67,9 @@ html, body {
     flex-shrink: 0;
 }
 
-/* =======================================
-   2. BUTTONS & FILTER (Obere Leiste)
-   ======================================= 
+/* ====================
+   2. BUTTONS & FILTER
+   ====================
 */
 
 /* Container für die gesamte obere Leiste */
@@ -96,13 +88,13 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Gruppiert Buttons (z.B. "Zurück" oder "Erstellen") */
+/* Gruppiert Buttons */
 .button-group {
     display: flex;
     gap: 10px;
 }
 
-/* Falls Suchfeld in button-group ist (für Admin), feste Breite auf Desktop */
+/* Falls Suchfeld in button-group ist (für Admin), feste Breite */
 .button-group .search-wrapper .filter-input {
     width: 200px; 
     height: 38px;
@@ -175,7 +167,7 @@ html, body {
     white-space: nowrap;
 }
 
-/* Spezielles Styling für den "Zurück"-Button (Transparent/Rahmen) */
+/* Spezielles Styling für den "Zurück"-Button */
 .back-button {
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -188,7 +180,7 @@ html, body {
     transform: translateY(-2px);
 }
 
-/* Spezielles Styling für "Erstellen"-Button (Lila Verlauf) */
+/* Spezielles Styling für "Erstellen"-Button */
 .create-button {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -210,9 +202,9 @@ html, body {
     opacity: 0.7;
 }
 
-/* =======================================
-   3. TICKET LISTE (Scroll Bereich)
-   ======================================= 
+/* ================
+   3. TICKET LISTE
+   ================
 */
 
 /* Der Bereich, der die Tabelle enthält und scrollbar ist */
@@ -384,9 +376,9 @@ html, body {
     font-size: 1.1rem;
 }
 
-/* =======================================
-   5. RESPONSIVE DESIGN (Mobile Ansicht)
-   ======================================= 
+/* =====================
+   5. RESPONSIVE DESIGN
+   =====================
 */
 
 /* Ab Tablets und kleiner (768px) */

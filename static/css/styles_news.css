@@ -1,133 +1,114 @@
-/* =======================================
-   WICHTIG: Safe-Areas & Dynamische Höhe (dvh)
-   (ANGEPASST VON styles_settings.css)
-   ======================================= */
+/* styles_news.css - News-Ansicht */
 
-/* Definiere die Haupt-Viewport-Elemente */
-html, body {
-    /* Erzwinge die dynamische Viewport-Höhe (löst das 100vh-Problem auf mobilen Geräten) */
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    /* Verhindere, dass body scrollt, der Wrapper übernimmt das bei Bedarf */
-    overflow: hidden !important; 
-    /* Basis-Anzeige bleibt erhalten */
-    display: block !important; 
-}
+/* ================
+   1. BASIS DESIGN
+   ================
+*/
 
-/* Definiere die Abstände */
+/* Root-Variablen für Responsive Padding und Safe-Areas */
 :root {
-    --extra-gap: 20px; /* Zusätzlicher Abstand zum Container-Rand (20px seitlich und vertikal) */
-
-    /* Definiere Safe-Area-Variablen mit einem Fallback (z.B. 15px) */
+    --extra-gap: 20px;
     --safe-area-top: env(safe-area-inset-top, 15px);
     --safe-area-bottom: env(safe-area-inset-bottom, 15px);
     --safe-area-left: env(safe-area-inset-left, 15px);
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
-/* Wrapper für horizontale & vertikale Zentrierung des Containers */
+/* Haupt-Wrapper für Zentrierung und Safe-Area-Anpassungen */
 .page-wrapper {
-    /* WICHTIG: Verwende dvh und nicht vh */
     height: 100dvh;
-    min-height: 100dvh; 
-    
+    min-height: 100dvh;
     display: flex;
-    justify-content: center;   /* Horizontal zentrieren */
-    align-items: center;       /* Vertikal zentrieren */
-
-    /* Paddings: Safe-Area + Extra-Abstand */
+    justify-content: center;
+    align-items: center;
+    
+    /* Safe-Area + Extra-Padding */
     padding-top: calc(var(--safe-area-top) + var(--extra-gap));
     padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
     padding-left: calc(var(--safe-area-left) + var(--extra-gap));
     padding-right: calc(var(--safe-area-right) + var(--extra-gap));
-
+    
     box-sizing: border-box;
-    /* Wrapper scrollt, wenn der Container + Paddings den Platz überschreiten */
-    overflow-y: auto; 
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
-/* Container-Box */
+/* Haupt-Container für News-Inhalt */
 .container {
     background: rgba(15, 32, 39, 0.45);
     backdrop-filter: blur(15px);
     border-radius: 20px;
-    padding: 15px; /* Etwas weniger Padding für mehr Platz */
+    padding: 15px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-
-    /* Standardbreite + Responsivität */
-    width: 800px; /* Behalte die größere Breite der News-Seite bei */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    
+    width: 800px;
     max-width: 100%;
+    max-height: 100%;
     box-sizing: border-box;
-
-    /* Flexbox für die interne Struktur (wichtig für die Höhe) */
+    
+    /* Flex-Layout für Header-Content-Footer-Struktur */
     display: flex;
     flex-direction: column;
-    
-    /* HÖHENKONTROLLE: */
-    max-height: 100%; 
-    min-height: 0; /* Erlaubt dem Container, sich korrekt an die max-height anzupassen */
-    
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    
-    /* Der Container selbst scrollt nicht (die Liste scrollt) */
+    min-height: 0;
     overflow-y: hidden;
 }
 
+/* ====================
+   2. HEADER & SCHRIFT
+   ====================
+*/
+
+/* Hauptüberschrift der News-Seite */
 h1.headline {
     font-size: 2.2rem;
     font-weight: 400;
-    margin-bottom: 20px; /* Reduziert von 25px */
+    margin-bottom: 20px;
     color: white;
-    text-shadow: 0 3px 15px rgba(0,0,0,0.4);
-    /* Verhindere Schrumpfen des Headers */
-    flex-shrink: 0;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0; /* Verhindert Schrumpfen bei knappem Platz */
 }
 
-/* News Liste */
+/* ==========================
+   3. NEWS-LISTE & SCROLLBAR
+   ==========================
+*/
+
+/* Container für alle News-Einträge mit Scrollfunktion */
 .news-list {
     text-align: left;
-    margin: 0; /* Entferne den vertikalen margin, da der Container padding hat */
+    margin: 0;
     
-    /* SCROLLBARE LISTE: */
-    flex-grow: 1; 
-    overflow-y: auto; 
+    /* Flex-Grow für scrollbaren Bereich */
+    flex-grow: 1;
+    overflow-y: auto;
     min-height: 0; /* Wichtig für scrollende Flex-Items */
     
-    padding-bottom: 5px; 
-    padding-top: 10px; 
-
+    padding: 10px 0 5px 0;
     display: flex;
-    flex-direction: column; /* Items untereinander anordnen */
+    flex-direction: column;
 }
 
-/* =======================================
-   Scrollbar Styling für .news-list (übernommen von settings)
-   ======================================= */
-
-/* Für Webkit-Browser (Chrome, Safari, Edge) */
+/* Webkit-Scrollbar-Styling (Chrome, Safari, Edge) */
 .news-list::-webkit-scrollbar {
     width: 6px;
 }
 
 .news-list::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border-radius: 8px;
     margin: 4px 0;
 }
 
 .news-list::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.55), rgba(66, 153, 225, 0.45));
     border-radius: 8px;
     min-height: 10px;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .news-list::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.75), rgba(66, 153, 225, 0.6));
 }
 
 .news-list::-webkit-scrollbar-corner {
@@ -135,24 +116,25 @@ h1.headline {
     border-radius: 8px;
 }
 
-/* Für Firefox */
+/* Firefox-Scrollbar-Styling */
 .news-list {
     scrollbar-width: thin;
-    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
+    scrollbar-color: rgba(66, 153, 225, 0.55) rgba(255, 255, 255, 0.06);
 }
 
-/* =======================================
-   Spezifische News-Styles
-   ======================================= */
+/* =============================
+   4. NEWS-EINTRÄGE & AKKORDEON
+   =============================
+*/
 
+/* Einzelner News-Eintrag */
 .news-item {
     position: relative;
-    width: 90%; 
-    margin-bottom: 15px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 90%;
+    margin: 0 auto 15px auto; /* Zentrierte Ausrichtung mit Abstand nach unten */
 }
 
+/* Akkordeon-Toggle-Button */
 .news-toggle {
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
@@ -169,45 +151,44 @@ h1.headline {
     transition: background 0.3s;
 }
 
+/* Pfeil-Icon Animation */
 .news-toggle i {
-    transition: transform 0.4s ease; /* Füge Transition für die Drehung hinzu */
+    transition: transform 0.4s ease;
 }
 
 .news-toggle:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* Aktiver (geöffneter) Zustand */
 .news-toggle.active {
     background: rgba(0, 170, 255, 0.3);
 }
 
+/* News-Titel im Toggle-Button */
 .news-title {
     font-weight: bold;
     flex: 1;
     text-align: left;
 }
 
-.news-date {
-    margin: 0 15px;
-    color: #ccc;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-}
-
+/* News-Inhalt (standardmäßig ausgeblendet) */
 .news-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease; 
+    transition: max-height 0.4s ease;
     background: rgba(255, 255, 255, 0.05);
     margin-top: 5px;
     border-radius: 10px;
 }
 
+/* Geöffneter News-Inhalt */
 .news-content.open {
     max-height: 300px; /* Genug Platz für die meisten Inhalte */
-    overflow-y: auto; /* Scrollbar, falls der Inhalt doch länger ist */
+    overflow-y: auto; /* Scrollbar bei langen Inhalten */
 }
 
+/* Textinhalt der News */
 .news-text {
     padding: 20px;
     text-align: left;
@@ -215,14 +196,21 @@ h1.headline {
     line-height: 1.6;
 }
 
+/* Footer mit Erstellungsdatum */
 .news-footer {
     padding: 10px 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: #ccc;
     font-size: 0.8rem;
     text-align: right;
 }
 
+/* ==========================
+   5. UNGELESENE NEWS-BADGES
+   ==========================
+*/
+
+/* Roter Kreis-Indikator für ungelesene News */
 .new-badge-indicator {
     /* Positionierung in der oberen rechten Ecke der news-item Kachel */
     position: absolute;
@@ -244,16 +232,16 @@ h1.headline {
 
     /* Feine Ränder für bessere Sichtbarkeit auf dunklem Hintergrund */
     border: 2px solid rgb(255, 255, 255); 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     
     /* Layer-Order */
     z-index: 10;
     
-    /* Optional: Animation */
+    /* Animation */
     animation: pulse-light 2s infinite;
 }
 
-/* Definition der Animation: Pulsieren und leichte Transparenz */
+/* Pulsierende Animation für Badge */
 @keyframes pulse-light {
     0%, 100% {
         transform: scale(1);
@@ -265,33 +253,40 @@ h1.headline {
     }
 }
 
-/* Keine News Nachricht */
+/* ==========================
+   6. "KEINE NEWS" NACHRICHT
+   ==========================
+*/
+
+/* Anzeige wenn keine News vorhanden sind */
 .no-news-message {
     background: rgba(255, 255, 255, 0.05);
     padding: 30px;
     border-radius: 10px;
     color: #ccc;
     margin: 20px 0;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    
-    /* NEU: Verhindere, dass es schrumpft */
-    flex-shrink: 0; 
+    flex-shrink: 0; /* Verhindert Schrumpfen */
 }
 
-/* Back Button */
+/* ========================
+   7. NAVIGATION & BUTTONS
+   ======================== 
+*/
+
+/* Container für Navigations-Links */
 .link-content {
     display: flex;
     justify-content: center;
     margin-top: 15px;
-    /* Verhindere Schrumpfen */
     flex-shrink: 0;
 }
 
+/* Zurück-Button zum Playermenü */
 .back-button1 {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -301,16 +296,21 @@ h1.headline {
     text-decoration: none;
     font-weight: bold;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: inline-block;
 }
 
 .back-button1:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive Design */
+/* =====================
+   8. RESPONSIVE DESIGN
+   =====================
+*/
+
+/* Tablet-Optimierungen (max-width: 768px) */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -321,23 +321,35 @@ h1.headline {
         font-size: 0.9rem;
     }
     
-    .news-date {
-        margin: 0 10px;
-        font-size: 0.8rem;
-    }
-
     .new-badge-indicator {
         top: -8px; /* Etwas außerhalb des oberen Rands */
         right: -8px; /* Etwas außerhalb des rechten Rands */
         font-size: 12px;
         width: 15px;
         height: 15px;
+        /* Beibehalten der Zentrierungseigenschaften */
+        line-height: 1;
+        text-align: center;
+        padding-top: 1px; /* Angepasst für kleinere Größe */
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
-@media (max-width: 480px) {    
-    .news-date {
-        margin: 5px 0 0 0;
-        align-self: flex-end;
+/* Mobile-Optimierungen (max-width: 480px) */
+@media (max-width: 480px) {
+    /* Zusätzliche Anpassungen für sehr kleine Bildschirme */
+    h1.headline {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .news-text {
+        padding: 15px;
+    }
+    
+    .back-button1 {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }

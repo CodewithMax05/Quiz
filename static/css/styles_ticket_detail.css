@@ -1,8 +1,8 @@
 /* styles_ticket_datail.css - Stylesheet für Ticketdetail (Chat) */
 
-/* =======================================
-   BASIS LAYOUT (Analog zu tickets.css)
-   ======================================= 
+/* =============
+   BASIS LAYOUT
+   =============
 */
 
 /* Globale Variablen für Abstände */
@@ -57,9 +57,9 @@ html, body {
     min-height: 0;
 }
 
-/* =======================================
+/* ==================
    1. HEADER BEREICH
-   ======================================= 
+   ==================
 */
 
 /* Titel des Tickets */
@@ -210,9 +210,9 @@ html, body {
     border: 1px solid rgba(229, 62, 62, 0.4);
 }
 
-/* =======================================
-   2. CHAT BEREICH
-   ======================================= 
+/* ========
+   2. CHAT
+   ========
 */
 
 /* Scrollbarer Bereich für die Nachrichten */
@@ -342,9 +342,9 @@ html, body {
     white-space: pre-wrap;
 }
 
-/* =======================================
+/* ===========================
    3. EINGABEBEREICH (Footer)
-   ======================================= 
+   ===========================
 */
 
 /* Container für Eingabefeld unten */
@@ -431,9 +431,9 @@ html, body {
     background: rgba(229, 62, 62, 0.1);
 }
 
-/* =======================================
+/* =====================
    4. RESPONSIVE DESIGN
-   ======================================= 
+   =====================
 */
 
 /* Tablet Größe */
