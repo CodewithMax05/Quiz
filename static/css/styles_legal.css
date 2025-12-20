@@ -1,7 +1,11 @@
-/* ==========================
-   1. Basis-Styles / Body (Übernommen von styles_index.css)
-   ========================== */
+/* styles_legal.css - Rechtliche Informationen */
 
+/* ============================
+   1. BASIS-LAYOUT & SCROLLBAR
+   ============================
+*/
+
+/* Globale Seiten-Höhe ohne Scrollen */
 html, body {
     height: 100dvh !important;
     min-height: 100dvh !important;
@@ -10,6 +14,7 @@ html, body {
     background-attachment: fixed;
 }
 
+/* CSS-Variablen für Safe-Area */
 :root {
     --extra-gap: 20px;
     --safe-area-top: env(safe-area-inset-top, 15px);
@@ -18,12 +23,13 @@ html, body {
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
+/* Haupt-Wrapper mit Padding für Safe-Area und vertikales Scrollen */
 .page-wrapper {
     height: 100dvh;
     min-height: 100dvh; 
     display: flex;
-    /* Zentrierung erfolgt durch margin: auto; auf der .legal-box */
     
+    /* Safe-Area Padding */
     padding-top: calc(var(--safe-area-top) + var(--extra-gap));
     padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
     padding-left: calc(var(--safe-area-left) + var(--extra-gap));
@@ -32,9 +38,13 @@ html, body {
     box-sizing: border-box;
     overflow-y: auto; 
     overflow-x: hidden;
+    
+    /* SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
 }
 
-/* Page-Wrapper Scrollbar (Übernommen von styles_index.css) */
+/* Custom Scrollbar für den Page-Wrapper */
 .page-wrapper::-webkit-scrollbar {
     width: 6px;
 }
@@ -57,17 +67,16 @@ html, body {
     border-radius: 8px;
 }
 
+/* ==================================
+   2. RECHTS-INFORMATIONS CONTAINER
+   ==================================
+*/
 
-/* ==========================
-   2. Legal-Box Layout
-   ========================== */
-
-/* .legal-container ist jetzt .page-wrapper (siehe oben) */
-
+/* Hauptcontainer für alle rechtlichen Informationen */
 .legal-box {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Zentriert den Titel und andere direkte Kinder */
+    align-items: center; /* Zentriert Inhalt horizontal */
     max-width: 700px;
     width: 100%;
     background: rgba(0, 0, 0, 0.3);
@@ -76,14 +85,14 @@ html, body {
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     box-sizing: border-box;
     
-    /* NEU: Zentriert die Box im page-wrapper */
+    /* Zentrierung im verfügbaren Raum */
     margin: auto; 
     
-    /* NEU: Mindesthöhe, damit der Inhalt Platz hat */
+    /* Mindesthöhe für gutes Layout */
     min-height: 400px; 
 }
 
-/* Titel (bereits zentriert durch align-items: center in legal-box) */
+/* Hauptüberschrift der Seite */
 .legal-title {
     font-size: 2.5rem;
     color: #ffffff;
@@ -91,33 +100,35 @@ html, body {
     margin: 0 0 1rem 0;
 }
 
-/* ==========================
-   3. Header-Inhalt (Info + Bild)
-   ========================== */
+/* =========================================
+   3. HEADER-BEREICH MIT SPIEL-DATEN & LOGO
+   =========================================
+*/
 
+/* Container für Logo und Spielinformationen nebeneinander */
 .legal-header-content {
     display: flex;
     justify-content: space-between;
     align-items: center; 
     width: 100%;
-    margin-bottom: 20px; /* Abstand zum Akkordeon */
+    margin-bottom: 20px;
 }
 
-/* Bild */
+/* Spiel-Logo/Icon */
 .legal-image {
     flex: 1;
-    order: 2; /* Bild nach rechts */
+    order: 2; /* Positioniert Logo rechts */
     width: 100%;
     max-width: 180px;
     height: auto;
-    margin: 0 auto; /* Zentriert im Flex-Container */
-    align-self: center; /* Vertikal zentrieren */
+    margin: 0 auto; /* Zentriert innerhalb des Flex-Containers */
+    align-self: center; /* Vertikale Zentrierung */
 }
 
-/* Infos */
+/* Container für Spielinformationen */
 .legal-info {
     flex: 1;
-    order: 1; /* Infos nach links */
+    order: 1; /* Positioniert Informationen links */
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -126,28 +137,32 @@ html, body {
     box-sizing: border-box;
 }
 
+/* Einzelne Informationszeile (Label + Wert) */
 .info-row {
     display: flex;
     flex-wrap: wrap;
 }
 
+/* Beschriftung (Label) mit fester Breite */
 .info-label {
     font-weight: bold;
     min-width: 180px;
     color: #ffffff;
 }
 
+/* Wert */
 .info-value {
     color: #a8c5db;
     word-break: break-word;
     flex: 1;
 }
 
-/* ==========================
-   4. Akkordeon (Stil von index.html übernommen)
-   ========================== */
+/* =================================
+   4. AKKORDEON FÜR RECHTSDOKUMENTE
+   =================================
+*/
 
-/* NEU: Übernommen von styles_index.css (.settings-list) */
+/* Container für alle Akkordeon-Elemente */
 .settings-list {
     display: flex;
     flex-direction: column;
@@ -155,15 +170,15 @@ html, body {
     width: 100%; /* Nimmt volle Breite der legal-box ein */
 }
 
-/* NEU: Übernommen von styles_index.css (.setting-item) */
+/* Einzelnes Akkordeon-Element */
 .setting-item {
     background: rgba(255,255,255,0.03);
-    border: 1px solid #2a6fff; /* Blauer Rand, passend zum Modal */
+    border: 1px solid #2a6fff; /* Blauer Akzent */
     border-radius: 10px;
     overflow: hidden; /* Wichtig für abgerundete Ecken */
 }
 
-/* NEU: Übernommen von styles_index.css (.setting-toggle) */
+/* Akkordeon-Toggle-Button (öffnet/schließt den Inhalt) */
 .setting-toggle {
     width: 100%;
     background: none; /* Transparenter Hintergrund */
@@ -179,37 +194,50 @@ html, body {
     align-items: center;
 }
 
+/* Hover-Effekt für bessere Interaktivität */
 .setting-toggle:hover {
     background: rgba(30, 83, 136, 0.2);
 }
 
+/* Pfeil-Icon Animation bei Öffnen/Schließen */
 .setting-toggle i {
     transition: transform 0.3s ease;
 }
 
-/* NEU: Übernommen von styles_index.css (.setting-content) */
+/* Akkordeon-Inhaltsbereich */
 .setting-content {
     max-height: 0;
     overflow: hidden; /* Standard: geschlossen und versteckt */
     transition: max-height 0.28s ease-in-out;
-    background: rgba(0,0,40,0.4); /* Dunklerer Hintergrund für Inhalt */
+    background: rgba(0,0,40,0.4); /* Dunklerer Hintergrund für Kontrast */
     padding: 0 16px;
     box-sizing: border-box;
 }
 
-/* NEU: Dynamische Öffnung per CSS-Klasse */
+/* Geöffneter Zustand des Akkordeons */
 .setting-content.open {
-    max-height: 350px; /* Maximale Höhe (wie im Modal) */
-    overflow-y: auto; /* Scrollbar, WENN Inhalt höher als max-height */
+    max-height: 350px; /* Maximale Höhe vor Scroll */
+    overflow-y: auto; /* Scrollbar, wenn Inhalt höher als max-height */
     padding: 10px 16px;
+    
+    /* SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin;
+    scrollbar-color: #1e90ff rgba(255,255,255,0.04);
 }
 
-/* NEU: Scrollbar-Styling (Übernommen von styles_index.css) */
-.setting-content::-webkit-scrollbar { width: 8px; }
-.setting-content::-webkit-scrollbar-thumb { background: #1e90ff; border-radius:4px; }
-.setting-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+/* Custom Scrollbar für Akkordeon-Inhalt (Webkit-Browser) */
+.setting-content.open::-webkit-scrollbar { 
+    width: 8px; 
+}
+.setting-content.open::-webkit-scrollbar-thumb { 
+    background: #1e90ff; 
+    border-radius: 4px; 
+}
+.setting-content.open::-webkit-scrollbar-track { 
+    background: rgba(255,255,255,0.04); 
+}
 
-/* Optional: Inhalt-Styling (angepasst an dunklen Hintergrund) */
+/* Schrift innerhalb des Akkordeons */
 .setting-content p, 
 .setting-content ul, 
 .setting-content li, 
@@ -219,14 +247,15 @@ html, body {
     color: #eee; /* Hellerer Text für besseren Kontrast */
 }
 .setting-content h3 {
-    color: #61a8ff; /* Passend zur Modal-Überschrift */
+    color: #61a8ff; /* Passend zur blauen Akzentfarbe */
 }
 
+/* =======================
+   5. NAVIGATIONS-BUTTONS
+   =======================
+*/
 
-/* ==========================
-   5. Buttons & Links
-   ========================== */
-
+/* Container für alle Navigations-Buttons */
 .link-content {
     display: flex;
     justify-content: center;
@@ -238,6 +267,7 @@ html, body {
     box-sizing: border-box;
 }
 
+/* "Zurück zum Login"-Button */
 .back-button {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -254,15 +284,18 @@ html, body {
     box-sizing: border-box;
 }
 
+/* Hover-Effekt für Button */
 .back-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
 
 /* ==========================
-   6. Responsive Anpassungen
-   ========================== */
+   6. RESPONSIVE ANPASSUNGEN
+   ==========================
+*/
 
+/* Tablet-Ansicht (max-width: 768px) */
 @media (max-width: 768px) {
     .legal-box {
         max-width: 500px;
@@ -273,6 +306,7 @@ html, body {
         font-size: 2rem;
     }
 
+    /* Stapelt Label und Wert vertikal auf Tablets */
     .info-row {
         flex-direction: column;
         gap: 0.3rem;
@@ -298,6 +332,7 @@ html, body {
     }
 }
 
+/* Mobile-Ansicht (max-width: 480px) */
 @media (max-width: 480px) {
     .legal-box {
         padding: 2rem 2rem;
@@ -307,28 +342,29 @@ html, body {
         font-size: 2rem;
     }
 
-    /* Stapelt Header-Inhalt (Bild über Text) nur auf kleinen Bildschirmen */
+    /* Stapelt Header-Inhalt vertikal auf kleinen Bildschirmen */
     .legal-header-content {
         flex-direction: column;
     }
     
+    /* Logo oben, Informationen unten */
     .legal-image {
-        order: 1; /* Bild nach oben */
+        order: 1;
         margin-bottom: 1rem;
         max-width: 100px;
     }
 
     .legal-info {
-        order: 2; /* Infos nach unten */
+        order: 2;
     }
 
+    /* Label und Wert wieder nebeneinander */
     .info-row {
-        flex-direction: row; /* Zurück zu nebeneinander */
+        flex-direction: row;
     }
     
     .info-label {
-        /* Gibt dem Label eine Basisbreite, damit es auf Mobilgeräten passt */
-        flex-basis: 100px;
+        flex-basis: 100px; /* Feste Basisbreite für Labels */
         flex-shrink: 0; 
     }
 }
