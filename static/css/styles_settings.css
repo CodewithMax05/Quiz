@@ -1,53 +1,64 @@
-/* =======================================
-   WICHTIG: Safe-Areas & Dynamische Höhe (dvh)
-   ======================================= */
+/* styles_settings.css - Einstellungsseite */
 
-/* Definiere die Haupt-Viewport-Elemente */
+/* =================
+   1. BASIS-STYLING
+   =================
+*/
+
+/* HTML und Body auf 100dvh setzen und Scrollen verhindern */
 html, body {
-    /* Erzwinge die dynamische Viewport-Höhe (löst das 100vh-Problem auf mobilen Geräten) */
     height: 100dvh !important;
     min-height: 100dvh !important;
-    /* Verhindere, dass body scrollt, der Wrapper übernimmt das bei Bedarf */
-    overflow: hidden !important; 
-    /* Basis-Anzeige bleibt erhalten */
-    display: block !important; 
+    overflow: hidden !important;
+    display: block !important;
 }
 
-/* Definiere die Abstände */
+/* Definition von Safe-Area-Variablen */
 :root {
-    --extra-gap: 20px; /* Zusätzlicher Abstand zum Container-Rand (20px seitlich und vertikal) */
+    --extra-gap: 20px; /* Zusätzlicher Abstand zum Container-Rand */
 
-    /* Definiere Safe-Area-Variablen mit einem Fallback (z.B. 15px) */
+    /* Safe-Area-Variablen mit Fallback-Werten */
     --safe-area-top: env(safe-area-inset-top, 15px);
     --safe-area-bottom: env(safe-area-inset-bottom, 15px);
     --safe-area-left: env(safe-area-inset-left, 15px);
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
-/* Wrapper für horizontale & vertikale Zentrierung des Containers */
-.page-wrapper {
-    /* WICHTIG: Verwende dvh und nicht vh */
-    height: 100dvh;
-    min-height: 100dvh; 
-    
-    display: flex;
-    justify-content: center;   /* Horizontal zentrieren */
-    align-items: center;       /* Vertikal zentrieren */
+/* ================
+   2. PAGE-WRAPPER
+   ================
+*/
 
-    /* Paddings: Safe-Area + Extra-Abstand */
+/* Der Wrapper nimmt die gesamte Viewport-Höhe ein und zentriert den Container */
+.page-wrapper {
+    /* Dynamische Viewport-Höhe */
+    height: 100dvh;
+    min-height: 100dvh;
+
+    /* Zentrierung des Containers */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Padding unter Berücksichtigung der Safe Areas und extra Abstand */
     padding-top: calc(var(--safe-area-top) + var(--extra-gap));
     padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
     padding-left: calc(var(--safe-area-left) + var(--extra-gap));
     padding-right: calc(var(--safe-area-right) + var(--extra-gap));
 
     box-sizing: border-box;
-    /* Wrapper scrollt, wenn der Container + Paddings den Platz überschreiten */
-    overflow-y: auto; 
+    /* Vertikales Scrollen erlauben, falls der Inhalt zu hoch ist */
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
-/* Container-Box */
+/* ===================
+   3. HAUPT-CONTAINER
+   ===================
+*/
+
 .container {
+    /* Halbtransparenter Hintergrund mit Unschärfeeffekt */
     background: rgba(15, 32, 39, 0.45);
     backdrop-filter: blur(15px);
     border-radius: 20px;
@@ -55,24 +66,23 @@ html, body {
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 
-    /* Standardbreite + Responsivität */
+    /* Abmessungen */
     width: 600px;
     max-width: 100%;
+    max-height: 100%;
+    min-height: 0; /* Wichtig für Flexbox-Scrolling */
     box-sizing: border-box;
 
-    /* Flexbox für die interne Struktur (wichtig für die Höhe) */
+    /* Flexbox für interne Struktur */
     display: flex;
     flex-direction: column;
-    
-    /* HÖHENKONTROLLE: */
-    max-height: 100%; 
-    min-height: 0; /* Erlaubt dem Container, sich korrekt an die max-height anzupassen */
-    
+
+    /* Textumbruch */
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-    
-    /* Der Container selbst scrollt nicht (die Liste scrollt) */
+
+    /* Der Container selbst scrollt nicht, die Liste darin scrollt */
     overflow-y: hidden;
 }
 
@@ -82,25 +92,30 @@ h1.headline {
     margin-bottom: 20px;
     color: white;
     text-shadow: 0 3px 15px rgba(0,0,0,0.4);
-    /* Verhindere Schrumpfen des Headers */
-    flex-shrink: 0;
+    flex-shrink: 0; /* Verhindert Schrumpfen in Flexbox */
 }
+
+/* =====================
+   4. EINSTELLUNGSLISTE
+   =====================
+*/
 
 .settings-list {
     text-align: left;
     margin-top: 20px;
-    
-    /* SCROLLBARE LISTE: */
-    flex-grow: 1; 
-    overflow-y: auto; 
+
+    /* Scrollbare Liste */
+    flex-grow: 1;
+    overflow-y: auto;
     min-height: 0; /* Wichtig für scrollende Flex-Items */
-    
-    padding-bottom: 5px; 
+
+    padding-bottom: 5px;
 }
 
-/* =======================================
-   NEU: Scrollbar Styling für .settings-list
-   ======================================= */
+/* =====================
+   5. SCROLLBAR-STYLING
+   =====================
+*/
 
 /* Für Webkit-Browser (Chrome, Safari, Edge) */
 .settings-list::-webkit-scrollbar {
@@ -135,17 +150,18 @@ h1.headline {
     scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
 }
 
-/* =======================================
-   Restliche Einstellungen-Styles
-   ======================================= */
+/* ======================================
+   6. Einzelne Einstellung als Akkordeon
+   ======================================
+*/
 
 .setting-item {
-    margin-bottom: 15px;
+    width: 90%; /* Breite reduzieren für bessere Lesbarkeit */
+    margin: 0 auto 15px; /* Zentrierung und Abstand nach unten */
     height: auto;
-    width: 90%;          /* NEU: Breite reduzieren */
-    margin: 0 auto 15px; /* NEU: Zentrierung und Abstand nach unten */
 }
 
+/* Toggle-Button zum Öffnen/Schließen des Einstellungsbereichs */
 .setting-toggle {
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
@@ -166,6 +182,11 @@ h1.headline {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* ====================
+   7. Akkordeon-Inhalt
+   ====================
+*/
+
 .setting-content {
     max-height: 0;
     overflow: hidden;
@@ -176,9 +197,15 @@ h1.headline {
     border-radius: 10px;
 }
 
+/* Wenn der Inhalt geöffnet ist, wird Padding hinzugefügt */
 .setting-content.active {
-    padding: 10px; 
+    padding: 10px;
 }
+
+/* ==================================
+   8. FORMULARE IN DEN EINSTELLUNGEN
+   ==================================
+*/
 
 .setting-content form {
     display: flex;
@@ -214,6 +241,11 @@ h1.headline {
     background-color: #0f6ac9;
 }
 
+/* ============
+   9. BUTTONS
+   ============
+*/
+
 /* Container für die Buttons */
 .link-content {
     display: flex;
@@ -224,11 +256,10 @@ h1.headline {
     width: 100%;
     padding: 0;
     box-sizing: border-box;
-    /* Verhindere Schrumpfen */
-    flex-shrink: 0;
+    flex-shrink: 0; /* Verhindert Schrumpfen */
 }
 
-/* Button */
+/* Stil für den Zurück-Button */
 .back-button1 {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -245,13 +276,16 @@ h1.headline {
     box-sizing: border-box;
 }
 
-/* Hover Effekt */
 .back-button1:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
 
-/* AGB Checkbox Container */
+/* ============================
+   10. STYLE FÜR AGB-CHECKBOX
+   ============================
+*/
+
 .agb-checkbox-container {
     margin: 10px 0;
     text-align: center;
@@ -275,14 +309,17 @@ h1.headline {
     transform: scale(1.2);
 }
 
-/* Delete Warning Text */
+/* ===========================
+   11. STYLES FÜR LÖSCHWARNUNG
+   ===========================
+*/
+
 .delete-warning {
     color: red;
     font-weight: bold;
     margin-top: 10px;
 }
 
-/* Danger Buttons (Ablehnen/Löschen) */
 .danger-button {
     background-color: #ff6b6b !important;
     color: white !important;
@@ -293,11 +330,12 @@ h1.headline {
     background-color: #e05555 !important;
 }
 
-/* ==========================
-   Passwort Toggle Styling für Settings
-   ========================== */
+/* ============================
+   12. PASSWORT-TOGGLE-STYLING
+   ============================
+*/
 
-/* Wrapper für Input + Toggle */
+/* Wrapper für Passwort-Eingabefeld und Toggle-Button */
 .input-wrap {
     position: relative;
     display: block;
@@ -305,22 +343,21 @@ h1.headline {
     box-sizing: border-box;
 }
 
-/* Input mit Platz für Toggle-Button */
+/* Passwort-Eingabefeld mit Platz für den Toggle-Button */
 .input-wrap input[type="password"],
 .input-wrap input[type="text"] {
     width: 100%;
-    padding-right: 50px;
-    box-sizing: border-box;
+    padding-right: 50px; /* Platz für den Toggle-Button */
     padding: 12px 14px;
     border-radius: 8px;
     border: none;
     outline: none;
-    /* klare, dunkle Textfarbe für sichtbaren Inhalt */
     color: black !important;
     background: white;
+    box-sizing: border-box;
 }
 
-/* Toggle-Button - KEIN blauer Hintergrund */
+/* Toggle-Button für Passwort-Sichtbarkeit */
 .pw-toggle {
     position: absolute;
     top: 50%;
@@ -341,7 +378,6 @@ h1.headline {
     padding: 0;
 }
 
-/* Hover-Effekt ohne blauen Hintergrund */
 .pw-toggle:hover,
 .pw-toggle:focus {
     transform: translateY(-50%) scale(1.05);
@@ -354,23 +390,17 @@ h1.headline {
     font-size: 1rem;
 }
 
-/* Stelle sicher, dass der Toggle-Button nicht die allgemeinen Button-Stile erbt */
-.setting-content .pw-toggle {
-    background: transparent !important;
-    width: auto;
-    position: absolute;
-}
+/* ======================
+   13. RESPONSIVE DESIGN
+   ======================
+*/
 
-.setting-content .pw-toggle:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Responsive Anpassungen */
-@media (max-width: 480px) {    
+@media (max-width: 480px) {
+    /* Anpassung des Passwort-Eingabefelds und Toggle-Buttons für kleine Bildschirme */
     .input-wrap input[type="password"] {
         padding-right: 45px;
     }
-    
+
     .pw-toggle {
         width: 32px;
         height: 32px;
