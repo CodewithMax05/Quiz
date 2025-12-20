@@ -16,7 +16,7 @@ Spielermenü-Seite enthält:
 {% endblock %}
 
 {% block body %}
-<body class="playermenu-page">
+<div class="playermenu-page">
     <!-- Haupt-Container für Spielermenü -->
     <div class="playermenu-wrapper">
         <!-- Profilkarte: Zentrale Spielerinformationen -->
@@ -157,215 +157,215 @@ Spielermenü-Seite enthält:
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // =========================
-        // AVATAR-MANAGEMENT SCRIPT
-        // =========================
-        // Verantwortlich für:
-        // 1. Avatar-Karussell-Funktionalität
-        // 2. Avatar-Auswahl und -Speicherung
-        // 3. Modal-Steuerung
+<script>
+    // =========================
+    // AVATAR-MANAGEMENT SCRIPT
+    // =========================
+    // Verantwortlich für:
+    // 1. Avatar-Karussell-Funktionalität
+    // 2. Avatar-Auswahl und -Speicherung
+    // 3. Modal-Steuerung
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // DOM-Element-Referenzen
-            const modal = document.getElementById("avatar-modal");
-            const openBtn = document.getElementById("open-avatar-modal");
-            const closeBtn = modal.querySelector(".close-button");
-            const cancelBtn = document.getElementById("cancel-avatar");
-            const saveBtn = document.getElementById("save-avatar");
-            const carouselTrack = document.getElementById("carousel-track");
-            const prevButton = document.getElementById("prev-avatar");
-            const nextButton = document.getElementById("next-avatar");
-            const currentIndexSpan = document.getElementById("current-index");
-            const totalAvatarsSpan = document.getElementById("total-avatars");
+    document.addEventListener("DOMContentLoaded", () => {
+        // DOM-Element-Referenzen
+        const modal = document.getElementById("avatar-modal");
+        const openBtn = document.getElementById("open-avatar-modal");
+        const closeBtn = modal.querySelector(".close-button");
+        const cancelBtn = document.getElementById("cancel-avatar");
+        const saveBtn = document.getElementById("save-avatar");
+        const carouselTrack = document.getElementById("carousel-track");
+        const prevButton = document.getElementById("prev-avatar");
+        const nextButton = document.getElementById("next-avatar");
+        const currentIndexSpan = document.getElementById("current-index");
+        const totalAvatarsSpan = document.getElementById("total-avatars");
+        
+        // Spieler-Avatar-Element
+        const playerAvatar = document.querySelector(".player-avatar");
+
+        // Zustandsvariablen für Avatar-Auswahl
+        let selectedAvatar = null;
+        let currentAvatarIndex = 0;
+        let avatars = [];
+        const totalAvatarCount = 26;
+
+        // CSRF-Token für API-Anfragen
+        const csrfToken = "{{ csrf_token() }}";
+
+        // Öffnet das Avatar-Modal
+        function openAvatarModal() {
+            initializeAvatarSelection();
+            modal.style.display = "flex";
+        }
+
+        // Event Listener für Klick auf Avatar-Bild
+        playerAvatar.addEventListener("click", openAvatarModal);
+
+        // Event Listener für Bearbeiten-Button
+        openBtn.addEventListener("click", openAvatarModal);
+
+        // Lädt alle verfügbaren Avatare
+        function loadAllAvatars() {
+            return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
+        }
+
+        // Berechnet die sichtbaren Avatare basierend auf Gerätetyp
+        function getVisibleAvatars() {
+            const isMobile = window.innerWidth <= 768;
             
-            // Spieler-Avatar-Element
-            const playerAvatar = document.querySelector(".player-avatar");
-
-            // Zustandsvariablen für Avatar-Auswahl
-            let selectedAvatar = null;
-            let currentAvatarIndex = 0;
-            let avatars = [];
-            const totalAvatarCount = 26;
-
-            // CSRF-Token für API-Anfragen
-            const csrfToken = "{{ csrf_token() }}";
-
-            // Öffnet das Avatar-Modal
-            function openAvatarModal() {
-                initializeAvatarSelection();
-                modal.style.display = "flex";
+            if (isMobile) {
+                // Auf Mobilgeräten: nur den aktuellen Avatar anzeigen
+                return [
+                    { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' }
+                ];
+            } else {
+                // Auf Desktop: drei Avatare anzeigen (links, mitte, rechts)
+                const prevIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
+                const nextIndex = (currentAvatarIndex + 1) % totalAvatarCount;
+                return [
+                    { index: prevIndex, filename: avatars[prevIndex], position: 'left' },
+                    { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' },
+                    { index: nextIndex, filename: avatars[nextIndex], position: 'right' }
+                ];
             }
+        }
 
-            // Event Listener für Klick auf Avatar-Bild
-            playerAvatar.addEventListener("click", openAvatarModal);
-
-            // Event Listener für Bearbeiten-Button
-            openBtn.addEventListener("click", openAvatarModal);
-
-            // Lädt alle verfügbaren Avatare
-            function loadAllAvatars() {
-                return Array.from({length: totalAvatarCount}, (_, i) => `avatar${i}.png`);
-            }
-
-            // Berechnet die sichtbaren Avatare basierend auf Gerätetyp
-            function getVisibleAvatars() {
-                const isMobile = window.innerWidth <= 768;
+        // Zeigt Avatare im Karussell an
+        function displayAvatars() {
+            carouselTrack.innerHTML = '';
+            const visibleAvatars = getVisibleAvatars();
+            
+            visibleAvatars.forEach((avatarData) => {
+                const avatarContainer = document.createElement("div");
+                avatarContainer.className = `avatar-carousel-item ${avatarData.position}`;
                 
-                if (isMobile) {
-                    // Auf Mobilgeräten: nur den aktuellen Avatar anzeigen
-                    return [
-                        { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' }
-                    ];
-                } else {
-                    // Auf Desktop: drei Avatare anzeigen (links, mitte, rechts)
-                    const prevIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
-                    const nextIndex = (currentAvatarIndex + 1) % totalAvatarCount;
-                    return [
-                        { index: prevIndex, filename: avatars[prevIndex], position: 'left' },
-                        { index: currentAvatarIndex, filename: avatars[currentAvatarIndex], position: 'center' },
-                        { index: nextIndex, filename: avatars[nextIndex], position: 'right' }
-                    ];
+                const img = document.createElement("img");
+                img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + avatarData.filename;
+                img.dataset.filename = avatarData.filename;
+                img.dataset.index = avatarData.index;
+                img.classList.add("avatar-item");
+                
+                // Markiert den zentrierten Avatar als ausgewählt
+                if (avatarData.position === 'center') {
+                    img.classList.add("selected");
+                    selectedAvatar = avatarData.filename;
                 }
-            }
-
-            // Zeigt Avatare im Karussell an
-            function displayAvatars() {
-                carouselTrack.innerHTML = '';
-                const visibleAvatars = getVisibleAvatars();
                 
-                visibleAvatars.forEach((avatarData) => {
-                    const avatarContainer = document.createElement("div");
-                    avatarContainer.className = `avatar-carousel-item ${avatarData.position}`;
-                    
-                    const img = document.createElement("img");
-                    img.src = "{{ url_for('static', filename='pictures/avatar/') }}" + avatarData.filename;
-                    img.dataset.filename = avatarData.filename;
-                    img.dataset.index = avatarData.index;
-                    img.classList.add("avatar-item");
-                    
-                    // Markiert den zentrierten Avatar als ausgewählt
-                    if (avatarData.position === 'center') {
-                        img.classList.add("selected");
-                        selectedAvatar = avatarData.filename;
+                // Klick-Handler für Avatar-Auswahl
+                img.addEventListener("click", () => {
+                    const isMobile = window.innerWidth <= 768;
+                    if (!isMobile && avatarData.position !== 'center') {
+                        currentAvatarIndex = avatarData.index;
+                        displayAvatars(); // Navigiert zum geklickten Avatar
                     }
-                    
-                    // Klick-Handler für Avatar-Auswahl
-                    img.addEventListener("click", () => {
-                        const isMobile = window.innerWidth <= 768;
-                        if (!isMobile && avatarData.position !== 'center') {
-                            currentAvatarIndex = avatarData.index;
-                            displayAvatars(); // Navigiert zum geklickten Avatar
-                        }
-                    });
-                        
-                    avatarContainer.appendChild(img);
-                    carouselTrack.appendChild(avatarContainer);
                 });
-                
-                updateCarousel();
+                    
+                avatarContainer.appendChild(img);
+                carouselTrack.appendChild(avatarContainer);
+            });
+            
+            updateCarousel();
+        }
+
+        // Initialisiert die Avatar-Auswahl basierend auf aktuellem Avatar
+        function initializeAvatarSelection() {
+            avatars = loadAllAvatars();
+            
+            // Findet Index des aktuellen Avatars
+            const currentPlayerAvatar = document.querySelector(".player-avatar");
+            const currentAvatar = currentPlayerAvatar.src.split('/').pop();
+            
+            const currentIndex = avatars.findIndex(av => av === currentAvatar);
+            if (currentIndex !== -1) {
+                currentAvatarIndex = currentIndex;
+            } else {
+                // Fallback: avatar0 als Standard
+                currentAvatarIndex = 0;
             }
+            
+            displayAvatars();
+        }
 
-            // Initialisiert die Avatar-Auswahl basierend auf aktuellem Avatar
-            function initializeAvatarSelection() {
-                avatars = loadAllAvatars();
-                
-                // Findet Index des aktuellen Avatars
-                const currentPlayerAvatar = document.querySelector(".player-avatar");
-                const currentAvatar = currentPlayerAvatar.src.split('/').pop();
-                
-                const currentIndex = avatars.findIndex(av => av === currentAvatar);
-                if (currentIndex !== -1) {
-                    currentAvatarIndex = currentIndex;
-                } else {
-                    // Fallback: avatar0 als Standard
-                    currentAvatarIndex = 0;
-                }
-                
-                displayAvatars();
-            }
+        // Aktualisiert Karussell-Indikator
+        function updateCarousel() {
+            currentIndexSpan.textContent = currentAvatarIndex + 1;
+            totalAvatarsSpan.textContent = totalAvatarCount;
+        }
 
-            // Aktualisiert Karussell-Indikator
-            function updateCarousel() {
-                currentIndexSpan.textContent = currentAvatarIndex + 1;
-                totalAvatarsSpan.textContent = totalAvatarCount;
-            }
-
-            // Navigation: Vorheriger Avatar
-            prevButton.addEventListener("click", () => {
-                currentAvatarIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
-                displayAvatars();
-            });
-
-            // Navigation: Nächster Avatar
-            nextButton.addEventListener("click", () => {
-                currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
-                displayAvatars();
-            });
-
-            // Modal schließen
-            closeBtn.addEventListener("click", () => modal.style.display = "none");
-            cancelBtn.addEventListener("click", () => modal.style.display = "none");
-
-            // Avatar speichern (API-Aufruf)
-            saveBtn.addEventListener("click", () => {
-                if (!selectedAvatar) {
-                    createFlashMessage("Fehler: Kein Avatar ausgewählt!", "error"); 
-                    return;
-                }
-
-                // Prüft ob Avatar geändert wurde
-                const currentPlayerAvatar = document.querySelector(".player-avatar");
-                const currentAvatar = currentPlayerAvatar.src.split('/').pop();
-                
-                if (selectedAvatar === currentAvatar) {
-                    createFlashMessage("Der Avatar wurde nicht geändert!", "info");
-                    modal.style.display = "none";
-                    return;
-                }
-
-                // Sendet Änderung an Server
-                const formData = new FormData();
-                formData.append('avatar', selectedAvatar);
-                formData.append('csrf_token', "{{ csrf_token() }}");
-
-                fetch("{{ url_for('update_avatar') }}", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Avatar-Bild aktualisieren
-                        const playerAvatar = document.querySelector(".player-avatar");
-                        playerAvatar.src = "{{ url_for('static', filename='pictures/avatar/') }}" + selectedAvatar;
-                        
-                        modal.style.display = "none";
-                        createFlashMessage("Avatar erfolgreich geändert!", "success");
-                    } else {
-                        createFlashMessage(data.error || "Fehler beim Ändern des Avatars!", "error");
-                    }
-                })
-                .catch(err => {
-                    console.error("Fetch error:", err);
-                    createFlashMessage("Fehler beim Verbinden mit dem Server!", "error");
-                });
-            });
-
-            // Schließt Modal bei Klick außerhalb
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) modal.style.display = "none";
-            });
-
-            // Passt Karussell bei Fenstergrößenänderung an
-            window.addEventListener("resize", displayAvatars);
+        // Navigation: Vorheriger Avatar
+        prevButton.addEventListener("click", () => {
+            currentAvatarIndex = (currentAvatarIndex - 1 + totalAvatarCount) % totalAvatarCount;
+            displayAvatars();
         });
-    </script>
-</body>
+
+        // Navigation: Nächster Avatar
+        nextButton.addEventListener("click", () => {
+            currentAvatarIndex = (currentAvatarIndex + 1) % totalAvatarCount;
+            displayAvatars();
+        });
+
+        // Modal schließen
+        closeBtn.addEventListener("click", () => modal.style.display = "none");
+        cancelBtn.addEventListener("click", () => modal.style.display = "none");
+
+        // Avatar speichern (API-Aufruf)
+        saveBtn.addEventListener("click", () => {
+            if (!selectedAvatar) {
+                createFlashMessage("Fehler: Kein Avatar ausgewählt!", "error"); 
+                return;
+            }
+
+            // Prüft ob Avatar geändert wurde
+            const currentPlayerAvatar = document.querySelector(".player-avatar");
+            const currentAvatar = currentPlayerAvatar.src.split('/').pop();
+            
+            if (selectedAvatar === currentAvatar) {
+                createFlashMessage("Der Avatar wurde nicht geändert!", "info");
+                modal.style.display = "none";
+                return;
+            }
+
+            // Sendet Änderung an Server
+            const formData = new FormData();
+            formData.append('avatar', selectedAvatar);
+            formData.append('csrf_token', "{{ csrf_token() }}");
+
+            fetch("{{ url_for('update_avatar') }}", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Avatar-Bild aktualisieren
+                    const playerAvatar = document.querySelector(".player-avatar");
+                    playerAvatar.src = "{{ url_for('static', filename='pictures/avatar/') }}" + selectedAvatar;
+                    
+                    modal.style.display = "none";
+                    createFlashMessage("Avatar erfolgreich geändert!", "success");
+                } else {
+                    createFlashMessage(data.error || "Fehler beim Ändern des Avatars!", "error");
+                }
+            })
+            .catch(err => {
+                console.error("Fetch error:", err);
+                createFlashMessage("Fehler beim Verbinden mit dem Server!", "error");
+            });
+        });
+
+        // Schließt Modal bei Klick außerhalb
+        window.addEventListener("click", (e) => {
+            if (e.target === modal) modal.style.display = "none";
+        });
+
+        // Passt Karussell bei Fenstergrößenänderung an
+        window.addEventListener("resize", displayAvatars);
+    });
+</script>
 {% endblock %}

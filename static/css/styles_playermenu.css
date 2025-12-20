@@ -1,23 +1,29 @@
-body.playermenu-page {
-    /* Dynamische Viewport-Höhe für Browser-Leisten */
-    min-height: 100dvh;
-    
-    /* Safe area für Notch / iOS */
-    padding-top: env(safe-area-inset-top, 1.5rem);
-    padding-bottom: env(safe-area-inset-bottom, 1rem);
-    
-    /* Zentrieren der Player-Card vertikal + horizontal */
+/* ============================
+   1. BASIS-LAYOUT & SCROLLBAR
+   ============================
+*/
+
+/* Haupt-Container für die Spielermenü-Seite.
+   Nutzt 100dvh für optimale Höhe
+*/
+.playermenu-page {
+    /* Nimmt die volle verfügbare Höhe ein */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
+    width: 100%;
+    min-height: 100dvh; 
     
-    /* Verhindert Scrollen außerhalb des Containers */
-    overflow: hidden;
+    /* Safe Area Padding (beibehalten) */
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    box-sizing: border-box;
 }
 
-/* Wrapper: Abstand zum Browser-Rand, begrenzte Breite */
+/* Wrapper: Nimmt den verfügbaren Platz ein und ermöglicht Scrollen,
+   falls der Inhalt (z.B. auf kleinen Bildschirmen) zu hoch wird.
+*/
 .playermenu-wrapper {
     display: flex;
     justify-content: center;
@@ -27,50 +33,68 @@ body.playermenu-page {
     text-align: center;
     box-sizing: border-box;
     
-    /* Nimmt verfügbaren Platz ein und ermöglicht Scrollen falls nötig */
+    /* Flex-Eigenschaften für Scroll-Verhalten */
     flex: 1;
     min-height: 0;
     overflow-y: auto;
     
-    /* Scrollbar-Stil (optional) */
+    /* Reserviert Platz für Scrollbar, um Layout-Sprünge zu vermeiden */
     scrollbar-gutter: stable;
 }
+
+/* --- Scrollbar Styling (Webkit: Chrome, Safari, Edge) --- */
 
 .playermenu-wrapper::-webkit-scrollbar {
     width: 6px;
 }
 
 .playermenu-wrapper::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border-radius: 8px;
     margin: 4px 0;
 }
 
 .playermenu-wrapper::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.55), rgba(66, 153, 225, 0.45));
     border-radius: 8px;
     min-height: 10px;
 }
 
-/* Profilkarte */
+
+/* ===============
+   2. HAUPT-KARTE
+   ===============
+*/
+
+/* Die zentrale Karte, die alle Menüpunkte enthält */
 .player-card {
     background: rgba(26, 26, 46, 0.6);
     border-radius: 18px;
     padding: 1.6rem;
+    
+    /* Flex-Layout für vertikale Anordnung der Kind-Elemente */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.25rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     max-width: 650px;
     width: 100%;
     
-    /* Zentriert den Inhalt der Card */
+    /* Zentrierung im Wrapper */
     margin: auto;
     text-align: center;
     box-sizing: border-box;
 }
 
+
+/* ================================================
+   3. HEADER-BEREICH (TITEL & NAVIGATIONS-BUTTONS)
+   ================================================
+*/
+
+/* Leiste oben: Buttons links, Titel mitte, Buttons rechts */
 .title-bar {
     width: 100%;
     display: flex;
@@ -80,7 +104,7 @@ body.playermenu-page {
     padding: 0.2rem 0;
 }
 
-/* Linke und rechte Container für Buttons */
+/* Gemeinsame Stile für linke und rechte Button-Container */
 .left-actions,
 .right-actions {
     display: flex;
@@ -89,28 +113,39 @@ body.playermenu-page {
     gap: 10px;
 }
 
-/* Rechte Buttons rechts ausrichten */
+.left-actions {
+    justify-content: flex-start;
+}
+
 .right-actions {
     justify-content: flex-end;
 }
 
-/* Linke Buttons links ausrichten */
-.left-actions {
-    justify-content: flex-start;
+/* Hauptüberschrift "Spielermenü" */
+.playermenu-title {
+    font-size: 2.0rem;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
+    text-align: center;
+    flex: 2; /* Nimmt mehr Platz ein als die Seiten, um mittig zu bleiben */
 }
+
+/* --- Runde Navigations-Buttons --- */
 
 .circle-button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    
     display: flex;
     justify-content: center;
     align-items: center;
+    
     text-decoration: none;
     font-size: 1.35rem;
     transition: all 0.2s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-    position: relative;
+    position: relative; /* Wichtig für Tooltips und Badges */
 }
 
 .circle-button:hover {
@@ -118,13 +153,14 @@ body.playermenu-page {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* Tooltip für alle Kreis-Buttons */
+/* Tooltip (erscheint unter dem Button beim Hover) */
 .circle-button::after {
     content: attr(aria-label);
     position: absolute;
     bottom: -45px;
     left: 50%;
     transform: translateX(-50%);
+    
     background: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 8px 12px;
@@ -132,6 +168,7 @@ body.playermenu-page {
     font-size: 0.85rem;
     font-weight: 600;
     white-space: nowrap;
+    
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
@@ -142,7 +179,7 @@ body.playermenu-page {
     opacity: 1;
 }
 
-/* Circle-Buttons */
+/* Farbvarianten der runden Buttons */
 .news-button {
     background: linear-gradient(135deg, #00aaff, #0077cc);
     color: white;
@@ -164,12 +201,13 @@ body.playermenu-page {
     box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
 }
 
-/* 2. Benachrichtigungs-Badge */
+/* Benachrichtigungs-Badge (roter Punkt mit Zahl) */
 .notification-badge {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: #ff4757; /* Knalliges Rot */
+    
+    background-color: #ff4757;
     color: white;
     font-size: 0.7rem;
     font-weight: bold;
@@ -178,8 +216,9 @@ body.playermenu-page {
     min-width: 15px;
     text-align: center;
     line-height: 1;
+    
     border: 2px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 10;
     animation: pulse-badge 2s infinite;
 }
@@ -190,133 +229,43 @@ body.playermenu-page {
     100% { transform: scale(1); }
 }
 
-/* Überschrift */
-.playermenu-title {
-    font-size: 2.0rem;
-    color: #ffffff;
-    text-shadow: 0 0 12px rgba(142, 45, 226, 0.8);
-    text-align: center;
-    flex: 2;
-}
 
-/* Karussell Container */
-.carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 16px 0;
-    position: relative;
-}
+/* =========================
+   4. SPIELER-INFORMATIONEN
+   =========================
+*/
 
-/* Avatar Karussell */
-.avatar-carousel {
-    width: 300px;
-    overflow: hidden;
-    position: relative;
-}
-.carousel-track {
-    display: flex;
-    transition: transform 0.3s ease;
-    width: 100%;
-}
-
-/* Desktop: drei Avatare sichtbar */
-.avatar-carousel-item {
-    flex: 0 0 calc(100% / 3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2px;
-    box-sizing: border-box;
-    transition: all 0.28s ease;
-}
-.avatar-carousel-item.left,
-.avatar-carousel-item.right {
-    opacity: 0.45;
-    transform: scale(0.86);
-}
-.avatar-carousel-item.center {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Karussell Buttons */
-.carousel-button {
-    background: rgba(255, 255, 255, 0.06);
-    border: 2px solid #8e2de2;
-    color: #8e2de2;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.15rem;
-    transition: all 0.25s ease;
-    box-shadow: 0 6px 18px rgba(142, 45, 226, 0.35);
-}
-.carousel-button:hover:not(:disabled) {
-    background: #8e2de2;
-    color: white;
-    box-shadow: 0 8px 28px rgba(142, 45, 226, 0.55);
-}
-.carousel-button:disabled {
-    opacity: 0.28;
-    cursor: not-allowed;
-    border-color: #666;
-    color: #666;
-}
-
-/* Karussell Indicator */
-.carousel-indicator {
-    text-align: center;
-    color: #fff;
-    font-size: 0.98rem;
-    margin-bottom: 8px;
-}
-
-/* Äußere Box für Avatar + Username */
+/* Äußerer Container für Avatar links und Text rechts */
 .player-info-box {
     display: flex;
     gap: 1rem;
     width: 100%;
     max-width: 520px;
+    
     background: rgba(40, 40, 70, 0.55);
     padding: 0.9rem 1rem;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(149, 33, 250, 0.25);
+    
     justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
 }
 
-/* Linke Box: Avatar + Button */
+/* --- Avatar Bereich --- */
+
 .avatar-button-box {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    padding: 0;
 }
 
-/* Container für Avatar + Button unten rechts */
 .avatar-container {
     position: relative;
     display: inline-block;
 }
 
-/* Avatar Auswahl Hinweis */
-.avatar-hint {
-    text-align: center;
-    color: #a0a0c0;
-    font-size: 0.9rem;
-    margin: -0.5rem 0 1.5rem 0;
-    font-style: italic;
-}
-
-/* Avatar (Profilbild) */
+/* Das eigentliche Profilbild */
 .player-avatar {
     width: 96px;
     height: 96px;
@@ -324,44 +273,45 @@ body.playermenu-page {
     border: 3px solid #00ffcc;
     box-shadow: 0 8px 24px rgba(0, 255, 204, 0.45);
     object-fit: cover;
-    cursor: pointer; /* Pointer-Cursor für Avatar */
+    cursor: pointer;
     transition: transform 0.2s ease;
 }
 
-/* Kleiner runder Button unten rechts am Avatar */
+/* Kleiner "Bearbeiten"-Stift unten rechts am Avatar */
 .small-circle-button {
     position: absolute;
     bottom: 4px;
     right: 4px;
+    
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.9);
+    
     background: rgba(0, 255, 204, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.9);
     color: white;
     font-size: 0.7rem;
-    cursor: pointer;
+    
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.2s ease;
     padding: 0;
 }
 
-/* Rechte Box: Username + Infos */
+/* --- Text Bereich (Username & Stats) --- */
+
 .username-box {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    background: transparent;
     padding: 0 20px;
-    gap: 0;
     text-align: left;
 }
 
-/* Spielername */
 .player-username {
     font-size: 1.8rem;
     font-weight: 700;
@@ -370,16 +320,20 @@ body.playermenu-page {
     margin: 0 0 0.2rem 0;
 }
 
-/* Spielerinfo (Datum, Highscore) */
 .player-info {
     font-size: 0.9rem;
     color: #dcdfe6;
-    text-shadow: 0 0 4px rgba(142,45,226,0.35);
+    text-shadow: 0 0 4px rgba(142, 45, 226, 0.35);
     margin: 0;
     line-height: 1.25;
 }
 
-/* Buttons unten */
+
+/* =================
+   5. MODI-BUTTONS
+   =================
+*/
+
 .menu-buttons {
     display: flex;
     gap: 1rem;
@@ -388,22 +342,26 @@ body.playermenu-page {
     max-width: 500px;
 }
 
+/* Basis-Design für große Spiel-Buttons */
 .game-button {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 0.5rem 1.5rem;
+    
     border-radius: 16px;
     text-decoration: none;
     color: white;
     font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    flex: 1;
+    
+    flex: 1; /* Beide Buttons gleich breit */
     min-width: 0;
+    
     border: 2px solid transparent;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
 .game-button:hover {
@@ -412,18 +370,22 @@ body.playermenu-page {
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* Icon-Box links im Button */
 .button-icon {
     font-size: 1.6rem;
     width: 48px;
     height: 48px;
+    
     display: flex;
     align-items: center;
     justify-content: center;
+    
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.15);
     flex-shrink: 0;
 }
 
+/* Text-Container im Button */
 .button-text {
     display: flex;
     flex-direction: column;
@@ -446,18 +408,19 @@ body.playermenu-page {
     font-weight: 500;
 }
 
-/* Singleplayer Button - Modernes Blau */
+/* Spezifische Designs für die Modi */
+
+/* Singleplayer: Modernes Blau/Lila */
 .singleplayer {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-color: rgba(102, 126, 234, 0.4);
 }
-
 .singleplayer .button-icon {
     background: rgba(255, 255, 255, 0.2);
     color: #e3f2fd;
 }
 
-/* Multiplayer Button - Warmes Orange/Rot */
+/* Multiplayer: Warmes Orange/Rot */
 .multiplayer {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     border-color: rgba(245, 87, 108, 0.4);
@@ -465,17 +428,16 @@ body.playermenu-page {
     overflow: hidden;
 }
 
+/* Overlay für Multiplayer, um Tiefe zu erzeugen */
 .multiplayer::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
 
+/* Stellt sicher, dass Inhalt über dem Overlay liegt */
 .multiplayer > * {
     position: relative;
     z-index: 2;
@@ -486,7 +448,224 @@ body.playermenu-page {
     color: #ffebee;
 }
 
-/* Bis 1024px (Tablets, kleine Laptops) */
+
+/* ============================
+   6. AVATAR-MODAL & KARUSSELL
+   ============================
+*/
+
+/* Hintergrund-Overlay */
+.modal {
+    display: none; /* Wird per JS auf Flex gesetzt */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.25s;
+}
+
+/* Das eigentliche Modal-Fenster */
+.modal-content {
+    background-color: #161616;
+    margin: 1.2rem;
+    padding: 16px;
+    border-radius: 12px;
+    width: 92%;
+    max-width: 520px;
+    max-height: calc(100vh - 3rem); /* Scrollbar falls Screen zu klein */
+    overflow-y: auto;
+    
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: relative;
+}
+
+/* X-Button oben rechts */
+.close-button {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 6;
+}
+
+.modal-title {
+    text-align: center;
+    margin: 0 0 1rem 0;
+    color: #fff;
+}
+
+.avatar-hint {
+    text-align: center;
+    color: #a0a0c0;
+    font-size: 0.9rem;
+    margin: -0.5rem 0 1.5rem 0;
+    font-style: italic;
+}
+
+/* --- Karussell Logik --- */
+
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 16px 0;
+    position: relative;
+}
+
+.avatar-carousel {
+    width: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+/* Einzelnes Item im Karussell (Desktop: 3 sichtbar) */
+.avatar-carousel-item {
+    flex: 0 0 calc(100% / 3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    box-sizing: border-box;
+    transition: all 0.28s ease;
+}
+
+/* Inaktive Items links/rechts (kleiner & transparent) */
+.avatar-carousel-item.left,
+.avatar-carousel-item.right {
+    opacity: 0.45;
+    transform: scale(0.86);
+}
+
+/* Aktives Item in der Mitte */
+.avatar-carousel-item.center {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Das Avatar-Bild im Karussell */
+.avatar-item {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.22s ease;
+    object-fit: cover;
+    margin: 0 6px;
+}
+
+.avatar-item:hover {
+    transform: scale(1.05);
+    border-color: #00aaff;
+}
+
+/* Der ausgewählte Avatar (grüner Rand) */
+.avatar-item.selected {
+    border-color: #00ffcc;
+    transform: none !important; 
+}
+.avatar-item.selected:hover {
+    border-color: #00ffcc;
+}
+
+/* Karussell-Steuerbuttons (Pfeile) */
+.carousel-button {
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px solid #8e2de2;
+    color: #8e2de2;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 1.15rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(142, 45, 226, 0.35);
+}
+
+.carousel-button:hover:not(:disabled) {
+    background: #8e2de2;
+    color: white;
+    box-shadow: 0 8px 28px rgba(142, 45, 226, 0.55);
+}
+
+.carousel-button:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    border-color: #666;
+    color: #666;
+}
+
+.carousel-indicator {
+    text-align: center;
+    color: #fff;
+    font-size: 0.98rem;
+    margin-bottom: 8px;
+}
+
+/* Modal-Aktionen (Speichern / Abbrechen) */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.centered-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.modal-action-button,
+.modal-cancel-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.18s;
+}
+
+.modal-action-button { background-color: #00aaff; color: #fff; }
+.modal-action-button:hover { background-color: #0088cc; }
+
+.modal-cancel-button { background-color: #555; color: #fff; }
+.modal-cancel-button:hover { background-color: #333; }
+
+@keyframes fadeIn { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
+
+
+/* =====================
+   7. RESPONSIVE DESIGN
+   =====================
+*/
+
+/* --- Tablets & kleine Laptops (max 1024px) --- */
 @media (max-width: 1024px) {
     .playermenu-wrapper {
         padding: 15px;
@@ -500,16 +679,17 @@ body.playermenu-page {
 
     .player-username { font-size: 1.7rem; }
     .playermenu-title { font-size: 1.9rem; }
-    body.playermenu-page {
+    
+    .playermenu-page {
         justify-content: center;
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
 }
 
-/* Bis 768px (Tablets / größere Handys) */
+/* --- Tablets & große Smartphones (max 768px) --- */
 @media (max-width: 768px) {
-    body.playermenu-page {
+    .playermenu-page {
         padding-top: env(safe-area-inset-top, 1rem);
         padding-bottom: env(safe-area-inset-bottom, 0.5rem);
     }
@@ -525,9 +705,7 @@ body.playermenu-page {
         gap: 1rem;
     }
 
-    .player-avatar { width: 88px; height: 88px; }
-    
-    /* Avatar + Username: Vertikal anordnen */
+    /* Avatar und User-Info untereinander stapeln */
     .player-info-box {
         flex-direction: column;
         align-items: center;
@@ -539,16 +717,17 @@ body.playermenu-page {
         text-align: center;
     }
 
-    .avatar-carousel { width: 220px; }
-
-    /* Auf Tablets / Mobilgeräten nur 1 Avatar pro Slide (JS already chooses 1) */
-    .avatar-carousel-item { flex: 0 0 100%; }
-    .carousel-button { width: 36px; height: 36px; font-size: 1rem; }
-
+    .player-avatar { width: 88px; height: 88px; }
     .player-username { font-size: 1.35rem; }
     .playermenu-title { font-size: 1.4rem; }
 
-    /* Buttons untereinander (besser für Touch) */
+    /* Karussell: Nur 1 Item sichtbar auf Mobile */
+    .avatar-carousel { width: 220px; }
+    .avatar-carousel-item { flex: 0 0 100%; }
+    
+    .carousel-button { width: 36px; height: 36px; font-size: 1rem; }
+
+    /* Game-Buttons untereinander anordnen für bessere Touch-Targets */
     .menu-buttons {
         flex-direction: column;
         gap: 0.8rem;
@@ -565,14 +744,10 @@ body.playermenu-page {
         font-size: 1.6rem;
     }
     
-    .button-title {
-        font-size: 1rem;
-    }
-    
-    .button-subtitle {
-        font-size: 0.8rem;
-    }
+    .button-title { font-size: 1rem; }
+    .button-subtitle { font-size: 0.8rem; }
 
+    /* Navigations-Buttons kleiner */
     .circle-button {
         width: 45px;
         height: 45px;
@@ -586,18 +761,22 @@ body.playermenu-page {
     }
 }
 
-/* Bis 480px (kleine Handys) */
+/* --- Kleine Smartphones (max 480px) --- */
 @media (max-width: 480px) {
-    .avatar-carousel { width: 180px; }
+    .playermenu-wrapper { padding: 8px; }
+    
     .player-card {
         padding: 1rem;
         max-width: 100%;
     }
-    .player-avatar { width: 88px; height: 88px; }
-    .player-username { font-size: 1.2rem; }
-    .playermenu-title { font-size: 1.2rem; }
-    .playermenu-wrapper { padding: 8px; }
     
+    .playermenu-title { font-size: 1.2rem; }
+    .player-username { font-size: 1.2rem; }
+    
+    /* Buttons noch kompakter */
+    .left-actions, .right-actions {
+        gap: 8px;
+    }
 
     .game-button {
         padding: 0.5rem 1.5rem;
@@ -610,6 +789,8 @@ body.playermenu-page {
         font-size: 1.4rem;
     }
 
+    /* Modal Anpassungen */
+    .avatar-carousel { width: 180px; }
     .carousel-button { width: 32px; height: 32px; font-size: 0.9rem; }
 
     .circle-button {
@@ -623,115 +804,4 @@ body.playermenu-page {
         padding: 5px 8px;
         bottom: -35px;
     }
-    
-    .left-actions, .right-actions {
-        gap: 8px; /* Weniger Abstand auf kleinen Handys */
-    }
 }
-
-/* Modal Überschrift */
-.modal-title {
-    text-align: center;
-    margin: 0 0 1rem 0;
-    color: #fff;
-}
-
-/* Modal Hintergrund */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 0.25s;
-}
-
-/* Modal Inhalt: maximaler Platz und Scroll wenn nötig */
-.modal-content {
-    background-color: #161616;
-    margin: 1.2rem;
-    padding: 16px;
-    border-radius: 12px;
-    width: 92%;
-    max-width: 520px;
-    max-height: calc(100vh - 3rem); /* damit das Modal bei kleinen Bildschirmen scrollt */
-    overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    color: #fff;
-    position: relative;
-}
-
-/* Close Button */
-.close-button {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 6;
-}
-
-/* Einzelner Avatar */
-.avatar-item {
-    width: 84px;
-    height: 84px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.22s ease;
-    object-fit: cover;
-    margin: 0 6px;
-}
-
-.avatar-item.selected {
-    border-color: #00ffcc;
-    /* Der ausgewählte Avatar soll keinen Hover-Skalierungseffekt mehr haben */
-    transform: none !important; 
-}
-
-.avatar-item:hover {
-    transform: scale(1.05);
-    border-color: #00aaff;
-}
-
-/* Der bereits ausgewählte Avatar soll beim Hover nicht die Farbe ändern, sondern seinen grünen Rand behalten */
-.avatar-item.selected:hover {
-    border-color: #00ffcc;
-}
-
-/* Modal Buttons */
-.modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 14px;
-}
-.centered-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 14px;
-}
-.modal-action-button,
-.modal-cancel-button {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background 0.18s;
-}
-.modal-action-button { background-color: #00aaff; color: #fff; }
-.modal-action-button:hover { background-color: #0088cc; }
-.modal-cancel-button { background-color: #555; color: #fff; }
-.modal-cancel-button:hover { background-color: #333; }
-
-/* Animation */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
