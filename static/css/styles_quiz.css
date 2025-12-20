@@ -1,36 +1,55 @@
-/* === SAFE AREAS & GLOBAL STYLES === */
+/* styles_quiz.css - Haupt-Quiz */
+
+/* ==============================
+   1. BASIS-STYLING & SCROLLBARS
+   ==============================
+*/
+
 body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* Berücksichtigt Safe-Areas */
     padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
     box-sizing: border-box;
     overflow-x: hidden;
     margin: 0;
+    
+    /* Scrollbar-Design für Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
 }
 
+/* ==================
+   2. LAYOUT WRAPPER
+   ==================
+*/
+
+/* Der Hauptcontainer, der Header und Quiz-Box umschließt */
 .main-quiz-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    /* Der gewünschte Abstand zwischen Header und Quiz-Box */
     gap: 20px; 
 
-    /* Breiten-Logik von .quiz-container-wide hierher verschoben */
+    /* Layout-Breite */
     width: 880px;
     max-width: 95%;
     
-    /* Wichtig: Verhindert, dass der Wrapper bei kleinem Viewport gequetscht wird */
+    /* Verhindert Quetschen bei kleinem Viewport */
     flex-shrink: 0;
 
-    /* Der gesamte Block darf maximal die Höhe des Viewports (abzgl. Body-Padding) einnehmen */
-    max-height: calc(100dvh - 2rem); /* 1rem top + 1rem bottom padding */
+    /* Maximalhöhe = Viewport minus Padding */
+    max-height: calc(100dvh - 2rem); 
 }
 
-/* === HEADER-CONTROLS === */
+/* ==================================
+   3. HEADER (Timer, Score, Abbruch)
+   ==================================
+*/
+
 .header-controls {
     position: relative;
     width: 100%;
@@ -49,6 +68,7 @@ body {
     padding: 0 15px;
 }
 
+/* --- TIMER (SVG) --- */
 .timer-container {
     width: 60px;
     height: 60px;
@@ -72,10 +92,10 @@ body {
 
 .timer-progress {
     fill: none;
-    stroke: #00ff00;
+    stroke: #00ff00; /* Startfarbe Grün */
     stroke-width: 7;
     stroke-linecap: round;
-    transform: rotate(-90deg);
+    transform: rotate(-90deg); /* Startet oben */
     transform-origin: center;
     transition: stroke-dashoffset 0.1s linear;
 }
@@ -95,6 +115,7 @@ body {
     text-align: center;
 }
 
+/* --- SCORE DISPLAY --- */
 .score-display {
     font-size: 1.6rem;
     font-weight: bold;
@@ -106,6 +127,7 @@ body {
     position: relative;
 }
 
+/* --- ABBRUCH BUTTON --- */
 .cancel-btn {
     background-color: rgba(255, 255, 255, 0.15);
     border: none;
@@ -134,28 +156,38 @@ body {
     fill: white;
 }
 
-/* === QUIZ-CONTAINER & FRAGEN === */
+/* ==================
+   4. QUIZ CONTAINER
+   ==================
+*/
+
 .quiz-container-wide {
-    width: 100%; /* Füllt den neuen Wrapper */
-    
+    width: 100%;
     text-align: center;
     position: relative;
     z-index: 1;
     padding: 25px;
     
+    /* Glasmorphismus Design */
     border-radius: 16px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.05);
+    
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    
-    flex: 1 1 auto;      /* Darf wachsen und schrumpfen */
-    min-height: 0;       /* Wichtig für Flexbox-Scrolling */
-    overflow-y: auto;    /* Scrollbar im Container, wenn Inhalt zu groß */
-    
     gap: 20px;
+    
+    /* Flex-Scrolling Logik */
+    flex: 1 1 auto;      
+    min-height: 0;       
+    overflow-y: auto;    
+    
+    /* Scrollbar Styling für Webkit (Chrome/Safari) innerhalb der Box */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
 }
 
 .quiz-container-wide::-webkit-scrollbar {
@@ -181,14 +213,12 @@ body {
 
 .quiz-container-wide::-webkit-scrollbar-corner {
     background: transparent;
-    border-radius: 8px;
 }
 
-/* Für Firefox */
-.quiz-container-wide {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
-}
+/* ================
+   5. FRAGEBEREICH
+   ================
+*/
 
 .question-box {
     background-color: rgba(0, 0, 0, 0.25);
@@ -200,16 +230,16 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    
     flex: 0 0 auto; 
     
+    /* Dynamische Höhe je nach Inhalt */
     min-height: 150px;
-    
     max-height: 40vh; 
     overflow-y: auto; 
 }
 
 .question-text {
+    /* Responsive Schriftgröße mit clamp() */
     font-size: clamp(1.2rem, 3.5vh, 1.7rem);
     font-weight: bold;
     text-shadow: 0 1px 3px rgba(0,0,0,0.4);
@@ -217,53 +247,62 @@ body {
     color: #ffffff;
     text-align: center;
     width: 90%;
-    padding: 0;
     margin: 0;
+    
+    /* Umbruch-Verhalten */
     overflow-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
 }
 
+/* ====================
+   6. ANTWORTEN (GRID)
+   ====================
+*/
+
 .options-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    
     gap: 15px;
-    
     width: 100%;
     box-sizing: border-box;
     
-    /* NEU: Flex-Eigenschaften für Zentrierung und korrektes Scrollen */
+    /* Zentrierung im Flex-Container */
     flex: 0 0 auto; 
     margin-top: auto; 
     margin-bottom: auto; 
-    
     min-height: 0;
-    /* align-content: center ist dank margin: auto nicht mehr nötig */
 }
 
 .option {
     width: 95%; 
     margin: 0 auto; 
-    
     min-height: 65px;
-    
     padding: 10px;
     border-radius: 12px;
+    
+    /* Schrift */
     font-size: clamp(0.9rem, 2.5vh, 1.1rem);
     font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    color: #ffffff;
+    text-align: center;
+    
+    /* Layout */
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    
+    /* Visuelles Styling */
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(3px);
     border: 1px solid rgba(255, 255, 255, 0.18);
     background-color: rgba(255, 255, 255, 0.12) !important;
-    color: #ffffff;
-    overflow: visible; /* WICHTIG: Erlaubt Hover-Effekten und Schatten, über den Rand zu gehen */
+    
+    cursor: pointer;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    
+    /* Text-Handling */
+    overflow: visible; 
     overflow-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
@@ -275,19 +314,19 @@ body {
     background-color: rgba(255, 255, 255, 0.18) !important;
 }
 
-/* === ANTWORT-STATUS === */
+/* --- ANTWORT-ZUSTÄNDE (JS gesteuert) --- */
+
+/* Richtig: Grün + Pulsieren */
 .option.correct {
     background-color: rgba(0, 255, 120, 0.2) !important;
     box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
-    pointer-events: none;
+    pointer-events: none; /* Klick verhindern */
     color: white !important;
-    transition: all 0.3s ease;
     animation: pulseCorrect 1.5s 3 alternate;
 }
-.option.correct:hover {
-    transform: none !important;
-}
+.option.correct:hover { transform: none !important; }
 
+/* Falsch: Rot + Schütteln */
 .option.wrong {
     background-color: rgba(255, 60, 60, 0.2) !important;
     box-shadow: 0 0 12px rgba(255, 60, 60, 0.7);
@@ -295,28 +334,32 @@ body {
     color: white !important;
     animation: shake 0.5s;
 }
-.option.wrong:hover {
-    transform: none !important;
-}
+.option.wrong:hover { transform: none !important; }
 
+/* Ausgewählt: Heller Hintergrund */
 .option.selected {
     background-color: rgba(255, 255, 255, 0.25) !important;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
+/* Deaktiviert (nach Zeitablauf/Antwort) */
 .option.disabled {
     opacity: 0.5;
     pointer-events: none;
 }
 
+/* Beantwortet */
 .option.answered {
     opacity: 1 !important;
 }
 
-/* Fortschrittsbalken */
+/* ======================
+   7. FORTSCHRITTSBALKEN
+   ======================
+*/
+
 .progress-bar {
-    /* Positionierung & Text */
-    position: relative; /* Wichtig für das Pseudo-Element */
+    position: relative;
     font-size: 1.1rem;
     color: #ffffff;
     font-weight: 600;
@@ -324,121 +367,42 @@ body {
     z-index: 1;
     
     /* Container Style */
-    background: rgba(0, 0, 0, 0.4); /* Etwas dunklerer Hintergrund als Track */
+    background: rgba(0, 0, 0, 0.4);
     padding: 8px 16px;
     border-radius: 50px;
     backdrop-filter: blur(5px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     
-    /* Layout */
     display: inline-block;
     width: auto;
-    min-width: 180px; /* Feste Mindestbreite damit es nicht "springt" */
+    min-width: 180px; 
     text-align: center;
-    overflow: hidden; /* Damit der Füllstand die runden Ecken nicht verlässt */
+    overflow: hidden; 
     flex: 0 0 auto;
 }
 
-/* Der eigentliche Balken im Hintergrund */
+/* Der Füllstand (über CSS Variable --progress gesteuert) */
 .progress-bar::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
-    
-    /* Die Breite wird über JS gesteuert */
     width: var(--progress, 0%);
-    
-    /* Verlauf von Blau zu Grün (passend zu deinem Theme) */
-    background: linear-gradient(90deg, 
-        rgba(66, 153, 225, 0.5) 0%, 
-        rgba(72, 187, 120, 0.6) 100%
-    );
-    
-    z-index: -1; /* Hinter den Text schieben */
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Weiche Animation */
-    box-shadow: 2px 0 10px rgba(72, 187, 120, 0.3); /* Leichter Glow an der Kante */
+    background: linear-gradient(90deg, rgba(66, 153, 225, 0.5) 0%, rgba(72, 187, 120, 0.6) 100%);
+    z-index: -1;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 2px 0 10px rgba(72, 187, 120, 0.3);
 }
 
-/* === ANIMATIONEN === */
-.score-positive-update {
-    animation: scorePulse 0.8s ease;
-}
+/* =================
+   8. ABBRUCH-MODAL
+   =================
+*/
 
-@keyframes scorePulse {
-    0%, 100% { 
-        transform: scale(1);
-        color: #fff;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
-    }
-    50% { 
-        transform: scale(1.15);
-        color: #00ff00;
-        text-shadow: 0 0 12px rgba(0, 255, 120, 0.8), 0 0 20px rgba(0, 255, 120, 0.5);
-    }
-}
-
-.timer-container.pulse {
-    animation: timerPulse 1s infinite;
-}
-
-@keyframes timerPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-@keyframes floatUp {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -150%);
-    }
-}
-
-@keyframes pulseCorrect {
-    0% {
-        box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
-        transform: scale(1);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(0, 255, 120, 0.9), 0 0 30px rgba(0, 255, 120, 0.5);
-        transform: scale(1.03);
-    }
-    100% {
-        box-shadow: 0 0 12px rgba(0, 255, 120, 0.7);
-        transform: scale(1);
-    }
-}
-
-.points-indicator {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #00ff00;
-    font-weight: bold;
-    font-size: 1.8rem;
-    animation: floatUp 1.5s ease-out forwards;
-    pointer-events: none;
-    z-index: 1000;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-/* === MODAL STYLES (unverändert) === */
 .confirmation-modal {
-    display: none;
+    display: none; /* Initial versteckt */
     position: fixed;
     top: 0;
     left: 0;
@@ -453,24 +417,14 @@ body {
 
 .modal-content {
     background-color: #1a1a2e;
-    
-    /* Vertikal 30px, Horizontal 20px */
     padding: 30px 20px; 
-    
     border-radius: 12px;
     text-align: center;
-    
-    /* NEU: Max-Breite reduzieren, um besser in den Mobile-View zu passen */
     max-width: 500px; 
-    
-    /* Der Inhalt nimmt 90% der verfügbaren Breite ein */
     width: 90%; 
-    
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
-    
-    /* Zentrieren des Inhalts in der Modal-Ansicht, falls sie schmaler als 100% ist */
     box-sizing: border-box; 
 }
 
@@ -529,9 +483,7 @@ body {
     order: 1;
 }
 
-.modal-cancel:hover {
-    background: linear-gradient(135deg, #2980b9, #21618c);
-}
+.modal-cancel:hover { background: linear-gradient(135deg, #2980b9, #21618c); }
 
 .modal-confirm {
     background: linear-gradient(135deg, #e74c3c, #c0392b);
@@ -539,13 +491,81 @@ body {
     order: 2;
 }
 
-.modal-confirm:hover {
-    background: linear-gradient(135deg, #c0392b, #a93226);
+.modal-confirm:hover { background: linear-gradient(135deg, #c0392b, #a93226); }
+
+/* ===========================
+   9. ANIMATIONEN (KEYFRAMES)
+   ===========================
+*/
+
+/* Score-Pulsieren bei Punkten */
+.score-positive-update {
+    animation: scorePulse 0.8s ease;
 }
 
-/* === MEDIA QUERIES === */
+@keyframes scorePulse {
+    0%, 100% { 
+        transform: scale(1);
+        color: #fff;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    }
+    50% { 
+        transform: scale(1.15);
+        color: #00ff00;
+        text-shadow: 0 0 12px rgba(0, 255, 120, 0.8), 0 0 20px rgba(0, 255, 120, 0.5);
+    }
+}
 
-/* Tablet (1024px) */
+/* Timer-Pulsieren (letzte 10s) */
+.timer-container.pulse {
+    animation: timerPulse 1s infinite;
+}
+
+@keyframes timerPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Schwebende Punkte */
+@keyframes floatUp {
+    0% { opacity: 1; transform: translate(-50%, -50%); }
+    100% { opacity: 0; transform: translate(-50%, -150%); }
+}
+
+.points-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #00ff00;
+    font-weight: bold;
+    font-size: 1.8rem;
+    animation: floatUp 1.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 1000;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Richtig/Falsch Animationen */
+@keyframes pulseCorrect {
+    0% { box-shadow: 0 0 12px rgba(0, 255, 120, 0.7); transform: scale(1); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 120, 0.9), 0 0 30px rgba(0, 255, 120, 0.5); transform: scale(1.03); }
+    100% { box-shadow: 0 0 12px rgba(0, 255, 120, 0.7); transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ======================
+   10. RESPONSIVE DESIGN
+   ======================
+*/
+
+/* --- Tablet / Kleiner Desktop (max 1024px) --- */
 @media (max-width: 1024px) {
     .main-quiz-wrapper {
         width: 850px;
@@ -567,7 +587,7 @@ body {
     }
 }
 
-/* Small Tablet (768px) */
+/* --- Kleines Tablet / Großes Handy (max 768px) --- */
 @media (max-width: 768px) {
     .main-quiz-wrapper {
         width: 92%;
@@ -590,6 +610,7 @@ body {
         font-size: clamp(1.1rem, 3.5vh, 1.5rem);
     }
     
+    /* Antwortoptionen untereinander statt nebeneinander */
     .options-grid {
         grid-template-columns: 1fr;
     }
@@ -606,11 +627,7 @@ body {
         height: 55px;
     }
     
-    .timer-text {
-        font-size: 1.4rem;
-    }
-    
-    .score-display {
+    .timer-text, .score-display {
         font-size: 1.4rem;
     }
     
@@ -623,7 +640,7 @@ body {
     }
 }
 
-/* Mobile (480px) */
+/* --- Mobile (max 480px) --- */
 @media (max-width: 480px) {
     body {
         padding: env(safe-area-inset-top, 0.5rem) env(safe-area-inset-right, 0.5rem) env(safe-area-inset-bottom, 0.5rem) env(safe-area-inset-left, 0.5rem);
@@ -632,13 +649,12 @@ body {
     .main-quiz-wrapper {
         width: 96%;
         max-width: 96%;
-        max-height: calc(100dvh - 1rem); /* 0.5rem top + 0.5rem bottom */
+        max-height: calc(100dvh - 1rem);
     }
 
     .modal-content {
-        /* Setze eine minimale horizontale Marge, um den Inhalt von den Seiten fernzuhalten */
-        width: calc(100% - 40px); /* 100% minus 20px links und 20px rechts */
-        max-width: none; /* Deaktiviere die feste max-width, um width: 100% - 40px zu erlauben */
+        width: calc(100% - 40px); 
+        max-width: none; 
     }
     
     .header-controls {
@@ -677,11 +693,7 @@ body {
         height: 50px;
     }
     
-    .timer-text {
-        font-size: 1.3rem;
-    }
-    
-    .score-display {
+    .timer-text, .score-display, .points-indicator {
         font-size: 1.3rem;
     }
     
@@ -693,10 +705,6 @@ body {
     .cancel-btn svg {
         width: 18px;
         height: 18px;
-    }
-    
-    .points-indicator {
-        font-size: 1.3rem;
     }
     
     .progress-bar {
