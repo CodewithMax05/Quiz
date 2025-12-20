@@ -1,7 +1,7 @@
 subject;question;true;wrong1;wrong2;wrong3
 Technologie;Was ist der Hauptvorteil von SSDs gegenüber HDDs?;Keine beweglichen Teile;Niedrigerer Preis pro GB;Größere Speicherkapazität;Nur für Server geeignet
 Technologie;Welche Einheit misst die Frequenz eines Prozessors?;Hertz (Hz);Volt (V);Ampere (A);Watt (W)
-Technologie;Was beschreibt die Auflösung eines Displays (z.B. 1920x1080)? ;Anzahl der horizontalen und vertikalen Pixel;Helligkeit des Bildschirms;Farbtiefe in Bit;Bildwiederholrate in Hz
+Technologie;Was beschreibt die Auflösung eines Displays (z.B. 1920x1080)? ;Die Anzahl der horizontalen und vertikalen Pixel;Helligkeit des Bildschirms;Farbtiefe in Bit;Bildwiederholrate in Hz
 Technologie;Welche Funktion hat ein Router in einem Netzwerk?;Verbindet verschiedene Netzwerke und leitet Datenpakete;Druckt Dokumente im Netzwerk;Verwaltet Benutzerkonten;Misst die Umgebungstemperatur
 Technologie;Was ist der Unterschied zwischen RAM und ROM?;RAM ist flüchtig und wird zum Arbeiten genutzt;ROM ist viel schneller als RAM;RAM speichert alle Daten dauerhaft;Beide sind gleich schnell
 Technologie;Welche Programmiersprache ist bekannt für ihre serverseitige Webentwicklung?;Python;HTML;CSS;Swift
@@ -10,11 +10,11 @@ Technologie;Was bedeutet der Begriff 'Open Source'-Software?;Der Quellcode ist �
 Technologie;Welche Technologie dient zur eindeutigen Identifizierung von Objekten über Funkwellen?;RFID (Radio Frequency Identification);NFC (Near Field Communication);Bluetooth;Li-Fi
 Technologie;Was ist der Hauptzweck von 'Cloud Computing'?;Bereitstellung von IT-Ressourcen über das Internet;Reduzierung der Internetgeschwindigkeit;Ausschließlich Speicherung von Fotos;Ersatz für physische Tastaturen
 Technologie;Welcher Begriff beschreibt die Fähigkeit eines Systems, sich an steigende Last anzupassen?;Skalierbarkeit;Volatilität;Redundanz;Latenz
-Technologie;Was ist ein 'Firewall' in der IT-Sicherheit?;Ein System, das den Netzwerkverkehr überwacht und filtert;Ein Programm zur Defragmentierung der Festplatte;Ein Mechanismus zum Übertakten der CPU;Eine Methode zur Akku-Kalibrierung
+Technologie;Was ist eine Firewall in der IT-Sicherheit?;Ein System, das den Netzwerkverkehr überwacht und filtert;Ein Programm zur Defragmentierung der Festplatte;Ein Mechanismus zum Übertakten der CPU;Eine Methode zur Akku-Kalibrierung
 Technologie;Was ist der Unterschied zwischen einem 32-Bit und einem 64-Bit Betriebssystem?;64-Bit kann mehr RAM adressieren;32-Bit ist immer schneller;64-Bit ist nur für Grafikkarten;32-Bit benötigt weniger Speicherplatz
 Technologie;Was ist der Hauptvorteil eines Mesh-WLAN-Systems?;Bessere und gleichmäßigere Abdeckung in großen Bereichen;Höhere Geschwindigkeit durch Kabelverbindung;Immer kostenlos;Nutzt nur das 5G-Netzwerk
 Technologie;Welche Funktion hat die GPU?;Verarbeitung von Grafiken und parallelen Berechnungen;Speicherung des Betriebssystems;Verwaltung des Netzwerkverkehrs;Steuerung des Akkuladevorgangs
-Technologie;Was ist eine 'IP-Adresse'?;Eine eindeutige Adresse zur Identifizierung eines Geräts im Netzwerk;Ein Passwort für den WLAN-Zugang;Der Name eines Servers;Ein Standard für die E-Mail-Verschlüsselung
+Technologie;Was ist eine 'IP-Adresse'?;Eine eindeutige Adresse zur Identifizierung eines Gerätes im Netzwerk;Ein Passwort für den WLAN-Zugang;Der Name eines Servers;Ein Standard für die E-Mail-Verschlüsselung
 Technologie;Was ist der Unterschied zwischen HTTP und HTTPS?;HTTPS verschlüsselt die Kommunikation mit SSL/TLS;HTTP ist nur für Bilder;HTTPS ist langsamer als HTTP;HTTP ist der neuere Standard
 Technologie;Was ist ein 'Cookie' im Kontext von Webbrowsern?;Eine kleine Datei, die Informationen über besuchte Websites speichert;Ein Virenscanner-Programm;Eine spezielle Art von Webserver;Ein Add-on für bessere Grafiken
 Technologie;Was ist der Hauptzweck eines VPN?;Erstellung einer sicheren, verschlüsselten Verbindung über das Internet;Beschleunigung der Internetverbindung;Blockierung aller E-Mails;Verwaltung von Druckerwarteschlangen
@@ -43,7 +43,7 @@ Technologie;Was ist der Hauptunterschied zwischen einer App und einer Webanwendu
 Technologie;Was ist ein 'Digitaler Zwilling'?;Eine virtuelle Kopie eines physischen Objekts oder Systems;Ein neues Dateiformat für Videos;Ein Standard für die Netzwerksicherheit;Ein schnellerer Typ von Prozessor
 Technologie;Was ist 'Augmented Virtuality' (AV)?;Integration von realen Objekten in eine virtuelle Umgebung;Eine verbesserte Form von 3D-Druck;Ein Protokoll für Video-Streaming;Eine Methode zur Datenkomprimierung
 Technologie;Was ist ein 'Trojanisches Pferd' in der IT-Sicherheit?;Malware, die sich als nützliche Software tarnt;Ein Hardware-Schutzschalter;Ein Standard für Netzwerkadressen;Ein Programm zur CPU-Optimierung
-Technologie;Was ist der Hauptzweck von 'Virtualisierung' in der IT?;Erstellung virtueller Versionen von Ressourcen;Erhöhung der physischen Speicherkapazität;Messung der Akkulaufzeit;Reduzierung der Netzwerk-Latenz
+Technologie;Was ist der Hauptzweck von 'Virtualisierung' in der IT?;Die Erstellung virtueller Versionen von Ressourcen;Erhöhung der physischen Speicherkapazität;Messung der Akkulaufzeit;Reduzierung der Netzwerk-Latenz
 Technologie;Was ist der Unterschied zwischen einem Transistor und einem Chip?;Ein Chip besteht aus Milliarden von Transistoren;Ein Transistor ist größer als ein Chip;Beide sind dasselbe;Ein Chip speichert nur Daten
 Technologie;Welche Technologie ermöglicht es einem Display, schneller auf Bildänderungen zu reagieren?;Niedrige 'Reaktionszeit' (ms);Hohe Helligkeit (cd/m²);Große Farbraumabdeckung;Hohe Auflösung
 Technologie;Was ist der Hauptzweck eines 'DNS-Servers'?;Übersetzung von Domainnamen in IP-Adressen;Verwaltung von WLAN-Passwörtern;Speicherung von Passwörtern;Messung der CPU-Temperatur
