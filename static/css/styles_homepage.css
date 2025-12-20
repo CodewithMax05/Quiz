@@ -1,9 +1,9 @@
 /* styles_homepage.css - Themenmenü */
 
 
-/* ============================================================
+/* ================
    1. HAUPT-LAYOUT
-   ============================================================ 
+   ================
 */
 
 /* Der Page-Wrapper umschließt alles und sorgt für die Zentrierung auf dem Bildschirm */
@@ -36,9 +36,9 @@
     flex-shrink: 0;
 }
 
-/* ============================================================
-   2. HEADER-STEUERUNG (Die runden Buttons oben)
-   ============================================================ 
+/* ==========
+   2. HEADER
+   ==========
 */
 
 .header-controls {
@@ -58,9 +58,10 @@
     flex-shrink: 0; /* Verhindert Schrumpfen der Überschrift */
 }
 
-/* ============================================================
-   3. KATEGORIEN-FORMULAR & GRID (Das Auswahlfeld)
-   ============================================================ */
+/* ==============================
+   3. KATEGORIEN-FORMULAR & GRID
+   ==============================
+*/
 
 /* Das Formular, das die Kategorien hält */
 .categories-form {
@@ -89,9 +90,13 @@
     overflow-y: auto; /* Scrollen falls nötig */
     scrollbar-gutter: stable; /* Platz für Scrollbar reservieren */
     padding-inline-end: 12px; 
+
+    /* SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin; /* Dünne Scrollbar wie in Chrome */
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
 }
 
-/* Scrollbar-Stil für Webkit-Browser */
+/* SCROLLBAR-STIL FÜR WEBKIT-BROWSER (Chrome, Safari, Edge) */
 .category-grid::-webkit-scrollbar {
     width: 6px;
 }
@@ -114,9 +119,9 @@
     border-radius: 8px;
 }
 
-/* ============================================================
-   4. KATEGORIE-KACHELN (Die einzelnen Themen-Boxen)
-   ============================================================ 
+/* ===================
+   4. KATEGORIE-CARDS
+   ===================
 */
 
 .category-card {
@@ -153,7 +158,7 @@
     color: rgba(255, 255, 255, 0.5) !important;
 }
 
-/* Effekt beim Drüberfahren (Hover) */
+/* Effekt bei Hover */
 .category-card:hover {
     transform: translateY(-3px); /* Karte schwebt leicht nach oben */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
@@ -238,9 +243,9 @@
     transition: all 0.3s ease;
 }
 
-/* ============================================================
-   5. SPEZIAL-BOX: ZUFALLSMODUS (Die lila Box)
-   ============================================================ 
+/* ==============================
+   5. SPEZIAL-CARD: ZUFALLSMODUS
+   ==============================
 */
 
 .random-mode-card {
@@ -281,9 +286,9 @@
     background: #9b59b6;
 }
 
-/* ============================================================
-   6. AKTION-BUTTONS (Support, Start, Admin unten)
-   ============================================================ 
+/* ===================================
+   6. BUTTONS (Support, Start, Admin)
+   ===================================
 */
 
 .button-row {
@@ -409,9 +414,9 @@
     font-size: 1.4rem;
 }
 
-/* ============================================================
-   7. HEADER-BUTTON DESIGNS (Info, Profil, Ranking)
-   ============================================================ 
+/* ==========================================
+   7. HEADER-BUTTONS (Info, Profil, Ranking)
+   ==========================================
 */
 
 .playermenu-button,
@@ -442,7 +447,6 @@
     color: white;
 }
 
-/* --- Individuelle Farben für die runden Header-Buttons --- */
 /* Playermenu-Button */
 .playermenu-button {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
@@ -532,9 +536,9 @@
     opacity: 1;
 }
 
-/* ============================================================
-   8. ANIMATIONEN (Leuchteffekte)
-   ============================================================ 
+/* ===============
+   8. ANIMATIONEN
+   ===============
 */
 
 /* Sanftes lila Pulsieren für den Start-Button */
@@ -574,9 +578,9 @@
     100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
 }
 
-/* ============================================================
-   9. MOBILE ANPASSUNG (Für Handys und Tablets)
-   ============================================================ 
+/* =====================
+   9. RESPONSIVE DESIGN
+   =====================
 */
 
 /* Tablet (768px - 1024px) */
@@ -608,6 +612,9 @@
         gap: 12px;
         padding: 10px;
         padding-inline-end: 10px;
+        /* Scrollbar bleibt auch auf Tablet dünn */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
     }
     
     .category-card {
@@ -693,6 +700,9 @@
         gap: 10px;
         padding: 5px;
         padding-inline-end: 8px;
+        /* Scrollbar bleibt auch auf Tablet dünn */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
     }
     
     .category-card {
@@ -781,6 +791,9 @@
     
     .category-grid {
         gap: 8px;
+        /* Scrollbar bleibt auch auf Tablet dünn */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
     }
     
     .category-card {

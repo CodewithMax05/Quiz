@@ -1,63 +1,33 @@
-/* 🔵 Für Firefox */
+/* styles_ranking.css - Rangliste */
+
+/* ==========================================================================
+   1. BASIS-STYLING & SCROLLBAR
+   ========================================================================== */
+
+/* 🔵 Globale Scrollbar für Firefox */
 html {
     scrollbar-width: thin;
-    /* (Farben von homepage.css übernommen) */
-    scrollbar-color: #4299e1 rgba(255, 255, 255, 0.06); 
+    scrollbar-color: #4299e1 rgba(255, 255, 255, 0.06);
 }
 
-/* =======================================
-   CHROME AUTOCOMPLETE FIX (ULTIMATIV)
-   ======================================= */
-
-.search-wrapper input:-webkit-autofill,
-.search-wrapper input:-webkit-autofill:hover, 
-.search-wrapper input:-webkit-autofill:focus, 
-.search-wrapper input:-webkit-autofill:active {
-    /* 1. Schriftfarbe Weiß erzwingen (Beide Eigenschaften sind wichtig!) */
-    -webkit-text-fill-color: white !important;
-    color: white !important;
-    
-    /* 2. Cursor Weiß setzen */
-    caret-color: white;
-
-    /* 3. Der Trick: Wir verzögern JETZT AUCH den Farbwechsel der Schrift,
-       nicht nur den Hintergrund. 9999s sind fast 3 Stunden. */
-    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
-    
-    /* 4. Verhindern, dass Chrome einen Rand hinzufügt */
-    border: none !important;
-
-    /* 5. Deinen originalen Schatten erzwingen */
-    box-shadow: 
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        0 4px 20px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* Fokus-Status */
-.search-wrapper input:-webkit-autofill:focus {
-    box-shadow:
-        0 0 0 2px rgba(142, 45, 226, 0.5),
-        0 4px 20px rgba(0, 0, 0, 0.4) !important;
-}
-
-/* 🔵 Für Webkit-Browser (Chrome, Safari, Edge) */
+/* 🔵 Globale Scrollbar für Webkit (Chrome, Safari, Edge) */
 html::-webkit-scrollbar {
     width: 6px;
 }
 
 html::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.06); 
+    background: rgba(255, 255, 255, 0.06);
     border-radius: 8px;
 }
 
 html::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); 
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.55), rgba(66, 153, 225, 0.45));
     border-radius: 8px;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 html::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.75), rgba(66, 153, 225, 0.6));
 }
 
 html::-webkit-scrollbar-corner {
@@ -65,57 +35,49 @@ html::-webkit-scrollbar-corner {
     border-radius: 8px;
 }
 
+/* 🛡️ Safe Area Handling für Mobile Devices */
 body {
     box-sizing: border-box;
-    min-height: 100dvh; /* Ersetzt height: 100% für besseres Safe-Area-Handling */
+    min-height: 100dvh;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
 }
 
+/* ============================
+   2. LAYOUT DER RANKING-SEITE
+   ============================
+*/
+
+/* Hauptcontainer, der den gesamten Platz ausfüllt */
 .ranking-page {
-    /* WICHTIG: Damit das Div den Platz im body (base.html) voll ausfüllt */
-    flex: 1;             /* Wächst, um den gesamten vertikalen Platz zu nutzen */
-    width: 100%;         /* Nimmt die volle Breite ein */
-    
-    /* Layout für den Inhalt (zentrieren) */
-    display: flex;       
+    flex: 1;              /* Nutzt verfügbaren Platz in der Flexbox */
+    width: 100%;
+    display: flex;
     flex-direction: column;
-    align-items: center; /* Das ist der Schlüssel: Zentriert den .ranking-wrapper horizontal! */
-    
-    /* Scroll-Verhalten (statt auf dem Body nun hier) */
-    overflow-y: auto;    /* Erlaubt scrollen, wenn die Liste lang ist */
+    align-items: center;   /* Zentriert .ranking-wrapper horizontal */
+    overflow-y: auto;     /* Scrollen bei langen Listen */
     overflow-x: hidden;
-    
-    /* Sicherheitshalber, falls flex:1 nicht greift */
-    min-height: 0;       /* Verhindert Flexbox-Overflow-Probleme */
-    height: 100%;        /* Füllt die Höhe des Eltern-Elements (body) */
+    height: 100%;
 }
 
-/* Leaderboard, Player-Info etc. */
+/* Zentrale Wrapper für gesamten Ranking-Inhalt */
 .ranking-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     justify-content: flex-start;
     gap: 10px;
     width: 100%;
-    max-width: 1200px;
-    min-height: auto;
-    height: auto;
+    max-width: 1200px;     /* Maximale Breite für große Bildschirme */
     padding: 0.5rem 2rem;
-    overflow: visible;
     box-sizing: border-box;
-    margin-top: auto;
-    margin-bottom: auto;
-
-    /* * WICHTIGE ÄNDERUNG: Verhindert, dass der Wrapper im zentrierten Body 
-    * unnötig schrumpft und die Überschrift nach oben drückt, wenn der Inhalt überläuft. */
-    flex-shrink: 0; 
+    margin: auto;         /* Zentriert vertikal und horizontal */
+    flex-shrink: 0;       /* Verhindert unnötiges Schrumpfen */
 }
 
-/* 💠 RANKING-LAYOUT */
+/* Titel der Rangliste */
 .ranking-title {
     text-align: center;
     margin: 0.5rem 0;
@@ -124,6 +86,7 @@ body {
     text-shadow: 0 0 10px rgba(142, 45, 226, 0.7);
 }
 
+/* Zwei-Spalten-Layout für Desktop */
 .ranking-content {
     display: flex;
     flex-direction: row;
@@ -131,68 +94,73 @@ body {
     margin-top: 0.5rem;
     flex: 1;
     width: 100%;
-    /* padding-left/right entfernt, da im Wrapper */
     height: auto;
-    overflow: visible;
-    flex-wrap: nowrap;
     justify-content: center;
-    align-items: flex-start; /* Beibehalten */
+    align-items: flex-start;
     box-sizing: border-box;
 }
 
+/* Linke Spalte (75% Breite) - Leaderboard */
 .ranking-column-left {
-    flex: 2;
+    flex: 2;              /* 2/3 der verfügbaren Breite */
     display: flex;
     flex-direction: column;
-    align-self: flex-start;
-    height: auto;
 }
 
+/* Rechte Spalte (25% Breite) - Spielerinfo & Suche */
 .ranking-column-right {
-    flex: 1;
+    flex: 1;              /* 1/3 der verfügbaren Breite */
     display: flex;
     flex-direction: column;
-    
-    min-width: 300px;
-    max-width: 400px;
-    
+    min-width: 300px;     /* Mindestbreite für gute Lesbarkeit */
+    max-width: 400px;     /* Maximale Breite */
     gap: 0.8rem;
-    position: relative;
-    height: auto;
-    box-sizing: border-box;
 }
 
-/* Passe den Scroll-Container für Infinite Scrolling an */
-.leaderboard-scroll {
-    max-height: 22.8rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* =======================
+   3. CHROME AUTOCOMPLETE
+   =======================
+*/
+
+/*
+ * Problem: Chrome überschreibt Stile bei Auto-Vervollständigung
+ * Lösung: Extrem lange Transition verzögert Chromes Standard-Styling
+ */
+.search-wrapper input:-webkit-autofill,
+.search-wrapper input:-webkit-autofill:hover,
+.search-wrapper input:-webkit-autofill:focus,
+.search-wrapper input:-webkit-autofill:active {
+    /* 1. Weiße Schrift erzwingen */
+    -webkit-text-fill-color: white !important;
+    color: white !important;
+    
+    /* 2. Weißen Cursor */
+    caret-color: white;
+    
+    /* 3. Trick: 9999s Transition verzögert Chromes Hintergrund-Überschreibung */
+    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+    
+    /* 4. Chromes Standard-Border entfernen */
+    border: none !important;
+    
+    /* 5. Custom Box-Shadow beibehalten */
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 4px 20px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Loading Indicator für Infinite Scrolling */
-.loading-indicator {
-    text-align: center;
-    padding: 1.5rem;
-    color: #8e2de2;
-    font-style: italic;
-    background: rgba(26, 26, 46, 0.5);
-    border-radius: 8px;
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
+/* Fokus-Status für Auto-Vervollständigte Felder */
+.search-wrapper input:-webkit-autofill:focus {
+    box-shadow:
+        0 0 0 2px rgba(142, 45, 226, 0.5),
+        0 4px 20px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* End-of-list Indicator */
-.end-of-list {
-    text-align: center;
-    padding: 1rem;
-    color: #aaa;
-    font-style: italic;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 0.5rem;
-}
+/* ==============
+   4. SUCHLEISTE
+   ==============
+*/
 
-/* 🔍 SUCHLEISTE */
 .search-wrapper {
     width: 100%;
     position: relative;
@@ -234,12 +202,16 @@ body {
     font-size: 1rem;
     color: inherit;
     padding: 0;
-    line-height: 1;
     display: grid;
     place-items: center;
 }
 
-/* 📋 LEADERBOARD */
+/* ===============
+   5. LEADERBOARD
+   ===============
+*/
+
+/* Container für das Leaderboard */
 .leaderboard {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
@@ -251,15 +223,25 @@ body {
     flex-direction: column;
 }
 
+/* Tabellenkopf (fixiert beim Scrollen) */
 .leaderboard-header {
     display: grid;
-    grid-template-columns: 1fr 3fr 2fr 3fr;
+    grid-template-columns: 1fr 3fr 2fr 3fr; /* Verhältnis: Platz | User | Punkte | Datum */
     padding: 0.4rem 0;
     font-size: 0.9rem;
     font-weight: 500;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.leaderboard-header.top-list-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(4px);
+}
+
+/* Einzelne Zeilen */
 .leaderboard-row {
     display: grid;
     grid-template-columns: 1fr 3fr 2fr 3fr;
@@ -279,132 +261,72 @@ body {
     box-shadow: inset 0 0 0 1px rgba(0, 119, 255, 0.3);
 }
 
-.leaderboard-row.podium { font-weight: bold; }
-/* Farben für Podiumsplätze - :nth-child(x) bezieht sich auf die Reihenfolge im DOM, nicht auf den Rang */
-.leaderboard-content .leaderboard-row:nth-child(1) { color: gold; }
-.leaderboard-content .leaderboard-row:nth-child(2) { color: silver; }
-.leaderboard-content .leaderboard-row:nth-child(3) { color: #cd7f32; }
-
-
-.leaderboard-cell { padding: 0.3rem; }
-.position { font-size: 1.1rem; }
-.username { 
-    text-align: left; 
-    padding-left: 0.8rem; 
-    white-space: nowrap;      /* Verhindert, dass der Name umbricht */
-    overflow: hidden;         /* Versteckt alles, was über die Zelle hinausragt */
-    text-overflow: ellipsis;  /* Fügt die "..." am Ende hinzu */
+/* Podium-Platzierungen (Top 3) */
+.leaderboard-row.podium { 
+    font-weight: bold; 
 }
-.score { font-family: 'Courier New', monospace; font-size: 1rem; }
-.date { color: #aaa; font-size: 0.85rem; }
 
-/* 🎮 SPIELERINFO-KARTE */
+.leaderboard-content .leaderboard-row:nth-child(1) { 
+    color: gold; /* 1. Platz */
+}
+.leaderboard-content .leaderboard-row:nth-child(2) { 
+    color: silver; /* 2. Platz */
+}
+.leaderboard-content .leaderboard-row:nth-child(3) { 
+    color: #cd7f32; /* 3. Platz */
+}
+
+/* Zellen-Stile */
+.leaderboard-cell { 
+    padding: 0.3rem; 
+}
+
+.position { 
+    font-size: 1.1rem; 
+}
+
+.username { 
+    text-align: left;
+    padding-left: 0.8rem;
+    white-space: nowrap;      /* Verhindert Zeilenumbruch */
+    overflow: hidden;         /* Versteckt Überlauf */
+    text-overflow: ellipsis;  /* "..." bei langen Namen */
+}
+
+.score { 
+    font-family: 'Courier New', monospace; 
+    font-size: 1rem; 
+}
+
+.date { 
+    color: #aaa; 
+    font-size: 0.85rem; 
+}
+
+/* Scroll-Container für Infinite Scrolling */
+.leaderboard-scroll {
+    max-height: 23rem;      /* Optimale Höhe für ~10 Einträge */
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =====================
+   6. SPIELERINFO-KARTE
+   =====================
+*/
+
 .player-info-card {
     background: rgba(26, 26, 46, 0.8);
     border-radius: 15px;
     padding: 0.8rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    flex-grow: 1; /* wächst, um Platz zu füllen */
+    flex-grow: 1;
     height: auto;
 }
 
-.player-info-card h3 {
-    color: #8e2de2;
-    margin: 0.3rem 0;
-    text-align: center;
-    font-size: 1.3rem;
-}
-
-.player-info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.6rem;
-}
-
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.3rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    align-items: center;
-}
-
-.info-row.avatar-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0;
-}
-
-.info-row.avatar-row #info-avatar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.info-label {
-    color: #8e2de2;
-    font-weight: 500;
-    min-width: 100px;
-}
-
-.info-value {
-    text-align: right;
-    color: #ffffff;
-}
-
-.highlight .info-value {
-    color: #ffd700;
-    font-weight: bold;
-}
-
-/* 👤 AVATAR */
-.avatar-image, .avatar-placeholder {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-}
-
-.avatar-image {
-    object-fit: cover;
-    border: 2px solid #8e2de2;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.avatar-placeholder {
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #aaa;
-    font-size: 0.8rem;
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-}
-
-/* 🔙 ZURÜCK-BUTTON */
-.back-button {
-    display: block;
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-sizing: border-box;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.back-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* ===== INFOBUTTON MIT POPUP ===== */
+/* Titelzeile mit Info-Button */
 .player-info-title-row {
     display: flex;
     align-items: center;
@@ -415,19 +337,16 @@ body {
     margin-bottom: 0.4rem;
 }
 
-.player-info-title-row .ranking-info-button {
-    position: absolute;
-    left: 0;
-}
-
 .player-info-title-row h3 {
-    flex: 0;
     margin: 0;
     color: #8e2de2;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
+/* Info-Button mit Puls-Effekt */
 .ranking-info-button {
+    position: absolute;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -473,151 +392,101 @@ body {
     opacity: 1;
 }
 
-@keyframes pulse-blue {
-    0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.5); }
-    70% { box-shadow: 0 0 0 10px rgba(66, 153, 225, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
+/* Inhaltsbereich der Info-Karte */
+.player-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
 }
 
-/* 📱 NEUE MEDIA QUERIES */
-
-/* Tablet (1024px) */
-@media (max-width: 1024px) {
-    .ranking-wrapper {
-        padding: 0.5rem 1.5rem; /* Etwas weniger seitlicher Abstand */
-    }
-    .ranking-title {
-        font-size: 2rem;
-    }
-    .ranking-content {
-        gap: 1.5rem;
-    }
+/* Zeilen für Info-Daten */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    align-items: center;
 }
 
-
-/* Kleines Tablet / Großes Handy (768px) */
-@media (max-width: 768px) {
-    /* WICHTIG: Wenn der Inhalt größer als der Bildschirm ist, 
-       soll er oben beginnen, nicht in der Mitte (Standard-Verhalten). */
-    .ranking-page {
-        justify-content: flex-start;
-    }
-
-    .ranking-wrapper {
-        padding: 0.5rem 2rem; /* Weniger seitlicher Abstand */
-    }
-    
-    .ranking-content {
-        flex-direction: column;
-        
-        /* === ÄNDERUNG 2 === */
-        /* align-items: stretch; <- ALT */
-        align-items: center; /* <- NEU: Zentriert die Spalten horizontal */
-        
-        gap: 1rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .ranking-column-left,
-    .ranking-column-right {
-        width: 100%; 
-        height: auto;
-        margin: 0;
-        box-sizing: border-box;
-        min-width: unset; /* Überschreibt min-width */
-    }
-
-    .ranking-column-left {
-        max-width: 100%;
-    }
-
-    .leaderboard,
-    .player-info-card {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        box-sizing: border-box;
-    }
-
-    /* ANGEPASST: Höhe für ca. 5 Einträge */
-    .leaderboard-scroll {
-        max-height: 14rem; /* War 20rem */
-    }
-
-    .info-row {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-        gap: 0.2rem;
-    }
-
-    .info-label,
-    .info-value {
-        text-align: left;
-        word-break: break-word;
-        white-space: normal;
-    }
-
-    /* Avatar unter Label */
-    .info-row.avatar-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.3rem;
-    }
-
-    .info-row.avatar-row #info-avatar {
-        justify-content: flex-start;
-    }
+.info-row.avatar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
 }
 
-/* Kleines Handy (480px) */
-@media (max-width: 480px) {
-    .ranking-wrapper {
-        padding: 0.5rem 2rem;
-    }
-
-    /* Header-Abkürzungen (aus alter 600px-Query) */
-    .leaderboard-header.top-list-header .header-item:nth-child(1)::after {
-        content: "Pl.";
-    }
-    .leaderboard-header.top-list-header .header-item:nth-child(2)::after {
-        content: "User";
-    }
-    .leaderboard-header.top-list-header .header-item:nth-child(3)::after {
-        content: "Pkt.";
-    }
-    .leaderboard-header.top-list-header .header-item:nth-child(4)::after {
-        content: "HS-Datum";
-    }
-
-    .leaderboard-header.top-list-header .header-item {
-        font-size: 0; /* Versteckt Originaltext */
-        position: relative;
-    }
-
-    .leaderboard-header.top-list-header .header-item::after {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #fff;
-    }
-
-    .leaderboard-header.platzierung-header .header-item {
-        white-space: nowrap;
-    }
+.info-label {
+    color: #8e2de2;
+    font-weight: 500;
+    min-width: 100px;
 }
 
-
-/* Fixierter Tabellenkopf */
-.leaderboard-header.top-list-header {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: rgba(26, 26, 46, 0.95);
-    backdrop-filter: blur(4px);
+.info-value {
+    text-align: right;
+    color: #ffffff;
 }
 
-/* 🎚️ Einheitlicher Scrollbalken für Ranking-Scrollbereich */
+.highlight .info-value {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Avatar-Stile */
+.avatar-image, .avatar-placeholder {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.avatar-image {
+    object-fit: cover;
+    border: 2px solid #8e2de2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-placeholder {
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 0.8rem;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* ===========================
+   7. BUTTONS & INTERAKTIONEN
+   ===========================
+*/
+
+/* Zurück-Button */
+.back-button {
+    display: block;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* =============================
+   8. SCROLLBAR FÜR LEADERBOARD
+   =============================
+*/
+
+/* Webkit (Chrome, Safari, Edge) */
 .leaderboard-scroll::-webkit-scrollbar {
     width: 10px;
 }
@@ -637,8 +506,151 @@ body {
     background: linear-gradient(180deg, #9d47e9, #5a17e2);
 }
 
-/* Für Firefox */
+/* Firefox */
 .leaderboard-scroll {
     scrollbar-width: thin;
     scrollbar-color: #8e2de2 rgba(255, 255, 255, 0.05);
+}
+
+/* ======================
+   9. INFINITE SCROLLING
+   ======================
+*/
+
+.loading-indicator {
+    text-align: center;
+    padding: 1.5rem;
+    color: #8e2de2;
+    font-style: italic;
+    background: rgba(26, 26, 46, 0.5);
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.end-of-list {
+    text-align: center;
+    padding: 1rem;
+    color: #aaa;
+    font-style: italic;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0.5rem;
+}
+
+/* ================
+   10. ANIMATIONEN
+   ================
+*/
+
+@keyframes pulse-blue {
+    0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(66, 153, 225, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
+}
+
+/* ======================
+   11. RESPONSIVE DESIGN
+   ======================
+*/
+
+/* Tablet (1024px und kleiner) */
+@media (max-width: 1024px) {
+    .ranking-wrapper {
+        padding: 0.5rem 1.5rem;
+    }
+    
+    .ranking-title {
+        font-size: 2rem;
+    }
+    
+    .ranking-content {
+        gap: 1.5rem;
+    }
+}
+
+/* Kleines Tablet / Großes Handy (768px und kleiner) */
+@media (max-width: 768px) {
+    .ranking-page {
+        justify-content: flex-start; /* Startet oben statt Mitte */
+    }
+    
+    .ranking-wrapper {
+        padding: 0.5rem 2rem;
+    }
+    
+    .ranking-content {
+        flex-direction: column;
+        align-items: center; /* Zentriert Spalten */
+        gap: 1rem;
+        width: 100%;
+    }
+    
+    .ranking-column-left,
+    .ranking-column-right {
+        width: 100%;
+        min-width: unset; /* Entfernt Mindestbreite */
+        max-width: 100%;
+    }
+    
+    .leaderboard-scroll {
+        max-height: 14rem; /* Höhe für ca. 5 Einträge */
+    }
+    
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+    
+    .info-label,
+    .info-value {
+        text-align: left;
+        word-break: break-word;
+        white-space: normal;
+    }
+    
+    .info-row.avatar-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+    
+    .info-row.avatar-row #info-avatar {
+        justify-content: flex-start;
+    }
+}
+
+/* Kleines Handy (480px und kleiner) */
+@media (max-width: 480px) {
+    .ranking-wrapper {
+        padding: 0.5rem 2rem;
+    }
+    
+    /* Header-Abkürzungen für kleine Bildschirme */
+    .leaderboard-header.top-list-header .header-item:nth-child(1)::after {
+        content: "Pl.";
+    }
+    
+    .leaderboard-header.top-list-header .header-item:nth-child(2)::after {
+        content: "User";
+    }
+    
+    .leaderboard-header.top-list-header .header-item:nth-child(3)::after {
+        content: "Pkt.";
+    }
+    
+    .leaderboard-header.top-list-header .header-item:nth-child(4)::after {
+        content: "HS-Datum";
+    }
+    
+    .leaderboard-header.top-list-header .header-item {
+        font-size: 0; /* Versteckt Originaltext */
+        position: relative;
+    }
+    
+    .leaderboard-header.top-list-header .header-item::after {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #fff;
+    }
 }

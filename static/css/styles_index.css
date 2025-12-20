@@ -1,8 +1,8 @@
 /* styles_index.css - Login & Registrierung */
 
-/* ==========================================================================
-   1. BASIS-STYLING, RESET & VARIABLEN
-   ========================================================================== 
+/* =============================
+   1. BASIS-STYLING & VARIABLEN
+   =============================
 */
 
 :root {
@@ -41,6 +41,10 @@ html, body {
     overflow-y: auto; 
     overflow-x: hidden;
 
+    /* SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66,153,225,0.55) rgba(255,255,255,0.06);
+
     /* Padding berechnet aus Notch-Größe + Extra-Abstand */
     padding-top: calc(var(--safe-area-top) + var(--extra-gap));
     padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
@@ -48,7 +52,7 @@ html, body {
     padding-right: calc(var(--safe-area-right) + var(--extra-gap));
 }
 
-/* Scrollbar Design passend zum Theme */
+/* SCROLLBAR FÜR WEBKIT (Chrome, Safari, Edge) */
 .page-wrapper::-webkit-scrollbar {
     width: 6px;
 }
@@ -464,12 +468,25 @@ h1 {
     flex: 1 1 auto;
     min-height: 0;
     max-height: 80dvh;
+    
+    /* SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin;
+    scrollbar-color: #1e90ff rgba(255,255,255,0.04);
 }
 
-/* Scrollbar innerhalb des AGB Textes */
-.setting-content::-webkit-scrollbar { width: 8px; }
-.setting-content::-webkit-scrollbar-thumb { background: #1e90ff; border-radius:4px; }
-.setting-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+/* SCROLLBAR FÜR WEBKIT (Innerhalb des AGB-Textes) */
+.setting-content.open::-webkit-scrollbar { 
+    width: 8px; 
+}
+
+.setting-content.open::-webkit-scrollbar-thumb { 
+    background: #1e90ff; 
+    border-radius: 4px; 
+}
+
+.setting-content.open::-webkit-scrollbar-track { 
+    background: rgba(255,255,255,0.04); 
+}
 
 /* Vergrößert den Klickbereich wenn aufgeklappt */
 .setting-content.open ~ .setting-item .setting-toggle,

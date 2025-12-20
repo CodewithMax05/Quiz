@@ -40,10 +40,13 @@
     
     /* Reserviert Platz für Scrollbar, um Layout-Sprünge zu vermeiden */
     scrollbar-gutter: stable;
+    
+    /* 🔵 SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66, 153, 225, 0.55) rgba(255, 255, 255, 0.06);
 }
 
-/* --- Scrollbar Styling (Webkit: Chrome, Safari, Edge) --- */
-
+/* 🔵 SCROLLBAR FÜR WEBKIT-BROWSER (Chrome, Safari, Edge) */
 .playermenu-wrapper::-webkit-scrollbar {
     width: 6px;
 }
@@ -58,8 +61,17 @@
     background: linear-gradient(180deg, rgba(66, 153, 225, 0.55), rgba(66, 153, 225, 0.45));
     border-radius: 8px;
     min-height: 10px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+.playermenu-wrapper::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.75), rgba(66, 153, 225, 0.6));
+}
+
+.playermenu-wrapper::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 8px;
+}
 
 /* ===============
    2. HAUPT-KARTE
@@ -87,7 +99,6 @@
     text-align: center;
     box-sizing: border-box;
 }
-
 
 /* ================================================
    3. HEADER-BEREICH (TITEL & NAVIGATIONS-BUTTONS)
@@ -229,7 +240,6 @@
     100% { transform: scale(1); }
 }
 
-
 /* =========================
    4. SPIELER-INFORMATIONEN
    =========================
@@ -327,7 +337,6 @@
     margin: 0;
     line-height: 1.25;
 }
-
 
 /* =================
    5. MODI-BUTTONS
@@ -448,7 +457,6 @@
     color: #ffebee;
 }
 
-
 /* ============================
    6. AVATAR-MODAL & KARUSSELL
    ============================
@@ -481,9 +489,40 @@
     max-height: calc(100vh - 3rem); /* Scrollbar falls Screen zu klein */
     overflow-y: auto;
     
+    /* 🔵 SCROLLBAR FÜR FIREFOX */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(66, 153, 225, 0.55) rgba(255, 255, 255, 0.06);
+    
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     color: #fff;
     position: relative;
+}
+
+/* 🔵 SCROLLBAR FÜR WEBKIT (Chrome, Safari, Edge) */
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.55), rgba(66, 153, 225, 0.45));
+    border-radius: 8px;
+    min-height: 10px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(66, 153, 225, 0.75), rgba(66, 153, 225, 0.6));
+}
+
+.modal-content::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 8px;
 }
 
 /* X-Button oben rechts */
@@ -658,7 +697,6 @@
     from { opacity: 0; } 
     to { opacity: 1; } 
 }
-
 
 /* =====================
    7. RESPONSIVE DESIGN
