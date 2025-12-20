@@ -25,7 +25,7 @@ Technologie;Was ist der Unterschied zwischen LoRaWAN und WiFi?;LoRaWAN ist für 
 Technologie;Was ist der Unterschied zwischen Bit und Byte?;Ein Byte besteht aus 8 Bit;Ein Bit besteht aus 8 Byte;Beide sind das Gleiche;Ein Byte ist nur für Grafiken
 Technologie;Was ist Latenz in einem Netzwerk?;Die Verzögerungszeit bei der Datenübertragung;Die maximale Übertragungsgeschwindigkeit;Die Anzahl der verbundenen Geräte;Die physikalische Größe des Netzwerkkabels
 Technologie;Welche Funktion hat ein DHCP-Server?;Automatische Zuweisung von IP-Adressen in einem Netzwerk;Übersetzung von Domainnamen in IP-Adressen;Speicherung aller E-Mails;Messung der Netzwerkgeschwindigkeit
-Technologie;Was ist 'Data Mining'?;Das Entdecken von Mustern in großen Datenmengen;Das Löschen alter Datenbanken;Die Erstellung von Hardware-Prototypen;Das Videospiel Minecraft spielen
+Technologie;Was ist 'Data Mining'?;Das Entdecken von Mustern in großen Datenmengen;Das Löschen alter Datenbanken;Die Erstellung von Hardware-Prototypen;manuelles Sichern von Datenbanken
 Technologie;Was ist der Unterschied zwischen USB 2.0 und USB 3.0/3.1/3.2?;USB 3.x bietet deutlich höhere Übertragungsgeschwindigkeiten;USB 2.0 ist neuer;USB 3.x benötigt spezielle Software;USB 2.0 kann keine Daten übertragen
 Technologie;Welche Technologie wird primär für kontaktloses Bezahlen mit dem Smartphone verwendet?;NFC;Bluetooth;Infrarot;GPS
 Technologie;Was ist der Hauptzweck eines 'Load Balancers' in einem Server-Setup?;Verteilung der Netzwerklast auf mehrere Server;Blockierung unerwünschter Werbung;Erstellung von Backups;Optimierung der CPU-Temperatur
@@ -65,7 +65,7 @@ Technologie;Was ist der Hauptzweck von 'Zero Trust' in der IT-Sicherheit?;Keiner
 Technologie;Welche Technologie wird zur Identifizierung und Nachverfolgung von Produkten in der Logistik verwendet?;Barcode und QR-Code;USB-C;Li-Fi;NFC
 Technologie;Was ist der Unterschied zwischen einem Web-Server und einem Applikations-Server?;Web-Server liefern statische Inhalte;Applikations-Server sind nur für Handys;Web-Server benötigen keine Software;Beide sind dasselbe
 Technologie;Was ist 'Fuzzing' in der Software-Entwicklung?;Automatisierte Eingabe von zufälligen Daten, um Fehler zu finden;Ein Protokoll für Audio-Streaming;Eine Methode zur CPU-Übertaktung;Die Messung der Netzwerk-Latenz
-Technologie;Welche Funktion hat ein 'Hotspot'?;Ermöglicht anderen Geräten die Nutzung der mobilen Datenverbindung;Drucken von Dokumenten;Speicherung von Passwörtern;Messung der Umgebungstemperatur
+Technologie;Welche Funktion hat ein 'Hotspot'?;Ermöglicht anderen Geräten die Nutzung der mobilen Datenverbindung;Drucken von Dokumenten;Speicherung von Passwörtern;Schutz gegen Überhitzung der CPU
 Technologie;Was ist 'Deepfake'-Technologie?;Erstellung realistischer gefälschter Audio- oder Videoinhalte mittels KI;Ein neues Dateiformat für Text;Ein Protokoll zur Netzwerkverschlüsselung;Ein schnellerer Typ von RAM
 Technologie;Was ist der Unterschied zwischen Synchroner und Asynchroner Datenübertragung?;Synchron benötigt ein Taktsignal, Asynchron nutzt Start/Stopp-Bits;Asynchron ist immer schneller;Synchron ist nur für drahtlose Kommunikation;Beide sind dasselbe
 Technologie;Welche Funktion hat 'Quality of Service' (QoS) in Netzwerken?;Priorisierung des Datenverkehrs zur Sicherstellung von Leistung;Automatische Virensuche;Steuerung des Akkuladevorgangs;Messung der CPU-Temperatur
