@@ -1,114 +1,105 @@
-/* ==========================
-   1. Basis-Styles / Body
-   ========================== */
+/* styles_index.css - Login & Registrierung */
 
-html, body {
-    /* Erzwinge die dynamische Viewport-Höhe (löst das 100vh-Problem auf mobilen Geräten) */
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    /* Verhindere, dass body scrollt, der Wrapper übernimmt das bei Bedarf */
-    overflow: hidden !important; 
-    display: block !important; 
-    
-    /* Stelle sicher, dass der Basis-Hintergrund (base.css) erhalten bleibt */
-    background-attachment: fixed;
-}
+/* ==========================================================================
+   1. BASIS-STYLING, RESET & VARIABLEN
+   ========================================================================== 
+*/
 
 :root {
-    --extra-gap: 20px; /* Zusätzlicher Abstand zum Container-Rand (20px seitlich und vertikal) */
+    /* Abstand zum Container-Rand */
+    --extra-gap: 20px; 
 
-    /* Definiere Safe-Area-Variablen mit einem Fallback (z.B. 15px) */
+    /* Safe-Area-Variablen*/
     --safe-area-top: env(safe-area-inset-top, 15px);
     --safe-area-bottom: env(safe-area-inset-bottom, 15px);
     --safe-area-left: env(safe-area-inset-left, 15px);
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
+html, body {
+    /* Erzwingt dynamische Viewport-Höhe */
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important; 
+    display: block !important; 
+    margin: 0;
+    /* Hintergrund-Fixierung (Basis aus base.css bleibt erhalten) */
+    background-attachment: fixed;
+}
+
+/* ======================
+   2. SCROLLBAR-STYLING
+   ======================
+*/
+
+/* Haupt-Wrapper für Scrolling und Safe-Areas */
 .page-wrapper {
-    /* WICHTIG: Verwende dvh und nicht vh */
     height: 100dvh;
     min-height: 100dvh; 
-    
     display: flex;
-    /* justify-content: center;   <- ENTFERNT */
-    /* align-items: center;       <- ENTFERNT */
-    /* Die Zentrierung wird jetzt vom .container selbst übernommen */
+    box-sizing: border-box;
+    overflow-y: auto; 
+    overflow-x: hidden;
 
-    /* Paddings: Safe-Area + Extra-Abstand */
+    /* Padding berechnet aus Notch-Größe + Extra-Abstand */
     padding-top: calc(var(--safe-area-top) + var(--extra-gap));
     padding-bottom: calc(var(--safe-area-bottom) + var(--extra-gap));
     padding-left: calc(var(--safe-area-left) + var(--extra-gap));
     padding-right: calc(var(--safe-area-right) + var(--extra-gap));
-
-    box-sizing: border-box;
-    /* Wrapper scrollt, wenn der Container + Paddings den Platz überschreiten */
-    overflow-y: auto; 
-    overflow-x: hidden;
 }
 
+/* Scrollbar Design passend zum Theme */
 .page-wrapper::-webkit-scrollbar {
     width: 6px;
 }
+
 .page-wrapper::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.06);
     border-radius: 8px;
     margin: 4px 0;
 }
+
 .page-wrapper::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45));
     border-radius: 8px;
     min-height: 10px;
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
 }
+
 .page-wrapper::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, rgba(66,153,225,0.75), rgba(66,153,225,0.6));
 }
+
 .page-wrapper::-webkit-scrollbar-corner {
     background: transparent;
-    border-radius: 8px;
 }
 
-@keyframes gradientFlow {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
-}
+/* ==================
+   3. HAUPTCONTAINER
+   ==================
+*/
 
-/* ==========================
-   2. Container / Wrapper
-   ========================== */
-.login-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 440px;
-    padding: 20px;
-}
-
+/* Die Glas-Karte in der Mitte */
 .container {
     position: relative;
-    
     width: 100%;
     max-width: 440px; 
     box-sizing: border-box; 
-    margin: auto;
+    margin: auto; /* Zentriert im Flex-Container (.page-wrapper) */
     padding: 40px 30px;
     text-align: center;
+    
+    /* Glasmorphismus-Effekt */
     background: rgba(15, 32, 39, 0.35);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 
-        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
     z-index: 1;
 }
 
-/* ==========================
-   3. Überschriften
-   ========================== */
+/* Überschrift "Willkommen" */
 h1 {
     color: white;
     font-size: 2.4rem;
@@ -118,23 +109,44 @@ h1 {
     font-weight: 300;
 }
 
-/* ==========================
-   4. Input-Felder
-   ========================== */
+/* ===========================
+   4. FORMULAR & INPUT-FELDER
+   ===========================
+*/
+
+/* Wrapper um Input + Toggle, definiert Breite und Position */
+.input-wrap {
+    position: relative;
+    display: block;
+    margin: 0 auto 6px !important; /* Kleiner Abstand nach unten für Hints */
+    width: 100%;             
+    max-width: 320px;       
+    box-sizing: border-box;
+}
+
+/* Das eigentliche Eingabefeld */
 .input-field {
-    width: 100%; /* NEU: Füllt immer den Wrapper */
-    box-sizing: border-box; /* NEU: Für korrektes padding */
+    width: 100%; 
+    box-sizing: border-box;
     padding: 16px 22px;
     border: none;
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.12);
-    box-shadow: 
-        0 5px 18px rgba(0, 0, 0, 0.25),
-        inset 0 3px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25), inset 0 3px 6px rgba(0, 0, 0, 0.15);
     font-size: 1.05rem;
     transition: all 0.3s ease;
     outline: none;
     color: white;
+}
+
+.input-field:focus {
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 5px 22px rgba(0, 0, 0, 0.35), inset 0 3px 6px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .input-field:disabled {
@@ -142,92 +154,28 @@ h1 {
     cursor: not-allowed;
 }
 
-/* =======================================
-   CHROME AUTOCOMPLETE FIX (ULTIMATIV)
-   ======================================= */
+/* Spezifisch für Passwort: Platz für Augen-Icon lassen */
+#password-field {
+    padding-right: 56px; 
+}
 
+/* Chrome Auto-Fill Fix (Verhindert hässlichen gelben/weißen Hintergrund) */
 .input-field:-webkit-autofill,
 .input-field:-webkit-autofill:hover, 
 .input-field:-webkit-autofill:focus, 
 .input-field:-webkit-autofill:active {
-    /* 1. Schriftfarbe Weiß/Hell erzwingen */
-    /* Du verwendest hier wahrscheinlich nur 'white' oder 'inherit', 
-       aber wir nehmen das allgemein helle #f0f4f8, falls es verwendet wird. 
-       WICHTIG: Beide Farbregeln sind notwendig */
     -webkit-text-fill-color: #f0f4f8 !important;
     color: #f0f4f8 !important; 
-    
-    /* 2. Cursor-Farbe fixieren */
     caret-color: #f0f4f8;
-
-    /* 3. Der Trick: Hintergrund- und Farbwechsel extrem verzögern */
     transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
-    
-    /* 4. Verhindern, dass Chrome den Rand ändert 
-       (Dein normaler Rand ist wahrscheinlich in styles_index.css definiert, 
-        aber wir setzen ihn hier explizit auf eine Standard-Transparenz zurück) */
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-.input-field::placeholder {
-    color: rgba(255, 255, 255, 0.75);
-}
-
-.input-field:focus {
-    background: rgba(255, 255, 255, 0.18);
-    box-shadow: 
-        0 5px 22px rgba(0, 0, 0, 0.35),
-        inset 0 3px 6px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Wrapper für Input + Toggle (behält Breite/Höhe der .input-field bei) */
-.input-wrap {
-    position: relative;
-    display: block;
-    margin: 0 auto 22px;      /* Layout: Zentriert, mit Abstand unten */
-    width: 100%;              /* Layout: Verhält sich wie das Passwort-Feld (100% des Containers) */
-    max-width: 320px;         /* Layout: Maximale Breite */
-    box-sizing: border-box;
-    margin-bottom: 6px !important;
-}
-
-.input-hint {
-    /* Layout damit es genauso breit/zentriert ist wie das Input-Feld */
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto 22px; /* Hier ist jetzt der große Abstand zum nächsten Element */
-    box-sizing: border-box;
-    
-    /* Text Styling */
-    text-align: right;
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 500;
-    transition: color 0.3s ease;
-    min-height: 1.2em;
-    padding-right: 4px; /* Kleiner Abstand vom rechten Rand */
-}
-
-/* Wenn das Limit beim Username erreicht ist */
-.input-hint.limit-reached {
-    color: #ff4b2b; /* Rot, passend zu deinen Error-Messages */
-}
-
-/* Wenn die Mindestanforderung beim Passwort erfüllt ist */
-.input-hint.requirement-met {
-    color: #38ef7d; /* Grün, passend zum Register-Button */
-}
-
-#password-field {
-    padding-right: 56px; /* Platz für den Toggle-Button */
-}
-
-/* Toggle-Button (transparent, sitzt am rechten Rand des Inputs) */
+/* Auge-Icon zum Anzeigen des Passworts */
 .pw-toggle {
     position: absolute;
     top: 50%;
-    right: 12px; /* Abstand vom rechten Rand des Inputs */
+    right: 12px;
     transform: translateY(-50%);
     border: none;
     background: transparent;
@@ -244,42 +192,41 @@ h1 {
     padding: 0;
 }
 
-/* kleine Hover/Focus Effekte passend zum Design */
-.pw-toggle:hover,
-.pw-toggle:focus {
+.pw-toggle:hover, .pw-toggle:focus {
     transform: translateY(-50%) scale(1.02);
     filter: brightness(1.12);
 }
 
-/* Icon sollte keine Pointer-Events stehlen */
 .pw-toggle i {
     pointer-events: none;
     font-size: 1.05rem;
 }
 
-/* Remember Me Checkbox */
-.remember-me {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px 0 20px;
-    color: white;
-    font-size: 0.95rem;
+/* Kleine Hinweis-Texte unter den Inputs (z.B. "0/12 Zeichen") */
+.input-hint {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 22px; /* Großer Abstand zum nächsten Element */
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    min-height: 1.2em;
+    padding-right: 4px;
 }
 
-.remember-me input[type="checkbox"] {
-    margin-right: 8px;
-    transform: scale(1.2);
-}
+/* Status-Farben für Hints */
+.input-hint.limit-reached { color: #ff4b2b; } /* Limit erreicht */
+.input-hint.requirement-met { color: #38ef7d; } /* Validierung OK */
 
-.remember-me label {
-    cursor: pointer;
-    user-select: none;
-}
+/* ===============================
+   5. BUTTONS (LOGIN & REGISTER)
+   ===============================
+*/
 
-/* ==========================
-   5. Buttons
-   ========================== */
+/* Basis-Button Styling */
 .btn {
     width: 85%;
     max-width: 320px;
@@ -292,9 +239,7 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 
-        0 5px 18px rgba(0, 0, 0, 0.25),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25), inset 0 -3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn:disabled {
@@ -302,11 +247,20 @@ h1 {
     cursor: not-allowed;
 }
 
+/* Hover & Glow Effekte */
+.btn:hover:not(:disabled) {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35), inset 0 -3px 8px rgba(0, 0, 0, 0.25), 0 0 15px currentColor;
+    filter: brightness(1.1);
+}
+
+/* Varianten */
 .btn-login {
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: white;
     animation: pulse-purple 2.5s infinite;
 }
+
+.btn-login:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35), inset 0 -3px 8px rgba(0, 0, 0, 0.25), 0 0 15px #8e2de2; }
 
 .btn-register {
     background: linear-gradient(135deg, #11998e, #38ef7d);
@@ -314,45 +268,12 @@ h1 {
     animation: pulse-green 2.5s infinite;
 }
 
-/* Hover-Effekte */
-.btn:hover:not(:disabled) {
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.35),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
-        0 0 15px currentColor;
-    filter: brightness(1.1);
-}
+.btn-register:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35), inset 0 -3px 8px rgba(0, 0, 0, 0.25), 0 0 15px #38ef7d; }
 
-.btn-login:hover:not(:disabled) {
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.35),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
-        0 0 15px #8e2de2;
-}
-
-.btn-register:hover:not(:disabled) {
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.35),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
-        0 0 15px #38ef7d;
-}
-
-@keyframes pulse-purple {
-    0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
-    70% { box-shadow: 0 0 0 14px rgba(116, 0, 224, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
-    100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
-}
-
-@keyframes pulse-green {
-    0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
-    70% { box-shadow: 0 0 0 14px rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
-    100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
-}
-
-@keyframes fadeInTooltip {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+/* =================
+   6. LEGAL BUTTON
+   =================
+*/
 
 .legal-button-container {
     display: flex;
@@ -372,14 +293,23 @@ h1 {
     align-items: center;
     font-size: 1.2rem;
     text-decoration: none;
-    box-shadow: 
-        0 6px 15px rgba(0, 0, 0, 0.35),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35), inset 0 -3px 8px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease;
     position: relative;
 }
 
-/* Tooltip */
+.legal-button:hover {
+    background: linear-gradient(135deg, #999, #bbb);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 -3px 8px rgba(0, 0, 0, 0.25), 0 0 12px rgba(255, 255, 255, 0.2);
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.legal-button i {
+    pointer-events: none;
+}
+
+/* Tooltip "Rechtliche Informationen" beim Hover */
 .legal-button::after {
     content: attr(aria-label);
     position: absolute;
@@ -398,6 +328,7 @@ h1 {
     z-index: 10;
 }
 
+/* Kleiner Pfeil am Tooltip */
 .legal-button::before {
     content: '';
     position: absolute;
@@ -419,21 +350,12 @@ h1 {
     transform: translateX(-50%) scale(1);
 }
 
-.legal-button:hover {
-    background: linear-gradient(135deg, #999, #bbb);
-    box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.4),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.25),
-        0 0 12px rgba(255, 255, 255, 0.2);
-    filter: brightness(1.1);
-    transform: scale(1.05);
-}
+/* ===========================
+   7. AGB & DATENSCHUTZ MODAL
+   ===========================
+*/
 
-.legal-button i {
-    pointer-events: none;
-}
-
-/* --- Popup Grundlayout --- */
+/* Dunkler Hintergrund für das Popup */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -441,7 +363,7 @@ h1 {
     width: 100%;
     height: 100%;
     background: rgba(10,10,10,0.85);
-    display: none;               /* NEU: War vorher inline im HTML, jetzt hier */
+    display: none; /* Wird per JS auf Flex gesetzt */
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -450,6 +372,7 @@ h1 {
     overflow: hidden;
 }
 
+/* Das eigentliche Modal-Fenster */
 .popup-container {
     width: 100%;
     max-width: 700px;
@@ -462,6 +385,7 @@ h1 {
     flex-direction: column;
     box-sizing: border-box;
     padding: 20px;
+    /* Maximale Höhe berechnet, damit es nicht aus dem Screen ragt */
     max-height: calc(100dvh - var(--safe-area-top) - var(--safe-area-bottom) - (2 * var(--extra-gap)));
     overflow: hidden;
 }
@@ -473,12 +397,10 @@ h1 {
     flex: 0 0 auto;
     text-align: center;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 0 10px;
 }
 
+/* Container für die Akkordeon-Liste */
 .settings-list {
     display: flex;
     flex-direction: column;
@@ -500,7 +422,7 @@ h1 {
     max-height: 350px;
 }
 
-/* Toggle-Button/ Header */
+/* Akkordeon Header (Button zum Aufklappen) */
 .setting-toggle {
     width: 100%;
     background: none;
@@ -513,7 +435,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex: 0 0 auto; /* Header nimmt nur so viel Platz wie nötig */
+    flex: 0 0 auto;
 }
 
 .setting-toggle:hover {
@@ -524,18 +446,18 @@ h1 {
     transition: transform 0.3s ease;
 }
 
-/* CONTENT */
+/* Akkordeon Inhalt (Initial zugeklappt) */
 .setting-content {
     max-height: 0;
-    overflow: hidden; /* wenn geschlossen: nichts zeigen */
+    overflow: hidden; 
     transition: max-height 0.28s ease-in-out;;
     background: rgba(0,0,40,0.4);
     padding: 0 14px;
     box-sizing: border-box;
-    min-height: 0; /* ermöglicht korrekte Größenanpassung */
+    min-height: 0; 
 }
 
-/* Wenn geöffnet, die Höhe dynamisch per JS */
+/* Styling wenn Inhalt aufgeklappt ist */
 .setting-content.open {
     overflow-y: auto;
     padding: 10px 14px;
@@ -544,31 +466,24 @@ h1 {
     max-height: 80dvh;
 }
 
-/* Scrollbar Styling (optional) */
+/* Scrollbar innerhalb des AGB Textes */
 .setting-content::-webkit-scrollbar { width: 8px; }
 .setting-content::-webkit-scrollbar-thumb { background: #1e90ff; border-radius:4px; }
 .setting-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
 
-/* Wenn eine Box geöffnet ist, erhalten alle Toggle-Buttons eine Mindesthöhe */
+/* Vergrößert den Klickbereich wenn aufgeklappt */
 .setting-content.open ~ .setting-item .setting-toggle,
-.setting-content.open + .setting-toggle {
-    min-height: 44px; /* Mindesthöhe nur wenn eine Box offen ist */
-}
-
-/* Stellt sicher, dass der Toggle-Button des geöffneten Items ebenfalls die Mindesthöhe hat */
-.setting-item:has(.setting-content.open) .setting-toggle {
-    min-height: 44px;
-}
-
-.setting-item:has(.setting-content.open) {
-    flex: 1 1 auto; /* Das Eltern-Item soll wachsen */
-}
-
+.setting-content.open + .setting-toggle,
+.setting-item:has(.setting-content.open) .setting-toggle,
 body.agb-modal-open .setting-toggle {
     min-height: 44px;
 }
 
-/* Acceptance + Buttons bleiben im Footer sichtbar */
+.setting-item:has(.setting-content.open) {
+    flex: 1 1 auto; 
+}
+
+/* Checkbox und Buttons Bereich im Modal-Footer */
 .acceptance-section {
     margin-top: 15px;
     flex: 0 0 auto;
@@ -585,7 +500,6 @@ body.agb-modal-open .setting-toggle {
     margin-right: 10px;
 }
 
-/* BUTTONS */
 .popup-buttons {
     display: flex;
     gap: 10px;
@@ -594,7 +508,6 @@ body.agb-modal-open .setting-toggle {
     flex: 0 0 auto;
 }
 
-/* Buttons etwas auffälliger */
 .popbtn {
     flex: 1 1 auto;
     padding: 12px 16px;
@@ -604,22 +517,15 @@ body.agb-modal-open .setting-toggle {
     cursor: pointer;
     font-size: 1rem;
 }
+
 .btn-accept { background: #1e90ff; color: white; }
+.btn-accept:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-accept:hover:not(:disabled) { background-color: #3aa3ff; }
+
 .btn-reject { background: #444; color: white; }
+.btn-reject:hover { background-color: #666; }
 
-.btn-accept:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.btn-accept:hover:not(:disabled) {
-    background-color: #3aa3ff;
-}
-
-.btn-reject:hover {
-    background-color: #666;
-}
-
+/* Blauer Hinweiskasten ganz unten */
 .agb-hint {
     margin: 12px 0 0 0;
     padding: 10px 12px;
@@ -641,24 +547,50 @@ body.agb-modal-open .setting-toggle {
     color: #61a8ff;
 }
 
-/* FADEIN ANIMATION */
+/* ===========================
+   8. KEYFRAMES (ANIMATIONEN)
+   ===========================
+*/
+
+@keyframes pulse-purple {
+    0% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    70% { box-shadow: 0 0 0 14px rgba(116, 0, 224, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    100% { box-shadow: 0 0 0 0 rgba(116, 0, 224, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.5), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    70% { box-shadow: 0 0 0 14px rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+    100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0), 0 5px 18px rgba(0, 0, 0, 0.25); }
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ==========================
-   10. Responsive Anpassungen
-   ========================== */
+@keyframes fadeInTooltip {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* =====================
+   9. RESPONSIVE DESIGN
+   =====================
+*/
+
+/* Tablets & kleine Laptops */
 @media (max-width: 768px) {
     .container {
         max-width: 380px;
         padding: 35px 25px;
         border-radius: 22px;
-    }
-    
-    .login-wrapper {
-        max-width: 380px;
     }
     
     h1 {
@@ -683,6 +615,7 @@ body.agb-modal-open .setting-toggle {
         border-radius: 13px;
     }
 
+    /* Modal Anpassungen */
     .popup-container {
         padding: 20px;
         width: 95%;
@@ -690,15 +623,10 @@ body.agb-modal-open .setting-toggle {
 
     .popup-title {
         font-size: 1.6rem;
-        text-align: center; /* Auch auf mobil zentrieren */
     }
 
     .setting-toggle {
         font-size: 1rem;
-    }
-
-    .terms-content {
-        font-size: 0.9rem;
     }
 
     .agb-hint {
@@ -711,11 +639,8 @@ body.agb-modal-open .setting-toggle {
     }
 }
 
+/* Smartphones */
 @media (max-width: 480px) {
-    .login-wrapper {
-        max-width: 340px;
-    }
-
     .container {
         padding: 30px 20px;
         border-radius: 20px;
@@ -726,11 +651,6 @@ body.agb-modal-open .setting-toggle {
         width: 36px;
         height: 36px;
         right: 10px;
-    }
-
-    .remember-me {
-        font-size: 0.9rem;
-        margin: 8px 0 16px;
     }
     
     h1 {
@@ -745,7 +665,7 @@ body.agb-modal-open .setting-toggle {
     }
 
     #password-field {
-        padding-right: 50px; /* (10px + 36px + 4px Puffer) */
+        padding-right: 50px; 
     }
     
     .btn {
