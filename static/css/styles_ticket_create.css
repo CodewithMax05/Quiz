@@ -1,7 +1,11 @@
+/* styles_ticket_create.css - Stylesheet für Ticketerstellen */
+
 /* ============
    BASIS LAYOUT
-   ============ */
+   ============ 
+*/
 
+/* Globale Variablen */
 :root {
     --extra-gap: 20px;
     --safe-area-top: env(safe-area-inset-top, 15px);
@@ -10,6 +14,7 @@
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
+/* Body Grundeinstellungen */
 html, body {
     height: 100dvh !important;
     min-height: 100dvh !important;
@@ -18,9 +23,11 @@ html, body {
 }
 
 /* =======================================
-   CHROME AUTOCOMPLETE FIX (ULTIMATIV)
-   ======================================= */
+   CHROME AUTOCOMPLETE FIX
+   ======================================= 
+*/
 
+/* Verhindert, dass Chrome Autocomplete-Felder gelb/blau einfärbt */
 .form-input:-webkit-autofill,
 .form-input:-webkit-autofill:hover, 
 .form-input:-webkit-autofill:focus, 
@@ -57,6 +64,7 @@ html, body {
     box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.2);
 }
 
+/* Wrapper zur Zentrierung */
 .page-wrapper {
     height: 100dvh;
     min-height: 100dvh;
@@ -71,7 +79,7 @@ html, body {
     background: transparent; 
 }
 
-/* Haupt-Container (Glas-Effekt) */
+/* Haupt-Container für das Formular (Glas-Effekt) */
 .container {
     background: rgba(15, 32, 39, 0.65);
     backdrop-filter: blur(15px);
@@ -92,8 +100,10 @@ html, body {
 
 /* =======================================
    1. HEADER
-   ======================================= */
+   ======================================= 
+*/
 
+/* Kopfbereich des Formulars */
 .form-header {
     padding: 20px 25px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -102,6 +112,7 @@ html, body {
     text-align: center;
 }
 
+/* Titel "Ticket erstellen" */
 .support-title {
     font-size: 1.8rem;
     font-weight: 600;
@@ -112,8 +123,10 @@ html, body {
 
 /* =======================================
    2. SCROLLBEREICH (Formular)
-   ======================================= */
+   ======================================= 
+*/
 
+/* Der scrollbare Mittelteil */
 .form-scroll-wrapper {
     flex-grow: 1;
     overflow-y: auto;
@@ -124,28 +137,31 @@ html, body {
     scrollbar-color: rgba(66,153,225,0.5) rgba(255,255,255,0.05);
 }
 
+/* Scrollbar für Webkit */
 .form-scroll-wrapper::-webkit-scrollbar { width: 6px; }
 .form-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); }
 .form-scroll-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); border-radius: 8px; }
 
+/* Flex-Container für die Formularfelder */
 .support-form {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-/* Form Row Styling */
+/* Eine Formular-Zeile (Label + Input) */
 .form-row {
     display: flex;
     align-items: center; /* Vertikal zentrieren für einzeilige Felder */
     gap: 20px;
 }
 
-/* Spezielle Ausrichtung für Textarea (Label oben bündig) */
+/* Ausrichtung oben für Textarea-Zeilen */
 .form-row.top-aligned {
     align-items: flex-start;
 }
 
+/* Das Label links */
 .form-label {
     width: 140px; /* Feste Breite für Labels damit alles untereinander steht */
     flex-shrink: 0;
@@ -154,11 +170,13 @@ html, body {
     font-size: 0.95rem;
 }
 
+/* Sternchen für Pflichtfelder */
 .required-mark {
     color: #fc8181;
     margin-left: 3px;
 }
 
+/* Wrapper um das Input-Feld */
 .form-input-wrapper {
     flex-grow: 1;
     position: relative;
@@ -166,7 +184,7 @@ html, body {
     flex-direction: column;
 }
 
-/* Inputs & Textareas */
+/* Styling für Inputs, Selects und Textareas */
 .form-input, .form-select, .form-textarea {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.07);
@@ -180,6 +198,7 @@ html, body {
     box-sizing: border-box;
 }
 
+/* Styling für deaktivierte Felder */
 .form-input:disabled {
     background-color: rgba(255, 255, 255, 0.03);
     color: rgba(255, 255, 255, 0.5);
@@ -187,6 +206,7 @@ html, body {
     cursor: not-allowed;
 }
 
+/* Fokus-Effekt (Lila) */
 .form-input:focus, .form-select:focus, .form-textarea:focus {
     background-color: rgba(255, 255, 255, 0.15);
     border-color: #8e2de2; /* Lila Highlight passend zum Button */
@@ -194,24 +214,26 @@ html, body {
     box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.2);
 }
 
-/* Fehlervalidierung (wenn Browser :invalid setzt und User getippt hat) */
+/* Fehler-Anzeige (Rot), wenn ungültig */
 .form-input:not(:placeholder-shown):invalid,
 .form-select:not(:placeholder-shown):invalid,
 .form-textarea:not(:placeholder-shown):invalid {
     border-color: #fc8181;
 }
 
+/* Textarea Höhe */
 .form-textarea {
     resize: vertical;
     min-height: 120px;
 }
 
+/* Dropdown Optionen Hintergrund */
 .form-select option {
     background-color: #203a43; /* Dunkler Hintergrund für Dropdown Options */
     color: white;
 }
 
-/* Counter Text */
+/* Zeichenzähler Text */
 .char-counter {
     text-align: right;
     font-size: 0.75rem;
@@ -220,6 +242,7 @@ html, body {
     margin-right: 2px;
 }
 
+/* Hinweis zu Pflichtfeldern */
 .required-note {
     font-size: 0.85rem;
     color: #aaa;
@@ -230,8 +253,10 @@ html, body {
 
 /* =======================================
    3. FOOTER (Buttons)
-   ======================================= */
+   ======================================= 
+*/
 
+/* Fußbereich mit Buttons */
 .form-footer {
     padding: 20px 25px;
     background: rgba(0, 0, 0, 0.2);
@@ -242,6 +267,7 @@ html, body {
     flex-shrink: 0;
 }
 
+/* Basis Button Styling */
 .btn-back {
     display: inline-flex;
     align-items: center;
@@ -257,11 +283,13 @@ html, body {
     transition: all 0.2s;
 }
 
+/* Hover Zurück */
 .btn-back:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
 }
 
+/* Absenden Button (Lila) */
 .btn-submit {
     display: inline-flex;
     align-items: center;
@@ -277,18 +305,22 @@ html, body {
     transition: all 0.2s;
 }
 
+/* Hover Absenden */
 .btn-submit:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
 }
 
 /* =======================================
-   4. RESPONSIVE DESIGN (Mobile)
-   ======================================= */
+   4. RESPONSIVE DESIGN
+   ======================================= 
+*/
 
+/* Anpassungen für Tablets/Mobile */
 @media (max-width: 768px) {
+    /* Wrapper zur Zentrierung anpassen*/
     .page-wrapper {
-        padding-top: calc(var(--safe-area-top) + 15px); /* Reduzierter Abstand auf mobil */
+        padding-top: calc(var(--safe-area-top) + 15px);
         padding-bottom: calc(var(--safe-area-bottom) + 15px);
         padding-left: calc(var(--safe-area-left) + 15px);
         padding-right: calc(var(--safe-area-right) + 15px);
@@ -297,26 +329,31 @@ html, body {
         align-items: flex-start;
     }
 
+    /* Container Breite */
     .container {
         width: 100%;
         height: auto;          
         border-radius: 15px; 
     }
 
+    /* Padding Header */
     .form-header {
         padding: 15px 20px;
     }
     
+    /* Titel Größe */
     .support-title {
         font-size: 1.5rem;
     }
 
     /* --- FORMULAR LAYOUT --- */
     
+    /* Padding Scrollbereich */
     .form-scroll-wrapper {
         padding: 20px 25px; 
     }
 
+    /* Labels über die Inputs schieben */
     .form-row, 
     .form-row.top-aligned {
         flex-direction: column;

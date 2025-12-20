@@ -1,7 +1,11 @@
+/* styles_ticket_datail.css - Stylesheet für Ticketdetail (Chat) */
+
 /* =======================================
    BASIS LAYOUT (Analog zu tickets.css)
-   ======================================= */
+   ======================================= 
+*/
 
+/* Globale Variablen für Abstände */
 :root {
     --extra-gap: 20px;
     --safe-area-top: env(safe-area-inset-top, 15px);
@@ -10,6 +14,7 @@
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
+/* Body Grundeinstellungen, kein Scrollen am Body */
 html, body {
     height: 100dvh !important;
     min-height: 100dvh !important;
@@ -17,6 +22,7 @@ html, body {
     display: block !important;
 }
 
+/* Wrapper zur Zentrierung */
 .page-wrapper {
     height: 100dvh;
     min-height: 100dvh;
@@ -31,7 +37,7 @@ html, body {
     background: transparent; 
 }
 
-/* Haupt-Container (Glas-Effekt) */
+/* Haupt-Container mit Glas-Effekt, etwas schmaler für Chat */
 .container {
     background: rgba(15, 32, 39, 0.65);
     backdrop-filter: blur(15px);
@@ -53,8 +59,10 @@ html, body {
 
 /* =======================================
    1. HEADER BEREICH
-   ======================================= */
+   ======================================= 
+*/
 
+/* Titel des Tickets */
 .support-title {
     font-size: 1.8rem;
     font-weight: 600;
@@ -68,7 +76,7 @@ html, body {
     text-overflow: ellipsis;
 }
 
-/* Kontroll-Zeile: Zurück | Status | Aktionen */
+/* Leiste mit Zurück-Button, Status und Aktionen */
 .controls-row {
     display: flex;
     justify-content: space-between;
@@ -80,23 +88,26 @@ html, body {
     gap: 10px;
 }
 
+/* Container für linke und rechte Kontroll-Elemente */
 .controls-left, .controls-right {
     flex: 1;
     display: flex;
     align-items: center;
 }
 
+/* Rechte Seite rechtsbündig */
 .controls-right {
     justify-content: flex-end;
     gap: 10px;
 }
 
+/* Mitte zentriert */
 .controls-center {
     flex: 0 0 auto;
     text-align: center;
 }
 
-/* Buttons (Konsistent mit tickets.css) */
+/* Zurück-Button Styling */
 .back-button {
     display: inline-flex;
     align-items: center;
@@ -115,11 +126,13 @@ html, body {
     box-sizing: border-box;
 }
 
+/* Hover für Zurück-Button */
 .back-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
 }
 
+/* Basis für Aktions-Buttons (Schließen, Öffnen, Löschen) */
 .action-button {
     display: inline-flex;
     align-items: center;
@@ -136,40 +149,44 @@ html, body {
     height: 36px;
 }
 
-/* Neuer Schließen-Button Style */
+/* Schließen-Button (Rot) */
 .btn-close {
     background: linear-gradient(135deg, #e53e3e, #c53030);
     border: 1px solid rgba(229, 62, 62, 0.3);
 }
 
+/* Hover für Schließen */
 .btn-close:hover {
     background: linear-gradient(135deg, #c53030, #9b2c2c);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
 }
 
-/* Neuer Öffnen-Button Style */
+/* Wiedereröffnen-Button (Grün) */
 .btn-reopen {
     background: linear-gradient(135deg, #38a169, #2f855a);
     border: 1px solid rgba(56, 161, 105, 0.3);
 }
 
+/* Hover für Wiedereröffnen */
 .btn-reopen:hover {
     background: linear-gradient(135deg, #2f855a, #276749);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
 }
 
+/* Löschen-Button (Dunkelrot) */
 .btn-delete {
     background: #e53e3e;
 }
 
+/* Hover für Löschen */
 .btn-delete:hover {
     background: #c53030;
     transform: translateY(-2px);
 }
 
-/* Status Badge */
+/* Basis Status-Badge */
 .status-badge {
     padding: 6px 14px;
     border-radius: 50px;
@@ -179,12 +196,14 @@ html, body {
     letter-spacing: 0.5px;
 }
 
+/* Status Offen (Grün) */
 .status-open {
     background-color: rgba(56, 161, 105, 0.2);
     color: #68d391;
     border: 1px solid rgba(56, 161, 105, 0.4);
 }
 
+/* Status Geschlossen (Rot) */
 .status-closed {
     background-color: rgba(229, 62, 62, 0.2);
     color: #fc8181;
@@ -192,11 +211,14 @@ html, body {
 }
 
 /* =======================================
-   2. CHAT BEREICH (Scrollable)
-   ======================================= */
+   2. CHAT BEREICH
+   ======================================= 
+*/
 
+/* Scrollbarer Bereich für die Nachrichten */
 .chat-scroll-wrapper {
-    flex-grow: 1; /* Nimmt den restlichen Platz ein */
+    /* Nimmt den restlichen Platz ein */
+    flex-grow: 1; 
     overflow-y: auto;
     min-height: 0;
     
@@ -214,6 +236,7 @@ html, body {
 .chat-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); border-radius: 8px; }
 .chat-scroll-wrapper::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 8px; }
 
+/* Lade-Indikator für alte Nachrichten */
 #chat-loading {
     text-align: center;
     padding: 10px;
@@ -221,13 +244,14 @@ html, body {
     font-size: 0.9rem;
 }
 
-/* Datums-Separator */
+/* Datums-Trennlinie */
 .date-separator {
     text-align: center;
     margin: 10px 0;
     position: relative;
 }
 
+/* Die Linie selbst */
 .date-separator::before {
     content: '';
     position: absolute;
@@ -239,6 +263,7 @@ html, body {
     z-index: 1;
 }
 
+/* Das Datum auf der Linie */
 .date-separator span {
     position: relative;
     display: inline-block;
@@ -251,7 +276,7 @@ html, body {
     z-index: 2;
 }
 
-/* Nachrichten Bubbles */
+/* Nachrichten-Sprechblase allgemein */
 .message {
     padding: 10px 15px;
     border-radius: 12px;
@@ -262,11 +287,13 @@ html, body {
     animation: fadeIn 0.3s ease;
 }
 
+/* Einblende-Animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* User-Nachricht (Rechts, Lila) */
 .user-message {
     align-self: flex-end;
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
@@ -274,6 +301,7 @@ html, body {
     border-bottom-right-radius: 2px;
 }
 
+/* Admin/Support-Nachricht (Links, Grau) */
 .admin-message {
     align-self: flex-start;
     background: #2d3748; /* Neutraler/Dunkler für Support */
@@ -282,6 +310,7 @@ html, body {
     border-bottom-left-radius: 2px;
 }
 
+/* Kopfzeile der Nachricht (Name + Zeit) */
 .message-header {
     display: flex;
     justify-content: space-between;
@@ -292,17 +321,20 @@ html, body {
     gap: 10px;
 }
 
+/* Name des Absenders */
 .sender-name {
     font-weight: bold;
     flex-shrink: 0;
 }
 
+/* Zeitstempel */
 .message-time {
     font-size: 0.7rem;
     opacity: 0.7;
     flex-shrink: 0;
 }
 
+/* Inhalt der Nachricht */
 .message-content {
     margin: 0;
     line-height: 1.4;
@@ -311,9 +343,11 @@ html, body {
 }
 
 /* =======================================
-   3. INPUT BEREICH (Footer)
-   ======================================= */
+   3. EINGABEBEREICH (Footer)
+   ======================================= 
+*/
 
+/* Container für Eingabefeld unten */
 .input-area-wrapper {
     flex-shrink: 0; /* Fixierte Höhe am Boden */
     background: rgba(0, 0, 0, 0.2);
@@ -322,12 +356,14 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Das Formular im Footer */
 .chat-form {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
+/* Das Textfeld für Nachrichten */
 .chat-textarea {
     width: 100%;
     min-height: 50px; /* Kompakt */
@@ -343,23 +379,27 @@ html, body {
     box-sizing: border-box;
 }
 
+/* Textfeld Fokus-Status */
 .chat-textarea:focus {
     outline: none;
     border-color: rgba(142, 45, 226, 0.5);
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Untere Leiste mit Zähler und Senden-Knopf */
 .input-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Zeichenzähler */
 .char-counter {
     font-size: 0.8rem;
     color: #aaa;
 }
 
+/* Senden-Button */
 .send-button {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -374,11 +414,13 @@ html, body {
     gap: 6px;
 }
 
+/* Hover für Senden */
 .send-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(142, 45, 226, 0.3);
 }
 
+/* Hinweisbox wenn Ticket geschlossen ist */
 .closed-notice {
     text-align: center;
     color: #fc8181;
@@ -391,9 +433,12 @@ html, body {
 
 /* =======================================
    4. RESPONSIVE DESIGN
-   ======================================= */
+   ======================================= 
+*/
 
+/* Tablet Größe */
 @media (max-width: 768px) {
+    /* Padding des Wrappers anpassen */
     .page-wrapper {
         padding: calc(var(--safe-area-top) + 10px) 
                  calc(var(--safe-area-left) + 10px)
@@ -401,6 +446,7 @@ html, body {
                  calc(var(--safe-area-right) + 10px);
     }
     
+    /* Container füllt Bildschirm */
     .container {
         padding: 15px;
         border-radius: 16px;
@@ -408,45 +454,54 @@ html, body {
         max-width: 100%;
     }
 
+    /* Badge Schriftgröße kleiner */
     .status-badge {
-        font-size: 0.75rem; /* Auch Status-Badge kleiner */
+        font-size: 0.75rem; 
     }
     
+    /* Titel kleiner */
     .support-title {
         font-size: 1.5rem;
         margin-bottom: 12px;
     }
     
+    /* Steuerelemente in einer Zeile behalten */
     .controls-row {
         flex-wrap: nowrap; /* Änderung von wrap zu nowrap */
         margin-bottom: 15px;
         gap: 8px;
     }
     
+    /* Elemente gleichmäßig verteilen */
     .controls-left, .controls-center, .controls-right {
         flex: 1; /* Alle Bereiche bekommen gleiche Flex-Basis */
         justify-content: center; /* Zentrieren */
     }
     
+    /* Chat Bereich Padding */
     .chat-scroll-wrapper {
         padding: 12px;
         margin-bottom: 12px;
     }
     
+    /* Sprechblasen breiter machen */
     .message {
         max-width: 85%;
         padding: 8px 12px;
     }
     
+    /* Input Bereich Padding */
     .input-area-wrapper {
         padding: 12px;
     }
     
+    /* Kleinere Schrift in Buttons */
     .back-button .btn-text,
     .action-button .btn-text {
-        font-size: 0.8rem; /* Kleinere Schrift */
+        font-size: 0.8rem; 
     }
     
+    /* Kompaktere Buttons */
     .back-button,
     .action-button {
         padding: 6px 10px; /* Kleinere Padding für mobile */
@@ -454,79 +509,95 @@ html, body {
         gap: 4px; /* Weniger Abstand zwischen Icon und Text */
     }
     
+    /* Icons in Buttons Margin entfernen */
     .back-button i,
     .action-button i {
         margin: 0;
     }
 }
 
-@media (max-width: 480px) {    
+/* Handy Größe */
+@media (max-width: 480px) {  
+    /* Container noch kompakter */  
     .container {
         padding: 12px;
         border-radius: 12px;
     }
     
+    /* Titel noch kleiner */
     .support-title {
-        font-size: 1.2rem; /* Titel etwas kleiner */
+        font-size: 1.2rem; 
         margin-bottom: 10px;
     }
     
+    /* Status Badge sehr klein */
     .status-badge {
-        font-size: 0.5rem; /* Auch Status-Badge kleiner */
+        font-size: 0.5rem; 
         padding: 4px 8px;
     }
     
+    /* Chat Padding */
     .chat-scroll-wrapper {
         padding: 10px;
         gap: 10px;
     }
     
+    /* Sprechblasen fast volle Breite */
     .message {
         max-width: 90%;
         padding: 8px 10px;
     }
     
+    /* Header Schriftgröße */
     .message-header {
         font-size: 0.7rem;
     }
     
+    /* Inhalt Schriftgröße */
     .message-content {
         font-size: 0.9rem;
     }
     
+    /* Datum Schriftgröße */
     .date-separator span {
         font-size: 0.7rem;
         padding: 3px 8px;
     }
     
+    /* Textarea kompakter */
     .chat-textarea {
         min-height: 45px;
         font-size: 0.9rem;
         padding: 8px;
     }
     
+    /* Senden Button anpassen */
     .send-button {
         padding: 8px 16px;
         font-size: 0.85rem;
     }
     
+    /* Counter kleiner */
     .char-counter {
         font-size: 0.75rem;
     }
     
+    /* Geschlossen-Hinweis kleiner */
     .closed-notice {
         font-size: 0.9rem;
         padding: 8px;
     }
 
+    /* Buttons extrem kompakt */
     .back-button,
     .action-button {
-        padding: 5px 8px; /* Noch kompaktere Buttons */
+        padding: 5px 8px; 
         gap: 3px; /* Minimale Lücke */
     }
     
+    /* Button Text winzig */
     .back-button .btn-text,
     .action-button .btn-text {
-        font-size: 0.6rem; /* Noch kleinere Schrift für Text */
+        font-size: 0.6rem; 
     }
 }

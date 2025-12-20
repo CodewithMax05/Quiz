@@ -1,15 +1,21 @@
+/* styles_tickets.css - Stylesheet für Ticketübersicht */
+
 /* =======================================
    BASIS LAYOUT
-   ======================================= */
+   Hier werden globale Variablen und das Grundgerüst definiert.
+   ======================================= 
+*/
 
 :root {
     --extra-gap: 20px;
+    /* Safe-Area sorgt dafür, dass auf modernen Handys (z.B. iPhone mit Notch) nichts verdeckt wird */
     --safe-area-top: env(safe-area-inset-top, 15px);
     --safe-area-bottom: env(safe-area-inset-bottom, 15px);
     --safe-area-left: env(safe-area-inset-left, 15px);
     --safe-area-right: env(safe-area-inset-right, 15px);
 }
 
+/* Grundeinstellung für HTML/Body: Verhindert Scrollen auf dem Body selbst, fixiert Höhe */
 html, body {
     height: 100dvh !important;
     min-height: 100dvh !important;
@@ -17,6 +23,7 @@ html, body {
     display: block !important;
 }
 
+/* Der Wrapper zentriert den Inhalt auf dem Bildschirm */
 .page-wrapper {
     height: 100dvh;
     min-height: 100dvh;
@@ -33,10 +40,10 @@ html, body {
     background: transparent; 
 }
 
-/* Der Haupt-Glas-Container */
+/* Der Haupt-Glas-Container - Das ist die große Box in der Mitte mit dem Milchglas-Effekt.*/
 .container {
     background: rgba(15, 32, 39, 0.65);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px); /* Der "Milchglas"Effekt hinter der Box */
     border-radius: 20px;
     padding: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
@@ -46,16 +53,18 @@ html, body {
     box-sizing: border-box;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Elemente untereinander anordnen */
     
     max-height: 100%;
     min-height: 0;
 }
 
 /* =======================================
-   1. ÜBERSCHRIFT
-   ======================================= */
+   1. ÜBERSCHRIFT ("Support Tickets")
+   ======================================= 
+*/
 
+/* Styling für den Titel "Support Tickets" ganz oben */
 .support-title {
     font-size: 2.2rem;
     font-weight: 400;
@@ -67,9 +76,11 @@ html, body {
 }
 
 /* =======================================
-   2. BUTTONS & FILTER
-   ======================================= */
+   2. BUTTONS & FILTER (Obere Leiste)
+   ======================================= 
+*/
 
+/* Container für die gesamte obere Leiste */
 .buttons-container {
     display: flex;
     justify-content: space-between;
@@ -85,18 +96,20 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Gruppiert Buttons (z.B. "Zurück" oder "Erstellen") */
 .button-group {
     display: flex;
     gap: 10px;
 }
 
-/* NEU: Falls Suchfeld in button-group ist (für Admin), feste Breite auf Desktop */
+/* Falls Suchfeld in button-group ist (für Admin), feste Breite auf Desktop */
 .button-group .search-wrapper .filter-input {
     width: 200px; 
     height: 38px;
     box-sizing: border-box;
 }
 
+/* Bereich in der Mitte für die Dropdown-Filter (Status, Kategorie etc.) */
 .filter-container {
     display: flex;
     gap: 10px;
@@ -105,6 +118,7 @@ html, body {
     flex: 1;
 }
 
+/* Styling für alle Dropdown-Listen und Eingabefelder */
 .filter-select, .filter-input {
     background-color: rgba(255, 255, 255, 0.1);
     color: #f0f4f8;
@@ -117,6 +131,7 @@ html, body {
     transition: all 0.2s ease;
 }
 
+/* Hover- und Fokus-Effekt für Eingabefelder */
 .filter-select:hover, .filter-input:hover, .filter-input:focus {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
@@ -127,12 +142,14 @@ html, body {
     color: white;
 }
 
+/* Wrapper für das Suchfeld, um das Icon zu positionieren */
 .search-wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
+/* Das Lupen-Icon im Suchfeld */
 .search-icon {
     position: absolute;
     right: 10px;
@@ -141,6 +158,7 @@ html, body {
     font-size: 0.8rem;
 }
 
+/* Basis-Styling für "Zurück" und "Erstellen" Buttons */
 .back-button, .create-button {
     display: inline-flex;
     align-items: center;
@@ -157,17 +175,20 @@ html, body {
     white-space: nowrap;
 }
 
+/* Spezielles Styling für den "Zurück"-Button (Transparent/Rahmen) */
 .back-button {
     background: rgba(255, 255, 255, 0.1);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Hover-Effekt für "Zurück" */
 .back-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
 }
 
+/* Spezielles Styling für "Erstellen"-Button (Lila Verlauf) */
 .create-button {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -175,11 +196,13 @@ html, body {
     cursor: pointer;
 }
 
+/* Hover-Effekt für "Erstellen", wenn aktiv */
 .create-button:not(.disabled):hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
 }
 
+/* Styling für deaktivierten Button (ausgegraut) */
 .create-button.disabled {
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.5);
@@ -188,9 +211,11 @@ html, body {
 }
 
 /* =======================================
-   3. TICKET LISTE (Scroll Area)
-   ======================================= */
+   3. TICKET LISTE (Scroll Bereich)
+   ======================================= 
+*/
 
+/* Der Bereich, der die Tabelle enthält und scrollbar ist */
 .tickets-scroll-wrapper {
     flex-grow: 1;
     overflow-y: auto;
@@ -203,6 +228,7 @@ html, body {
     position: relative;
 }
 
+/* Scrollbalken Styling (Webkit Browser) */
 .tickets-scroll-wrapper::-webkit-scrollbar { width: 6px; }
 .tickets-scroll-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); border-radius: 8px; }
 .tickets-scroll-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(66,153,225,0.55), rgba(66,153,225,0.45)); border-radius: 8px; }
@@ -215,6 +241,7 @@ html, body {
     border-spacing: 0;
 }
 
+/* Tabellenkopf (bleibt beim Scrollen oben kleben - sticky) */
 .tickets-table thead th {
     position: sticky;
     top: 0;
@@ -229,6 +256,7 @@ html, body {
     white-space: nowrap;
 }
 
+/* Tabellenzellen allgemein */
 .tickets-table td {
     padding: 15px;
     color: #eee;
@@ -238,7 +266,7 @@ html, body {
     overflow: hidden;
 }
 
-/* Spaltenbreiten definieren */
+/* Definierte Spaltenbreiten für Desktop-Ansicht */
 .ticket-date { width: 15%; }
 .ticket-player { width: 15%; }
 .ticket-subject { width: 35%; }
@@ -246,14 +274,14 @@ html, body {
 .ticket-status { width: 10%; }
 .ticket-update { width: 10%; text-align: center; }
 
-/* User View (ohne Player Spalte) */
+/* Angepasste Breiten, wenn die Spieler-Spalte fehlt (User-Ansicht) */
 .tickets-table:not(.with-player) .ticket-date { width: 18%; }
 .tickets-table:not(.with-player) .ticket-subject { width: 42%; }
 .tickets-table:not(.with-player) .ticket-category { width: 15%; }
 .tickets-table:not(.with-player) .ticket-status { width: 15%; }
 .tickets-table:not(.with-player) .ticket-update { width: 10%; }
 
-/* --- TRUNCATION LOGIK --- */
+/* Styling für Textkürzung mit "..." (Truncation) */
 .ticket-subject-cell, 
 .ticket-player-cell { 
     white-space: nowrap;
@@ -262,19 +290,23 @@ html, body {
     display: table-cell;
 }
 
+/* Styling für eine Tabellenzeile (Ticket) */
 .ticket-row {
     transition: background-color 0.2s;
     cursor: pointer;
 }
 
+/* Hover-Effekt für die ganze Zeile */
 .ticket-row:hover {
     background: rgba(255, 255, 255, 0.08);
 }
 
 /* =======================================
-   4. UI ELEMENTE
-   ======================================= */
+   4. UI ELEMENTE (Status Badges etc.)
+   ======================================= 
+*/
 
+/* Status-Anzeige (Offen/Geschlossen) */
 .status-badge {
     padding: 5px 12px;
     border-radius: 50px;
@@ -285,7 +317,7 @@ html, body {
     letter-spacing: 0.5px;
     white-space: nowrap;
     
-    /* NEU: Damit es auch am Desktop abgeschnitten wird */
+    /* Damit es auch am Desktop abgeschnitten wird */
     max-width: 100%;         /* Darf nicht breiter als die Tabellenzelle sein */
     overflow: hidden;        /* Rest verstecken */
     text-overflow: ellipsis; /* Pünktchen (...) anzeigen */
@@ -293,22 +325,26 @@ html, body {
     box-sizing: border-box;  /* Padding in die Breite einrechnen */
 }
 
+/* Farben für Status "Offen" (Grün) */
 .status-open {
     background-color: rgba(56, 161, 105, 0.2);
     color: #68d391;
     border: 1px solid rgba(56, 161, 105, 0.4);
 }
 
+/* Farben für Status "Geschlossen" (Rot) */
 .status-closed {
     background-color: rgba(229, 62, 62, 0.2);
     color: #fc8181;
     border: 1px solid rgba(229, 62, 62, 0.4);
 }
 
+/* Zelle für Updates zentrieren */
 .ticket-update-cell {
     text-align: center;
 }
 
+/* Indikator für "Neu" oder "Gelesen" */
 .update-indicator {
     display: inline-flex;
     align-items: center;
@@ -319,10 +355,12 @@ html, body {
     font-size: 0.8rem;
 }
 
+/* Style wenn "Gelesen" (Grau) */
 .update-indicator.seen {
     color: rgba(255, 255, 255, 0.2);
 }
 
+/* Style wenn "Neu" (Blau leuchtend) */
 .update-indicator.new {
     background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
@@ -331,12 +369,14 @@ html, body {
     animation: pulse-message 2s infinite;
 }
 
+/* Animation für das Pulsieren bei neuen Nachrichten */
 @keyframes pulse-message {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 114, 255, 0.7); }
     70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(0, 114, 255, 0); }
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 114, 255, 0); }
 }
 
+/* Nachrichten für "Keine Tickets", "Laden" oder "Ende" */
 .no-tickets, #loading-indicator, #end-of-tickets {
     padding: 40px;
     text-align: center;
@@ -345,19 +385,19 @@ html, body {
 }
 
 /* =======================================
-   5. RESPONSIVE DESIGN
-   ======================================= */
+   5. RESPONSIVE DESIGN (Mobile Ansicht)
+   ======================================= 
+*/
 
+/* Ab Tablets und kleiner (768px) */
 @media (max-width: 768px) {
     
-    /* 1. CONTAINER PADDING */
+    /* Innenabstand der Liste verkleinern */
     .tickets-scroll-wrapper {
         padding: 15px; 
     }
 
-    /* ------------------------------------------- */
-    /* BUTTONS / FILTER ANORDNUNG */
-    /* ------------------------------------------- */
+    /* Buttons und Filter neu anordnen (Umbruch) */
     .buttons-container {
         display: flex;
         flex-direction: row;
@@ -367,17 +407,20 @@ html, body {
         gap: 10px;
     }
     
+    /* Button-Gruppe links */
     .button-group:first-child { 
         order: 1; 
         flex: 0 1 auto;
     }
     
+    /* Button-Gruppe rechts */
     .button-group:last-child { 
         order: 2; 
         flex: 0 1 auto;
         margin-bottom: 0; 
     }
 
+    /* Filter-Container rutscht in neue Zeile */
     .filter-container {
         order: 3;
         width: 100%;
@@ -386,31 +429,33 @@ html, body {
         justify-content: space-between;
     }
 
+    /* Inputs und Selects nehmen ca. die Hälfte der Breite ein */
     .filter-select, .search-wrapper, .filter-input {
         flex: 1 1 45%;
         min-width: 120px;
     }
     
+    /* Suche auf volle Breite begrenzen */
     .button-group .search-wrapper,
     .button-group .search-wrapper .filter-input {
         width: 100%;
         max-width: 200px; 
     }
 
-    /* ------------------------------------------- */
-    /* CARD VIEW (MOBILE TICKET LISTE) */
-    /* ------------------------------------------- */
+    /* --- MOBILE KARTEN-ANSICHT --- */
 
+    /* Tabellenkopf ausblenden */
     .tickets-table thead {
         display: none;
     }
 
+    /* Tabelle wird zu Block-Elementen */
     .tickets-table, .tickets-table tbody {
         display: block;
         width: 100%;
     }
 
-    /* KARTEN DESIGN */
+    /* Jedes Ticket wird eine "Karte" (Grid Layout) */
     .ticket-row {
         display: grid;
         grid-template-columns: 1fr 1fr; /* 50% / 50% Aufteilung */
@@ -425,12 +470,13 @@ html, body {
         transition: transform 0.2s;
     }
 
+    /* Hover-Effekt für die Karte */
     .ticket-row:hover {
         transform: translateY(-2px);
         background: rgba(30, 45, 55, 0.9);
     }
 
-    /* Generelles Zellen-Styling zurücksetzen */
+    /* Tabellenzellen-Styling zurücksetzen */
     .tickets-table td {
         display: block;
         border: none;
@@ -440,7 +486,7 @@ html, body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
     }
 
-    /* --- 1. ZEILE: BETREFF (Header der Karte) --- */
+    /* 1. Element der Karte: Betreff (ganz oben, volle Breite) */
     .ticket-subject-cell {
         order: 1;
         grid-column: 1 / -1; 
@@ -455,7 +501,7 @@ html, body {
         text-overflow: ellipsis !important;
     }
 
-    /* --- 2. ZEILE: SPIELER (Nur Admin, volle Breite) --- */
+    /* 2. Element: Spielername (falls vorhanden, volle Breite) */
     .ticket-player-cell {
         order: 2;
         grid-column: 1 / -1;
@@ -467,6 +513,7 @@ html, body {
         align-items: center;
     }
     
+    /* User-Icon vor dem Spielernamen */
     .ticket-player-cell::before {
         content: '\f007'; 
         font-family: "Font Awesome 6 Free";
@@ -475,9 +522,7 @@ html, body {
         opacity: 0.7;
     }
 
-    /* --- 3. ZEILE: DATUM (Links) & KATEGORIE (Rechts) --- */
-    
-    /* Datum Links */
+    /* 3. Element: Datum (Links unten) */
     td[data-label="Datum"] {
         order: 3;
         grid-column: 1; 
@@ -488,7 +533,7 @@ html, body {
         align-items: center;
     }
 
-    /* Kategorie Rechts - JETZT LINKSBÜNDIG */
+    /* 4. Element: Kategorie (Rechts unten) */
     td[data-label="Kategorie"] {
         order: 4;
         grid-column: 2;
@@ -509,9 +554,7 @@ html, body {
         padding-left: 12px; /* Etwas Abstand zur Mittellinie */
     }
 
-    /* --- 4. ZEILE: STATUS (Links) & UPDATES (Rechts) --- */
-
-    /* Status Links */
+    /* 5. Element: Status (Links ganz unten) */
     td[data-label="Status"] {
         order: 5;
         grid-column: 1;
@@ -521,7 +564,7 @@ html, body {
         align-items: center; /* Vertikal zentriert */
     }
     
-    /* STATUS BADGE VERKLEINERN */
+    /* Status-Badge verkleinern */
     .status-badge {
         font-size: 0.65rem !important; /* Schrift kleiner */
         padding: 4px 8px !important;    /* Padding kleiner */
@@ -532,7 +575,7 @@ html, body {
         overflow: hidden;
     }
 
-    /* Updates Rechts */
+    /* 6. Element: Update-Info (Rechts ganz unten) */
     .ticket-update-cell {
         order: 6;
         grid-column: 2;
@@ -543,16 +586,20 @@ html, body {
     }
 }
 
+/* Für sehr kleine Handys (unter 480px) */
 @media (max-width: 480px) {
+    /* Container Padding reduzieren */
     .container {
         padding: 10px;
     }
     
+    /* Titel verkleinern */
     .support-title {
         font-size: 1.6rem;
         margin-bottom: 15px;
     }
 
+    /* Filter nehmen volle Breite ein */
     .filter-select, .search-wrapper, .filter-input {
         flex: 1 1 100%;
     }
