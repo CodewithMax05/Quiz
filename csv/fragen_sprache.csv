@@ -21,7 +21,7 @@ Sprache;Was ist ein Apostrophe?;Anrede an Abwesende oder Dinge;Wiederholung eine
 
 Sprache;Was ist die korrekte Pluralform von „Faktum“?;Fakten;Faktums;Fakta;Faktas
 Sprache;Welcher Begriff beschreibt die Lehre vom Bau der Wörter?;Morphologie;Phonetik;Semantik;Pragmatik
-Sprache;Was ist eine Hyperbel?;Eine starke Übertreibung;Eine Untertreibung;Ein Vergleich;Eine Anspielung
+
 Sprache;Was ist die korrekte Pluralform von „Tempus“?;Tempora;Tempusse;Tempen;Tempi
 Sprache;Welche Präposition erfordert in der Regel den Dativ?;mit;durch;gegen;ohne
 Sprache;Was ist ein Chiasmus?;Überkreuzstellung von Satzgliedern;Gleiche Satzanfänge;Gleiche Satzenden;Eine Frage
@@ -68,7 +68,7 @@ Sprache;Was ist ein Paradoxon?;Eine widersinnige Aussage;Eine Übertreibung;Ein 
 Sprache;In welchem Fall ist das Objekt im Satz „Sie liebt ihn.“?;Akkusativ;Dativ;Nominativ;Genitiv
 Sprache;Was ist ein Klimax?;Steigerung vom Kleineren zum Größeren;Abschwächung vom Größeren zum Kleineren;Ein Gegensatz;Eine Wiederholung
 Sprache;Was ist die korrekte Form von „du helfen“ im Konjunktiv II?;du hülfest;du hilfst;du halfst;du hälftest
-Sprache;Was ist ein Synekdoche?;Ein Teil steht für das Ganze;Zwei Wörter mit derselben Bedeutung;Ein Reimschema (Kreuzreim);Ein Gegensatz
+Sprache;Was ist die Synekdoche?;Ein Teil steht für das Ganze;Zwei Wörter mit derselben Bedeutung;Ein Reimschema (Kreuzreim);Ein Gegensatz
 Sprache;Welches Wort ist ein Antonym zu „subtil“?;grob;fein;elegant;zart
 Sprache;Was ist die korrekte Pluralform von „Numerale“?;Numeralia;Numeralien;Numerals;Nummern
 Sprache;Was ist die korrekte Steigerung von „oft“?;oft - öfter - am häufigsten;oft – kaum – niemals;oft - mehr oft - am meisten oft;es gibt keine Steigerung
@@ -79,7 +79,7 @@ Sprache;Was ist die korrekte Pluralform von „Status“?;Status;Statuse;Staten;
 Sprache;Was ist eine Akkumulation?;Aufzählung von Unterbegriffen;Ein Reimschema nach Dr. Akku;Ein Vergleich;Das Aufbewahren von Texten
 Sprache;Welcher Kasus wird oft nach der Präposition „mithilfe“ verwendet?;Genitiv;Dativ;Akkusativ;Nominativ
 Sprache;Was ist die korrekte Form von „ich wissen“ im Konjunktiv I?;ich wisse;ich weiß;ich wusste;ich wüsste
-Sprache;Was ist ein Metapher?;Ein bildhafter Vergleich“;Das Gegenteil einer Anapaher;Eine Übertreibung;Eine Untertreibung
+
 Sprache;Welche Wortart steht vor dem Nomen und bestimmt seinen Fall und Numerus?;Artikel;Verb;Adjektiv;Adverb
 Sprache;Was ist die korrekte Pluralform von „Korpus“?;Korpora;Korpüsse;Delicti;Korpi
 Sprache;Was ist eine Rhetorische Frage?;Eine Frage, auf die keine Antwort erwartet wird;Eine Frage, die eine Antwort erfordert;Eine einfache Frage;Eine Suggestivfrage
@@ -137,7 +137,7 @@ Sprache;Was ist ein „Trochäus“?;Ein Versfuß (betont, unbetont);Ein Fachbeg
 Sprache;Welcher Kasus wird mit „Wen oder was?“ erfragt?;Akkusativ;Dativ;Genitiv;Nominativ
 Sprache;Was bedeutet der Begriff „implizit“?;Indirekt enthalten, mitgemeint;Klar ausgesprochen;Veraltet;Falsch geschrieben
 Sprache;Wie lautet das Präteritum von „backen“ (starke Konjugation)?;buk;backte;gebacken;bäckt
-Sprache;Was ist ein „Infinitive“?;Die Grundform des Verbs;Die Befehlsform;Die Vergangenheitsform;Die Wunschform
+Sprache;Was ist ein „Infinitiv“?;Die Grundform des Verbs;Die Befehlsform;Die Vergangenheitsform;Die Wunschform
 Sprache;Welche Sprache gehört zur finno-ugrischen Sprachfamilie?;Ungarisch;Russisch;Deutsch;Polnisch
 Sprache;Was ist ein „Dysphemismus“?;Eine abwertende Umschreibung;Eine beschönigende Umschreibung;Eine Übertreibung;Ein Vergleich
 Sprache;Wie nennt man die Steigerung von Adjektiven?;Komparation;Konjugation;Deklination;Derivation
@@ -165,7 +165,7 @@ Sprache;Was ist ein „Aphorismus“?;Ein kurz prägnant formulierter Gedanke;Ei
 Sprache;Welcher Kasus folgt auf „jenseits“?;Genitiv;Dativ;Akkusativ;Nominativ
 Sprache;Was bedeutet „etymologisch“?;Die Wortherkunft betreffend;Die Satzlehre betreffend;Die Aussprache betreffend;Die Bedeutung betreffend
 Sprache;Wie nennt man die Beugung von Verben?;Konjugation;Deklination;Komparation;Inflation
-Sprache;Was ist eine „Hyperbel“?;Eine starke Übertreibung;Eine Untertreibung;Ein Vergleich;Eine Personifikation
+Sprache;Was ist eine Hyperbel?;Eine starke Übertreibung;Eine Untertreibung;Ein Vergleich;Eine Personifikation
 Sprache;Welche Wortart ist „heute“?;Adverb;Adjektiv;Nomen;Verb
 Sprache;Was ist ein „Syndetisches Gefüge“?;Sätze, die durch Konjunktionen verbunden sind;Sätze ohne Bindewörter;Ein Reim;Ein Satzfehler
 Sprache;Was bedeutet „redundant“?;Mehrfach vorhanden / überflüssig;Fehlend;Falsch;Sehr wichtig
@@ -201,7 +201,7 @@ Sprache;Wie nennt man Wörter mit gleicher Bedeutung?;Synonyme;Antonyme;Homonyme
 Sprache;Was ist ein „Oxymoron“?;Widerspruch in sich;Steigerung;Satzzeichen;Verb
 Sprache;Was bedeutet „authentisch“?;Echt;Erfunden;Alt;Unklar
 Sprache;Wie nennt man die Beugung von Nomen?;Deklination;Konjugation;Komparation;Inflation
-Sprache;Was ist eine „Metapher“?;Ein bildhafter Vergleich;Ein Reim;Ein Satzzeichen;Ein Dialekt
+Sprache;Was ist eine Metapher?;Ein bildhafter Vergleich;Ein Reim;Ein Satzzeichen;Ein Dialekt
 Sprache;Welches Satzzeichen beendet einen Aussagesatz?;Punkt;Komma;Fragezeichen;Ausrufezeichen
 Sprache;Was ist ein „Akronym“?;Kurzwort aus Anfangsbuchstaben;Langes Wort;Reim;Dialekt
 Sprache;Was bedeutet „global“?;Weltweit;Lokal;Alt;Neu
