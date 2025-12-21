@@ -76,7 +76,7 @@ Automobil;Funktion der Federung?;Trägt das Gewicht und isoliert von Fahrbahnune
 Automobil;Wozu dient das Schwungrad?;Gleicht ungleichmäßige Kurbelwellendrehung aus;Regelt die Kraftstoffzufuhr;Teil des Turboladers;Kühlt den Motor
 Automobil;Ursache für Batteriewarnleuchte?;Lichtmaschine lädt Batterie nicht ausreichend;Batterie ist überladen;Ein Scheinwerfer ist defekt;Der Ölstand ist zu niedrig
 Automobil;Bedeutung von P (Automatik)?;Parkstellung: Getriebe blockiert;Power-Modus (Sport);Pedal-Assistent ist aktiv;Programm-Modus (Manuell)
-Automobil;Grund für ungleichmäßigen Reifenverschleiß?;Falsche Achsgeometrie (Spur, Sturz);Der Tank ist nicht voll;Die Musik ist zu laut;Fahrersitz ist falsch eingestellt
+Automobil;Grund für ungleichmäßigen Reifenverschleiß?;Falsche Achsgeometrie;Der Tank ist nicht voll;Die Musik ist zu laut;Fahrersitz ist falsch eingestellt
 Automobil;Welche Abgaskomponente reduziert der SCR-Katalysator?;Stickoxide (NOx);Kohlenmonoxid (CO);Wasserdampf;Unverbrannte Kohlenwasserstoffe
 Automobil;Rolle der Airbag-Steuereinheit?;Erkennt Aufprallschwere und steuert Airbag-Auslösung;Pumpt Luft in die Reifen;Steuert die Klimaanlage;Regelt das Radio
 Automobil;Funktion des Ventilspielausgleichs?;Stellt sicher, dass Ventile korrekt schließen;Erhöht die Motorleistung;Kühlt die Ventile;Verhindert Ölverlust
@@ -93,8 +93,7 @@ Automobil;Rolle der Wasserpumpe?;Zirkuliert das Kühlmittel durch Motor und Küh
 Automobil;Info durch den DOT-Code (Reifen)?;Produktionswoche und -jahr;Die Höchstgeschwindigkeit;Die Profiltiefe;Die Reifengröße
 Automobil;Bauteil zur Regelung von Kraftstoffmenge?;Die Motorsteuerung;Der Zündverteiler;Die Ölpumpe;Der Anlasser
 Automobil;Was ist die Verstärkung in der Tür?;Der Seitenaufprallschutz;Die Fensterhebermechanik;Das Türschloss;Der Türgriff
-Automobil;Aufgabe des Luftfilters?;Reinigt angesaugte Luft von Staub/Schmutz;Filtert das Motoröl;Kühlt das Getriebe;Reduziert den Lärm
-Automobil;Ursache für erhöhten Ölverbrauch?;Verschlissene Kolbenringe/Ventilschaftdichtungen;Defekte Zündkerzen;Zu hoher Reifendruck;Verstopfter Kühler
+Automobil;Aufgabe des Luftfilters?;Reinigt Luft von Schmutz;Filtert das Motoröl;Kühlt das Getriebe;Reduziert den Lärm
 Automobil;Ziel des Start-Stopp-Systems?;Reduzierung von Verbrauch/Emissionen (Motor aus);Erhöhung der Motorleistung;Kühlen des Innenraums;Automatisches Einparken
 Automobil;Unterschied Trommel-/Scheibenbremsen?;Scheibe: Bessere Wärmeabfuhr und Leistung;Trommel: Leichter;Scheibe: Nur an der Hinterachse;Trommel: Hat kein ABS
 Automobil;Funktion des Expansionsventils (Klima)?;Regelt Kältemittelmenge in den Verdampfer;Kühlt den Motor;Erhöht den Druck im System;Steuert die Lüftung
@@ -122,7 +121,7 @@ Automobil;Was ist ein Luftfederbein?;Kombiniert Stoßdämpfer und Luftfeder;Ein 
 Automobil;Was ist ein "Drehzahlmesser"?;Zeigt die Umdrehungen pro Minute;Misst die Geschwindigkeit;Zeigt den Kraftstoffverbrauch;Zeigt die Wassertemperatur
 Automobil;Hauptaufgabe des Abgasrückführungsventils?;Leitet Abgas in Ansaugtrakt zur Temperatursenkung;Erhöht die Leistung;Kühlt den Katalysator;Filtert den Kraftstoff
 Automobil;Zweck des Fahrwerksregelsystems?;Ermöglicht elektronische Anpassung der Dämpfer;Steuert nur die Lenkung;Misst den Reifendruck;Ist nur für Geländewagen
-Automobil;Funktion des Anlassers?;Elektromotor, der den Verbrennungsmotor startet;Erzeugt den Zündfunken;Pumpt Öl in den Motor;Lädt die Batterie
+Automobil;Funktion des Anlassers?;startet den Verbrennungsmotor;Erzeugt den Zündfunken;Pumpt Öl in den Motor;Lädt die Batterie
 Automobil;Was passiert beim Zündwinkel im Motor?;Bestimmt, wann der Zündfunken erfolgt;Er regelt die Ölmenge;Er steuert die Klimaanlage;Er misst die Temperatur
 Automobil;Hauptzweck eines Reserverades (Notrad)?;Kurzfristiger Ersatz bei einem Platten;Für Fahrten über 100 km/h;Teil der Bremsanlage;Enthält das Wagenheber-Werkzeug
 Automobil;Rolle der Domlager im Fahrwerk?;Verbinden Federbein mit Karosserie;Tragen das gesamte Fahrzeuggewicht;Dämpfen Stöße;Stabilisieren die Spur
@@ -172,7 +171,6 @@ Automobil;Was gibt der Lastindex eines Reifens an?;Die maximal zulässige Tragf�
 Automobil;Wofür wird ein Drehmomentschlüssel verwendet?;Zum Festziehen von Schrauben mit exakter Kraft;Zum Messen der Motorleistung;Zum Einstellen der Spur;Zum Lösen festgerosteter Muttern
 Automobil;Was ist die Hauptaufgabe des Luftfahrwerks?;Konstante Fahrzeughöhe unabhängig von der Beladung;Einsparung von Reifenverschleiß;Erhöhung der maximalen Geschwindigkeit;Kühlung der Bremsanlage
 Automobil;Was ist ein "Hydrostößel"?;Bauteil zum automatischen Ausgleich des Ventilspiels;Ein hydraulischer Stoßdämpfer;Ein Sensor für den Wasserstand;Ein Teil der Servolenkung
-Automobil;Was beschreibt die "Einpresstiefe" (ET) einer Felge?;Abstand zwischen Felgenmitte und innerer Anschlussfläche;Die Breite des Reifenbettes;Den Durchmesser des Mittellochs;Die Länge der Radbolzen
 Automobil;Was ist ein Partikelsensor?;Misst die Rußkonzentration im Abgasstrom;Erkennt Staub im Innenraum;Überwacht den Pollenfilter;Prüft die Qualität des Motoröls
 Automobil;Was ist die Aufgabe des Nox-Speicherkatalysators?;Zwischenspeicherung und Reduktion von Stickoxiden;Filterung von Rußpartikeln;Umwandlung von CO2 in Sauerstoff;Kühlung der Abgase
 Automobil;Welche Funktion hat die elektromechanische Lenkung?;Lenkunterstützung durch einen Elektromotor;Lenken per Fernbedienung;Automatisches Ausweichen bei Gefahr;Elektrisches Blockieren der Räder
